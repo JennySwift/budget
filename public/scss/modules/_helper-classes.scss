@@ -1,0 +1,307 @@
+.pointer {
+	cursor: pointer;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.center {
+	text-align: center;
+}
+
+.margin-bottom {
+	margin-bottom: 15px;
+}
+
+.block {
+	display:block;
+}
+
+.selected {
+	background: $select_blue;
+}
+
+.absolute {
+	position: absolute;
+}
+
+.fixed-bottom {
+	position: fixed;
+	bottom: 0;
+}
+
+.border-box {
+	box-sizing: border-box;
+}
+
+// .table {
+// 	//overridding bootstrap's width: 100%
+// 	width: auto;
+// }
+
+// =================================font=================================
+
+.font-size-sm {
+	font-size: 15px;
+}
+
+.font-size-md {
+	font-size: 20px;
+}
+
+// =================================background=================================
+
+.bg-blue {
+	background: $select_blue;
+}
+
+.bg-red {
+	background: lighten(red, 25%);
+}
+
+.bg-green-1 {
+	background: $bootstrap_green;
+}
+
+.bg-green {
+	background: darken(green, 10%);
+}
+
+.bg-yellow {
+	background: lighten(yellow, 35%);
+}
+
+.bg-pink {
+	background: pink;
+}
+
+.bg-grey {
+	background: lighten($grey, 20%);
+}
+
+.bg-black {
+	background: black;
+}
+
+// =================================width=================================
+
+.min-width-md {
+	min-width: 40px;
+}
+.max-width-sm {
+	max-width: 20px;
+}
+.max-width-md {
+	max-width: 40px;
+}
+.max-width-lg {
+	max-width: 80px;
+}
+.width-100 {
+	width: 100%;
+}
+
+// =================================height=================================
+
+.height-100 {
+	height: 100%;
+}
+
+// =================================positioning=================================
+
+.relative {
+	position: relative;
+}
+
+.absolute-right {
+	position: absolute;
+	right: 0;
+}
+
+// .vertical-center {
+// 	//this didn't work.
+// 	position: absolute;
+// 	display: table;
+// 	* {
+// 		display: table-cell;
+// 		vertical-align: middle;
+// 		text-align: center;
+// 	}
+// }
+
+// =================================input=================================
+
+
+
+// =================================button dropdown=================================
+
+.my-btn-dropdown {
+	width: 124px;
+	button {
+		width: 100%;
+	}
+	ul {
+		position: absolute;
+		width: 124px;
+		text-align: right;
+	}
+}
+
+.my-row {
+	//for holding my button dropdown
+	height: 34px;
+	position: relative;
+}
+
+// =================================input group=================================
+
+.my-input-group {
+	input, button {
+		display: block;
+		width: 100%;
+	}
+}
+
+// =================================button group=================================
+
+.my-btn-group {
+	display: flex;
+	display: -webkit-flex;
+	button {
+		display: block;
+		width: 100%;
+	}
+}
+
+// =================================list group=================================
+
+// .list-group {
+// 	position: relative;
+// 	// :nth-child(odd) {
+// 	// 	background: $lightblue1;
+// 	// }
+// 	// :nth-child(even) {
+// 	// 	background: $lightblue2;
+// 	// }
+// 	li {
+// 		padding: 5px 5px;
+// 		background: $white;
+// 		border: 1px solid $lightgrey;
+// 		margin-bottom: -1px;
+// 	}
+// 	.badge {
+// 		position: absolute;
+// 		right: 5px;
+// 		//these 5 properties from bootstrap-they make a big difference
+// 		color: $white;
+// 		background-color: #777;
+// 	    border-radius: 10px;
+// 	    font-size: 12px;
+// 	    padding: 3px 7px;
+// 	}
+// }
+
+// =================================flex table=================================
+
+// .flex-table {
+// 	width: 100%;
+// 	.flex-table-row {
+// 		display: flex;
+// 		justify-content: space-between;
+// 		> div {
+// 			flex-basis: 200px;
+// 			height: 21px;
+// 			overflow: scroll;
+// 			&.total {
+// 				// background: pink;
+// 				text-align: right;
+// 				// flex-basis: 50px;
+// 				margin-right: 50px;
+// 			}
+// 		}
+// 	}
+// }
+
+// .flex-table {
+// 	background: pink;
+// 	display: flex;
+// 	// width: 100%;
+// 	flex-direction: column;
+// 	.flex-table-row {
+// 		// flex-grow: 1;
+// 		display: flex;
+// 		> div {
+// 			// flex-grow: 1;
+// 			height: 21px;
+// 			overflow: scroll;
+// 		}
+// 		:nth-child(even) {
+// 			background: $lightblue1;
+// 		}
+// 		:nth-child(odd) {
+// 			background: $lightblue2;
+// 		}
+// 	}
+// }
+
+// =================================grid=================================
+
+//=====================flex-parent properties:=====================
+//display: flex | inline-flex
+//flex-direction: row | row-reverse | column | column-reverse
+//justify-content //defines alignment on the main axis: flex-start | flex-end | center | space-between //1st and last items on end of lines | space-around
+//align-items //the justify-content version for the cross-axis: flex-start | flex-end | center | baseline //items are aligned such as their baselines align | stretch //default
+//align-content: 
+//flex-wrap: nowrap | wrap | wrap-reverse
+//flex-flow: flex-direction flex-wrap //shorthand, didn't work with Firefox
+//=====================flex-child properties:=====================
+//order
+//flex-grow
+//flex-shrink
+//flex-basis
+// flex: grow, shrink, basis //shorthand
+//align-self //overide the alignment for individual flex items
+//=======================end flex properties:=======================
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 15px 15px;
+	> * {
+		margin: 15px 15px;
+	}
+}
+
+.col-sm-2 {
+	flex-basis: 135px;
+}
+
+
+
+// =================================flex=================================
+
+.flex-parent {
+	display: flex;
+	display: -webkit-flex;
+}
+.flex-grow-1 {
+	flex-grow: 1;
+	-webkit-flex-grow: 1;
+}
+.flex-grow-2 {
+	flex-grow: 2;
+	-webkit-flex-grow: 2;
+}
+.flex-basis-xs {
+	flex-basis: 20px;
+	-webkit-flex-basis: 20px;
+}
+.flex-basis-sm {
+	flex-basis: 40px;
+	-webkit-flex-basis: 40px;
+}
+.flex-basis-md {
+	flex-basis: 80px;
+	-webkit-flex-basis: 80px;
+}

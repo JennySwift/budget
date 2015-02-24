@@ -1,0 +1,140 @@
+@mixin header {
+	background: $header_background;
+	color: $header_color;
+	padding: 5px 0;
+	height: 20px;
+}
+
+@mixin totals {
+	background: #777;
+	color: white;
+	font-weight: bold;
+}
+
+@mixin row {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 15px 15px;
+	> * {
+		margin: 15px 15px;
+	}
+}
+
+@mixin button {
+	/* color: $white;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2) inset, 0 0 0 2px $white inset, 0 0 70px 0 rgba(0, 0, 0, 0.15) inset, 0 2px 5px 0 rgba(0, 0, 0, 0.15); */
+}
+
+@mixin budget_li {
+	/* border: .5px solid black;
+	text-align: center;
+	width: 25%;
+	padding: 10px 0; */
+}
+
+@mixin transactions {
+	/* position: absolute;
+	top: 64px; */
+	height: 26px;
+	// width: 176px;
+	text-align: center;
+	font-size: 23px;
+	// background: $blue;
+}
+
+@mixin nth-child {
+	padding: 14px 0;
+	font-size: 19px;
+}
+
+@mixin alternate {
+	&:nth-child(even) {
+		background: $lightblue1;
+	}
+	&:nth-child(odd) {
+		background: $white;
+	}
+}
+
+@mixin alternatve_total_div {
+	&:nth-child(even) {
+		background: $lightblue1;
+	}
+	&:nth-child(odd) {
+		background: $blue;
+	}
+}
+
+@mixin tags {
+	display: inline;
+	background: $lightgrey;
+	margin-right: 5px;
+	padding: 0px 5px;
+}
+
+@mixin tag_div {
+	@include tag_dropdowns;
+	position: absolute;
+	top: 42px;
+	overflow: scroll;
+	text-align: center;
+}
+
+@mixin tag_dropdowns {
+	height: 200px;
+	background: $white;
+	/* background: pink; */
+	z-index: 999;
+	
+}
+
+@mixin no_border_top {
+	border-top: none;
+}
+
+@mixin saved {
+	display: none;
+	background: lighten(red, 20%);
+	height: 10px;
+	width: 10px;
+	border-radius: 50%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+@mixin display {
+	background: $off_white;
+	height: 74%;
+	left: 0;
+	right: 0;
+	border-radius: $border-radius;
+	overflow: scroll;
+	.nth_child_list {
+		@include nth-child;
+		@include alternate;
+	}
+	.delete_tag, .delete_account, .edit_tag, .edit_account {
+		position: absolute;
+		right: 0;
+	}
+	.edit_tag, .edit_account {
+		right: 51px;
+	}
+	#display_tags_mini_div, .display_accounts_mini_div {
+		position: relative;
+	}
+}
+
+// @mixin error_message {
+	
+// }
+
+/* @mixin hover_span {
+	position: absolute;
+	background: black;
+	color: white;
+	height: 35px;
+	border-radius: 5px;
+	text-align: center;
+} */

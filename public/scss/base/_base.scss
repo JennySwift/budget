@@ -1,0 +1,111 @@
+/*==============================global==============================*/
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    background: $lightgrey;
+    margin: 0;
+}
+
+body {
+	padding-top: 40px;
+}
+
+button {
+	// display:block;
+	// width: 100%;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	color: #555;
+	font-size: 14px;
+	// height: 34px;
+	padding: 6px 12px;
+	&:active {
+		box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+		border: 1px solid black;
+	}
+	&:focus {
+		outline: thin dotted;
+		outline-offset: -2px;
+	}
+	&:hover, &:focus, &:active {
+		background-color: #e6e6e6;
+		border-color: #adadad;
+		color: #333;
+	}
+}
+
+p {
+	width: 238px;
+	padding: 0 20px;
+	text-align: center;
+}
+
+select {
+	// font-size: 22px;
+	padding-top: 4px;
+	width: 100%;
+	height: 30px;
+}
+
+// input {
+// 	padding: 0;
+// 	margin: 0;
+// 	border: 0;
+// 	overflow: scroll;
+// 	background: transparent;
+// 	text-align: center;
+// }
+
+input {
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	// color: #555;
+	font-size: 14px;
+	height: 34px;
+	line-height: 1.42857;
+	padding: 6px 12px;
+	&:focus {
+		border-color: #66afe9;
+		box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+	}
+}
+
+input[type="checkbox"] {
+	height: 34px;
+	width: 34px;
+	margin: 0;
+}
+
+// table {
+// 	width: 100%;
+// }
+
+// table input {
+// 	width: 100%;
+// }
+
+
+
+th, table {
+	text-align: center;
+}
+
+caption {
+	padding: 8px;
+	font-weight: bold;
+}
+
+li {
+	list-style-type: none;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+

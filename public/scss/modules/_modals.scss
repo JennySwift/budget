@@ -1,0 +1,29 @@
+.modal input {
+    border: 1px solid grey !important;
+    margin-bottom: 14px;
+}
+
+#myModal .col-sm-4 {
+	align-items: center;
+    display: flex;
+    flex-direction: column;
+    .color-picker {
+    	margin-bottom: 9px;
+    }
+}
+
+#cumulative-date-input {
+    border: 1px solid grey;
+}
+
+#color-modal {
+	width: 300px;
+	.wrapper {
+		display: flex;
+		justify-content: center;
+	}
+}
+
+#credits-modal {
+    width: 300px;
+}

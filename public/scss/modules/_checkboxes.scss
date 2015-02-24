@@ -1,0 +1,90 @@
+.checkbox-wrapper {
+	//not for my fancy checkboxes-just to align the label with the checkbox
+	display: flex;
+	align-items: center;
+}
+
+.cb-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.label-text {
+		padding: 0px 5px;
+	}
+}
+
+.cb-slider-wrapper {
+	width:38px;
+	height: 16px;
+	border-radius: 8px;
+	background: black;
+	position: relative;
+
+	input {
+		visibility: hidden;
+	}
+	label {
+		span.label-icon {
+			background: red;
+			width: 15px;
+			height: 15px;
+			border-radius: 50%;
+			position: absolute;
+			left:0;
+			cursor: pointer;
+			transition: all, .5s, ease;
+		}
+	}
+	input:checked + label span.label-icon {
+		background: green;
+		left:23px;
+	}
+}
+
+.cb-fa-wrapper {
+	width:40px;
+	height: 40px;
+	// border-radius: 3px;
+	// background: black;
+	position: relative;
+	input {
+		visibility: hidden;
+	}
+	label {
+		text-align: center;
+		// background: black;
+		border: 1px solid black;
+		width: 40px;
+		height: 40px;
+		// border-radius: 50%;
+		position: absolute;
+		left:0;
+		right:0;
+		top:0;
+		bottom:0;
+		margin: auto;
+		cursor: pointer;
+		transition: all, .5s, ease;
+		i {
+			position: absolute;
+			left:0;
+			right:0;
+			margin: auto;
+			top:0;
+			bottom: 0;
+			// width: 100%;
+			// height: 40px;
+			color: green;
+			font-size: 24px;
+			opacity: .2;
+		}
+	}
+	input:checked + label {
+		// background: white;
+		i {
+			// color: green;
+			opacity: 1;
+		}
+		// left:20px;
+	}
+}

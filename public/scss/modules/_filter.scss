@@ -1,0 +1,33 @@
+#filter {
+	padding: 8px;
+	.tag-input-wrapper input {
+		width: auto;
+	}
+	.accounts, .types, .status, .budget {
+		> div {
+			display: flex;
+			align-items: center;
+		}
+	}
+	input[type = "radio"] {
+		width: 27px;
+		margin-right: 7px;
+	}
+	// display: flex;
+	// flex-wrap: wrap;
+	// margin: 30px 30px 30px 30px;
+	// border-radius: 5px;
+	> * {
+		// flex-grow: 1;
+		margin: 8px;
+	}
+	// .input-group {
+	// 	display: flex;
+	// 	input {
+	// 		flex-grow: 1;
+	// 	}
+	// }
+	// .tag-display {
+	// 	height: 34px;
+	// }
+}

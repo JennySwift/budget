@@ -1,0 +1,31 @@
+.no_match {
+	display: none;
+}
+
+.hidden_tag {
+	display: none;
+}
+
+#tag_exists {
+	display:none;
+}
+
+.checked {
+	background: $select_blue !important;
+}
+
+.select, #description_autocomplete tbody.select {
+	background: $select_blue;
+}
+
+.tag-with-budget {
+	background: green;
+}
+
+.allocated {
+	background: $green;
+}
+
+.not-allocated {
+	background: $red;
+}

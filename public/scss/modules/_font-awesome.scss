@@ -1,0 +1,38 @@
+/*==============================font awesome==============================*/
+
+.fa {
+	font-size: 24px;
+}
+
+.fa-edit {
+	visibility: hidden;
+    cursor: pointer;
+}
+
+.delete_tag, .delete_account {
+	visibility: hidden;
+	cursor: pointer;
+}
+
+.delete {
+	// visibility: hidden;
+	padding: 0 !important;
+	border: none !important;
+    color: red;
+    cursor: pointer;
+    position: absolute; 
+    z-index: 9;
+    height: 100%;
+    background: none !important;
+    border: none;
+    &.delete-transaction {
+    height: 14px;
+	left: 0;
+	top: -4px;
+	line-height: 100%;
+	}
+	&.delete_budget {
+		right: 0;
+		top: -4px;
+	}
+}

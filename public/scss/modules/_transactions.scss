@@ -1,0 +1,36 @@
+
+#transactions {
+	background: white;
+	td {
+		height: 39px;
+		div {
+			overflow: scroll;
+			height: 100%;
+		}
+	}
+	.tag-location-container {
+		height: 24px;
+		td {
+			padding: 0;
+			height: 24px;
+		}
+	}
+	// .budget-tag-info {
+	// 	padding: 0 !important;
+	// }
+}
+
+@media all and (max-width: 575px) {
+	#transactions {
+		td, th {
+			max-width: 57px;
+			font-size: 9px;
+			padding: 0;
+			overflow: scroll;
+			.fa {
+				font-size: 9px;
+			}
+		}
+	}
+}
+
