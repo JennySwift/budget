@@ -29,9 +29,6 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
-		if ($data['email'] !== 'cheezyspaghetti@gmail.com' || $data['email'] !== 'cheezyspaghetti@optusnet.com.au') {
-			return;
-		}
 		return User::create([
 			'name' => $data['name'],
 			'email' => $data['email'],
