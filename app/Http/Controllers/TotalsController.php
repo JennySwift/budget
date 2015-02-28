@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class TotalsController extends Controller {
 
@@ -14,13 +15,13 @@ class TotalsController extends Controller {
 		return getASR($transactions); 
 	}
 
-	public function filterTotals () {
+	public function filter () {
 		include(app_path() . '/inc/total-functions.php');
 		$transactions = json_decode(file_get_contents('php://input'), true)["transactions"];
 		return getFilterTotals($transactions); 
 	}
 
-	public function basicTotals () {
+	public function basic () {
 		include(app_path() . '/inc/total-functions.php');
 
 		$total_income = getTotalIncome();
@@ -40,17 +41,20 @@ class TotalsController extends Controller {
 		    "reconciled_sum" => $reconciled_sum
 		);
 		return $totals;
+		return $total_income;
 	}
 
-	public function budgetTotals () {
-		// include(app_path() . '/inc/total-functions.php');
-		// $FB_info = getBudgetInfo($db, $user_id, 'fixed');
-		// $FLB_info = getBudgetInfo($db, $user_id, 'flex');
+	public function budget () {
+		$user_id = Auth::user()->id;
+		include(app_path() . '/inc/functions.php');
+		$FB_info = getBudgetInfo($user_id, 'fixed');
+		$FLB_info = getBudgetInfo($user_id, 'flex');
 		
-		// $array = array(
-		//     "FB" => $FB_info,
-		//     "FLB" => $FLB_info
-		// );
+		$array = array(
+		    "FB" => $FB_info,
+		    "FLB" => $FLB_info
+		);
+		return $array;
 	}
 
 }
