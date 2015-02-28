@@ -1,6 +1,4 @@
-<?php 
-	$user_id = 1;
-	
+<?php
 	$app = app_path();
 	$public = public_path();
 
