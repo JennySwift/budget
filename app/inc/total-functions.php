@@ -1,38 +1,49 @@
 <?php
 
-function getTotalSpentOnTag ($db, $tag_id, $starting_date) {
+function getTotalSpentOnTag ($tag_id, $starting_date) {
 	//get total spent on a given tag after starting date
-	$sql = "SELECT SUM(calculated_allocation) FROM transactions_tags JOIN tags ON transactions_tags.tag_id = tags.id JOIN transactions ON transactions_tags.transaction_id = transactions.id WHERE transactions_tags.tag_id = $tag_id AND transactions.date >= '$starting_date' AND transactions.type = 'expense'";
-	$sql_result = $db->query($sql);
-	$total = $sql_result->fetchColumn();
+	$total = DB::table('transactions_tags')
+		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+		->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
+		->where('transactions_tags.tag_id', $tag_id)
+		->where('transactions.date', '>=', '$starting_date')
+		->where('transactions.type', 'expense')
+		->sum('calculated_allocation');
 	return $total;
 }
 
-function getTotalReceivedOnTag ($db, $tag_id, $starting_date) {
+function getTotalReceivedOnTag ($tag_id, $starting_date) {
 	//get total received on a given tag after starting date
-	$sql = "SELECT SUM(calculated_allocation) FROM transactions_tags JOIN tags ON transactions_tags.tag_id = tags.id JOIN transactions ON transactions_tags.transaction_id = transactions.id WHERE transactions_tags.tag_id = $tag_id AND transactions.date >= '$starting_date' AND transactions.type = 'income'";
-	$sql_result = $db->query($sql);
-	$total = $sql_result->fetchColumn();
+	$total = DB::table('transactions_tags')
+		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+		->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
+		->where('transactions_tags.tag_id', $tag_id)
+		->where('transactions.date', '>=', '$starting_date')
+		->where('transactions.type', 'income')
+		->sum('calculated_allocation');
 	return $total;
 }
 
 function getTotalIncomeAfterDate ($db, $user_id, $cumulative_starting_date) {
 	//gets the total income after the cumulative starting date
-	$sql = "SELECT SUM(transactions.total) FROM transactions WHERE type = 'income' AND transactions.date >= '$cumulative_starting_date' AND user_id = $user_id;";
-	$sql_result = $db->query($sql);
-	$total_income = $income_result -> fetchColumn();
+	$total_income = DB::table('transactions')
+		->where('type', 'income')
+		->where('transactions.date', '>=', $cumulative_starting_date)
+		->where('user_id', Auth::user()->id)
+		->sum('transactions.total');
+	
 	return $total_income;
 }
 
 function getReconciledSum () {
 	//gets the sum of all transactions that are reconciled
-	$reconciled_sum = DB::table('transactions')->where('reconciled', 'true')->where('user_id', '1')->sum('total');
+	$reconciled_sum = DB::table('transactions')->where('reconciled', 'true')->where('user_id', Auth::user()->id)->sum('total');
 
 	return $reconciled_sum;
 }
 
 function getTotalIncome () {
-	$sql_result = DB::table('transactions')->where('type', 'income')->where('user_id', '1')->lists('total');
+	$sql_result = DB::table('transactions')->where('type', 'income')->where('user_id', Auth::user()->id)->lists('total');
 
     $total_income = 0;
     foreach ($sql_result as $transaction_total) {
@@ -43,7 +54,7 @@ function getTotalIncome () {
 }
 
 function getTotalExpense () {
-	$sql_result = DB::table('transactions')->where('type', 'expense')->where('user_id', '1')->lists('total');
+	$sql_result = DB::table('transactions')->where('type', 'expense')->where('user_id', Auth::user()->id)->lists('total');
 
     $total_expense = 0;
     foreach ($sql_result as $transaction_total) {
@@ -53,31 +64,32 @@ function getTotalExpense () {
     return $total_expense;
 }
 
-function getAllocationTotals ($db, $transaction_id) {
-	$sql = "SELECT transactions_tags.transaction_id, transactions_tags.tag_id, transactions_tags.allocated_percent, transactions_tags.allocated_fixed, transactions_tags.calculated_allocation, tags.name, tags.fixed_budget, tags.flex_budget FROM transactions_tags JOIN tags ON transactions_tags.tag_id = tags.id WHERE transaction_id = '$transaction_id'";
-	$sql_result = $db->query($sql);
+function getAllocationTotals ($transaction_id) {
+	$row = DB::table('transactions_tags')
+		->where('transaction_id', $transaction_id)
+		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+		->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
+		->get();
 
 	$fixed_sum = '-';
 	$percent_sum = 0;
 	$calculated_allocation_sum = 0;
 
-	while ($row = $sql_result->fetch(PDO::FETCH_ASSOC)) {
-		$allocated_fixed = $row['allocated_fixed'];
-		$allocated_percent = $row['allocated_percent'];
-		$calculated_allocation = $row['calculated_allocation'];
+	$allocated_fixed = $row['allocated_fixed'];
+	$allocated_percent = $row['allocated_percent'];
+	$calculated_allocation = $row['calculated_allocation'];
 
-		//so that the total displays '-' instead of $0.00 if there were no values to add up.
-		if ($allocated_fixed && $fixed_sum === '-') {
-			$fixed_sum = 0;
-		}
-		
-		if ($allocated_fixed) {
-			$fixed_sum+= $allocated_fixed;
-		}
-
-		$percent_sum+= $allocated_percent;
-		$calculated_allocation_sum+= $calculated_allocation;
+	//so that the total displays '-' instead of $0.00 if there were no values to add up.
+	if ($allocated_fixed && $fixed_sum === '-') {
+		$fixed_sum = 0;
 	}
+	
+	if ($allocated_fixed) {
+		$fixed_sum+= $allocated_fixed;
+	}
+
+	$percent_sum+= $allocated_percent;
+	$calculated_allocation_sum+= $calculated_allocation;
 
 	if ($fixed_sum !== '-') {
 		$fixed_sum = number_format($fixed_sum, 2);
@@ -95,15 +107,15 @@ function getAllocationTotals ($db, $transaction_id) {
 	return $allocation_totals;
 }
 
-function getBudgetInfo ($db, $user_id, $type) {
+function getBudgetInfo ($user_id, $type) {
 	if ($type === 'fixed') {
-		$tags = getTagsWithFixedBudget($db, $user_id);
+		$tags = getTagsWithFixedBudget($user_id);
 	}
 	elseif ($type === 'flex') {
-		$tags = getTagsWithFlexBudget($db, $user_id);
+		$tags = getTagsWithFlexBudget($user_id);
 	}
 	
-	//We will be returning $budget_info.
+	// We will be returning $budget_info.
 	$budget_info = array(
 		"each_tag" => array(),
 		"totals" => array()
@@ -120,40 +132,34 @@ function getBudgetInfo ($db, $user_id, $type) {
 	$total_remaining = 0;
 
 	foreach ($tags as $tag) {
-		$tag_id = $tag['id'];
-		$tag_name = $tag['name'];
+		$tag_id = $tag->id;
+		$tag_name = $tag->name;
 
 		if ($type === 'fixed') {
-			$budget = $tag['fixed_budget'];
+			$budget = $tag->fixed_budget;
 		}
 		elseif ($type === 'flex') {
-			$budget = $tag['flex_budget'];
+			$budget = $tag->flex_budget;
 		}
 		
-		$CSD = $tag['starting_date'];
+		$CSD = $tag->starting_date;
 		$CMN = getCMN($CSD);
 
 		if ($type === 'fixed') {
 			$cumulative_budget = $budget * $CMN;
 		}
 		
-	    $spent = getTotalSpentOnTag($db, $tag_id, $CSD);
-	    $received = getTotalReceivedOnTag($db, $tag_id, $CSD);
-
-	    // require_once("../tools/FirePHPCore/FirePHP.class.php");
-	    // ob_start();
-	    // $firephp = FirePHP::getInstance(true);		
-	    // $firephp->log($type, 'type');
-	    // $firephp->log($spent, 'spent');
-	    // $firephp->log($received, 'received');
-	   
-
-		$remaining = $cumulative_budget + $spent + $received;
+	    $spent = getTotalSpentOnTag($tag_id, $CSD);
+	    $received = getTotalReceivedOnTag($tag_id, $CSD);		
 
 		$total_budget += $budget;
 
 		if ($type === 'fixed') {
+			$remaining = $cumulative_budget + $spent + $received;
 			$total_cumulative_budget += $cumulative_budget;
+		}
+		elseif ($type === 'flex') {
+			$remaining = $budget + $spent + $received;
 		}
 		
 		$total_spent += $spent;
@@ -197,10 +203,11 @@ function getBudgetInfo ($db, $user_id, $type) {
 		$budget_info['totals']['cumulative_budget'] = $total_cumulative_budget;
 	}
 
-	//formatting the whole array
+	// //formatting the whole array
 	$budget_info['totals'] = numberFormat($budget_info['totals']);
 
 	return $budget_info;
+	// return 'hello';
 }
 
 function getFilterTotals ($transactions) {
