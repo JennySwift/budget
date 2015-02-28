@@ -76,7 +76,7 @@
         <div class="center-contents">
             <div class="checkbox-wrapper">
                 <label for="allocate-checkbox">allocated</label>
-                <input ng-model="allocation_popup_transaction.allocation" ng-change="updateAllocationStatus()" type="checkbox">
+                <input ng-model="allocation_popup_transaction.allocated" ng-change="updateAllocationStatus()" type="checkbox">
             </div>
         </div>
         <!-- close button -->
