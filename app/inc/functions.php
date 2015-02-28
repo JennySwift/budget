@@ -1,9 +1,17 @@
 <?php
 	// include(app_path().'/inc/config.php');
 	// echo 'firephp: ' . $firephp;
+
+use App\Transaction_Tag;
+
 // /*========================================functions========================================*/
 
 // /*========================================select========================================*/
+
+function countTransactions () {
+	$count = DB::table('transactions')->where('user_id', Auth::user()->id)->count();
+	return $count;
+}
 
 function getTransaction ($transaction_id) {
 	//for the new transaction allocation popup. probably selecting things here that I don't actually need for just the popup.
@@ -146,23 +154,24 @@ function getAllocationInfo ($transaction_id, $tag_id) {
 
 function getTags ($transaction_id) {
 	//gets tags for one transaction
-	// $tags = DB::table('transactions_tags')
-	// 					->join('tags', 'tag_id', '=', 'tags.id')
-	// 					->select('transaction_id', 'tag_id', 'allocated_percent', 'allocated_fixed', 'calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
-	// 					->where('transaction_id', '$transaction_id')
-	// 					->get();
-	$sql = "SELECT transactions_tags.transaction_id, transactions_tags.tag_id, transactions_tags.allocated_percent, transactions_tags.allocated_fixed, transactions_tags.calculated_allocation, tags.name, tags.fixed_budget, tags.flex_budget FROM transactions_tags JOIN tags ON transactions_tags.tag_id = tags.id WHERE transaction_id = '$transaction_id'";
-	$tags = DB::select($sql);
+	$tags = Transaction_Tag::
+		join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+		->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
+		->where('transaction_id', $transaction_id)
+		->get();
+
+	$tags = $tags->toArray();	
+	
 
 	foreach ($tags as $tag) {
-		$allocated_fixed = $tag->allocated_fixed;
-		$allocated_percent = $tag->allocated_percent;
+		$allocated_fixed = $tag['allocated_fixed'];
+		$allocated_percent = $tag['allocated_percent'];
 
 		if ($allocated_fixed && !$allocated_percent) {
-			$tag->allocation_type = 'fixed';
+			$tag['allocation_type'] = 'fixed';
 		}
 		elseif ($allocated_percent && !$allocated_fixed) {
-			$tag->allocation_type = 'percent';
+			$tag['allocation_type'] = 'percent';
 		}
 		elseif (!$allocation_fixed && !$allocated_percent) {
 			//this caused an error for some reason.
