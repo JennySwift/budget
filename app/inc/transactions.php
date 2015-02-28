@@ -42,7 +42,7 @@
                     <button ng-click="updateTransactionSetup(transaction)" class="fa fa-pencil-square-o"></button>
                 </td>
                 <td>
-                    <button ng-if="transaction.multiple_budgets" ng-class="{'allocated': transaction.allocation, 'not-allocated': !transaction.allocation}" ng-click="showAllocationPopup(transaction)">allocate</button>
+                    <button ng-if="transaction.multiple_budgets" ng-class="{'allocated': transaction.allocated, 'not-allocated': !transaction.allocated}" ng-click="showAllocationPopup(transaction)">allocate</button>
                 </td>
                 <!-- <td class="mass-delete-checkbox-container"></td> -->
             </tr>
