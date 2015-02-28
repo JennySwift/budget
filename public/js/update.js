@@ -1,7 +1,7 @@
 app.factory('update', function ($http) {
 	return {
 		budget: function ($tag_id, $column, $budget) {
-			var $url = 'ajax/update.php';
+			var $url = 'update/budget';
 			var $description = 'budget';
 			var $data = {
 				description: $description,
@@ -12,16 +12,8 @@ app.factory('update', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-		accountDropdownsHTML: function () {
-			var $url = 'ajax/update.php';
-			var $data = {
-				
-			};
-			
-			return $http.post($url, $data);
-		},
 		tagName: function ($tag_id, $tag_name) {
-			var $url = 'ajax/update.php';
+			var $url = 'update/tagName';
 			var $description = 'tag name';
 			var $data = {
 				description: $description,
@@ -33,7 +25,7 @@ app.factory('update', function ($http) {
 			
 		},
 		accountName: function ($account_id, $account_name) {
-			var $url = 'ajax/update.php';
+			var $url = 'update/accountName';
 			var $description = 'account name';
 			var $data = {
 				description: $description,
@@ -44,18 +36,9 @@ app.factory('update', function ($http) {
 			return $http.post($url, $data);
 			
 		},
-		tagSelectHTML: function () {
-			var $url = 'ajax/update.php';
-			var $description = '';
-			var $data = {
-				description: $description
-			};
-			
-			return $http.post($url, $data);
-		},
 		// =============================allocation=============================
 		allocation: function ($type, $value, $transaction_id, $tag_id) {
-			var $url = 'ajax/update.php';
+			var $url = 'update/allocation';
 			var $description = 'allocation';
 			var $data = {
 				description: $description,
@@ -68,7 +51,7 @@ app.factory('update', function ($http) {
 			return $http.post($url, $data);
 		},
 		allocationStatus: function ($transaction_id, $status) {
-			var $url = 'ajax/update.php';
+			var $url = 'update/allocationStatus';
 			var $description = 'allocation status';
 			var $data = {
 				description: $description,
@@ -154,7 +137,7 @@ app.factory('update', function ($http) {
 
 			$(".checked").each(function () {
 				$transaction_id = $(this).closest("tbody").attr('id');
-				var $url = 'ajax/update.php';
+				var $url = 'update/massTags';
 				var $description = 'mass edit tags';
 				var $data = {
 					description: $description,
@@ -176,7 +159,7 @@ app.factory('update', function ($http) {
 			$(".checked").each(function () {
 				$transaction_id = $(this).closest("tbody").attr('id');
 
-				var $url = 'ajax/update.php';
+				var $url = 'update/massDescription';
 				var $description = 'mass edit description';
 				var $data = {
 					description: $description,
@@ -194,7 +177,7 @@ app.factory('update', function ($http) {
 				$starting_date = Date.parse($starting_date);
 				$starting_date = $starting_date.toString('yyyy-MM-dd');
 
-				var $url = 'ajax/update.php';
+				var $url = 'update/startingDate';
 				var $description = '';
 				var $data = {
 					description: $description,
@@ -207,7 +190,7 @@ app.factory('update', function ($http) {
 		},
 		CSD: function ($tag_id, $CSD) {
 			$CSD = Date.parse($CSD).toString('yyyy-MM-dd');
-			var $url = 'ajax/update.php';
+			var $url = 'update/CSD';
 			var $description = 'CSD';
 			var $data = {
 				description: $description,
@@ -218,7 +201,7 @@ app.factory('update', function ($http) {
 			return $http.post($url, $data);
 		},
 		colors: function ($colors) {
-			var $url = 'ajax/update.php';
+			var $url = 'update/colors';
 			var $description = 'colors';
 			var $data = {
 				description: $description,
@@ -228,7 +211,7 @@ app.factory('update', function ($http) {
 			return $http.post($url, $data);
 		},
 		transaction: function ($transaction) {
-			var $url = 'ajax/update.php';
+			var $url = 'update/transaction';
 			var $description = 'transaction';
 			var $data = {
 				description: $description,
@@ -238,7 +221,7 @@ app.factory('update', function ($http) {
 			return $http.post($url, $data);
 		},
 		reconciliation: function ($transaction_id, $reconciliation) {
-			var $url = 'ajax/update.php';
+			var $url = 'update/reconciliation';
 			var $description = 'reconciliation';
 
 			if ($reconciliation === true) {
@@ -259,25 +242,25 @@ app.factory('update', function ($http) {
 	};
 });
 
-$("#display_tags, #display_accounts").on('click', '.edit_tag, .edit_account', function (keypress) {
-	console.log("running anonymouseditTagName");
-	var $id = $(this).parent().attr('id');
-	var $old_name = $(this).siblings(".tag_name, .account_name").val();
-	if ($(this).parent().hasClass("display_tags_mini_div")) {
-		$url = 'ajax/update.php';
-	}
-	else {
-		$url = 'ajax/update.php';
-	}
+// $("#display_tags, #display_accounts").on('click', '.edit_tag, .edit_account', function (keypress) {
+// 	console.log("running anonymouseditTagName");
+// 	var $id = $(this).parent().attr('id');
+// 	var $old_name = $(this).siblings(".tag_name, .account_name").val();
+// 	if ($(this).parent().hasClass("display_tags_mini_div")) {
+// 		$url = 'ajax/update.php';
+// 	}
+// 	else {
+// 		$url = 'ajax/update.php';
+// 	}
 
-	var $new_name = prompt("enter new name");
+// 	var $new_name = prompt("enter new name");
 
-	if ($new_name) {
-		console.log("true");
-		$(this).siblings(".tag_name, .account_name").val($new_name);
-		editTagName($id, $url, $old_name, $new_name);
-	}
-	else {
-		console.log("false");
-	}
-});
+// 	if ($new_name) {
+// 		console.log("true");
+// 		$(this).siblings(".tag_name, .account_name").val($new_name);
+// 		editTagName($id, $url, $old_name, $new_name);
+// 	}
+// 	else {
+// 		console.log("false");
+// 	}
+// });

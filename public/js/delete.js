@@ -1,7 +1,7 @@
 app.factory('deleteItem', function ($http) {
 	return {
 		tag: function ($tag_id) {
-			var $url = 'ajax/delete.php';
+			var $url = 'delete/tag';
 			var $description = 'tag';
 			var $data = {
 				description: $description,
@@ -11,7 +11,7 @@ app.factory('deleteItem', function ($http) {
 			return $http.post($url, $data);
 		},
 		account: function ($account_id) {
-			var $url = 'ajax/delete.php';
+			var $url = 'delete/account';
 			var $description = 'account';
 			var $data = {
 				description: $description,
@@ -38,7 +38,7 @@ app.factory('deleteItem', function ($http) {
 		// },
 		item: function () {
 			if(confirm("Are you sure you want to delete this " + $item + "?")) {
-				var $url = 'ajax/delete.php';
+				var $url = 'delete/item';
 
 				var $data = {
 					table: $table,
@@ -48,23 +48,8 @@ app.factory('deleteItem', function ($http) {
 				return $http.post($url, $data);
 			}
 		},
-		resultTag: function ($this) {
-			var $transaction = $($this).closest("tbody");
-			var $transaction_id = $($transaction).attr('id');
-			var $tag_id = $($this).attr('data-id');
-			
-			var $url = 'ajax/delete.php';
-			var $description = 'result tag';
-			var $data = {
-				description: $description,
-				transaction_id: $transaction_id,
-				tag_id: $tag_id
-			};
-			
-			return $http.post($url, $data);
-		},
 		budget: function ($tag_id, $tag_name) {
-			var $url = 'ajax/delete.php';
+			var $url = 'delete/budget';
 			var $description = 'budget';
 			var $data = {
 				description: $description,
@@ -75,7 +60,7 @@ app.factory('deleteItem', function ($http) {
 			return $http.post($url, $data);
 		},
 		transaction: function ($transaction_id) {
-			var $url = 'ajax/delete.php';
+			var $url = 'delete/transaction';
 				var $description = 'transaction';
 				var $data = {
 					description: $description,

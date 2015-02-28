@@ -18,7 +18,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		/*=========new_transaction=========*/
 		$scope.new_transaction = {
-			total: '',
+			total: '5',
 			type: 'income',
 			description: '',
 			merchant: '',
@@ -33,18 +33,18 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		// $scope.new_transaction.from_account = 'from';
 		// $scope.new_transaction.to_account = 'to';
 		$scope.new_transaction.tags = [
-			// {
-			// 	id: '1',
-			// 	name: 'chiropractic',
-			// 	fixed_budget: '10.00',
-			// 	flex_budget: null
-			// },
-			// {
-			// 	id: '27',
-			// 	name: 'church',
-			// 	fixed_budget: null,
-			// 	flex_budget: '5'
-			// }
+			{
+				id: '1',
+				name: 'chiropractic',
+				fixed_budget: '10.00',
+				flex_budget: null
+			},
+			{
+				id: '2',
+				name: 'church',
+				fixed_budget: null,
+				flex_budget: '5'
+			}
 		];
 
 		/*=========budget=========*/
@@ -322,12 +322,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.typing = {};
 		};
 
-		$scope.addResultTag = function () {
-			insert.resultTag().then(function (response) {
-				multiSearch();
-			});
-		};
-
 		$scope.errorCheck = function () {
 			$scope.messages = {};
 
@@ -385,8 +379,8 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 			insert.transaction($scope.new_transaction).then(function (response) {
 				//see if the transaction that was just entered has multiple budgets
-				var $transaction = response.data.array.transaction;
-				var $multiple_budgets = response.data.array.multiple_budgets;
+				var $transaction = response.data.transaction;
+				var $multiple_budgets = response.data.multiple_budgets;
 
 				if ($multiple_budgets) {
 					$scope.new_transaction.multiple_budgets = true;
@@ -584,7 +578,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.allocation_popup_transaction = $transaction;
 			
 			select.allocationInfo($transaction.id).then(function (response) {
-				$scope.allocation_popup_transaction.allocation_totals = response.data.array;
+				$scope.allocation_popup_transaction.allocation_totals = response.data;
 			});
 		};
 
@@ -598,8 +592,8 @@ var app = angular.module('budgetApp', ['checklist-model']);
 					//get the index of the tag in $scope.allocation_popup_transaction.tags
 					var $index = _.indexOf($scope.allocation_popup_transaction.tags, $the_tag);
 					//make the tag equal the ajax response
-					$scope.allocation_popup_transaction.tags[$index] = response.data.array.allocation_info;
-					$scope.allocation_popup_transaction.allocation_totals = response.data.array.allocation_totals;
+					$scope.allocation_popup_transaction.tags[$index] = response.data.allocation_info;
+					$scope.allocation_popup_transaction.allocation_totals = response.data.allocation_totals;
 				});
 			}
 		};
@@ -625,7 +619,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		// $scope.updateAllocationPopupHTML = function () {
 		// 	update.allocationPopupHTML().then(function (response) {
-		// 		$scope.allocation_popup.tags = response.data.array;
+		// 		$scope.allocation_popup.tags = response.data;
 		// 		var $tags = $response.tags;
 		// 		var $fixed_sum = $response.fixed_sum;
 		// 		var $percent_sum = $response.percent_sum;
@@ -698,11 +692,10 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		$scope.deleteTag = function ($tag_id) {
 			select.countTransactionsWithTag($tag_id).then(function (response) {
-				var $count = response.data.array;
+				var $count = response.data;
 				if (confirm("You have " + $count + " transactions with this tag. Are you sure?")) {
 					deleteItem.tag($tag_id).then(function (response) {
 						$scope.getTags();
-						callFunctionsDeletetag();
 					});
 				}
 			});
@@ -737,12 +730,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			}
 		};
 
-		function callFunctionsDeletetag () {
-			// updatetags();
-			// addBudgetInfo();
-			// totals();
-		}
-
 		$("#mass-delete-button").on('click', function () {
 			if (confirm("You are about to delete " + $(".checked").length + " transactions. Are you sure you want to do this?")) {
 				massDelete();
@@ -756,12 +743,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				deleteBudget($tag_id, $tag_name);
 			}
 		});
-
-		$scope.removeResultTag = function () {
-			deleteItem.resultTag().then(function (response) {
-				$scope.multiSearch();
-			});
-		};
 
 		$scope.deleteBudget = function () {
 			deleteItem.budget().then(function (response) {
@@ -879,7 +860,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				//not up arrow, down arrow or enter, so filter transactions
 				autocomplete.removeSelected($scope.transactions);
 				autocomplete.filterTransactions($typing, $field).then(function (response) {
-					$scope.autocomplete.transactions = response.data.array;
+					$scope.autocomplete.transactions = response.data;
 					$scope.autocomplete.transactions = autocomplete.transferTransactions($scope.autocomplete.transactions);
 				});
 				
@@ -929,7 +910,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			
 			
 		// select.autocompleteTransaction($typing, $iterate).then(function (response) {
-		// 	$scope.autocomplete.transactions = response.data.array;
+		// 	$scope.autocomplete.transactions = response.data;
 		// 	var $transactions_without_duplicates = [];
 			
 		// 	$($scope.autocomplete.transactions).each(function () {

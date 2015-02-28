@@ -30,7 +30,7 @@ app.factory('select', function ($http) {
 			return $http.post($url, $data);
 		},
 		countTransactionsWithTag: function ($tag_id) {
-			var $url = 'ajax/select.php';
+			var $url = 'select/countTransactionsWithTag';
 			var $description = 'count transactions with tag';
 			var $data = {
 				description: $description,
@@ -49,7 +49,7 @@ app.factory('select', function ($http) {
 			return $http.post($url, $data);
 		},
 		autocompleteTransaction: function ($typing, $iterate) {
-			var $url = 'ajax/select.php';
+			var $url = 'select/autocompleteTransaction';
 			var $description = 'autocomplete transaction';
 			var $data = {
 				description: $description,
@@ -60,7 +60,7 @@ app.factory('select', function ($http) {
 			return $http.post($url, $data);
 		},
 		allocationInfo: function ($transaction_id) {
-			var $url = 'ajax/select.php';
+			var $url = 'select/allocationInfo';
 			var $description = 'allocation info';
 			var $data = {
 				description: $description,

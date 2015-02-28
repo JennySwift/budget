@@ -13,23 +13,8 @@ app.factory('insert', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-		addResultTag: function ($this) {
-			var $transaction = $($this).closest("tbody");
-			var $transaction_id = $($transaction).attr('id');
-			var $tag = $($transaction).find(".select").text();
-			var $tag_id = $($transaction).find(".select").attr('data-id');
-			var $url = 'ajax/insert.php';
-			var $description = 'result tag';
-			var $data = {
-				description: $description,
-				transaction_id: $transaction_id,
-				tag_id: $tag_id
-			};
-			
-			return $http.post($url, $data);
-		},
 		account: function () {
-			var $url = 'ajax/insert.php';
+			var $url = 'insert/account';
 			var $description = 'account';
 			var $name = $(".new_account_input").val();
 			var $data = {
@@ -55,7 +40,7 @@ app.factory('insert', function ($http) {
 			}
 			else {
 				$("#flex_budget_used").hide();
-				var $url = 'insert.php';
+				var $url = 'insert/flexBudget';
 				var $description = 'flex budget';
 				var $data = {
 					description: $description,
@@ -84,7 +69,7 @@ app.factory('insert', function ($http) {
 			else {
 				$("#fixed_budget_used").hide();
 
-				var $url = 'insert.php';
+				var $url = 'insert/budgetInfo';
 				var $description = 'fixed budget';
 				var $data = {
 					description: $description,
@@ -96,7 +81,7 @@ app.factory('insert', function ($http) {
 			}
 		},
 		transaction: function ($new_transaction) {
-			var $url = 'ajax/insert.php';
+			var $url = 'insert/transaction';
 			var $description = 'new transaction';
 
 			if ($new_transaction.type === "expense" && $new_transaction.total > 0) {

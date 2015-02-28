@@ -1,7 +1,7 @@
 app.factory('totals', function ($http) {
 	return {
 		basicTotals: function () {
-			var $url = 'select/basic-totals';
+			var $url = 'totals/basic';
 			var $description = 'basic totals';
 			var $data = {
 				description: $description
@@ -10,7 +10,7 @@ app.factory('totals', function ($http) {
 			return $http.post($url, $data);
 		},
 		budget: function () {
-			var $url = 'select/budget-totals';
+			var $url = 'totals/budget';
 			var $description = 'budget totals';
 			var $data = {
 				description: $description
@@ -19,7 +19,7 @@ app.factory('totals', function ($http) {
 			return $http.post($url, $data);
 		},
 		filterTotals: function ($transactions) {
-			var $url = 'select/filter-totals';
+			var $url = 'totals/filter';
 			var $description = 'get filter totals';
 			// var $stringified_transactions = JSON.stringify($transactions);
 			var $data = {
@@ -47,7 +47,7 @@ app.factory('totals', function ($http) {
 
 			// $transactions_clone = JSON.stringify($transactions_clone);
 
-			var $url = 'select/ASR';
+			var $url = 'totals/ASR';
 			var $description = 'ASR';
 			var $data = {
 				description: $description,
