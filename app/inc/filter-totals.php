@@ -25,7 +25,7 @@
         </li>
         
         <li class="tooltipster list-group-item list-group-item-info" title="# of search results">
-            <span id="search_results_span" class="badge">{{display_from}} to {{display_to}} of {{counter}}</span>
+            <span id="search_results_span" class="badge">{{filter.display_from}} to {{filter.display_to}} of {{totals.filter.num_transactions}}</span>
             #:
         </li>
     </ul>

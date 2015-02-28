@@ -20,7 +20,7 @@
                 <!-- <th>mass delete</th> -->
             </tr>
         </thead>
-        <tbody ng-repeat="transaction in transactions_limited" ng-style="{color: colors[transaction.type]}" id="transaction.id" class="add_to_search_total results-transaction-tbody {{transaction.type}}">
+        <tbody ng-repeat="transaction in transactions" ng-style="{color: colors[transaction.type]}" id="transaction.id" class="add_to_search_total results-transaction-tbody {{transaction.type}}">
             
             <tr class="results_inner_div">
                 <td ng-show="show.date">{{transaction.date.user}}</td>

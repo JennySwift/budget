@@ -500,9 +500,12 @@ div.account #display_accounts {
 #toolbar {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   margin: 15px 30px 0 0; }
   #toolbar > * {
     margin: 0 5px 0 3px; }
+  #toolbar select {
+    width: auto; }
 
 .tag-wrapper {
   width: 100%; }

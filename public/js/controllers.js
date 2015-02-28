@@ -93,7 +93,9 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				description: "",
 				merchant: "",
 				tags: [],
-				reconciled: "any"
+				reconciled: "any",
+				offset: 0,
+				num_to_fetch: 10
 			};
 		};
 
@@ -122,8 +124,8 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		$scope.messages = {};
 		$scope.tag_input = ""; //for the inputs where the tag is autocompleted
 
-		$scope.display_from = 1;
-		$scope.display_to = 30;
+		// $scope.display_from = 1;
+		// $scope.display_to = 30;
 		// $scope.counter
 
 		/*=========selected=========*/
@@ -176,6 +178,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				$scope.transactions = response.data;
 				$scope.multiSearchTags();
 				$scope.multiSearchBudget();
+				$scope.getFilterTotals();
 				$scope.searchResults();
 
 				if ($new_transaction && $scope.new_transaction.multiple_budgets) {
@@ -207,15 +210,27 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.prevResults = function () {
-			$scope.display_from -= 30;
-			$scope.display_to -= 30;
-			$scope.searchResults();
+			//make it so the offset cannot be less than 0.
+			if ($scope.filter.offset - $scope.filter.num_to_fetch < 0) {
+				$scope.filter.offset = 0;
+			}
+			else {
+				$scope.filter.offset-= ($scope.filter.num_to_fetch * 1);
+			}
+			// $scope.display_from -= 30;
+			// $scope.display_to -= 30;
+			// $scope.searchResults();
 		};
 
 		$scope.nextResults = function () {
-			$scope.display_from += 30;
-			$scope.display_to += 30;
-			$scope.searchResults();
+			if ($scope.filter.offset + ($scope.filter.num_to_fetch * 1) > $scope.totals.filter.num_transactions) {
+				//stop it going past the end.
+				return;
+			}
+			$scope.filter.offset+= ($scope.filter.num_to_fetch * 1);
+			// $scope.display_from += 30;
+			// $scope.display_to += 30;
+			// $scope.searchResults();
 		};
 
 		$scope.getAccounts = function () {
@@ -244,18 +259,18 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		});
 
 		$scope.searchResults = function () {
-			var $transactions_limited = [];
-			$scope.counter = 0;
-			$($scope.transactions).each(function () {
-				$scope.counter++;
-				if ($scope.counter >= $scope.display_from && $scope.counter <= $scope.display_to) {
-					$transactions_limited.push(this);
-				}
-			});
-			$scope.transactions_limited = $transactions_limited;
-			$scope.getFilterTotals();
-			$scope.updateAccountDropdownsHTML();
-			$scope.getColors();
+			// var $transactions_limited = [];
+			// $scope.counter = 0;
+			// $($scope.transactions).each(function () {
+			// 	$scope.counter++;
+			// 	if ($scope.counter >= $scope.display_from && $scope.counter <= $scope.display_to) {
+			// 		$transactions_limited.push(this);
+			// 	}
+			// });
+			// $scope.transactions_limited = $transactions_limited;
+			// $scope.getFilterTotals();
+			// $scope.updateAccountDropdownsHTML();
+			// $scope.getColors();
 			// if ($show_allocation_popup == true) {
 			// 	updateAllocationPopupHTML($allocation_popup_transaction_id);
 			// }
@@ -957,6 +972,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if (newValue === oldValue) {
 				return;
 			}
+			$scope.resetOffset();
 			$scope.multiSearch(true);
 		});
 
@@ -964,6 +980,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if (newValue === oldValue) {
 				return;
 			}
+			$scope.resetOffset();
 			$scope.multiSearch(true);
 		});
 
@@ -1025,6 +1042,22 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.multiSearch(true);
 		});
 
+		// $scope.$watch('filter.num_to_fetch', function (newValue, oldValue) {
+		// 	if (newValue === oldValue) {
+		// 		return;
+		// 	}
+		// 	$scope.multiSearch(true);
+		// });
+
+		$scope.$watchGroup(['filter.offset', 'filter.num_to_fetch'], function (newValue, oldValue) {
+			$scope.filter.display_from = $scope.filter.offset + 1;
+			$scope.filter.display_to = $scope.filter.offset + ($scope.filter.num_to_fetch * 1);
+			if (newValue === oldValue) {
+				return;
+			}
+			$scope.multiSearch(true);
+		});
+
 		/*=================================================================================
 		===================================================================================
 		===================================================================================
@@ -1050,6 +1083,10 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			else {
 				$scope.filter[$field] = "";
 			}
+		};
+
+		$scope.resetOffset = function () {
+			$scope.filter.offset = 0;
 		};
 
 		// $scope.callFunctions = function () {
@@ -1088,7 +1125,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.getFilterTotals = function () {
-			totals.filterTotals($scope.transactions_limited).then(function (response) {
+			totals.filterTotals($scope.transactions).then(function (response) {
 				$scope.totals.filter = response.data;
 				$scope.getASR();
 			});
@@ -1182,6 +1219,15 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		$scope.multiSearch();
 		$scope.getAccounts();
+		$scope.getColors();
+
+		//to go through
+		
+		// $scope.updateAccountDropdownsHTML();
+		// $scope.getColors();
+		// if ($show_allocation_popup == true) {
+		// 	updateAllocationPopupHTML($allocation_popup_transaction_id);
+		// }
 
 	}); //end display controller
 

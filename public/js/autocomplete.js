@@ -59,7 +59,7 @@ app.factory('autocomplete', function ($http) {
 		return $filtered_tags;
 	};
 	$object.filterTransactions = function ($typing, $column) {
-		var $url = 'ajax/select.php';
+		var $url = 'select/filterTransactions';
 		var $description = 'autocomplete transaction';
 		var $data = {
 			description: $description,
@@ -69,27 +69,6 @@ app.factory('autocomplete', function ($http) {
 		
 		return $http.post($url, $data);
 	};
-	// $object.filterTransactions = function ($transactions, $typing, $field) {
-	// 	$transactions = _.filter($transactions, function ($transaction) {
-	// 		if ($field === 'description') {
-	// 			return $transaction.description.toLowerCase().indexOf($typing.toLowerCase()) !== -1;
-	// 		}
-	// 		else if ($field === 'merchant') {
-	// 			return $transaction.merchant.toLowerCase().indexOf($typing.toLowerCase()) !== -1;
-	// 		}
-	// 	});
-	// 	$object.removeSelected($transactions);
-	// 	//limiting the transactions in the autocomplete so it's faster
-	// 	$transactions = _.filter($transactions, function ($transaction) {
-	// 		return $transactions.indexOf($transaction) < 20;
-	// 	});
-
-	// 	if ($typing !== "") {
-	// 		$object.selectFirstItem($transactions);
-	// 	}
-
-	// 	return $transactions;
-	// };
 	$object.removeSelected = function ($array) {
 		var $first = _.first($array);
 		//removing the previous selected, in case the input is focused again after already setting the selected transaction

@@ -70,10 +70,10 @@ app.factory('select', function ($http) {
 			return $http.post($url, $data);
 		},
 		multiSearch: function ($filter, $reset) {
-			if ($reset) {
-				$display_from = 1;
-				$display_to = 30;
-			}
+			// if ($reset) {
+			// 	$display_from = 1;
+			// 	$display_to = 30;
+			// }
 
 			if ($filter.single_date) {
 				$filter.single_date_sql = Date.parse($filter.single_date).toString('yyyy-MM-dd');

@@ -216,11 +216,12 @@ function getFilterTotals ($transactions) {
     $search_balance = 0;
     $debugging = array();
 
-    foreach ($transactions as $t) {
-        // $total = $t->total;
-        // $type = $t->type;
-        $total = $t['total'];
-        $type = $t['type'];
+    foreach ($transactions as $transaction) {
+    	// Log::info('transactions', $transactions);
+        // $total = $transaction->total;
+        // $type = $transaction->type;
+        $total = $transaction['total'];
+        $type = $transaction['type'];
 
         if ($type === "expense") {
             $search_expenses += $total;
@@ -258,12 +259,16 @@ function getFilterTotals ($transactions) {
     $search_expenses = number_format($search_expenses, 2);
     $search_balance = number_format($search_balance, 2);
 
+    //get total number of transactions the user has
+    $num_transactions = countTransactions();
+
     $array = array(
         "income" => $search_income,
         "expenses" => $search_expenses,
         "balance" => $search_balance,
         "transactions" => $transactions,
-        "debugging" => $debugging
+        "debugging" => $debugging,
+        "num_transactions" => $num_transactions
     );
 
     return $array;
@@ -272,9 +277,9 @@ function getFilterTotals ($transactions) {
 function getASR ($transactions) {
     $ASR = 0;
 
-    foreach ($transactions as $t) {
-        $total = $t['total'];
-        $type = $t['type'];
+    foreach ($transactions as $transaction) {
+        $total = $transaction['total'];
+        $type = $transaction['type'];
 
         if ($type === "expense") {
             $ASR += $total;
