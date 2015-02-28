@@ -17,9 +17,9 @@ class CreateTagsTable extends Migration {
 			$table->increments('id');
 			$table->timestamps();
 			$table->string('name');
-			$table->decimal('fixed_budget', 10, 2);
-			$table->decimal('flex_budget', 10, 2);
-			$table->date('starting_date');
+			$table->decimal('fixed_budget', 10, 2)->nullable();
+			$table->decimal('flex_budget', 10, 2)->nullable();
+			$table->date('starting_date')->nullable();
 			$table->integer('user_id')->unsigned(); //foreign key
 
 			$table->foreign('user_id')->references('id')->on('users');

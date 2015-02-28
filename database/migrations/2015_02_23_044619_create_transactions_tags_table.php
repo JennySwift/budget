@@ -18,9 +18,9 @@ class CreateTransactionsTagsTable extends Migration {
 			$table->timestamps();
 			$table->integer('transaction_id')->unsigned(); //foreign key
 			$table->integer('tag_id')->unsigned(); //foreign key
-			$table->decimal('allocated_fixed', 10, 2);
-			$table->decimal('allocated_percent', 10, 2);
-			$table->decimal('calculated_allocation', 10, 2);
+			$table->decimal('allocated_fixed', 10, 2)->nullable();
+			$table->decimal('allocated_percent', 10, 2)->nullable();
+			$table->decimal('calculated_allocation', 10, 2)->nullable();
 			$table->integer('user_id')->unsigned(); //foreign key
 
 			$table->foreign('transaction_id')->references('id')->on('transactions');
