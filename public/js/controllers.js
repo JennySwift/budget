@@ -176,7 +176,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		$scope.multiSearch = function ($reset, $new_transaction) {
 			select.multiSearch($scope.filter, $reset).then(function (response) {
 				$scope.transactions = response.data;
-				$scope.multiSearchTags();
+				// $scope.multiSearchTags();
 				$scope.multiSearchBudget();
 				$scope.getFilterTotals();
 				$scope.searchResults();
@@ -202,7 +202,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.multiSearchTags = function () {
-			$scope.transactions = filter.tags($scope.transactions, $scope.filter.tags);
+			// $scope.transactions = filter.tags($scope.transactions, $scope.filter.tags);
 		};
 
 		$scope.multiSearchBudget = function () {
@@ -773,12 +773,8 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		===================================================================================
 		=================================================================================*/
 
-		function multiSearchDateFilter ($multiSearch_transactions, $from_date, $to_date) {
-			filter.multiSearchDate();
-		}
-
 		function multiSearchTagFilter ($multiSearch_transactions, $tag_ids_searched_for) {
-			filter.multiSearchTag();
+			// filter.multiSearchTag();
 		}
 
 		$scope.filterTags = function ($keycode, $typing, $location_for_tags, $scope_property) {

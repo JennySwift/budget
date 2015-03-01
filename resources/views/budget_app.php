@@ -35,6 +35,8 @@
         <button ng-click="prevResults()" type="button" id="prev-results-button" class="navigate-results-button btn btn-info navbar-btn">Prev</button>
         
         <select ng-model="filter.num_to_fetch" name="" id="">
+            <option value="2">2</option>
+            <option value="4">4</option>
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>

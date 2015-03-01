@@ -8,7 +8,7 @@ function filter ($filter) {
     $user_id = Auth::user()->id;
     $offset = $filter['offset'];
     $num_to_fetch = $filter['num_to_fetch'];
-    $transactions = DB::table('transactions')->where('transactions.user_id', $user_id);
+    $transactions = Transaction::where('transactions.user_id', $user_id);
 
     foreach ($filter as $type => $value) {
         //================accounts================
@@ -47,6 +47,23 @@ function filter ($filter) {
                 $transactions = $transactions->where('reconciled', $value);
                 // $where = $where . " AND reconciled = '$value'";
             }
+        }
+        //==========tags==========
+        elseif ($value && $type === "tags") {
+            $tags = $value;
+
+            $tag_ids = array();
+            foreach ($tags as $tag) {
+                $tag_id = $tag['id'];
+                $tag_ids[] = $tag_id;
+            }
+            // $transactions = $transactions->has('tags', '=', $tag_ids);
+
+            foreach ($tag_ids as $tag_id) {
+                $transactions = $transactions->whereHas('tags', function ($q) use ($tag_id) {
+                    $q->where('tags.id', $tag_id); 
+                });
+            }    
         }
         //==========description, merchant==========
         elseif ($value) {
