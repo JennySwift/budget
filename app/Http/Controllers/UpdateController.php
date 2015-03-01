@@ -11,11 +11,13 @@ class UpdateController extends Controller {
 
 	//
 	public function budget () {
+		//this either adds or deletes a budget, both using an update query.
+		include(app_path() . '/inc/functions.php');
 		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
 		$budget = json_decode(file_get_contents('php://input'), true)["budget"];
 		$column = json_decode(file_get_contents('php://input'), true)["column"];
 
-		DB::table('tags')->where('id', $tag_id)->update([$column => $budget]);
+		updateBudget($tag_id, $budget, $column);
 	}
 
 	public function tagName () {

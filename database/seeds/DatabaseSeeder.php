@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\Color;
+use App\Budget;
 use App\Account;
 use App\Transaction;
 use App\Tag;
@@ -22,7 +23,7 @@ class DatabaseSeeder extends Seeder {
 	public function run()
 	{
 		DB::statement('SET FOREIGN_KEY_CHECKS=0');
-		// Model::unguard();
+		Model::unguard();
 
 		// $this->call('UserTableSeeder');
 		// $this->command->info('User table seeded!');
@@ -30,6 +31,10 @@ class DatabaseSeeder extends Seeder {
 		Color::truncate();
 		$this->call('ColorTableSeeder');
 		$this->command->info('Color table seeded!');
+
+		// Budget::truncate();
+		$this->call('BudgetTableSeeder');
+		$this->command->info('Budget table seeded!');
 
 		Account::truncate();	
 		$this->call('AccountTableSeeder');
@@ -93,6 +98,23 @@ class ColorTableSeeder extends Seeder {
 			'color' => '#fca700',
 			'user_id' => 1
 		]);	
+	}
+
+}
+
+// ===============================Budgets Table===============================
+
+class BudgetTableSeeder extends Seeder {
+
+	public function run()
+	{
+		Budget::create([
+			'type' => 'fixed',
+		]);
+		Budget::create([
+			'type' => 'flex',
+		]);
+		
 	}
 
 }
@@ -171,18 +193,26 @@ class TagTableSeeder extends Seeder {
 
 				if ($budget_type === 'fixed_budget') {
 					$budget = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200);
+					$budget_id = 1;
 				}
 				elseif ($budget_type === 'flex_budget') {
 					$budget = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100);
+					$budget_id = 2;
 				}
 				$starting_date = $faker->date($format = 'Y-m-d', $max = 'now');
+
+				Log::info('budget_id: ' . $budget_id);
 
 				Tag::create([
 					'name' => $faker->word(),
 					$budget_type => $budget,
 					'starting_date' => $starting_date,
+					'budget_id' => $budget_id,
 					'user_id' => 1
 				]);
+
+				// $queries = DB::getQueryLog();
+				// Log::info('queries', $queries);
 			}
 
 			else {

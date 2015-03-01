@@ -8,4 +8,5 @@ class Transaction_Tag extends Model {
 	protected $table = 'transactions_tags';
 
 	protected $fillable = ['transaction_id', 'tag_id', 'allocated_fixed', 'allocated_percent', 'calculated_allocation', 'user_id'];
+
 }

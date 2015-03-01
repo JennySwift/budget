@@ -4,6 +4,8 @@
 
 use App\Transaction_Tag;
 
+DB::enableQueryLog();
+
 // /*========================================functions========================================*/
 
 // /*========================================select========================================*/
@@ -329,6 +331,27 @@ function insertTransaction ($new_transaction, $transaction_type) {
 }
 
 // /*========================================update========================================*/
+
+function updateBudget ($tag_id, $budget, $column) {
+	//this either adds or deletes a budget, both using an update query.
+	if (!$budget || $budget === "NULL") {
+		$budget = NULL;
+		$budget_id = NULL;
+	}
+	else {
+		if ($column === "fixed") {
+			$budget_id = 1;
+		}
+		else {
+			$budget_id = 2;
+		}
+	}
+	
+	DB::table('tags')->where('id', $tag_id)->update([$column => $budget, 'budget_id' => $budget_id]);
+	$queries = DB::getQueryLog();
+	Log::info('budget: ' . $budget);
+	Log::info('queries', $queries);
+}
 
 function updateAllocatedFixed ($allocated_fixed, $transaction_id, $tag_id) {
 	DB::table('transactions_tags')

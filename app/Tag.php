@@ -10,4 +10,8 @@ class Tag extends Model {
 	public function transactions () {
 		return $this->belongsToMany('App\Transaction', 'transactions_tags');
 	}
+
+	public function budget () {
+		return $this->belongsTo('App\Budget');
+	}
 }
