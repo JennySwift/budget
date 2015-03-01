@@ -177,7 +177,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			select.multiSearch($scope.filter, $reset).then(function (response) {
 				$scope.transactions = response.data;
 				// $scope.multiSearchTags();
-				$scope.multiSearchBudget();
+				// $scope.multiSearchBudget();
 				$scope.getFilterTotals();
 				$scope.searchResults();
 
@@ -206,7 +206,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.multiSearchBudget = function () {
-			$scope.transactions = filter.budget($scope.transactions, $scope.filter.budget);
+			// $scope.transactions = filter.budget($scope.transactions, $scope.filter.budget);
 		};
 
 		$scope.prevResults = function () {
@@ -751,19 +751,19 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			}
 		});
 
-		$(".budget").on('click', '.delete_budget', function () {
-			var $tag_id = $(this).closest('.budget_info_ul').attr('data-tag-id');
-			var $tag_name = $(this).prevAll(".budget-tag").text();
-			if (confirm("Are you sure?")) {
-				deleteBudget($tag_id, $tag_name);
-			}
-		});
+		// $(".budget").on('click', '.delete_budget', function () {
+		// 	var $tag_id = $(this).closest('.budget_info_ul').attr('data-tag-id');
+		// 	var $tag_name = $(this).prevAll(".budget-tag").text();
+		// 	if (confirm("Are you sure?")) {
+		// 		deleteBudget($tag_id, $tag_name);
+		// 	}
+		// });
 
-		$scope.deleteBudget = function () {
-			deleteItem.budget().then(function (response) {
-				$scope.totals();
-			});
-		};
+		// $scope.deleteBudget = function () {
+		// 	deleteItem.budget().then(function (response) {
+		// 		$scope.totals();
+		// 	});
+		// };
 
 		/*=================================================================================
 		===================================================================================

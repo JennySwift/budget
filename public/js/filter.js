@@ -24,19 +24,19 @@ app.factory('filter', function ($http) {
 		// 	});
 		// 	return $transactions;
 		// },
-		budget: function ($transactions, $budget_filter) {
-			if ($budget_filter === "all") {
-				return $transactions;
-			}
-			else if ($budget_filter === "single") {
+		// budget: function ($transactions, $budget_filter) {
+		// 	if ($budget_filter === "all") {
+		// 		return $transactions;
+		// 	}
+		// 	else if ($budget_filter === "single") {
 
-			}
-			else if ($budget_filter === "multiple") {
-				$transactions = _.filter($transactions, function ($transaction) {
-					return $transaction.multiple_budgets;
-				});
-			}
-			return $transactions;
-		}
+		// 	}
+		// 	else if ($budget_filter === "multiple") {
+		// 		$transactions = _.filter($transactions, function ($transaction) {
+		// 			return $transaction.multiple_budgets;
+		// 		});
+		// 	}
+		// 	return $transactions;
+		// }
 	};
 });

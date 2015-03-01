@@ -11,68 +11,100 @@ function filter ($filter) {
     $transactions = Transaction::where('transactions.user_id', $user_id);
 
     foreach ($filter as $type => $value) {
-        //================accounts================
-        if ($value && $type === "accounts") {
-            $accounts = $value;
+        if ($value) {
+            //================accounts================
+            if ($type === "accounts") {
+                $accounts = $value;
 
-            $transactions = $transactions->whereIn('account', $accounts); 
-        }
-        //==========type is type, ie, income, expense, transfer==========
-        elseif ($value && $type === "types") {
-            $types = $value;
-            
-            $transactions = $transactions->whereIn('type', $types);
-        }
-        // =============dates=============
-        elseif ($value && $type === "single_date_sql") {  
-            $transactions = $transactions->where('date', $value);
-            // $where = $where . " AND date = '$value'";
-        }
-        elseif ($value && $type === "from_date_sql") {
-            $transactions = $transactions->where('date', '>=', $value);
-            // $where = $where . " AND date >= '$value'";
-        }
-        elseif ($value && $type === "to_date_sql") {
-            $transactions = $transactions->where('date', '<=', $value);
-            // $where = $where . " AND date <= '$value'";
-        }
-        //==========total==========
-        elseif ($value && $type === "total") {
-            $transactions = $transactions->where('total', $value);
-            // $where = $where . " AND total = $value";
-        }
-        //==========reconciled==========
-        elseif ($value && $type === "reconciled") {
-            if ($value !== "any") {
-                $transactions = $transactions->where('reconciled', $value);
-                // $where = $where . " AND reconciled = '$value'";
+                $transactions = $transactions->whereIn('account', $accounts); 
             }
-        }
-        //==========tags==========
-        elseif ($value && $type === "tags") {
-            $tags = $value;
-
-            $tag_ids = array();
-            foreach ($tags as $tag) {
-                $tag_id = $tag['id'];
-                $tag_ids[] = $tag_id;
+            //==========type is type, ie, income, expense, transfer==========
+            elseif ($type === "types") {
+                $types = $value;
+                
+                $transactions = $transactions->whereIn('type', $types);
             }
-            // $transactions = $transactions->has('tags', '=', $tag_ids);
+            // =============dates=============
+            elseif ($type === "single_date_sql") {  
+                $transactions = $transactions->where('date', $value);
+                // $where = $where . " AND date = '$value'";
+            }
+            elseif ($type === "from_date_sql") {
+                $transactions = $transactions->where('date', '>=', $value);
+                // $where = $where . " AND date >= '$value'";
+            }
+            elseif ($type === "to_date_sql") {
+                $transactions = $transactions->where('date', '<=', $value);
+                // $where = $where . " AND date <= '$value'";
+            }
+            //==========total==========
+            elseif ($type === "total") {
+                $transactions = $transactions->where('total', $value);
+                // $where = $where . " AND total = $value";
+            }
+            //==========reconciled==========
+            elseif ($type === "reconciled") {
+                if ($value !== "any") {
+                    $transactions = $transactions->where('reconciled', $value);
+                    // $where = $where . " AND reconciled = '$value'";
+                }
+            }
+            //==========tags==========
+            elseif ($type === "tags") {
+                $tags = $value;
 
-            foreach ($tag_ids as $tag_id) {
-                $transactions = $transactions->whereHas('tags', function ($q) use ($tag_id) {
-                    $q->where('tags.id', $tag_id); 
-                });
-            }    
-        }
-        //==========description, merchant==========
-        elseif ($value) {
-            if ($type === "description" || $type === "merchant") {
+                $tag_ids = array();
+                foreach ($tags as $tag) {
+                    $tag_id = $tag['id'];
+                    $tag_ids[] = $tag_id;
+                }
+                // $transactions = $transactions->has('tags', '=', $tag_ids);
+
+                foreach ($tag_ids as $tag_id) {
+                    $transactions = $transactions->whereHas('tags', function ($q) use ($tag_id) {
+                        $q->where('tags.id', $tag_id); 
+                    });
+                }    
+            }
+            //==========budget==========
+            elseif($type === "budget" && $value !== "all") {
+                if ($value === "none") {
+                    $num = ' = 0';
+                }
+                elseif ($value === "single") {
+                    $num = ' = 1';
+                }
+                elseif ($value === "multiple") {
+                    $num = ' > 1';
+                }
+
+                //first, find get all the transactions that have x number of budgets
+                $sql = "select id from transactions where transactions.user_id = 1 and (select count(*) from tags inner join transactions_tags on tags.id = transactions_tags.tag_id
+                where transactions_tags.transaction_id = transactions.id
+                and tags.budget_id is not null)" . $num;
+
+                $transactions_with_x_budgets = DB::select($sql);
+
+                //format transactions_with_one_budget into a nice array
+                $ids = array();
+                foreach ($transactions_with_x_budgets as $transaction) {
+                    $id = $transaction->id;
+                    $ids[] = $id;
+                }
+
+                // Log::info('transactions_with_one_budget', $ids);
+                Log::info('ids', $ids);
+                $transactions = $transactions->whereIn('transactions.id', $ids);
+                    
+            }
+            //==========description, merchant==========
+            elseif ($type === "description" || $type === "merchant") {
                 $value = '%' . $value . '%';
                 $transactions = $transactions->where($type, 'LIKE', $value);
                 // $where = $where . " AND transactions." . $type . " LIKE '%$value%'";
             }
         }
+        
     }
 
     $transactions = $transactions

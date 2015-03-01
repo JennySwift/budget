@@ -173,6 +173,11 @@
         </div>
 
         <div>
+            <input ng-model="filter.budget" type="radio" name="budget" value="none">
+            <label for="">None</label>
+        </div>
+
+        <div>
             <input ng-model="filter.budget" type="radio" name="budget" value="single">
             <label for="">Single</label>
         </div>
