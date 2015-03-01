@@ -12,6 +12,16 @@ class CreateTransactionsTable extends Migration {
 	 */
 	public function up()
 	{
+		Schema::create('accounts', function(Blueprint $table)
+		{
+			$table->increments('id');
+			$table->timestamps();
+			$table->string('name');
+			$table->integer('user_id')->unsigned(); //foreign key
+
+			$table->foreign('user_id')->references('id')->on('users');
+		});
+
 		Schema::create('transactions', function(Blueprint $table)
 		{
 			$table->increments('id');
@@ -39,6 +49,7 @@ class CreateTransactionsTable extends Migration {
 	public function down()
 	{
 		Schema::drop('transactions');
+		Schema::drop('accounts');
 	}
 
 }
