@@ -90,6 +90,7 @@ return [
 			'rule-name' => 'custom-message',
 		],
 	],
+	'accepted_email' => 'Sorry, this app is not yet ready for the public.',
 
 	/*
 	|--------------------------------------------------------------------------

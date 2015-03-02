@@ -3,6 +3,7 @@
 use App\User;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
+use Log;
 
 class Registrar implements RegistrarContract {
 
@@ -16,7 +17,7 @@ class Registrar implements RegistrarContract {
 	{
 		return Validator::make($data, [
 			'name' => 'required|max:255',
-			'email' => 'required|email|max:255|unique:users',
+			'email' => 'required|email|max:255|unique:users|accepted_email',
 			'password' => 'required|confirmed|min:6',
 		]);
 	}
@@ -37,3 +38,26 @@ class Registrar implements RegistrarContract {
 	}
 
 }
+
+// my attempt at custom validation
+
+Validator::extend('accepted_email', function ($attribute, $value, $parameters) {
+	$accepted_emails = [
+		'cheezyspaghetti@gmail.com',
+		'peter.c.swift@gmail.com'
+	];
+	$is_accepted = in_array($value, $accepted_emails);
+	// Log::info('value: ' . $value);
+	// Log::info('attribute: ' . $attribute);
+	// Log::info('parameters', $parameters);
+	// Log::info('accepted_emails', $accepted_emails);
+	// Log::info('is_accepted: ' . $is_accepted);
+	return $is_accepted;
+});
+
+// Validator::resolver(function($translator, $data, $rules, $messages)
+// {
+//     return new CustomValidator($translator, $data, $rules, $messages);
+// });
+
+// Class 'App\Services\CustomValidator' not found
