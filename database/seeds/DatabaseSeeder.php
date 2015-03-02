@@ -159,19 +159,62 @@ class TransactionTableSeeder extends Seeder {
 		$account_ids = Account::where('user_id', 1)->lists('id');
 		
 		foreach (range(1, 50) as $index) {
-			$account_id = $faker->randomElement($account_ids);
+			$is_transfer = $faker->boolean($chanceOfGettingTrue = 20);
 
-			Transaction::create([
-				'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
-				'type' => $faker->randomElement(['income', 'expense']),
-				'description' => $faker->word(),
-				'merchant' => $faker->name(),
-				'total' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200),
-				'account' => $account_id,
-				'reconciled' => $faker->numberBetween($min = 0, $max = 1),
-				'allocated' => 0,
-				'user_id' => 1
-			]);
+			if ($is_transfer) {
+				$from_account_id = $faker->randomElement($account_ids);
+				$to_account_id = $faker->randomElement($account_ids);
+
+				while ($from_account_id === $to_account_id) {
+					$to_account_id = $faker->randomElement($account_ids);
+				}
+
+				$date = $faker->date($format = 'Y-m-d', $max = 'now');
+				// $description = $faker->word();
+				$description = 'transfer';
+				$total = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200);
+				$negative_total = $total * -1;
+				$reconciled = $faker->numberBetween($min = 0, $max = 1);
+
+				Transaction::create([
+					'date' => $date,
+					'type' => 'transfer',
+					'description' => $description,
+					'total' => $total,
+					'account' => $to_account_id,
+					'reconciled' => $reconciled,
+					'allocated' => 0,
+					'user_id' => 1
+				]);
+
+				Transaction::create([
+					'date' => $date,
+					'type' => 'transfer',
+					'description' => $description,
+					'total' => $negative_total,
+					'account' => $from_account_id,
+					'reconciled' => $reconciled,
+					'allocated' => 0,
+					'user_id' => 1
+				]);
+			}
+
+			else {
+				$account_id = $faker->randomElement($account_ids);
+
+				Transaction::create([
+					'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
+					'type' => $faker->randomElement(['income', 'expense']),
+					'description' => $faker->word(),
+					'merchant' => $faker->name(),
+					'total' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200),
+					'account' => $account_id,
+					'reconciled' => $faker->numberBetween($min = 0, $max = 1),
+					'allocated' => 0,
+					'user_id' => 1
+				]);
+			}
+			
 		}
 	}
 
@@ -234,7 +277,7 @@ class TransactionTagTableSeeder extends Seeder {
 	public function run()
 	{
 		$faker = Faker::create();
-		$transaction_ids = Transaction::lists('id');
+		$transaction_ids = Transaction::where('type', '!=', 'transfer')->lists('id');
 		$tag_ids = Tag::lists('id');
 
 		foreach (range(1, 100) as $index) {
@@ -247,17 +290,12 @@ class TransactionTagTableSeeder extends Seeder {
 			]);
 		}
 
-		// Log::info('transaction_ids', $transaction_ids);
 		foreach ($transaction_ids as $transaction_id) {
-			// Log::info('transaction_id: ' . $transaction_id);
 			$tag_ids = DB::table('transactions_tags')->where('transaction_id', $transaction_id)->lists('tag_id');
-			// Log::info('tag_ids', $tag_ids);
 
 			$count = count($tag_ids);
 
-			//we have the tags for the transaction
-	
-			// Log::info('count: ' . $count);
+			//we have the tags for the transaction	
 			if ($count > 1) {
 				//the transaction has at least two tags. lets see how many have budgets.
 				$budget_counter = 0;
@@ -267,9 +305,6 @@ class TransactionTagTableSeeder extends Seeder {
 					if ($fixed_budget || $flex_budget) {
 						$budget_counter++;
 					}
-					// Log::info('fixed_budget: ' . $fixed_budget);
-					// Log::info('flex_budget: ' . $flex_budget);
-					// Log::info('budget_counter: ' . $budget_counter);
 				}
 				if ($budget_counter > 1) {
 					//the transaction has multiple budgets. Let's decide whether or not to mark it as allocated.
