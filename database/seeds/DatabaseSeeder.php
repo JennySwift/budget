@@ -181,7 +181,7 @@ class TransactionTableSeeder extends Seeder {
 					'type' => 'transfer',
 					'description' => $description,
 					'total' => $total,
-					'account' => $to_account_id,
+					'account_id' => $to_account_id,
 					'reconciled' => $reconciled,
 					'allocated' => 0,
 					'user_id' => 1
@@ -192,7 +192,7 @@ class TransactionTableSeeder extends Seeder {
 					'type' => 'transfer',
 					'description' => $description,
 					'total' => $negative_total,
-					'account' => $from_account_id,
+					'account_id' => $from_account_id,
 					'reconciled' => $reconciled,
 					'allocated' => 0,
 					'user_id' => 1
@@ -208,7 +208,7 @@ class TransactionTableSeeder extends Seeder {
 					'description' => $faker->word(),
 					'merchant' => $faker->name(),
 					'total' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200),
-					'account' => $account_id,
+					'account_id' => $account_id,
 					'reconciled' => $faker->numberBetween($min = 0, $max = 1),
 					'allocated' => 0,
 					'user_id' => 1
