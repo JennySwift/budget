@@ -2,7 +2,7 @@
 
 use App\Transaction;
 
-// DB::enableQueryLog();
+DB::enableQueryLog();
 
 function filter ($filter) {
     $user_id = Auth::user()->id;
@@ -16,7 +16,7 @@ function filter ($filter) {
             if ($type === "accounts") {
                 $accounts = $value;
 
-                $transactions = $transactions->whereIn('account', $accounts); 
+                $transactions = $transactions->whereIn('account_id', $accounts); 
             }
             //==========type is type, ie, income, expense, transfer==========
             elseif ($type === "types") {
@@ -108,18 +108,18 @@ function filter ($filter) {
     }
 
     $transactions = $transactions
-        ->join('accounts', 'transactions.account', '=', 'accounts.id')
+        ->join('accounts', 'transactions.account_id', '=', 'accounts.id')
         ->orderBy('date', 'desc')
         ->orderBy('id', 'desc')
-        ->select('allocated', 'transactions.id', 'date', 'type', 'transactions.account AS account_id', 'accounts.name AS account_name', 'merchant' , 'description' , 'reconciled' , 'total', 'date')
+        ->select('allocated', 'transactions.id', 'date', 'type', 'transactions.account_id AS account_id', 'accounts.name AS account_name', 'merchant' , 'description' , 'reconciled' , 'total', 'date')
         ->skip($offset)
         ->take($num_to_fetch)
         ->get();
 
     $transactions_array = array();
 
-    // $queries = DB::getQueryLog();
-    // Log::info('queries', $queries);
+    $queries = DB::getQueryLog();
+    Log::info('queries', $queries);
 
     foreach ($transactions as $transaction) {
         // Log::info('transactions', $transactions);

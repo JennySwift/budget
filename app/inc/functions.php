@@ -17,7 +17,7 @@ function countTransactions () {
 
 function getTransaction ($transaction_id) {
 	//for the new transaction allocation popup. probably selecting things here that I don't actually need for just the popup.
-	$sql = "SELECT allocated, transactions.id, date,type, transactions.account AS account_id, accounts.name AS account_name,IFNULL(merchant, '') AS merchant,description,reconciled,total, DATE_FORMAT(date, '%d/%m/%Y') AS user_date FROM transactions JOIN accounts ON transactions.account = accounts.id WHERE transactions.id = $transaction_id;";
+	$sql = "SELECT allocated, transactions.id, date,type, transactions.account_id AS account_id, accounts.name AS account_name,IFNULL(merchant, '') AS merchant,description,reconciled,total, DATE_FORMAT(date, '%d/%m/%Y') AS user_date FROM transactions JOIN accounts ON transactions.account_id = accounts.id WHERE transactions.id = $transaction_id;";
 	$transaction = DB::select($sql);
 	
 	//maybe make more DRY-I think much the same as filter
@@ -187,7 +187,7 @@ function getTags ($transaction_id) {
 include('filter-function.php');
 
 function autocompleteTransaction ($column, $typing) {
-	$sql = "SELECT transactions.id,DATE_FORMAT(date, '%d/%m/%Y') AS formatted_date, total,account AS account_id, accounts.name AS account_name, type,description,IFNULL(merchant,'') AS merchant_clone FROM transactions JOIN accounts ON transactions.account = accounts.id WHERE $column LIKE ? AND transactions.user_id = " . Auth::user()->id . " ORDER BY date DESC, id DESC LIMIT 50";
+	$sql = "SELECT transactions.id,DATE_FORMAT(date, '%d/%m/%Y') AS formatted_date, total,account AS account_id, accounts.name AS account_name, type,description,IFNULL(merchant,'') AS merchant_clone FROM transactions JOIN accounts ON transactions.account_id = accounts.id WHERE $column LIKE ? AND transactions.user_id = " . Auth::user()->id . " ORDER BY date DESC, id DESC LIMIT 50";
 	$transactions = DB::select($sql);
 
 	$array = array();
