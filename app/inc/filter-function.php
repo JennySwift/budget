@@ -2,7 +2,7 @@
 
 use App\Transaction;
 
-DB::enableQueryLog();
+// DB::enableQueryLog();
 
 function filter ($filter) {
     $user_id = Auth::user()->id;
@@ -118,8 +118,8 @@ function filter ($filter) {
 
     $transactions_array = array();
 
-    $queries = DB::getQueryLog();
-    Log::info('queries', $queries);
+    // $queries = DB::getQueryLog();
+    // Log::info('queries', $queries);
 
     foreach ($transactions as $transaction) {
         // Log::info('transactions', $transactions);
