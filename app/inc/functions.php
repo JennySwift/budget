@@ -283,7 +283,7 @@ function insertTransaction ($new_transaction, $transaction_type) {
 
 		DB::table('transactions')
 			->insert([
-				'account' => $from_account,
+				'account_id' => $from_account,
 				'date' => $date,
 				'total' => $negative_total,
 				'description' => $description,
@@ -298,7 +298,7 @@ function insertTransaction ($new_transaction, $transaction_type) {
 
 		DB::table('transactions')
 			->insert([
-				'account' => $to_account,
+				'account_id' => $to_account,
 				'date' => $date,
 				'total' => $total,
 				'description' => $description,
@@ -314,7 +314,7 @@ function insertTransaction ($new_transaction, $transaction_type) {
 
 		DB::table('transactions')
 			->insert([
-				'account' => $account,
+				'account_id' => $account,
 				'date' => $date,
 				'merchant' => $merchant,
 				'total' => $total,
