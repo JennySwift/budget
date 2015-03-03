@@ -31,7 +31,8 @@ class DeleteController extends Controller {
 
 	public function transaction () {
 		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
-		DB::table('transactions_tags')->where('transaction_id', $transaction_id)->delete();
+		//no need for this now that I'm using cascade.
+		// DB::table('transactions_tags')->where('transaction_id', $transaction_id)->delete();
 		DB::table('transactions')->where('id', $transaction_id)->delete();
 	}
 }

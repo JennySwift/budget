@@ -23,8 +23,8 @@ class CreateTransactionsTagsTable extends Migration {
 			$table->decimal('calculated_allocation', 10, 2)->nullable();
 			$table->integer('user_id')->unsigned(); //foreign key
 
-			$table->foreign('transaction_id')->references('id')->on('transactions');
-			$table->foreign('tag_id')->references('id')->on('tags');
+			$table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
+			$table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
 			$table->foreign('user_id')->references('id')->on('users');
 		});
 	}
