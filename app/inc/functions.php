@@ -273,8 +273,8 @@ function insertTransaction ($new_transaction, $transaction_type) {
 	$date = $new_transaction['date']['sql'];
 	$description = $new_transaction['description'];
 	$type = $new_transaction['type'];
-	$reconciliation = $new_transaction['reconciled'];
-	$reconciliation = formatReconciliation($reconciliation);
+	$reconciled = $new_transaction['reconciled'];
+	$reconciled = formatReconciliation($reconciled);
 	$tags = $new_transaction['tags'];
 
 	if ($transaction_type === "from") {
@@ -320,7 +320,7 @@ function insertTransaction ($new_transaction, $transaction_type) {
 				'total' => $total,
 				'description' => $description,
 				'type' => $type,
-				'reconciled' => $reconciliation,
+				'reconciled' => $reconciled,
 				'user_id' => Auth::user()->id
 			]);	
 	}
@@ -404,14 +404,14 @@ include('total-functions.php');
 
 // /*========================================other========================================*/
 
-function formatReconciliation ($reconciliation) {
-    if ($reconciliation == 1) { //triple equals did not work here
-        $reconciliation = 'true';
+function formatReconciliation ($reconciled) {
+    if ($reconciled == 1) { //triple equals did not work here
+        $reconciled = 'true';
     }
     else {
-        $reconciliation = 'false';
+        $reconciled = 'false';
     }
-    return $reconciliation;
+    return $reconciled;
 }
 
 
