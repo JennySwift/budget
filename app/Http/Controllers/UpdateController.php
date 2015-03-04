@@ -78,7 +78,7 @@ class UpdateController extends Controller {
 		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
 		$CSD = json_decode(file_get_contents('php://input'), true)["CSD"];
 
-		DB::table('tags')->where('id', $tag_id)->update(['starting_date', $CSD]);
+		DB::table('tags')->where('id', $tag_id)->update(['starting_date' => $CSD]);
 	}
 
 	public function colors () {
