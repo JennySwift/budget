@@ -433,7 +433,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.updateFlexBudget = function () {
-			update.budget($scope.new_flex_budget.tag.id, 'percent', $scope.new_flex_budget.budget).then(function (response) {
+			update.budget($scope.new_flex_budget.tag.id, 'flex_budget', $scope.new_flex_budget.budget).then(function (response) {
 				$scope.totals();
 			});
 		};
@@ -448,7 +448,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		$scope.removeFlexBudget = function ($tag_id, $tag_name) {
 			if (confirm("remove flex budget for " + $tag_name + "?")) {
-				update.budget($tag_id, 'percent', 'NULL').then(function (response) {
+				update.budget($tag_id, 'flex_budget', 'NULL').then(function (response) {
 					$scope.totals();
 				});
 			}
