@@ -45,6 +45,7 @@ Validator::extend('accepted_email', function ($attribute, $value, $parameters) {
 	$accepted_emails = [
 		'cheezyspaghetti@optusnet.com.au',
 		'cheezyspaghetti@gmail.com',
+		'jennyswiftsblog@gmail.com',
 		'peter.c.swift@gmail.com'
 	];
 	$is_accepted = in_array($value, $accepted_emails);
