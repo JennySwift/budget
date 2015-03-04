@@ -274,7 +274,7 @@ function insertTransaction ($new_transaction, $transaction_type) {
 	$description = $new_transaction['description'];
 	$type = $new_transaction['type'];
 	$reconciled = $new_transaction['reconciled'];
-	$reconciled = formatReconciliation($reconciled);
+	$reconciled = convertFromBoolean($reconciled);
 	$tags = $new_transaction['tags'];
 
 	if ($transaction_type === "from") {
@@ -404,20 +404,20 @@ include('total-functions.php');
 
 // /*========================================other========================================*/
 
-function formatReconciliation ($reconciled) {
-    if ($reconciled == 1) { //triple equals did not work here
-        $reconciled = 'true';
+function convertFromBoolean ($variable) {
+    if ($variable == 'true') {
+    	$variable = 1;
     }
-    else {
-        $reconciled = 'false';
+    elseif ($variable == 'false') {
+    	$variable = 0;
     }
-    return $reconciled;
+    return $variable;
 }
 
 
 
 function convertToBoolean ($variable) {
-	if ($variable === 'true' || $variable === 1) {
+	if ($variable === 1) {
 		$variable = true;
 	}
 	else {

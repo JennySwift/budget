@@ -220,21 +220,19 @@ app.factory('update', function ($http) {
 				
 			return $http.post($url, $data);
 		},
-		reconciliation: function ($transaction_id, $reconciliation) {
+		reconciliation: function ($transaction_id, $reconciled) {
 			var $url = 'update/reconciliation';
-			var $description = 'reconciliation';
 
-			if ($reconciliation === true) {
-				$reconciliation = 'true';
+			if ($reconciled === true) {
+				$reconciled = 'true';
 			}
 			else {
-				$reconciliation = 'false';
+				$reconciled = 'false';
 			}
 
 			var $data = {
-				description: $description,
 				id: $transaction_id,
-				reconciliation: $reconciliation
+				reconciled: $reconciled
 			};
 			
 			return $http.post($url, $data);

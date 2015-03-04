@@ -101,7 +101,7 @@ class UpdateController extends Controller {
 		$description = $transaction['description'];
 		$type = $transaction['type'];
 		$reconciliation = $transaction['reconciled'];
-		$reconciliation = formatReconciliation($reconciliation);
+		$reconciliation = convertFromBoolean($reconciliation);
 
 		DB::table('transactions')
 			->where('id', $transaction_id)
@@ -122,8 +122,10 @@ class UpdateController extends Controller {
 	}
 
 	public function reconciliation () {
+		include(app_path() . '/inc/functions.php');
 		$id = json_decode(file_get_contents('php://input'), true)["id"];
-		$reconciliation = json_decode(file_get_contents('php://input'), true)["reconciliation"];
-		DB::table('transactions')->where('id', $id)->update(['reconciled' => $reconciliation]);
+		$reconciled = json_decode(file_get_contents('php://input'), true)["reconciled"];
+		$reconciled = convertFromBoolean($reconciled);
+		DB::table('transactions')->where('id', $id)->update(['reconciled' => $reconciled]);
 	}
 }

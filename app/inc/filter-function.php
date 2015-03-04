@@ -45,7 +45,9 @@ function filter ($filter) {
             //==========reconciled==========
             elseif ($type === "reconciled") {
                 if ($value !== "any") {
-                    $transactions = $transactions->where('reconciled', $value);
+                    $reconciled = $value;
+                    $reconciled = convertFromBoolean($reconciled);
+                    $transactions = $transactions->where('reconciled', $reconciled);
                     // $where = $where . " AND reconciled = '$value'";
                 }
             }
@@ -139,6 +141,7 @@ function filter ($filter) {
         $account_id = $transaction->account_id;
         $account_name = $transaction->account_name;
         $reconciled = $transaction->reconciled;
+        $reconciled = convertToBoolean($reconciled);
         $allocated = $transaction->allocated;
         $type = $transaction->type;
         $tags = getTags($transaction_id);
