@@ -134,7 +134,8 @@ function filter ($filter) {
         // $user_date = $transaction['date'];
 
         $transaction_id = $transaction->id;
-        $user_date = $transaction->date;
+        $date = $transaction->date;
+        $user_date = convertDate($date, 'user');
         $description = $transaction->description;
         $merchant = $transaction->merchant;
         $total = $transaction->total;
