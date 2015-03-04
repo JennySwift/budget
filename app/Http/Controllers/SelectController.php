@@ -56,6 +56,7 @@ class SelectController extends Controller {
 	}
 
 	public function autocompleteTransaction () {
+		include(app_path() . '/inc/functions.php');
 		$typing = json_decode(file_get_contents('php://input'), true)["typing"];
 		$typing = '%' . $typing . '%';
 		$column = json_decode(file_get_contents('php://input'), true)["column"];

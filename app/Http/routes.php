@@ -33,6 +33,7 @@ Route::get('/db', function () {
 
 Route::post('select/accounts', 'SelectController@accounts');
 Route::post('select/filter', 'SelectController@filter');
+Route::post('select/autocompleteTransaction', 'SelectController@autocompleteTransaction');
 Route::post('select/tags', 'SelectController@tags');
 Route::post('select/colors', 'SelectController@colors');
 Route::post('select/duplicate-tag-check', 'SelectController@duplicateTagCheck');

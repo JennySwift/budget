@@ -907,8 +907,12 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.new_transaction.total = $selected.total;
 			$scope.new_transaction.type = $selected.type;
 			$scope.new_transaction.account = $selected.account.id;
-			$scope.new_transaction.from_account = $selected.from_account.id;
-			$scope.new_transaction.to_account = $selected.to_account.id;
+
+			if ($selected.from_account && $selected.to_account) {
+				$scope.new_transaction.from_account = $selected.from_account.id;
+				$scope.new_transaction.to_account = $selected.to_account.id;
+			}
+			
 			$scope.new_transaction.tags = $selected.tags;
 
 			$scope.show.autocomplete = false;

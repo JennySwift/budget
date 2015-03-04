@@ -4,7 +4,7 @@
 
 use App\Transaction_Tag;
 
-DB::enableQueryLog();
+// DB::enableQueryLog();
 
 // /*========================================functions========================================*/
 
@@ -187,39 +187,33 @@ function getTags ($transaction_id) {
 include('filter-function.php');
 
 function autocompleteTransaction ($column, $typing) {
-	$sql = "SELECT transactions.id,DATE_FORMAT(date, '%d/%m/%Y') AS formatted_date, total,account AS account_id, accounts.name AS account_name, type,description,IFNULL(merchant,'') AS merchant_clone FROM transactions JOIN accounts ON transactions.account_id = accounts.id WHERE $column LIKE ? AND transactions.user_id = " . Auth::user()->id . " ORDER BY date DESC, id DESC LIMIT 50";
-	$transactions = DB::select($sql);
+	$transactions = DB::table('transactions')
+		->where($column, 'LIKE', $typing)
+		->where('transactions.user_id', Auth::user()->id)
+		->join('accounts', 'transactions.account_id', '=', 'accounts.id')
+		->select('transactions.id', 'date', 'total', 'account_id', 'accounts.name AS account_name', 'type', 'description', 'merchant')
+		->orderBy('date', 'desc')
+		->orderBy('id', 'desc')
+		->get();
 
-	$array = array();
-	foreach($transactions as $row) {
-	    $transaction_id = $row['id'];
-	    $date = $row['formatted_date'];
-	    $description = $row['description'];
-	    $merchant = $row['merchant_clone'];
-	    $total = $row['total'];
-	    $type = $row['type'];
-	    $account_id = $row['account_id'];
-	    $account_name = $row['account_name'];
+	foreach($transactions as $transaction) {
+		$transaction_id = $transaction->id;
+	    $account_id = $transaction->account_id;
+	    $account_name = $transaction->account_name;
+	    $date = $transaction->date;
+	    $date = convertDate($date, 'user');
+	    $tags = getTags($transaction_id);
 
 	    $account = array(
 	        "id" => $account_id,
 	        "name" => $account_name
 	    );
 
-	    $this_transactions_tags = getTags($db, $transaction_id);
-
-	    $array[] = array(
-	        "id" => $transaction_id,
-	        "date" => $date,
-	        "description" => $description,
-	        "merchant" => $merchant,
-	        "total" => $total,
-	        "type" => $type,
-	        "account" => $account,
-	        "tags" => $this_transactions_tags
-	    );  
+	    $transaction->account = $account;
+	    $transaction->date = $date;
+	    $transaction->tags = $tags;   
 	}
-	return $array;
+	return $transactions;
 }
 
 // /*========================================insert========================================*/
@@ -348,9 +342,9 @@ function updateBudget ($tag_id, $budget, $column) {
 	}
 	
 	DB::table('tags')->where('id', $tag_id)->update([$column => $budget, 'budget_id' => $budget_id]);
-	$queries = DB::getQueryLog();
-	Log::info('budget: ' . $budget);
-	Log::info('queries', $queries);
+	// $queries = DB::getQueryLog();
+	// Log::info('budget: ' . $budget);
+	// Log::info('queries', $queries);
 }
 
 function updateAllocatedFixed ($allocated_fixed, $transaction_id, $tag_id) {

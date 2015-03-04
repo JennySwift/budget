@@ -59,7 +59,7 @@ app.factory('autocomplete', function ($http) {
 		return $filtered_tags;
 	};
 	$object.filterTransactions = function ($typing, $column) {
-		var $url = 'select/filterTransactions';
+		var $url = 'select/autocompleteTransaction';
 		var $description = 'autocomplete transaction';
 		var $data = {
 			description: $description,
