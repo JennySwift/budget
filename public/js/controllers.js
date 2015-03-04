@@ -873,9 +873,8 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				autocomplete.filterTransactions($typing, $field).then(function (response) {
 					$scope.autocomplete.transactions = response.data;
 					$scope.autocomplete.transactions = autocomplete.transferTransactions($scope.autocomplete.transactions);
-				});
-				
-				// $scope.autocomplete.transactions = autocomplete.filterTransactions($scope.transactions, $typing, $field);
+					$scope.autocomplete.transactions = autocomplete.removeDuplicates($scope.autocomplete.transactions);
+				});			
 			}
 			else if ($keycode === 38) {
 				//up arrow

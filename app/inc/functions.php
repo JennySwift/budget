@@ -191,17 +191,21 @@ function autocompleteTransaction ($column, $typing) {
 		->where($column, 'LIKE', $typing)
 		->where('transactions.user_id', Auth::user()->id)
 		->join('accounts', 'transactions.account_id', '=', 'accounts.id')
-		->select('transactions.id', 'date', 'total', 'account_id', 'accounts.name AS account_name', 'type', 'description', 'merchant')
+		->select('transactions.id', 'total', 'account_id', 'accounts.name AS account_name', 'type', 'description', 'merchant')
+		// ->distinct()
 		->orderBy('date', 'desc')
 		->orderBy('id', 'desc')
 		->get();
+
+		// $queries = DB::getQueryLog();
+		// Log::info('queries', $queries);
 
 	foreach($transactions as $transaction) {
 		$transaction_id = $transaction->id;
 	    $account_id = $transaction->account_id;
 	    $account_name = $transaction->account_name;
-	    $date = $transaction->date;
-	    $date = convertDate($date, 'user');
+	    // $date = $transaction->date;
+	    // $date = convertDate($date, 'user');
 	    $tags = getTags($transaction_id);
 
 	    $account = array(
@@ -210,7 +214,7 @@ function autocompleteTransaction ($column, $typing) {
 	    );
 
 	    $transaction->account = $account;
-	    $transaction->date = $date;
+	    // $transaction->date = $date;
 	    $transaction->tags = $tags;   
 	}
 	return $transactions;

@@ -5,7 +5,7 @@
 		<tbody ng-repeat="transaction in autocomplete.transactions" ng-style="{color: colors[transaction.type]}" ng-mousedown="autocompleteTransaction(transaction)" class="pointer">
 			
 			<tr>
-				<th>date</th>
+				<!-- <th>date</th> -->
 				<th>description</th>
 				<th>merchant</th>
 				<th>total</th>
@@ -16,7 +16,7 @@
 			</tr>
 
 			<tr ng-class="{'selected': transaction.selected}" class="">
-				<td>{{transaction.date}}</td>
+				<!-- <td>{{transaction.date}}</td> -->
 				<td class="description">{{transaction.description}}</td>
 				<td class="merchant">{{transaction.merchant}}</td>
 				<td class="total">{{transaction.total}}</td>
