@@ -90,6 +90,7 @@ class UpdateController extends Controller {
 	}
 
 	public function transaction () {
+		include(app_path() . '/inc/functions.php');
 		$transaction = json_decode(file_get_contents('php://input'), true)["transaction"];
 
 		$transaction_id = $transaction['id'];
@@ -106,7 +107,7 @@ class UpdateController extends Controller {
 		DB::table('transactions')
 			->where('id', $transaction_id)
 			->update([
-				'account' => $account_id,
+				'account_id' => $account_id,
 				'type' => $type,
 				'date' => $date,
 				'merchant' => $merchant,

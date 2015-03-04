@@ -158,7 +158,7 @@ function getTags ($transaction_id) {
 	//gets tags for one transaction
 	$tags = Transaction_Tag::
 		join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-		->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
+		->select('transactions_tags.tag_id AS id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
 		->where('transaction_id', $transaction_id)
 		->get();
 
