@@ -10,6 +10,7 @@ function getTotalSpentOnTag ($tag_id, $starting_date) {
 		->where('transactions_tags.tag_id', $tag_id)
 		->where('transactions.date', '>=', '$starting_date')
 		->where('transactions.type', 'expense')
+		->where('transactions_tags.user_id', Auth::user()->id)
 		->sum('calculated_allocation');
 	return $total;
 }
@@ -22,6 +23,7 @@ function getTotalReceivedOnTag ($tag_id, $starting_date) {
 		->where('transactions_tags.tag_id', $tag_id)
 		->where('transactions.date', '>=', '$starting_date')
 		->where('transactions.type', 'income')
+		->where('transactions_tags.user_id', Auth::user()->id)
 		->sum('calculated_allocation');
 	return $total;
 }
@@ -39,13 +41,19 @@ function getTotalIncomeAfterDate ($db, $user_id, $cumulative_starting_date) {
 
 function getReconciledSum () {
 	//gets the sum of all transactions that are reconciled
-	$reconciled_sum = DB::table('transactions')->where('reconciled', 1)->where('user_id', Auth::user()->id)->sum('total');
+	$reconciled_sum = DB::table('transactions')
+		->where('reconciled', 1)
+		->where('user_id', Auth::user()->id)
+		->sum('total');
 
 	return $reconciled_sum;
 }
 
 function getTotalIncome () {
-	$sql_result = DB::table('transactions')->where('type', 'income')->where('user_id', Auth::user()->id)->lists('total');
+	$sql_result = DB::table('transactions')
+		->where('type', 'income')
+		->where('user_id', Auth::user()->id)
+		->lists('total');
 
     $total_income = 0;
     foreach ($sql_result as $transaction_total) {
@@ -56,7 +64,10 @@ function getTotalIncome () {
 }
 
 function getTotalExpense () {
-	$sql_result = DB::table('transactions')->where('type', 'expense')->where('user_id', Auth::user()->id)->lists('total');
+	$sql_result = DB::table('transactions')
+		->where('type', 'expense')
+		->where('user_id', Auth::user()->id)
+		->lists('total');
 
     $total_expense = 0;
     foreach ($sql_result as $transaction_total) {
