@@ -214,7 +214,7 @@ function getFilterTotals ($transactions) {
     $search_income = 0;
     $search_expenses = 0;
     $search_balance = 0;
-    $debugging = array();
+    $reconciled = 0;
 
     foreach ($transactions as $transaction) {
     	// Log::info('transactions', $transactions);
@@ -223,31 +223,20 @@ function getFilterTotals ($transactions) {
         $total = $transaction['total'];
         $type = $transaction['type'];
 
+        $reconciled += $total;
+
         if ($type === "expense") {
             $search_expenses += $total;
-            $debugging[] = array(
-                "expense_total" => $total
-            );
         }
 
         else if ($type === "income") {
             $search_income += $total;
-            $debugging[] = array(
-                "income_total" => $total
-            );
         }
         if ($type === "transfer") {
             if ($total < 0) {
-                $debugging[] = array(
-                    "negative_transfer_total" => $total
-                );
                 $search_expenses += $total;
             }
             else if ($total > 0) {
-                $debugging[] = array(
-                    "positive_transfer_total" => $total,
-                    "search_income" => $search_income
-                );
                 $search_income += $total;
             }
         }
@@ -258,6 +247,7 @@ function getFilterTotals ($transactions) {
     $search_income = number_format($search_income, 2);
     $search_expenses = number_format($search_expenses, 2);
     $search_balance = number_format($search_balance, 2);
+    $reconciled = number_format($reconciled, 2);
 
     //get total number of transactions the user has
     $num_transactions = countTransactions();
@@ -266,35 +256,34 @@ function getFilterTotals ($transactions) {
         "income" => $search_income,
         "expenses" => $search_expenses,
         "balance" => $search_balance,
-        "transactions" => $transactions,
-        "debugging" => $debugging,
+        "reconciled" => $reconciled,
         "num_transactions" => $num_transactions
     );
 
     return $array;
 }
 
-function getASR ($transactions) {
-    $ASR = 0;
+// function getASR ($transactions) {
+//     $ASR = 0;
 
-    foreach ($transactions as $transaction) {
-        $total = $transaction['total'];
-        $type = $transaction['type'];
+//     foreach ($transactions as $transaction) {
+//         $total = $transaction['total'];
+//         $type = $transaction['type'];
 
-        if ($type === "expense") {
-            $ASR += $total;
-        }
-        else if ($type === "income") {
-            $ASR += $total;
-        }
-        else if ($type === "transfer") {
-            $ASR += $total;
-        }
-    }
+//         if ($type === "expense") {
+//             $ASR += $total;
+//         }
+//         else if ($type === "income") {
+//             $ASR += $total;
+//         }
+//         else if ($type === "transfer") {
+//             $ASR += $total;
+//         }
+//     }
 
-    $ASR = number_format($ASR, 2);
+//     $ASR = number_format($ASR, 2);
 
-    return $ASR;
-}
+//     return $ASR;
+// }
 
 ?>

@@ -30,32 +30,32 @@ app.factory('totals', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-		ASR: function ($transactions) {
-			var $transactions_clone = [];
-			$($transactions).each(function () {
-				$transactions_clone.push(this);
-			});
+		// ASR: function ($transactions) {
+		// 	var $transactions_clone = [];
+		// 	$($transactions).each(function () {
+		// 		$transactions_clone.push(this);
+		// 	});
 
-			$($transactions_clone).each(function () {
-				var $reconciled = this.reconciled;
-				var $total = this.total;
-				var $index = $transactions_clone.indexOf(this);
-				if ($reconciled === "not_reconciled") {
-					$transactions_clone.splice($index, 1);
-				}
-			});
+		// 	$($transactions_clone).each(function () {
+		// 		var $reconciled = this.reconciled;
+		// 		var $total = this.total;
+		// 		var $index = $transactions_clone.indexOf(this);
+		// 		if ($reconciled === "not_reconciled") {
+		// 			$transactions_clone.splice($index, 1);
+		// 		}
+		// 	});
 
-			// $transactions_clone = JSON.stringify($transactions_clone);
+		// 	// $transactions_clone = JSON.stringify($transactions_clone);
 
-			var $url = 'totals/ASR';
-			var $description = 'ASR';
-			var $data = {
-				description: $description,
-				transactions: $transactions_clone
-			};
+		// 	var $url = 'totals/ASR';
+		// 	var $description = 'ASR';
+		// 	var $data = {
+		// 		description: $description,
+		// 		transactions: $transactions_clone
+		// 	};
 			
-			return $http.post($url, $data);
-		}
+		// 	return $http.post($url, $data);
+		// }
 	};
 		
 });

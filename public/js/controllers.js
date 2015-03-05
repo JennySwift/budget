@@ -1119,16 +1119,16 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		===================================================================================
 		=================================================================================*/
 
-		$scope.getASR = function () {
-			totals.ASR($scope.transactions_limited).then(function (response) {
-				$scope.totals.filter.ASR = response.data;
-			});
-		};
+		// $scope.getASR = function () {
+		// 	totals.ASR($scope.transactions_limited).then(function (response) {
+		// 		$scope.totals.filter.ASR = response.data;
+		// 	});
+		// };
 
 		$scope.getFilterTotals = function () {
 			totals.filterTotals($scope.transactions).then(function (response) {
 				$scope.totals.filter = response.data;
-				$scope.getASR();
+				// $scope.getASR();
 			});
 		};
 

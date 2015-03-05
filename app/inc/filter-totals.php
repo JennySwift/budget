@@ -20,7 +20,7 @@
         </li>
     
         <li class="tooltipster list-group-item list-group-item-info" title="reconciled">
-            <span id="asr_span" class="badge">{{totals.filter.ASR}}</span>
+            <span id="asr_span" class="badge">{{totals.filter.reconciled}}</span>
             R:
         </li>
         
