@@ -145,12 +145,19 @@ function filter ($filter) {
         $total = $transaction->total;
         $type = $transaction->type;
         $reconciled = $transaction->reconciled;
-        //perhaps transfers should be included here.
         if ($type === 'income') {
             $income+= $total;
         }
         elseif ($type === 'expense') {
             $expenses+= $total;
+        }
+        elseif ($type === 'transfer') {
+            if ($total > 0) {
+                $income+= $total;
+            }
+            elseif ($total < 0) {
+                $expenses+= $total;
+            }
         }
         if ($reconciled == 1) {
             $total_reconciled+= $total;
