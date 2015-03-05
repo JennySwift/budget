@@ -1,5 +1,7 @@
 <?php
 
+// DB::enableQueryLog();
+
 function getTotalSpentOnTag ($tag_id, $starting_date) {
 	//get total spent on a given tag after starting date
 	$total = DB::table('transactions_tags')
@@ -37,7 +39,7 @@ function getTotalIncomeAfterDate ($db, $user_id, $cumulative_starting_date) {
 
 function getReconciledSum () {
 	//gets the sum of all transactions that are reconciled
-	$reconciled_sum = DB::table('transactions')->where('reconciled', 'true')->where('user_id', Auth::user()->id)->sum('total');
+	$reconciled_sum = DB::table('transactions')->where('reconciled', 1)->where('user_id', Auth::user()->id)->sum('total');
 
 	return $reconciled_sum;
 }
