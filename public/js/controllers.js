@@ -870,10 +870,11 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if ($keycode !== 38 && $keycode !== 40 && $keycode !== 13) {
 				//not up arrow, down arrow or enter, so filter transactions
 				autocomplete.removeSelected($scope.transactions);
+				//fetch the transactions that match $typing to display in the autocomplete dropdown
 				autocomplete.filterTransactions($typing, $field).then(function (response) {
 					$scope.autocomplete.transactions = response.data;
 					$scope.autocomplete.transactions = autocomplete.transferTransactions($scope.autocomplete.transactions);
-					// $scope.autocomplete.transactions = autocomplete.removeDuplicates($scope.autocomplete.transactions);
+					$scope.autocomplete.transactions = autocomplete.removeDuplicates($scope.autocomplete.transactions);
 				});			
 			}
 			else if ($keycode === 38) {
@@ -889,6 +890,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 					return $item.selected === true;
 				});
 				if ($selected) {
+					//fill in the fields
 					$scope.autocompleteTransaction();
 				}
 				else {
@@ -898,6 +900,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.autocompleteTransaction = function ($selected) {
+			//fills in the fields
 			$selected = $selected || _.find($scope.autocomplete.transactions, function ($transaction) {
 				return $transaction.selected === true;
 			});
@@ -920,7 +923,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			autocomplete.removeSelected($scope.autocomplete.transactions);
 		};
 
-			
 			
 			
 		// select.autocompleteTransaction($typing, $iterate).then(function (response) {

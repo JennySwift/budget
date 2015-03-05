@@ -38,7 +38,6 @@ Route::post('select/tags', 'SelectController@tags');
 Route::post('select/colors', 'SelectController@colors');
 Route::post('select/duplicate-tag-check', 'SelectController@duplicateTagCheck');
 Route::post('select/countTransactionsWithTag', 'SelectController@countTransactionsWithTag');
-Route::post('select/autocompleteTransaction', 'SelectController@autocompleteTransaction');
 Route::post('select/allocationInfo', 'SelectController@allocationInfo');
 
 // ========================================insert========================================

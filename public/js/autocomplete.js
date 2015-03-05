@@ -69,6 +69,17 @@ app.factory('autocomplete', function ($http) {
 		
 		return $http.post($url, $data);
 	};
+	// $object.autocompleteTransaction = function ($typing, $iterate) {
+	// 	var $url = 'select/autocompleteTransaction';
+	// 	var $description = 'autocomplete transaction';
+	// 	var $data = {
+	// 		description: $description,
+	// 		iterate: $iterate,
+	// 		typing: $typing
+	// 	};
+		
+	// 	return $http.post($url, $data);
+	// };
 	$object.removeSelected = function ($array) {
 		var $first = _.first($array);
 		//removing the previous selected, in case the input is focused again after already setting the selected transaction

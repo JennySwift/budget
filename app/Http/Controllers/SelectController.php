@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
 use Auth;
+use Log;
 
 use Illuminate\Http\Request;
 
@@ -60,8 +61,10 @@ class SelectController extends Controller {
 		$typing = json_decode(file_get_contents('php://input'), true)["typing"];
 		$typing = '%' . $typing . '%';
 		$column = json_decode(file_get_contents('php://input'), true)["column"];
-
-		return autocompleteTransaction($column, $typing);
+		$transactions = autocompleteTransaction($column, $typing);
+		// $transactions = removeNearDuplicates($transactions);
+		$transactions = array_slice($transactions, 0, 50);
+		return $transactions;
 	}
 
 	public function allocationInfo () {

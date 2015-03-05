@@ -48,17 +48,6 @@ app.factory('select', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-		autocompleteTransaction: function ($typing, $iterate) {
-			var $url = 'select/autocompleteTransaction';
-			var $description = 'autocomplete transaction';
-			var $data = {
-				description: $description,
-				iterate: $iterate,
-				typing: $typing
-			};
-			
-			return $http.post($url, $data);
-		},
 		allocationInfo: function ($transaction_id) {
 			var $url = 'select/allocationInfo';
 			var $description = 'allocation info';

@@ -220,6 +220,80 @@ function autocompleteTransaction ($column, $typing) {
 	return $transactions;
 }
 
+// function removeNearDuplicates ($transactions) {
+// 	foreach ($transactions as $transaction) {
+// 		$id = $transaction['id'];
+// 		$description = $transaction['description'];
+// 		$merchant = $transaction['merchant'];
+// 		$total = $transaction['total'];
+// 		$type = $transaction['type'];
+// 		$account = $transaction['account'];
+// 		$from_account = $transaction['from_account'];
+// 		$to_account = $transaction['to_account'];
+
+// 		$object_1;
+
+// 		if ($type === 'transfer') {
+// 			$object_1 = array(
+// 				"description" => $description,
+// 				"total" => $total,
+// 				"from_account" => $from_account,
+// 				"to_account" => $to_account
+// 			);
+// 		}
+// 		else {
+// 			$object_1 = array(
+// 				"description" => $description,
+// 				"merchant" => $merchant,
+// 				"total" => $total,
+// 				"type" => $type,
+// 				"account" => $account
+// 			);
+// 		}
+
+// 		//we have the properties that we don't want to be duplicates in an object. now we loop through the array again to make another object, then we can compare if the two objects are equal.
+// 		foreach ($transactions as $t) {
+// 			 $index = $transactions.indexOf($t);
+// 			 $t_id = $t.id;
+// 			 $t_description = $t.description;
+// 			 $t_merchant = $t.merchant;
+// 			 $t_total = $t.total;
+// 			 $t_type = $t.type;
+// 			 $t_account = $t.account;
+// 			 $t_from_account = $t.from_account;
+// 			 $t_to_account = $t.to_account;
+
+// 			 $object_2 = {};
+
+// 			if ($t_id !== $id && $t_type === $type) {
+// 				//they are the same type, and not the same transaction
+// 				if ($type === 'transfer') {
+// 					$object_2 = {
+// 						description: $t_description,
+// 						total: $t_total,
+// 						from_account: $t_from_account,
+// 						to_account: $t_to_account
+// 					};
+// 				}
+// 				else {
+// 					$object_2 = {
+// 						description: $t_description,
+// 						merchant: $t_merchant,
+// 						total: $t_total,
+// 						type: $t_type,
+// 						account: $t_account
+// 					};
+// 				}
+// 			}
+
+// 			if (_.isEqual($object_1, $object_2)) {
+// 				$transactions.splice($index, 1);
+// 			}				
+// 		}
+// 	}
+// 	return $transactions;
+// }
+
 // /*========================================insert========================================*/
 
 function insertTags ($transaction_id, $tags) {
