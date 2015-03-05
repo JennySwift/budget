@@ -15,11 +15,11 @@ class TotalsController extends Controller {
 	// 	return getASR($transactions); 
 	// }
 
-	public function filter () {
-		include(app_path() . '/inc/functions.php');
-		$transactions = json_decode(file_get_contents('php://input'), true)["transactions"];
-		return getFilterTotals($transactions); 
-	}
+	// public function filter () {
+	// 	include(app_path() . '/inc/functions.php');
+	// 	$transactions = json_decode(file_get_contents('php://input'), true)["transactions"];
+	// 	return getFilterTotals($transactions); 
+	// }
 
 	public function basic () {
 		include(app_path() . '/inc/functions.php');

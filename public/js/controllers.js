@@ -175,10 +175,8 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		
 		$scope.multiSearch = function ($reset, $new_transaction) {
 			select.multiSearch($scope.filter, $reset).then(function (response) {
-				$scope.transactions = response.data;
-				// $scope.multiSearchTags();
-				// $scope.multiSearchBudget();
-				$scope.getFilterTotals();
+				$scope.transactions = response.data.transactions;
+				$scope.totals.filter = response.data.filter_totals;
 				$scope.searchResults();
 
 				if ($new_transaction && $scope.new_transaction.multiple_budgets) {
@@ -1125,12 +1123,11 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		// 	});
 		// };
 
-		$scope.getFilterTotals = function () {
-			totals.filterTotals($scope.transactions).then(function (response) {
-				$scope.totals.filter = response.data;
-				// $scope.getASR();
-			});
-		};
+		// $scope.getFilterTotals = function () {
+		// 	totals.filterTotals($scope.transactions).then(function (response) {
+		// 		$scope.totals.filter = response.data;
+		// 	});
+		// };
 
 		$scope.totals = function () {
 			totals.basicTotals().then(function (response) {

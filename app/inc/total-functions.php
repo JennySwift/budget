@@ -210,58 +210,59 @@ function getBudgetInfo ($user_id, $type) {
 	// return 'hello';
 }
 
-function getFilterTotals ($transactions) {
-    $search_income = 0;
-    $search_expenses = 0;
-    $search_balance = 0;
-    $reconciled = 0;
+// function getFilterTotals ($transactions) {
+//     $search_income = 0;
+//     $search_expenses = 0;
+//     $search_balance = 0;
+//     $reconciled = 0;
 
-    foreach ($transactions as $transaction) {
-    	// Log::info('transactions', $transactions);
-        // $total = $transaction->total;
-        // $type = $transaction->type;
-        $total = $transaction['total'];
-        $type = $transaction['type'];
+//     foreach ($transactions as $transaction) {
+//     	// Log::info('transactions', $transactions);
+//         // $total = $transaction->total;
+//         // $type = $transaction->type;
+//         $total = $transaction['total'];
+//         $type = $transaction['type'];
 
-        $reconciled += $total;
+//         $reconciled += $total;
 
-        if ($type === "expense") {
-            $search_expenses += $total;
-        }
+//         if ($type === "expense") {
+//             $search_expenses += $total;
+//         }
 
-        else if ($type === "income") {
-            $search_income += $total;
-        }
-        if ($type === "transfer") {
-            if ($total < 0) {
-                $search_expenses += $total;
-            }
-            else if ($total > 0) {
-                $search_income += $total;
-            }
-        }
-    }
+//         else if ($type === "income") {
+//             $search_income += $total;
+//         }
+//         if ($type === "transfer") {
+//             if ($total < 0) {
+//                 $search_expenses += $total;
+//             }
+//             else if ($total > 0) {
+//                 $search_income += $total;
+//             }
+//         }
+//     }
 
-    $search_balance = $search_income + $search_expenses;
+//     $search_balance = $search_income + $search_expenses;
 
-    $search_income = number_format($search_income, 2);
-    $search_expenses = number_format($search_expenses, 2);
-    $search_balance = number_format($search_balance, 2);
-    $reconciled = number_format($reconciled, 2);
+//     $search_income = number_format($search_income, 2);
+//     $search_expenses = number_format($search_expenses, 2);
+//     $search_balance = number_format($search_balance, 2);
+//     $reconciled = number_format($reconciled, 2);
 
-    //get total number of transactions the user has
-    $num_transactions = countTransactions();
+//     //get total number of transactions the user has
+//     // $num_transactions = countTransactions();
+//     $num_transactions = count($transactions);
 
-    $array = array(
-        "income" => $search_income,
-        "expenses" => $search_expenses,
-        "balance" => $search_balance,
-        "reconciled" => $reconciled,
-        "num_transactions" => $num_transactions
-    );
+//     $array = array(
+//         "income" => $search_income,
+//         "expenses" => $search_expenses,
+//         "balance" => $search_balance,
+//         "reconciled" => $reconciled,
+//         "num_transactions" => $num_transactions
+//     );
 
-    return $array;
-}
+//     return $array;
+// }
 
 // function getASR ($transactions) {
 //     $ASR = 0;

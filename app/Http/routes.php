@@ -78,7 +78,6 @@ Route::post('delete/transaction', 'DeleteController@transaction');
 
 // ========================================totals========================================
 
-Route::post('totals/ASR', 'TotalsController@ASR');
-Route::post('totals/filter', 'TotalsController@filter');
+// Route::post('totals/filter', 'TotalsController@filter');
 Route::post('totals/basic', 'TotalsController@basic');
 Route::post('totals/budget', 'TotalsController@budget');

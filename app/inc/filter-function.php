@@ -8,7 +8,12 @@ function filter ($filter) {
     $user_id = Auth::user()->id;
     $offset = $filter['offset'];
     $num_to_fetch = $filter['num_to_fetch'];
+    if ($filter['types']) {
+        $transaction_type = $filter['types'];
+    }
+    
     $transactions = Transaction::where('transactions.user_id', $user_id);
+    $totals = Transaction::where('transactions.user_id', $user_id);
 
     foreach ($filter as $type => $value) {
         if ($value) {
@@ -16,31 +21,33 @@ function filter ($filter) {
             if ($type === "accounts") {
                 $accounts = $value;
 
-                $transactions = $transactions->whereIn('account_id', $accounts); 
+                $transactions = $transactions->whereIn('account_id', $accounts);
+                $totals = $totals->whereIn('account_id', $accounts);
             }
-            //==========type is type, ie, income, expense, transfer==========
+            //==========type, ie, income, expense, transfer==========
             elseif ($type === "types") {
                 $types = $value;
                 
                 $transactions = $transactions->whereIn('type', $types);
+                $totals = $totals->whereIn('type', $types);
             }
             // =============dates=============
             elseif ($type === "single_date_sql") {  
                 $transactions = $transactions->where('date', $value);
-                // $where = $where . " AND date = '$value'";
+                $totals = $totals->where('date', $value);
             }
             elseif ($type === "from_date_sql") {
                 $transactions = $transactions->where('date', '>=', $value);
-                // $where = $where . " AND date >= '$value'";
+                $totals = $totals->where('date', '>=', $value);
             }
             elseif ($type === "to_date_sql") {
                 $transactions = $transactions->where('date', '<=', $value);
-                // $where = $where . " AND date <= '$value'";
+                $totals = $totals->where('date', '<=', $value);
             }
             //==========total==========
             elseif ($type === "total") {
                 $transactions = $transactions->where('total', $value);
-                // $where = $where . " AND total = $value";
+                $totals = $totals->where('total', $value);
             }
             //==========reconciled==========
             elseif ($type === "reconciled") {
@@ -48,7 +55,7 @@ function filter ($filter) {
                     $reconciled = $value;
                     $reconciled = convertFromBoolean($reconciled);
                     $transactions = $transactions->where('reconciled', $reconciled);
-                    // $where = $where . " AND reconciled = '$value'";
+                    $totals = $totals->where('reconciled', $reconciled);
                 }
             }
             //==========tags==========
@@ -60,10 +67,12 @@ function filter ($filter) {
                     $tag_id = $tag['id'];
                     $tag_ids[] = $tag_id;
                 }
-                // $transactions = $transactions->has('tags', '=', $tag_ids);
 
                 foreach ($tag_ids as $tag_id) {
                     $transactions = $transactions->whereHas('tags', function ($q) use ($tag_id) {
+                        $q->where('tags.id', $tag_id); 
+                    });
+                    $totals = $totals->whereHas('tags', function ($q) use ($tag_id) {
                         $q->where('tags.id', $tag_id); 
                     });
                 }    
@@ -94,45 +103,72 @@ function filter ($filter) {
                     $ids[] = $id;
                 }
 
-                // Log::info('transactions_with_one_budget', $ids);
-                Log::info('ids', $ids);
                 $transactions = $transactions->whereIn('transactions.id', $ids);
+                $totals = $totals->whereIn('transactions.id', $ids);
                     
             }
             //==========description, merchant==========
             elseif ($type === "description" || $type === "merchant") {
                 $value = '%' . $value . '%';
                 $transactions = $transactions->where($type, 'LIKE', $value);
-                // $where = $where . " AND transactions." . $type . " LIKE '%$value%'";
+                $totals = $totals->where($type, 'LIKE', $value);
             }
         }
         
     }
 
+    $num_transactions = $totals->count();
+
+    $totals = $totals
+        ->select('type', 'reconciled' , 'total')
+        ->get();
+
     $transactions = $transactions
         ->join('accounts', 'transactions.account_id', '=', 'accounts.id')
         ->orderBy('date', 'desc')
         ->orderBy('id', 'desc')
-        ->select('allocated', 'transactions.id', 'date', 'type', 'transactions.account_id AS account_id', 'accounts.name AS account_name', 'merchant' , 'description' , 'reconciled' , 'total', 'date')
+        ->select('allocated', 'transactions.id', 'date', 'type', 'transactions.account_id AS account_id', 'accounts.name AS account_name', 'merchant' , 'description' , 'reconciled' , 'total')
         ->skip($offset)
         ->take($num_to_fetch)
         ->get();
 
-    $transactions_array = array();
-
     // $queries = DB::getQueryLog();
     // Log::info('queries', $queries);
 
-    foreach ($transactions as $transaction) {
-        // Log::info('transactions', $transactions);
-        // $transaction_id = $transaction['id'];
-        // $account_id = $transaction['account_id'];
-        // $account_name = $transaction['account_name'];
-        // $total = $transaction['total'];
-        // $reconciled = $transaction['reconciled'];
-        // $allocated = $transaction['allocated'];
-        // $user_date = $transaction['date'];
+    //========================get the totals======================== 
 
+    $income = 0;
+    $expenses = 0;
+    $total_reconciled = 0;
+
+    foreach ($totals as $transaction) {
+        $total = $transaction->total;
+        $type = $transaction->type;
+        $reconciled = $transaction->reconciled;
+        //perhaps transfers should be included here.
+        if ($type === 'income') {
+            $income+= $total;
+        }
+        elseif ($type === 'expense') {
+            $expenses+= $total;
+        }
+        if ($reconciled == 1) {
+            $total_reconciled+= $total;
+        }
+    }
+
+    $balance = $income + $expenses;
+
+    $income = number_format($income, 2);
+    $expenses = number_format($expenses, 2);
+    $balance = number_format($balance, 2);
+    $total_reconciled = number_format($total_reconciled, 2);
+
+    //========================get the transactions========================
+
+    $transactions_array = array();
+
+    foreach ($transactions as $transaction) {
         $transaction_id = $transaction->id;
         $date = $transaction->date;
         $user_date = convertDate($date, 'user');
@@ -157,14 +193,6 @@ function filter ($filter) {
          "user" => $user_date
         );
 
-        // $transactions['tags'] = getTags($transaction_id);
-        // $transactions['multiple_budgets'] = hasMultipleBudgets($transaction_id);
-
-        // $transaction['formatted_total'] = number_format($total, 2);
-        // $transaction['account'] = $account;
-        // $transaction['reconciled'] = convertToBoolean($reconciled);
-        // $transaction['allocated'] = convertToBoolean($allocated);
-
         $transactions_array[] = array(
             'id' => $transaction_id,
             'date' => $date,
@@ -181,7 +209,20 @@ function filter ($filter) {
 
     }
 
-    return $transactions_array;
+    $filter_totals = array(
+        "num_transactions" => $num_transactions,
+        "income" => $income,
+        "expenses" => $expenses,
+        "balance" => $balance,
+        "reconciled" => $total_reconciled
+    );
+
+    $result = array(
+        "transactions" => $transactions_array,
+        "filter_totals" => $filter_totals
+    );
+
+    return $result;
 }
 
 ?>

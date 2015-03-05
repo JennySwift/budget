@@ -18,18 +18,18 @@ app.factory('totals', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-		filterTotals: function ($transactions) {
-			var $url = 'totals/filter';
-			var $description = 'get filter totals';
-			// var $stringified_transactions = JSON.stringify($transactions);
-			var $data = {
-				description: $description,
-				// transactions: $stringified_transactions
-				transactions: $transactions
-			};
+		// filterTotals: function ($transactions) {
+		// 	var $url = 'totals/filter';
+		// 	var $description = 'get filter totals';
+		// 	// var $stringified_transactions = JSON.stringify($transactions);
+		// 	var $data = {
+		// 		description: $description,
+		// 		// transactions: $stringified_transactions
+		// 		transactions: $transactions
+		// 	};
 			
-			return $http.post($url, $data);
-		},
+		// 	return $http.post($url, $data);
+		// },
 		// ASR: function ($transactions) {
 		// 	var $transactions_clone = [];
 		// 	$($transactions).each(function () {
