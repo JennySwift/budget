@@ -63,7 +63,7 @@ class SelectController extends Controller {
 		$column = json_decode(file_get_contents('php://input'), true)["column"];
 		$transactions = autocompleteTransaction($column, $typing);
 		// $transactions = removeNearDuplicates($transactions);
-		$transactions = array_slice($transactions, 0, 50);
+		// $transactions = array_slice($transactions, 0, 50);
 		return $transactions;
 	}
 

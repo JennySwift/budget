@@ -193,6 +193,7 @@ function autocompleteTransaction ($column, $typing) {
 		->join('accounts', 'transactions.account_id', '=', 'accounts.id')
 		->select('transactions.id', 'total', 'account_id', 'accounts.name AS account_name', 'type', 'description', 'merchant')
 		// ->distinct()
+		->limit(50)
 		->orderBy('date', 'desc')
 		->orderBy('id', 'desc')
 		->get();
