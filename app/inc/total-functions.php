@@ -7,8 +7,13 @@ function getTotalSpentOnTag ($tag_id, $starting_date) {
 	$total = DB::table('transactions_tags')
 		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
 		->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
-		->where('transactions_tags.tag_id', $tag_id)
-		->where('transactions.date', '>=', $starting_date)
+		->where('transactions_tags.tag_id', $tag_id);
+
+	if ($starting_date) {
+		$total = $total->where('transactions.date', '>=', $starting_date);
+	}	
+		
+	$total = $total
 		->where('transactions.type', 'expense')
 		->where('transactions_tags.user_id', Auth::user()->id)
 		->sum('calculated_allocation');
@@ -23,8 +28,13 @@ function getTotalReceivedOnTag ($tag_id, $starting_date) {
 	$total = DB::table('transactions_tags')
 		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
 		->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
-		->where('transactions_tags.tag_id', $tag_id)
-		->where('transactions.date', '>=', $starting_date)
+		->where('transactions_tags.tag_id', $tag_id);
+
+	if ($starting_date) {
+		$total = $total->where('transactions.date', '>=', $starting_date);
+	}
+		
+	$total = $total
 		->where('transactions.type', 'income')
 		->where('transactions_tags.user_id', Auth::user()->id)
 		->sum('calculated_allocation');
