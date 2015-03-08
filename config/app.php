@@ -145,6 +145,7 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
+		'GrahamCampbell\Throttle\ThrottleServiceProvider'
 
 	],
 
@@ -194,6 +195,7 @@ return [
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Debugbar' => 'Barryvdh\Debugbar\Facade',
+		'Throttle' => 'GrahamCampbell\Throttle\Facades\Throttle'
 
 	],
 
