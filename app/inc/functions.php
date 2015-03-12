@@ -426,13 +426,14 @@ function insertTransaction ($new_transaction, $transaction_type) {
 // /*========================================update========================================*/
 
 function updateBudget ($tag_id, $budget, $column) {
+	Debugbar::info('budget: ' . $budget . ' column: ' . $column);
 	//this either adds or deletes a budget, both using an update query.
 	if (!$budget || $budget === "NULL") {
 		$budget = NULL;
 		$budget_id = NULL;
 	}
 	else {
-		if ($column === "fixed") {
+		if ($column === "fixed_budget") {
 			$budget_id = 1;
 		}
 		else {
@@ -440,7 +441,9 @@ function updateBudget ($tag_id, $budget, $column) {
 		}
 	}
 	
-	DB::table('tags')->where('id', $tag_id)->update([$column => $budget, 'budget_id' => $budget_id]);
+	DB::table('tags')
+		->where('id', $tag_id)
+		->update([$column => $budget, 'budget_id' => $budget_id]);
 	// $queries = DB::getQueryLog();
 	// Log::info('budget: ' . $budget);
 	// Log::info('queries', $queries);
