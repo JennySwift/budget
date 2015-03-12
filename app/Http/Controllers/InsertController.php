@@ -52,6 +52,7 @@ class InsertController extends Controller {
 		$array = array(
 		    "transaction" => $transaction,
 		    "multiple_budgets" => $multiple_budgets
-		); 
+		);
+		return $array;
 	}
 }

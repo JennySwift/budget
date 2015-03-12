@@ -34,14 +34,14 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		// $scope.new_transaction.to_account = 'to';
 		$scope.new_transaction.tags = [
 			{
-				id: '1',
-				name: 'chiropractic',
+				id: '16',
+				name: 'test',
 				fixed_budget: '10.00',
 				flex_budget: null
 			},
 			{
-				id: '2',
-				name: 'church',
+				id: '17',
+				name: 'testtwo',
 				fixed_budget: null,
 				flex_budget: '5'
 			}
@@ -392,6 +392,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 			insert.transaction($scope.new_transaction).then(function (response) {
 				//see if the transaction that was just entered has multiple budgets
+				//the allocation popup is shown from $scope.multiSearch().
 				var $transaction = response.data.transaction;
 				var $multiple_budgets = response.data.multiple_budgets;
 

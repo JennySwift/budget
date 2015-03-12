@@ -18,8 +18,14 @@ function countTransactions () {
 
 function getTransaction ($transaction_id) {
 	//for the new transaction allocation popup. probably selecting things here that I don't actually need for just the popup.
-	$sql = "SELECT allocated, transactions.id, date,type, transactions.account_id AS account_id, accounts.name AS account_name,IFNULL(merchant, '') AS merchant,description,reconciled,total, DATE_FORMAT(date, '%d/%m/%Y') AS user_date FROM transactions JOIN accounts ON transactions.account_id = accounts.id WHERE transactions.id = $transaction_id;";
-	$transaction = DB::select($sql);
+	$transaction = DB::table('transactions')
+		->where('transactions.id', $transaction_id)
+		->join('accounts', 'transactions.account_id', '=', 'accounts.id')
+		->select('allocated', 'transactions.id', 'date', 'type', 'transactions.account_id AS account_id', 'accounts.name AS account_name', 'merchant', 'description', 'reconciled', 'total', 'date')
+		->first();
+	
+	$date = $transaction->date;
+	$transaction->user_date = convertDate($date, 'user');
 	
 	//maybe make more DRY-I think much the same as filter
 
@@ -72,28 +78,6 @@ function getCMN ($starting_date) {
 	$CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
 
 	return $CMN;
-}
-
-function convertDate ($date, $for) {
-	$date = new DateTime($date);
-
-	if ($for === 'user') {
-		$date = $date->format('d/m/y');
-	}
-	elseif ($for === 'sql') {
-		$date = $date->format('Y-m-d');
-	}
-	return $date;
-}
-
-function numberFormat ($array) {
-	$formatted_array = array();
-	foreach ($array as $key => $value) {
-		$formatted_value = number_format($value, 2);
-		$formatted_array[$key] = $formatted_value;
-	}
-
-	return $formatted_array;
 }
 
 function getLastTransactionId () {
@@ -522,6 +506,28 @@ function convertToBoolean ($variable) {
 		$variable = false;
 	}
 	return $variable;
+}
+
+function convertDate ($date, $for) {
+	$date = new DateTime($date);
+
+	if ($for === 'user') {
+		$date = $date->format('d/m/y');
+	}
+	elseif ($for === 'sql') {
+		$date = $date->format('Y-m-d');
+	}
+	return $date;
+}
+
+function numberFormat ($array) {
+	$formatted_array = array();
+	foreach ($array as $key => $value) {
+		$formatted_value = number_format($value, 2);
+		$formatted_array[$key] = $formatted_value;
+	}
+
+	return $formatted_array;
 }
 
 
