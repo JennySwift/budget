@@ -90,7 +90,7 @@ function filter ($filter) {
                 }
 
                 //first, find get all the transactions that have x number of budgets
-                $sql = "select id from transactions where transactions.user_id = 1 and (select count(*) from tags inner join transactions_tags on tags.id = transactions_tags.tag_id
+                $sql = "select id from transactions where transactions.user_id = " . Auth::user()->id . " and (select count(*) from tags inner join transactions_tags on tags.id = transactions_tags.tag_id
                 where transactions_tags.transaction_id = transactions.id
                 and tags.budget_id is not null)" . $num;
 
