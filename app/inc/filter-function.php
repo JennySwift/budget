@@ -187,6 +187,7 @@ function filter ($filter) {
         $reconciled = $transaction->reconciled;
         $reconciled = convertToBoolean($reconciled);
         $allocated = $transaction->allocated;
+        $allocated = convertToBoolean($allocated);
         $type = $transaction->type;
         $tags = getTags($transaction_id);
         $multiple_budgets = hasMultipleBudgets($transaction_id);

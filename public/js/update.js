@@ -52,9 +52,7 @@ app.factory('update', function ($http) {
 		},
 		allocationStatus: function ($transaction_id, $status) {
 			var $url = 'update/allocationStatus';
-			var $description = 'allocation status';
 			var $data = {
-				description: $description,
 				transaction_id: $transaction_id,
 				status: $status
 			};

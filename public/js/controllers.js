@@ -612,7 +612,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.updateAllocationStatus = function () {
-			update.allocationStatus($scope.allocation_popup_transaction.id, $scope.allocation_popup_transaction.allocation).then(function (response) {
+			update.allocationStatus($scope.allocation_popup_transaction.id, $scope.allocation_popup_transaction.allocated).then(function (response) {
 				console.log("something");
 			});
 		};

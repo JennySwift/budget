@@ -449,13 +449,15 @@ function updateCalculatedAllocation ($transaction_id, $tag_id) {
 }
 
 function updateAllocationStatus ($transaction_id, $status) {
-	if ($status == 1) {
-		$status = 'true';
-	}
-	else {
-		$status = 'false';
-	}
-	DB::table('transactions')->where('id', $transaction_id)->update(['allocation' => $status]);
+	// if ($status == 1) {
+	// 	$status = 'true';
+	// }
+	// else {
+	// 	$status = 'false';
+	// }
+	DB::table('transactions')
+		->where('id', $transaction_id)
+		->update(['allocated' => $status]);
 }
 
 // function updateCalculatedAllocation ($db) {

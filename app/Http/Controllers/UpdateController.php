@@ -56,6 +56,7 @@ class UpdateController extends Controller {
 	}
 
 	public function allocationStatus () {
+		include(app_path() . '/inc/functions.php');
 		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
 		$status = json_decode(file_get_contents('php://input'), true)["status"];
 		
