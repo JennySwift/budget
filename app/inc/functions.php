@@ -133,7 +133,7 @@ function getAllocationInfo ($transaction_id, $tag_id) {
 		->where('transaction_id', $transaction_id)
 		->where('tag_id', $tag_id)
 		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-		->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
+		->select('transactions_tags.transaction_id', 'transactions_tags.tag_id AS id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
 		->first();
 
 	if (isset($allocation_info->allocated_fixed)) {

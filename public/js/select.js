@@ -58,6 +58,14 @@ app.factory('select', function ($http) {
 			
 			return $http.post($url, $data);
 		},
+		allocationTotals: function ($transaction_id) {
+			var $url = 'select/allocationTotals';
+			var $data = {
+				transaction_id: $transaction_id
+			};
+			
+			return $http.post($url, $data);
+		},
 		multiSearch: function ($filter, $reset) {
 			// if ($reset) {
 			// 	$display_from = 1;

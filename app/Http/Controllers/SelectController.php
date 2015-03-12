@@ -73,6 +73,12 @@ class SelectController extends Controller {
 		// return filter($filter);    
 	}
 
+	public function allocationTotals () {
+		include(app_path() . '/inc/functions.php');
+		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
+		return getAllocationTotals($transaction_id);
+	}
+
 	// public function allocationPopup () {
 	// 	$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
 	// 	$array = getAllocationTotals($db, $transaction_id);

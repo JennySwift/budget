@@ -40,6 +40,7 @@ Route::post('select/colors', 'SelectController@colors');
 Route::post('select/duplicate-tag-check', 'SelectController@duplicateTagCheck');
 Route::post('select/countTransactionsWithTag', 'SelectController@countTransactionsWithTag');
 Route::post('select/allocationInfo', 'SelectController@allocationInfo');
+Route::post('select/allocationTotals', 'SelectController@allocationTotals');
 
 // ========================================insert========================================
 

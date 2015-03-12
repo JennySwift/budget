@@ -91,7 +91,7 @@ function getTotalExpense () {
 }
 
 function getAllocationTotals ($transaction_id) {
-	$row = DB::table('transactions_tags')
+	$rows = DB::table('transactions_tags')
 		->where('transaction_id', $transaction_id)
 		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
 		->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
@@ -101,21 +101,28 @@ function getAllocationTotals ($transaction_id) {
 	$percent_sum = 0;
 	$calculated_allocation_sum = 0;
 
-	// $allocated_fixed = $row['allocated_fixed'];
-	// $allocated_percent = $row['allocated_percent'];
-	// $calculated_allocation = $row['calculated_allocation'];
+	Debugbar::info('row', $rows);
 
-	// //so that the total displays '-' instead of $0.00 if there were no values to add up.
-	// if ($allocated_fixed && $fixed_sum === '-') {
-	// 	$fixed_sum = 0;
-	// }
-	
-	// if ($allocated_fixed) {
-	// 	$fixed_sum+= $allocated_fixed;
-	// }
+	foreach ($rows as $row) {
+		$allocated_fixed = $row->allocated_fixed;
+		$allocated_percent = $row->allocated_percent;
+		$calculated_allocation = $row->calculated_allocation;
 
-	// $percent_sum+= $allocated_percent;
-	// $calculated_allocation_sum+= $calculated_allocation;
+		//so that the total displays '-' instead of $0.00 if there were no values to add up.
+		if ($allocated_fixed && $fixed_sum === '-') {
+			$fixed_sum = 0;
+		}
+		
+		if ($allocated_fixed) {
+			$fixed_sum+= $allocated_fixed;
+		}
+
+		$percent_sum+= $allocated_percent;
+		Debugbar::info('calculated_allocation: ' . $calculated_allocation);
+		$calculated_allocation_sum+= $calculated_allocation;
+		Debugbar::info('calculated_allocation_sum: ' . $calculated_allocation_sum);
+
+	}
 
 	if ($fixed_sum !== '-') {
 		$fixed_sum = number_format($fixed_sum, 2);

@@ -590,7 +590,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.show.allocation_popup = true;
 			$scope.allocation_popup_transaction = $transaction;
 			
-			select.allocationInfo($transaction.id).then(function (response) {
+			select.allocationTotals($transaction.id).then(function (response) {
 				$scope.allocation_popup_transaction.allocation_totals = response.data;
 			});
 		};
