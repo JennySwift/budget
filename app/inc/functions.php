@@ -3,6 +3,7 @@
 	// echo 'firephp: ' . $firephp;
 
 use App\Transaction_Tag;
+use Debugbar;
 
 // DB::enableQueryLog();
 
@@ -133,23 +134,42 @@ function getAllocationInfo ($transaction_id, $tag_id) {
 		->where('tag_id', $tag_id)
 		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
 		->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
-		->get();
+		->first();
 
-	$allocated_fixed = $row['allocated_fixed'];
-	$allocated_percent = $row['allocated_percent'];
-
-	if ($allocated_fixed && !$allocated_percent) {
+	if (isset($allocation_info->allocated_fixed)) {
+		$allocated_fixed = $allocation_info->allocated_fixed;
+		$allocated_percent = false;
 		$allocation_type = 'fixed';
 	}
 
-	elseif ($allocated_percent && !$allocated_fixed) {
+	elseif (isset($allocation_info->allocated_percent)) {
+		$allocated_percent = $allocation_info->allocated_percent;
+		$allocated_fixed = false;
 		$allocation_type = 'percent';
 	}
-	elseif (!$allocation_fixed && !$allocated_percent) {
-		$allocation_type = undefined;
+	else {
+		$allocation_type = false;
+		$allocated_fixed = false;
+		$allocated_percent = false;
 	}
 
-	$allocation_info['allocation_type'] = $allocation_type;
+	// Debugbar::info('row', $allocation_info);
+	// $name = $row['name'];
+	// Debugbar::info('name: ' . $name);
+
+	// $allocation_info = array(
+	// 	'transaction_id' => $transaction_id,
+	// 	'tag_id' => $tag_id,
+	// 	'allocated_fixed' => $allocated_fixed,
+	// 	'allocated_percent' => $allocated_percent,
+	// 	'calculated_allocation' => $row['calculated_allocation'],
+	// 	'name' => $row['name'],
+	// 	'fixed_budget' => $row['fixed_budget'],
+	// 	'flex_budget' => $row['flex_budget'],
+	// 	'allocation_type' => $row['allocation_type']
+	// );
+
+	// // $allocation_info['allocation_type'] = $allocation_type;
 	
 	return $allocation_info;
 }

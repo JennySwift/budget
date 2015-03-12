@@ -33,6 +33,7 @@ class UpdateController extends Controller {
 	}
 
 	public function allocation () {
+		include(app_path() . '/inc/functions.php');
 		$type = json_decode(file_get_contents('php://input'), true)["type"];
 		$value = json_decode(file_get_contents('php://input'), true)["value"];
 		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
@@ -53,6 +54,7 @@ class UpdateController extends Controller {
 		    "allocation_info" => $allocation_info,
 		    "allocation_totals" => $allocation_totals
 		);
+		return $array;
 	}
 
 	public function allocationStatus () {

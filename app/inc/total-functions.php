@@ -101,21 +101,21 @@ function getAllocationTotals ($transaction_id) {
 	$percent_sum = 0;
 	$calculated_allocation_sum = 0;
 
-	$allocated_fixed = $row['allocated_fixed'];
-	$allocated_percent = $row['allocated_percent'];
-	$calculated_allocation = $row['calculated_allocation'];
+	// $allocated_fixed = $row['allocated_fixed'];
+	// $allocated_percent = $row['allocated_percent'];
+	// $calculated_allocation = $row['calculated_allocation'];
 
-	//so that the total displays '-' instead of $0.00 if there were no values to add up.
-	if ($allocated_fixed && $fixed_sum === '-') {
-		$fixed_sum = 0;
-	}
+	// //so that the total displays '-' instead of $0.00 if there were no values to add up.
+	// if ($allocated_fixed && $fixed_sum === '-') {
+	// 	$fixed_sum = 0;
+	// }
 	
-	if ($allocated_fixed) {
-		$fixed_sum+= $allocated_fixed;
-	}
+	// if ($allocated_fixed) {
+	// 	$fixed_sum+= $allocated_fixed;
+	// }
 
-	$percent_sum+= $allocated_percent;
-	$calculated_allocation_sum+= $calculated_allocation;
+	// $percent_sum+= $allocated_percent;
+	// $calculated_allocation_sum+= $calculated_allocation;
 
 	if ($fixed_sum !== '-') {
 		$fixed_sum = number_format($fixed_sum, 2);
