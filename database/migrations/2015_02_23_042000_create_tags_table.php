@@ -12,6 +12,8 @@ class CreateTagsTable extends Migration {
 	 */
 	public function up()
 	{
+		DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
 		Schema::create('budgets', function(Blueprint $table)
 		{
 			$table->increments('id');
@@ -33,6 +35,8 @@ class CreateTagsTable extends Migration {
 			$table->foreign('budget_id')->references('id')->on('budgets');
 			$table->foreign('user_id')->references('id')->on('users');
 		});
+
+		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 	/**
@@ -42,8 +46,12 @@ class CreateTagsTable extends Migration {
 	 */
 	public function down()
 	{
+		DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
 		Schema::drop('tags');
 		Schema::drop('budgets');
+
+		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 }
