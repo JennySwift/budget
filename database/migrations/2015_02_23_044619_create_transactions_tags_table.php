@@ -12,6 +12,8 @@ class CreateTransactionsTagsTable extends Migration {
 	 */
 	public function up()
 	{
+		DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
 		Schema::create('transactions_tags', function(Blueprint $table)
 		{
 			$table->increments('id');
@@ -27,6 +29,8 @@ class CreateTransactionsTagsTable extends Migration {
 			$table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
 			$table->foreign('user_id')->references('id')->on('users');
 		});
+
+		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 	/**
@@ -36,7 +40,11 @@ class CreateTransactionsTagsTable extends Migration {
 	 */
 	public function down()
 	{
+		DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
 		Schema::drop('transactions_tags');
+
+		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 }

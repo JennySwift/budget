@@ -12,6 +12,8 @@ class CreateColorsTable extends Migration {
 	 */
 	public function up()
 	{
+		DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
 		Schema::create('colors', function(Blueprint $table)
 		{
 			$table->increments('id');
@@ -22,6 +24,8 @@ class CreateColorsTable extends Migration {
 
 			$table->foreign('user_id')->references('id')->on('users');
 		});
+
+		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 	/**
@@ -31,7 +35,11 @@ class CreateColorsTable extends Migration {
 	 */
 	public function down()
 	{
+		DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
 		Schema::drop('colors');
+
+		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 }
