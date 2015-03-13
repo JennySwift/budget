@@ -28,6 +28,7 @@
 
 <p>savings branch merge test</p>
 <p>cherry pick test</p>
+<p>this text should not be included in the cherry pick</p>
 
 <div ng-show="tab === 'home'" class="height-100 border-box">
 
