@@ -1,5 +1,13 @@
 app.factory('update', function ($http) {
 	return {
+		savingsTotal: function ($amount) {
+			var $url = 'update/savingsTotal';
+			var $data = {
+				amount: $amount
+			};
+			
+			return $http.post($url, $data);
+		},
 		budget: function ($tag_id, $column, $budget) {
 			var $url = 'update/budget';
 			var $description = 'budget';

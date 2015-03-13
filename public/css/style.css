@@ -592,6 +592,10 @@ div.account #display_accounts {
 .border-box {
   box-sizing: border-box; }
 
+.btn-xs {
+  font-size: 8px;
+  padding: 1px; }
+
 .font-size-sm {
   font-size: 15px; }
 

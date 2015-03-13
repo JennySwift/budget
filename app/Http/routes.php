@@ -64,6 +64,7 @@ Route::post('update/CSD', 'UpdateController@CSD');
 Route::post('update/colors', 'UpdateController@colors');
 Route::post('update/transaction', 'UpdateController@transaction');
 Route::post('update/reconciliation', 'UpdateController@reconciliation');
+Route::post('update/savingsTotal', 'UpdateController@savingsTotal');
 
 // ========================================delete========================================
 

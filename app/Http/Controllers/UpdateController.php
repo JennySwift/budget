@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 class UpdateController extends Controller {
 
 	//
+	public function savingsTotal () {
+		include(app_path() . '/inc/functions.php');
+		$amount = json_decode(file_get_contents('php://input'), true)["amount"];
+		updateSavingsTotal($amount);
+		return getSavingsTotal();
+	}
+
 	public function budget () {
 		//this either adds or deletes a budget, both using an update query.
 		include(app_path() . '/inc/functions.php');

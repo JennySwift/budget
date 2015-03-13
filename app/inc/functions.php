@@ -409,6 +409,12 @@ function insertTransaction ($new_transaction, $transaction_type) {
 
 // /*========================================update========================================*/
 
+function updateSavingsTotal ($amount) {
+	DB::table('savings')
+		->where('user_id', Auth::user()->id)
+		->update(['amount' => $amount]);
+}
+
 function updateBudget ($tag_id, $budget, $column) {
 	Debugbar::info('budget: ' . $budget . ' column: ' . $column);
 	//this either adds or deletes a budget, both using an update query.
