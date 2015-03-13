@@ -23,6 +23,11 @@
                 R:
                 <span id="reconciled_span" class="badge">{{totals.basic.reconciled_sum}}</span>
             </li>
+
+            <li class="tooltipster list-group-item" title="savings total">
+                S:
+                <span class="badge">{{totals.basic.savings}}</span>
+            </li>
         
         </ul>
     </div>

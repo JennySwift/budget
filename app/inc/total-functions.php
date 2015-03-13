@@ -2,6 +2,14 @@
 
 // DB::enableQueryLog();
 
+function getSavingsTotal () {
+	$savings = DB::table('savings')
+		->where('user_id', Auth::user()->id)
+		->pluck('amount');
+
+	return $savings;
+}
+
 function getTotalSpentOnTag ($tag_id, $starting_date) {
 	//get total spent on a given tag after starting date
 	$total = DB::table('transactions_tags')
