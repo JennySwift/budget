@@ -26,7 +26,12 @@
 
             <li class="tooltipster list-group-item" title="savings total">
                 S:
-                <span class="badge">{{totals.basic.savings}}</span>
+                <span class="badge">{{totals.basic.savings_total}}</span>
+            </li>
+
+            <li class="tooltipster list-group-item" title="savings balance">
+                SB:
+                <span class="badge">{{totals.basic.savings_balance}}</span>
             </li>
         
         </ul>

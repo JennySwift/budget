@@ -28,20 +28,23 @@ class TotalsController extends Controller {
 		$total_expense = getTotalExpense();
 		$balance = $total_income + $total_expense;
 		$reconciled_sum = getReconciledSum();
-		$savings = getSavingsTotal();
+		$savings_total = getSavingsTotal();
+		$savings_balance = $balance - $savings_total;
 		
 		$total_income = number_format($total_income, 2);
 		$total_expense = number_format($total_expense, 2);
 		$balance = number_format($balance, 2);
 		$reconciled_sum = number_format($reconciled_sum, 2);
-		$savings = number_format($savings, 2);
+		$savings_total = number_format($savings_total, 2);
+		$savings_balance = number_format($savings_balance, 2);
 
 		$totals = array(
 		    "total_income" => $total_income,
 		    "total_expense" => $total_expense,
 		    "balance" => $balance,
 		    "reconciled_sum" => $reconciled_sum,
-		    "savings" => $savings
+		    "savings_total" => $savings_total,
+		    "savings_balance" => $savings_balance
 		);
 		return $totals;
 		return $total_income;
