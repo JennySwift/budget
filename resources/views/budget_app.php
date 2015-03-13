@@ -26,9 +26,6 @@
     include($inc . '/budget.php');
 ?>
 
-<p>savings branch merge test</p>
-<p>cherry pick test</p>
-
 <div ng-show="tab === 'home'" class="height-100 border-box">
 
     <div id="toolbar">
