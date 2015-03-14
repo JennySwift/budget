@@ -33,18 +33,18 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		// $scope.new_transaction.from_account = 'from';
 		// $scope.new_transaction.to_account = 'to';
 		$scope.new_transaction.tags = [
-			{
-				id: '16',
-				name: 'test',
-				fixed_budget: '10.00',
-				flex_budget: null
-			},
-			{
-				id: '17',
-				name: 'testtwo',
-				fixed_budget: null,
-				flex_budget: '5'
-			}
+			// {
+			// 	id: '16',
+			// 	name: 'test',
+			// 	fixed_budget: '10.00',
+			// 	flex_budget: null
+			// },
+			// {
+			// 	id: '17',
+			// 	name: 'testtwo',
+			// 	fixed_budget: null,
+			// 	flex_budget: '5'
+			// }
 		];
 
 		/*=========budget=========*/
