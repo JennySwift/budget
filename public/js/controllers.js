@@ -234,9 +234,12 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		$scope.getAccounts = function () {
 			select.accounts().then(function (response) {
 				$scope.accounts = response.data;
-				$scope.new_transaction.account = $scope.accounts[0].id;
-				$scope.new_transaction.from_account = $scope.accounts[0].id;
-				$scope.new_transaction.to_account = $scope.accounts[0].id;
+				if ($scope.accounts[0]) {
+					//this if check is to get rid of the error for a new user who does not yet have any accounts.
+					$scope.new_transaction.account = $scope.accounts[0].id;
+					$scope.new_transaction.from_account = $scope.accounts[0].id;
+					$scope.new_transaction.to_account = $scope.accounts[0].id;
+				}	
 			});
 		};
 
