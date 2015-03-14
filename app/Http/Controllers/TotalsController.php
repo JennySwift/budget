@@ -7,60 +7,15 @@ use Illuminate\Http\Request;
 use Auth;
 
 class TotalsController extends Controller {
-
-	//
-	// public function ASR () {
-	// 	include(app_path() . '/inc/functions.php');
-	// 	$transactions = json_decode(file_get_contents('php://input'), true)["transactions"];
-	// 	return getASR($transactions); 
-	// }
-
-	// public function filter () {
-	// 	include(app_path() . '/inc/functions.php');
-	// 	$transactions = json_decode(file_get_contents('php://input'), true)["transactions"];
-	// 	return getFilterTotals($transactions); 
-	// }
-
+	
 	public function basic () {
 		include(app_path() . '/inc/functions.php');
-
-		$total_income = getTotalIncome();
-		$total_expense = getTotalExpense();
-		$balance = $total_income + $total_expense;
-		$reconciled_sum = getReconciledSum();
-		$savings_total = getSavingsTotal();
-		$savings_balance = $balance - $savings_total;
-		
-		$total_income = number_format($total_income, 2);
-		$total_expense = number_format($total_expense, 2);
-		$balance = number_format($balance, 2);
-		$reconciled_sum = number_format($reconciled_sum, 2);
-		$savings_total = number_format($savings_total, 2);
-		$savings_balance = number_format($savings_balance, 2);
-
-		$totals = array(
-		    "total_income" => $total_income,
-		    "total_expense" => $total_expense,
-		    "balance" => $balance,
-		    "reconciled_sum" => $reconciled_sum,
-		    "savings_total" => $savings_total,
-		    "savings_balance" => $savings_balance
-		);
-		return $totals;
-		return $total_income;
+		return getBasicTotals();
 	}
 
 	public function budget () {
-		$user_id = Auth::user()->id;
 		include(app_path() . '/inc/functions.php');
-		$FB_info = getBudgetInfo($user_id, 'fixed');
-		$FLB_info = getBudgetInfo($user_id, 'flex');
-		
-		$array = array(
-		    "FB" => $FB_info,
-		    "FLB" => $FLB_info
-		);
-		return $array;
+		return getBudgetTotals();
 	}
 
 }

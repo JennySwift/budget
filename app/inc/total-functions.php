@@ -2,6 +2,82 @@
 
 // DB::enableQueryLog();
 
+
+function getBasicTotals () {
+	$total_income = getTotalIncome();
+	$total_expense = getTotalExpense();
+	$balance = $total_income + $total_expense;
+	$reconciled_sum = getReconciledSum();
+	$savings_total = getSavingsTotal();
+	$savings_balance = $balance - $savings_total;
+	$expense_without_budget_total = getTotalExpenseWithoutBudget();
+	
+	$total_income = number_format($total_income, 2);
+	$total_expense = number_format($total_expense, 2);
+	$balance = number_format($balance, 2);
+	$reconciled_sum = number_format($reconciled_sum, 2);
+	$savings_total = number_format($savings_total, 2);
+	$savings_balance = number_format($savings_balance, 2);
+	$expense_without_budget_total = number_format($expense_without_budget_total, 2);
+
+	$totals = array(
+	    "total_income" => $total_income,
+	    "total_expense" => $total_expense,
+	    "balance" => $balance,
+	    "reconciled_sum" => $reconciled_sum,
+	    "savings_total" => $savings_total,
+	    "savings_balance" => $savings_balance,
+	    "expense_without_budget_total" => $expense_without_budget_total
+	);
+	return $totals;
+}
+
+function getBudgetTotals () {
+	$user_id = Auth::user()->id;
+	$FB_info = getBudgetInfo($user_id, 'fixed');
+	$FLB_info = getBudgetInfo($user_id, 'flex');
+
+	//calculating remaining balance
+	$total_FB = $FB_info['totals']['budget'];
+	$total_income = getTotalIncome();
+	$total_savings = getSavingsTotal();
+
+	$remaining_balance = $total_income - $total_FB - $total_savings;
+	$remaining_balance = number_format($remaining_balance, 2);
+	
+	$array = array(
+	    "FB" => $FB_info,
+	    "FLB" => $FLB_info,
+	    "RB" => $remaining_balance
+	);
+	return $array;
+}
+
+function getTotalExpenseWithoutBudget () {
+	//this is for calculating the remaining balance. Finds all transactions that have no budget and returns the total of those transactions.
+	//first, get all the transactions that have no budget.
+	$sql = "select id from transactions where transactions.type = 'expense' AND transactions.user_id = " . Auth::user()->id . " and (select count(*) from tags inner join transactions_tags on tags.id = transactions_tags.tag_id
+	where transactions_tags.transaction_id = transactions.id
+	and tags.budget_id is not null) = 0";
+
+	$transactions_with_no_budgets = DB::select($sql);
+
+	//format transactions_with_one_budget into a nice array
+	$ids = array();
+	foreach ($transactions_with_no_budgets as $transaction) {
+	    $id = $transaction->id;
+	    $ids[] = $id;
+	}
+
+	$total = DB::table('transactions')
+		->whereIn('transactions.id', $ids)
+		->sum('total');
+
+	Debugbar::info('EWT', $total);
+	return $total;
+}
+
+
 function getSavingsTotal () {
 	$savings = DB::table('savings')
 		->where('user_id', Auth::user()->id)
@@ -240,6 +316,7 @@ function getBudgetInfo ($user_id, $type) {
 		"remaining" => $total_remaining
 	);
 
+
 	if ($type === 'fixed') {
 		$budget_info['totals']['cumulative_budget'] = $total_cumulative_budget;
 	}
@@ -248,7 +325,6 @@ function getBudgetInfo ($user_id, $type) {
 	$budget_info['totals'] = numberFormat($budget_info['totals']);
 
 	return $budget_info;
-	// return 'hello';
 }
 
 // function getFilterTotals ($transactions) {
