@@ -41,8 +41,9 @@ function getBudgetTotals () {
 	$total_FB = $FB_info['totals']['budget'];
 	$total_income = getTotalIncome();
 	$total_savings = getSavingsTotal();
+	$EWB = getTotalExpenseWithoutBudget();
 
-	$remaining_balance = $total_income - $total_FB - $total_savings;
+	$remaining_balance = $total_income - $total_FB + $EWB - $total_savings;
 	$remaining_balance = number_format($remaining_balance, 2);
 	
 	$array = array(

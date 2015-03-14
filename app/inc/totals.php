@@ -4,17 +4,22 @@
     <div ng-show="show.basic_totals">
 
         <ul class="list-group">
-            <li id="balance" class="tooltipster list-group-item list-group-item-warning" title="balance (C - D)"> 
-                B:
-                <span id="balance_span" class="badge">{{totals.basic.balance}}</span>
+            <li id="total_income" class="tooltipster list-group-item list-group-item-success" title="credit">
+                <span id="total_income_span" class="badge">{{totals.basic.total_income}}</span>
+                C:
             </li>
 
-            <li class="tooltipster list-group-item" title="fixed budget (total of fixed budget info column A)">
+            <li class="tooltipster list-group-item list-group-item-danger" title="fixed budget (total of fixed budget info column A)">
                 FB:
                 <span id="budget_span" class="badge">{{totals.budget.FB.totals.budget}}</span>
             </li>
 
-            <li class="tooltipster list-group-item" title="savings">
+            <li class="tooltipster list-group-item list-group-item-danger" title="total of expense transactions that have no budget">
+                EWB:
+                <span id="flexible_income_span" class="badge">{{totals.basic.expense_without_budget_total}}</span>
+            </li>
+
+            <li class="tooltipster list-group-item list-group-item-danger" title="savings">
                 S:
                 <span class="badge">{{totals.basic.savings_total}}</span>
                 <button ng-show="show.savings_total.edit_btn" ng-click="showSavingsTotalInput()" class="btn-xs">edit</button>
@@ -26,11 +31,6 @@
                 <span class="badge">{{totals.basic.savings_balance}}</span>
             </li> -->
 
-            <li class="tooltipster list-group-item" title="total of expense transactions that have no budget">
-                EWB:
-                <span id="flexible_income_span" class="badge">{{totals.basic.expense_without_budget_total}}</span>
-            </li>
-
             <li class="tooltipster list-group-item" title="remaining balance (prev flexible income)">
                 RB:
                 <span id="flexible_income_span" class="badge">{{totals.budget.RB}}</span>
@@ -41,14 +41,15 @@
 
         <ul class="list-group">
         
-            <li id="total_income" class="tooltipster list-group-item list-group-item-success" title="credit">
-                <span id="total_income_span" class="badge">{{totals.basic.total_income}}</span>
-                C:
-            </li>
         
             <li id="total" class="tooltipster list-group-item list-group-item-danger" title="debit">
                 <span id="total_expenses_span" class="badge">{{totals.basic.total_expense}}</span>
                 D: 
+            </li>
+
+            <li id="balance" class="tooltipster list-group-item list-group-item-warning" title="balance (C - D)"> 
+                B:
+                <span id="balance_span" class="badge">{{totals.basic.balance}}</span>
             </li>
         
             <li class="tooltipster list-group-item list-group-item-info" title="reconciled">
