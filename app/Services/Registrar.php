@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\User;
+use App\Color;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 use Log;
@@ -49,17 +50,5 @@ Validator::extend('accepted_email', function ($attribute, $value, $parameters) {
 		'peter.c.swift@gmail.com'
 	];
 	$is_accepted = in_array($value, $accepted_emails);
-	// Log::info('value: ' . $value);
-	// Log::info('attribute: ' . $attribute);
-	// Log::info('parameters', $parameters);
-	// Log::info('accepted_emails', $accepted_emails);
-	// Log::info('is_accepted: ' . $is_accepted);
 	return $is_accepted;
 });
-
-// Validator::resolver(function($translator, $data, $rules, $messages)
-// {
-//     return new CustomValidator($translator, $data, $rules, $messages);
-// });
-
-// Class 'App\Services\CustomValidator' not found

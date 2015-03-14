@@ -4,6 +4,7 @@
 
 use App\Transaction_Tag;
 use Debugbar;
+use App\Color;
 
 // DB::enableQueryLog();
 
@@ -300,6 +301,24 @@ function autocompleteTransaction ($column, $typing) {
 // }
 
 // /*========================================insert========================================*/
+
+function insertRowsForNewUser() {
+	Color::create([
+		'item' => 'income',
+		'color' => '#017d00',
+		'user_id' => Auth::user()->id
+	]);
+	Color::create([
+		'item' => 'expense',
+		'color' => '#fb5e52',
+		'user_id' => Auth::user()->id
+	]);
+	Color::create([
+		'item' => 'transfer',
+		'color' => '#fca700',
+		'user_id' => Auth::user()->id
+	]);	
+}
 
 function insertTags ($transaction_id, $tags) {
 	// Log::info('tags', $tags);
