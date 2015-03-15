@@ -31,6 +31,7 @@
                 <th class="tooltipster" title="cumulative starting date">CSD</th>
                 <th class="tooltipster" title="cumulative month number">CMN</th>
                 <th class="tooltipster" title="cumulative (amount * cumulative month number)">C</th>
+                <th class="tooltipster" title="spent before cumulative starting date">-</th>
                 <th class="tooltipster" title="spent since cumulative starting date">-</th>
                 <th class="tooltipster" title="received since cumulative starting date">+</th>
                 <th class="tooltipster" title="remaining  (cumulative + spent + received)">R</th>
@@ -54,6 +55,10 @@
                 <td class="cumulative">{{tag.cumulative_budget}}</td>
 
                 <td class="spent">
+                    <div>{{tag.spent_before_CSD}}</div>      
+                </td>
+
+                <td class="spent">
                     <div>{{tag.spent}}</div>      
                 </td>
 
@@ -72,6 +77,7 @@
                 <td>-</td>
                 <td>-</td>
                 <td>{{totals.budget.FB.totals.cumulative_budget}}</td>
+                <td>{{totals.budget.FB.totals.spent_before_CSD}}</td>
                 <td>{{totals.budget.FB.totals.spent}}</td>
                 <td>{{totals.budget.FB.totals.received}}</td>
                 <td>{{totals.budget.FB.totals.remaining}}</td>

@@ -42,12 +42,13 @@ function getBudgetTotals () {
 
 	//calculating remaining balance
 	$total_CFB = $FB_info['totals']['cumulative_budget'];
+	$total_spent_before_CSD = $FB_info['totals']['spent_before_CSD'];
 	$total_income = getTotalIncome();
 	$total_savings = getSavingsTotal();
 	$EWB = getTotalExpenseWithoutBudget();
 	$EFLB = getTotalExpenseWithFLB();
 
-	$remaining_balance = $total_income - $total_CFB + $EWB + $EFLB - $total_savings;
+	$remaining_balance = $total_income - $total_CFB + $EWB + $EFLB + $total_spent_before_CSD - $total_savings;
 	$remaining_balance = number_format($remaining_balance, 2);
 
 	//formatting
@@ -114,6 +115,25 @@ function getSavingsTotal () {
 		->pluck('amount');
 
 	return $savings;
+}
+
+function getTotalSpentOnTagBeforeCSD ($tag_id, $CSD) {
+	//get total spent on a given tag after starting date
+	$total = DB::table('transactions_tags')
+		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+		->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
+		->where('transactions_tags.tag_id', $tag_id);
+
+	if ($CSD) {
+		$total = $total->where('transactions.date', '<', $CSD);
+	}	
+		
+	$total = $total
+		->where('transactions.type', 'expense')
+		->where('transactions_tags.user_id', Auth::user()->id)
+		->sum('calculated_allocation');
+
+	return $total;
 }
 
 function getTotalSpentOnTag ($tag_id, $starting_date) {
@@ -277,6 +297,7 @@ function getBudgetInfo ($user_id, $type) {
 	$total_spent = 0;
 	$total_received = 0;
 	$total_remaining = 0;
+	$total_spent_before_CSD = 0;
 
 	foreach ($tags as $tag) {
 		$tag_id = $tag->id;
@@ -297,7 +318,8 @@ function getBudgetInfo ($user_id, $type) {
 		}
 		
 	    $spent = getTotalSpentOnTag($tag_id, $CSD);
-	    $received = getTotalReceivedOnTag($tag_id, $CSD);		
+	    $received = getTotalReceivedOnTag($tag_id, $CSD);
+	    $spent_before_CSD = getTotalSpentOnTagBeforeCSD($tag_id, $CSD);		
 
 		$total_budget += $budget;
 
@@ -312,6 +334,7 @@ function getBudgetInfo ($user_id, $type) {
 		$total_spent += $spent;
 		$total_received += $received;
 		$total_remaining += $remaining;
+		$total_spent_before_CSD += $spent_before_CSD;
 
 		$CSD = convertDate($CSD, 'user');
 
@@ -319,6 +342,7 @@ function getBudgetInfo ($user_id, $type) {
 		$spent = number_format($spent, 2);
 		$received = number_format($received, 2);
 		$remaining = number_format($remaining, 2);
+		$spent_before_CSD = number_format($spent_before_CSD, 2);
 
 		$tag_info = array(
 			"id" => $tag_id,
@@ -328,7 +352,8 @@ function getBudgetInfo ($user_id, $type) {
 			"CMN" => $CMN,
 			"spent" => $spent,
 			"received" => $received,
-			"remaining" => $remaining
+			"remaining" => $remaining,
+			"spent_before_CSD" => $spent_before_CSD
 		);
 
 		if ($type === 'fixed') {
@@ -343,7 +368,8 @@ function getBudgetInfo ($user_id, $type) {
 		"budget" => $total_budget,
 		"spent" => $total_spent,
 		"received" => $total_received,
-		"remaining" => $total_remaining
+		"remaining" => $total_remaining,
+		"spent_before_CSD" => $total_spent_before_CSD
 	);
 
 
