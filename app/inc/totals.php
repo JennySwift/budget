@@ -19,6 +19,11 @@
                 <span id="flexible_income_span" class="badge">{{totals.basic.expense_without_budget_total}}</span>
             </li>
 
+            <li class="tooltipster list-group-item list-group-item-danger" title="total of expense transactions that have a flex budget">
+                EFLB:
+                <span id="flexible_income_span" class="badge">{{totals.basic.EFLB}}</span>
+            </li>
+
             <li class="tooltipster list-group-item list-group-item-danger" title="savings">
                 S:
                 <span class="badge">{{totals.basic.savings_total}}</span>

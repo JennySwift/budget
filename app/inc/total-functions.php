@@ -11,6 +11,7 @@ function getBasicTotals () {
 	$savings_total = getSavingsTotal();
 	$savings_balance = $balance - $savings_total;
 	$expense_without_budget_total = getTotalExpenseWithoutBudget();
+	$EFLB = getTotalExpenseWithFLB();
 	
 	$total_income = number_format($total_income, 2);
 	$total_expense = number_format($total_expense, 2);
@@ -19,6 +20,7 @@ function getBasicTotals () {
 	$savings_total = number_format($savings_total, 2);
 	$savings_balance = number_format($savings_balance, 2);
 	$expense_without_budget_total = number_format($expense_without_budget_total, 2);
+	$EFLB = number_format($EFLB, 2);
 
 	$totals = array(
 	    "total_income" => $total_income,
@@ -27,7 +29,8 @@ function getBasicTotals () {
 	    "reconciled_sum" => $reconciled_sum,
 	    "savings_total" => $savings_total,
 	    "savings_balance" => $savings_balance,
-	    "expense_without_budget_total" => $expense_without_budget_total
+	    "expense_without_budget_total" => $expense_without_budget_total,
+	    "EFLB" => $EFLB
 	);
 	return $totals;
 }
@@ -42,8 +45,9 @@ function getBudgetTotals () {
 	$total_income = getTotalIncome();
 	$total_savings = getSavingsTotal();
 	$EWB = getTotalExpenseWithoutBudget();
+	$EFLB = getTotalExpenseWithFLB();
 
-	$remaining_balance = $total_income - $total_CFB + $EWB - $total_savings;
+	$remaining_balance = $total_income - $total_CFB + $EWB + $EFLB - $total_savings;
 	$remaining_balance = number_format($remaining_balance, 2);
 
 	//formatting
@@ -55,6 +59,29 @@ function getBudgetTotals () {
 	    "RB" => $remaining_balance
 	);
 	return $array;
+}
+
+function getTotalExpenseWithFLB () {
+	//this is for calculating the remaining balance. Finds all transactions that have a flex budget and returns the total of those transactions.
+	//first, get all the transactions that have a budget.
+	$sql = "select id from transactions where transactions.type = 'expense' AND transactions.user_id = " . Auth::user()->id . " and (select count(*) from tags inner join transactions_tags on tags.id = transactions_tags.tag_id
+	where transactions_tags.transaction_id = transactions.id
+	and tags.budget_id = 2) > 0";
+
+	$transactions_with_FLB = DB::select($sql);
+
+	//format transactions_with_one_budget into a nice array
+	$ids = array();
+	foreach ($transactions_with_FLB as $transaction) {
+	    $id = $transaction->id;
+	    $ids[] = $id;
+	}
+
+	$total = DB::table('transactions')
+		->whereIn('transactions.id', $ids)
+		->sum('total');
+
+	return $total;
 }
 
 function getTotalExpenseWithoutBudget () {
@@ -77,7 +104,6 @@ function getTotalExpenseWithoutBudget () {
 		->whereIn('transactions.id', $ids)
 		->sum('total');
 
-	Debugbar::info('EWT', $total);
 	return $total;
 }
 
