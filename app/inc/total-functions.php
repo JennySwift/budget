@@ -38,12 +38,12 @@ function getBudgetTotals () {
 	$FLB_info = getBudgetInfo($user_id, 'flex');
 
 	//calculating remaining balance
-	$total_FB = $FB_info['totals']['budget'];
+	$total_CFB = $FB_info['totals']['cumulative_budget'];
 	$total_income = getTotalIncome();
 	$total_savings = getSavingsTotal();
 	$EWB = getTotalExpenseWithoutBudget();
 
-	$remaining_balance = $total_income - $total_FB + $EWB - $total_savings;
+	$remaining_balance = $total_income - $total_CFB + $EWB - $total_savings;
 	$remaining_balance = number_format($remaining_balance, 2);
 	
 	$array = array(

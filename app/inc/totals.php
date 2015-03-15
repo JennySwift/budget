@@ -10,8 +10,8 @@
             </li>
 
             <li class="tooltipster list-group-item list-group-item-danger" title="fixed budget (total of fixed budget info column A)">
-                FB:
-                <span id="budget_span" class="badge">{{totals.budget.FB.totals.budget}}</span>
+                CFB:
+                <span id="budget_span" class="badge">{{totals.budget.FB.totals.cumulative_budget}}</span>
             </li>
 
             <li class="tooltipster list-group-item list-group-item-danger" title="total of expense transactions that have no budget">
