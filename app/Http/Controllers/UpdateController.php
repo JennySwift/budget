@@ -103,33 +103,7 @@ class UpdateController extends Controller {
 		include(app_path() . '/inc/functions.php');
 		$transaction = json_decode(file_get_contents('php://input'), true)["transaction"];
 
-		$transaction_id = $transaction['id'];
-		$account_id = $transaction['account']['id'];
-		$date = $transaction['date']['sql'];
-		$merchant = $transaction['merchant'];
-		$total = $transaction['total'];
-		$tags = $transaction['tags'];
-		$description = $transaction['description'];
-		$type = $transaction['type'];
-		$reconciliation = $transaction['reconciled'];
-		$reconciliation = convertFromBoolean($reconciliation);
-
-		DB::table('transactions')
-			->where('id', $transaction_id)
-			->update([
-				'account_id' => $account_id,
-				'type' => $type,
-				'date' => $date,
-				'merchant' => $merchant,
-				'total' => $total,
-				'description' => $description,
-				'reconciled' => $reconciliation
-			]);
-
-		//delete all previous tags for the transaction and then add the current ones 
-		deleteAllTagsForTransaction($transaction_id);
-
-		insertTags($transaction_id, $tags);
+		updateTransaction($transaction);
 	}
 
 	public function reconciliation () {

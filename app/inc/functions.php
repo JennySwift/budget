@@ -302,25 +302,26 @@ function autocompleteTransaction ($column, $typing) {
 // /*========================================insert========================================*/
 
 function insertTags ($transaction_id, $tags, $transaction_total) {
+	Debugbar::info('transaction_total: ' . $transaction_total);
     foreach ($tags as $tag) {
     	$tag_id = $tag['id'];
 
         if (isset($tag['allocated_fixed'])) {
         	$tag_allocated_fixed = $tag['allocated_fixed'];
+        	$calculated_allocation = $tag_allocated_fixed;
 
         	DB::table('transactions_tags')
         		->insert([
         			'transaction_id' => $transaction_id,
         			'tag_id' => $tag_id,
         			'allocated_fixed' => $tag_allocated_fixed,
-        			'calculated_allocation' => $tag_allocated_fixed,
+        			'calculated_allocation' => $calculated_allocation,
         			'user_id' => Auth::user()->id
         		]);
 
         }
         elseif (isset($tag['allocated_percent'])) {
         	$tag_allocated_percent = $tag['allocated_percent'];
-
         	$calculated_allocation = $transaction_total / 100 * $tag_allocated_percent;
 
         	DB::table('transactions_tags')
@@ -334,18 +335,17 @@ function insertTags ($transaction_id, $tags, $transaction_total) {
 
         }
         else {
+        	$calculated_allocation = $transaction_total;
 
         	DB::table('transactions_tags')
         		->insert([
         			'transaction_id' => $transaction_id,
         			'tag_id' => $tag_id,
-        			'calculated_allocation' => $transaction_total,
+        			'calculated_allocation' => $calculated_allocation,
         			'user_id' => Auth::user()->id
         		]);
         
         }
-        
-        updateCalculatedAllocation($transaction_id, $tag_id);
     } 
 }
 
@@ -413,6 +413,36 @@ function insertTransaction ($new_transaction, $transaction_type) {
 
 // /*========================================update========================================*/
 
+function updateTransaction ($transaction) {
+	$transaction_id = $transaction['id'];
+	$account_id = $transaction['account']['id'];
+	$date = $transaction['date']['sql'];
+	$merchant = $transaction['merchant'];
+	$total = $transaction['total'];
+	$tags = $transaction['tags'];
+	$description = $transaction['description'];
+	$type = $transaction['type'];
+	$reconciliation = $transaction['reconciled'];
+	$reconciliation = convertFromBoolean($reconciliation);
+
+	DB::table('transactions')
+		->where('id', $transaction_id)
+		->update([
+			'account_id' => $account_id,
+			'type' => $type,
+			'date' => $date,
+			'merchant' => $merchant,
+			'total' => $total,
+			'description' => $description,
+			'reconciled' => $reconciliation
+		]);
+
+	//delete all previous tags for the transaction and then add the current ones 
+	deleteAllTagsForTransaction($transaction_id);
+
+	insertTags($transaction_id, $tags, $total);
+}
+
 function updateSavingsTotal ($amount) {
 	DB::table('savings')
 		->where('user_id', Auth::user()->id)
@@ -456,11 +486,11 @@ function updateAllocatedPercent ($allocated_percent, $transaction_id, $tag_id) {
 		->where('tag_id', $tag_id)
 		->update(['allocated_percent' => $allocated_percent, 'allocated_fixed' => null]);
 
-	updateCalculatedAllocation($transaction_id, $tag_id);
+	updateAllocatedPercentCalculatedAllocation($transaction_id, $tag_id);
 }
 
-function updateCalculatedAllocation ($transaction_id, $tag_id) {
-	//updates calculated_allocation column for one row in transactions_tags
+function updateAllocatedPercentCalculatedAllocation ($transaction_id, $tag_id) {
+	//updates calculated_allocation column for one row in transactions_tags, where the tag has been given an allocated percent
 	$sql = "UPDATE transactions_tags calculated_allocation JOIN transactions ON transactions.id = transaction_id SET calculated_allocation = transactions.total / 100 * allocated_percent WHERE transaction_id = $transaction_id AND tag_id = $tag_id;";
 	DB::update($sql);
 }
