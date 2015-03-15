@@ -45,6 +45,9 @@ function getBudgetTotals () {
 
 	$remaining_balance = $total_income - $total_CFB + $EWB - $total_savings;
 	$remaining_balance = number_format($remaining_balance, 2);
+
+	//formatting
+	$FB_info['totals'] = numberFormat($FB_info['totals']);
 	
 	$array = array(
 	    "FB" => $FB_info,
@@ -321,9 +324,6 @@ function getBudgetInfo ($user_id, $type) {
 	if ($type === 'fixed') {
 		$budget_info['totals']['cumulative_budget'] = $total_cumulative_budget;
 	}
-
-	// //formatting the whole array
-	$budget_info['totals'] = numberFormat($budget_info['totals']);
 
 	return $budget_info;
 }
