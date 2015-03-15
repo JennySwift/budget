@@ -133,6 +133,8 @@ function getTotalSpentOnTagBeforeCSD ($tag_id, $CSD) {
 		->where('transactions_tags.user_id', Auth::user()->id)
 		->sum('calculated_allocation');
 
+	Debugbar::info('spent before CSD: ' . $total . ' tag_id: ' . $tag_id);
+
 	return $total;
 }
 

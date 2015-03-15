@@ -301,8 +301,7 @@ function autocompleteTransaction ($column, $typing) {
 
 // /*========================================insert========================================*/
 
-function insertTags ($transaction_id, $tags) {
-	// Log::info('tags', $tags);
+function insertTags ($transaction_id, $tags, $transaction_total) {
     foreach ($tags as $tag) {
     	$tag_id = $tag['id'];
 
@@ -314,6 +313,7 @@ function insertTags ($transaction_id, $tags) {
         			'transaction_id' => $transaction_id,
         			'tag_id' => $tag_id,
         			'allocated_fixed' => $tag_allocated_fixed,
+        			'calculated_allocation' => $tag_allocated_fixed,
         			'user_id' => Auth::user()->id
         		]);
 
@@ -321,11 +321,14 @@ function insertTags ($transaction_id, $tags) {
         elseif (isset($tag['allocated_percent'])) {
         	$tag_allocated_percent = $tag['allocated_percent'];
 
+        	$calculated_allocation = $transaction_total / 100 * $tag_allocated_percent;
+
         	DB::table('transactions_tags')
         		->insert([
         			'transaction_id' => $transaction_id,
         			'tag_id' => $tag_id,
         			'allocated_percent' => $tag_allocated_percent,
+        			'calculated_allocation' => $calculated_allocation,
         			'user_id' => Auth::user()->id
         		]);
 
@@ -336,6 +339,7 @@ function insertTags ($transaction_id, $tags) {
         		->insert([
         			'transaction_id' => $transaction_id,
         			'tag_id' => $tag_id,
+        			'calculated_allocation' => $transaction_total,
         			'user_id' => Auth::user()->id
         		]);
         
@@ -356,13 +360,13 @@ function insertTransaction ($new_transaction, $transaction_type) {
 
 	if ($transaction_type === "from") {
 		$from_account = $new_transaction['from_account'];
-		$negative_total = $new_transaction['negative_total'];
+		$total = $new_transaction['negative_total'];
 
 		DB::table('transactions')
 			->insert([
 				'account_id' => $from_account,
 				'date' => $date,
-				'total' => $negative_total,
+				'total' => $total,
 				'description' => $description,
 				'type' => $type,
 				'reconciled' => $reconciled,
@@ -404,7 +408,7 @@ function insertTransaction ($new_transaction, $transaction_type) {
 
 	//inserting tags
 	$last_transaction_id = getLastTransactionId($user_id);
-	insertTags($last_transaction_id, $tags);
+	insertTags($last_transaction_id, $tags, $total);
 }
 
 // /*========================================update========================================*/
