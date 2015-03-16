@@ -1,9 +1,6 @@
 <?php
-	// include(app_path().'/inc/config.php');
-	// echo 'firephp: ' . $firephp;
 
 use App\Transaction_Tag;
-use Debugbar;
 use App\Color;
 
 // DB::enableQueryLog();
@@ -171,16 +168,18 @@ function getTags ($transaction_id) {
 	
 
 	foreach ($tags as $tag) {
+		// Debugbar::info('allocated_fixed: ' . $tag['allocated_fixed']);
+		// Debugbar::info('allocated_percent: ' . $tag['allocated_percent']);
 		$allocated_fixed = $tag['allocated_fixed'];
 		$allocated_percent = $tag['allocated_percent'];
 
-		if ($allocated_fixed && !$allocated_percent) {
+		if (isset($allocated_fixed) && !$allocated_percent) {
 			$tag['allocation_type'] = 'fixed';
 		}
 		elseif ($allocated_percent && !$allocated_fixed) {
 			$tag['allocation_type'] = 'percent';
 		}
-		elseif (!$allocation_fixed && !$allocated_percent) {
+		elseif (!isset($allocation_fixed) && !$allocated_percent) {
 			//this caused an error for some reason.
 			// $tag->allocation_type = 'undefined';
 		}
