@@ -744,6 +744,12 @@ div.account #display_accounts {
 .tag-with-budget {
   background: green; }
 
+.tag-with-fixed-budget {
+  background: #3938b0; }
+
+.tag-with-flex-budget {
+  background: #9a9a1e; }
+
 .allocated {
   background: green; }
 
