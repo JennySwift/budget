@@ -78,9 +78,11 @@ function getTotalExpenseWithFLB () {
 	    $ids[] = $id;
 	}
 
-	$total = DB::table('transactions')
-		->whereIn('transactions.id', $ids)
-		->sum('total');
+	$total = DB::table('transactions_tags')
+		->whereIn('transaction_id', $ids)
+		->where('budget_id', 2)
+		->join('tags', 'tag_id', '=', 'tags.id')
+		->sum('calculated_allocation');
 
 	return $total;
 }
