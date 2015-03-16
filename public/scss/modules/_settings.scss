@@ -18,7 +18,7 @@ div.account {
 
 	.tags, .account,{
 		position: relative;
-		#add_budget_input, #add_perc_budget_input, #new_tag_input, #new_account_input {
+		#add_budget_input, #add_perc_budget_input, #new-tag-input, #new_account_input {
 			left: 0;
 			right:0;
 		}
@@ -27,7 +27,7 @@ div.account {
 		padding: 5px 0;
 		background: $lightblue1;
 	}
-	#add_budget_input, #add_perc_budget_input, #new_tag_input, #new_account_input, label {
+	#add_budget_input, #add_perc_budget_input, #new-tag-input, #new_account_input, label {
 		margin: 0px auto;
 	}
 	#display_tags, #display_accounts, .budget_info {

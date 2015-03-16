@@ -4,7 +4,7 @@ app.factory('insert', function ($http) {
 			//adds a new tag to tags table, not to a transaction
 			var $url = 'insert/tag';
 			var $description = 'tag';
-			var $new_tag_name = $(".new_tag_input").val();
+			var $new_tag_name = $("#new-tag-input").val();
 			var $data = {
 				description: $description,
 				new_tag_name: $new_tag_name

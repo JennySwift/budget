@@ -247,13 +247,13 @@ div.account #display_accounts {
       position: relative; }
   #setup_container .tags, #setup_container .account {
     position: relative; }
-    #setup_container .tags #add_budget_input, #setup_container .tags #add_perc_budget_input, #setup_container .tags #new_tag_input, #setup_container .tags #new_account_input, #setup_container .account #add_budget_input, #setup_container .account #add_perc_budget_input, #setup_container .account #new_tag_input, #setup_container .account #new_account_input {
+    #setup_container .tags #add_budget_input, #setup_container .tags #add_perc_budget_input, #setup_container .tags #new-tag-input, #setup_container .tags #new_account_input, #setup_container .account #add_budget_input, #setup_container .account #add_perc_budget_input, #setup_container .account #new-tag-input, #setup_container .account #new_account_input {
       left: 0;
       right: 0; }
   #setup_container #add_budget_input, #setup_container #add_perc_budget_input {
     padding: 5px 0;
     background: #f2f8fa; }
-  #setup_container #add_budget_input, #setup_container #add_perc_budget_input, #setup_container #new_tag_input, #setup_container #new_account_input, #setup_container label {
+  #setup_container #add_budget_input, #setup_container #add_perc_budget_input, #setup_container #new-tag-input, #setup_container #new_account_input, #setup_container label {
     margin: 0px auto; }
   #setup_container #display_tags, #setup_container #display_accounts, #setup_container .budget_info {
     min-height: 100px; }

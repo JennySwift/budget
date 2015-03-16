@@ -23,7 +23,7 @@
     <!-- ==============================tags============================== -->    
     <div class="row">
         <div class="col-sm-4">
-            <input ng-keyup="checkKeycode($event.keyCode, insertTag)" type="text" class="new_tag_input font-size-sm" id="new_tag_input" placeholder="new tag">
+            <input ng-keyup="checkKeycode($event.keyCode, insertTag)" type="text" class="font-size-sm" id="new-tag-input" placeholder="new tag">
             <div id="display_tags">
                 <table class="table table-bordered">
                     <tr ng-repeat="tag in tags">

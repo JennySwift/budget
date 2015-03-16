@@ -333,6 +333,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				else {
 					insert.tag().then(function (response) {
 						$scope.getTags();
+						$("#new-tag-input").val("");
 					});
 				}
 			});

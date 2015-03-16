@@ -21,7 +21,7 @@ app.factory('select', function ($http) {
 		duplicateTagCheck: function () {
 			var $url = 'select/duplicate-tag-check';
 			var $description = 'duplicate tag check';
-			var $new_tag_name = $("#new_tag_input").val();
+			var $new_tag_name = $("#new-tag-input").val();
 			var $data = {
 				description: $description,
 				new_tag_name: $new_tag_name
