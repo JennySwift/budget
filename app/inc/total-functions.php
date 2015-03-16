@@ -12,6 +12,7 @@ function getBasicTotals () {
 	$savings_balance = $balance - $savings_total;
 	$expense_without_budget_total = getTotalExpenseWithoutBudget();
 	$EFLB = getTotalExpenseWithFLB();
+	Debugbar::info('EFLB line 15: ' . $EFLB);
 	
 	$total_income = number_format($total_income, 2);
 	$total_expense = number_format($total_expense, 2);
@@ -21,6 +22,7 @@ function getBasicTotals () {
 	$savings_balance = number_format($savings_balance, 2);
 	$expense_without_budget_total = number_format($expense_without_budget_total, 2);
 	$EFLB = number_format($EFLB, 2);
+	Debugbar::info('EFLB line 25: ' . $EFLB);
 
 	$totals = array(
 	    "total_income" => $total_income,
@@ -32,6 +34,7 @@ function getBasicTotals () {
 	    "expense_without_budget_total" => $expense_without_budget_total,
 	    "EFLB" => $EFLB
 	);
+
 	return $totals;
 }
 
@@ -84,6 +87,8 @@ function getTotalExpenseWithFLB () {
 		->join('tags', 'tag_id', '=', 'tags.id')
 		->sum('calculated_allocation');
 
+	Debugbar::info('EFLB: ' . $total);
+
 	return $total;
 }
 
@@ -135,7 +140,7 @@ function getTotalSpentOnTagBeforeCSD ($tag_id, $CSD) {
 		->where('transactions_tags.user_id', Auth::user()->id)
 		->sum('calculated_allocation');
 
-	Debugbar::info('spent before CSD: ' . $total . ' tag_id: ' . $tag_id);
+	// Debugbar::info('spent before CSD: ' . $total . ' tag_id: ' . $tag_id);
 
 	return $total;
 }
