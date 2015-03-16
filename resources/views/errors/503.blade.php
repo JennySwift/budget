@@ -34,7 +34,7 @@
 	<body>
 		<div class="container">
 			<div class="content">
-				<div class="title">Be right back.</div>
+				<div class="title">Site under construction. Please check back soon.</div>
 			</div>
 		</div>
 	</body>
