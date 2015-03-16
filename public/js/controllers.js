@@ -457,9 +457,18 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
-		$scope.updateFixedBudget = function () {
+		$scope.updateFixedBudget = function ($keycode) {
+			if ($keycode !== 13) {
+				return;
+			}
 			update.budget($scope.new_fixed_budget.tag.id, 'fixed_budget', $scope.new_fixed_budget.budget).then(function (response) {
 				$scope.totals();
+				//unselect the tag in the dropdown
+				_.findWhere($scope.tags, {selected: true}).selected = false;
+				//clear the tag inputs and focus the correct input
+				$scope.new_fixed_budget.tag.name = "";
+				$scope.new_fixed_budget.budget = "";
+				$("#budget-fixed-tag-input").focus();
 			});
 		};
 

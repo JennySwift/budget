@@ -12,13 +12,13 @@
                 <input ng-model="new_fixed_budget.tag.name" ng-focus="new_fixed_budget.dropdown = true" ng-blur="new_fixed_budget.dropdown = false" ng-keyup="filterTags($event.keyCode, new_fixed_budget.tag.name, new_fixed_budget.tag, 'new_fixed_budget')" placeholder="tag" id="budget-fixed-tag-input" type='text'>
                 
                 <div ng-show="new_fixed_budget.dropdown" class="tag-dropdown">
-                    <li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': selected.id && tag.id === selected.id}">{{tag.name}}</li>
+                    <li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': tag.selected}">{{tag.name}}</li>
                 </div>
             
             </div>
         </div>
 
-        <input ng-model="new_fixed_budget.budget" ng-keyup="updateFixedBudget()" id="budget-fixed-budget-input" type="text">
+        <input ng-model="new_fixed_budget.budget" ng-keyup="updateFixedBudget($event.keyCode)" id="budget-fixed-budget-input" type="text">
             
         <!-- ==============================fixed budget table============================== -->
 
