@@ -229,8 +229,9 @@ function getTotalExpense () {
 function getAllocationTotals ($transaction_id) {
 	$rows = DB::table('transactions_tags')
 		->where('transaction_id', $transaction_id)
+		->where('tags.budget_id', '!=', 'null')
 		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-		->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
+		->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget', 'tags.budget_id')
 		->get();
 
 	$fixed_sum = '-';
