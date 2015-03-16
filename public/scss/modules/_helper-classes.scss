@@ -35,6 +35,11 @@
 	box-sizing: border-box;
 }
 
+.btn-xs {
+	font-size: 8px;
+	padding: 1px;
+}
+
 // .table {
 // 	//overridding bootstrap's width: 100%
 // 	width: auto;
@@ -274,7 +279,7 @@
 }
 
 .col-sm-2 {
-	flex-basis: 135px;
+	flex-basis: 182px;
 }
 
 

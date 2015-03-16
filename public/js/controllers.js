@@ -33,18 +33,18 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		// $scope.new_transaction.from_account = 'from';
 		// $scope.new_transaction.to_account = 'to';
 		$scope.new_transaction.tags = [
-			{
-				id: '16',
-				name: 'test',
-				fixed_budget: '10.00',
-				flex_budget: null
-			},
-			{
-				id: '17',
-				name: 'testtwo',
-				fixed_budget: null,
-				flex_budget: '5'
-			}
+			// {
+			// 	id: '16',
+			// 	name: 'test',
+			// 	fixed_budget: '10.00',
+			// 	flex_budget: null
+			// },
+			// {
+			// 	id: '17',
+			// 	name: 'testtwo',
+			// 	fixed_budget: null,
+			// 	flex_budget: '5'
+			// }
 		];
 
 		/*=========budget=========*/
@@ -159,12 +159,29 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				transactions: false
 			},
 			allocation_popup: false,
-			new_transaction_allocation_popup: false
+			new_transaction_allocation_popup: false,
+			savings_total: {
+				input: false,
+				edit_btn: true
+			}
 			// budget: {
 			// 	dropdown: false
 			// }
 		};
+
+		/*=================================================================================
+		===================================================================================
+		===================================================================================
+		=================================show=================================
+		===================================================================================
+		===================================================================================
+		=================================================================================*/
 		
+		$scope.showSavingsTotalInput = function () {
+			$scope.show.savings_total.input = true;
+			$scope.show.savings_total.edit_btn = false;
+		};
+
 		/*=================================================================================
 		===================================================================================
 		===================================================================================
@@ -427,6 +444,17 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		===================================================================================
 		===================================================================================
 		=================================================================================*/
+
+		$scope.updateSavingsTotal = function ($keycode) {
+			if ($keycode !== 13) {
+				return;
+			}
+			update.savingsTotal($scope.totals.basic.savings_total).then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.show.savings_total.input = false;
+				$scope.show.savings_total.edit_btn = true;
+			});
+		};
 
 		$scope.updateFixedBudget = function () {
 			update.budget($scope.new_fixed_budget.tag.id, 'fixed_budget', $scope.new_fixed_budget.budget).then(function (response) {
