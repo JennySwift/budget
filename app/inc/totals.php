@@ -29,6 +29,11 @@
                 <span id="flexible_income_span" class="badge">{{totals.budget.FB.totals.spent_before_CSD}}</span>
             </li>
 
+            <li class="tooltipster list-group-item list-group-item-danger" title="total of expense transactions that have a fixed budget after its CSD">
+                EFBACSD:
+                <span id="flexible_income_span" class="badge">{{totals.budget.FB.totals.spent}}</span>
+            </li>
+
             <li class="tooltipster list-group-item list-group-item-danger" title="savings">
                 S:
                 <span class="badge">{{totals.basic.savings_total}}</span>
