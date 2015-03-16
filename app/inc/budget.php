@@ -96,13 +96,13 @@
                 <input ng-model="new_flex_budget.tag.name" ng-focus="new_flex_budget.dropdown = true" ng-blur="new_flex_budget.dropdown = false" ng-keyup="filterTags($event.keyCode, new_flex_budget.tag.name, new_flex_budget.tag, 'new_flex_budget')" placeholder="tag" id="budget-flex-tag-input" type='text'>
                 
                 <div ng-show="new_flex_budget.dropdown" class="tag-dropdown">
-                    <li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': selected.id && tag.id === selected.id}">{{tag.name}}</li>
+                    <li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': tag.selected}">{{tag.name}}</li>
                 </div>
             
             </div>
         </div>
 
-        <input ng-model="new_flex_budget.budget" ng-keyup="updateFlexBudget()" id="budget-flex-budget-input" type="text">
+        <input ng-model="new_flex_budget.budget" ng-keyup="updateFlexBudget($event.keyCode)" id="budget-flex-budget-input" type="text">
         
         <!-- ==============================flex budget table============================== -->
 

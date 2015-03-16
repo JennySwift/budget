@@ -472,9 +472,18 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
-		$scope.updateFlexBudget = function () {
+		$scope.updateFlexBudget = function ($keycode) {
+			if ($keycode !== 13) {
+				return;
+			}
 			update.budget($scope.new_flex_budget.tag.id, 'flex_budget', $scope.new_flex_budget.budget).then(function (response) {
 				$scope.totals();
+				//unselect the tag in the dropdown
+				_.findWhere($scope.tags, {selected: true}).selected = false;
+				//clear the tag inputs and focus the correct input
+				$scope.new_flex_budget.tag.name = "";
+				$scope.new_flex_budget.budget = "";
+				$("#budget-flex-tag-input").focus();
 			});
 		};
 
