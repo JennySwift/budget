@@ -6,4 +6,8 @@
 	$tools = $public . '/tools';
 	$css = $public . '/css';
 	$ajax = $app . '/ajax';
+
+    define("APP", app_path());
+    define("INC", app_path() . '/inc');
+
 ?>

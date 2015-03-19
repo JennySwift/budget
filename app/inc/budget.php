@@ -19,7 +19,7 @@
         </div>
 
         <input ng-model="new_fixed_budget.budget" ng-keyup="updateFixedBudget($event.keyCode)" id="budget-fixed-budget-input" type="text">
-            
+              
         <!-- ==============================fixed budget table============================== -->
 
         <table id="fixed-budget-info-table" class="table table-bordered">
