@@ -1,6 +1,6 @@
 <!-- plugins -->
+<script type="text/javascript" src="tools/angular.min.js"></script>
 <script type="text/javascript" src="tools/jquery.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
 <script type="text/javascript" src="tools/underscore-min.js"></script>
 <script type="text/javascript" src="tools/tooltipster.min.js"></script>
 <script type="text/javascript" src="tools/bootstrap-tour.min.js"></script>
