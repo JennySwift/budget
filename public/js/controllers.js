@@ -1036,26 +1036,41 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$("#transfer-color-picker").val(newValue.transfer);
 		});
 
-		$scope.$watchCollection('totals', function (newValue, oldValue) {
-			//check the change was from a user action, not from this function itself, to avoid an endless loop. I am doing this by checking that there has been a change in debit, credit, or CFB, because this function should only change RB and savings.
-			//so it doesn't run on page load
-			if (oldValue.budget && oldValue.basic) {
-				if (newValue.budget.FB.totals.cumulative_budget !== oldValue.budget.FB.totals.cumulative_budget || newValue.basic.total_income !== oldValue.basic.total_income || newValue.basic.total_expense !== oldValue.basic.total_expense) {
-					//get rid of the commas and convert to integers
-					var $new_RB = parseInt(newValue.budget.RB.replace(',', ''), 10);
-					var $old_RB = parseInt(oldValue.budget.RB.replace(',', ''), 10);
-					if ($new_RB > $old_RB) {
-						//$RB has increased due to a user action
-						//Figure out how much it has increased by.
-						var $diff = $new_RB - $old_RB;
-						//This value will change. Just for developing purposes.
-						var $percent = 10;
-						var $amount_to_add = $diff / 100 * $percent;
-						$scope.addPercentageToSavingsAutomatically($amount_to_add);
-					}
-				}
+		$scope.$watch('totals.budget.RB', function (newValue, oldValue) {
+			//get rid of the commas and convert to integers
+			var $new_RB = parseInt(newValue.replace(',', ''), 10);
+			var $old_RB = parseInt(oldValue.replace(',', ''), 10);
+			if ($new_RB > $old_RB) {
+				//$RB has increased due to a user action
+				//Figure out how much it has increased by.
+				var $diff = $new_RB - $old_RB;
+				//This value will change. Just for developing purposes.
+				var $percent = 10;
+				var $amount_to_add = $diff / 100 * $percent;
+				$scope.addPercentageToSavingsAutomatically($amount_to_add);
 			}
 		});
+
+		// $scope.$watchCollection('totals', function (newValue, oldValue) {
+		// 	//check the change was from a user action, not from this function itself, to avoid an endless loop. I am doing this by checking that there has been a change in debit, credit, or CFB, because this function should only change RB and savings.
+		// 	//so it doesn't run on page load
+		// 	if (oldValue.budget && oldValue.basic) {
+		// 		if (newValue.budget.FB.totals.cumulative_budget !== oldValue.budget.FB.totals.cumulative_budget || newValue.basic.total_income !== oldValue.basic.total_income || newValue.basic.total_expense !== oldValue.basic.total_expense) {
+		// 			//get rid of the commas and convert to integers
+		// 			var $new_RB = parseInt(newValue.budget.RB.replace(',', ''), 10);
+		// 			var $old_RB = parseInt(oldValue.budget.RB.replace(',', ''), 10);
+		// 			if ($new_RB > $old_RB) {
+		// 				//$RB has increased due to a user action
+		// 				//Figure out how much it has increased by.
+		// 				var $diff = $new_RB - $old_RB;
+		// 				//This value will change. Just for developing purposes.
+		// 				var $percent = 10;
+		// 				var $amount_to_add = $diff / 100 * $percent;
+		// 				$scope.addPercentageToSavingsAutomatically($amount_to_add);
+		// 			}
+		// 		}
+		// 	}
+		// });
 
 		$scope.$watchCollection('filter.accounts', function (newValue, oldValue) {
 			if (newValue === oldValue) {
