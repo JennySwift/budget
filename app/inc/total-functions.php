@@ -46,12 +46,13 @@ function getBudgetTotals () {
 	//calculating remaining balance
 	$total_CFB = $FB_info['totals']['cumulative_budget'];
 	$total_spent_before_CSD = $FB_info['totals']['spent_before_CSD'];
+	$total_spent_after_CSD = $FB_info['totals']['spent'];
 	$total_income = getTotalIncome();
 	$total_savings = getSavingsTotal();
 	$EWB = getTotalExpenseWithoutBudget();
 	$EFLB = getTotalExpenseWithFLB();
 
-	$remaining_balance = $total_income - $total_CFB + $EWB + $EFLB + $total_spent_before_CSD - $total_savings;
+	$remaining_balance = $total_income - $total_CFB + $EWB + $EFLB + $total_spent_before_CSD + $total_spent_after_CSD - $total_savings;
 	$remaining_balance = number_format($remaining_balance, 2);
 
 	//formatting

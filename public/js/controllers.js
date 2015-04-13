@@ -454,6 +454,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				$scope.totals.basic.savings_total = response.data;
 				$scope.show.savings_total.input = false;
 				$scope.show.savings_total.edit_btn = true;
+				$scope.totals();
 			});
 		};
 
