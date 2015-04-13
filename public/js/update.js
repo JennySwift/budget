@@ -8,6 +8,16 @@ app.factory('update', function ($http) {
 			
 			return $http.post($url, $data);
 		},
+		savingsTotalFromCurrent: function () {
+			var $amount_to_add = $("#add-fixed-to-savings").val();
+			var $url = 'update/savingsTotalFromCurrent';
+			var $data = {
+				amount_to_add: $amount_to_add
+			};
+			$("#add-fixed-to-savings").val("");
+			
+			return $http.post($url, $data);
+		},
 		budget: function ($tag_id, $column, $budget) {
 			var $url = 'update/budget';
 			var $description = 'budget';

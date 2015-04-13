@@ -17,6 +17,14 @@ class UpdateController extends Controller {
 		return getSavingsTotal();
 	}
 
+	public function savingsTotalFromCurrent () {
+		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
+		include(app_path() . '/inc/functions.php');
+		$amount_to_add = json_decode(file_get_contents('php://input'), true)["amount_to_add"];
+		updateSavingsTotalFromCurrent($amount_to_add);
+		return getSavingsTotal();
+	}
+
 	public function budget () {
 		//this either adds or deletes a budget, both using an update query.
 		include(app_path() . '/inc/functions.php');

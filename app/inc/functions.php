@@ -467,6 +467,14 @@ function updateSavingsTotal ($amount) {
 		->update(['amount' => $amount]);
 }
 
+function updateSavingsTotalFromCurrent ($amount_to_add) {
+	//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
+	DB::table('savings')
+		->where('user_id', Auth::user()->id)
+		->increment('amount', $amount_to_add);
+		// ->update(['amount' => 'amount' + $amount_to_add]);
+}
+
 function updateBudget ($tag_id, $budget, $column) {
 	Debugbar::info('budget: ' . $budget . ' column: ' . $column);
 	//this either adds or deletes a budget, both using an update query.

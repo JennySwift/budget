@@ -458,6 +458,16 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
+		$scope.updateSavingsTotalFromCurrent = function ($keycode) {
+			if ($keycode !== 13) {
+				return;
+			}
+			update.savingsTotalFromCurrent().then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.totals();
+			});
+		};
+
 		$scope.updateFixedBudget = function ($keycode) {
 			if ($keycode !== 13) {
 				return;
