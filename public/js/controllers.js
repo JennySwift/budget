@@ -47,6 +47,9 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			// }
 		];
 
+		//totals
+		$scope.totals = {};
+
 		/*=========budget=========*/
 
 		$scope.new_fixed_budget = {
@@ -425,6 +428,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 					$scope.new_transaction.multiple_budgets = false;
 				}
 
+				$scope.getTotals();
 				$scope.multiSearch(false, true);
 				//clearing the new transaction tags
 				$scope.new_transaction.tags = [];
@@ -434,7 +438,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		// $scope.addBudgetInfo = function () {
 		// 	insert.budgetInfo().then(function (response) {
-		// 		$scope.totals();
+		// 		$scope.getTotals();
 		// 	});
 		// };
 
@@ -454,17 +458,24 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				$scope.totals.basic.savings_total = response.data;
 				$scope.show.savings_total.input = false;
 				$scope.show.savings_total.edit_btn = true;
-				$scope.totals();
+				$scope.getTotals();
 			});
 		};
 
-		$scope.updateSavingsTotalFromCurrent = function ($keycode) {
+		$scope.addFixedToSavings = function ($keycode) {
 			if ($keycode !== 13) {
 				return;
 			}
-			update.savingsTotalFromCurrent().then(function (response) {
+			update.addFixedToSavings().then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
-				$scope.totals();
+				$scope.getTotals();
+			});
+		};
+
+		$scope.addPercentageToSavingsAutomatically = function ($amount_to_add) {
+			update.addPercentageToSavingsAutomatically($amount_to_add).then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.getTotals();
 			});
 		};
 
@@ -472,9 +483,9 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if ($keycode !== 13) {
 				return;
 			}
-			update.addPercentageToSavings($scope.totals.budget.RB).then(function (response) {
+			update.addPercentageToSavings().then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
-				$scope.totals();
+				$scope.getTotals();
 			});
 		};
 
@@ -483,7 +494,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				return;
 			}
 			update.budget($scope.new_fixed_budget.tag.id, 'fixed_budget', $scope.new_fixed_budget.budget).then(function (response) {
-				$scope.totals();
+				$scope.getTotals();
 				//unselect the tag in the dropdown
 				_.findWhere($scope.tags, {selected: true}).selected = false;
 				//clear the tag inputs and focus the correct input
@@ -498,7 +509,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				return;
 			}
 			update.budget($scope.new_flex_budget.tag.id, 'flex_budget', $scope.new_flex_budget.budget).then(function (response) {
-				$scope.totals();
+				$scope.getTotals();
 				//unselect the tag in the dropdown
 				_.findWhere($scope.tags, {selected: true}).selected = false;
 				//clear the tag inputs and focus the correct input
@@ -511,7 +522,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		$scope.removeFixedBudget = function ($tag_id, $tag_name) {
 			if (confirm("remove fixed budget for " + $tag_name + "?")) {
 				update.budget($tag_id, 'fixed_budget', 'NULL').then(function (response) {
-					$scope.totals();
+					$scope.getTotals();
 				});
 			}
 		};
@@ -519,7 +530,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		$scope.removeFlexBudget = function ($tag_id, $tag_name) {
 			if (confirm("remove flex budget for " + $tag_name + "?")) {
 				update.budget($tag_id, 'flex_budget', 'NULL').then(function (response) {
-					$scope.totals();
+					$scope.getTotals();
 				});
 			}
 		};
@@ -589,7 +600,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		$scope.updateCSD = function () {
 			update.CSD($scope.edit_CSD.id, $scope.edit_CSD.CSD).then(function (response) {
-				$scope.totals();
+				$scope.getTotals();
 				$scope.show.edit_CSD = false;
 			});
 		};
@@ -624,7 +635,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.edit_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
 			update.transaction($scope.edit_transaction).then(function (response) {
 				$scope.multiSearch();
-				$scope.totals();
+				$scope.getTotals();
 				$scope.show.edit_transaction = false;
 			});
 		};
@@ -697,7 +708,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		// $scope.allocateTagBudget = function () {
 		// 	update.allocateTagBudget().then(function (response) {
-		// 		$scope.totals();
+		// 		$scope.getTotals();
 		// 		multiSearch();
 		// 	});
 		// };
@@ -810,7 +821,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if (confirm("Are you sure?")) {
 				deleteItem.transaction($transaction_id).then(function (response) {
 					$scope.multiSearch();
-					$scope.totals();
+					$scope.getTotals();
 				});
 			}
 		};
@@ -831,7 +842,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		// $scope.deleteBudget = function () {
 		// 	deleteItem.budget().then(function (response) {
-		// 		$scope.totals();
+		// 		$scope.getTotals();
 		// 	});
 		// };
 
@@ -1025,6 +1036,27 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$("#transfer-color-picker").val(newValue.transfer);
 		});
 
+		$scope.$watchCollection('totals', function (newValue, oldValue) {
+			//check the change was from a user action, not from this function itself, to avoid an endless loop. I am doing this by checking that there has been a change in debit, credit, or CFB, because this function should only change RB and savings.
+			//so it doesn't run on page load
+			if (oldValue.budget && oldValue.basic) {
+				if (newValue.budget.FB.totals.cumulative_budget !== oldValue.budget.FB.totals.cumulative_budget || newValue.basic.total_income !== oldValue.basic.total_income || newValue.basic.total_expense !== oldValue.basic.total_expense) {
+					//get rid of the commas and convert to integers
+					var $new_RB = parseInt(newValue.budget.RB.replace(',', ''), 10);
+					var $old_RB = parseInt(oldValue.budget.RB.replace(',', ''), 10);
+					if ($new_RB > $old_RB) {
+						//$RB has increased due to a user action
+						//Figure out how much it has increased by.
+						var $diff = $new_RB - $old_RB;
+						//This value will change. Just for developing purposes.
+						var $percent = 10;
+						var $amount_to_add = $diff / 100 * $percent;
+						$scope.addPercentageToSavingsAutomatically($amount_to_add);
+					}
+				}
+			}
+		});
+
 		$scope.$watchCollection('filter.accounts', function (newValue, oldValue) {
 			if (newValue === oldValue) {
 				return;
@@ -1201,7 +1233,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		// 	});
 		// };
 
-		$scope.totals = function () {
+		$scope.getTotals = function () {
 			totals.basicTotals().then(function (response) {
 				$scope.totals.basic = response.data;
 			});
@@ -1219,7 +1251,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			}
 		};
 
-		$scope.totals();
+		$scope.getTotals();
 
 		/*==============================my plugin==============================*/
 

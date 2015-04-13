@@ -12,7 +12,6 @@ function getBasicTotals () {
 	$savings_balance = $balance - $savings_total;
 	$expense_without_budget_total = getTotalExpenseWithoutBudget();
 	$EFLB = getTotalExpenseWithFLB();
-	Debugbar::info('EFLB line 15: ' . $EFLB);
 	
 	$total_income = number_format($total_income, 2);
 	$total_expense = number_format($total_expense, 2);
@@ -22,7 +21,6 @@ function getBasicTotals () {
 	$savings_balance = number_format($savings_balance, 2);
 	$expense_without_budget_total = number_format($expense_without_budget_total, 2);
 	$EFLB = number_format($EFLB, 2);
-	Debugbar::info('EFLB line 25: ' . $EFLB);
 
 	$totals = array(
 	    "total_income" => $total_income,
@@ -43,16 +41,7 @@ function getBudgetTotals () {
 	$FB_info = getBudgetInfo($user_id, 'fixed');
 	$FLB_info = getBudgetInfo($user_id, 'flex');
 
-	//calculating remaining balance
-	$total_CFB = $FB_info['totals']['cumulative_budget'];
-	$total_spent_before_CSD = $FB_info['totals']['spent_before_CSD'];
-	$total_spent_after_CSD = $FB_info['totals']['spent'];
-	$total_income = getTotalIncome();
-	$total_savings = getSavingsTotal();
-	$EWB = getTotalExpenseWithoutBudget();
-	$EFLB = getTotalExpenseWithFLB();
-
-	$remaining_balance = $total_income - $total_CFB + $EWB + $EFLB + $total_spent_before_CSD + $total_spent_after_CSD - $total_savings;
+	$remaining_balance = getRB();
 	$remaining_balance = number_format($remaining_balance, 2);
 
 	//formatting
@@ -64,6 +53,24 @@ function getBudgetTotals () {
 	    "RB" => $remaining_balance
 	);
 	return $array;
+}
+
+function getRB () {
+	$user_id = Auth::user()->id;
+	$FB_info = getBudgetInfo($user_id, 'fixed');
+	$FLB_info = getBudgetInfo($user_id, 'flex');
+
+	//calculating remaining balance
+	$total_income = getTotalIncome();
+	$total_CFB = $FB_info['totals']['cumulative_budget'];
+	$EWB = getTotalExpenseWithoutBudget();
+	$EFLB = getTotalExpenseWithFLB();
+	$total_spent_before_CSD = $FB_info['totals']['spent_before_CSD'];
+	$total_spent_after_CSD = $FB_info['totals']['spent'];
+	$total_savings = getSavingsTotal();
+
+	$RB = $total_income - $total_CFB + $EWB + $EFLB + $total_spent_before_CSD + $total_spent_after_CSD - $total_savings;
+	return $RB;
 }
 
 function getTotalExpenseWithFLB () {

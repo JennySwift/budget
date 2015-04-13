@@ -467,7 +467,7 @@ function updateSavingsTotal ($amount) {
 		->update(['amount' => $amount]);
 }
 
-function updateSavingsTotalFromCurrent ($amount_to_add) {
+function addFixedToSavings ($amount_to_add) {
 	//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
 	DB::table('savings')
 		->where('user_id', Auth::user()->id)
@@ -475,8 +475,20 @@ function updateSavingsTotalFromCurrent ($amount_to_add) {
 		// ->update(['amount' => 'amount' + $amount_to_add]);
 }
 
-function addPercentageToSavings ($percentage_of_RB, $RB) {
+function addPercentageToSavingsAutomatically ($amount_to_add) {
+	DB::table('savings')
+		->where('user_id', Auth::user()->id)
+		->increment('amount', $amount_to_add);
+}
+
+function addPercentageToSavings ($percentage_of_RB) {
+	$RB = getRB();
 	$amount_to_add = $RB / 100 * $percentage_of_RB;
+
+	Debugbar::info('RB: ' . $RB);
+	Debugbar::info('percentage_of_RB: ' . $percentage_of_RB);
+	Debugbar::info('amount_to_add: ' . $amount_to_add);
+
 	DB::table('savings')
 		->where('user_id', Auth::user()->id)
 		->increment('amount', $amount_to_add);

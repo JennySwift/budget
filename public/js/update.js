@@ -8,9 +8,9 @@ app.factory('update', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-		savingsTotalFromCurrent: function () {
+		addFixedToSavings: function () {
 			var $amount_to_add = $("#add-fixed-to-savings").val();
-			var $url = 'update/savingsTotalFromCurrent';
+			var $url = 'update/addFixedToSavings';
 			var $data = {
 				amount_to_add: $amount_to_add
 			};
@@ -18,14 +18,21 @@ app.factory('update', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-		addPercentageToSavings: function ($RB) {
+		addPercentageToSavings: function () {
 			var $percentage_of_RB = $("#add-percentage-to-savings").val();
 			var $url = 'update/addPercentageToSavings';
 			var $data = {
 				percentage_of_RB: $percentage_of_RB,
-				RB: $RB
 			};
 			$("#add-percentage-to-savings").val("");
+			
+			return $http.post($url, $data);
+		},
+		addPercentageToSavingsAutomatically: function ($amount_to_add) {
+			var $url = 'update/addPercentageToSavingsAutomatically';
+			var $data = {
+				amount_to_add: $amount_to_add
+			};
 			
 			return $http.post($url, $data);
 		},

@@ -17,11 +17,11 @@ class UpdateController extends Controller {
 		return getSavingsTotal();
 	}
 
-	public function savingsTotalFromCurrent () {
+	public function addFixedToSavings () {
 		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
 		include(app_path() . '/inc/functions.php');
 		$amount_to_add = json_decode(file_get_contents('php://input'), true)["amount_to_add"];
-		updateSavingsTotalFromCurrent($amount_to_add);
+		addFixedToSavings($amount_to_add);
 		return getSavingsTotal();
 	}
 
@@ -29,8 +29,15 @@ class UpdateController extends Controller {
 		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
 		include(app_path() . '/inc/functions.php');
 		$percentage_of_RB = json_decode(file_get_contents('php://input'), true)["percentage_of_RB"];
-		$RB = json_decode(file_get_contents('php://input'), true)["RB"];
-		addPercentageToSavings($percentage_of_RB, $RB);
+		addPercentageToSavings($percentage_of_RB);
+		return getSavingsTotal();
+	}
+
+	public function addPercentageToSavingsAutomatically () {
+		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
+		include(app_path() . '/inc/functions.php');
+		$amount_to_add = json_decode(file_get_contents('php://input'), true)["amount_to_add"];
+		addPercentageToSavingsAutomatically($amount_to_add);
 		return getSavingsTotal();
 	}
 
