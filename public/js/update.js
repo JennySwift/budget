@@ -18,6 +18,17 @@ app.factory('update', function ($http) {
 			
 			return $http.post($url, $data);
 		},
+		addPercentageToSavings: function ($RB) {
+			var $percentage_of_RB = $("#add-percentage-to-savings").val();
+			var $url = 'update/addPercentageToSavings';
+			var $data = {
+				percentage_of_RB: $percentage_of_RB,
+				RB: $RB
+			};
+			$("#add-percentage-to-savings").val("");
+			
+			return $http.post($url, $data);
+		},
 		budget: function ($tag_id, $column, $budget) {
 			var $url = 'update/budget';
 			var $description = 'budget';

@@ -25,6 +25,15 @@ class UpdateController extends Controller {
 		return getSavingsTotal();
 	}
 
+	public function addPercentageToSavings () {
+		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
+		include(app_path() . '/inc/functions.php');
+		$percentage_of_RB = json_decode(file_get_contents('php://input'), true)["percentage_of_RB"];
+		$RB = json_decode(file_get_contents('php://input'), true)["RB"];
+		addPercentageToSavings($percentage_of_RB, $RB);
+		return getSavingsTotal();
+	}
+
 	public function budget () {
 		//this either adds or deletes a budget, both using an update query.
 		include(app_path() . '/inc/functions.php');

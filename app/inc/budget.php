@@ -11,6 +11,7 @@
 
             <div class="margin-bottom">
                 <input ng-keyup="updateSavingsTotalFromCurrent($event.keyCode)" type="text" placeholder="add fixed amount to savings" id="add-fixed-to-savings">
+                <input ng-keyup="addPercentageToSavings($event.keyCode)" type="text" placeholder="add percentage of RB to savings" id="add-percentage-to-savings">
             </div>
 
             <!-- ==============================fixed budget inputs============================== -->

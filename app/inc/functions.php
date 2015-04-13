@@ -475,6 +475,13 @@ function updateSavingsTotalFromCurrent ($amount_to_add) {
 		// ->update(['amount' => 'amount' + $amount_to_add]);
 }
 
+function addPercentageToSavings ($percentage_of_RB, $RB) {
+	$amount_to_add = $RB / 100 * $percentage_of_RB;
+	DB::table('savings')
+		->where('user_id', Auth::user()->id)
+		->increment('amount', $amount_to_add);
+}
+
 function updateBudget ($tag_id, $budget, $column) {
 	Debugbar::info('budget: ' . $budget . ' column: ' . $column);
 	//this either adds or deletes a budget, both using an update query.

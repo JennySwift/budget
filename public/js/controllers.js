@@ -468,6 +468,16 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
+		$scope.addPercentageToSavings = function ($keycode) {
+			if ($keycode !== 13) {
+				return;
+			}
+			update.addPercentageToSavings($scope.totals.budget.RB).then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.totals();
+			});
+		};
+
 		$scope.updateFixedBudget = function ($keycode) {
 			if ($keycode !== 13) {
 				return;
