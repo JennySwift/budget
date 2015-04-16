@@ -21,7 +21,7 @@ class CreateTransactionsTable extends Migration {
 			$table->string('name');
 			$table->integer('user_id')->unsigned(); //foreign key
 
-			$table->foreign('user_id')->references('id')->on('users');
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 		});
 
 		Schema::create('transactions', function(Blueprint $table)
@@ -39,7 +39,7 @@ class CreateTransactionsTable extends Migration {
 			$table->integer('user_id')->unsigned(); //foreign key
 
 			$table->foreign('account_id')->references('id')->on('accounts');
-			$table->foreign('user_id')->references('id')->on('users');	
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');	
 		});
 
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');

@@ -27,7 +27,7 @@ class CreateTransactionsTagsTable extends Migration {
 
 			$table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
 			$table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
-			$table->foreign('user_id')->references('id')->on('users');
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 		});
 
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');
