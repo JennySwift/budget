@@ -26,8 +26,6 @@
     include($inc . '/budget.php');
 ?>
 
-<h1>testing</h1>
-
 <div ng-show="tab === 'home'" class="height-100 border-box">
 
     <div id="toolbar">
