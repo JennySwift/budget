@@ -31,4 +31,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+	/**
+	 * From Valentin:
+	 * "attempts" is the name of the field that you will increment on each login attempt
+	 * this method will return true if the number of attempts is lower than 5
+	 * false otherwise :)
+	 */ 
+	// public function isNotBlocked()
+	// {
+	//     return $this->attempts > 5;
+	// }
+
 }

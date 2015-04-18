@@ -37,4 +37,41 @@ class AuthController extends Controller {
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
 
+	/**
+	 * From Valentin
+	 * Handle a login request to the application.
+	 * @param  \Illuminate\Http\Request $request
+	 * @return \Illuminate\Http\Response
+	 */
+	// public function postLogin(Request $request)
+	// {
+	//     $this->validate($request, [
+	//         'email'    => 'required|email',
+	//         'password' => 'required',
+	//     ]);
+
+	//     $credentials = $request->only('email', 'password');
+	    
+	//     // Fetch the user by email
+	//     $user = User::whereEmail($request->only('email'));
+
+	//     if ($this->auth->validate($credentials)) {
+	      
+	//         if($user->isNotBlocked())
+	//         {
+	//             $this->auth->login($user);
+	//             return redirect()->intended($this->redirectPath());
+	//         }
+	//     }
+	    
+	//     // Increment the throttle field
+	//     $user->increments('attempts');
+
+	//     return redirect($this->loginPath())
+	//         ->withInput($request->only('email', 'remember'))
+	//         ->withErrors([
+	//             'email' => $this->getFailedLoginMessage(),
+	//         ]);
+	// }
+
 }
