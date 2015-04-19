@@ -12,19 +12,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//I don't need to do it this way because HomeController comes with the middleware.
-// Route::get('/', ['middleware' => 'auth', 'uses' => 'HomeController@index']);
-
 Route::get('/', 'HomeController@index');
 
+Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function(){
+
+    Route::group(['middleware' => 'guest'], function(){
+        // Login
+        Route::get('login', ['as' => 'auth.login', 'uses' => 'AuthController@getLogin']);
+        Route::post('login', ['as' => 'auth.login.store', 'before' => 'throttle:6,60', 'uses' => 'AuthController@postLogin']);
+
+        // Register
+        Route::get('register', ['as' => 'auth.register', 'uses' => 'AuthController@getRegister']);
+        Route::post('register', ['as' => 'auth.register.store', 'uses' => 'AuthController@postRegister']);
+    });
+
+    Route::group(['middleware' => 'auth'], function(){
+        // Logout
+        Route::get('logout', ['as' => 'auth.logout', 'uses' => 'AuthController@getLogout']);
+    });
+
+});
+
 Route::controllers([
-	'auth' => 'Auth\AuthController',
+	// 'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
-
-Route::get('/db', function () {
-	return App::environment(); 
-});
 
 // ====================================================================================
 // ========================================ajax========================================
