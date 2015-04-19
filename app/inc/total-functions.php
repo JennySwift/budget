@@ -42,6 +42,26 @@ function getBudgetTotals () {
 	$FLB_info = getBudgetInfo($user_id, 'flex');
 
 	$remaining_balance = getRB();
+
+	//adding the calculated budget for each tag. I'm doing it here rather than in getBudgetInfo because $remaining_balance is needed before each calculated_budget can be calculated.
+	//I'm doing it like this (creating a new array) because it didn't work when I tried to modify the original array.
+	$FLB_tags_with_calculated_budgets = array();
+	$total_calculated_budget = 0;
+
+	foreach ($FLB_info['each_tag'] as $tag) {
+		$budget = $tag['budget'];
+		$calculated_budget = $remaining_balance / 100 * $budget;
+		$total_calculated_budget+= $calculated_budget;
+		$calculated_budget = number_format($calculated_budget, 2);
+		$tag['calculated_budget'] = $calculated_budget;
+
+		$FLB_tags_with_calculated_budgets[] = $tag;
+	}
+
+	$FLB_info['each_tag'] = $FLB_tags_with_calculated_budgets;
+	$total_calculated_budget = number_format($total_calculated_budget, 2);
+	$FLB_info['totals']['calculated_budget'] = $total_calculated_budget;
+
 	$remaining_balance = number_format($remaining_balance, 2);
 
 	//formatting
