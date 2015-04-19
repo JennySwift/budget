@@ -80,6 +80,7 @@ Route::post('update/savingsTotal', 'UpdateController@savingsTotal');
 Route::post('update/addFixedToSavings', 'UpdateController@addFixedToSavings');
 Route::post('update/addPercentageToSavings', 'UpdateController@addPercentageToSavings');
 Route::post('update/addPercentageToSavingsAutomatically', 'UpdateController@addPercentageToSavingsAutomatically');
+Route::post('update/reverseAutomaticInsertIntoSavings', 'UpdateController@reverseAutomaticInsertIntoSavings');
 
 // ========================================delete========================================
 

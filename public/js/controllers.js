@@ -479,6 +479,13 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
+		$scope.reverseAutomaticInsertIntoSavings = function ($amount_to_subtract) {
+			update.reverseAutomaticInsertIntoSavings($amount_to_subtract).then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.getTotals();
+			});
+		};
+
 		$scope.addPercentageToSavings = function ($keycode) {
 			if ($keycode !== 13) {
 				return;
@@ -817,10 +824,19 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope[$scope_property]['tags'] = _.without($array, $tag);
 		};
 
-		$scope.deleteTransaction = function ($transaction_id) {
+		$scope.deleteTransaction = function ($transaction) {
 			if (confirm("Are you sure?")) {
-				deleteItem.transaction($transaction_id).then(function (response) {
+				deleteItem.transaction($transaction.id).then(function (response) {
 					$scope.multiSearch();
+
+					//reverse the automatic insertion into savings if it is an income expense
+					if ($transaction.type === 'income') {
+						//This value will change. Just for developing purposes.
+						var $percent = 10;
+						var $amount_to_subtract = $transaction.total / 100 * $percent;
+						$scope.reverseAutomaticInsertIntoSavings($amount_to_subtract);
+					}
+
 					$scope.getTotals();
 				});
 			}

@@ -481,6 +481,12 @@ function addPercentageToSavingsAutomatically ($amount_to_add) {
 		->increment('amount', $amount_to_add);
 }
 
+function reverseAutomaticInsertIntoSavings ($amount_to_subtract) {
+	DB::table('savings')
+		->where('user_id', Auth::user()->id)
+		->decrement('amount', $amount_to_subtract);
+}
+
 function addPercentageToSavings ($percentage_of_RB) {
 	$RB = getRB();
 	$amount_to_add = $RB / 100 * $percentage_of_RB;

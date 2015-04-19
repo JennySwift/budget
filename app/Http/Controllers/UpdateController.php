@@ -34,10 +34,16 @@ class UpdateController extends Controller {
 	}
 
 	public function addPercentageToSavingsAutomatically () {
-		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
 		include(app_path() . '/inc/functions.php');
 		$amount_to_add = json_decode(file_get_contents('php://input'), true)["amount_to_add"];
 		addPercentageToSavingsAutomatically($amount_to_add);
+		return getSavingsTotal();
+	}
+
+	public function reverseAutomaticInsertIntoSavings () {
+		include(app_path() . '/inc/functions.php');
+		$amount_to_subtract = json_decode(file_get_contents('php://input'), true)["amount_to_subtract"];
+		reverseAutomaticInsertIntoSavings($amount_to_subtract);
 		return getSavingsTotal();
 	}
 

@@ -36,6 +36,14 @@ app.factory('update', function ($http) {
 			
 			return $http.post($url, $data);
 		},
+		reverseAutomaticInsertIntoSavings: function ($amount_to_subtract) {
+			var $url = 'update/reverseAutomaticInsertIntoSavings';
+			var $data = {
+				amount_to_subtract: $amount_to_subtract
+			};
+			
+			return $http.post($url, $data);
+		},
 		budget: function ($tag_id, $column, $budget) {
 			var $url = 'update/budget';
 			var $description = 'budget';

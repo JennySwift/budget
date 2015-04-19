@@ -35,7 +35,7 @@
                 <td ng-show="show.reconciled">
                     <input ng-model="transaction.reconciled" ng-change="updateReconciliation(transaction.id, transaction.reconciled)" type="checkbox">
                 </td>
-                <td ng-show="show.dlt" ng-click="deleteTransaction(transaction.id)" class="pointer">
+                <td ng-show="show.dlt" ng-click="deleteTransaction(transaction)" class="pointer">
                     <i class="fa fa-times"></i>
                 </td>
                 <td>
