@@ -1,6 +1,7 @@
 app.factory('update', function ($http) {
 	return {
-		savingsTotal: function ($amount) {
+		savingsTotal: function () {
+			var $amount = $("#edited-savings-total").val().replace(',', '');
 			var $url = 'update/savingsTotal';
 			var $data = {
 				amount: $amount

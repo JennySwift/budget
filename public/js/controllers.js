@@ -454,7 +454,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if ($keycode !== 13) {
 				return;
 			}
-			update.savingsTotal($scope.totals.basic.savings_total).then(function (response) {
+			update.savingsTotal().then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
 				$scope.show.savings_total.input = false;
 				$scope.show.savings_total.edit_btn = true;

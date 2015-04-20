@@ -38,7 +38,7 @@
                 S:
                 <span class="badge">{{totals.basic.savings_total}}</span>
                 <button ng-show="show.savings_total.edit_btn" ng-click="showSavingsTotalInput()" class="btn-xs">edit</button>
-                <input ng-show="show.savings_total.input" ng-model="totals.basic.savings_total" ng-keyup="updateSavingsTotal($event.keyCode)" type="text" placeholder="new savings total">
+                <input ng-show="show.savings_total.input" ng-model="totals.basic.savings_total" ng-keyup="updateSavingsTotal($event.keyCode)" type="text" placeholder="new savings total" id="edited-savings-total">
             </li>
 
             <!-- <li class="tooltipster list-group-item" title="savings balance (balance - savings)">
