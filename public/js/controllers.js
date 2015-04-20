@@ -633,6 +633,8 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		$scope.updateTransactionSetup = function ($transaction) {
 			$scope.edit_transaction = $transaction;
+			//save the original total so I can calculate the difference if the total changes, so I can remove the correct amount from savings if required.
+			$scope.edit_transaction.original_total = $scope.edit_transaction.total;
 			$scope.show.edit_transaction = true;
 		};
 
@@ -642,8 +644,24 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.edit_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
 			update.transaction($scope.edit_transaction).then(function (response) {
 				$scope.multiSearch();
-				$scope.getTotals();
 				$scope.show.edit_transaction = false;
+
+				//if it is an income transaction, and if the total has decreased, remove a percentage from savings
+				var $new_total = $scope.edit_transaction.total;
+				$new_total = parseInt($new_total.replace(',', ''), 10);
+				var $original_total = $scope.edit_transaction.original_total;
+				$original_total = parseInt($original_total.replace(',', ''), 10);
+
+				if ($scope.edit_transaction.type === 'income' && $new_total < $original_total) {
+					//income transaction total has decreased. subtract percentage from savings
+					var $diff = $original_total - $new_total;
+					//this percent is temporary
+					var $percent = 10;
+					var $amount_to_subtract = $diff / 100 * $percent;
+					$scope.reverseAutomaticInsertIntoSavings($amount_to_subtract);
+				}
+
+				$scope.getTotals();
 			});
 		};
 
