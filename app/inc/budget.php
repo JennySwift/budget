@@ -152,10 +152,11 @@
                     <td>totals</td>
                     <td>{{totals.budget.FLB.totals.calculated_budget}}</td>
                     <td>-</td>
+                    <td>-</td>
                     <td>{{totals.budget.FLB.totals.spent}}</td>
                     <td>{{totals.budget.FLB.totals.received}}</td>
                     <td>{{totals.budget.FLB.totals.remaining}}</td>
-                    <td><td>{{totals.budget.FLB.totals.budget}}</td></td>
+                    <td>{{totals.budget.FLB.totals.budget}}</td>
                     <td>-</td>
                 </tr>
             </table>

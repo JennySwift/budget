@@ -47,21 +47,36 @@ function getBudgetTotals () {
 	//I'm doing it like this (creating a new array) because it didn't work when I tried to modify the original array.
 	$FLB_tags_with_calculated_budgets = array();
 	$total_calculated_budget = 0;
+	$total_remaining = 0;
 
 	foreach ($FLB_info['each_tag'] as $tag) {
 		$budget = $tag['budget'];
+		$spent = $tag['spent'];
+		$received = $tag['received'];
+
 		$calculated_budget = $remaining_balance / 100 * $budget;
 		$total_calculated_budget+= $calculated_budget;
+
+		$remaining = $calculated_budget + $spent + $received;
+		$total_remaining += $remaining;
+
 		$calculated_budget = number_format($calculated_budget, 2);
+		$remaining = number_format($remaining, 2);
+
 		$tag['calculated_budget'] = $calculated_budget;
+		$tag['remaining'] = $remaining;
 
 		$FLB_tags_with_calculated_budgets[] = $tag;
 	}
 
 	$FLB_info['each_tag'] = $FLB_tags_with_calculated_budgets;
-	$total_calculated_budget = number_format($total_calculated_budget, 2);
-	$FLB_info['totals']['calculated_budget'] = $total_calculated_budget;
 
+	$total_calculated_budget = number_format($total_calculated_budget, 2);
+	$total_remaining = number_format($total_remaining, 2);
+
+	$FLB_info['totals']['calculated_budget'] = $total_calculated_budget;
+	$FLB_info['totals']['remaining'] = $total_remaining;
+	
 	$remaining_balance = number_format($remaining_balance, 2);
 
 	//formatting
@@ -115,8 +130,6 @@ function getTotalExpenseWithFLB () {
 		->join('tags', 'tag_id', '=', 'tags.id')
 		->sum('calculated_allocation');
 
-	Debugbar::info('EFLB: ' . $total);
-
 	return $total;
 }
 
@@ -167,8 +180,6 @@ function getTotalSpentOnTagBeforeCSD ($tag_id, $CSD) {
 		->where('transactions.type', 'expense')
 		->where('transactions_tags.user_id', Auth::user()->id)
 		->sum('calculated_allocation');
-
-	// Debugbar::info('spent before CSD: ' . $total . ' tag_id: ' . $tag_id);
 
 	return $total;
 }
@@ -273,8 +284,6 @@ function getAllocationTotals ($transaction_id) {
 	$percent_sum = 0;
 	$calculated_allocation_sum = 0;
 
-	Debugbar::info('row', $rows);
-
 	foreach ($rows as $row) {
 		$allocated_fixed = $row->allocated_fixed;
 		$allocated_percent = $row->allocated_percent;
@@ -290,10 +299,7 @@ function getAllocationTotals ($transaction_id) {
 		}
 
 		$percent_sum+= $allocated_percent;
-		Debugbar::info('calculated_allocation: ' . $calculated_allocation);
 		$calculated_allocation_sum+= $calculated_allocation;
-		Debugbar::info('calculated_allocation_sum: ' . $calculated_allocation_sum);
-
 	}
 
 	if ($fixed_sum !== '-') {
@@ -363,15 +369,15 @@ function getBudgetInfo ($user_id, $type) {
 
 		if ($type === 'fixed') {
 			$remaining = $cumulative_budget + $spent + $received;
+			$total_remaining += $remaining;
 			$total_cumulative_budget += $cumulative_budget;
 		}
 		elseif ($type === 'flex') {
-			$remaining = $budget + $spent + $received;
+			
 		}
 		
 		$total_spent += $spent;
-		$total_received += $received;
-		$total_remaining += $remaining;
+		$total_received += $received;	
 		$total_spent_before_CSD += $spent_before_CSD;
 
 		$CSD = convertDate($CSD, 'user');
@@ -379,7 +385,6 @@ function getBudgetInfo ($user_id, $type) {
 		$budget = number_format($budget, 2);
 		$spent = number_format($spent, 2);
 		$received = number_format($received, 2);
-		$remaining = number_format($remaining, 2);
 		$spent_before_CSD = number_format($spent_before_CSD, 2);
 
 		$tag_info = array(
@@ -390,13 +395,15 @@ function getBudgetInfo ($user_id, $type) {
 			"CMN" => $CMN,
 			"spent" => $spent,
 			"received" => $received,
-			"remaining" => $remaining,
 			"spent_before_CSD" => $spent_before_CSD
 		);
 
 		if ($type === 'fixed') {
 			$cumulative_budget = number_format($cumulative_budget, 2);
 			$tag_info['cumulative_budget'] = $cumulative_budget;
+
+			$remaining = number_format($remaining, 2);
+			$tag_info['remaining'] = $remaining;
 		}
 
 		$budget_info['each_tag'][] = $tag_info;
@@ -406,13 +413,13 @@ function getBudgetInfo ($user_id, $type) {
 		"budget" => $total_budget,
 		"spent" => $total_spent,
 		"received" => $total_received,
-		"remaining" => $total_remaining,
 		"spent_before_CSD" => $total_spent_before_CSD
 	);
 
 
 	if ($type === 'fixed') {
 		$budget_info['totals']['cumulative_budget'] = $total_cumulative_budget;
+		$budget_info['totals']['remaining'] = $total_remaining;
 	}
 
 	return $budget_info;
