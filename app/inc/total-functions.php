@@ -62,9 +62,13 @@ function getBudgetTotals () {
 
 		$calculated_budget = number_format($calculated_budget, 2);
 		$remaining = number_format($remaining, 2);
+		$spent = number_format($spent, 2);
+		$received = number_format($received, 2);
 
 		$tag['calculated_budget'] = $calculated_budget;
 		$tag['remaining'] = $remaining;
+		$tag['spent'] = $spent;
+		$tag['received'] = $received;
 
 		$FLB_tags_with_calculated_budgets[] = $tag;
 	}
@@ -383,8 +387,6 @@ function getBudgetInfo ($user_id, $type) {
 		$CSD = convertDate($CSD, 'user');
 
 		$budget = number_format($budget, 2);
-		$spent = number_format($spent, 2);
-		$received = number_format($received, 2);
 		$spent_before_CSD = number_format($spent_before_CSD, 2);
 
 		$tag_info = array(
