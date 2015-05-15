@@ -11,6 +11,23 @@ body {
 	padding-top: 40px;
 }
 
+//for flexbox sticky footer (works great)
+html, body {
+	height: 100%;
+}
+body {
+	display: flex;
+	flex-direction: column;
+	.main {
+		flex-grow: 1;
+	}
+	footer {
+		padding: 11px;
+		background: rgba(119, 119, 119, 0.12);
+
+	}
+}
+
 button {
 	// display:block;
 	// width: 100%;

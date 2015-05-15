@@ -18,6 +18,18 @@ html, body {
 body {
   padding-top: 40px; }
 
+html, body {
+  height: 100%; }
+
+body {
+  display: flex;
+  flex-direction: column; }
+  body .main {
+    flex-grow: 1; }
+  body footer {
+    padding: 11px;
+    background: rgba(119, 119, 119, 0.12); }
+
 button {
   background: #fff;
   border: 1px solid #ccc;
