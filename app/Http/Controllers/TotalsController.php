@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use App\Models\Budget;
 
 class TotalsController extends Controller {
 	
 	public function getAllocationTotals()
 	{
-		include(app_path() . '/inc/functions.php');
 		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
-		return getAllocationTotals($transaction_id);
+		return Budget::getAllocationTotals($transaction_id);
 	}
 
 	public function basic()

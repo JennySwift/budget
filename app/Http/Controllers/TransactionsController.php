@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
+use App\Models\Transaction;
 
 use Illuminate\Http\Request;
 
@@ -23,11 +24,10 @@ class TransactionsController extends Controller {
 
 	public function autocompleteTransaction()
 	{
-		include(app_path() . '/inc/functions.php');
 		$typing = json_decode(file_get_contents('php://input'), true)["typing"];
 		$typing = '%' . $typing . '%';
 		$column = json_decode(file_get_contents('php://input'), true)["column"];
-		$transactions = autocompleteTransaction($column, $typing);
+		$transactions = Transaction::autocompleteTransaction($column, $typing);
 		// $transactions = removeNearDuplicates($transactions);
 		// $transactions = array_slice($transactions, 0, 50);
 		return $transactions;
@@ -46,23 +46,22 @@ class TransactionsController extends Controller {
 	
 	public function insertTransaction()
 	{
-		include(app_path() . '/inc/functions.php');
 		$new_transaction = json_decode(file_get_contents('php://input'), true)["new_transaction"];
 		$type = $new_transaction['type'];
 
 		if ($type !== "transfer") {
-		    insertTransaction($new_transaction, $type);
+		    Transaction::insertTransaction($new_transaction, $type);
 		}
 		else {
 		    //It's a transfer, so insert two transactions, the from and the to
-		    insertTransaction($new_transaction, "from");
-		    insertTransaction($new_transaction, "to");
+		    Transaction::insertTransaction($new_transaction, "from");
+		    Transaction::insertTransaction($new_transaction, "to");
 		}
 
 		//check if the transaction that was just entered has multiple budgets. Note for transfers this won't do both of them.
-		$last_transaction_id = getLastTransactionId();
-		$transaction = getTransaction($last_transaction_id);
-		$multiple_budgets = hasMultipleBudgets($last_transaction_id);
+		$last_transaction_id = Transaction::getLastTransactionId();
+		$transaction = Transaction::getTransaction($last_transaction_id);
+		$multiple_budgets = Budget::hasMultipleBudgets($last_transaction_id);
 
 		$array = array(
 		    "transaction" => $transaction,
@@ -82,10 +81,9 @@ class TransactionsController extends Controller {
 
 	public function updateTransaction()
 	{
-		include(app_path() . '/inc/functions.php');
 		$transaction = json_decode(file_get_contents('php://input'), true)["transaction"];
 
-		updateTransaction($transaction);
+		Transaction::updateTransaction($transaction);
 	}
 
 	public function updateReconciliation()

@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
+use App\Models\Savings;
 
 use Illuminate\Http\Request;
 
@@ -19,10 +20,9 @@ class SavingsController extends Controller {
 	
 	public function updateSavingsTotal()
 	{
-		include(app_path() . '/inc/functions.php');
 		$amount = json_decode(file_get_contents('php://input'), true)["amount"];
-		updateSavingsTotal($amount);
-		return getSavingsTotal();
+		Savings::updateSavingsTotal($amount);
+		return Savings::getSavingsTotal();
 	}
 
 	/**
@@ -34,33 +34,30 @@ class SavingsController extends Controller {
 		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
 		include(app_path() . '/inc/functions.php');
 		$amount_to_add = json_decode(file_get_contents('php://input'), true)["amount_to_add"];
-		addFixedToSavings($amount_to_add);
-		return getSavingsTotal();
+		Savings::addFixedToSavings($amount_to_add);
+		return Savings::getSavingsTotal();
 	}
 
 	public function addPercentageToSavings()
 	{
 		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
-		include(app_path() . '/inc/functions.php');
 		$percentage_of_RB = json_decode(file_get_contents('php://input'), true)["percentage_of_RB"];
-		addPercentageToSavings($percentage_of_RB);
-		return getSavingsTotal();
+		Savings::addPercentageToSavings($percentage_of_RB);
+		return Savings::getSavingsTotal();
 	}
 
 	public function addPercentageToSavingsAutomatically()
 	{
-		include(app_path() . '/inc/functions.php');
 		$amount_to_add = json_decode(file_get_contents('php://input'), true)["amount_to_add"];
-		addPercentageToSavingsAutomatically($amount_to_add);
-		return getSavingsTotal();
+		Savings::addPercentageToSavingsAutomatically($amount_to_add);
+		return Savings::getSavingsTotal();
 	}
 
 	public function reverseAutomaticInsertIntoSavings()
 	{
-		include(app_path() . '/inc/functions.php');
 		$amount_to_subtract = json_decode(file_get_contents('php://input'), true)["amount_to_subtract"];
-		reverseAutomaticInsertIntoSavings($amount_to_subtract);
-		return getSavingsTotal();
+		Savings::reverseAutomaticInsertIntoSavings($amount_to_subtract);
+		return Savings::getSavingsTotal();
 	}
 	
 	/**

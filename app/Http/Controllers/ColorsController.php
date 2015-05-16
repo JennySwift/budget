@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
+use App\Models\Color;
 
 use Illuminate\Http\Request;
 

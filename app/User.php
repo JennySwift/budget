@@ -42,4 +42,27 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	//     return $this->attempts > 5;
 	// }
 
+	/**
+	 * functions
+	 */
+	
+	public static function insertRowsForNewUser()
+	{
+		Color::create([
+			'item' => 'income',
+			'color' => '#017d00',
+			'user_id' => Auth::user()->id
+		]);
+		Color::create([
+			'item' => 'expense',
+			'color' => '#fb5e52',
+			'user_id' => Auth::user()->id
+		]);
+		Color::create([
+			'item' => 'transfer',
+			'color' => '#fca700',
+			'user_id' => Auth::user()->id
+		]);	
+	}
+
 }

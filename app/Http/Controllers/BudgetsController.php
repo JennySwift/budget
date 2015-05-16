@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
+use App\Models\Budget;
 
 use Illuminate\Http\Request;
 
@@ -31,27 +32,25 @@ class BudgetsController extends Controller {
 	public function updateBudget()
 	{
 		//this either adds or deletes a budget, both using an update query.
-		include(app_path() . '/inc/functions.php');
 		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
 		$budget = json_decode(file_get_contents('php://input'), true)["budget"];
 		$column = json_decode(file_get_contents('php://input'), true)["column"];
 
-		updateBudget($tag_id, $budget, $column);
+		Budget::updateBudget($tag_id, $budget, $column);
 	}
 
 	public function updateAllocation()
 	{
-		include(app_path() . '/inc/functions.php');
 		$type = json_decode(file_get_contents('php://input'), true)["type"];
 		$value = json_decode(file_get_contents('php://input'), true)["value"];
 		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
 		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
 
 		if ($type === 'percent') {
-		    updateAllocatedPercent($value, $transaction_id, $tag_id);
+		    Budget::updateAllocatedPercent($value, $transaction_id, $tag_id);
 		}
 		elseif ($type === 'fixed') {
-		    updateAllocatedFixed($value, $transaction_id, $tag_id);
+		    Budget::updateAllocatedFixed($value, $transaction_id, $tag_id);
 		}
 		
 		//get the updated tag info after the update
@@ -67,11 +66,10 @@ class BudgetsController extends Controller {
 
 	public function updateAllocationStatus()
 	{
-		include(app_path() . '/inc/functions.php');
 		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
 		$status = json_decode(file_get_contents('php://input'), true)["status"];
 		
-		updateAllocationStatus($transaction_id, $status);
+		Budget::updateAllocationStatus($transaction_id, $status);
 	}
 
 	public function updateStartingDate()
