@@ -68,6 +68,13 @@ class TransactionsController extends Controller {
 	 * delete
 	 */
 
+	public function deleteTransaction () {
+		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
+		//no need for this now that I'm using cascade.
+		// DB::table('transactions_tags')->where('transaction_id', $transaction_id)->delete();
+		DB::table('transactions')->where('id', $transaction_id)->delete();
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *

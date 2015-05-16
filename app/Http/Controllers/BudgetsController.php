@@ -77,6 +77,10 @@ class BudgetsController extends Controller {
 	 * delete
 	 */
 
+	public function deleteBudget () {
+		
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *

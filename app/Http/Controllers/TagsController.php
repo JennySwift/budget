@@ -38,7 +38,11 @@ class TagsController extends Controller {
 	 * delete
 	 */
 
-
+	public function deleteTag () {
+		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
+		DB::table('tags')->where('id', $tag_id)->delete();
+		return 'hello'; 
+	}
 
 
 	/**

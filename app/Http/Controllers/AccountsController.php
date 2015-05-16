@@ -34,6 +34,11 @@ class AccountsController extends Controller {
 	 * delete
 	 */
 
+	public function deleteAccount () {
+		$account_id = json_decode(file_get_contents('php://input'), true)["account_id"];
+		DB::table('accounts')->where('id', $account_id)->delete();
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
