@@ -8,6 +8,48 @@ use Illuminate\Http\Request;
 class TransactionsController extends Controller {
 
 	/**
+	 * select
+	 */
+	
+	/**
+	 * insert
+	 */
+	
+	public function insertTransaction () {
+		include(app_path() . '/inc/functions.php');
+		$new_transaction = json_decode(file_get_contents('php://input'), true)["new_transaction"];
+		$type = $new_transaction['type'];
+
+		if ($type !== "transfer") {
+		    insertTransaction($new_transaction, $type);
+		}
+		else {
+		    //It's a transfer, so insert two transactions, the from and the to
+		    insertTransaction($new_transaction, "from");
+		    insertTransaction($new_transaction, "to");
+		}
+
+		//check if the transaction that was just entered has multiple budgets. Note for transfers this won't do both of them.
+		$last_transaction_id = getLastTransactionId();
+		$transaction = getTransaction($last_transaction_id);
+		$multiple_budgets = hasMultipleBudgets($last_transaction_id);
+
+		$array = array(
+		    "transaction" => $transaction,
+		    "multiple_budgets" => $multiple_budgets
+		);
+		return $array;
+	}
+
+	/**
+	 * update
+	 */
+	
+	/**
+	 * delete
+	 */
+
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response

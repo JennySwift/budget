@@ -8,6 +8,27 @@ use Illuminate\Http\Request;
 class AccountsController extends Controller {
 
 	/**
+	 * select
+	 */
+	
+	/**
+	 * insert
+	 */
+	
+	public function insertAccount () {
+		$name = json_decode(file_get_contents('php://input'), true)["name"];
+		DB::table('accounts')->insert(['name' => $name, 'user_id' => Auth::user()->id]);
+	}
+
+	/**
+	 * update
+	 */
+	
+	/**
+	 * delete
+	 */
+
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response

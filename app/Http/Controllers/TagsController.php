@@ -8,6 +8,30 @@ use Illuminate\Http\Request;
 class TagsController extends Controller {
 
 	/**
+	 * select
+	 */
+	
+	/**
+	 * insert
+	 */
+	
+	public function insertTag () {
+		$new_tag_name = json_decode(file_get_contents('php://input'), true)["new_tag_name"];
+		DB::table('tags')->insert(['name' => $new_tag_name, 'user_id' => Auth::user()->id]);
+	}
+
+	/**
+	 * update
+	 */
+	
+	/**
+	 * delete
+	 */
+
+
+
+
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
