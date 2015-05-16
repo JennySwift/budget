@@ -11,6 +11,19 @@ class TagsController extends Controller {
 	 * select
 	 */
 	
+	public function getTags () {
+		$sql = "SELECT * FROM tags WHERE user_id = " . Auth::user()->id . " ORDER BY name ASC";
+		$tags = DB::select($sql);
+		return $tags;
+	}
+
+	public function duplicateTagCheck () {
+		$new_tag_name = json_decode(file_get_contents('php://input'), true)["new_tag_name"];
+		$count = DB::table('tags')->where('name', $new_tag_name)->where('user_id', Auth::user()->id)->count();
+		//count is 0 if tag is not a duplicate, 1 if it is.
+		return $count;
+	}
+
 	/**
 	 * insert
 	 */

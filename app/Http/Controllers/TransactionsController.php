@@ -11,6 +11,30 @@ class TransactionsController extends Controller {
 	 * select
 	 */
 	
+	public function countTransactionsWithTag () {
+		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
+		$sql = "SELECT COUNT(*) FROM transactions_tags WHERE tag_id = $tag_id";
+		$count = DB::table('transactions_tags')->where('tag_id', $tag_id)->count();
+		return $count;
+	}
+
+	public function autocompleteTransaction () {
+		include(app_path() . '/inc/functions.php');
+		$typing = json_decode(file_get_contents('php://input'), true)["typing"];
+		$typing = '%' . $typing . '%';
+		$column = json_decode(file_get_contents('php://input'), true)["column"];
+		$transactions = autocompleteTransaction($column, $typing);
+		// $transactions = removeNearDuplicates($transactions);
+		// $transactions = array_slice($transactions, 0, 50);
+		return $transactions;
+	}
+
+	public function filter () {
+		include(app_path() . '/inc/functions.php');
+		$filter = json_decode(file_get_contents('php://input'), true)["filter"];
+		return filter($filter);    
+	}
+	
 	/**
 	 * insert
 	 */

@@ -11,6 +11,11 @@ class AccountsController extends Controller {
 	 * select
 	 */
 	
+	public function getAccounts () {
+		$user_id = Auth::user()->id;
+		return DB::table('accounts')->where('user_id', $user_id)->orderBy('name', 'asc')->get();
+	}
+
 	/**
 	 * insert
 	 */

@@ -11,6 +11,12 @@ class BudgetsController extends Controller {
 	 * select
 	 */
 	
+	public function getAllocationInfo () {
+		// include(app_path() . '/inc/functions.php');
+		// $filter = json_decode(file_get_contents('php://input'), true)["filter"];
+		// return filter($filter);    
+	}
+
 	/**
 	 * insert
 	 */

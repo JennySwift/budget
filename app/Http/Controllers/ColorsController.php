@@ -11,6 +11,20 @@ class ColorsController extends Controller {
 	 * select
 	 */
 	
+	public function getColors () {
+		$user_id = Auth::user()->id;
+		$income = DB::table('colors')->where('item', 'income')->where('user_id', $user_id)->pluck('color');
+		$expense = DB::table('colors')->where('item', 'expense')->where('user_id', $user_id)->pluck('color');
+		$transfer = DB::table('colors')->where('item', 'transfer')->where('user_id', $user_id)->pluck('color');
+	
+		$colors = array(
+			"income" => $income,
+			"expense" => $expense,
+			"transfer" => $transfer
+		);
+		return $colors;
+	}
+
 	/**
 	 * insert
 	 */
