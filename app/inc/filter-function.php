@@ -4,7 +4,8 @@ use App\Transaction;
 
 // DB::enableQueryLog();
 
-function filter ($filter) {
+function filter($filter)
+{
     $user_id = Auth::user()->id;
     $offset = $filter['offset'];
     $num_to_fetch = $filter['num_to_fetch'];

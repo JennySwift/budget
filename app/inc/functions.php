@@ -5,16 +5,16 @@ use App\Color;
 
 // DB::enableQueryLog();
 
-// /*========================================functions========================================*/
-
 // /*========================================select========================================*/
 
-function countTransactions () {
+function countTransactions()
+{
 	$count = DB::table('transactions')->where('user_id', Auth::user()->id)->count();
 	return $count;
 }
 
-function getTransaction ($transaction_id) {
+function getTransaction($transaction_id)
+{
 	//for the new transaction allocation popup. probably selecting things here that I don't actually need for just the popup.
 	$transaction = DB::table('transactions')
 		->where('transactions.id', $transaction_id)
@@ -51,21 +51,24 @@ function getTransaction ($transaction_id) {
 	return $transaction;
 }
 
-function getTagsWithFixedBudget ($user_id) {
+function getTagsWithFixedBudget($user_id)
+{
 	$sql = "SELECT id, name, fixed_budget, starting_date FROM tags WHERE flex_budget IS NULL AND fixed_budget IS NOT NULL AND user_id = $user_id ORDER BY name ASC;";
 	$tags = DB::select($sql);
 
 	return $tags;
 }
 
-function getTagsWithFlexBudget ($user_id) {
+function getTagsWithFlexBudget($user_id)
+{
 	$sql = "SELECT id, name, fixed_budget, flex_budget, starting_date FROM tags WHERE flex_budget IS NOT NULL AND user_id = $user_id ORDER BY name ASC;";
 	$tags = DB::select($sql);
 	
 	return $tags;
 }
 
-function getCMN ($starting_date) {
+function getCMN($starting_date)
+{
 	//CMN is cumulative month number
 	$php_starting_date = new DateTime($starting_date);
 
@@ -78,12 +81,14 @@ function getCMN ($starting_date) {
 	return $CMN;
 }
 
-function getLastTransactionId () {
+function getLastTransactionId()
+{
 	$last_transaction_id = DB::table('transactions')->where('user_id', Auth::user()->id)->max('id');
     return $last_transaction_id;
 }
 
-function hasMultipleBudgets ($transaction_id) {
+function hasMultipleBudgets($transaction_id)
+{
 	$sql = "SELECT tags.fixed_budget, tags.flex_budget FROM transactions_tags JOIN tags ON transactions_tags.tag_id = tags.id WHERE transaction_id = '$transaction_id'";
 	$tags = DB::select($sql);
 
@@ -108,7 +113,8 @@ function hasMultipleBudgets ($transaction_id) {
 	return $multiple_budgets;
 }
 
-function getAllocationInfo ($transaction_id, $tag_id) {
+function getAllocationInfo($transaction_id, $tag_id)
+{
 	//for one tag. for getting the updated info after updating the allocation for that tag.
 	//this is much the same as getTags() so maybe make it more DRY.
 	$allocation_info = DB::table('transactions_tags')
@@ -156,7 +162,8 @@ function getAllocationInfo ($transaction_id, $tag_id) {
 	return $allocation_info;
 }
 
-function getTags ($transaction_id) {
+function getTags($transaction_id)
+{
 	//gets tags for one transaction
 	$tags = Transaction_Tag::
 		join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
@@ -190,7 +197,8 @@ function getTags ($transaction_id) {
 
 include('filter-function.php');
 
-function autocompleteTransaction ($column, $typing) {
+function autocompleteTransaction($column, $typing)
+{
 	$transactions = DB::table('transactions')
 		->where($column, 'LIKE', $typing)
 		->where('transactions.user_id', Auth::user()->id)
@@ -301,7 +309,8 @@ function autocompleteTransaction ($column, $typing) {
 
 // /*========================================insert========================================*/
 
-function insertRowsForNewUser() {
+function insertRowsForNewUser()
+{
 	Color::create([
 		'item' => 'income',
 		'color' => '#017d00',
@@ -319,7 +328,8 @@ function insertRowsForNewUser() {
 	]);	
 }
 
-function insertTags ($transaction_id, $tags, $transaction_total) {
+function insertTags($transaction_id, $tags, $transaction_total)
+{
 	// Debugbar::info('transaction_total: ' . $transaction_total);
     foreach ($tags as $tag) {
     	$tag_id = $tag['id'];
@@ -367,7 +377,8 @@ function insertTags ($transaction_id, $tags, $transaction_total) {
     } 
 }
 
-function insertTransaction ($new_transaction, $transaction_type) {
+function insertTransaction($new_transaction, $transaction_type)
+{
 	$user_id = Auth::user()->id;
 	$date = $new_transaction['date']['sql'];
 	$description = $new_transaction['description'];
@@ -431,7 +442,8 @@ function insertTransaction ($new_transaction, $transaction_type) {
 
 // /*========================================update========================================*/
 
-function updateTransaction ($transaction) {
+function updateTransaction($transaction)
+{
 	$transaction_id = $transaction['id'];
 	$account_id = $transaction['account']['id'];
 	$date = $transaction['date']['sql'];
@@ -461,13 +473,15 @@ function updateTransaction ($transaction) {
 	insertTags($transaction_id, $tags, $total);
 }
 
-function updateSavingsTotal ($amount) {
+function updateSavingsTotal($amount)
+{
 	DB::table('savings')
 		->where('user_id', Auth::user()->id)
 		->update(['amount' => $amount]);
 }
 
-function addFixedToSavings ($amount_to_add) {
+function addFixedToSavings($amount_to_add)
+{
 	//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
 	DB::table('savings')
 		->where('user_id', Auth::user()->id)
@@ -475,19 +489,22 @@ function addFixedToSavings ($amount_to_add) {
 		// ->update(['amount' => 'amount' + $amount_to_add]);
 }
 
-function addPercentageToSavingsAutomatically ($amount_to_add) {
+function addPercentageToSavingsAutomatically($amount_to_add)
+{
 	DB::table('savings')
 		->where('user_id', Auth::user()->id)
 		->increment('amount', $amount_to_add);
 }
 
-function reverseAutomaticInsertIntoSavings ($amount_to_subtract) {
+function reverseAutomaticInsertIntoSavings($amount_to_subtract)
+{
 	DB::table('savings')
 		->where('user_id', Auth::user()->id)
 		->decrement('amount', $amount_to_subtract);
 }
 
-function addPercentageToSavings ($percentage_of_RB) {
+function addPercentageToSavings($percentage_of_RB)
+{
 	$RB = getRB();
 	$amount_to_add = $RB / 100 * $percentage_of_RB;
 
@@ -500,7 +517,8 @@ function addPercentageToSavings ($percentage_of_RB) {
 		->increment('amount', $amount_to_add);
 }
 
-function updateBudget ($tag_id, $budget, $column) {
+function updateBudget($tag_id, $budget, $column)
+{
 	Debugbar::info('budget: ' . $budget . ' column: ' . $column);
 	//this either adds or deletes a budget, both using an update query.
 	if (!$budget || $budget === "NULL") {
@@ -524,14 +542,16 @@ function updateBudget ($tag_id, $budget, $column) {
 	// Log::info('queries', $queries);
 }
 
-function updateAllocatedFixed ($allocated_fixed, $transaction_id, $tag_id) {
+function updateAllocatedFixed($allocated_fixed, $transaction_id, $tag_id)
+{
 	DB::table('transactions_tags')
 		->where('transaction_id', $transaction_id)
 		->where('tag_id', $tag_id)
 		->update(['allocated_fixed' => $allocated_fixed, 'allocated_percent' => null, 'calculated_allocation' => $allocated_fixed]);
 }
 
-function updateAllocatedPercent ($allocated_percent, $transaction_id, $tag_id) {
+function updateAllocatedPercent($allocated_percent, $transaction_id, $tag_id)
+{
 	DB::table('transactions_tags')
 		->where('transaction_id', $transaction_id)
 		->where('tag_id', $tag_id)
@@ -540,13 +560,15 @@ function updateAllocatedPercent ($allocated_percent, $transaction_id, $tag_id) {
 	updateAllocatedPercentCalculatedAllocation($transaction_id, $tag_id);
 }
 
-function updateAllocatedPercentCalculatedAllocation ($transaction_id, $tag_id) {
+function updateAllocatedPercentCalculatedAllocation($transaction_id, $tag_id)
+{
 	//updates calculated_allocation column for one row in transactions_tags, where the tag has been given an allocated percent
 	$sql = "UPDATE transactions_tags calculated_allocation JOIN transactions ON transactions.id = transaction_id SET calculated_allocation = transactions.total / 100 * allocated_percent WHERE transaction_id = $transaction_id AND tag_id = $tag_id;";
 	DB::update($sql);
 }
 
-function updateAllocationStatus ($transaction_id, $status) {
+function updateAllocationStatus($transaction_id, $status)
+{
 	// if ($status == 1) {
 	// 	$status = 'true';
 	// }
@@ -558,7 +580,8 @@ function updateAllocationStatus ($transaction_id, $status) {
 		->update(['allocated' => $status]);
 }
 
-// function updateCalculatedAllocation ($db) {
+// function updateCalculatedAllocation($db)
+// {
 	//this does all rows
 // 	$sql = "UPDATE transactions_tags calculated_allocation JOIN transactions ON transactions.id = transaction_id SET calculated_allocation = transactions.total / 100 * allocated_percent WHERE allocated_percent IS NOT NULL";
 // 	$sql_result = $db->query($sql);
@@ -567,7 +590,8 @@ function updateAllocationStatus ($transaction_id, $status) {
 
 // /*========================================delete========================================*/
 
-function deleteAllTagsForTransaction ($transaction_id) {
+function deleteAllTagsForTransaction($transaction_id)
+{
 	DB::table('transactions_tags')->where('transaction_id', $transaction_id)->delete();
 }
 
@@ -577,7 +601,8 @@ include('total-functions.php');
 
 // /*========================================other========================================*/
 
-function convertFromBoolean ($variable) {
+function convertFromBoolean($variable)
+{
     if ($variable == 'true') {
     	$variable = 1;
     }
@@ -589,7 +614,8 @@ function convertFromBoolean ($variable) {
 
 
 
-function convertToBoolean ($variable) {
+function convertToBoolean($variable)
+{
 	if ($variable === 1) {
 		$variable = true;
 	}
@@ -599,7 +625,8 @@ function convertToBoolean ($variable) {
 	return $variable;
 }
 
-function convertDate ($date, $for) {
+function convertDate($date, $for)
+{
 	$date = new DateTime($date);
 
 	if ($for === 'user') {
@@ -611,7 +638,8 @@ function convertDate ($date, $for) {
 	return $date;
 }
 
-function numberFormat ($array) {
+function numberFormat($array)
+{
 	$formatted_array = array();
 	foreach ($array as $key => $value) {
 		$formatted_value = number_format($value, 2);

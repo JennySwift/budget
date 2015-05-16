@@ -3,7 +3,8 @@
 // DB::enableQueryLog();
 
 
-function getBasicTotals () {
+function getBasicTotals()
+{
 	$total_income = getTotalIncome();
 	$total_expense = getTotalExpense();
 	$balance = $total_income + $total_expense;
@@ -36,7 +37,8 @@ function getBasicTotals () {
 	return $totals;
 }
 
-function getBudgetTotals () {
+function getBudgetTotals()
+{
 	$user_id = Auth::user()->id;
 	$FB_info = getBudgetInfo($user_id, 'fixed');
 	$FLB_info = getBudgetInfo($user_id, 'flex');
@@ -94,7 +96,8 @@ function getBudgetTotals () {
 	return $array;
 }
 
-function getRB () {
+function getRB()
+{
 	$user_id = Auth::user()->id;
 	$FB_info = getBudgetInfo($user_id, 'fixed');
 	$FLB_info = getBudgetInfo($user_id, 'flex');
@@ -112,7 +115,8 @@ function getRB () {
 	return $RB;
 }
 
-function getTotalExpenseWithFLB () {
+function getTotalExpenseWithFLB()
+{
 	//this is for calculating the remaining balance. Finds all transactions that have a flex budget and returns the total of those transactions.
 	//first, get all the transactions that have a budget.
 	$sql = "select id from transactions where transactions.type = 'expense' AND transactions.user_id = " . Auth::user()->id . " and (select count(*) from tags inner join transactions_tags on tags.id = transactions_tags.tag_id
@@ -137,7 +141,8 @@ function getTotalExpenseWithFLB () {
 	return $total;
 }
 
-function getTotalExpenseWithoutBudget () {
+function getTotalExpenseWithoutBudget()
+{
 	//this is for calculating the remaining balance. Finds all transactions that have no budget and returns the total of those transactions.
 	//first, get all the transactions that have no budget.
 	$sql = "select id from transactions where transactions.type = 'expense' AND transactions.user_id = " . Auth::user()->id . " and (select count(*) from tags inner join transactions_tags on tags.id = transactions_tags.tag_id
@@ -161,7 +166,8 @@ function getTotalExpenseWithoutBudget () {
 }
 
 
-function getSavingsTotal () {
+function getSavingsTotal()
+{
 	$savings = DB::table('savings')
 		->where('user_id', Auth::user()->id)
 		->pluck('amount');
@@ -169,7 +175,8 @@ function getSavingsTotal () {
 	return $savings;
 }
 
-function getTotalSpentOnTagBeforeCSD ($tag_id, $CSD) {
+function getTotalSpentOnTagBeforeCSD($tag_id, $CSD)
+{
 	//get total spent on a given tag after starting date
 	$total = DB::table('transactions_tags')
 		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
@@ -188,7 +195,8 @@ function getTotalSpentOnTagBeforeCSD ($tag_id, $CSD) {
 	return $total;
 }
 
-function getTotalSpentOnTag ($tag_id, $starting_date) {
+function getTotalSpentOnTag($tag_id, $starting_date)
+{
 	//get total spent on a given tag after starting date
 	$total = DB::table('transactions_tags')
 		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
@@ -209,7 +217,8 @@ function getTotalSpentOnTag ($tag_id, $starting_date) {
 	return $total;
 }
 
-function getTotalReceivedOnTag ($tag_id, $starting_date) {
+function getTotalReceivedOnTag($tag_id, $starting_date)
+{
 	//get total received on a given tag after starting date
 	$total = DB::table('transactions_tags')
 		->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
@@ -227,7 +236,8 @@ function getTotalReceivedOnTag ($tag_id, $starting_date) {
 	return $total;
 }
 
-function getTotalIncomeAfterDate ($db, $user_id, $cumulative_starting_date) {
+function getTotalIncomeAfterDate($db, $user_id, $cumulative_starting_date)
+{
 	//gets the total income after the cumulative starting date
 	$total_income = DB::table('transactions')
 		->where('type', 'income')
@@ -238,7 +248,8 @@ function getTotalIncomeAfterDate ($db, $user_id, $cumulative_starting_date) {
 	return $total_income;
 }
 
-function getReconciledSum () {
+function getReconciledSum()
+{
 	//gets the sum of all transactions that are reconciled
 	$reconciled_sum = DB::table('transactions')
 		->where('reconciled', 1)
@@ -248,7 +259,8 @@ function getReconciledSum () {
 	return $reconciled_sum;
 }
 
-function getTotalIncome () {
+function getTotalIncome()
+{
 	$sql_result = DB::table('transactions')
 		->where('type', 'income')
 		->where('user_id', Auth::user()->id)
@@ -262,7 +274,8 @@ function getTotalIncome () {
     return $total_income;
 }
 
-function getTotalExpense () {
+function getTotalExpense()
+{
 	$sql_result = DB::table('transactions')
 		->where('type', 'expense')
 		->where('user_id', Auth::user()->id)
@@ -276,7 +289,8 @@ function getTotalExpense () {
     return $total_expense;
 }
 
-function getAllocationTotals ($transaction_id) {
+function getAllocationTotals($transaction_id)
+{
 	$rows = DB::table('transactions_tags')
 		->where('transaction_id', $transaction_id)
 		->where('tags.budget_id', '!=', 'null')
@@ -322,7 +336,8 @@ function getAllocationTotals ($transaction_id) {
 	return $allocation_totals;
 }
 
-function getBudgetInfo ($user_id, $type) {
+function getBudgetInfo($user_id, $type)
+{
 	if ($type === 'fixed') {
 		$tags = getTagsWithFixedBudget($user_id);
 	}
@@ -427,7 +442,8 @@ function getBudgetInfo ($user_id, $type) {
 	return $budget_info;
 }
 
-// function getFilterTotals ($transactions) {
+// function getFilterTotals($transactions)
+// {
 //     $search_income = 0;
 //     $search_expenses = 0;
 //     $search_balance = 0;
@@ -481,7 +497,8 @@ function getBudgetInfo ($user_id, $type) {
 //     return $array;
 // }
 
-// function getASR ($transactions) {
+// function getASR($transactions)
+// {
 //     $ASR = 0;
 
 //     foreach ($transactions as $transaction) {

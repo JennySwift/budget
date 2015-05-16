@@ -15,7 +15,8 @@ class SavingsController extends Controller {
 	 * insert
 	 */
 	
-	public function updateSavingsTotal () {
+	public function updateSavingsTotal()
+	{
 		include(app_path() . '/inc/functions.php');
 		$amount = json_decode(file_get_contents('php://input'), true)["amount"];
 		updateSavingsTotal($amount);
@@ -26,7 +27,8 @@ class SavingsController extends Controller {
 	 * update
 	 */
 	
-	public function addFixedToSavings () {
+	public function addFixedToSavings()
+	{
 		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
 		include(app_path() . '/inc/functions.php');
 		$amount_to_add = json_decode(file_get_contents('php://input'), true)["amount_to_add"];
@@ -34,7 +36,8 @@ class SavingsController extends Controller {
 		return getSavingsTotal();
 	}
 
-	public function addPercentageToSavings () {
+	public function addPercentageToSavings()
+	{
 		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
 		include(app_path() . '/inc/functions.php');
 		$percentage_of_RB = json_decode(file_get_contents('php://input'), true)["percentage_of_RB"];
@@ -42,14 +45,16 @@ class SavingsController extends Controller {
 		return getSavingsTotal();
 	}
 
-	public function addPercentageToSavingsAutomatically () {
+	public function addPercentageToSavingsAutomatically()
+	{
 		include(app_path() . '/inc/functions.php');
 		$amount_to_add = json_decode(file_get_contents('php://input'), true)["amount_to_add"];
 		addPercentageToSavingsAutomatically($amount_to_add);
 		return getSavingsTotal();
 	}
 
-	public function reverseAutomaticInsertIntoSavings () {
+	public function reverseAutomaticInsertIntoSavings()
+	{
 		include(app_path() . '/inc/functions.php');
 		$amount_to_subtract = json_decode(file_get_contents('php://input'), true)["amount_to_subtract"];
 		reverseAutomaticInsertIntoSavings($amount_to_subtract);

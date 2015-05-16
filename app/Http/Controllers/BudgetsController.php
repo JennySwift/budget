@@ -11,7 +11,8 @@ class BudgetsController extends Controller {
 	 * select
 	 */
 	
-	public function getAllocationInfo () {
+	public function getAllocationInfo()
+	{
 		// include(app_path() . '/inc/functions.php');
 		// $filter = json_decode(file_get_contents('php://input'), true)["filter"];
 		// return filter($filter);    
@@ -25,7 +26,8 @@ class BudgetsController extends Controller {
 	 * update
 	 */
 	
-	public function updateBudget () {
+	public function updateBudget()
+	{
 		//this either adds or deletes a budget, both using an update query.
 		include(app_path() . '/inc/functions.php');
 		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
@@ -35,7 +37,8 @@ class BudgetsController extends Controller {
 		updateBudget($tag_id, $budget, $column);
 	}
 
-	public function updateAllocation () {
+	public function updateAllocation()
+	{
 		include(app_path() . '/inc/functions.php');
 		$type = json_decode(file_get_contents('php://input'), true)["type"];
 		$value = json_decode(file_get_contents('php://input'), true)["value"];
@@ -60,7 +63,8 @@ class BudgetsController extends Controller {
 		return $array;
 	}
 
-	public function updateAllocationStatus () {
+	public function updateAllocationStatus()
+	{
 		include(app_path() . '/inc/functions.php');
 		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
 		$status = json_decode(file_get_contents('php://input'), true)["status"];
@@ -68,11 +72,13 @@ class BudgetsController extends Controller {
 		updateAllocationStatus($transaction_id, $status);
 	}
 
-	public function updateStartingDate () {
+	public function updateStartingDate()
+	{
 		
 	}
 
-	public function updateCSD () {
+	public function updateCSD()
+	{
 		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
 		$CSD = json_decode(file_get_contents('php://input'), true)["CSD"];
 
@@ -83,7 +89,8 @@ class BudgetsController extends Controller {
 	 * delete
 	 */
 
-	public function deleteBudget () {
+	public function deleteBudget()
+	{
 		
 	}
 

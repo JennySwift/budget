@@ -11,14 +11,16 @@ class TransactionsController extends Controller {
 	 * select
 	 */
 	
-	public function countTransactionsWithTag () {
+	public function countTransactionsWithTag()
+	{
 		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
 		$sql = "SELECT COUNT(*) FROM transactions_tags WHERE tag_id = $tag_id";
 		$count = DB::table('transactions_tags')->where('tag_id', $tag_id)->count();
 		return $count;
 	}
 
-	public function autocompleteTransaction () {
+	public function autocompleteTransaction()
+	{
 		include(app_path() . '/inc/functions.php');
 		$typing = json_decode(file_get_contents('php://input'), true)["typing"];
 		$typing = '%' . $typing . '%';
@@ -29,7 +31,8 @@ class TransactionsController extends Controller {
 		return $transactions;
 	}
 
-	public function filter () {
+	public function filter()
+	{
 		include(app_path() . '/inc/functions.php');
 		$filter = json_decode(file_get_contents('php://input'), true)["filter"];
 		return filter($filter);    
@@ -39,7 +42,8 @@ class TransactionsController extends Controller {
 	 * insert
 	 */
 	
-	public function insertTransaction () {
+	public function insertTransaction()
+	{
 		include(app_path() . '/inc/functions.php');
 		$new_transaction = json_decode(file_get_contents('php://input'), true)["new_transaction"];
 		$type = $new_transaction['type'];
@@ -69,18 +73,21 @@ class TransactionsController extends Controller {
 	 * update
 	 */
 	
-	public function updateMassDescription () {
+	public function updateMassDescription()
+	{
 		
 	}
 
-	public function updateTransaction () {
+	public function updateTransaction()
+	{
 		include(app_path() . '/inc/functions.php');
 		$transaction = json_decode(file_get_contents('php://input'), true)["transaction"];
 
 		updateTransaction($transaction);
 	}
 
-	public function updateReconciliation () {
+	public function updateReconciliation()
+	{
 		include(app_path() . '/inc/functions.php');
 		$id = json_decode(file_get_contents('php://input'), true)["id"];
 		$reconciled = json_decode(file_get_contents('php://input'), true)["reconciled"];
@@ -92,7 +99,8 @@ class TransactionsController extends Controller {
 	 * delete
 	 */
 
-	public function deleteTransaction () {
+	public function deleteTransaction()
+	{
 		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
 		//no need for this now that I'm using cascade.
 		// DB::table('transactions_tags')->where('transaction_id', $transaction_id)->delete();

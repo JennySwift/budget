@@ -11,7 +11,8 @@ class ColorsController extends Controller {
 	 * select
 	 */
 	
-	public function getColors () {
+	public function getColors()
+	{
 		$user_id = Auth::user()->id;
 		$income = DB::table('colors')->where('item', 'income')->where('user_id', $user_id)->pluck('color');
 		$expense = DB::table('colors')->where('item', 'expense')->where('user_id', $user_id)->pluck('color');
@@ -33,7 +34,8 @@ class ColorsController extends Controller {
 	 * update
 	 */
 	
-	public function updateColors () {
+	public function updateColors()
+	{
 		$colors = json_decode(file_get_contents('php://input'), true)["colors"];
 		
 		foreach ($colors as $type => $color) {
