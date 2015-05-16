@@ -109,8 +109,8 @@ Route::post('insert/tag', 'TagsController@insertTag');
 Route::post('update/tagName', 'TagsController@updateTagName');
 Route::post('update/massTags', 'TagsController@updateMassTags');
 
-Route::post('delete/tag', function () {
-    $tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
+Route::post('delete/tag', function (Request $request) {
+    $tag_id = $request->get('tag_id');
     DB::table('tags')->where('id', $tag_id)->delete();
     return $tag_id;
 });

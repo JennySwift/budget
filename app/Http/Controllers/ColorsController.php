@@ -37,9 +37,9 @@ class ColorsController extends Controller {
 	 * update
 	 */
 	
-	public function updateColors()
+	public function updateColors(Request $request)
 	{
-		$colors = json_decode(file_get_contents('php://input'), true)["colors"];
+		$colors = $request->get('colors');
 		
 		foreach ($colors as $type => $color) {
 		    DB::table('colors')->where('item', $type)->where('user_id', Auth::user()->id)->update(['color' => $color]);

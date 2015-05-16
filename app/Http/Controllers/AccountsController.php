@@ -24,9 +24,9 @@ class AccountsController extends Controller {
 	 * insert
 	 */
 	
-	public function insertAccount()
+	public function insertAccount(Request $request)
 	{
-		$name = json_decode(file_get_contents('php://input'), true)["name"];
+		$name = $request->get('name');
 		DB::table('accounts')->insert(['name' => $name, 'user_id' => Auth::user()->id]);
 	}
 
@@ -34,10 +34,10 @@ class AccountsController extends Controller {
 	 * update
 	 */
 	
-	public function updateAccountName()
+	public function updateAccountName(Request $request)
 	{
-		$account_id = json_decode(file_get_contents('php://input'), true)["account_id"];
-		$account_name = json_decode(file_get_contents('php://input'), true)["account_name"];
+		$account_id = $request->get('account_id');
+		$account_name = $request->get('account_name');
 		DB::table('accounts')->where('id', $account_id)->update(['name' => $account_name]);
 	}
 
@@ -45,9 +45,9 @@ class AccountsController extends Controller {
 	 * delete
 	 */
 
-	public function deleteAccount()
+	public function deleteAccount(Request $request)
 	{
-		$account_id = json_decode(file_get_contents('php://input'), true)["account_id"];
+		$account_id = $request->get('account_id');
 		DB::table('accounts')->where('id', $account_id)->delete();
 	}
 

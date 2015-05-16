@@ -14,29 +14,29 @@ class TransactionsController extends Controller {
 	 * select
 	 */
 	
-	public function countTransactionsWithTag()
+	public function countTransactionsWithTag(Request $request)
 	{
-		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
+		$tag_id = $request->get('tag_id');
 		$sql = "SELECT COUNT(*) FROM transactions_tags WHERE tag_id = $tag_id";
 		$count = DB::table('transactions_tags')->where('tag_id', $tag_id)->count();
 		return $count;
 	}
 
-	public function autocompleteTransaction()
+	public function autocompleteTransaction(Request $request)
 	{
-		$typing = json_decode(file_get_contents('php://input'), true)["typing"];
+		$typing = $request->get('typing');
 		$typing = '%' . $typing . '%';
-		$column = json_decode(file_get_contents('php://input'), true)["column"];
+		$column = $request->get('column');
 		$transactions = Transaction::autocompleteTransaction($column, $typing);
 		// $transactions = removeNearDuplicates($transactions);
 		// $transactions = array_slice($transactions, 0, 50);
 		return $transactions;
 	}
 
-	public function filter()
+	public function filter(Request $request)
 	{
 		include(app_path() . '/inc/functions.php');
-		$filter = json_decode(file_get_contents('php://input'), true)["filter"];
+		$filter = $request->get('filter');
 		return filter($filter);    
 	}
 	
@@ -44,9 +44,9 @@ class TransactionsController extends Controller {
 	 * insert
 	 */
 	
-	public function insertTransaction()
+	public function insertTransaction(Request $request)
 	{
-		$new_transaction = json_decode(file_get_contents('php://input'), true)["new_transaction"];
+		$new_transaction = $request->get('new_transaction');
 		$type = $new_transaction['type'];
 
 		if ($type !== "transfer") {
@@ -79,18 +79,17 @@ class TransactionsController extends Controller {
 		
 	}
 
-	public function updateTransaction()
+	public function updateTransaction(Request $request)
 	{
-		$transaction = json_decode(file_get_contents('php://input'), true)["transaction"];
-
+		$transaction = $request->get('transaction');
 		Transaction::updateTransaction($transaction);
 	}
 
-	public function updateReconciliation()
+	public function updateReconciliation(Request $request)
 	{
 		include(app_path() . '/inc/functions.php');
-		$id = json_decode(file_get_contents('php://input'), true)["id"];
-		$reconciled = json_decode(file_get_contents('php://input'), true)["reconciled"];
+		$id = $request->get('id');
+		$reconciled = $request->get('reconciled');
 		$reconciled = convertFromBoolean($reconciled);
 		DB::table('transactions')->where('id', $id)->update(['reconciled' => $reconciled]);
 	}
@@ -99,11 +98,9 @@ class TransactionsController extends Controller {
 	 * delete
 	 */
 
-	public function deleteTransaction()
+	public function deleteTransaction(Request $request)
 	{
-		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
-		//no need for this now that I'm using cascade.
-		// DB::table('transactions_tags')->where('transaction_id', $transaction_id)->delete();
+		$transaction_id = $request->get('transaction_id');
 		DB::table('transactions')->where('id', $transaction_id)->delete();
 	}
 

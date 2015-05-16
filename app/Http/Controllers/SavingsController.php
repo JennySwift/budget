@@ -18,9 +18,9 @@ class SavingsController extends Controller {
 	 * insert
 	 */
 	
-	public function updateSavingsTotal()
+	public function updateSavingsTotal(Request $request)
 	{
-		$amount = json_decode(file_get_contents('php://input'), true)["amount"];
+		$amount = $request->get('amount');
 		Savings::updateSavingsTotal($amount);
 		return Savings::getSavingsTotal();
 	}
@@ -29,33 +29,32 @@ class SavingsController extends Controller {
 	 * update
 	 */
 	
-	public function addFixedToSavings()
+	public function addFixedToSavings(Request $request)
 	{
 		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
-		include(app_path() . '/inc/functions.php');
-		$amount_to_add = json_decode(file_get_contents('php://input'), true)["amount_to_add"];
+		$amount_to_add = $request->get('amount_to_add');
 		Savings::addFixedToSavings($amount_to_add);
 		return Savings::getSavingsTotal();
 	}
 
-	public function addPercentageToSavings()
+	public function addPercentageToSavings(Request $request)
 	{
 		//whereas updateSavingsTotal just changes the total, this function adds or subtracts from the current total.
-		$percentage_of_RB = json_decode(file_get_contents('php://input'), true)["percentage_of_RB"];
+		$percentage_of_RB = $request->get('percentage_of_RB');
 		Savings::addPercentageToSavings($percentage_of_RB);
 		return Savings::getSavingsTotal();
 	}
 
-	public function addPercentageToSavingsAutomatically()
+	public function addPercentageToSavingsAutomatically(Request $request)
 	{
-		$amount_to_add = json_decode(file_get_contents('php://input'), true)["amount_to_add"];
+		$amount_to_add = $request->get('amount_to_add');
 		Savings::addPercentageToSavingsAutomatically($amount_to_add);
 		return Savings::getSavingsTotal();
 	}
 
-	public function reverseAutomaticInsertIntoSavings()
+	public function reverseAutomaticInsertIntoSavings(Request $request)
 	{
-		$amount_to_subtract = json_decode(file_get_contents('php://input'), true)["amount_to_subtract"];
+		$amount_to_subtract = $request->get('amount_to_subtract');
 		Savings::reverseAutomaticInsertIntoSavings($amount_to_subtract);
 		return Savings::getSavingsTotal();
 	}

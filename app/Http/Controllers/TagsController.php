@@ -21,9 +21,9 @@ class TagsController extends Controller {
 		return $tags;
 	}
 
-	public function duplicateTagCheck()
+	public function duplicateTagCheck(Request $request)
 	{
-		$new_tag_name = json_decode(file_get_contents('php://input'), true)["new_tag_name"];
+		$new_tag_name = $request->get('new_tag_name');
 		$count = DB::table('tags')->where('name', $new_tag_name)->where('user_id', Auth::user()->id)->count();
 		//count is 0 if tag is not a duplicate, 1 if it is.
 		return $count;
@@ -33,9 +33,9 @@ class TagsController extends Controller {
 	 * insert
 	 */
 	
-	public function insertTag()
+	public function insertTag(Request $request)
 	{
-		$new_tag_name = json_decode(file_get_contents('php://input'), true)["new_tag_name"];
+		$new_tag_name = $request->get('new_tag_name');
 		DB::table('tags')->insert(['name' => $new_tag_name, 'user_id' => Auth::user()->id]);
 	}
 
@@ -43,10 +43,10 @@ class TagsController extends Controller {
 	 * update
 	 */
 	
-	public function updateTagName()
+	public function updateTagName(Request $request)
 	{
-		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
-		$tag_name = json_decode(file_get_contents('php://input'), true)["tag_name"];
+		$tag_id = $request->get('tag_id');
+		$tag_name = $request->get('tag_name');
 		DB::table('tags')->where('id', $tag_id)->update(['name' => $tag_name]);
 	}
 
@@ -59,9 +59,9 @@ class TagsController extends Controller {
 	 * delete
 	 */
 
-	public function deleteTag()
+	public function deleteTag(Request $request)
 	{
-		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
+		$tag_id = $request->get('tag_id');
 		DB::table('tags')->where('id', $tag_id)->delete();
 		return 'hello'; 
 	}

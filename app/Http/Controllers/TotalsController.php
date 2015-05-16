@@ -10,9 +10,9 @@ use App\Models\Budget;
 
 class TotalsController extends Controller {
 	
-	public function getAllocationTotals()
+	public function getAllocationTotals(Request $request)
 	{
-		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
+		$transaction_id = $request->get('transaction_id');
 		return Budget::getAllocationTotals($transaction_id);
 	}
 

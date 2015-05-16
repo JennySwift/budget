@@ -14,10 +14,10 @@ class BudgetsController extends Controller {
 	 * select
 	 */
 	
-	public function getAllocationInfo()
+	public function getAllocationInfo(Request $request)
 	{
 		// include(app_path() . '/inc/functions.php');
-		// $filter = json_decode(file_get_contents('php://input'), true)["filter"];
+		// $filter = $request->get('filter');
 		// return filter($filter);    
 	}
 
@@ -29,22 +29,22 @@ class BudgetsController extends Controller {
 	 * update
 	 */
 	
-	public function updateBudget()
+	public function updateBudget(Request $request)
 	{
 		//this either adds or deletes a budget, both using an update query.
-		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
-		$budget = json_decode(file_get_contents('php://input'), true)["budget"];
-		$column = json_decode(file_get_contents('php://input'), true)["column"];
+		$tag_id = $request->get('tag_id');
+		$budget = $request->get('budget');
+		$column = $request->get('column');
 
 		Budget::updateBudget($tag_id, $budget, $column);
 	}
 
-	public function updateAllocation()
+	public function updateAllocation(Request $request)
 	{
-		$type = json_decode(file_get_contents('php://input'), true)["type"];
-		$value = json_decode(file_get_contents('php://input'), true)["value"];
-		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
-		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
+		$type = $request->get('type');
+		$value = $request->get('value');
+		$transaction_id = $request->get('transaction_id');
+		$tag_id = $request->get('tag_id');
 
 		if ($type === 'percent') {
 		    Budget::updateAllocatedPercent($value, $transaction_id, $tag_id);
@@ -54,8 +54,8 @@ class BudgetsController extends Controller {
 		}
 		
 		//get the updated tag info after the update
-		$allocation_info = getAllocationInfo($transaction_id, $tag_id);
-		$allocation_totals = getAllocationTotals($transaction_id);
+		$allocation_info = Budget::getAllocationInfo($transaction_id, $tag_id);
+		$allocation_totals = Budget::getAllocationTotals($transaction_id);
 
 		$array = array(
 		    "allocation_info" => $allocation_info,
@@ -64,10 +64,10 @@ class BudgetsController extends Controller {
 		return $array;
 	}
 
-	public function updateAllocationStatus()
+	public function updateAllocationStatus(Request $request)
 	{
-		$transaction_id = json_decode(file_get_contents('php://input'), true)["transaction_id"];
-		$status = json_decode(file_get_contents('php://input'), true)["status"];
+		$transaction_id = $request->get('transaction_id');
+		$status = $request->get('status');
 		
 		Budget::updateAllocationStatus($transaction_id, $status);
 	}
@@ -77,10 +77,10 @@ class BudgetsController extends Controller {
 		
 	}
 
-	public function updateCSD()
+	public function updateCSD(Request $request)
 	{
-		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
-		$CSD = json_decode(file_get_contents('php://input'), true)["CSD"];
+		$tag_id = $request->get('tag_id');
+		$CSD = $request->get('CSD');
 
 		DB::table('tags')->where('id', $tag_id)->update(['starting_date' => $CSD]);
 	}
