@@ -12,7 +12,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * Home page
+ */
+
 Route::get('/', 'HomeController@index');
+
+
+/**
+ * Authentication
+ */
 
 Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function(){
 
@@ -38,65 +47,95 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-// ====================================================================================
-// ========================================ajax========================================
-// ====================================================================================
+/**
+ * Ajax
+ */
 
-// ========================================select========================================
+/**
+ * transactions
+ */
 
-Route::post('select/accounts', 'SelectController@accounts');
-Route::post('select/filter', 'SelectController@filter');
-Route::post('select/autocompleteTransaction', 'SelectController@autocompleteTransaction');
-Route::post('select/tags', 'SelectController@tags');
-Route::post('select/colors', 'SelectController@colors');
-Route::post('select/duplicate-tag-check', 'SelectController@duplicateTagCheck');
-Route::post('select/countTransactionsWithTag', 'SelectController@countTransactionsWithTag');
-Route::post('select/allocationInfo', 'SelectController@allocationInfo');
-Route::post('select/allocationTotals', 'SelectController@allocationTotals');
+Route::post('select/filter', 'TransactionsController@filter');
+Route::post('select/autocompleteTransaction', 'TransactionsController@autocompleteTransaction');
+Route::post('select/countTransactionsWithTag', 'TransactionsController@countTransactionsWithTag');
 
-// ========================================insert========================================
+Route::post('insert/transaction', 'TransactionsController@insertTransaction');
 
-Route::post('insert/tag', 'InsertController@tag');
-Route::post('insert/account', 'InsertController@account');
-Route::post('insert/flexBudget', 'InsertController@flexBudget');
-Route::post('insert/budgetInfo', 'InsertController@budgetInfo');
-Route::post('insert/transaction', 'InsertController@transaction');
+Route::post('update/massDescription', 'TransactionsController@updateMassDescription');
+Route::post('update/transaction', 'TransactionsController@updateTransaction');
+Route::post('update/reconciliation', 'TransactionsController@updateReconciliation');
 
-// ========================================update========================================
+Route::post('delete/transaction', 'TransactionsController@deleteTransaction');
 
-Route::post('update/budget', 'UpdateController@budget');
-Route::post('update/tagName', 'UpdateController@tagName');
-Route::post('update/accountName', 'UpdateController@accountName');
-Route::post('update/allocation', 'UpdateController@allocation');
-Route::post('update/allocationStatus', 'UpdateController@allocationStatus');
-Route::post('update/massTags', 'UpdateController@massTags');
-Route::post('update/massDescription', 'UpdateController@massDescription');
-Route::post('update/startingDate', 'UpdateController@startingDate');
-Route::post('update/CSD', 'UpdateController@CSD');
-Route::post('update/colors', 'UpdateController@colors');
-Route::post('update/transaction', 'UpdateController@transaction');
-Route::post('update/reconciliation', 'UpdateController@reconciliation');
-Route::post('update/savingsTotal', 'UpdateController@savingsTotal');
-Route::post('update/addFixedToSavings', 'UpdateController@addFixedToSavings');
-Route::post('update/addPercentageToSavings', 'UpdateController@addPercentageToSavings');
-Route::post('update/addPercentageToSavingsAutomatically', 'UpdateController@addPercentageToSavingsAutomatically');
-Route::post('update/reverseAutomaticInsertIntoSavings', 'UpdateController@reverseAutomaticInsertIntoSavings');
+/**
+ * budgets
+ */
 
-// ========================================delete========================================
+Route::post('select/allocationInfo', 'BudgetsController@getAllocationInfo');
+Route::post('select/allocationTotals', 'BudgetsController@getAllocationTotals');
+
+Route::post('insert/flexBudget', 'BudgetsController@insertFlexBudget');
+Route::post('insert/budgetInfo', 'BudgetsController@insertBudgetInfo');
+
+Route::post('update/budget', 'BudgetsController@updateBudget');
+Route::post('update/allocation', 'BudgetsController@updateAllocation');
+Route::post('update/allocationStatus', 'BudgetsController@updateAllocationStatus');
+Route::post('update/startingDate', 'BudgetsController@updateStartingDate');
+Route::post('update/CSD', 'BudgetsController@updateCSD');
+
+Route::post('delete/budget', 'BudgetsController@deleteBudget');
+
+/**
+ * accounts
+ */
+
+Route::post('select/accounts', 'AccountsController@getAccounts');
+
+Route::post('insert/account', 'AccountsController@insertAccount');
+
+Route::post('update/accountName', 'AccountsController@updateAccountName');
+
+Route::post('delete/account', 'AccountsController@deleteAccount');
+
+/**
+ * tags
+ */
+
+Route::post('select/tags', 'TagsController@getTags');
+Route::post('select/duplicate-tag-check', 'TagsController@duplicateTagCheck');
+
+Route::post('insert/tag', 'TagsController@insertTag');
+
+Route::post('update/tagName', 'TagsController@updateTagName');
+Route::post('update/massTags', 'TagsController@updateMassTags');
 
 Route::post('delete/tag', function () {
-	$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
-	DB::table('tags')->where('id', $tag_id)->delete();
-	return $tag_id;
+    $tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
+    DB::table('tags')->where('id', $tag_id)->delete();
+    return $tag_id;
 });
-// Route::post('delete/tag', 'DeleteController@tag');
-Route::post('delete/account', 'DeleteController@account');
-Route::post('delete/item', 'DeleteController@item');
-Route::post('delete/budget', 'DeleteController@budget');
-Route::post('delete/transaction', 'DeleteController@transaction');
 
-// ========================================totals========================================
+/**
+ * colors
+ */
 
-// Route::post('totals/filter', 'TotalsController@filter');
+Route::post('select/colors', 'ColorsController@getColors');
+
+Route::post('update/colors', 'ColorsController@updateColors');
+
+/**
+ * savings
+ */
+
+Route::post('update/savingsTotal', 'SavingsController@updateSavingsTotal');
+Route::post('update/addFixedToSavings', 'SavingsController@addFixedToSavings');
+Route::post('update/addPercentageToSavings', 'SavingsController@addPercentageToSavings');
+Route::post('update/addPercentageToSavingsAutomatically', 'SavingsController@addPercentageToSavingsAutomatically');
+Route::post('update/reverseAutomaticInsertIntoSavings', 'SavingsController@reverseAutomaticInsertIntoSavings');
+
+/**
+ * totals
+ */
+
 Route::post('totals/basic', 'TotalsController@basic');
 Route::post('totals/budget', 'TotalsController@budget');
