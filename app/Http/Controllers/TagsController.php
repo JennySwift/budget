@@ -24,6 +24,16 @@ class TagsController extends Controller {
 	 * update
 	 */
 	
+	public function updateTagName () {
+		$tag_id = json_decode(file_get_contents('php://input'), true)["tag_id"];
+		$tag_name = json_decode(file_get_contents('php://input'), true)["tag_name"];
+		DB::table('tags')->where('id', $tag_id)->update(['name' => $tag_name]);
+	}
+
+	public function updateMassTags () {
+		
+	}
+
 	/**
 	 * delete
 	 */

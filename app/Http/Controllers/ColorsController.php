@@ -8,6 +8,30 @@ use Illuminate\Http\Request;
 class ColorsController extends Controller {
 
 	/**
+	 * select
+	 */
+	
+	/**
+	 * insert
+	 */
+	
+	/**
+	 * update
+	 */
+	
+	public function updateColors () {
+		$colors = json_decode(file_get_contents('php://input'), true)["colors"];
+		
+		foreach ($colors as $type => $color) {
+		    DB::table('colors')->where('item', $type)->where('user_id', Auth::user()->id)->update(['color' => $color]);
+		}  
+	}
+
+	/**
+	 * delete
+	 */
+
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response

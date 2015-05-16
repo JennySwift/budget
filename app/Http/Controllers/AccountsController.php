@@ -24,6 +24,12 @@ class AccountsController extends Controller {
 	 * update
 	 */
 	
+	public function updateAccountName () {
+		$account_id = json_decode(file_get_contents('php://input'), true)["account_id"];
+		$account_name = json_decode(file_get_contents('php://input'), true)["account_name"];
+		DB::table('accounts')->where('id', $account_id)->update(['name' => $account_name]);
+	}
+
 	/**
 	 * delete
 	 */

@@ -45,6 +45,25 @@ class TransactionsController extends Controller {
 	 * update
 	 */
 	
+	public function updateMassDescription () {
+		
+	}
+
+	public function updateTransaction () {
+		include(app_path() . '/inc/functions.php');
+		$transaction = json_decode(file_get_contents('php://input'), true)["transaction"];
+
+		updateTransaction($transaction);
+	}
+
+	public function updateReconciliation () {
+		include(app_path() . '/inc/functions.php');
+		$id = json_decode(file_get_contents('php://input'), true)["id"];
+		$reconciled = json_decode(file_get_contents('php://input'), true)["reconciled"];
+		$reconciled = convertFromBoolean($reconciled);
+		DB::table('transactions')->where('id', $id)->update(['reconciled' => $reconciled]);
+	}
+
 	/**
 	 * delete
 	 */
