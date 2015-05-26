@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Budget App</title>
 
-    <?php include(app_path().'/inc/config.php'); ?>
+    <?php include(base_path().'/resources/views/templates/config.php'); ?>
 
     <link rel="stylesheet" href="tools/bootstrap.min.css">
     <link rel="stylesheet" href="tools/bootstrap-tour.min.css">    
@@ -19,20 +19,20 @@
 <div class="main">
 
     <?php
-        include($inc . '/header.blade.php');
-        include($inc . '/messages.php');
-        include($inc . '/settings.php');
-        include($inc . '/modals.php');
-        include($inc . '/edit-transaction.php');
-        include($inc . '/allocation-popup.php');
-        include($inc . '/budget.php');
+        include($templates . '/header.blade.php');
+        include($templates . '/messages.php');
+        include($templates . '/settings.php');
+        include($templates . '/modals.php');
+        include($templates . '/edit-transaction.php');
+        include($templates . '/allocation-popup.php');
+        include($templates . '/budget.php');
     ?>
     
     <div ng-show="tab === 'home'" class="height-100 border-box">
     
         <div id="toolbar">
             <?php
-                include($inc . '/show-button.php');
+                include($templates . '/show-button.php');
             ?>
             <button ng-click="prevResults()" type="button" id="prev-results-button" class="navigate-results-button btn btn-info navbar-btn">Prev</button>
             
@@ -54,19 +54,19 @@
     
         <div id="new-transaction-container" class="">
             <?php
-                include($inc . '/new-transaction.php');
+                include($templates . '/new-transaction.php');
             ?>
         </div>
         
         <div class="row height-100 border-box">
             <?php
-                include($inc . '/totals.php');
-                include($inc . '/transactions.php');
+                include($templates . '/totals.php');
+                include($templates . '/transactions.php');
             ?>
             <div>
                 <?php
-                    include($inc . '/filter.php');
-                    include($inc . '/filter-totals.php');
+                    include($templates . '/filter.php');
+                    include($templates . '/filter-totals.php');
                 ?>
             </div>
     
@@ -78,4 +78,4 @@
     <a href="http://jennyswiftcreations.com/privacy-policy">Privacy Policy</a>
 </footer>
 
-<?php include($inc . '/footer.php'); ?>
+<?php include($templates . '/footer.php'); ?>

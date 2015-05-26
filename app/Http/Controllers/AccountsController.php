@@ -17,7 +17,7 @@ class AccountsController extends Controller {
 	public function getAccounts()
 	{
 		$user_id = Auth::user()->id;
-		return DB::table('accounts')->where('user_id', $user_id)->orderBy('name', 'asc')->get();
+		return Account::where('user_id', $user_id)->orderBy('name', 'asc')->get();
 	}
 
 	/**
@@ -27,7 +27,7 @@ class AccountsController extends Controller {
 	public function insertAccount(Request $request)
 	{
 		$name = $request->get('name');
-		DB::table('accounts')->insert(['name' => $name, 'user_id' => Auth::user()->id]);
+		Account::insert(['name' => $name, 'user_id' => Auth::user()->id]);
 	}
 
 	/**
@@ -38,7 +38,7 @@ class AccountsController extends Controller {
 	{
 		$account_id = $request->get('account_id');
 		$account_name = $request->get('account_name');
-		DB::table('accounts')->where('id', $account_id)->update(['name' => $account_name]);
+		Account::where('id', $account_id)->update(['name' => $account_name]);
 	}
 
 	/**
@@ -48,7 +48,7 @@ class AccountsController extends Controller {
 	public function deleteAccount(Request $request)
 	{
 		$account_id = $request->get('account_id');
-		DB::table('accounts')->where('id', $account_id)->delete();
+		Account::where('id', $account_id)->delete();
 	}
 
 	/**

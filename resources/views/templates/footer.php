@@ -12,19 +12,22 @@
 
 
 <!-- my scripts -->
-<script type="text/javascript" src="js/controllers.js"></script>
-<script type="text/javascript" src="js/directives.js"></script>
-<script type="text/javascript" src="js/insert.js"></script>
-<script type="text/javascript" src="js/select.js"></script>
-<script type="text/javascript" src="js/update.js"></script>
-<script type="text/javascript" src="js/delete.js"></script>
-<script type="text/javascript" src="js/autocomplete.js"></script>
-<script type="text/javascript" src="js/totals.js"></script>
 <script type="text/javascript" src="js/hotkeys.js"></script>
-<script type="text/javascript" src="js/show-hide.js"></script>
-<script type="text/javascript" src="js/filter.js"></script>
 <script type="text/javascript" src="js/other.js"></script>
-<script type="text/javascript" src="js/dates.js"></script>
+
+<!-- controllers -->
+<script type="text/javascript" src="js/controllers/controllers.js"></script>
+
+<!-- factories -->
+<script type="text/javascript" src="js/factories/autocomplete.js"></script>
+<script type="text/javascript" src="js/factories/budgets.js"></script>
+<script type="text/javascript" src="js/factories/savings.js"></script>
+<script type="text/javascript" src="js/factories/settings.js"></script>
+<script type="text/javascript" src="js/factories/totals.js"></script>
+<script type="text/javascript" src="js/factories/transactions.js"></script>
+
+<!-- directives -->
+<script type="text/javascript" src="js/directives.js"></script>
 
 </body>
 </html>

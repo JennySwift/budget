@@ -3,7 +3,7 @@
     <div ng-show="tab === 'budget'" id="budget" class="">
 
     
-        <?php include($inc . '/totals.php'); ?>
+        <?php include($templates . '/totals.php'); ?>
 
         <div>
 

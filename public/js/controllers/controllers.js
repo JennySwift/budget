@@ -4,7 +4,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 	// ===========================display controller===========================
 
-	app.controller('mainCtrl', function ($scope, $http, insert, select, update, deleteItem, filter, autocomplete, totals) {
+	app.controller('mainCtrl', function ($scope, $http, autocomplete, totals, budgets, savings, settings, transactions) {
 
 		/*=================================================================================
 		===================================================================================
@@ -194,7 +194,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		=================================================================================*/
 		
 		$scope.multiSearch = function ($reset, $new_transaction) {
-			select.multiSearch($scope.filter, $reset).then(function (response) {
+			transactions.multiSearch($scope.filter, $reset).then(function (response) {
 				$scope.transactions = response.data.transactions;
 				$scope.totals.filter = response.data.filter_totals;
 				$scope.searchResults();
@@ -252,7 +252,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.getAccounts = function () {
-			select.accounts().then(function (response) {
+			settings.getAccounts().then(function (response) {
 				$scope.accounts = response.data;
 				if ($scope.accounts[0]) {
 					//this if check is to get rid of the error for a new user who does not yet have any accounts.
@@ -298,7 +298,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.getTags = function () {
-			select.tags().then(function (response) {
+			settings.getTags().then(function (response) {
 				$scope.tags = response.data;
 				$scope.autocomplete.tags = response.data;
 			});
@@ -306,7 +306,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		$scope.getTags();
 
 		$scope.getColors = function () {
-			select.colors().then(function (response) {
+			settings.getColors().then(function (response) {
 				$scope.colors = response.data;
 			});
 		};
@@ -328,7 +328,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		$scope.insertTag = function () {
 			//inserts a new tag into tags table, not into a transaction
-			select.duplicateTagCheck().then(function (response) {
+			settings.duplicateTagCheck().then(function (response) {
 				var $duplicate = response.data;
 				if ($duplicate > 0) {
 					$("#tag-already-created").show();
@@ -698,7 +698,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.show.allocation_popup = true;
 			$scope.allocation_popup_transaction = $transaction;
 			
-			select.allocationTotals($transaction.id).then(function (response) {
+			budgets.getAllocationTotals($transaction.id).then(function (response) {
 				$scope.allocation_popup_transaction.allocation_totals = response.data;
 			});
 		};
@@ -812,7 +812,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		=================================================================================*/
 
 		$scope.deleteTag = function ($tag_id) {
-			select.countTransactionsWithTag($tag_id).then(function (response) {
+			settings.countTransactionsWithTag($tag_id).then(function (response) {
 				var $count = response.data;
 				if (confirm("You have " + $count + " transactions with this tag. Are you sure?")) {
 					deleteItem.tag($tag_id).then(function (response) {
@@ -865,20 +865,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				massDelete();
 			}
 		});
-
-		// $(".budget").on('click', '.delete_budget', function () {
-		// 	var $tag_id = $(this).closest('.budget_info_ul').attr('data-tag-id');
-		// 	var $tag_name = $(this).prevAll(".budget-tag").text();
-		// 	if (confirm("Are you sure?")) {
-		// 		deleteBudget($tag_id, $tag_name);
-		// 	}
-		// });
-
-		// $scope.deleteBudget = function () {
-		// 	deleteItem.budget().then(function (response) {
-		// 		$scope.getTotals();
-		// 	});
-		// };
 
 		/*=================================================================================
 		===================================================================================
@@ -1382,5 +1368,32 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 	}); //end display controller
 
+
+	/*==============================dates==============================*/
+
+	$("#convert_date_button_2").on('click', function () {
+		$(this).toggleClass("long_date");
+		$("#my_results .date").each(function () {
+			var $date = $(this).val();
+			var $parse = Date.parse($date);
+			var $toString;
+			if ($("#convert_date_button_2").hasClass("long_date")) {
+				$toString = $parse.toString('dd MMM yyyy');
+			}
+			else {
+				$toString = $parse.toString('dd/MM/yyyy');
+			}
+			
+			$(this).val($toString);
+		});
+	});
+
+	/*==============================new month==============================*/
+
+	function newMonth () {
+		$("#fixed-budget-info-table .spent").each(function () {
+			$(this).text(0);
+		});
+	}
 
 })();

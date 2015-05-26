@@ -2,7 +2,7 @@
 	$app = app_path();
 	$public = public_path();
 
-	$inc = $app . '/inc';
+	$templates = base_path() . '/resources/views/templates';
 	$tools = $public . '/tools';
 	$css = $public . '/css';
 	$ajax = $app . '/ajax';

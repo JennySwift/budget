@@ -4,7 +4,7 @@
 	<div class="autocomplete-container">
 		<input ng-model="new_transaction.description" ng-blur="show.autocomplete.transactions = false" ng-keyup="filterTransactions($event.keyCode, new_transaction.description, 'description')" id="new-transaction-description" class="description mousetrap form-control" placeholder="description" type='text'>
 		<input ng-model="new_transaction.merchant" ng-blur="show.autocomplete.transactions = false" ng-keyup="filterTransactions($event.keyCode, new_transaction.merchant, 'merchant')" id="new-transaction-merchant" class="merchant mousetrap form-control" placeholder="merchant" type='text'>
-		<?php include($inc . '/new-transaction-autocomplete.php'); ?>
+		<?php include($templates . '/new-transaction-autocomplete.php'); ?>
 	</div>
 
 	<input ng-model="new_transaction.total" ng-keyup="insertTransaction($event.keyCode)" class="total mousetrap form-control" placeholder="$" type='text'>

@@ -83,8 +83,6 @@ Route::post('update/allocationStatus', 'BudgetsController@updateAllocationStatus
 Route::post('update/startingDate', 'BudgetsController@updateStartingDate');
 Route::post('update/CSD', 'BudgetsController@updateCSD');
 
-Route::post('delete/budget', 'BudgetsController@deleteBudget');
-
 /**
  * accounts
  */
