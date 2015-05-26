@@ -7,48 +7,69 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use App\Models\Budget;
+use App\Models\Tag;
 
 class TotalsController extends Controller {
 	
 	public function getAllocationTotals(Request $request)
 	{
 		$transaction_id = $request->get('transaction_id');
-		return Budget::getAllocationTotals($transaction_id);
+
+		$rows = DB::table('transactions_tags')
+			->where('transaction_id', $transaction_id)
+			->where('tags.budget_id', '!=', 'null')
+			->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+			->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget', 'tags.budget_id')
+			->get();
+
+		$fixed_sum = '-';
+		$percent_sum = 0;
+		$calculated_allocation_sum = 0;
+
+		foreach ($rows as $row) {
+			$allocated_fixed = $row->allocated_fixed;
+			$allocated_percent = $row->allocated_percent;
+			$calculated_allocation = $row->calculated_allocation;
+
+			//so that the total displays '-' instead of $0.00 if there were no values to add up.
+			if ($allocated_fixed && $fixed_sum === '-') {
+				$fixed_sum = 0;
+			}
+			
+			if ($allocated_fixed) {
+				$fixed_sum+= $allocated_fixed;
+			}
+
+			$percent_sum+= $allocated_percent;
+			$calculated_allocation_sum+= $calculated_allocation;
+		}
+
+		if ($fixed_sum !== '-') {
+			$fixed_sum = number_format($fixed_sum, 2);
+		}
+		
+		$percent_sum = number_format($percent_sum, 2);
+		$calculated_allocation_sum = number_format($calculated_allocation_sum, 2);
+
+		$allocation_totals = array(
+			"fixed_sum" => $fixed_sum,
+			"percent_sum" => $percent_sum,
+			"calculated_allocation_sum" => $calculated_allocation_sum
+		);
+
+		return $allocation_totals;
 	}
-
-	public function basic()
-	{
-		return Totals::getBasicTotals();
-	}
-
-	public function budget()
-	{
-		return getBudgetTotals();
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public function getBasicTotals()
 	{
-		$total_income = getTotalIncome();
-		$total_expense = getTotalExpense();
+		$total_income = $this->getTotalIncome();
+		$total_expense = $this->getTotalExpense();
 		$balance = $total_income + $total_expense;
-		$reconciled_sum = getReconciledSum();
-		$savings_total = getSavingsTotal();
+		$reconciled_sum = $this->getReconciledSum();
+		$savings_total = $this->getSavingsTotal();
 		$savings_balance = $balance - $savings_total;
-		$expense_without_budget_total = getTotalExpenseWithoutBudget();
-		$EFLB = getTotalExpenseWithFLB();
+		$expense_without_budget_total = $this->getTotalExpenseWithoutBudget();
+		$EFLB = $this->getTotalExpenseWithFLB();
 		
 		$total_income = number_format($total_income, 2);
 		$total_expense = number_format($total_expense, 2);
@@ -76,10 +97,10 @@ class TotalsController extends Controller {
 	public function getBudgetTotals()
 	{
 		$user_id = Auth::user()->id;
-		$FB_info = getBudgetInfo($user_id, 'fixed');
-		$FLB_info = getBudgetInfo($user_id, 'flex');
+		$FB_info = $this->getBudgetInfo($user_id, 'fixed');
+		$FLB_info = $this->getBudgetInfo($user_id, 'flex');
 
-		$remaining_balance = getRB();
+		$remaining_balance = $this->getRB();
 
 		//adding the calculated budget for each tag. I'm doing it here rather than in getBudgetInfo because $remaining_balance is needed before each calculated_budget can be calculated.
 		//I'm doing it like this (creating a new array) because it didn't work when I tried to modify the original array.
@@ -122,7 +143,7 @@ class TotalsController extends Controller {
 		$remaining_balance = number_format($remaining_balance, 2);
 
 		//formatting
-		$FB_info['totals'] = numberFormat($FB_info['totals']);
+		$FB_info['totals'] = $this->numberFormat($FB_info['totals']);
 		
 		$array = array(
 		    "FB" => $FB_info,
@@ -135,17 +156,17 @@ class TotalsController extends Controller {
 	public function getRB()
 	{
 		$user_id = Auth::user()->id;
-		$FB_info = getBudgetInfo($user_id, 'fixed');
-		$FLB_info = getBudgetInfo($user_id, 'flex');
+		$FB_info = $this->getBudgetInfo($user_id, 'fixed');
+		$FLB_info = $this->getBudgetInfo($user_id, 'flex');
 
 		//calculating remaining balance
-		$total_income = getTotalIncome();
+		$total_income = $this->getTotalIncome();
 		$total_CFB = $FB_info['totals']['cumulative_budget'];
-		$EWB = getTotalExpenseWithoutBudget();
-		$EFLB = getTotalExpenseWithFLB();
+		$EWB = $this->getTotalExpenseWithoutBudget();
+		$EFLB = $this->getTotalExpenseWithFLB();
 		$total_spent_before_CSD = $FB_info['totals']['spent_before_CSD'];
 		$total_spent_after_CSD = $FB_info['totals']['spent'];
-		$total_savings = getSavingsTotal();
+		$total_savings = $this->getSavingsTotal();
 
 		$RB = $total_income - $total_CFB + $EWB + $EFLB + $total_spent_before_CSD + $total_spent_after_CSD - $total_savings;
 		return $RB;
@@ -325,60 +346,13 @@ class TotalsController extends Controller {
 	    return $total_expense;
 	}
 
-	public function getAllocationTotals($transaction_id)
-	{
-		$rows = DB::table('transactions_tags')
-			->where('transaction_id', $transaction_id)
-			->where('tags.budget_id', '!=', 'null')
-			->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-			->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget', 'tags.budget_id')
-			->get();
-
-		$fixed_sum = '-';
-		$percent_sum = 0;
-		$calculated_allocation_sum = 0;
-
-		foreach ($rows as $row) {
-			$allocated_fixed = $row->allocated_fixed;
-			$allocated_percent = $row->allocated_percent;
-			$calculated_allocation = $row->calculated_allocation;
-
-			//so that the total displays '-' instead of $0.00 if there were no values to add up.
-			if ($allocated_fixed && $fixed_sum === '-') {
-				$fixed_sum = 0;
-			}
-			
-			if ($allocated_fixed) {
-				$fixed_sum+= $allocated_fixed;
-			}
-
-			$percent_sum+= $allocated_percent;
-			$calculated_allocation_sum+= $calculated_allocation;
-		}
-
-		if ($fixed_sum !== '-') {
-			$fixed_sum = number_format($fixed_sum, 2);
-		}
-		
-		$percent_sum = number_format($percent_sum, 2);
-		$calculated_allocation_sum = number_format($calculated_allocation_sum, 2);
-
-		$allocation_totals = array(
-			"fixed_sum" => $fixed_sum,
-			"percent_sum" => $percent_sum,
-			"calculated_allocation_sum" => $calculated_allocation_sum
-		);
-
-		return $allocation_totals;
-	}
-
 	public function getBudgetInfo($user_id, $type)
 	{
 		if ($type === 'fixed') {
-			$tags = getTagsWithFixedBudget($user_id);
+			$tags = Tag::getTagsWithFixedBudget($user_id);
 		}
 		elseif ($type === 'flex') {
-			$tags = getTagsWithFlexBudget($user_id);
+			$tags = Tag::getTagsWithFlexBudget($user_id);
 		}
 		
 		// We will be returning $budget_info.
@@ -410,15 +384,15 @@ class TotalsController extends Controller {
 			}
 			
 			$CSD = $tag->starting_date;
-			$CMN = getCMN($CSD);
+			$CMN = Budget::getCMN($CSD);
 
 			if ($type === 'fixed') {
 				$cumulative_budget = $budget * $CMN;
 			}
 			
-		    $spent = getTotalSpentOnTag($tag_id, $CSD);
-		    $received = getTotalReceivedOnTag($tag_id, $CSD);
-		    $spent_before_CSD = getTotalSpentOnTagBeforeCSD($tag_id, $CSD);		
+		    $spent = $this->getTotalSpentOnTag($tag_id, $CSD);
+		    $received = $this->getTotalReceivedOnTag($tag_id, $CSD);
+		    $spent_before_CSD = $this->getTotalSpentOnTagBeforeCSD($tag_id, $CSD);		
 
 			$total_budget += $budget;
 
@@ -435,7 +409,7 @@ class TotalsController extends Controller {
 			$total_received += $received;	
 			$total_spent_before_CSD += $spent_before_CSD;
 
-			$CSD = convertDate($CSD, 'user');
+			$CSD = $this->convertDate($CSD, 'user');
 
 			$budget = number_format($budget, 2);
 			$spent_before_CSD = number_format($spent_before_CSD, 2);
@@ -476,6 +450,36 @@ class TotalsController extends Controller {
 		}
 
 		return $budget_info;
+	}
+
+	/**
+	 * This needs redoing after refactor
+	 * @param  [type] $date [description]
+	 * @param  [type] $for  [description]
+	 * @return [type]       [description]
+	 */
+	public function convertDate($date, $for)
+	{
+		// $date = new DateTime($date);
+
+		// if ($for === 'user') {
+		// 	$date = $date->format('d/m/y');
+		// }
+		// elseif ($for === 'sql') {
+		// 	$date = $date->format('Y-m-d');
+		// }
+		// return $date;
+	}
+
+	public function numberFormat($array)
+	{
+		$formatted_array = array();
+		foreach ($array as $key => $value) {
+			$formatted_value = number_format($value, 2);
+			$formatted_array[$key] = $formatted_value;
+		}
+
+		return $formatted_array;
 	}
 
 }

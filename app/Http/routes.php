@@ -55,7 +55,7 @@ Route::controllers([
  * transactions
  */
 
-Route::post('select/filter', 'TransactionsController@filter');
+Route::post('select/filter', 'TransactionsController@filterTransactions');
 Route::post('select/autocompleteTransaction', 'TransactionsController@autocompleteTransaction');
 Route::post('select/countTransactionsWithTag', 'TransactionsController@countTransactionsWithTag');
 
@@ -135,5 +135,5 @@ Route::post('update/reverseAutomaticInsertIntoSavings', 'SavingsController@rever
  * totals
  */
 
-Route::post('totals/basic', 'TotalsController@basic');
-Route::post('totals/budget', 'TotalsController@budget');
+Route::post('totals/basic', 'TotalsController@getBasicTotals');
+Route::post('totals/budget', 'TotalsController@getBudgetTotals');

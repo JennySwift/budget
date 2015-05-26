@@ -1,8 +1,9 @@
-<?php namespace App;
+<?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
+use Carbon\Carbon;
 
 class Budget extends Model {
 
@@ -21,18 +22,23 @@ class Budget extends Model {
 	 * select
 	 */
 	
+	/**
+	 * This needs redoing after refactor
+	 * @param  [type] $starting_date [description]
+	 * @return [type]                [description]
+	 */
 	public static function getCMN($starting_date)
 	{
 		//CMN is cumulative month number
-		$php_starting_date = new DateTime($starting_date);
+		// $php_starting_date = new DateTime($starting_date);
 
-		$now = new DateTime('now');
+		// $now = new DateTime('now');
 
-		$diff = $now->diff($php_starting_date);
+		// $diff = $now->diff($php_starting_date);
 
-		$CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
+		// $CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
 
-		return $CMN;
+		// return $CMN;
 	}
 
 	public static function hasMultipleBudgets($transaction_id)
