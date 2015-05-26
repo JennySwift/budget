@@ -14,16 +14,6 @@ class CreateTransactionsTable extends Migration {
 	{
 		DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-		Schema::create('accounts', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->timestamps();
-			$table->string('name');
-			$table->integer('user_id')->unsigned(); //foreign key
-
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-		});
-
 		Schema::create('transactions', function(Blueprint $table)
 		{
 			$table->increments('id');

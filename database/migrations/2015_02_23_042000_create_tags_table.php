@@ -14,13 +14,6 @@ class CreateTagsTable extends Migration {
 	{
 		DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-		Schema::create('budgets', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->timestamps();
-			$table->string('type');
-		});
-
 		Schema::create('tags', function(Blueprint $table)
 		{
 			$table->increments('id');
