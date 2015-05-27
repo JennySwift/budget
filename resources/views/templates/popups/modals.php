@@ -7,24 +7,6 @@
     </div>
 </div>
 
-<!-- ==============================edit tag name============================== -->
-
-<div ng-show="show.edit_tag" class="popup-outer">
-    <div class="popup-inner">
-        <input ng-model="edit_tag.name" type="text">
-        <button ng-click="updateTag()">done</button>
-    </div>
-</div>
-
-<!-- ==============================edit account name============================== -->
-
-<div ng-show="show.edit_account" class="popup-outer">
-    <div class="popup-inner">
-        <input ng-model="edit_account.name" type="text">
-        <button ng-click="updateAccount()">done</button>
-    </div>
-</div>
-
 <!-- ==============================cumulative starting date============================== -->
 
 <div ng-show="show.cumulative_starting_date" class="popup-outer">

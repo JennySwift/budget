@@ -1,3 +1,8 @@
+<!-- privacy policy -->
+<footer>
+    <a href="http://jennyswiftcreations.com/privacy-policy">Privacy Policy</a>
+</footer>
+
 <!-- plugins -->
 <script type="text/javascript" src="tools/angular.min.js"></script>
 <script type="text/javascript" src="tools/jquery.js"></script>
@@ -18,7 +23,7 @@
 <!-- controllers -->
 <script type="text/javascript" src="js/controllers/controllers.js"></script>
 <script type="text/javascript" src="js/controllers/SettingsController.js"></script>
-<script type="text/javascript" src="js/controllers/BudgetController.js"></script>
+<script type="text/javascript" src="js/controllers/BudgetsController.js"></script>
 
 <!-- factories -->
 <script type="text/javascript" src="js/factories/autocomplete.js"></script>

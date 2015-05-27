@@ -63,7 +63,6 @@ class TagsController extends Controller {
 	{
 		$tag_id = $request->get('tag_id');
 		DB::table('tags')->where('id', $tag_id)->delete();
-		return 'hello'; 
 	}
 
 

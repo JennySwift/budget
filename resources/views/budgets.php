@@ -1,6 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="budgetApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Budget App</title>
 
+    <?php
+        include(base_path().'/resources/views/templates/config.php');
+        include($head_links);
+    ?>
+
+</head>
+<body ng-controller="budgets">
+
+    <?php include($header); ?>
+    
     <!-- if I used ng-if here, tooltipster didn't work. -->
-    <div ng-show="tab === 'budget'" id="budget" class="">
+    <div id="budget" class="">
 
     
         <?php include($templates . '/totals.php'); ?>
@@ -164,3 +179,8 @@
 
         <span id="budget_hover_span" class="tooltipster" title=""></span>
     </div>
+
+    <?php include($footer); ?>
+
+</body>
+</html>

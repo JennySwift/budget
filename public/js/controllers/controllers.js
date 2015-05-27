@@ -152,17 +152,20 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		/**
-		 * show
-		 */
-		
-		$scope.showSavingsTotalInput = function () {
-			$scope.show.savings_total.input = true;
-			$scope.show.savings_total.edit_btn = false;
-		};
-
-		/**
 		 * select
 		 */
+		
+		$scope.getAccounts = function () {
+			settings.getAccounts().then(function (response) {
+				$scope.accounts = response.data;
+				if ($scope.accounts[0]) {
+					//this if check is to get rid of the error for a new user who does not yet have any accounts.
+					$scope.new_transaction.account = $scope.accounts[0].id;
+					$scope.new_transaction.from_account = $scope.accounts[0].id;
+					$scope.new_transaction.to_account = $scope.accounts[0].id;
+				}	
+			});
+		};
 		
 		$scope.multiSearch = function ($reset, $new_transaction) {
 			transactions.multiSearch($scope.filter, $reset).then(function (response) {
@@ -329,53 +332,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		/**
 		 * update
 		 */
-
-		$scope.updateSavingsTotal = function ($keycode) {
-			if ($keycode !== 13) {
-				return;
-			}
-			update.savingsTotal().then(function (response) {
-				$scope.totals.basic.savings_total = response.data;
-				$scope.show.savings_total.input = false;
-				$scope.show.savings_total.edit_btn = true;
-				$scope.getTotals();
-			});
-		};
-
-		$scope.addFixedToSavings = function ($keycode) {
-			if ($keycode !== 13) {
-				return;
-			}
-			update.addFixedToSavings().then(function (response) {
-				$scope.totals.basic.savings_total = response.data;
-				$scope.getTotals();
-			});
-		};
-
-		$scope.addPercentageToSavingsAutomatically = function ($amount_to_add) {
-			update.addPercentageToSavingsAutomatically($amount_to_add).then(function (response) {
-				$scope.totals.basic.savings_total = response.data;
-				$scope.getTotals();
-			});
-		};
-
-		$scope.reverseAutomaticInsertIntoSavings = function ($amount_to_subtract) {
-			update.reverseAutomaticInsertIntoSavings($amount_to_subtract).then(function (response) {
-				$scope.totals.basic.savings_total = response.data;
-				$scope.getTotals();
-			});
-		};
-
-		$scope.addPercentageToSavings = function ($keycode) {
-			if ($keycode !== 13) {
-				return;
-			}
-			update.addPercentageToSavings().then(function (response) {
-				$scope.totals.basic.savings_total = response.data;
-				$scope.getTotals();
-			});
-		};
-
 		
 		$scope.updateReconciliation = function ($transaction_id, $reconciliation) {
 			update.reconciliation($transaction_id, $reconciliation).then(function (response) {
@@ -806,11 +762,11 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
-		$scope.checkKeycode = function ($keycode, $func, $params) {
-			if ($keycode === 13) {
-				$func($params);
-			}
-		};
+		// $scope.checkKeycode = function ($keycode, $func, $params) {
+		// 	if ($keycode === 13) {
+		// 		$func($params);
+		// 	}
+		// };
 
 		$scope.clearFilterField = function ($field) {
 			if ($field === 'tags') {
@@ -848,12 +804,68 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
+		$scope.updateSavingsTotal = function ($keycode) {
+			if ($keycode !== 13) {
+				return;
+			}
+			update.savingsTotal().then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.show.savings_total.input = false;
+				$scope.show.savings_total.edit_btn = true;
+				$scope.getTotals();
+			});
+		};
+
+		$scope.addFixedToSavings = function ($keycode) {
+			if ($keycode !== 13) {
+				return;
+			}
+			update.addFixedToSavings().then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.getTotals();
+			});
+		};
+
+		$scope.addPercentageToSavingsAutomatically = function ($amount_to_add) {
+			update.addPercentageToSavingsAutomatically($amount_to_add).then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.getTotals();
+			});
+		};
+
+		$scope.reverseAutomaticInsertIntoSavings = function ($amount_to_subtract) {
+			update.reverseAutomaticInsertIntoSavings($amount_to_subtract).then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.getTotals();
+			});
+		};
+
+		$scope.addPercentageToSavings = function ($keycode) {
+			if ($keycode !== 13) {
+				return;
+			}
+			update.addPercentageToSavings().then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.getTotals();
+			});
+		};
+
 		$scope.updateChart = function () {
 				$(".bar_chart_li:first-child").css('height', '0%');
 				$(".bar_chart_li:nth-child(2)").css('height', '0%');
 				$(".bar_chart_li:first-child").css('height', getTotal()[6] + '%');
 				$(".bar_chart_li:nth-child(2)").css('height', getTotal()[5] + '%');
 		};
+
+		/**
+		 * show
+		 */
+		
+		$scope.showSavingsTotalInput = function () {
+			$scope.show.savings_total.input = true;
+			$scope.show.savings_total.edit_btn = false;
+		};
+
 
 
 		/**

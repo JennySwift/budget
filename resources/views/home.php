@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <title>Budget App</title>
 
-    <?php include(base_path().'/resources/views/templates/config.php'); ?>
-
-    <link rel="stylesheet" href="tools/bootstrap.min.css">
-    <link rel="stylesheet" href="tools/bootstrap-tour.min.css">    
-    <link rel="stylesheet" href="tools/tooltipster.css">  
-    <link rel="stylesheet" href="tools/font-awesome.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <?php
+        include(base_path().'/resources/views/templates/config.php');
+        include($head_links);
+    ?>
 
 </head>
 
@@ -72,8 +69,4 @@
   
 </div><!-- .main -->  
 
-<footer>
-    <a href="http://jennyswiftcreations.com/privacy-policy">Privacy Policy</a>
-</footer>
-
-<?php include($templates . '/footer.php'); ?>
+<?php include($footer); ?>

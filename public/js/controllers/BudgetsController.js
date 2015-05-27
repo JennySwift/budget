@@ -4,7 +4,17 @@ var app = angular.module('budgetApp');
 
 	// ===========================display controller===========================
 
-	app.controller('budget', function ($scope, $http, autocomplete, totals, budgets, savings, settings, transactions) {
+	app.controller('budgets', function ($scope, $http, budgets, totals) {
+
+		/**
+		 * scope properties
+		 */
+		
+		$scope.totals = {};
+		$scope.show = {
+			basic_totals: true,
+			budget_totals: true
+		};
 
 		/**
 		 * select
@@ -121,9 +131,75 @@ var app = angular.module('budgetApp');
 			$("#budget-flex-tag-input").val($scope.selected.name);
 			$("#budget-flex-budget-input").focus();
 		};
+
+		/**
+		 * delete
+		 */
 		
+		/**
+		 * totals-duplicates from main controller
+		 */
+		
+		$scope.getTotals = function () {
+			totals.basicTotals().then(function (response) {
+				$scope.totals.basic = response.data;
+			});
+			totals.budget().then(function (response) {
+				$scope.totals.budget = response.data;
+			});
+		};
 
+		$scope.updateSavingsTotal = function ($keycode) {
+			if ($keycode !== 13) {
+				return;
+			}
+			update.savingsTotal().then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.show.savings_total.input = false;
+				$scope.show.savings_total.edit_btn = true;
+				$scope.getTotals();
+			});
+		};
 
+		$scope.addFixedToSavings = function ($keycode) {
+			if ($keycode !== 13) {
+				return;
+			}
+			update.addFixedToSavings().then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.getTotals();
+			});
+		};
+
+		$scope.addPercentageToSavingsAutomatically = function ($amount_to_add) {
+			update.addPercentageToSavingsAutomatically($amount_to_add).then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.getTotals();
+			});
+		};
+
+		$scope.reverseAutomaticInsertIntoSavings = function ($amount_to_subtract) {
+			update.reverseAutomaticInsertIntoSavings($amount_to_subtract).then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.getTotals();
+			});
+		};
+
+		$scope.addPercentageToSavings = function ($keycode) {
+			if ($keycode !== 13) {
+				return;
+			}
+			update.addPercentageToSavings().then(function (response) {
+				$scope.totals.basic.savings_total = response.data;
+				$scope.getTotals();
+			});
+		};
+
+		/**
+		 * page load
+		 */
+		
+		$scope.getTotals();
 		
 	}); //end controller
 
