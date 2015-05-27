@@ -32,7 +32,7 @@ var app = angular.module('budgetApp');
 		$scope.getTags = function () {
 			settings.getTags().then(function (response) {
 				$scope.tags = response.data;
-				$scope.autocomplete.tags = response.data;
+				// $scope.autocomplete.tags = response.data;
 			});
 		};
 		$scope.getTags();

@@ -13,6 +13,7 @@ use Carbon\Carbon;
  */
 use App\Models\Budget;
 use App\Models\Tag;
+use App\Models\Savings;
 
 class TotalsController extends Controller {
 	
@@ -231,11 +232,7 @@ class TotalsController extends Controller {
 
 	public function getSavingsTotal()
 	{
-		$savings = DB::table('savings')
-			->where('user_id', Auth::user()->id)
-			->pluck('amount');
-
-		return $savings;
+		return Savings::getSavingsTotal();
 	}
 
 	public function getTotalSpentOnTagBeforeCSD($tag_id, $CSD)

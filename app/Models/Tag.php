@@ -78,54 +78,7 @@ class Tag extends Model {
 	 * insert
 	 */
 	
-	public static function insertTags($transaction_id, $tags, $transaction_total)
-	{
-		// Debugbar::info('transaction_total: ' . $transaction_total);
-	    foreach ($tags as $tag) {
-	    	$tag_id = $tag['id'];
-
-	        if (isset($tag['allocated_fixed'])) {
-	        	$tag_allocated_fixed = $tag['allocated_fixed'];
-	        	$calculated_allocation = $tag_allocated_fixed;
-
-	        	DB::table('transactions_tags')
-	        		->insert([
-	        			'transaction_id' => $transaction_id,
-	        			'tag_id' => $tag_id,
-	        			'allocated_fixed' => $tag_allocated_fixed,
-	        			'calculated_allocation' => $calculated_allocation,
-	        			'user_id' => Auth::user()->id
-	        		]);
-
-	        }
-	        elseif (isset($tag['allocated_percent'])) {
-	        	$tag_allocated_percent = $tag['allocated_percent'];
-	        	$calculated_allocation = $transaction_total / 100 * $tag_allocated_percent;
-
-	        	DB::table('transactions_tags')
-	        		->insert([
-	        			'transaction_id' => $transaction_id,
-	        			'tag_id' => $tag_id,
-	        			'allocated_percent' => $tag_allocated_percent,
-	        			'calculated_allocation' => $calculated_allocation,
-	        			'user_id' => Auth::user()->id
-	        		]);
-
-	        }
-	        else {
-	        	$calculated_allocation = $transaction_total;
-
-	        	DB::table('transactions_tags')
-	        		->insert([
-	        			'transaction_id' => $transaction_id,
-	        			'tag_id' => $tag_id,
-	        			'calculated_allocation' => $calculated_allocation,
-	        			'user_id' => Auth::user()->id
-	        		]);
-	        
-	        }
-	    } 
-	}
+	
 	
 	/**
 	 * update

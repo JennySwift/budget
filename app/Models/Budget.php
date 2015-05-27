@@ -29,16 +29,17 @@ class Budget extends Model {
 	 */
 	public static function getCMN($starting_date)
 	{
-		//CMN is cumulative month number
+		// CMN is cumulative month number
+		$starting_date = Carbon::createFromFormat('Y-m-d', $starting_date);
 		// $php_starting_date = new DateTime($starting_date);
-
+		$now = Carbon::now();
 		// $now = new DateTime('now');
 
-		// $diff = $now->diff($php_starting_date);
+		$diff = $now->diff($starting_date);
 
-		// $CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
+		$CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
 
-		// return $CMN;
+		return $CMN;
 	}
 
 	public static function hasMultipleBudgets($transaction_id)

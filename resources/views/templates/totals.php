@@ -4,6 +4,7 @@
     <div ng-show="show.basic_totals">
 
         <ul class="list-group">
+        
             <li id="total_income" class="tooltipster list-group-item list-group-item-success" title="credit">
                 <span id="total_income_span" class="badge">{{totals.basic.total_income}}</span>
                 C:
@@ -76,18 +77,13 @@
     </div>
     
     <!-- budget totals -->
-    <div ng-show="show.budget_totals">
+    <!-- <div ng-show="show.budget_totals">
         <ul class="list-group">
         
             <li id="" class="tooltipster list-group-item" title="cumulative fixed budget (total of fixed budget info column C)">
                 C/F/B:
                 <span id="cumulative_fixed_budget_span" class="badge">{{totals.budget.FB.other.CFB}}</span>
             </li>
-        
-            <!-- <li class="tooltipster list-group-item list-group-item" title="cumulative month number">
-                CMN:
-                <span id="cumulative_month_number_span" class="badge">{{totals.CMN}}</span>
-            </li> -->
         
             <li id="remaining_fixed_budget" class="tooltipster list-group-item" title="remaining fixed budget (total of fixed budget info column R)">
                 R/F/B:
@@ -105,5 +101,5 @@
             </li>
         
         </ul>
-    </div>
+    </div> -->
 </div>

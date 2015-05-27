@@ -352,6 +352,10 @@ class TransactionsController extends Controller {
 	    return $result;
 	}
 
+	/**
+	 * other
+	 */
+	
 	public function convertDate($date, $for) {
 		$date = Carbon::createFromFormat('Y-m-d', $date);
 
@@ -363,10 +367,6 @@ class TransactionsController extends Controller {
 		}
 		return $date;
 	}
-
-	/**
-	 * other
-	 */
 	
 	public function convertFromBoolean($variable)
 	{

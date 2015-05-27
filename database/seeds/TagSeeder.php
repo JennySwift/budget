@@ -40,8 +40,21 @@ class TagSeeder extends Seeder {
 					$budget_id = 2;
 				}
 
-				$starting_date = $faker->date($format = 'Y-m-d', $max = 'now');
+				$starting_date = '2015-01-01';
 
+				// $starting_date = $faker->date($format = 'Y-m-d', $min = '2014-01-01', $max = 'now');
+
+				/**
+				 * @VP:
+				 * How do I use faker to create a date after a certain date? The $min parameter above didn't work.
+				 * And with my attempt below, how do I access the actual date part of $test_date?
+				 * Var_dump just showed the object.
+				 */
+				// $test_date = $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now');
+				// $array = explode(' ', $test_date);
+				// $test_date = $array[0];
+				// var_dump($test_date);
+				
 				//Create the tag with the budget, budget type, and starting date
 				Tag::create([
 					'name' => $tag,

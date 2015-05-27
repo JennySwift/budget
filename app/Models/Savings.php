@@ -16,6 +16,15 @@ class Savings extends Model {
 	 * select
 	 */
 	
+	public static function getSavingsTotal()
+	{
+		$savings = DB::table('savings')
+			->where('user_id', Auth::user()->id)
+			->pluck('amount');
+
+		return $savings;
+	}
+
 	/**
 	 * insert
 	 */

@@ -20,6 +20,8 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			reconciled: false,
 			multiple_budgets: false
 		};
+
+		$scope.totals = {};
 				
 		$scope.new_transaction.tags = [
 			// {
@@ -96,7 +98,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		/*=========other=========*/
 		$scope.allocation_popup_transaction = {};
-		$scope.totals = {};
 		$scope.tags = {};
 		$scope.accounts = {};
 		$scope.selected = {}; //for getting the selected tag in autocomplete
@@ -154,6 +155,13 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		/**
 		 * select
 		 */
+		
+		$scope.getTags = function () {
+			settings.getTags().then(function (response) {
+				$scope.tags = response.data;
+				$scope.autocomplete.tags = response.data;
+			});
+		};
 		
 		$scope.getAccounts = function () {
 			settings.getAccounts().then(function (response) {
@@ -616,23 +624,24 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$("#transfer-color-picker").val(newValue.transfer);
 		});
 
-		/**
-		 * Just commenting this out temporarily because it was causing an error after refactor.
-		 */
-		// $scope.$watch('totals.budget.RB', function (newValue, oldValue) {
-		// 	//get rid of the commas and convert to integers
-		// 	var $new_RB = parseInt(newValue.replace(',', ''), 10);
-		// 	var $old_RB = parseInt(oldValue.replace(',', ''), 10);
-		// 	if ($new_RB > $old_RB) {
-		// 		//$RB has increased due to a user action
-		// 		//Figure out how much it has increased by.
-		// 		var $diff = $new_RB - $old_RB;
-		// 		//This value will change. Just for developing purposes.
-		// 		var $percent = 10;
-		// 		var $amount_to_add = $diff / 100 * $percent;
-		// 		$scope.addPercentageToSavingsAutomatically($amount_to_add);
-		// 	}
-		// });
+		$scope.$watch('totals.budget.RB', function (newValue, oldValue) {
+			//Before the refactor I didn't need this if check. Not sure why I need it now or it errors on page load.
+			if (!newValue || !oldValue) {
+				return;
+			}
+			//get rid of the commas and convert to integers
+			var $new_RB = parseInt(newValue.replace(',', ''), 10);
+			var $old_RB = parseInt(oldValue.replace(',', ''), 10);
+			if ($new_RB > $old_RB) {
+				//$RB has increased due to a user action
+				//Figure out how much it has increased by.
+				var $diff = $new_RB - $old_RB;
+				//This value will change. Just for developing purposes.
+				var $percent = 10;
+				var $amount_to_add = $diff / 100 * $percent;
+				$scope.addPercentageToSavingsAutomatically($amount_to_add);
+			}
+		});
 
 		// $scope.$watchCollection('totals', function (newValue, oldValue) {
 		// 	//check the change was from a user action, not from this function itself, to avoid an endless loop. I am doing this by checking that there has been a change in debit, credit, or CFB, because this function should only change RB and savings.
@@ -808,7 +817,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if ($keycode !== 13) {
 				return;
 			}
-			budgets.updateSavingsTotal().then(function (response) {
+			savings.updateSavingsTotal().then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
 				$scope.show.savings_total.input = false;
 				$scope.show.savings_total.edit_btn = true;
@@ -820,21 +829,21 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if ($keycode !== 13) {
 				return;
 			}
-			budgets.addFixedToSavings().then(function (response) {
+			savings.addFixedToSavings().then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
 				$scope.getTotals();
 			});
 		};
 
 		$scope.addPercentageToSavingsAutomatically = function ($amount_to_add) {
-			budgets.addPercentageToSavingsAutomatically($amount_to_add).then(function (response) {
+			savings.addPercentageToSavingsAutomatically($amount_to_add).then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
 				$scope.getTotals();
 			});
 		};
 
 		$scope.reverseAutomaticInsertIntoSavings = function ($amount_to_subtract) {
-			budgets.reverseAutomaticInsertIntoSavings($amount_to_subtract).then(function (response) {
+			savings.reverseAutomaticInsertIntoSavings($amount_to_subtract).then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
 				$scope.getTotals();
 			});
@@ -844,7 +853,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if ($keycode !== 13) {
 				return;
 			}
-			budgets.addPercentageToSavings().then(function (response) {
+			savings.addPercentageToSavings().then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
 				$scope.getTotals();
 			});
@@ -875,6 +884,8 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		$scope.multiSearch();
 		$scope.getColors();
 		$scope.getTotals();
+		$scope.getAccounts();
+		$scope.getTags();
 
 	}); //end controller
 

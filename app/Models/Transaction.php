@@ -3,6 +3,9 @@
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
+use Carbon\Carbon;
+
+use App\Models\Tag;
 
 class Transaction extends Model {
 
@@ -38,7 +41,7 @@ class Transaction extends Model {
 			->first();
 		
 		$date = $transaction->date;
-		$transaction->user_date = convertDate($date, 'user');
+		$transaction->user_date = static::convertDate($date, 'user');
 		
 		//maybe make more DRY-I think much the same as filter
 
@@ -94,7 +97,7 @@ class Transaction extends Model {
 		    $account_name = $transaction->account_name;
 		    // $date = $transaction->date;
 		    // $date = convertDate($date, 'user');
-		    $tags = getTags($transaction_id);
+		    $tags = Tag::getTags($transaction_id);
 
 		    $account = array(
 		        "id" => $account_id,
@@ -195,7 +198,7 @@ class Transaction extends Model {
 		$description = $new_transaction['description'];
 		$type = $new_transaction['type'];
 		$reconciled = $new_transaction['reconciled'];
-		$reconciled = convertFromBoolean($reconciled);
+		$reconciled = static::convertFromBoolean($reconciled);
 		$tags = $new_transaction['tags'];
 
 		if ($transaction_type === "from") {
@@ -247,8 +250,64 @@ class Transaction extends Model {
 		}
 
 		//inserting tags
-		$last_transaction_id = getLastTransactionId($user_id);
-		insertTags($last_transaction_id, $tags, $total);
+		$last_transaction_id = static::getLastTransactionId($user_id);
+		static::insertTags($last_transaction_id, $tags, $total);
+	}
+
+	/**
+	 * Insert tags into transaction
+	 * @param  [type] $transaction_id    [description]
+	 * @param  [type] $tags              [description]
+	 * @param  [type] $transaction_total [description]
+	 * @return [type]                    [description]
+	 */
+	public static function insertTags($transaction_id, $tags, $transaction_total)
+	{
+		// Debugbar::info('transaction_total: ' . $transaction_total);
+	    foreach ($tags as $tag) {
+	    	$tag_id = $tag['id'];
+
+	        if (isset($tag['allocated_fixed'])) {
+	        	$tag_allocated_fixed = $tag['allocated_fixed'];
+	        	$calculated_allocation = $tag_allocated_fixed;
+
+	        	DB::table('transactions_tags')
+	        		->insert([
+	        			'transaction_id' => $transaction_id,
+	        			'tag_id' => $tag_id,
+	        			'allocated_fixed' => $tag_allocated_fixed,
+	        			'calculated_allocation' => $calculated_allocation,
+	        			'user_id' => Auth::user()->id
+	        		]);
+
+	        }
+	        elseif (isset($tag['allocated_percent'])) {
+	        	$tag_allocated_percent = $tag['allocated_percent'];
+	        	$calculated_allocation = $transaction_total / 100 * $tag_allocated_percent;
+
+	        	DB::table('transactions_tags')
+	        		->insert([
+	        			'transaction_id' => $transaction_id,
+	        			'tag_id' => $tag_id,
+	        			'allocated_percent' => $tag_allocated_percent,
+	        			'calculated_allocation' => $calculated_allocation,
+	        			'user_id' => Auth::user()->id
+	        		]);
+
+	        }
+	        else {
+	        	$calculated_allocation = $transaction_total;
+
+	        	DB::table('transactions_tags')
+	        		->insert([
+	        			'transaction_id' => $transaction_id,
+	        			'tag_id' => $tag_id,
+	        			'calculated_allocation' => $calculated_allocation,
+	        			'user_id' => Auth::user()->id
+	        		]);
+	        
+	        }
+	    } 
 	}
 
 	/**
@@ -266,7 +325,7 @@ class Transaction extends Model {
 		$description = $transaction['description'];
 		$type = $transaction['type'];
 		$reconciliation = $transaction['reconciled'];
-		$reconciliation = convertFromBoolean($reconciliation);
+		$reconciliation = static::convertFromBoolean($reconciliation);
 
 		DB::table('transactions')
 			->where('id', $transaction_id)
@@ -283,7 +342,7 @@ class Transaction extends Model {
 		//delete all previous tags for the transaction and then add the current ones 
 		deleteAllTagsForTransaction($transaction_id);
 
-		insertTags($transaction_id, $tags, $total);
+		static::insertTags($transaction_id, $tags, $total);
 	}
 
 	/**
@@ -293,5 +352,42 @@ class Transaction extends Model {
 	public static function deleteAllTagsForTransaction($transaction_id)
 	{
 		DB::table('transactions_tags')->where('transaction_id', $transaction_id)->delete();
+	}
+
+	/**
+	 * other
+	 */
+	
+	/**
+	 * duplicate function from transactions controller
+	 * @param  [type] $variable [description]
+	 * @return [type]           [description]
+	 */
+	public static function convertFromBoolean($variable)
+	{
+	    if ($variable == 'true') {
+	    	$variable = 1;
+	    }
+	    elseif ($variable == 'false') {
+	    	$variable = 0;
+	    }
+	    return $variable;
+	}
+
+	/**
+	 * duplicate function from transactions controller
+	 * @param  [type] $variable [description]
+	 * @return [type]           [description]
+	 */
+	public static function convertDate($date, $for) {
+		$date = Carbon::createFromFormat('Y-m-d', $date);
+
+		if ($for === 'user') {
+			$date = $date->format('d/m/y');
+		}
+		elseif ($for === 'sql') {
+			$date = $date->format('Y-m-d');
+		}
+		return $date;
 	}
 }
