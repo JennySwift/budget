@@ -17,6 +17,8 @@
 
 <!-- controllers -->
 <script type="text/javascript" src="js/controllers/controllers.js"></script>
+<script type="text/javascript" src="js/controllers/SettingsController.js"></script>
+<script type="text/javascript" src="js/controllers/BudgetController.js"></script>
 
 <!-- factories -->
 <script type="text/javascript" src="js/factories/autocomplete.js"></script>

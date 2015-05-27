@@ -17,6 +17,13 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', 'HomeController@index');
+Route::get('/budgets', 'BudgetsController@index');
+
+Route::get('/settings', function()
+{
+    return view('settings');
+});
+
 
 
 /**

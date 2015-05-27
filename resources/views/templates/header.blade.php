@@ -3,9 +3,17 @@
 
 <nav>
     <ul id="nav">
-        <li ng-click="changeTab('settings')" id="tags_button" class="location_button fa fa-cog"></li>
-        <li ng-click="changeTab('home')" class="fa fa-home"></li>
-        <li class="fa fa-bar-chart-o"></li>
+        <li>
+            <a href="/settings" class="fa fa-cog"></a>
+        </li>
+
+        <li>
+            <a href="/" class="fa fa-home"></a>
+        </li>
+
+        <li>
+            <a href="/charts" class="fa fa-bar-chart-o"></a>
+        </li>
         
         <!-- ==============================dropdown============================== -->
         
@@ -41,8 +49,9 @@
             </ul>
         </li>
 
-        <li ng-click="tab = 'budget'" class="fa fa-usd"></li>
-        <!-- <li ng-click="show.filter = !show.filter; show.new_transaction = false" class="fa fa-search"></li> -->
+        <li>
+            <a href="/budgets" class="fa fa-usd"></a>
+        </li>
 
     </ul>
 </nav>

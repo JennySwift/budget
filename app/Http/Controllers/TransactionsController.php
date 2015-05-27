@@ -4,12 +4,16 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
-use App\Models\Transaction;
+use Debugbar;
 
 use Illuminate\Http\Request;
 
+/**
+ * Models
+ */
 use App\Models\Tag;
 use App\Models\Budget;
+use App\Models\Transaction;
 
 class TransactionsController extends Controller {
 
@@ -104,6 +108,20 @@ class TransactionsController extends Controller {
 	 * filter
 	 */
 	
+	/**
+	 * For Postman, this should help get started:
+	 * 
+	 * {"filter": {
+	 *
+	 *"offset": 0,
+	 *"num_to_fetch": 10,
+	 *"types": []
+	 *
+	 *}}
+	 *
+	 * @param  Request $request [description]
+	 * @return [type]           [description]
+	 */
 	public function filterTransactions(Request $request)
 	{
 		$filter = $request->get('filter');
@@ -116,6 +134,8 @@ class TransactionsController extends Controller {
 	    
 	    $transactions = Transaction::where('transactions.user_id', $user_id);
 	    $totals = Transaction::where('transactions.user_id', $user_id);
+
+	    Debugbar::info('filter', $filter);
 
 	    foreach ($filter as $type => $value) {
 	        if ($value) {

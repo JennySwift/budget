@@ -98,6 +98,7 @@ class TotalsController extends Controller {
 	{
 		$user_id = Auth::user()->id;
 		$FB_info = $this->getBudgetInfo($user_id, 'fixed');
+		// dd($FB_info);
 		$FLB_info = $this->getBudgetInfo($user_id, 'flex');
 
 		$remaining_balance = $this->getRB();
@@ -269,8 +270,6 @@ class TotalsController extends Controller {
 			->where('transactions_tags.user_id', Auth::user()->id)
 			->sum('calculated_allocation');
 
-		// $queries = DB::getQueryLog();
-		// Log::info('queries', $queries);
 		return $total;
 	}
 

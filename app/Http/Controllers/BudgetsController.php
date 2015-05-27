@@ -11,6 +11,16 @@ use Illuminate\Http\Request;
 class BudgetsController extends Controller {
 
 	/**
+	 * Show the application dashboard to the user.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		return view('budgets');
+	}
+
+	/**
 	 * select
 	 */
 	

@@ -21,14 +21,12 @@
     <?php
         include($templates . '/header.blade.php');
         include($templates . '/messages.php');
-        include($templates . '/settings.php');
         include($templates . '/modals.php');
         include($templates . '/edit-transaction.php');
         include($templates . '/allocation-popup.php');
-        include($templates . '/budget.php');
     ?>
     
-    <div ng-show="tab === 'home'" class="height-100 border-box">
+    <div class="height-100 border-box">
     
         <div id="toolbar">
             <?php

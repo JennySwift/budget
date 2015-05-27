@@ -2,19 +2,11 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 (function () {
 
-	// ===========================display controller===========================
-
 	app.controller('mainCtrl', function ($scope, $http, autocomplete, totals, budgets, savings, settings, transactions) {
 
-		/*=================================================================================
-		===================================================================================
-		===================================================================================
-		=================================$scope properties=================================
-		===================================================================================
-		===================================================================================
-		=================================================================================*/
-		
-		$scope.tab = 'home';
+		/**
+		 * scope properties
+		 */
 
 		/*=========new_transaction=========*/
 		$scope.new_transaction = {
@@ -28,10 +20,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			reconciled: false,
 			multiple_budgets: false
 		};
-		
-		//$scope.new_transaction.account is set within $scope.getAccounts (as well as from and to for the transfers)
-		// $scope.new_transaction.from_account = 'from';
-		// $scope.new_transaction.to_account = 'to';
+				
 		$scope.new_transaction.tags = [
 			// {
 			// 	id: '16',
@@ -46,9 +35,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			// 	flex_budget: '5'
 			// }
 		];
-
-		//totals
-		$scope.totals = {};
 
 		/*=========budget=========*/
 
@@ -127,10 +113,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		$scope.messages = {};
 		$scope.tag_input = ""; //for the inputs where the tag is autocompleted
 
-		// $scope.display_from = 1;
-		// $scope.display_to = 30;
-		// $scope.counter
-
 		/*=========selected=========*/
 
 		$scope.selected = {};
@@ -167,31 +149,20 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				input: false,
 				edit_btn: true
 			}
-			// budget: {
-			// 	dropdown: false
-			// }
 		};
 
-		/*=================================================================================
-		===================================================================================
-		===================================================================================
-		=================================show=================================
-		===================================================================================
-		===================================================================================
-		=================================================================================*/
+		/**
+		 * show
+		 */
 		
 		$scope.showSavingsTotalInput = function () {
 			$scope.show.savings_total.input = true;
 			$scope.show.savings_total.edit_btn = false;
 		};
 
-		/*=================================================================================
-		===================================================================================
-		===================================================================================
-		=================================select=================================
-		===================================================================================
-		===================================================================================
-		=================================================================================*/
+		/**
+		 * select
+		 */
 		
 		$scope.multiSearch = function ($reset, $new_transaction) {
 			transactions.multiSearch($scope.filter, $reset).then(function (response) {
@@ -219,14 +190,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
-		$scope.multiSearchTags = function () {
-			// $scope.transactions = filter.tags($scope.transactions, $scope.filter.tags);
-		};
-
-		$scope.multiSearchBudget = function () {
-			// $scope.transactions = filter.budget($scope.transactions, $scope.filter.budget);
-		};
-
 		$scope.prevResults = function () {
 			//make it so the offset cannot be less than 0.
 			if ($scope.filter.offset - $scope.filter.num_to_fetch < 0) {
@@ -235,9 +198,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			else {
 				$scope.filter.offset-= ($scope.filter.num_to_fetch * 1);
 			}
-			// $scope.display_from -= 30;
-			// $scope.display_to -= 30;
-			// $scope.searchResults();
 		};
 
 		$scope.nextResults = function () {
@@ -246,21 +206,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				return;
 			}
 			$scope.filter.offset+= ($scope.filter.num_to_fetch * 1);
-			// $scope.display_from += 30;
-			// $scope.display_to += 30;
-			// $scope.searchResults();
-		};
-
-		$scope.getAccounts = function () {
-			settings.getAccounts().then(function (response) {
-				$scope.accounts = response.data;
-				if ($scope.accounts[0]) {
-					//this if check is to get rid of the error for a new user who does not yet have any accounts.
-					$scope.new_transaction.account = $scope.accounts[0].id;
-					$scope.new_transaction.from_account = $scope.accounts[0].id;
-					$scope.new_transaction.to_account = $scope.accounts[0].id;
-				}	
-			});
 		};
 
 		$scope.resetSearch = function () {
@@ -297,50 +242,9 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			// }
 		};
 
-		$scope.getTags = function () {
-			settings.getTags().then(function (response) {
-				$scope.tags = response.data;
-				$scope.autocomplete.tags = response.data;
-			});
-		};
-		$scope.getTags();
-
-		$scope.getColors = function () {
-			settings.getColors().then(function (response) {
-				$scope.colors = response.data;
-			});
-		};
-		
-		/*=================================================================================
-		===================================================================================
-		===================================================================================
-		=================================insert=================================
-		===================================================================================
-		===================================================================================
-		=================================================================================*/
-
-		$scope.insertAccount = function () {
-			insert.account().then(function (response) {
-				$scope.getAccounts();
-				$("#new_account_input").val("");
-			});
-		};
-
-		$scope.insertTag = function () {
-			//inserts a new tag into tags table, not into a transaction
-			settings.duplicateTagCheck().then(function (response) {
-				var $duplicate = response.data;
-				if ($duplicate > 0) {
-					$("#tag-already-created").show();
-				}
-				else {
-					insert.tag().then(function (response) {
-						$scope.getTags();
-						$("#new-tag-input").val("");
-					});
-				}
-			});
-		};
+		/**
+		 * insert
+		 */
 
 		$scope.addTagToTransaction = function ($tags) {
 			$scope.messages.tag_exists = false;
@@ -395,20 +299,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$("#select_transaction_type").focus();
 		};
 
-		// $scope.checkNewTransactionMultipleBudgets = function () {
-		// 	var $tags_with_budget = _.filter($scope.new_transaction.tags, function ($tag) {
-		// 		return $tag.fixed_budget || $tag.flex_budget;
-		// 	});
-
-		// 	if ($tags_with_budget.length > 1) {
-		// 		//new transaction has multiple budgets
-		// 		$scope.new_transaction.multiple_budgets = true;
-		// 	}
-		// 	else {
-		// 		$scope.new_transaction.multiple_budgets = false;
-		// 	}
-		// };
-
 		$scope.insertTransaction = function ($keycode) {
 			if ($keycode !== 13 || !$scope.errorCheck()) {
 				return;
@@ -436,19 +326,9 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.new_transaction.dropdown = false;
 		};
 
-		// $scope.addBudgetInfo = function () {
-		// 	insert.budgetInfo().then(function (response) {
-		// 		$scope.getTotals();
-		// 	});
-		// };
-
-		/*=================================================================================
-		===================================================================================
-		===================================================================================
-		=================================update=================================
-		===================================================================================
-		===================================================================================
-		=================================================================================*/
+		/**
+		 * update
+		 */
 
 		$scope.updateSavingsTotal = function ($keycode) {
 			if ($keycode !== 13) {
@@ -496,88 +376,10 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
-		$scope.updateFixedBudget = function ($keycode) {
-			if ($keycode !== 13) {
-				return;
-			}
-			update.budget($scope.new_fixed_budget.tag.id, 'fixed_budget', $scope.new_fixed_budget.budget).then(function (response) {
-				$scope.getTotals();
-				//unselect the tag in the dropdown
-				_.findWhere($scope.tags, {selected: true}).selected = false;
-				//clear the tag inputs and focus the correct input
-				$scope.new_fixed_budget.tag.name = "";
-				$scope.new_fixed_budget.budget = "";
-				$("#budget-fixed-tag-input").focus();
-			});
-		};
-
-		$scope.updateFlexBudget = function ($keycode) {
-			if ($keycode !== 13) {
-				return;
-			}
-			update.budget($scope.new_flex_budget.tag.id, 'flex_budget', $scope.new_flex_budget.budget).then(function (response) {
-				$scope.getTotals();
-				//unselect the tag in the dropdown
-				_.findWhere($scope.tags, {selected: true}).selected = false;
-				//clear the tag inputs and focus the correct input
-				$scope.new_flex_budget.tag.name = "";
-				$scope.new_flex_budget.budget = "";
-				$("#budget-flex-tag-input").focus();
-			});
-		};
-
-		$scope.removeFixedBudget = function ($tag_id, $tag_name) {
-			if (confirm("remove fixed budget for " + $tag_name + "?")) {
-				update.budget($tag_id, 'fixed_budget', 'NULL').then(function (response) {
-					$scope.getTotals();
-				});
-			}
-		};
-
-		$scope.removeFlexBudget = function ($tag_id, $tag_name) {
-			if (confirm("remove flex budget for " + $tag_name + "?")) {
-				update.budget($tag_id, 'flex_budget', 'NULL').then(function (response) {
-					$scope.getTotals();
-				});
-			}
-		};
-
-		$scope.updateAccountDropdownsHTML = function () {
-			// update.accountDropdownsHTML().then(function (response) {
-			// 	$('.account-dropdown:not("#search-account-select, #account-select, #transfer-from-account-select, #transfer-to-account-select")').html(response);
-			// 	accountValue();
-			// });
-		};
-
-		$scope.updateAccountSetup = function ($account_id, $account_name) {
-			$scope.edit_account.id = $account_id;
-			$scope.edit_account.name = $account_name;
-			$scope.show.edit_account = true;
-		};
-
-		$scope.updateAccount = function () {
-			update.accountName($scope.edit_account.id, $scope.edit_account.name).then(function (response) {
-				$scope.getAccounts();
-				$scope.show.edit_account = false;
-			});
-		};
-
+		
 		$scope.updateReconciliation = function ($transaction_id, $reconciliation) {
 			update.reconciliation($transaction_id, $reconciliation).then(function (response) {
 				$scope.multiSearch();
-			});
-		};
-
-		$scope.updateTagSetup = function ($tag_id, $tag_name) {
-			$scope.edit_tag.id = $tag_id;
-			$scope.edit_tag.name = $tag_name;
-			$scope.show.edit_tag = true;
-		};
-
-		$scope.updateTag = function () {
-			update.tagName($scope.edit_tag.id, $scope.edit_tag.name).then(function (response) {
-				$scope.getTags();
-				$scope.show.edit_tag = false;
 			});
 		};
 
@@ -586,31 +388,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				$("#fixed-budget-tag-select").html('<option>Fixed Budget</option>' + response);
 				$("#flex-budget-tag-select").html('<option>Flex Budget</option>' + response);
 			});
-		};
-
-		$scope.editTagName = function () {
-			update.tagName().then(function (response) {
-				$(".appended_tag_div li").each(function () {
-					if ($(this).text() === $old_name) {
-						$(this).text($new_name);
-						tagString();
-						saveEdit($(this).closest(".tag_container").siblings(".results_inner_div"));
-					}
-				});
-			});
-		};
-
-		$scope.updateCSDSetup = function ($tag) {
-			$scope.edit_CSD = $tag;
-			$scope.show.edit_CSD = true;
-		};
-
-		$scope.updateCSD = function () {
-			update.CSD($scope.edit_CSD.id, $scope.edit_CSD.CSD).then(function (response) {
-				$scope.getTotals();
-				$scope.show.edit_CSD = false;
-			});
-		};
+		};	
 
 		$scope.defaultColor = function ($type, $default_color) {
 			if ($type === 'income') {
@@ -622,13 +400,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			else if ($type === 'transfer') {
 				$scope.colors.transfer = $default_color;
 			}
-		};
-
-		$scope.updateColors = function () {
-			update.colors($scope.colors).then(function (response) {
-				$scope.getColors();
-				$scope.show.color_picker = false;
-			});
 		};
 
 		$scope.updateTransactionSetup = function ($transaction) {
@@ -725,111 +496,10 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
-		// $scope.markAsAllocated = function () {
-		// 	update.markAsAllocated().then(function (response) {
-		// 		multiSearch();
-		// 	});
-		// };
+		/**
+		 * delete
+		 */
 
-		// $scope.allocateTagBudget = function () {
-		// 	update.allocateTagBudget().then(function (response) {
-		// 		$scope.getTotals();
-		// 		multiSearch();
-		// 	});
-		// };
-
-		// $scope.updateAllocationPopupHTML = function () {
-		// 	update.allocationPopupHTML().then(function (response) {
-		// 		$scope.allocation_popup.tags = response.data;
-		// 		var $tags = $response.tags;
-		// 		var $fixed_sum = $response.fixed_sum;
-		// 		var $percent_sum = $response.percent_sum;
-		// 		var $allocation = $response.allocation;
-		// 		var $type = $response.type;
-
-		// 		$($tags).each(function () {
-		// 			var $allocated_percent = this.percent;
-		// 			var $allocated_fixed = this.amount;
-		// 			var $current;
-		// 			var $type;
-
-		// 			if ($allocated_percent === null) {
-		// 				$allocated_percent = $calculated_percent;
-		// 				$current = $allocated_fixed;
-		// 				$type = "$";
-		// 			}
-
-		// 			else {
-		// 				$current = $allocated_percent;
-		// 				$type = "%";
-		// 			}
-					
-		// 		});
-		// 	});
-		// };
-
-		// var $allocation_popup_transaction_id;
-		// var $show_allocation_popup = false;
-
-		// $("#all-transactions-wrapper").on('click', '.allocate', function () {
-		// 	var $tbody = $(this).closest('tbody');
-		// 	$show_allocation_popup = true;
-
-		// 	$allocation_popup_transaction_id = $($tbody).attr('id');
-			
-		// 	updateAllocationPopupHTML($allocation_popup_transaction_id);
-		// });
-
-		// $("body").on('keyup', '.allocation-input', function (keypress) {
-		// 	if (keypress.which === 13) {
-		// 		var $tr = $(this).closest('tr');
-		// 		allocateTagBudget($tr);
-		// 	}
-		// });
-
-		// $("body").on('change', '.select-type', function () {
-		// 	var $tr = $(this).closest('tr');
-		// 	allocateTagBudget($tr);
-		// });
-
-		// $("body").on('click', '#allocate-checkbox', function () {
-		// 	var $popup = $("#budget-tags-div");
-
-		// 	if ($($popup).hasClass('new-transaction-allocation-popup')) {
-		// 		// $new_transaction = true;
-		// 	}
-		// 	else {
-		// 		markAsAllocated(this);
-		// 	}
-		// });
-
-		/*=================================================================================
-		===================================================================================
-		===================================================================================
-		=================================delete=================================
-		===================================================================================
-		===================================================================================
-		=================================================================================*/
-
-		$scope.deleteTag = function ($tag_id) {
-			settings.countTransactionsWithTag($tag_id).then(function (response) {
-				var $count = response.data;
-				if (confirm("You have " + $count + " transactions with this tag. Are you sure?")) {
-					deleteItem.tag($tag_id).then(function (response) {
-						$scope.getTags();
-					});
-				}
-			});
-		};
-
-		$scope.deleteAccount = function ($account_id) {
-			if (confirm("Are you sure you want to delete this account?")) {
-				deleteItem.account($account_id).then(function (response) {
-					$scope.getAccounts();
-				});
-			}
-		};
-		
 		$("#search-div").on('click', '#search-tag-location li', function () {
 			removeTag(this, $search_tag_array, $("#search-tag-location"), multiSearch);
 		});
@@ -866,17 +536,9 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			}
 		});
 
-		/*=================================================================================
-		===================================================================================
-		===================================================================================
-		=================================filter=================================
-		===================================================================================
-		===================================================================================
-		=================================================================================*/
-
-		function multiSearchTagFilter ($multiSearch_transactions, $tag_ids_searched_for) {
-			// filter.multiSearchTag();
-		}
+		/**
+		 * filter
+		 */
 
 		$scope.filterTags = function ($keycode, $typing, $location_for_tags, $scope_property) {
 			if ($keycode !== 38 && $keycode !== 40 && $keycode !== 13) {
@@ -927,43 +589,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			}
 		};
 
-		$scope.autocompleteFixedBudget = function () {
-			$scope.autocomplete.tags = $scope.tags;
-			$scope.new_fixed_budget.tag.id = $scope.selected.id;
-			$scope.new_fixed_budget.tag.name = $scope.selected.name;
-			$scope.new_fixed_budget.tag.fixed_budget = $scope.selected.fixed_budget;
-			$scope.new_fixed_budget.tag.flex_budget = $scope.selected.flex_budget;
-			$scope.new_fixed_budget.dropdown = false;
-
-			if ($scope.new_fixed_budget.tag.flex_budget) {
-				$scope.new_fixed_budget.tag = {};
-				$scope.selected = {};
-				alert("You've got a flex budget for that tag.");
-				return;
-			}
-
-			$("#budget-fixed-tag-input").val($scope.selected.name);
-			$("#budget-fixed-budget-input").focus();
-		};
-
-		$scope.autocompleteFlexBudget = function () {
-			$scope.autocomplete.tags = $scope.tags;
-			$scope.new_flex_budget.tag.id = $scope.selected.id;
-			$scope.new_flex_budget.tag.name = $scope.selected.name;
-			$scope.new_flex_budget.tag.fixed_budget = $scope.selected.fixed_budget;
-			$scope.new_flex_budget.tag.flex_budget = $scope.selected.flex_budget;
-			$scope.new_flex_budget.dropdown = false;
-
-			if ($scope.new_flex_budget.tag.fixed_budget) {
-				$scope.new_flex_budget.tag = {};
-				$scope.selected = {};
-				alert("You've got a fixed budget for that tag.");
-				return;
-			}
-
-			$("#budget-flex-tag-input").val($scope.selected.name);
-			$("#budget-flex-budget-input").focus();
-		};
+		
 
 		$scope.filterTransactions = function ($keycode, $typing, $field) {
 			//for the transaction autocomplete
@@ -1024,31 +650,9 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			autocomplete.removeSelected($scope.autocomplete.transactions);
 		};
 
-			
-			
-		// select.autocompleteTransaction($typing, $iterate).then(function (response) {
-		// 	$scope.autocomplete.transactions = response.data;
-		// 	var $transactions_without_duplicates = [];
-			
-		// 	$($scope.autocomplete.transactions).each(function () {
-		// 		autocomplete.duplicateCheck(this, $transactions_without_duplicates);
-		// 	});
-
-		// 	$transactions_without_duplicates = autocomplete.transfers();
-		// 	$scope.autocomplete.transactions = $transactions_without_duplicates;
-		// });
-
-		/*=================================================================================
-		===================================================================================
-		===================================================================================
-		=================================watches=================================
-		===================================================================================
-		===================================================================================
-		=================================================================================*/
-
-		// $scope.$watchCollection('new_transaction.tags', function () {
-		// 	$scope.checkNewTransactionMultipleBudgets();
-		// });
+		/**
+		 * watches
+		 */
 
 		$scope.$watchCollection('colors', function (newValue) {
 			$("#income-color-picker").val(newValue.income);
@@ -1056,20 +660,23 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$("#transfer-color-picker").val(newValue.transfer);
 		});
 
-		$scope.$watch('totals.budget.RB', function (newValue, oldValue) {
-			//get rid of the commas and convert to integers
-			var $new_RB = parseInt(newValue.replace(',', ''), 10);
-			var $old_RB = parseInt(oldValue.replace(',', ''), 10);
-			if ($new_RB > $old_RB) {
-				//$RB has increased due to a user action
-				//Figure out how much it has increased by.
-				var $diff = $new_RB - $old_RB;
-				//This value will change. Just for developing purposes.
-				var $percent = 10;
-				var $amount_to_add = $diff / 100 * $percent;
-				$scope.addPercentageToSavingsAutomatically($amount_to_add);
-			}
-		});
+		/**
+		 * Just commenting this out temporarily because it was causing an error after refactor.
+		 */
+		// $scope.$watch('totals.budget.RB', function (newValue, oldValue) {
+		// 	//get rid of the commas and convert to integers
+		// 	var $new_RB = parseInt(newValue.replace(',', ''), 10);
+		// 	var $old_RB = parseInt(oldValue.replace(',', ''), 10);
+		// 	if ($new_RB > $old_RB) {
+		// 		//$RB has increased due to a user action
+		// 		//Figure out how much it has increased by.
+		// 		var $diff = $new_RB - $old_RB;
+		// 		//This value will change. Just for developing purposes.
+		// 		var $percent = 10;
+		// 		var $amount_to_add = $diff / 100 * $percent;
+		// 		$scope.addPercentageToSavingsAutomatically($amount_to_add);
+		// 	}
+		// });
 
 		// $scope.$watchCollection('totals', function (newValue, oldValue) {
 		// 	//check the change was from a user action, not from this function itself, to avoid an endless loop. I am doing this by checking that there has been a change in debit, credit, or CFB, because this function should only change RB and savings.
@@ -1180,13 +787,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.multiSearch(true);
 		});
 
-		// $scope.$watch('filter.num_to_fetch', function (newValue, oldValue) {
-		// 	if (newValue === oldValue) {
-		// 		return;
-		// 	}
-		// 	$scope.multiSearch(true);
-		// });
-
 		$scope.$watchGroup(['filter.offset', 'filter.num_to_fetch'], function (newValue, oldValue) {
 			$scope.filter.display_from = $scope.filter.offset + 1;
 			$scope.filter.display_to = $scope.filter.offset + ($scope.filter.num_to_fetch * 1);
@@ -1196,16 +796,14 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.multiSearch(true);
 		});
 
-		/*=================================================================================
-		===================================================================================
-		===================================================================================
-		=================================other=================================
-		===================================================================================
-		===================================================================================
-		=================================================================================*/
-
-		$scope.changeTab = function ($tab) {
-			$scope.tab = $tab;
+		/**
+		 * other
+		 */
+		
+		$scope.getColors = function () {
+			settings.getColors().then(function (response) {
+				$scope.colors = response.data;
+			});
 		};
 
 		$scope.checkKeycode = function ($keycode, $func, $params) {
@@ -1227,17 +825,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$scope.filter.offset = 0;
 		};
 
-		// $scope.callFunctions = function () {
-		// 	$(".my-dropdown:not(.modal .my-dropdown)").each(function () {
-		// 	dropdownPosition(this);
-		// 	});
-
-		// 	$scope.updateTagSelectHTML();
-		// 	$scope.updateAccountDropdownsHTML();
-		// 	$scope.getAccounts();
-		// 	totals();
-		// };
-
 		$scope.duplicateTagCheck = function ($tag_id, $tag_array) {
 			//checks for duplicate tags when adding a new tag to an array
 			for (var i = 0; i < $tag_array.length; i++) {
@@ -1248,25 +835,9 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			return true; //it is not a duplicate
 		};
 
-		/*=================================================================================
-		===================================================================================
-		===================================================================================
-		=================================totals=================================
-		===================================================================================
-		===================================================================================
-		=================================================================================*/
-
-		// $scope.getASR = function () {
-		// 	totals.ASR($scope.transactions_limited).then(function (response) {
-		// 		$scope.totals.filter.ASR = response.data;
-		// 	});
-		// };
-
-		// $scope.getFilterTotals = function () {
-		// 	totals.filterTotals($scope.transactions).then(function (response) {
-		// 		$scope.totals.filter = response.data;
-		// 	});
-		// };
+		/**
+		 * totals
+		 */
 
 		$scope.getTotals = function () {
 			totals.basicTotals().then(function (response) {
@@ -1275,98 +846,25 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			totals.budget().then(function (response) {
 				$scope.totals.budget = response.data;
 			});
-
-			
-
-			function updateChart () {
-					$(".bar_chart_li:first-child").css('height', '0%');
-					$(".bar_chart_li:nth-child(2)").css('height', '0%');
-					$(".bar_chart_li:first-child").css('height', getTotal()[6] + '%');
-					$(".bar_chart_li:nth-child(2)").css('height', getTotal()[5] + '%');
-			}
 		};
 
-		$scope.getTotals();
+		$scope.updateChart = function () {
+				$(".bar_chart_li:first-child").css('height', '0%');
+				$(".bar_chart_li:nth-child(2)").css('height', '0%');
+				$(".bar_chart_li:first-child").css('height', getTotal()[6] + '%');
+				$(".bar_chart_li:nth-child(2)").css('height', getTotal()[5] + '%');
+		};
 
-		/*==============================my plugin==============================*/
 
-		
-
-		/*==============================flexbox table==============================*/
-
-		// $scope.flexboxTable = function () {
-		// 	//forming the $columns array
-		// 	var $columns = [];
-		// 	var $column;
-		// 	var $width;
-		// 	var $index;
-		// 	var $max_width;
-		// 	//gets the number of columns in the table (assuming all other rows have the same number as the first row)
-		// 	$(".flex-table .flex-table-row:first-child div").each(function () {
-		// 		$column = $(this).index();
-		// 		$columns.push({
-		// 			index: $column,
-		// 			widths: []
-		// 		});
-		// 	});
-
-		// 	$(".flex-table .flex-table-row").each(function () {
-				
-		// 		var $row = $(this);
-		// 		var $td = $(this).children('div');
-
-		// 		$($td).each(function () {
-		// 			//pushing the width of all the tds onto the $columns array
-		// 			$index = $(this).index();
-		// 			$width = $(this).width();
-
-		// 			$column = _.find($columns, function ($column) {
-		// 				return $column.index === $index;
-		// 			});
-
-		// 			$column.widths.push($width);
-
-		// 		});
-		// 	});
-
-		// 	//getting the max width of each column
-		// 	$($columns).each(function () {
-		// 		$index = $columns.indexOf(this);
-		// 		$column = this;
-		// 		$widths = $column.widths;
-		// 		$max_width = _.max($widths, function (width) {
-		// 			return width;
-		// 		});
-		// 		$column.max_width = $max_width;
-
-		// 		// $(".flex-table .flex-table-row > div").eq($index).width($max_width);
-		// 		$index = $index + 1; //because nth-child doesn't use zero based
-		// 		$(".flex-table .flex-table-row > div:nth-child(" + $index + ")").width($max_width);
-		// 	});
-		// };
-
-		// var $num = 3;
-
-		// $(".flex-table .total").each(function () {
-		// 	var $width = $(this).width();
-		// 	console.log('total width: ' + $width);
-		// });
-
-		/*==============================onload==============================*/
+		/**
+		 * page load
+		 */
 
 		$scope.multiSearch();
-		$scope.getAccounts();
 		$scope.getColors();
+		$scope.getTotals();
 
-		//to go through
-		
-		// $scope.updateAccountDropdownsHTML();
-		// $scope.getColors();
-		// if ($show_allocation_popup == true) {
-		// 	updateAllocationPopupHTML($allocation_popup_transaction_id);
-		// }
-
-	}); //end display controller
+	}); //end controller
 
 
 	/*==============================dates==============================*/
