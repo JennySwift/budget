@@ -15,30 +15,45 @@ class TransactionTagSeeder extends Seeder {
 		Transaction_Tag::truncate();
 		
 		$faker = Faker::create();
-
-		/**
-		 * Objective:
-		 */
 		
 		$transaction_ids = Transaction::where('type', '!=', 'transfer')->lists('id');
 		$tag_ids = Tag::lists('id');
 
-		//get all transactions with their tags
-		//find all the transactions that have multiple budgets
-		//select a percentage of those transactions
-		//loop through the selection and give the tags for each transaction an allocated budget
-		//mark the transaction as allocated
-
-		foreach (range(1, 20) as $index) {
-			$transaction_id = $faker->randomElement($transaction_ids);
-
-			Transaction_Tag::create([
-				'transaction_id' => $transaction_id,
-				'tag_id' => $faker->randomElement($tag_ids),
-				'user_id' => 1
-			]);
+		/**
+		 * Objective:
+		 * Loop through all transactions,
+		 * adding a random number of tags to each transaction, with no duplicate tags.
+		 * Currently, it is looping three times but not adding the tag if the transaction already has it.
+		 */
+		foreach ($transaction_ids as $transaction_id) {
+			foreach (range(1, 3) as $index) {
+				$tag_id = $faker->randomElement($tag_ids);
+				$tags_for_transaction = Transaction::find($transaction_id)->tags;
+				
+				//Populate $tag_ids_for_transaction
+				$tag_ids_for_transaction = [];
+				foreach ($tags_for_transaction as $tag) {
+					$tag_ids_for_transaction[] = $tag->id;
+				}
+				//Check the transaction doesn't already have the tag id.
+				//If it doesn't, then add the tag to the transaction.
+				if (!in_array($tag_id, $tag_ids_for_transaction)) {
+					Transaction_Tag::create([
+						'transaction_id' => $transaction_id,
+						'tag_id' => $tag_id,
+						'user_id' => 1
+					]);
+				}	
+			}
 		}
 
+		/**
+		 * Loop through the ids of income and expense transactions.
+		 * Get the tag ids for each transaction.
+		 * Count how many tags the transaction has.
+		 * See how many budgets each of those tags has.
+		 * If the transaction has multiple budgets, decide whether or not to mark the transaction as allocated.
+		 */
 		foreach ($transaction_ids as $transaction_id) {
 			$tag_ids = DB::table('transactions_tags')->where('transaction_id', $transaction_id)->lists('tag_id');
 
