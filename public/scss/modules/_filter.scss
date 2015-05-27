@@ -1,5 +1,12 @@
 #filter {
+	position: fixed;
+	top: 41px;
+	right: 0px;
+	opacity: .8;
+	height: 745px;
+	overflow: scroll;
 	padding: 8px;
+	z-index: 9;
 	.tag-input-wrapper input {
 		width: auto;
 	}
@@ -13,21 +20,7 @@
 		width: 27px;
 		margin-right: 7px;
 	}
-	// display: flex;
-	// flex-wrap: wrap;
-	// margin: 30px 30px 30px 30px;
-	// border-radius: 5px;
 	> * {
-		// flex-grow: 1;
 		margin: 8px;
 	}
-	// .input-group {
-	// 	display: flex;
-	// 	input {
-	// 		flex-grow: 1;
-	// 	}
-	// }
-	// .tag-display {
-	// 	height: 34px;
-	// }
 }

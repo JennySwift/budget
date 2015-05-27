@@ -53,5 +53,9 @@
             <a href="/budgets" class="fa fa-usd"></a>
         </li>
 
+        <li>
+            <a ng-click="toggleFilter()" href="#" class="fa fa-search"></a>
+        </li>
+
     </ul>
 </nav>

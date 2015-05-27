@@ -174,7 +174,14 @@ ul {
 
 /*==============================budget==============================*/
 #filter {
-  padding: 8px; }
+  position: fixed;
+  top: 41px;
+  right: 0px;
+  opacity: .8;
+  height: 745px;
+  overflow: scroll;
+  padding: 8px;
+  z-index: 9; }
   #filter .tag-input-wrapper input {
     width: auto; }
   #filter .accounts > div, #filter .types > div, #filter .status > div, #filter .budget > div {
