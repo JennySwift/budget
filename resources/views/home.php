@@ -18,9 +18,7 @@
     <?php
         include($templates . '/header.blade.php');
         include($templates . '/messages.php');
-        include($templates . '/modals.php');
-        include($templates . '/edit-transaction.php');
-        include($templates . '/allocation-popup.php');
+        include($templates . '/popups/home/index.php');
     ?>
     
     <div class="height-100 border-box">

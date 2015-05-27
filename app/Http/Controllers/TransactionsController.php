@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use DB;
 use Debugbar;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -87,10 +88,9 @@ class TransactionsController extends Controller {
 
 	public function updateReconciliation(Request $request)
 	{
-		include(app_path() . '/inc/functions.php');
 		$id = $request->get('id');
 		$reconciled = $request->get('reconciled');
-		$reconciled = convertFromBoolean($reconciled);
+		$reconciled = $this->convertFromBoolean($reconciled);
 		DB::table('transactions')->where('id', $id)->update(['reconciled' => $reconciled]);
 	}
 
@@ -254,9 +254,6 @@ class TransactionsController extends Controller {
 	        ->take($num_to_fetch)
 	        ->get();
 
-	    // $queries = DB::getQueryLog();
-	    // Log::info('queries', $queries);
-
 	    //========================get the totals======================== 
 
 	    $income = 0;
@@ -355,24 +352,31 @@ class TransactionsController extends Controller {
 	    return $result;
 	}
 
-	/**
-	 * This needs redoing after refactor
-	 * Duplicate of convertDate from totals controller
-	 * @param  [type] $date [description]
-	 * @param  [type] $for  [description]
-	 * @return [type]       [description]
-	 */
-	public function convertDate($date, $for)
-	{
-		// $date = new DateTime($date);
+	public function convertDate($date, $for) {
+		$date = Carbon::createFromFormat('Y-m-d', $date);
 
-		// if ($for === 'user') {
-		// 	$date = $date->format('d/m/y');
-		// }
-		// elseif ($for === 'sql') {
-		// 	$date = $date->format('Y-m-d');
-		// }
-		// return $date;
+		if ($for === 'user') {
+			$date = $date->format('d/m/y');
+		}
+		elseif ($for === 'sql') {
+			$date = $date->format('Y-m-d');
+		}
+		return $date;
+	}
+
+	/**
+	 * other
+	 */
+	
+	public function convertFromBoolean($variable)
+	{
+	    if ($variable == 'true') {
+	    	$variable = 1;
+	    }
+	    elseif ($variable == 'false') {
+	    	$variable = 0;
+	    }
+	    return $variable;
 	}
 
 	public function convertToBoolean($variable)

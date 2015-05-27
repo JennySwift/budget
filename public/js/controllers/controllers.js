@@ -307,7 +307,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				return;
 			}
 
-			insert.transaction($scope.new_transaction).then(function (response) {
+			transactions.insertTransaction($scope.new_transaction).then(function (response) {
 				//see if the transaction that was just entered has multiple budgets
 				//the allocation popup is shown from $scope.multiSearch().
 				var $transaction = response.data.transaction;
@@ -334,13 +334,13 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		 */
 		
 		$scope.updateReconciliation = function ($transaction_id, $reconciliation) {
-			update.reconciliation($transaction_id, $reconciliation).then(function (response) {
+			transactions.updateReconciliation($transaction_id, $reconciliation).then(function (response) {
 				$scope.multiSearch();
 			});
 		};
 
 		$scope.updateTagSelectHTML = function () {
-			update.tagSelectHTML().then(function (response) {
+			transactions.updateTagSelectHTML().then(function (response) {
 				$("#fixed-budget-tag-select").html('<option>Fixed Budget</option>' + response);
 				$("#flex-budget-tag-select").html('<option>Flex Budget</option>' + response);
 			});
@@ -369,7 +369,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			var $date_entry = $("#edit-transaction-date").val();
 			$scope.edit_transaction.date.user = $date_entry;
 			$scope.edit_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
-			update.transaction($scope.edit_transaction).then(function (response) {
+			transactions.updateTransaction($scope.edit_transaction).then(function (response) {
 				$scope.multiSearch();
 				$scope.show.edit_transaction = false;
 
@@ -406,7 +406,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.massEditTags = function () {
-			update.massTags().then(function (response) {
+			transactions.updateMassTags().then(function (response) {
 				multiSearch();
 				$tag_array.length = 0;
 				$tag_location.html($tag_array);
@@ -414,7 +414,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.massEditDescription = function () {
-			update.massDescription().then(function (response) {
+			transactions.updateMassDescription().then(function (response) {
 				multiSearch();
 			});
 		};
@@ -432,7 +432,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		$scope.updateAllocation = function ($keycode, $type, $value, $tag_id) {
 			if ($keycode === 13) {
-				update.allocation($type, $value, $scope.allocation_popup_transaction.id, $tag_id).then(function (response) {
+				transactions.updateAllocation($type, $value, $scope.allocation_popup_transaction.id, $tag_id).then(function (response) {
 					//find the tag in $scope.allocation_popup_transaction.tags
 					var $the_tag = _.find($scope.allocation_popup_transaction.tags, function ($tag) {
 						return $tag.id === $tag_id;
@@ -447,7 +447,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.updateAllocationStatus = function () {
-			update.allocationStatus($scope.allocation_popup_transaction.id, $scope.allocation_popup_transaction.allocated).then(function (response) {
+			transactions.updateAllocationStatus($scope.allocation_popup_transaction.id, $scope.allocation_popup_transaction.allocated).then(function (response) {
 				console.log("something");
 			});
 		};
@@ -470,7 +470,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		$scope.deleteTransaction = function ($transaction) {
 			if (confirm("Are you sure?")) {
-				deleteItem.transaction($transaction.id).then(function (response) {
+				transactions.deleteTransaction($transaction.id).then(function (response) {
 					$scope.multiSearch();
 
 					//reverse the automatic insertion into savings if it is an income expense
@@ -808,7 +808,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if ($keycode !== 13) {
 				return;
 			}
-			update.savingsTotal().then(function (response) {
+			budgets.updateSavingsTotal().then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
 				$scope.show.savings_total.input = false;
 				$scope.show.savings_total.edit_btn = true;
@@ -820,21 +820,21 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if ($keycode !== 13) {
 				return;
 			}
-			update.addFixedToSavings().then(function (response) {
+			budgets.addFixedToSavings().then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
 				$scope.getTotals();
 			});
 		};
 
 		$scope.addPercentageToSavingsAutomatically = function ($amount_to_add) {
-			update.addPercentageToSavingsAutomatically($amount_to_add).then(function (response) {
+			budgets.addPercentageToSavingsAutomatically($amount_to_add).then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
 				$scope.getTotals();
 			});
 		};
 
 		$scope.reverseAutomaticInsertIntoSavings = function ($amount_to_subtract) {
-			update.reverseAutomaticInsertIntoSavings($amount_to_subtract).then(function (response) {
+			budgets.reverseAutomaticInsertIntoSavings($amount_to_subtract).then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
 				$scope.getTotals();
 			});
@@ -844,7 +844,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			if ($keycode !== 13) {
 				return;
 			}
-			update.addPercentageToSavings().then(function (response) {
+			budgets.addPercentageToSavings().then(function (response) {
 				$scope.totals.basic.savings_total = response.data;
 				$scope.getTotals();
 			});

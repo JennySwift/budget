@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use Carbon\Carbon;
+
+/**
+ * Models
+ */
 use App\Models\Budget;
 use App\Models\Tag;
 
@@ -452,22 +457,21 @@ class TotalsController extends Controller {
 	}
 
 	/**
-	 * This needs redoing after refactor
+	 * Duplicate of convertDate in TransactionsController
 	 * @param  [type] $date [description]
 	 * @param  [type] $for  [description]
 	 * @return [type]       [description]
 	 */
-	public function convertDate($date, $for)
-	{
-		// $date = new DateTime($date);
+	public function convertDate($date, $for) {
+		$date = Carbon::createFromFormat('Y-m-d', $date);
 
-		// if ($for === 'user') {
-		// 	$date = $date->format('d/m/y');
-		// }
-		// elseif ($for === 'sql') {
-		// 	$date = $date->format('Y-m-d');
-		// }
-		// return $date;
+		if ($for === 'user') {
+			$date = $date->format('d/m/y');
+		}
+		elseif ($for === 'sql') {
+			$date = $date->format('Y-m-d');
+		}
+		return $date;
 	}
 
 	public function numberFormat($array)

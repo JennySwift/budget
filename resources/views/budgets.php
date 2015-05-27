@@ -12,7 +12,10 @@
 </head>
 <body ng-controller="budgets">
 
-    <?php include($header); ?>
+    <?php
+        include($header);
+        include($templates . '/popups/budget/index.php');
+    ?>
     
     <!-- if I used ng-if here, tooltipster didn't work. -->
     <div id="budget" class="">
