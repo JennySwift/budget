@@ -16,6 +16,8 @@ var app = angular.module('budgetApp');
 		$scope.show = {
 			popups: {}
 		};
+		$scope.edit_tag_popup = {};
+		$scope.edit_account_popup = {};
 
 		/**
 		 * select
@@ -74,41 +76,29 @@ var app = angular.module('budgetApp');
 		 * update
 		 */
 		
-		$scope.updateAccountSetup = function ($account_id, $account_name) {
-			$scope.edit_account.id = $account_id;
-			$scope.edit_account.name = $account_name;
+		$scope.showEditAccountPopup = function ($account_id, $account_name) {
+			$scope.edit_account_popup.id = $account_id;
+			$scope.edit_account_popup.name = $account_name;
 			$scope.show.popups.edit_account = true;
 		};
 
 		$scope.updateAccount = function () {
-			settings.updateAccountName($scope.edit_account.id, $scope.edit_account.name).then(function (response) {
+			settings.updateAccountName($scope.edit_account_popup.id, $scope.edit_account_popup.name).then(function (response) {
 				$scope.getAccounts();
 				$scope.show.popups.edit_account = false;
 			});
 		};
 
-		$scope.updateTagSetup = function ($tag_id, $tag_name) {
-			$scope.edit_tag.id = $tag_id;
-			$scope.edit_tag.name = $tag_name;
+		$scope.showEditTagPopup = function ($tag_id, $tag_name) {
+			$scope.edit_tag_popup.id = $tag_id;
+			$scope.edit_tag_popup.name = $tag_name;
 			$scope.show.popups.edit_tag = true;
 		};
 
 		$scope.updateTag = function () {
-			settings.updateTagName($scope.edit_tag.id, $scope.edit_tag.name).then(function (response) {
+			settings.updateTagName($scope.edit_tag_popup.id, $scope.edit_tag_popup.name).then(function (response) {
 				$scope.getTags();
 				$scope.show.popups.edit_tag = false;
-			});
-		};
-
-		$scope.editTagName = function () {
-			settings.editTagName().then(function (response) {
-				$(".appended_tag_div li").each(function () {
-					if ($(this).text() === $old_name) {
-						$(this).text($new_name);
-						tagString();
-						saveEdit($(this).closest(".tag_container").siblings(".results_inner_div"));
-					}
-				});
 			});
 		};
 

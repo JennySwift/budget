@@ -30,7 +30,7 @@
                         <tr ng-repeat="tag in tags">
                             <td>{{tag.name}}</td>
                             <td>
-                                <button ng-click="updateTagSetup(tag.id, tag.name)">edit</button>
+                                <button ng-click="showEditTagPopup(tag.id, tag.name)">edit</button>
                             </td>
                             <td>
                                 <button ng-click="deleteTag(tag.id)" class="btn btn-default">delete</button>
@@ -48,7 +48,7 @@
                     <tr ng-repeat="account in accounts">
                         <td>{{account.name}}</td>
                         <td>
-                            <button ng-click="updateAccountSetup(account.id, account.name)">edit</button>
+                            <button ng-click="showEditAccountPopup(account.id, account.name)">edit</button>
                         </td>
                         <td>
                             <button ng-click="deleteAccount(account.id)" class="btn btn-default">delete</button>
