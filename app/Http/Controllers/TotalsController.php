@@ -21,50 +21,8 @@ class TotalsController extends Controller {
 	public function getAllocationTotals(Request $request)
 	{
 		$transaction_id = $request->get('transaction_id');
-
-		$rows = DB::table('transactions_tags')
-			->where('transaction_id', $transaction_id)
-			->where('tags.budget_id', '!=', 'null')
-			->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-			->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget', 'tags.budget_id')
-			->get();
-
-		$fixed_sum = '-';
-		$percent_sum = 0;
-		$calculated_allocation_sum = 0;
-
-		foreach ($rows as $row) {
-			$allocated_fixed = $row->allocated_fixed;
-			$allocated_percent = $row->allocated_percent;
-			$calculated_allocation = $row->calculated_allocation;
-
-			//so that the total displays '-' instead of $0.00 if there were no values to add up.
-			if ($allocated_fixed && $fixed_sum === '-') {
-				$fixed_sum = 0;
-			}
-			
-			if ($allocated_fixed) {
-				$fixed_sum+= $allocated_fixed;
-			}
-
-			$percent_sum+= $allocated_percent;
-			$calculated_allocation_sum+= $calculated_allocation;
-		}
-
-		if ($fixed_sum !== '-') {
-			$fixed_sum = number_format($fixed_sum, 2);
-		}
 		
-		$percent_sum = number_format($percent_sum, 2);
-		$calculated_allocation_sum = number_format($calculated_allocation_sum, 2);
-
-		$allocation_totals = array(
-			"fixed_sum" => $fixed_sum,
-			"percent_sum" => $percent_sum,
-			"calculated_allocation_sum" => $calculated_allocation_sum
-		);
-
-		return $allocation_totals;
+		return Budget::getAllocationTotals($transaction_id);
 	}
 
 	public function getBasicTotals()
@@ -105,7 +63,6 @@ class TotalsController extends Controller {
 	{
 		$user_id = Auth::user()->id;
 		$FB_info = $this->getBudgetInfo($user_id, 'fixed');
-		// dd($FB_info);
 		$FLB_info = $this->getBudgetInfo($user_id, 'flex');
 
 		$remaining_balance = $this->getRB();
@@ -177,6 +134,7 @@ class TotalsController extends Controller {
 		$total_savings = $this->getSavingsTotal();
 
 		$RB = $total_income - $total_CFB + $EWB + $EFLB + $total_spent_before_CSD + $total_spent_after_CSD - $total_savings;
+		// dd($total_income - $total_CFB + $EWB + $EFLB);
 		return $RB;
 	}
 
@@ -203,6 +161,8 @@ class TotalsController extends Controller {
 			->join('tags', 'tag_id', '=', 'tags.id')
 			->sum('calculated_allocation');
 
+		// dd($ids);
+		// dd('total: ' . $total);
 		return $total;
 	}
 

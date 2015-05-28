@@ -84,7 +84,7 @@ Route::post('delete/transaction', 'TransactionsController@deleteTransaction');
  */
 
 Route::post('select/allocationInfo', 'BudgetsController@getAllocationInfo');
-Route::post('select/allocationTotals', 'BudgetsController@getAllocationTotals');
+Route::post('select/allocationTotals', 'TotalsController@getAllocationTotals');
 
 Route::post('insert/flexBudget', 'BudgetsController@insertFlexBudget');
 Route::post('insert/budgetInfo', 'BudgetsController@insertBudgetInfo');

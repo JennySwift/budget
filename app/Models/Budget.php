@@ -69,6 +69,53 @@ class Budget extends Model {
 		return $multiple_budgets;
 	}
 
+	public static function getAllocationTotals($transaction_id)
+	{
+		$rows = DB::table('transactions_tags')
+			->where('transaction_id', $transaction_id)
+			->where('tags.budget_id', '!=', 'null')
+			->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+			->select('transactions_tags.transaction_id', 'transactions_tags.tag_id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget', 'tags.budget_id')
+			->get();
+
+		$fixed_sum = '-';
+		$percent_sum = 0;
+		$calculated_allocation_sum = 0;
+
+		foreach ($rows as $row) {
+			$allocated_fixed = $row->allocated_fixed;
+			$allocated_percent = $row->allocated_percent;
+			$calculated_allocation = $row->calculated_allocation;
+
+			//so that the total displays '-' instead of $0.00 if there were no values to add up.
+			if ($allocated_fixed && $fixed_sum === '-') {
+				$fixed_sum = 0;
+			}
+			
+			if ($allocated_fixed) {
+				$fixed_sum+= $allocated_fixed;
+			}
+
+			$percent_sum+= $allocated_percent;
+			$calculated_allocation_sum+= $calculated_allocation;
+		}
+
+		if ($fixed_sum !== '-') {
+			$fixed_sum = number_format($fixed_sum, 2);
+		}
+		
+		$percent_sum = number_format($percent_sum, 2);
+		$calculated_allocation_sum = number_format($calculated_allocation_sum, 2);
+
+		$allocation_totals = array(
+			"fixed_sum" => $fixed_sum,
+			"percent_sum" => $percent_sum,
+			"calculated_allocation_sum" => $calculated_allocation_sum
+		);
+
+		return $allocation_totals;
+	}
+
 	public static function getAllocationInfo($transaction_id, $tag_id)
 	{
 		//for one tag. for getting the updated info after updating the allocation for that tag.
@@ -162,7 +209,7 @@ class Budget extends Model {
 			->where('tag_id', $tag_id)
 			->update(['allocated_percent' => $allocated_percent, 'allocated_fixed' => null]);
 
-		updateAllocatedPercentCalculatedAllocation($transaction_id, $tag_id);
+		static::updateAllocatedPercentCalculatedAllocation($transaction_id, $tag_id);
 	}
 
 	public static function updateAllocatedPercentCalculatedAllocation($transaction_id, $tag_id)

@@ -66,7 +66,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				tags: [],
 				reconciled: "any",
 				offset: 0,
-				num_to_fetch: 10
+				num_to_fetch: 20
 			};
 		};
 
@@ -420,7 +420,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		$scope.updateAllocation = function ($keycode, $type, $value, $tag_id) {
 			if ($keycode === 13) {
-				transactions.updateAllocation($type, $value, $scope.allocation_popup_transaction.id, $tag_id).then(function (response) {
+				budgets.updateAllocation($type, $value, $scope.allocation_popup_transaction.id, $tag_id).then(function (response) {
 					//find the tag in $scope.allocation_popup_transaction.tags
 					var $the_tag = _.find($scope.allocation_popup_transaction.tags, function ($tag) {
 						return $tag.id === $tag_id;
@@ -435,7 +435,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		};
 
 		$scope.updateAllocationStatus = function () {
-			transactions.updateAllocationStatus($scope.allocation_popup_transaction.id, $scope.allocation_popup_transaction.allocated).then(function (response) {
+			budgets.updateAllocationStatus($scope.allocation_popup_transaction.id, $scope.allocation_popup_transaction.allocated).then(function (response) {
 				console.log("something");
 			});
 		};
@@ -630,27 +630,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				$scope.addPercentageToSavingsAutomatically($amount_to_add);
 			}
 		});
-
-		// $scope.$watchCollection('totals', function (newValue, oldValue) {
-		// 	//check the change was from a user action, not from this function itself, to avoid an endless loop. I am doing this by checking that there has been a change in debit, credit, or CFB, because this function should only change RB and savings.
-		// 	//so it doesn't run on page load
-		// 	if (oldValue.budget && oldValue.basic) {
-		// 		if (newValue.budget.FB.totals.cumulative_budget !== oldValue.budget.FB.totals.cumulative_budget || newValue.basic.total_income !== oldValue.basic.total_income || newValue.basic.total_expense !== oldValue.basic.total_expense) {
-		// 			//get rid of the commas and convert to integers
-		// 			var $new_RB = parseInt(newValue.budget.RB.replace(',', ''), 10);
-		// 			var $old_RB = parseInt(oldValue.budget.RB.replace(',', ''), 10);
-		// 			if ($new_RB > $old_RB) {
-		// 				//$RB has increased due to a user action
-		// 				//Figure out how much it has increased by.
-		// 				var $diff = $new_RB - $old_RB;
-		// 				//This value will change. Just for developing purposes.
-		// 				var $percent = 10;
-		// 				var $amount_to_add = $diff / 100 * $percent;
-		// 				$scope.addPercentageToSavingsAutomatically($amount_to_add);
-		// 			}
-		// 		}
-		// 	}
-		// });
 
 		$scope.$watchCollection('filter.accounts', function (newValue, oldValue) {
 			if (newValue === oldValue) {
