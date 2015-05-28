@@ -4,7 +4,6 @@
 	> * {
 		flex: 1;
 	}
-
 	position: fixed;
 	align-items: stretch;
 	top: 0;
@@ -12,16 +11,7 @@
 	height: 40px;
 	background: white;
 	z-index: 9;
-	// :nth-child(even) {
-	// 	background: $lightblue1;
-	// }
-	// :nth-child(odd) {
-	// 	background: $lightblue2;
-	// }
 	li {
-		// text-align: center;
-		// padding: 12px 0;
-		// height: 34px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -34,9 +24,6 @@
 			top: 35px;
 			width: 100%;
 			background: white;
-			// &:hover {
-			// 	visibility: visible;
-			// }
 		}
 		&:hover > ul {
 			visibility: visible;
@@ -46,8 +33,6 @@
 
 @media all and (max-width: 500px) {
 	#nav {
-		// display: none;
-		// flex-direction: column;
 		.fa {
 			font-size: 14px;
 		}

@@ -1,31 +1,16 @@
 
+@import 'home/index';
+@import 'settings/index';
+@import 'budgets/index';
+@import 'charts/index';
+
 @import 'extends';
-
-@import 'img';
-
-@import 'forms';
-
-@import 'buttons';
-
-@import 'navbar';
 
 @import 'nav';
 
-@import 'icons';
-
 @import 'tags';
 
-@import 'budget';
-
-@import 'filter';
-
-@import 'chart';
-
-@import 'settings';
-
 @import 'modals';
-
-@import 'transactions';
 
 @import 'messages';
 
@@ -33,14 +18,8 @@
 
 @import 'popup';
 
-@import 'allocation-popup';
-
 @import 'checkboxes';
 
 @import 'toolbar';
 
-@import 'new-transaction';
-
 @import 'helper-classes';
-
-@import 'css-practice';

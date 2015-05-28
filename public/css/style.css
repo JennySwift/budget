@@ -91,88 +91,55 @@ ul {
   margin: 0;
   padding: 0; }
 
-.container {
-  width: 100%; }
-
-#nav {
-  display: flex;
-  flex-wrap: wrap;
-  position: fixed;
-  align-items: stretch;
-  top: 0;
-  width: 100%;
-  height: 40px;
-  background: white;
-  z-index: 9; }
-  #nav > * {
-    flex: 1; }
-  #nav li {
+#allocation-popup {
+  max-width: 500px; }
+  #allocation-popup #allocation-table-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer; }
-    #nav li ul {
-      visibility: hidden;
-      position: absolute;
-      left: 0;
-      top: 35px;
-      width: 100%;
-      background: white; }
-    #nav li:hover > ul {
-      visibility: visible; }
+    justify-content: center; }
+    #allocation-popup #allocation-table-container td, #allocation-popup #allocation-table-container th {
+      padding: 0;
+      overflow: scroll;
+      font-size: 9px; }
+      @media (min-width: 400px) {
+        #allocation-popup #allocation-table-container td, #allocation-popup #allocation-table-container th {
+          padding: 5px 5px;
+          font-size: 12px; } }
+    #allocation-popup #allocation-table-container select {
+      font-size: 9px; }
+    #allocation-popup #allocation-table-container td {
+      height: 20px; }
+      #allocation-popup #allocation-table-container td * {
+        height: 20px;
+        overflow: scroll; }
+      #allocation-popup #allocation-table-container td div {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-right: 5px;
+        text-align: right;
+        position: relative; }
+        #allocation-popup #allocation-table-container td div.editable {
+          justify-content: space-between; }
+        #allocation-popup #allocation-table-container td div .edit {
+          width: 10px;
+          font-size: 5px; }
+      #allocation-popup #allocation-table-container td input {
+        width: 50px;
+        padding: 0;
+        border: none; }
+    #allocation-popup #allocation-table-container .totals {
+      background: #777;
+      color: white;
+      font-weight: bold; }
+  #allocation-popup p {
+    font-size: 11px; }
+    @media (min-width: 400px) {
+      #allocation-popup p {
+        font-size: 12px; } }
+  #allocation-popup .center-contents {
+    display: flex;
+    justify-content: center; }
 
-@media all and (max-width: 500px) {
-  #nav .fa {
-    font-size: 14px; } }
-.tag-location-container {
-  height: 23px; }
-  .tag-location-container .tag-location {
-    padding: 0; }
-
-.tag-location li {
-  cursor: pointer; }
-
-.tag_div {
-  position: fixed;
-  background: white; }
-
-.tags {
-  display: block;
-  height: 19px;
-  border-bottom: .5px inset black;
-  border-top: .5px inset black; }
-  .tags li {
-    display: inline;
-    background: lightgray;
-    margin-right: 5px;
-    padding: 0px 5px;
-    border-radius: 8px; }
-
-#budget {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 30px; }
-  #budget tr {
-    background: #fff; }
-  #budget th {
-    cursor: help; }
-  #budget td {
-    text-align: right; }
-  #budget input, #budget select {
-    width: 100%; }
-  #budget .CSD {
-    width: 140px; }
-  #budget .totals {
-    background: #777;
-    color: white;
-    font-weight: bold; }
-  #budget .edit {
-    width: 20px;
-    font-size: 6px; }
-
-/*==============================budget==============================*/
 #filter {
   position: fixed;
   top: 41px;
@@ -193,27 +160,91 @@ ul {
   #filter > * {
     margin: 8px; }
 
-/*==============================bar chart==============================*/
-.bar_chart_div {
+.flex {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
-  position: absolute;
-  height: 370px;
-  width: 100%;
-  bottom: 0;
-  border-radius: 5px; }
-  .bar_chart_div .bar_chart_li {
-    position: relative;
-    background: lightgray;
-    height: 50%;
-    width: 10px;
-    text-align: center; }
-    .bar_chart_div .bar_chart_li p {
-      position: absolute;
-      width: 5px;
-      bottom: 0; }
+  flex-wrap: wrap;
+  margin: 15px 15px; }
+  .flex > * {
+    margin: 15px 15px; }
 
+.tag-wrapper {
+  width: 100%; }
+  .tag-wrapper .tag-input-wrapper input {
+    width: 100%; }
+  .tag-wrapper .tag-display {
+    height: 34px; }
+    .tag-wrapper .tag-display .removable-tag {
+      cursor: pointer;
+      transition: all, .3s, ease;
+      position: relative; }
+      .tag-wrapper .tag-display .removable-tag:hover {
+        padding: .4em 1.6em .4em; }
+        .tag-wrapper .tag-display .removable-tag:hover .fa-times {
+          display: inline; }
+      .tag-wrapper .tag-display .removable-tag .fa-times {
+        font-size: 10px;
+        position: relative;
+        left: 8px;
+        display: none; }
+  .tag-wrapper .tag-dropdown {
+    max-height: 200px;
+    overflow: scroll; }
+
+#new-transaction-container {
+  display: flex;
+  justify-content: center; }
+
+#new-transaction, #edit-transaction {
+  width: 300px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column; }
+  #new-transaction input, #edit-transaction input {
+    margin-bottom: 4px;
+    flex-grow: 1; }
+  #new-transaction .autocomplete-container, #edit-transaction .autocomplete-container {
+    position: relative; }
+    #new-transaction .autocomplete-container > input, #edit-transaction .autocomplete-container > input {
+      width: 100%; }
+    #new-transaction .autocomplete-container #autocomplete-transactions, #edit-transaction .autocomplete-container #autocomplete-transactions {
+      max-height: 200px;
+      overflow: scroll;
+      z-index: 9;
+      background: white; }
+      #new-transaction .autocomplete-container #autocomplete-transactions td, #new-transaction .autocomplete-container #autocomplete-transactions th, #edit-transaction .autocomplete-container #autocomplete-transactions td, #edit-transaction .autocomplete-container #autocomplete-transactions th {
+        max-width: 57px;
+        font-size: 9px;
+        padding: 0;
+        overflow: scroll; }
+  #new-transaction .btn-wrapper, #edit-transaction .btn-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between; }
+
+#edit-transaction {
+  padding: 22px; }
+
+#transactions {
+  background: white; }
+  #transactions td {
+    height: 39px; }
+    #transactions td div {
+      overflow: scroll;
+      height: 100%; }
+  #transactions .tag-location-container {
+    height: 24px; }
+    #transactions .tag-location-container td {
+      padding: 0;
+      height: 24px; }
+
+@media all and (max-width: 575px) {
+  #transactions td, #transactions th {
+    max-width: 57px;
+    font-size: 9px;
+    padding: 0;
+    overflow: scroll; }
+    #transactions td .fa, #transactions th .fa {
+      font-size: 9px; } }
 div.account #display_accounts {
   background: #f8f8f8;
   height: 74%;
@@ -291,6 +322,106 @@ div.account #display_accounts {
     #setup_container #display-tags-list-group li:nth-child(1) input, #setup_container #display-accounts-list-group li:nth-child(1) input {
       text-align: center; }
 
+#budget {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 30px; }
+  #budget tr {
+    background: #fff; }
+  #budget th {
+    cursor: help; }
+  #budget td {
+    text-align: right; }
+  #budget input, #budget select {
+    width: 100%; }
+  #budget .CSD {
+    width: 140px; }
+  #budget .totals {
+    background: #777;
+    color: white;
+    font-weight: bold; }
+  #budget .edit {
+    width: 20px;
+    font-size: 6px; }
+
+/*==============================budget==============================*/
+/*==============================bar chart==============================*/
+.bar_chart_div {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  position: absolute;
+  height: 370px;
+  width: 100%;
+  bottom: 0;
+  border-radius: 5px; }
+  .bar_chart_div .bar_chart_li {
+    position: relative;
+    background: lightgray;
+    height: 50%;
+    width: 10px;
+    text-align: center; }
+    .bar_chart_div .bar_chart_li p {
+      position: absolute;
+      width: 5px;
+      bottom: 0; }
+
+#nav {
+  display: flex;
+  flex-wrap: wrap;
+  position: fixed;
+  align-items: stretch;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  background: white;
+  z-index: 9; }
+  #nav > * {
+    flex: 1; }
+  #nav li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer; }
+    #nav li ul {
+      visibility: hidden;
+      position: absolute;
+      left: 0;
+      top: 35px;
+      width: 100%;
+      background: white; }
+    #nav li:hover > ul {
+      visibility: visible; }
+
+@media all and (max-width: 500px) {
+  #nav .fa {
+    font-size: 14px; } }
+.tag-location-container {
+  height: 23px; }
+  .tag-location-container .tag-location {
+    padding: 0; }
+
+.tag-location li {
+  cursor: pointer; }
+
+.tag_div {
+  position: fixed;
+  background: white; }
+
+.tags {
+  display: block;
+  height: 19px;
+  border-bottom: .5px inset black;
+  border-top: .5px inset black; }
+  .tags li {
+    display: inline;
+    background: lightgray;
+    margin-right: 5px;
+    padding: 0px 5px;
+    border-radius: 8px; }
+
 .modal input {
   border: 1px solid grey !important;
   margin-bottom: 14px; }
@@ -314,27 +445,6 @@ div.account #display_accounts {
 #credits-modal {
   width: 300px; }
 
-#transactions {
-  background: white; }
-  #transactions td {
-    height: 39px; }
-    #transactions td div {
-      overflow: scroll;
-      height: 100%; }
-  #transactions .tag-location-container {
-    height: 24px; }
-    #transactions .tag-location-container td {
-      padding: 0;
-      height: 24px; }
-
-@media all and (max-width: 575px) {
-  #transactions td, #transactions th {
-    max-width: 57px;
-    font-size: 9px;
-    padding: 0;
-    overflow: scroll; }
-    #transactions td .fa, #transactions th .fa {
-      font-size: 9px; } }
 .error_message {
   font-size: 17px;
   position: fixed;
@@ -401,55 +511,6 @@ div.account #display_accounts {
 @media all and (min-width: 680px) {
   .popup-inner {
     padding: 22px; } }
-#allocation-popup {
-  max-width: 500px; }
-  #allocation-popup #allocation-table-container {
-    display: flex;
-    justify-content: center; }
-    #allocation-popup #allocation-table-container td, #allocation-popup #allocation-table-container th {
-      padding: 0;
-      overflow: scroll;
-      font-size: 9px; }
-      @media (min-width: 400px) {
-        #allocation-popup #allocation-table-container td, #allocation-popup #allocation-table-container th {
-          padding: 5px 5px;
-          font-size: 12px; } }
-    #allocation-popup #allocation-table-container select {
-      font-size: 9px; }
-    #allocation-popup #allocation-table-container td {
-      height: 20px; }
-      #allocation-popup #allocation-table-container td * {
-        height: 20px;
-        overflow: scroll; }
-      #allocation-popup #allocation-table-container td div {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        margin-right: 5px;
-        text-align: right;
-        position: relative; }
-        #allocation-popup #allocation-table-container td div.editable {
-          justify-content: space-between; }
-        #allocation-popup #allocation-table-container td div .edit {
-          width: 10px;
-          font-size: 5px; }
-      #allocation-popup #allocation-table-container td input {
-        width: 50px;
-        padding: 0;
-        border: none; }
-    #allocation-popup #allocation-table-container .totals {
-      background: #777;
-      color: white;
-      font-weight: bold; }
-  #allocation-popup p {
-    font-size: 11px; }
-    @media (min-width: 400px) {
-      #allocation-popup p {
-        font-size: 12px; } }
-  #allocation-popup .center-contents {
-    display: flex;
-    justify-content: center; }
-
 .checkbox-wrapper {
   display: flex;
   align-items: center; }
@@ -523,63 +584,6 @@ div.account #display_accounts {
     margin: 0 5px 0 3px; }
   #toolbar select {
     width: auto; }
-
-.tag-wrapper {
-  width: 100%; }
-  .tag-wrapper .tag-input-wrapper input {
-    width: 100%; }
-  .tag-wrapper .tag-display {
-    height: 34px; }
-    .tag-wrapper .tag-display .removable-tag {
-      cursor: pointer;
-      transition: all, .3s, ease;
-      position: relative; }
-      .tag-wrapper .tag-display .removable-tag:hover {
-        padding: .4em 1.6em .4em; }
-        .tag-wrapper .tag-display .removable-tag:hover .fa-times {
-          display: inline; }
-      .tag-wrapper .tag-display .removable-tag .fa-times {
-        font-size: 10px;
-        position: relative;
-        left: 8px;
-        display: none; }
-  .tag-wrapper .tag-dropdown {
-    max-height: 200px;
-    overflow: scroll; }
-
-#new-transaction-container {
-  display: flex;
-  justify-content: center; }
-
-#new-transaction, #edit-transaction {
-  width: 300px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column; }
-  #new-transaction input, #edit-transaction input {
-    margin-bottom: 4px;
-    flex-grow: 1; }
-  #new-transaction .autocomplete-container, #edit-transaction .autocomplete-container {
-    position: relative; }
-    #new-transaction .autocomplete-container > input, #edit-transaction .autocomplete-container > input {
-      width: 100%; }
-    #new-transaction .autocomplete-container #autocomplete-transactions, #edit-transaction .autocomplete-container #autocomplete-transactions {
-      max-height: 200px;
-      overflow: scroll;
-      z-index: 9;
-      background: white; }
-      #new-transaction .autocomplete-container #autocomplete-transactions td, #new-transaction .autocomplete-container #autocomplete-transactions th, #edit-transaction .autocomplete-container #autocomplete-transactions td, #edit-transaction .autocomplete-container #autocomplete-transactions th {
-        max-width: 57px;
-        font-size: 9px;
-        padding: 0;
-        overflow: scroll; }
-  #new-transaction .btn-wrapper, #edit-transaction .btn-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: space-between; }
-
-#edit-transaction {
-  padding: 22px; }
 
 .pointer {
   cursor: pointer; }
@@ -691,40 +695,6 @@ div.account #display_accounts {
   .my-btn-group button {
     display: block;
     width: 100%; }
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 15px 15px; }
-  .row > * {
-    margin: 15px 15px; }
-
-.col-sm-2 {
-  flex-basis: 182px; }
-
-.flex-parent {
-  display: flex;
-  display: -webkit-flex; }
-
-.flex-grow-1 {
-  flex-grow: 1;
-  -webkit-flex-grow: 1; }
-
-.flex-grow-2 {
-  flex-grow: 2;
-  -webkit-flex-grow: 2; }
-
-.flex-basis-xs {
-  flex-basis: 20px;
-  -webkit-flex-basis: 20px; }
-
-.flex-basis-sm {
-  flex-basis: 40px;
-  -webkit-flex-basis: 40px; }
-
-.flex-basis-md {
-  flex-basis: 80px;
-  -webkit-flex-basis: 80px; }
 
 .bg-dark {
   background: #e0eef3; }
