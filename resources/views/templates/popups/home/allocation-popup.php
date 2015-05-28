@@ -18,7 +18,7 @@
                     
                     <td>
                         <div>
-                            <span>{{tag.name}}</span>
+                            <span ng-class="{'tag-with-fixed-budget': tag.fixed_budget !== null, 'tag-with-flex-budget': tag.flex_budget !== null}" class="label label-default">{{tag.name}}</span>
                         </div>
                     </td>
 
