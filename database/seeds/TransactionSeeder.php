@@ -68,10 +68,15 @@ class TransactionSeeder extends Seeder {
 
 			else {
 				$account_id = $faker->randomElement($account_ids);
+				$type = $faker->randomElement(['income', 'expense']);
+
+				if ($type === 'expense') {
+					$total = $total * -1;
+				}
 
 				Transaction::create([
 					'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
-					'type' => $faker->randomElement(['income', 'expense']),
+					'type' => $type,
 					'description' => $faker->word(),
 					'merchant' => $faker->name(),
 					'total' => $total,
