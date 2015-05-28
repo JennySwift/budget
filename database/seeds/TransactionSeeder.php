@@ -25,6 +25,7 @@ class TransactionSeeder extends Seeder {
 		
 		foreach (range(1, 10) as $index) {
 			$is_transfer = $faker->boolean($chanceOfGettingTrue = 20);
+			$total = $faker->randomElement([5, 10, 15, 20]);
 
 			if ($is_transfer) {
 				$from_account_id = $faker->randomElement($account_ids);
@@ -37,7 +38,8 @@ class TransactionSeeder extends Seeder {
 				$date = $faker->date($format = 'Y-m-d', $max = 'now');
 				// $description = $faker->word();
 				$description = 'transfer';
-				$total = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200);
+				// $total = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200);
+				
 				$negative_total = $total * -1;
 				$reconciled = $faker->numberBetween($min = 0, $max = 1);
 
@@ -72,7 +74,7 @@ class TransactionSeeder extends Seeder {
 					'type' => $faker->randomElement(['income', 'expense']),
 					'description' => $faker->word(),
 					'merchant' => $faker->name(),
-					'total' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200),
+					'total' => $total,
 					'account_id' => $account_id,
 					'reconciled' => $faker->numberBetween($min = 0, $max = 1),
 					'allocated' => 0,

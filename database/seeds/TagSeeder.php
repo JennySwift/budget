@@ -30,13 +30,12 @@ class TagSeeder extends Seeder {
 			if ($has_budget) {
 				//Tag should be given a budget. Decide what type of budget it should have
 				$budget_type = $faker->randomElement(['fixed_budget', 'flex_budget']);
+				$budget = $faker->randomElement([10, 20, 50, 100]);
 
 				if ($budget_type === 'fixed_budget') {
-					$budget = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200);
 					$budget_id = 1;
 				}
 				elseif ($budget_type === 'flex_budget') {
-					$budget = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100);
 					$budget_id = 2;
 				}
 

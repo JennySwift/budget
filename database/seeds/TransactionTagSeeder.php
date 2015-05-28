@@ -82,23 +82,29 @@ class TransactionTagSeeder extends Seeder {
 							
 							if ($fixed_budget || $flex_budget) {
 								$allocated_type = $faker->randomElement(['allocated_fixed', 'allocated_percent']);
+
 								if ($allocated_type === 'allocated_fixed') {
 									$transaction_total = DB::table('transactions')->where('id', $transaction_id)->pluck('total');
-
-									$allocation = $faker->randomFloat(2, 0, $transaction_total);
+									$allocation = $faker->numberBetween(1, $transaction_total);
+									$calculated_allocation = $allocation;
 								}
 								elseif ($allocated_type === 'allocated_percent') {
-									$allocation = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100);
+									$allocation = $faker->randomElement([10, 50, 100]);
+									$transaction = Transaction::find($transaction_id);
+									$total = $transaction->total;
+									$calculated_allocation = $total / 100 * $allocation;
+									// var_dump('transaction_id: ' . $transaction_id . '. total: ' . $total . '. allocation: ' . $allocation . '. calculated_allocation: ' . $calculated_allocation);
 								}
 
 								$row = Transaction_Tag::where('transaction_id', $transaction_id)->where('tag_id', $tag_id)->first();
+								
 								if ($allocated_type === 'allocated_fixed') {
 									$row->allocated_fixed = $allocation;
 								}
 								else {
 									$row->allocated_percent = $allocation;
 								}
-								$row->calculated_allocation = 10;
+								$row->calculated_allocation = $calculated_allocation;
 								$row->save();
 								
 							}
