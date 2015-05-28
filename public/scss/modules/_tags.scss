@@ -1,3 +1,23 @@
+.tag-with-budget {
+	background: green;
+}
+
+.tag-with-fixed-budget {
+	background: #3938b0;
+	&:after {
+		content: ' fixed';
+		font-size: 6px;
+	}
+}
+
+.tag-with-flex-budget {
+	background: #9a9a1e;
+	&:after {
+		content: ' flex';
+		font-size: 6px;
+	}
+}
+
 .tag-location-container {
 	height: $results_tag_location_container_height;
 	.tag-location {

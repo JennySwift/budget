@@ -398,6 +398,21 @@ div.account #display_accounts {
 @media all and (max-width: 500px) {
   #nav .fa {
     font-size: 14px; } }
+.tag-with-budget {
+  background: green; }
+
+.tag-with-fixed-budget {
+  background: #3938b0; }
+  .tag-with-fixed-budget:after {
+    content: ' fixed';
+    font-size: 6px; }
+
+.tag-with-flex-budget {
+  background: #9a9a1e; }
+  .tag-with-flex-budget:after {
+    content: ' flex';
+    font-size: 6px; }
+
 .tag-location-container {
   height: 23px; }
   .tag-location-container .tag-location {
@@ -727,15 +742,6 @@ div.account #display_accounts {
 
 .select, #description_autocomplete tbody.select {
   background: #6d84b4; }
-
-.tag-with-budget {
-  background: green; }
-
-.tag-with-fixed-budget {
-  background: #3938b0; }
-
-.tag-with-flex-budget {
-  background: #9a9a1e; }
 
 .allocated {
   background: green; }
