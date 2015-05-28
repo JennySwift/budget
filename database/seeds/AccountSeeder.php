@@ -20,22 +20,28 @@ class AccountSeeder extends Seeder {
 		 * Objective:
 		 */
 		
+		$this->insertAccounts(1);
+		$this->insertAccounts(2);
+
+		DB::statement('SET FOREIGN_KEY_CHECKS=1');
+	}
+
+	private function insertAccounts($user_id)
+	{
 		Account::create([
 			'name' => 'Bankwest',
-			'user_id' => 1
+			'user_id' => $user_id
 		]);
 
 		Account::create([
 			'name' => 'nab',
-			'user_id' => 1
+			'user_id' => $user_id
 		]);
 		
 		Account::create([
 			'name' => 'Cash',
-			'user_id' => 1
+			'user_id' => $user_id
 		]);
-
-		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 }

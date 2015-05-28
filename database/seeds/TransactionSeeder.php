@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Faker\Factory as Faker;
+use Carbon\Carbon;
 
 use App\Models\Transaction;
 use App\Models\Account;
@@ -15,11 +16,36 @@ class TransactionSeeder extends Seeder {
 
 		Transaction::truncate();
 		
-		$faker = Faker::create();
+		
 
 		/**
 		 * Objective:
 		 */
+		
+		$this->insertUserOneTransactions();
+		$this->insertUserTwoTransactions();
+
+		DB::statement('SET FOREIGN_KEY_CHECKS=1');
+	}
+
+	private function insertUserTwoTransactions()
+	{
+		Transaction::create([
+			'date' => Carbon::today()->format('Y-m-d'),
+			'type' => 'income',
+			'description' => '',
+			'merchant' => '',
+			'total' => 1000,
+			'account_id' => 1,
+			'reconciled' => 0,
+			'allocated' => 0,
+			'user_id' => 2
+		]);
+	}
+
+	private function insertUserOneTransactions()
+	{
+		$faker = Faker::create();
 		
 		$account_ids = Account::where('user_id', 1)->lists('id');
 		
@@ -88,8 +114,6 @@ class TransactionSeeder extends Seeder {
 			}
 			
 		}
-
-		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 }
