@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
+use Debugbar;
 
 class Savings extends Model {
 

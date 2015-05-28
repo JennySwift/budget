@@ -517,22 +517,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 					$scope.insertTransaction(13);
 					return;
 				}
-				if ($location_for_tags === $scope.new_fixed_budget.tag) {
-					//We are just autocompleting the budget tag input, not adding a tag anywhere
-					if (!$typing) {
-						return;
-					}
-					$scope.autocompleteFixedBudget();
-					return;
-				}
-				else if ($location_for_tags === $scope.new_flex_budget.tag) {
-					//We are just autocompleting the budget tag input, not adding a tag anywhere
-					if (!$typing) {
-						return;
-					}
-					$scope.autocompleteFlexBudget();
-					return;
-				}
 				//We are adding a tag
 				$scope.addTagToTransaction($location_for_tags);
 

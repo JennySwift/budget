@@ -4,7 +4,7 @@ var app = angular.module('budgetApp');
 
 	// ===========================display controller===========================
 
-	app.controller('budgets', function ($scope, $http, budgets, totals, autocomplete, settings) {
+	app.controller('budgets', function ($scope, $http, budgets, totals, autocomplete, settings, savings) {
 
 		/**
 		 * scope properties
