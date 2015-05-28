@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 use App\Models\Transaction;
 use App\Models\Account;
+use App\Models\Tag;
 
 class TransactionSeeder extends Seeder {
 
@@ -30,6 +31,8 @@ class TransactionSeeder extends Seeder {
 
 	private function insertUserTwoTransactions()
 	{
+		$total = -10;
+
 		Transaction::create([
 			'date' => Carbon::today()->format('Y-m-d'),
 			'type' => 'income',
@@ -41,6 +44,67 @@ class TransactionSeeder extends Seeder {
 			'allocated' => 0,
 			'user_id' => 2
 		]);
+
+		Transaction::create([
+			'date' => Carbon::today()->format('Y-m-d'),
+			'type' => 'expense',
+			'description' => '',
+			'merchant' => '',
+			'total' => $total,
+			'account_id' => 1,
+			'reconciled' => 0,
+			'allocated' => 0,
+			'user_id' => 2
+		]);
+
+		//Insert transactions with fixed budget
+
+		$id = Transaction::insertGetId([
+			'date' => '2014-01-01',
+			'type' => 'expense',
+			'description' => 'fixed before CSD',
+			'merchant' => '',
+			'total' => $total,
+			'account_id' => 1,
+			'reconciled' => 0,
+			'allocated' => 0,
+			'user_id' => 2
+		]);
+
+		$transaction = Transaction::find($id);
+		$transaction->tags()->attach(8, ['user_id' => 2, 'calculated_allocation' => $total]);
+
+		$id = Transaction::insertGetId([
+			'date' => Carbon::today()->format('Y-m-d'),
+			'type' => 'expense',
+			'description' => 'fixed after CSD',
+			'merchant' => '',
+			'total' => $total,
+			'account_id' => 1,
+			'reconciled' => 0,
+			'allocated' => 0,
+			'user_id' => 2
+		]);
+
+		$transaction = Transaction::find($id);
+		$transaction->tags()->attach(8, ['user_id' => 2, 'calculated_allocation' => $total]);
+
+		//Insert transactions with flex budget
+
+		$id = Transaction::insertGetId([
+			'date' => '2014-01-01',
+			'type' => 'expense',
+			'description' => 'flex budget',
+			'merchant' => '',
+			'total' => $total,
+			'account_id' => 1,
+			'reconciled' => 0,
+			'allocated' => 0,
+			'user_id' => 2
+		]);
+
+		$transaction = Transaction::find($id);
+		$transaction->tags()->attach(11, ['user_id' => 2, 'calculated_allocation' => $total]);
 	}
 
 	private function insertUserOneTransactions()

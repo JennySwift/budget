@@ -22,11 +22,11 @@ class DatabaseSeeder extends Seeder {
 
 		$this->call('AccountSeeder');
 
-		$this->call('TransactionSeeder');
-
 		$this->call('TagSeeder');
 
 		$this->call('TransactionTagSeeder');
+
+		$this->call('TransactionSeeder');
 	}
 
 }

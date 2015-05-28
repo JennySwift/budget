@@ -15,8 +15,14 @@ class TransactionTagSeeder extends Seeder {
 		Transaction_Tag::truncate();
 		
 		$faker = Faker::create();
+
+		// DB::table('transactions_tags')->insert([
+		// 	'transaction_id' => 14,
+		// 	'tag_id' => 8,
+		// 	'user_id' => 2
+		// ]);
 		
-		$transaction_ids = Transaction::where('type', '!=', 'transfer')->lists('id');
+		$transaction_ids = Transaction::where('user_id', 1)->where('type', '!=', 'transfer')->lists('id');
 		$tag_ids = Tag::lists('id');
 
 		/**

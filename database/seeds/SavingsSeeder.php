@@ -24,6 +24,11 @@ class SavingsSeeder extends Seeder {
 			'amount' => 50,
 			'user_id' => 1
 		]);
+
+		Savings::create([
+			'amount' => 50,
+			'user_id' => 2
+		]);
 	}
 
 }
