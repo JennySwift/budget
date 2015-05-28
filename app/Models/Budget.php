@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
 use Carbon\Carbon;
+use Debugbar;
 
 class Budget extends Model {
 
@@ -27,19 +28,19 @@ class Budget extends Model {
 	 * @param  [type] $starting_date [description]
 	 * @return [type]                [description]
 	 */
-	public static function getCMN($starting_date)
+	public static function getCMN($CSD)
 	{
 		// CMN is cumulative month number
-		$starting_date = Carbon::createFromFormat('Y-m-d', $starting_date);
-		// $php_starting_date = new DateTime($starting_date);
+		$CSD = Carbon::createFromFormat('Y-m-d', $CSD);
 		$now = Carbon::now();
-		// $now = new DateTime('now');
 
-		$diff = $now->diff($starting_date);
+		$diff = $now->diff($CSD);
+		// dd($diff);
 
 		$CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
 
 		return $CMN;
+		// return 3;
 	}
 
 	public static function hasMultipleBudgets($transaction_id)
@@ -127,7 +128,6 @@ class Budget extends Model {
 	
 	public static function updateBudget($tag_id, $budget, $column)
 	{
-		Debugbar::info('budget: ' . $budget . ' column: ' . $column);
 		//this either adds or deletes a budget, both using an update query.
 		if (!$budget || $budget === "NULL") {
 			$budget = NULL;
@@ -145,9 +145,6 @@ class Budget extends Model {
 		DB::table('tags')
 			->where('id', $tag_id)
 			->update([$column => $budget, 'budget_id' => $budget_id]);
-		// $queries = DB::getQueryLog();
-		// Log::info('budget: ' . $budget);
-		// Log::info('queries', $queries);
 	}
 
 	public static function updateAllocatedFixed($allocated_fixed, $transaction_id, $tag_id)

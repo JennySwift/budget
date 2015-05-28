@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use App\Models\Budget;
 use App\Models\Tag;
 use App\Models\Savings;
+use App\Models\Transaction;
 
 class TotalsController extends Controller {
 	
@@ -385,7 +386,14 @@ class TotalsController extends Controller {
 			}
 			
 			$CSD = $tag->starting_date;
-			$CMN = Budget::getCMN($CSD);
+
+			if ($CSD) {
+				$CMN = Budget::getCMN($CSD);
+			}
+			
+			else {
+				$CMN = 1;
+			}
 
 			if ($type === 'fixed') {
 				$cumulative_budget = $budget * $CMN;
@@ -410,8 +418,10 @@ class TotalsController extends Controller {
 			$total_received += $received;	
 			$total_spent_before_CSD += $spent_before_CSD;
 
-			$CSD = $this->convertDate($CSD, 'user');
-
+			if ($CSD) {
+				$CSD = Transaction::convertDate($CSD, 'user');
+			}
+			
 			$budget = number_format($budget, 2);
 			$spent_before_CSD = number_format($spent_before_CSD, 2);
 
@@ -451,24 +461,6 @@ class TotalsController extends Controller {
 		}
 
 		return $budget_info;
-	}
-
-	/**
-	 * Duplicate of convertDate in TransactionsController
-	 * @param  [type] $date [description]
-	 * @param  [type] $for  [description]
-	 * @return [type]       [description]
-	 */
-	public function convertDate($date, $for) {
-		$date = Carbon::createFromFormat('Y-m-d', $date);
-
-		if ($for === 'user') {
-			$date = $date->format('d/m/y');
-		}
-		elseif ($for === 'sql') {
-			$date = $date->format('Y-m-d');
-		}
-		return $date;
 	}
 
 	public function numberFormat($array)

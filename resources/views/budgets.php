@@ -18,7 +18,7 @@
     ?>
     
     <!-- if I used ng-if here, tooltipster didn't work. -->
-    <div id="budget" class="">
+    <div id="budget">
 
     
         <?php include($templates . '/totals.php'); ?>

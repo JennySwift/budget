@@ -24,6 +24,11 @@ Route::get('/settings', function()
     return view('settings');
 });
 
+// Route::get('/test', function()
+// {
+//     return view('test');
+// });
+
 
 
 /**

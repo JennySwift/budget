@@ -17,7 +17,6 @@
                     <i class="fa fa-pencil-square-o"></i>
                 </th>
                 <th>budgets</th>
-                <!-- <th>mass delete</th> -->
             </tr>
         </thead>
         <tbody ng-repeat="transaction in transactions" ng-style="{color: colors[transaction.type]}" id="{{transaction.id}}" class="add_to_search_total results-transaction-tbody {{transaction.type}}">
@@ -44,7 +43,6 @@
                 <td>
                     <button ng-if="transaction.multiple_budgets" ng-class="{'allocated': transaction.allocated, 'not-allocated': !transaction.allocated}" ng-click="showAllocationPopup(transaction)">allocate</button>
                 </td>
-                <!-- <td class="mass-delete-checkbox-container"></td> -->
             </tr>
     
             <tr ng-show="show.tags" class="results-tag-location-container tag-location-container">
@@ -59,16 +57,3 @@
         </tbody>
      </table>
 </div>
-
-
-<!-- if ($allocated_percent == null) {
-    $allocated_fixed = $amount;
-}
-
-//perhaps this should be outside the each function? It seems to work for the moment, but if I had to change it when using splice, above.
-if ($budget_counter > 1) {
-    $allocate = '<button class="allocate">allocate</button>';
-}
-if ($allocation == null) {
-    $allocation = "not-allocated";
-} -->

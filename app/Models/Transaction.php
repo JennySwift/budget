@@ -340,7 +340,7 @@ class Transaction extends Model {
 			]);
 
 		//delete all previous tags for the transaction and then add the current ones 
-		deleteAllTagsForTransaction($transaction_id);
+		static::deleteAllTagsForTransaction($transaction_id);
 
 		static::insertTags($transaction_id, $tags, $total);
 	}
@@ -374,19 +374,14 @@ class Transaction extends Model {
 	    return $variable;
 	}
 
-	/**
-	 * duplicate function from transactions controller
-	 * @param  [type] $variable [description]
-	 * @return [type]           [description]
-	 */
 	public static function convertDate($date, $for) {
-		$date = Carbon::createFromFormat('Y-m-d', $date);
-
 		if ($for === 'user') {
-			$date = $date->format('d/m/y');
+			$date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/y');
 		}
 		elseif ($for === 'sql') {
-			$date = $date->format('Y-m-d');
+			dd('elseif');
+			$date = Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d');
+
 		}
 		return $date;
 	}

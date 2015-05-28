@@ -38,26 +38,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			// }
 		];
 
-		/*=========budget=========*/
-
-		$scope.new_fixed_budget = {
-			tag: {
-				name: "",
-				id: ""
-			},
-			budget: "",
-			dropdown: false
-		};
-
-		$scope.new_flex_budget = {
-			tag: {
-				name: "",
-				id: ""
-			},
-			budget: "",
-			dropdown: false
-		};
-
 		/*=========transactions=========*/
 		$scope.transactions = [];
 		$scope.transactions_limited = []; //limited to 30 results
@@ -140,7 +120,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			edit_transaction: false,
 			edit_tag: false,
 			edit_CSD: false,
-			filter: true,
+			filter: false,
 			autocomplete: {
 				transactions: false
 			},
@@ -504,6 +484,14 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		 * filter
 		 */
 
+		 /**
+		  * Almost duplicate of filterTags in budgets controller
+		  * @param  {[type]} $keycode           [description]
+		  * @param  {[type]} $typing            [description]
+		  * @param  {[type]} $location_for_tags [description]
+		  * @param  {[type]} $scope_property    [description]
+		  * @return {[type]}                    [description]
+		  */
 		$scope.filterTags = function ($keycode, $typing, $location_for_tags, $scope_property) {
 			if ($keycode !== 38 && $keycode !== 40 && $keycode !== 13) {
 				//not up arrow, down arrow or enter, so filter tags
@@ -771,11 +759,18 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
-		// $scope.checkKeycode = function ($keycode, $func, $params) {
-		// 	if ($keycode === 13) {
-		// 		$func($params);
-		// 	}
-		// };
+		/**
+		 * Needed for filter
+		 * @param  {[type]} $keycode [description]
+		 * @param  {[type]} $func    [description]
+		 * @param  {[type]} $params  [description]
+		 * @return {[type]}          [description]
+		 */
+		$scope.checkKeycode = function ($keycode, $func, $params) {
+			if ($keycode === 13) {
+				$func($params);
+			}
+		};
 
 		$scope.clearFilterField = function ($field) {
 			if ($field === 'tags') {
@@ -873,6 +868,10 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		$scope.showSavingsTotalInput = function () {
 			$scope.show.savings_total.input = true;
 			$scope.show.savings_total.edit_btn = false;
+		};
+
+		$scope.toggleFilter = function () {
+			$scope.show.filter = !$scope.show.filter;
 		};
 
 
