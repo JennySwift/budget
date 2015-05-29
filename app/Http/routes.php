@@ -20,6 +20,7 @@ Route::get('/', 'HomeController@index');
 Route::get('/budgets', 'BudgetsController@index');
 Route::get('/tags', 'TagsController@index');
 Route::get('/accounts', 'AccountsController@index');
+Route::get('/charts', 'ChartsController@index');
 
 // Route::get('/settings', function()
 // {
@@ -146,3 +147,10 @@ Route::post('update/reverseAutomaticInsertIntoSavings', 'SavingsController@rever
 
 Route::post('totals/basic', 'TotalsController@getBasicTotals');
 Route::post('totals/budget', 'TotalsController@getBudgetTotals');
+
+/**
+ * preferences
+ */
+
+Route::post('insert/insertOrUpdateDateFormat', 'PreferencesController@insertOrUpdateDateFormat');
+

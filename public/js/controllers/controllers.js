@@ -2,7 +2,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 (function () {
 
-	app.controller('mainCtrl', function ($scope, $http, autocomplete, totals, budgets, savings, settings, transactions) {
+	app.controller('mainCtrl', function ($scope, $http, autocomplete, totals, budgets, savings, settings, transactions, preferences) {
 
 		/**
 		 * scope properties
@@ -20,6 +20,8 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			reconciled: false,
 			multiple_budgets: false
 		};
+
+		$scope.preferences = {};
 
 		$scope.totals = {};
 				
@@ -580,6 +582,15 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		/**
 		 * watches
 		 */
+		
+		$scope.$watch('preferences.date_format', function (newValue, oldValue) {
+			if (!newValue) {
+				return;
+			}
+			preferences.insertOrUpdateDateFormat(newValue).then(function (response) {
+				// $scope. = response.data;
+			});
+		});
 
 		$scope.$watchCollection('colors', function (newValue) {
 			$("#income-color-picker").val(newValue.income);

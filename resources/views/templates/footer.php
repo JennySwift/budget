@@ -32,6 +32,7 @@
 <script type="text/javascript" src="js/factories/settings.js"></script>
 <script type="text/javascript" src="js/factories/totals.js"></script>
 <script type="text/javascript" src="js/factories/transactions.js"></script>
+<script type="text/javascript" src="js/factories/preferences.js"></script>
 
 <!-- directives -->
 <script type="text/javascript" src="js/directives.js"></script>
