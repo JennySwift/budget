@@ -102,13 +102,6 @@ var app = angular.module('budgetApp');
 			});
 		};
 
-		$scope.updateColors = function () {
-			settings.updateColors($scope.colors).then(function (response) {
-				$scope.getColors();
-				$scope.show.color_picker = false;
-			});
-		};
-
 		/**
 		 * delete
 		 */

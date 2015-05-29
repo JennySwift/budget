@@ -18,11 +18,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
 Route::get('/budgets', 'BudgetsController@index');
+Route::get('/tags', 'TagsController@index');
+Route::get('/accounts', 'AccountsController@index');
 
-Route::get('/settings', function()
-{
-    return view('settings');
-});
+// Route::get('/settings', function()
+// {
+//     return view('settings');
+// });
 
 // Route::get('/test', function()
 // {

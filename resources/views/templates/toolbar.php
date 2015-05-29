@@ -17,5 +17,8 @@
     <span class="badge">{{filter.display_from}} to {{filter.display_to}} of {{totals.filter.num_transactions}}</span>
 
     <button ng-click="nextResults()" type="button" id="next-results-button" class="navigate-results-button btn btn-info navbar-btn">Next</button>
-    <button ng-click="resetFilter()" id="reset-search" class="btn btn-info navbar-btn">Reset Filter</button> 
+    <button ng-click="resetFilter()" id="reset-search" class="btn btn-info navbar-btn">Reset Filter</button>
+
+    <?php include($templates . '/actions-button.php'); ?>
+    
 </div>

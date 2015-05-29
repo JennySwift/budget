@@ -3,28 +3,34 @@
 
 <nav>
     <ul id="nav">
-        <li>
-            <a href="/settings" class="fa fa-cog"></a>
-        </li>
+
+        <!-- ==============================home============================== -->
 
         <li>
             <a href="/" class="fa fa-home"></a>
-        </li>
-
-        <li>
-            <a href="/charts" class="fa fa-bar-chart-o"></a>
         </li>
         
         <!-- ==============================dropdown============================== -->
         
         <li class="fa fa-bars">
-            <ul>
-                <li id="convert_date_button_2">Convert Date</li>
-                <li id="mass-delete-button">Mass Delete</li>
-                <li>Mass Edit</li>
+            <ul class="hover-parent">
+                <li>
+                    <a href="/tags">Tags</a>
+                </li>
+
+                <li>
+                    <a href="/accounts">Accounts</a>
+                </li>
+
                 <li ng-click="show.color_picker = true">Colours</li>
                 <li ng-click="show.credits = true">Credits</li>
             </ul>
+        </li>
+
+        <!-- ==============================chart============================== -->
+
+        <li>
+            <a href="/charts" class="fa fa-bar-chart-o"></a>
         </li>
 
         <!-- ===============================.navbar-right=============================== -->

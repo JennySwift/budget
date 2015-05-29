@@ -100,6 +100,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 
 		/*=========show=========*/
 		$scope.show = {
+			actions: false,
 			status: false,
 			date: true,
 			description: true,
@@ -159,7 +160,7 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			transactions.multiSearch($scope.filter, $reset).then(function (response) {
 				$scope.transactions = response.data.transactions;
 				$scope.totals.filter = response.data.filter_totals;
-				$scope.searchResults();
+
 
 				if ($new_transaction && $scope.new_transaction.multiple_budgets) {
 					//multiSearch has been called after entering a new transaction.
@@ -214,24 +215,6 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			$(this).closest(".input-group").children("input").val("");
 			$scope.multiSearch(true);
 		});
-
-		$scope.searchResults = function () {
-			// var $transactions_limited = [];
-			// $scope.counter = 0;
-			// $($scope.transactions).each(function () {
-			// 	$scope.counter++;
-			// 	if ($scope.counter >= $scope.display_from && $scope.counter <= $scope.display_to) {
-			// 		$transactions_limited.push(this);
-			// 	}
-			// });
-			// $scope.transactions_limited = $transactions_limited;
-			// $scope.getFilterTotals();
-			// $scope.updateAccountDropdownsHTML();
-			// $scope.getColors();
-			// if ($show_allocation_popup == true) {
-			// 	updateAllocationPopupHTML($allocation_popup_transaction_id);
-			// }
-		};
 
 		/**
 		 * insert
@@ -321,9 +304,17 @@ var app = angular.module('budgetApp', ['checklist-model']);
 		 * update
 		 */
 		
+		$scope.updateColors = function () {
+			settings.updateColors($scope.colors).then(function (response) {
+				$scope.getColors();
+				$scope.show.color_picker = false;
+			});
+		};
+		
 		$scope.updateReconciliation = function ($transaction_id, $reconciliation) {
 			transactions.updateReconciliation($transaction_id, $reconciliation).then(function (response) {
 				$scope.multiSearch();
+				$scope.getTotals();
 			});
 		};
 

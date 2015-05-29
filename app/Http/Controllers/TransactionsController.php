@@ -135,8 +135,6 @@ class TransactionsController extends Controller {
 	    $transactions = Transaction::where('transactions.user_id', $user_id);
 	    $totals = Transaction::where('transactions.user_id', $user_id);
 
-	    Debugbar::info('filter', $filter);
-
 	    foreach ($filter as $type => $value) {
 	        if ($value) {
 	            //================accounts================
@@ -254,95 +252,14 @@ class TransactionsController extends Controller {
 	        ->take($num_to_fetch)
 	        ->get();
 
-	    //========================get the totals======================== 
+	    //========================get the filter totals======================== 
 
-	    $income = 0;
-	    $expenses = 0;
-	    $total_reconciled = 0;
-
-	    foreach ($totals as $transaction) {
-	        $total = $transaction->total;
-	        $type = $transaction->type;
-	        $reconciled = $transaction->reconciled;
-	        if ($type === 'income') {
-	            $income+= $total;
-	        }
-	        elseif ($type === 'expense') {
-	            $expenses+= $total;
-	        }
-	        elseif ($type === 'transfer') {
-	            if ($total > 0) {
-	                $income+= $total;
-	            }
-	            elseif ($total < 0) {
-	                $expenses+= $total;
-	            }
-	        }
-	        if ($reconciled == 1) {
-	            $total_reconciled+= $total;
-	        }
-	    }
-
-	    $balance = $income + $expenses;
-
-	    $income = number_format($income, 2);
-	    $expenses = number_format($expenses, 2);
-	    $balance = number_format($balance, 2);
-	    $total_reconciled = number_format($total_reconciled, 2);
+	    $filter_totals = $this->getFilterTotals($totals);
+	    $filter_totals['num_transactions'] = $num_transactions;
 
 	    //========================get the transactions========================
 
-	    $transactions_array = array();
-
-	    foreach ($transactions as $transaction) {
-	        $transaction_id = $transaction->id;
-	        $date = $transaction->date;
-	        $user_date = $this->convertDate($date, 'user');
-	        $description = $transaction->description;
-	        $merchant = $transaction->merchant;
-	        $total = $transaction->total;
-	        $account_id = $transaction->account_id;
-	        $account_name = $transaction->account_name;
-	        $reconciled = $transaction->reconciled;
-	        $reconciled = $this->convertToBoolean($reconciled);
-	        $allocated = $transaction->allocated;
-	        $allocated = $this->convertToBoolean($allocated);
-	        $type = $transaction->type;
-	        $tags = Tag::getTags($transaction_id);
-	        $multiple_budgets = Budget::hasMultipleBudgets($transaction_id);
-
-	        $account = array(
-	            'id' => $account_id,
-	            'name' => $account_name
-	        );
-
-	        $date = array(
-	         "user" => $user_date
-	        );
-
-	        $transactions_array[] = array(
-	            'id' => $transaction_id,
-	            'date' => $date,
-	            'description' => $description,
-	            'merchant' => $merchant,
-	            'total' => $total,
-	            'account' => $account,   
-	            'reconciled' => $reconciled,
-	            'allocated' => $allocated,       
-	            'type' => $type,
-	            'tags' => $tags,
-	            'multiple_budgets' => $multiple_budgets
-	        );
-
-	    }
-
-	    $filter_totals = array(
-	        "num_transactions" => $num_transactions,
-	        "income" => $income,
-	        "expenses" => $expenses,
-	        "balance" => $balance,
-	        "reconciled" => $total_reconciled
-	    );
+	    $transactions_array = $this->getFilteredTransactions($transactions);
 
 	    $result = array(
 	        "transactions" => $transactions_array,
@@ -350,6 +267,94 @@ class TransactionsController extends Controller {
 	    );
 
 	    return $result;
+	}
+
+	private function getFilteredTransactions($transactions)
+	{
+		$transactions_array = array();
+
+		foreach ($transactions as $transaction) {
+		    $transaction_id = $transaction->id;
+		    $date = $transaction->date;
+		    $user_date = $this->convertDate($date, 'user');
+		    $description = $transaction->description;
+		    $merchant = $transaction->merchant;
+		    $total = $transaction->total;
+		    $account_id = $transaction->account_id;
+		    $account_name = $transaction->account_name;
+		    $reconciled = $transaction->reconciled;
+		    $reconciled = $this->convertToBoolean($reconciled);
+		    $allocated = $transaction->allocated;
+		    $allocated = $this->convertToBoolean($allocated);
+		    $type = $transaction->type;
+		    $tags = Tag::getTags($transaction_id);
+		    $multiple_budgets = Budget::hasMultipleBudgets($transaction_id);
+
+		    $account = array(
+		        'id' => $account_id,
+		        'name' => $account_name
+		    );
+
+		    $date = array(
+		     "user" => $user_date
+		    );
+
+		    $transactions_array[] = array(
+		        'id' => $transaction_id,
+		        'date' => $date,
+		        'description' => $description,
+		        'merchant' => $merchant,
+		        'total' => $total,
+		        'account' => $account,   
+		        'reconciled' => $reconciled,
+		        'allocated' => $allocated,       
+		        'type' => $type,
+		        'tags' => $tags,
+		        'multiple_budgets' => $multiple_budgets
+		    );
+
+		}
+
+		return $transactions_array;
+	}
+
+	private function getFilterTotals($totals)
+	{
+		$income = 0;
+		$expenses = 0;
+		$total_reconciled = 0;
+
+		foreach ($totals as $transaction) {
+		    $total = $transaction->total;
+		    $type = $transaction->type;
+		    $reconciled = $transaction->reconciled;
+		    if ($type === 'income') {
+		        $income+= $total;
+		    }
+		    elseif ($type === 'expense') {
+		        $expenses+= $total;
+		    }
+		    elseif ($type === 'transfer') {
+		        if ($total > 0) {
+		            $income+= $total;
+		        }
+		        elseif ($total < 0) {
+		            $expenses+= $total;
+		        }
+		    }
+		    if ($reconciled == 1) {
+		        $total_reconciled+= $total;
+		    }
+		}
+
+		$balance = $income + $expenses;
+
+		return [
+			'income' => number_format($income, 2),
+			'expenses' => number_format($expenses, 2),
+			'balance' => number_format($balance, 2),
+			'reconciled' => number_format($total_reconciled, 2)
+		];
 	}
 
 	/**
