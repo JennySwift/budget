@@ -1,8 +1,13 @@
 #nav {
 	display: flex;
 	flex-wrap: wrap;
+	color: #777;
 	> * {
 		flex: 1;
+	}
+	a {
+		color: #777;
+		text-decoration: none;
 	}
 	position: fixed;
 	align-items: stretch;
@@ -21,9 +26,13 @@
 			visibility: hidden;
 			position: absolute;
 			left:0;
-			top: 35px;
+			top: 41px;
 			width: 100%;
 			background: white;
+			font-size: 20px;
+			li {
+				padding: 5px 0;
+			}
 		}
 		&:hover > ul {
 			visibility: visible;

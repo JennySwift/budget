@@ -245,82 +245,13 @@ ul {
     overflow: scroll; }
     #transactions td .fa, #transactions th .fa {
       font-size: 9px; } }
-div.account #display_accounts {
-  background: #f8f8f8;
-  height: 74%;
-  left: 0;
-  right: 0;
-  border-radius: 5px;
-  overflow: scroll; }
-  div.account #display_accounts .nth_child_list {
-    padding: 14px 0;
-    font-size: 19px; }
-    div.account #display_accounts .nth_child_list:nth-child(even) {
-      background: #f2f8fa; }
-    div.account #display_accounts .nth_child_list:nth-child(odd) {
-      background: white; }
-  div.account #display_accounts .delete_tag, div.account #display_accounts .delete_account, div.account #display_accounts .edit_tag, div.account #display_accounts .edit_account {
-    position: absolute;
-    right: 0; }
-  div.account #display_accounts .edit_tag, div.account #display_accounts .edit_account {
-    right: 51px; }
-  div.account #display_accounts #display_tags_mini_div, div.account #display_accounts .display_accounts_mini_div {
-    position: relative; }
-
-#setup_container {
-  height: 100%; }
-  #setup_container .tags p {
-    position: relative;
-    left: 500px; }
-  #setup_container .tags #display_tags {
-    background: #f8f8f8;
-    height: 74%;
-    left: 0;
-    right: 0;
-    border-radius: 5px;
-    overflow: scroll; }
-    #setup_container .tags #display_tags .nth_child_list {
-      padding: 14px 0;
-      font-size: 19px; }
-      #setup_container .tags #display_tags .nth_child_list:nth-child(even) {
-        background: #f2f8fa; }
-      #setup_container .tags #display_tags .nth_child_list:nth-child(odd) {
-        background: white; }
-    #setup_container .tags #display_tags .delete_tag, #setup_container .tags #display_tags .delete_account, #setup_container .tags #display_tags .edit_tag, #setup_container .tags #display_tags .edit_account {
-      position: absolute;
-      right: 0; }
-    #setup_container .tags #display_tags .edit_tag, #setup_container .tags #display_tags .edit_account {
-      right: 51px; }
-    #setup_container .tags #display_tags #display_tags_mini_div, #setup_container .tags #display_tags .display_accounts_mini_div {
-      position: relative; }
-  #setup_container .tags, #setup_container .account {
-    position: relative; }
-    #setup_container .tags #add_budget_input, #setup_container .tags #add_perc_budget_input, #setup_container .tags #new-tag-input, #setup_container .tags #new_account_input, #setup_container .account #add_budget_input, #setup_container .account #add_perc_budget_input, #setup_container .account #new-tag-input, #setup_container .account #new_account_input {
-      left: 0;
-      right: 0; }
-  #setup_container #add_budget_input, #setup_container #add_perc_budget_input {
-    padding: 5px 0;
-    background: #f2f8fa; }
-  #setup_container #add_budget_input, #setup_container #add_perc_budget_input, #setup_container #new-tag-input, #setup_container #new_account_input, #setup_container label {
-    margin: 0px auto; }
-  #setup_container #display_tags, #setup_container #display_accounts, #setup_container .budget_info {
-    min-height: 100px; }
-  #setup_container #display_tags input, #setup_container #display_accounts input {
-    font-size: 20px;
-    text-align: left; }
-  #setup_container #display_tags .saved, #setup_container #display_accounts .saved {
-    display: none;
-    background: #ff6666;
-    height: 10px;
-    width: 10px;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0; }
-  #setup_container #display-tags-list-group li:nth-child(1), #setup_container #display-accounts-list-group li:nth-child(1) {
-    text-align: center; }
-    #setup_container #display-tags-list-group li:nth-child(1) input, #setup_container #display-accounts-list-group li:nth-child(1) input {
-      text-align: center; }
+#tags, #accounts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px; }
+  #tags > *, #accounts > * {
+    max-width: 500px; }
 
 #budget {
   display: flex;
@@ -370,6 +301,7 @@ div.account #display_accounts {
 #nav {
   display: flex;
   flex-wrap: wrap;
+  color: #777;
   position: fixed;
   align-items: stretch;
   top: 0;
@@ -379,6 +311,9 @@ div.account #display_accounts {
   z-index: 9; }
   #nav > * {
     flex: 1; }
+  #nav a {
+    color: #777;
+    text-decoration: none; }
   #nav li {
     display: flex;
     align-items: center;
@@ -389,9 +324,12 @@ div.account #display_accounts {
       visibility: hidden;
       position: absolute;
       left: 0;
-      top: 35px;
+      top: 41px;
       width: 100%;
-      background: white; }
+      background: white;
+      font-size: 20px; }
+      #nav li ul li {
+        padding: 5px 0; }
     #nav li:hover > ul {
       visibility: visible; }
 
@@ -603,11 +541,20 @@ div.account #display_accounts {
 .pointer {
   cursor: pointer; }
 
+.hover-parent > *:hover {
+  background: #b5b5b5; }
+
+.hover:hover {
+  background: #b5b5b5; }
+
 .bold {
   font-weight: bold; }
 
 .center {
   text-align: center; }
+
+.left {
+  text-align: left; }
 
 .margin-bottom {
   margin-bottom: 15px; }
@@ -694,7 +641,8 @@ div.account #display_accounts {
   .my-btn-dropdown ul {
     position: absolute;
     width: 124px;
-    text-align: right; }
+    text-align: right;
+    z-index: 9; }
 
 .my-row {
   height: 34px;

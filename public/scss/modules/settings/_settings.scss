@@ -1,52 +1,62 @@
-div.account {
-	#display_accounts {
-		@include display;
+#tags, #accounts {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 50px;
+	>* {
+		max-width: 500px;
 	}
 }
 
-#setup_container {
-	height: 100%;
-	.tags {
-		p {
-			position: relative;
-			left: 500px;
-		}
-		#display_tags {
-			@include display;
-		}
-	}
+// div.account {
+// 	#display_accounts {
+// 		@include display;
+// 	}
+// }
 
-	.tags, .account,{
-		position: relative;
-		#add_budget_input, #add_perc_budget_input, #new-tag-input, #new_account_input {
-			left: 0;
-			right:0;
-		}
-	}
-	#add_budget_input, #add_perc_budget_input {
-		padding: 5px 0;
-		background: $lightblue1;
-	}
-	#add_budget_input, #add_perc_budget_input, #new-tag-input, #new_account_input, label {
-		margin: 0px auto;
-	}
-	#display_tags, #display_accounts, .budget_info {
-		min-height: 100px;
-	}
-	#display_tags, #display_accounts {
-		input {
-			font-size: 20px;
-			text-align: left;
-		}
-		.saved {
-			@include saved;
-		}
-	}
+// #setup_container {
+// 	height: 100%;
+// 	.tags {
+// 		p {
+// 			position: relative;
+// 			left: 500px;
+// 		}
+// 		#display_tags {
+// 			@include display;
+// 		}
+// 	}
 
-	#display-tags-list-group li:nth-child(1), #display-accounts-list-group li:nth-child(1) {
-		text-align: center;
-		input {
-			text-align: center;
-		}
-	}
-}
+// 	.tags, .account,{
+// 		position: relative;
+// 		#add_budget_input, #add_perc_budget_input, #new-tag-input, #new_account_input {
+// 			left: 0;
+// 			right:0;
+// 		}
+// 	}
+// 	#add_budget_input, #add_perc_budget_input {
+// 		padding: 5px 0;
+// 		background: $lightblue1;
+// 	}
+// 	#add_budget_input, #add_perc_budget_input, #new-tag-input, #new_account_input, label {
+// 		margin: 0px auto;
+// 	}
+// 	#display_tags, #display_accounts, .budget_info {
+// 		min-height: 100px;
+// 	}
+// 	#display_tags, #display_accounts {
+// 		input {
+// 			font-size: 20px;
+// 			text-align: left;
+// 		}
+// 		.saved {
+// 			@include saved;
+// 		}
+// 	}
+
+// 	#display-tags-list-group li:nth-child(1), #display-accounts-list-group li:nth-child(1) {
+// 		text-align: center;
+// 		input {
+// 			text-align: center;
+// 		}
+// 	}
+// }

@@ -2,12 +2,26 @@
 	cursor: pointer;
 }
 
+.hover-parent {
+	> *:hover {
+		background: #b5b5b5;
+	}
+}
+
+.hover:hover {
+	background: #b5b5b5;
+}
+
 .bold {
 	font-weight: bold;
 }
 
 .center {
 	text-align: center;
+}
+
+.left {
+	text-align: left;
 }
 
 .margin-bottom {
@@ -130,6 +144,7 @@
 		position: absolute;
 		width: 124px;
 		text-align: right;
+		z-index: 9;
 	}
 }
 
