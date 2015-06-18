@@ -21,14 +21,15 @@ body {
 html, body {
   height: 100%; }
 
-body {
-  display: flex;
-  flex-direction: column; }
-  body .main {
-    flex-grow: 1; }
-  body footer {
-    padding: 11px;
-    background: rgba(119, 119, 119, 0.12); }
+body .main {
+  padding-bottom: 60px;
+  min-height: 100%; }
+body footer {
+  padding: 11px;
+  background: rgba(119, 119, 119, 0.12);
+  height: 60px;
+  position: relative;
+  margin-top: -60px; }
 
 button {
   background: #fff;
