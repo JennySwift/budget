@@ -6,4 +6,6 @@ public/scss/.sass-cache
 
 .DS_Store
 
+.idea
+
 storage/debugbar
