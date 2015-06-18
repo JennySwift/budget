@@ -45,7 +45,8 @@ class Registrar implements RegistrarContract {
 Validator::extend('accepted_email', function ($attribute, $value, $parameters) {
 	$accepted_emails = [
 		//enter emails here
-		'cheezyspaghetti@gmail.com'
+		'cheezyspaghetti@gmail.com',
+        'nihantanu@gmail.com'
 	];
 	$is_accepted = in_array($value, $accepted_emails);
 	return $is_accepted;
