@@ -173,7 +173,7 @@ class TransactionsController extends Controller {
 	            elseif ($type === "reconciled") {
 	                if ($value !== "any") {
 	                    $reconciled = $value;
-	                    $reconciled = convertFromBoolean($reconciled);
+	                    $reconciled = $this->convertFromBoolean($reconciled);
 	                    $transactions = $transactions->where('reconciled', $reconciled);
 	                    $totals = $totals->where('reconciled', $reconciled);
 	                }
