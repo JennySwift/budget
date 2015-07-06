@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Color;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -18,9 +19,18 @@ class ColorsController extends Controller
     public function getColors()
     {
         $user_id = Auth::user()->id;
-        $income = DB::table('colors')->where('item', 'income')->where('user_id', $user_id)->pluck('color');
-        $expense = DB::table('colors')->where('item', 'expense')->where('user_id', $user_id)->pluck('color');
-        $transfer = DB::table('colors')->where('item', 'transfer')->where('user_id', $user_id)->pluck('color');
+
+        $income = Color::where('item', 'income')
+            ->where('user_id', $user_id)
+            ->pluck('color');
+
+        $expense = Color::where('item', 'expense')
+            ->where('user_id', $user_id)
+            ->pluck('color');
+
+        $transfer = Color::where('item', 'transfer')
+            ->where('user_id', $user_id)
+            ->pluck('color');
 
         $colors = array(
             "income" => $income,
@@ -40,7 +50,11 @@ class ColorsController extends Controller
         $colors = $request->get('colors');
 
         foreach ($colors as $type => $color) {
-            DB::table('colors')->where('item', $type)->where('user_id', Auth::user()->id)->update(['color' => $color]);
+            Color::where('item', $type)
+                ->where('user_id', Auth::user()->id)
+                ->update([
+                    'color' => $color
+                ]);
         }
     }
 

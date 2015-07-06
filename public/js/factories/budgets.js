@@ -66,26 +66,6 @@ app.factory('budgets', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-
-		updateStartingDate: function () {
-			if (keypress.which === 13) {
-				var $tag_id = $(this).closest('.budget_info_ul').attr('data-tag-id');
-				var $starting_date = $(this).val();
-
-				$starting_date = Date.parse($starting_date);
-				$starting_date = $starting_date.toString('yyyy-MM-dd');
-
-				var $url = 'update/startingDate';
-				var $description = '';
-				var $data = {
-					description: $description,
-					tag_id: $tag_id,
-					starting_date: $starting_date
-				};
-				
-				return $http.post($url, $data);
-			}
-		},
 		updateCSD: function ($tag_id, $CSD) {
 			$CSD = Date.parse($CSD).toString('yyyy-MM-dd');
 			var $url = 'update/CSD';

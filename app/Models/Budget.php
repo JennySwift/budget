@@ -46,8 +46,10 @@ class Budget extends Model
      */
     public static function hasMultipleBudgets($transaction_id)
     {
-        $sql = "SELECT tags.fixed_budget, tags.flex_budget FROM transactions_tags JOIN tags ON transactions_tags.tag_id = tags.id WHERE transaction_id = '$transaction_id'";
-        $tags = DB::select($sql);
+        DB::table('transactions_tags')->where('transaction_id', $transaction_id)
+            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+            ->select('tags.fixed_budget', 'tags.flex_budget')
+            ->get();
 
         $tag_with_budget_counter = 0;
         $multiple_budgets = false;
@@ -146,31 +148,7 @@ class Budget extends Model
     }
 
     /**
-     * This either adds or deletes a budget, both using an update query.
-     * @param $tag_id
-     * @param $budget
-     * @param $column
-     */
-    public static function updateBudget($tag_id, $budget, $column)
-    {
-        if (!$budget || $budget === "NULL") {
-            $budget = null;
-            $budget_id = null;
-        } else {
-            if ($column === "fixed_budget") {
-                $budget_id = 1;
-            } else {
-                $budget_id = 2;
-            }
-        }
-
-        DB::table('tags')
-            ->where('id', $tag_id)
-            ->update([$column => $budget, 'budget_id' => $budget_id]);
-    }
-
-    /**
-     *
+     * Change the amount that is allocated to the tag, for one transaction
      * @param $allocated_fixed
      * @param $transaction_id
      * @param $tag_id
@@ -188,7 +166,7 @@ class Budget extends Model
     }
 
     /**
-     *
+     * Change the percentage of the transaction that is allocated to the tag
      * @param $allocated_percent
      * @param $transaction_id
      * @param $tag_id
@@ -213,17 +191,5 @@ class Budget extends Model
     {
         $sql = "UPDATE transactions_tags calculated_allocation JOIN transactions ON transactions.id = transaction_id SET calculated_allocation = transactions.total / 100 * allocated_percent WHERE transaction_id = $transaction_id AND tag_id = $tag_id;";
         DB::update($sql);
-    }
-
-    /**
-     *
-     * @param $transaction_id
-     * @param $status
-     */
-    public static function updateAllocationStatus($transaction_id, $status)
-    {
-        DB::table('transactions')
-            ->where('id', $transaction_id)
-            ->update(['allocated' => $status]);
     }
 }

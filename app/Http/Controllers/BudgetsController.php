@@ -34,20 +34,7 @@ class BudgetsController extends Controller
     }
 
     /**
-     * This either adds or deletes a budget, both using an update query.
-     * @param Request $request
-     */
-    public function updateBudget(Request $request)
-    {
-        $tag_id = $request->get('tag_id');
-        $budget = $request->get('budget');
-        $column = $request->get('column');
-
-        Budget::updateBudget($tag_id, $budget, $column);
-    }
-
-    /**
-     *
+     * For one transaction, change the amount that is allocated for one tag
      * @param Request $request
      * @return array
      */
@@ -74,37 +61,5 @@ class BudgetsController extends Controller
         );
 
         return $array;
-    }
-
-    /**
-     *
-     * @param Request $request
-     */
-    public function updateAllocationStatus(Request $request)
-    {
-        $transaction_id = $request->get('transaction_id');
-        $status = $request->get('status');
-
-        Budget::updateAllocationStatus($transaction_id, $status);
-    }
-
-    /**
-     *
-     */
-    public function updateStartingDate()
-    {
-
-    }
-
-    /**
-     *
-     * @param Request $request
-     */
-    public function updateCSD(Request $request)
-    {
-        $tag_id = $request->get('tag_id');
-        $CSD = $request->get('CSD');
-
-        DB::table('tags')->where('id', $tag_id)->update(['starting_date' => $CSD]);
     }
 }

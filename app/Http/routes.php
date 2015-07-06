@@ -77,6 +77,7 @@ Route::post('insert/transaction', 'TransactionsController@insertTransaction');
 Route::post('update/massDescription', 'TransactionsController@updateMassDescription');
 Route::post('update/transaction', 'TransactionsController@updateTransaction');
 Route::post('update/reconciliation', 'TransactionsController@updateReconciliation');
+Route::post('update/allocationStatus', 'TransactionsController@updateAllocationStatus');
 
 Route::post('delete/transaction', 'TransactionsController@deleteTransaction');
 
@@ -90,11 +91,7 @@ Route::post('select/allocationTotals', 'TotalsController@getAllocationTotals');
 Route::post('insert/flexBudget', 'BudgetsController@insertFlexBudget');
 Route::post('insert/budgetInfo', 'BudgetsController@insertBudgetInfo');
 
-Route::post('update/budget', 'BudgetsController@updateBudget');
 Route::post('update/allocation', 'BudgetsController@updateAllocation');
-Route::post('update/allocationStatus', 'BudgetsController@updateAllocationStatus');
-Route::post('update/startingDate', 'BudgetsController@updateStartingDate');
-Route::post('update/CSD', 'BudgetsController@updateCSD');
 
 /**
  * accounts
@@ -117,6 +114,8 @@ Route::post('select/duplicate-tag-check', 'TagsController@duplicateTagCheck');
 
 Route::post('insert/tag', 'TagsController@insertTag');
 
+Route::post('update/CSD', 'TagsController@updateCSD');
+Route::post('update/budget', 'TagsController@updateBudget');
 Route::post('update/tagName', 'TagsController@updateTagName');
 Route::post('update/massTags', 'TagsController@updateMassTags');
 Route::post('delete/tag', 'TagsController@deleteTag');

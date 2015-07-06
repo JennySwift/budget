@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Tag;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -33,28 +34,30 @@ class TagsController extends Controller
     }
 
     /**
-     *
+     * Get all the tags that belong to the user
      * @return mixed
      */
     public function getTags()
     {
-        $sql = "SELECT * FROM tags WHERE user_id = " . Auth::user()->id . " ORDER BY name ASC";
-        $tags = DB::select($sql);
+        $tags = Tag::where('user_id', Auth::user()->id)
+            ->orderBy('name', 'asc')
+            ->get();
 
         return $tags;
     }
 
     /**
-     *
+     * Check if the tag already exists for the user.
+     * $count is 0 if tag is not a duplicate, 1 if it is.
      * @param Request $request
      * @return mixed
      */
     public function duplicateTagCheck(Request $request)
     {
-        $new_tag_name = $request->get('new_tag_name');
-        $count = DB::table('tags')->where('name', $new_tag_name)->where('user_id', Auth::user()->id)->count();
+        $count = Tag::where('name', $request->get('new_tag_name'))
+            ->where('user_id', Auth::user()->id)
+            ->count();
 
-        //count is 0 if tag is not a duplicate, 1 if it is.
         return $count;
     }
 
@@ -64,8 +67,10 @@ class TagsController extends Controller
      */
     public function insertTag(Request $request)
     {
-        $new_tag_name = $request->get('new_tag_name');
-        DB::table('tags')->insert(['name' => $new_tag_name, 'user_id' => Auth::user()->id]);
+        Tag::insert([
+            'name' => $request->get('new_tag_name'),
+            'user_id' => Auth::user()->id
+        ]);
     }
 
     /**
@@ -74,9 +79,10 @@ class TagsController extends Controller
      */
     public function updateTagName(Request $request)
     {
-        $tag_id = $request->get('tag_id');
-        $tag_name = $request->get('tag_name');
-        DB::table('tags')->where('id', $tag_id)->update(['name' => $tag_name]);
+        Tag::where('id', $request->get('tag_id'))
+            ->update([
+                'name' => $request->get('tag_name')
+            ]);
     }
 
     /**
@@ -88,12 +94,54 @@ class TagsController extends Controller
     }
 
     /**
+     * This either adds or deletes a budget, both using an update query.
+     * @param Request $request
+     */
+    public function updateBudget(Request $request)
+    {
+        $tag_id = $request->get('tag_id');
+        $budget = $request->get('budget');
+        $column = $request->get('column');
+
+        if (!$budget || $budget === "NULL") {
+            $budget = null;
+            $budget_id = null;
+        } else {
+            if ($column === "fixed_budget") {
+                $budget_id = 1;
+            } else {
+                $budget_id = 2;
+            }
+        }
+
+        Tag::where('id', $tag_id)
+            ->update([
+                $column => $budget, 'budget_id' => $budget_id
+            ]);
+    }
+
+    /**
+     *
+     * @param Request $request
+     */
+    public function updateCSD(Request $request)
+    {
+        $tag_id = $request->get('tag_id');
+        $CSD = $request->get('CSD');
+
+        Tag::where('id', $tag_id)
+            ->update([
+                'starting_date' => $CSD
+            ]);
+    }
+
+    /**
      *
      * @param Request $request
      */
     public function deleteTag(Request $request)
     {
         $tag_id = $request->get('tag_id');
-        DB::table('tags')->where('id', $tag_id)->delete();
+        Tag::where('id', $tag_id)->delete();
     }
 }

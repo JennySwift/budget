@@ -17,7 +17,9 @@ class PreferencesController extends Controller
      */
     public function getDateFormat()
     {
-        return Preference::where('user_id', Auth::user()->id)->where('type', 'date_format')->pluck('value');
+        return Preference::where('user_id', Auth::user()->id)
+            ->where('type', 'date_format')
+            ->pluck('value');
     }
 
     // public function insertDateFormat($value)

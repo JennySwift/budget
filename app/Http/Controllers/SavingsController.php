@@ -19,8 +19,10 @@ class SavingsController extends Controller
      */
     public function updateSavingsTotal(Request $request)
     {
-        $amount = $request->get('amount');
-        Savings::updateSavingsTotal($amount);
+        Savings::where('user_id', Auth::user()->id)
+            ->update([
+                'amount' => $request->get('amount')
+            ]);
 
         return Savings::getSavingsTotal();
     }
@@ -47,8 +49,7 @@ class SavingsController extends Controller
      */
     public function addPercentageToSavings(Request $request)
     {
-        $percentage_of_RB = $request->get('percentage_of_RB');
-        Savings::addPercentageToSavings($percentage_of_RB);
+        Savings::addPercentageToSavings($request->get('percentage_of_RB'));
 
         return Savings::getSavingsTotal();
     }
@@ -60,8 +61,7 @@ class SavingsController extends Controller
      */
     public function addPercentageToSavingsAutomatically(Request $request)
     {
-        $amount_to_add = $request->get('amount_to_add');
-        Savings::addPercentageToSavingsAutomatically($amount_to_add);
+        Savings::addPercentageToSavingsAutomatically($request->get('amount_to_add'));
 
         return Savings::getSavingsTotal();
     }
@@ -73,8 +73,7 @@ class SavingsController extends Controller
      */
     public function reverseAutomaticInsertIntoSavings(Request $request)
     {
-        $amount_to_subtract = $request->get('amount_to_subtract');
-        Savings::reverseAutomaticInsertIntoSavings($amount_to_subtract);
+        Savings::reverseAutomaticInsertIntoSavings($request->get('amount_to_subtract'));
 
         return Savings::getSavingsTotal();
     }

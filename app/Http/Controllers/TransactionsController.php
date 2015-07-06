@@ -89,6 +89,21 @@ class TransactionsController extends Controller
      *
      * @param Request $request
      */
+    public function updateAllocationStatus(Request $request)
+    {
+        $transaction_id = $request->get('transaction_id');
+        $status = $request->get('status');
+
+        Transaction::where('id', $transaction_id)
+            ->update([
+                'allocated' => $status
+            ]);
+    }
+
+    /**
+     *
+     * @param Request $request
+     */
     public function updateTransaction(Request $request)
     {
         $transaction = $request->get('transaction');
