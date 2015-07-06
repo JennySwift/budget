@@ -232,7 +232,7 @@ ul {
     height: 39px; }
     #transactions td div {
       overflow: scroll;
-      height: 100%; }
+      height: 39px; }
   #transactions .tag-location-container {
     height: 24px; }
     #transactions .tag-location-container td {
