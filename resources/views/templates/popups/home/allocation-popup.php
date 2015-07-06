@@ -6,6 +6,7 @@
         
         <div id="allocation-table-container">
             <table class="table table-bordered">
+
                 <!-- table header -->
                 <tr>
                     <th>tag</th>
@@ -13,6 +14,7 @@
                     <th>allocated %</th>
                     <th>calculated</th>
                 </tr>
+
                 <!-- table content -->
                 <tr ng-repeat="tag in allocation_popup_transaction.tags" ng-if="tag.fixed_budget || tag.flex_budget">
                     
@@ -24,27 +26,53 @@
 
                     <td>
                         <div class="editable">
-                            <input ng-if="tag.editing_allocated_fixed" ng-keyup="updateAllocation($event.keyCode, 'fixed', tag.edited_allocated_fixed, tag.id)" ng-model="tag.edited_allocated_fixed" type="text">
-                            <button ng-if="!tag.editing_allocated_fixed" ng-click="tag.editing_allocated_fixed = true" class="edit">edit</button>
-                            <span ng-if="!tag.editing_allocated_fixed">{{tag.allocated_fixed}}</span>
+
+                            <input
+                                ng-if="tag.editing_allocated_fixed"
+                                ng-keyup="updateAllocation($event.keyCode, 'fixed', tag.edited_allocated_fixed, tag.id)"
+                                ng-model="tag.edited_allocated_fixed" type="text">
+
+                            <button
+                                ng-if="!tag.editing_allocated_fixed"
+                                ng-click="tag.editing_allocated_fixed = true"
+                                class="edit">edit
+                            </button>
+
+                            <span
+                                ng-if="!tag.editing_allocated_fixed">
+                                {{tag.pivot.allocated_fixed}}
+                            </span>
                         </div>
                     </td>
 
                     <td>
                         <div class="editable">
-                            <input ng-if="tag.editing_allocated_percent" ng-keyup="updateAllocation($event.keyCode, 'percent', tag.edited_allocated_percent, tag.id)" ng-model="tag.edited_allocated_percent" type="text">
-                            <button ng-if="!tag.editing_allocated_percent" ng-click="tag.editing_allocated_percent = true" class="edit">edit</button>
-                            <span ng-if="!tag.editing_allocated_percent">{{tag.allocated_percent}}</span>
+                            <input
+                                ng-if="tag.editing_allocated_percent"
+                                ng-keyup="updateAllocation($event.keyCode, 'percent', tag.edited_allocated_percent, tag.id)"
+                                ng-model="tag.edited_allocated_percent" type="text">
+
+                            <button
+                                ng-if="!tag.editing_allocated_percent"
+                                ng-click="tag.editing_allocated_percent = true"
+                                class="edit">edit
+                            </button>
+
+                            <span
+                                ng-if="!tag.editing_allocated_percent">
+                                {{tag.pivot.allocated_percent}}
+                            </span>
                         </div>
                     </td>
             
                     <td>
                         <div>
-                            <span>{{tag.calculated_allocation}}</span>
+                            <span>{{tag.pivot.calculated_allocation}}</span>
                         </div>
                     </td>
             
                 </tr>
+
                 <!-- totals -->
                 <tr class="totals">
                     <td>totals</td>
@@ -79,6 +107,7 @@
                 <input ng-model="allocation_popup_transaction.allocated" ng-change="updateAllocationStatus()" type="checkbox">
             </div>
         </div>
+
         <!-- close button -->
         <button ng-click="show.allocation_popup = false" class="close-modal">Close</button>
     </div>

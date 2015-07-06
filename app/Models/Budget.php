@@ -116,53 +116,24 @@ class Budget extends Model {
 		return $allocation_totals;
 	}
 
+    /**
+     * For one tag.
+     * For getting the updated info after updating the allocation for that tag.
+     * @param $transaction_id
+     * @param $tag_id
+     * @return mixed|null
+     */
 	public static function getAllocationInfo($transaction_id, $tag_id)
 	{
-		//for one tag. for getting the updated info after updating the allocation for that tag.
-		//this is much the same as getTags() so maybe make it more DRY.
-		$allocation_info = DB::table('transactions_tags')
-			->where('transaction_id', $transaction_id)
-			->where('tag_id', $tag_id)
-			->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-			->select('transactions_tags.transaction_id', 'transactions_tags.tag_id AS id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
-			->first();
+        $transaction = Transaction::find($transaction_id);
 
-		if (isset($allocation_info->allocated_fixed)) {
-			$allocated_fixed = $allocation_info->allocated_fixed;
-			$allocated_percent = false;
-			$allocation_type = 'fixed';
-		}
+        $tag = $transaction->tags()
+            ->where('tag_id', $tag_id)
+            ->first();
 
-		elseif (isset($allocation_info->allocated_percent)) {
-			$allocated_percent = $allocation_info->allocated_percent;
-			$allocated_fixed = false;
-			$allocation_type = 'percent';
-		}
-		else {
-			$allocation_type = false;
-			$allocated_fixed = false;
-			$allocated_percent = false;
-		}
+        $tag->setAllocationType($tag);
 
-		// Debugbar::info('row', $allocation_info);
-		// $name = $row['name'];
-		// Debugbar::info('name: ' . $name);
-
-		// $allocation_info = array(
-		// 	'transaction_id' => $transaction_id,
-		// 	'tag_id' => $tag_id,
-		// 	'allocated_fixed' => $allocated_fixed,
-		// 	'allocated_percent' => $allocated_percent,
-		// 	'calculated_allocation' => $row['calculated_allocation'],
-		// 	'name' => $row['name'],
-		// 	'fixed_budget' => $row['fixed_budget'],
-		// 	'flex_budget' => $row['flex_budget'],
-		// 	'allocation_type' => $row['allocation_type']
-		// );
-
-		// // $allocation_info['allocation_type'] = $allocation_type;
-		
-		return $allocation_info;
+        return $tag;
 	}
 
 	/**

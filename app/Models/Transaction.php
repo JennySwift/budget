@@ -16,8 +16,27 @@ class Transaction extends Model {
 	 */
 
 	public function tags () {
-		return $this->belongsToMany('App\Models\Tag', 'transactions_tags');
+		return $this->belongsToMany('App\Models\Tag', 'transactions_tags')->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation');
 	}
+
+    /**
+     * Get tags for one transaction
+     * @param $transaction_id
+     * @return mixed
+     */
+    public static function getTags($transaction_id)
+    {
+        $transaction = Transaction::find($transaction_id);
+
+        $tags = $transaction->tags;
+
+        //Set the allocation type
+        foreach ($tags as $tag) {
+            $tag->setAllocationType($tag);
+        }
+
+        return $tags;
+    }
 
 	/**
 	 * select

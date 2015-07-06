@@ -287,7 +287,7 @@ class TransactionsController extends Controller {
 		    $allocated = $transaction->allocated;
 		    $allocated = $this->convertToBoolean($allocated);
 		    $type = $transaction->type;
-		    $tags = Tag::getTags($transaction_id);
+		    $tags = Transaction::getTags($transaction_id);
 		    $multiple_budgets = Budget::hasMultipleBudgets($transaction_id);
 
 		    $account = array(

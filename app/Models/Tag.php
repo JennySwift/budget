@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Auth;
-use DB;
+//use DB;
 use Illuminate\Support\Facades\DB;
 
 class Tag extends Model {
@@ -33,38 +33,15 @@ class Tag extends Model {
 		return $tags;
 	}
 
-    /**
-     * Get tags for one transaction
-     * @param $transaction_id
-     * @return mixed
-     */
-	public static function getTags($transaction_id)
-	{
-		$tags = DB::table('transaction_tag')
-            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-			->select('transactions_tags.tag_id AS id', 'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed', 'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget')
-			->where('transaction_id', $transaction_id)
-			->get();
+    public function setAllocationType($tag) {
+        $allocated_fixed = $tag->pivot->allocated_fixed;
+        $allocated_percent = $tag->pivot->allocated_percent;
 
-		$tags = $tags->toArray();	
-		
-
-		foreach ($tags as $tag) {
-			$allocated_fixed = $tag['allocated_fixed'];
-			$allocated_percent = $tag['allocated_percent'];
-
-			if (isset($allocated_fixed) && !$allocated_percent) {
-				$tag['allocation_type'] = 'fixed';
-			}
-			elseif ($allocated_percent && !$allocated_fixed) {
-				$tag['allocation_type'] = 'percent';
-			}
-			elseif (!isset($allocation_fixed) && !$allocated_percent) {
-				//this caused an error for some reason.
-				// $tag->allocation_type = 'undefined';
-			}
-		}
-
-		return $tags;
-	}
+        if (isset($allocated_fixed) && !$allocated_percent) {
+            $tag->allocation_type = 'fixed';
+        }
+        elseif ($allocated_percent && !$allocated_fixed) {
+            $tag->allocation_type = 'percent';
+        }
+    }
 }

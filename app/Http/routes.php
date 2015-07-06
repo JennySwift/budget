@@ -1,16 +1,14 @@
 <?php
 
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
+
+Route::get('/test', function()
+{
+    $transaction = Transaction::find(19);
+    //dd($transaction);
+    return Transaction::getTags(19);
+});
 
 /**
  * Home page

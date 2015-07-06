@@ -4,7 +4,6 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Faker\Factory as Faker;
 
-use App\Models\Transaction_Tag;
 use App\Models\Transaction;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
