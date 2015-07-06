@@ -7,20 +7,15 @@ use Faker\Factory as Faker;
 use App\Models\Transaction_Tag;
 use App\Models\Transaction;
 use App\Models\Tag;
+use Illuminate\Support\Facades\DB;
 
 class TransactionTagSeeder extends Seeder {
 
 	public function run()
 	{
-		Transaction_Tag::truncate();
+		DB::table('transaction_tag')->truncate();
 		
 		$faker = Faker::create();
-
-		// DB::table('transactions_tags')->insert([
-		// 	'transaction_id' => 14,
-		// 	'tag_id' => 8,
-		// 	'user_id' => 2
-		// ]);
 		
 		$transaction_ids = Transaction::where('user_id', 1)->where('type', '!=', 'transfer')->lists('id');
 		$tag_ids = Tag::lists('id');
@@ -44,7 +39,7 @@ class TransactionTagSeeder extends Seeder {
 				//Check the transaction doesn't already have the tag id.
 				//If it doesn't, then add the tag to the transaction.
 				if (!in_array($tag_id, $tag_ids_for_transaction)) {
-					Transaction_Tag::create([
+					DB::table('transaction_tag')->insert([
 						'transaction_id' => $transaction_id,
 						'tag_id' => $tag_id,
 						'user_id' => 1
