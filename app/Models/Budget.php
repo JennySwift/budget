@@ -46,7 +46,7 @@ class Budget extends Model
      */
     public static function hasMultipleBudgets($transaction_id)
     {
-        DB::table('transactions_tags')->where('transaction_id', $transaction_id)
+        $tags = DB::table('transactions_tags')->where('transaction_id', $transaction_id)
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->select('tags.fixed_budget', 'tags.flex_budget')
             ->get();
