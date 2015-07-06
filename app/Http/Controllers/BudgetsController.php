@@ -6,6 +6,10 @@ use Auth;
 use DB;
 use Illuminate\Http\Request;
 
+/**
+ * Class BudgetsController
+ * @package App\Http\Controllers
+ */
 class BudgetsController extends Controller
 {
 
@@ -29,9 +33,12 @@ class BudgetsController extends Controller
         return view('budgets');
     }
 
+    /**
+     * This either adds or deletes a budget, both using an update query.
+     * @param Request $request
+     */
     public function updateBudget(Request $request)
     {
-        //this either adds or deletes a budget, both using an update query.
         $tag_id = $request->get('tag_id');
         $budget = $request->get('budget');
         $column = $request->get('column');
@@ -39,6 +46,11 @@ class BudgetsController extends Controller
         Budget::updateBudget($tag_id, $budget, $column);
     }
 
+    /**
+     *
+     * @param Request $request
+     * @return array
+     */
     public function updateAllocation(Request $request)
     {
         $type = $request->get('type');
@@ -64,6 +76,10 @@ class BudgetsController extends Controller
         return $array;
     }
 
+    /**
+     *
+     * @param Request $request
+     */
     public function updateAllocationStatus(Request $request)
     {
         $transaction_id = $request->get('transaction_id');
@@ -72,11 +88,18 @@ class BudgetsController extends Controller
         Budget::updateAllocationStatus($transaction_id, $status);
     }
 
+    /**
+     *
+     */
     public function updateStartingDate()
     {
 
     }
 
+    /**
+     *
+     * @param Request $request
+     */
     public function updateCSD(Request $request)
     {
         $tag_id = $request->get('tag_id');
@@ -84,9 +107,4 @@ class BudgetsController extends Controller
 
         DB::table('tags')->where('id', $tag_id)->update(['starting_date' => $CSD]);
     }
-
-    /**
-     * delete
-     */
-
 }
