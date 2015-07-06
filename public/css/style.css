@@ -12,7 +12,7 @@
 html, body {
   max-width: 100%;
   overflow-x: hidden;
-  background: lightgray;
+  background: #fff;
   margin: 0; }
 
 body {
@@ -226,7 +226,8 @@ ul {
   padding: 22px; }
 
 #transactions {
-  background: white; }
+  background: white;
+  border: 2px solid #ddd; }
   #transactions td {
     height: 39px; }
     #transactions td div {
