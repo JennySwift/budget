@@ -1,30 +1,19 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
+use Illuminate\Database\Eloquent\Model;
 
-class Color extends Model {
+/**
+ * Class Color
+ * @package App\Models
+ */
+class Color extends Model
+{
 
-	protected $fillable = ['item', 'color', 'user_id'];
+    /**
+     * @var array
+     */
+    protected $fillable = ['item', 'color', 'user_id'];
 
-	/**
-	 * define relationships
-	 */
-
-	/**
-	 * select
-	 */
-	
-	/**
-	 * insert
-	 */
-	
-	/**
-	 * update
-	 */
-	
-	/**
-	 * delete
-	 */
 }

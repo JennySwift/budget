@@ -2,17 +2,25 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Preference extends Model {
+/**
+ * Class Preference
+ * @package App\Models
+ */
+class Preference extends Model
+{
 
-	protected $fillable = ['type', 'value'];
+    /**
+     * @var array
+     */
+    protected $fillable = ['type', 'value'];
 
-	/**
-	 * Define relationships
-	 */
-	
-	public function user()
-	{
-	    return $this->belongsTo('App\User');
-	}
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 
 }
