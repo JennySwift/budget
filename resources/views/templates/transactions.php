@@ -1,3 +1,4 @@
+
 <div class="flex-grow-2">
     <table id="transactions" class="table">
         <thead>
@@ -20,14 +21,19 @@
             </tr>
         </thead>
         <tbody ng-repeat="transaction in transactions" ng-style="{color: colors[transaction.type]}" id="{{transaction.id}}" class="add_to_search_total results-transaction-tbody {{transaction.type}}">
-            
             <tr class="results_inner_div">
                 <td ng-show="show.date">{{transaction.date.user}}</td>
-                <td ng-show="show.description">
-                    <div>{{transaction.description}}</div>    
+                <td ng-show="show.description" class="max-width-md">
+                    <div>{{transaction.description}}</div>
+                    <div ng-if="transaction.description" class="tooltip-container">
+                        <div class="tooltip">{{transaction.description}}</div>
+                    </div>
                 </td>
                 <td ng-show="show.merchant" class="max-width-md">
                     <div>{{transaction.merchant}}</div>
+                    <div ng-if="transaction.merchant" class="tooltip-container">
+                        <div class="tooltip">{{transaction.merchant}}</div>
+                    </div>
                 </td>
                 <td ng-show="show.total">{{transaction.total}}</td>
                 <td ng-show="show.account" class="max-width-md">{{transaction.account.name}}</td>

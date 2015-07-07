@@ -228,10 +228,28 @@ ul {
   background: white;
   border: 2px solid #ddd; }
   #transactions td {
-    height: 39px; }
-    #transactions td div {
-      overflow: scroll;
+    height: 39px;
+    position: relative;
+    transition: all, 1.5s, ease; }
+    #transactions td:hover .tooltip-container {
+      visibility: visible; }
+    #transactions td div:not(.tooltip) {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
       height: 39px; }
+    #transactions td .tooltip-container {
+      visibility: hidden;
+      background: #777;
+      color: #fff;
+      border-radius: 4px;
+      position: absolute;
+      left: 90px;
+      z-index: 9;
+      padding: 9px 30px;
+      top: 0;
+      bottom: 0;
+      margin: auto; }
   #transactions .tag-location-container {
     height: 24px; }
     #transactions .tag-location-container td {

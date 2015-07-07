@@ -1,13 +1,59 @@
 
+//.tooltip-container {
+//    visibility: hidden;
+//}
+//
+//#transactions td {
+//    transition: all, 1.5s, ease;
+//}
+//
+//#transactions td:hover {
+//    background: pink;
+//}
+//
+//#transactions td:hover .tooltip-container {
+//    visibility: visible;
+//}
+
 #transactions {
 	background: white;
     border: 2px solid #ddd;
 	td {
 		height: 39px;
-		div {
-			overflow: scroll;
+        position: relative;
+        transition: all, 1.5s, ease;
+        &:hover {
+//            background: pink;
+            .tooltip-container {
+                visibility: visible;
+            }
+        }
+		div:not(.tooltip) {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
 			height: 39px;
 		}
+        .tooltip-container {
+            visibility: hidden;
+//            display: flex;
+            background: #777;
+            color: #fff;
+            border-radius: 4px;
+            position: absolute;
+            left: 90px;
+            z-index: 9;
+//            min-height: 33px;
+//            min-width: 100px;
+            padding: 9px 30px;
+//            white-space: nowrap;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            .tooltip {
+
+            }
+        }
 	}
 	.tag-location-container {
 		height: 24px;

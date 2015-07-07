@@ -167,7 +167,7 @@ class TransactionSeeder extends Seeder {
 				Transaction::create([
 					'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
 					'type' => $type,
-					'description' => $faker->word(),
+					'description' => $faker->sentence(),
 					'merchant' => $faker->name(),
 					'total' => $total,
 					'account_id' => $account_id,

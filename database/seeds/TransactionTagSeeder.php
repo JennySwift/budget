@@ -12,7 +12,7 @@ class TransactionTagSeeder extends Seeder {
 
 	public function run()
 	{
-		DB::table('transaction_tag')->truncate();
+		DB::table('transactions_tags')->truncate();
 		
 		$faker = Faker::create();
 		
@@ -38,7 +38,7 @@ class TransactionTagSeeder extends Seeder {
 				//Check the transaction doesn't already have the tag id.
 				//If it doesn't, then add the tag to the transaction.
 				if (!in_array($tag_id, $tag_ids_for_transaction)) {
-					DB::table('transaction_tag')->insert([
+					DB::table('transactions_tags')->insert([
 						'transaction_id' => $transaction_id,
 						'tag_id' => $tag_id,
 						'user_id' => 1
