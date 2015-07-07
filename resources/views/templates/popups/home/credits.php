@@ -1,4 +1,4 @@
-<div ng-show="show.credits" class="popup-outer">
+<div ng-show="show.credits" ng-cloak class="popup-outer">
     <div id="credits-modal" class="popup-inner">
         <div class="margin-bottom">
             <p><a href="http://bootstraptour.com/">Bootstrap Tour</a></p>

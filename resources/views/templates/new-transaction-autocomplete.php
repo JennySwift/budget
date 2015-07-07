@@ -1,6 +1,6 @@
 <!-- ================autocomplete================ -->	
 
-<div ng-show="show.autocomplete.transactions" id="autocomplete-transactions" class="">
+<div ng-cloak ng-show="show.autocomplete.transactions" id="autocomplete-transactions" class="">
 	<table class="table table-bordered">
 		<tbody ng-repeat="transaction in autocomplete.transactions" ng-style="{color: colors[transaction.type]}" ng-mousedown="autocompleteTransaction(transaction)" class="pointer">
 			

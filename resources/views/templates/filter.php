@@ -1,5 +1,5 @@
 
-<div ng-show="show.filter" id="filter" class="bg-grey margin-bottom">
+<div ng-cloak ng-show="show.filter" id="filter" class="bg-grey margin-bottom">
 
     <!-- ===============accounts=============== -->
 

@@ -1,7 +1,7 @@
 
 <div class="my-btn-dropdown">
     <button ng-click="show.status = !show.status" class="my-btn">Show</button>
-    <ul ng-show="show.status" class="list-group bg-blue">
+    <ul ng-cloak ng-show="show.status" class="list-group bg-blue">
 
         <li class="list-group-item">
             <label>

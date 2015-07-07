@@ -1,4 +1,4 @@
-<div ng-show="show.mass_edit" class="popup-outer">
+<div ng-show="show.mass_edit" ng-cloak class="popup-outer">
     <div class="popup-inner">
         <div class="row">
             <div class="my-dropdown-container col-sm-4">

@@ -1,4 +1,4 @@
-<div ng-show="show.color_picker" class="popup-outer">
+<div ng-show="show.color_picker" ng-cloak class="popup-outer">
     <div id="color-modal" class="popup-inner container">
 
         <h3 class="center">Choose your colours</h3>

@@ -1,6 +1,6 @@
 <!-- ==============================allocation============================== -->
 
-<div ng-show="show.allocation_popup" class="popup-outer">
+<div ng-show="show.allocation_popup" ng-cloak class="popup-outer">
     <div id="allocation-popup" class="popup-inner">
         <p class="width-100">The total for this transaction is <span class="bold">[[allocation_popup_transaction.total]]</span>. You have more than one budget associated with this transaction. Specify what percentage of [[allocation_popup_transaction.total]] you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
         

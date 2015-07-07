@@ -1,6 +1,6 @@
 <!-- ==============================edit transaction============================== -->
 
-<div ng-show="show.edit_transaction" class="popup-outer">
+<div ng-show="show.edit_transaction" ng-cloak class="popup-outer">
 	<div id="edit-transaction" class="popup-inner"> <!-- this div is so the is has same margin as other -->
 		<input ng-model="edit_transaction.date.user" id="edit-transaction-date" placeholder="date" type='text'>
 		<input ng-model="edit_transaction.description" placeholder="description" type='text'>
