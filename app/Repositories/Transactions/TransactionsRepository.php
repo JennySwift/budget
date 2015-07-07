@@ -226,7 +226,7 @@ class TransactionsRepository
             $total = $transaction->total;
             $type = $transaction->type;
             $reconciled = $transaction->reconciled;
-            
+
             if ($type === 'income') {
                 $income += $total;
             } elseif ($type === 'expense') {

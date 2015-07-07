@@ -385,10 +385,10 @@ class TotalsController extends Controller
         }
 
         // We will be returning $budget_info.
-        $budget_info = array(
-            "each_tag" => array(),
-            "totals" => array()
-        );
+        $budget_info = [
+            "each_tag" => [],
+            "totals" => []
+        ];
 
         $total_budget = 0;
 
@@ -448,7 +448,7 @@ class TotalsController extends Controller
             $budget = number_format($budget, 2);
             $spent_before_CSD = number_format($spent_before_CSD, 2);
 
-            $tag_info = array(
+            $tag_info = [
                 "id" => $tag_id,
                 "name" => $tag_name,
                 "budget" => $budget,
@@ -457,7 +457,7 @@ class TotalsController extends Controller
                 "spent" => $spent,
                 "received" => $received,
                 "spent_before_CSD" => $spent_before_CSD
-            );
+            ];
 
             if ($type === 'fixed') {
                 $cumulative_budget = number_format($cumulative_budget, 2);
