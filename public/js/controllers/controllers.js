@@ -184,6 +184,8 @@ var app = angular.module('budgetApp', ['checklist-model']);
 			});
 		};
 
+        //Todo: I might not need some of this code (not allowing offset to be less than 0)
+        // todo: since I disabled the button if that is the case
 		$scope.prevResults = function () {
 			//make it so the offset cannot be less than 0.
 			if ($scope.filter.offset - $scope.filter.num_to_fetch < 0) {

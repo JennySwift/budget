@@ -1,4 +1,3 @@
-
 <div class="flex-grow-2">
     <table id="transactions" class="table">
         <thead>
