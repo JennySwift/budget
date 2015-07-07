@@ -249,31 +249,24 @@ class Transaction extends Model
     public static function updateTransaction($transaction)
     {
         $transaction_id = $transaction['id'];
-        $account_id = $transaction['account']['id'];
-        $date = $transaction['date']['sql'];
-        $merchant = $transaction['merchant'];
         $total = $transaction['total'];
-        $tags = $transaction['tags'];
-        $description = $transaction['description'];
         $type = $transaction['type'];
-        $reconciliation = $transaction['reconciled'];
-        $reconciliation = static::convertFromBoolean($reconciliation);
 
         static::where('id', $transaction_id)
             ->update([
-                'account_id' => $account_id,
+                'account_id' => $transaction['account']['id'],
                 'type' => $type,
-                'date' => $date,
-                'merchant' => $merchant,
+                'date' => $transaction['date']['sql'],
+                'merchant' => $transaction['merchant'],
                 'total' => $total,
-                'description' => $description,
-                'reconciled' => $reconciliation
+                'description' => $transaction['description'],
+                'reconciled' => static::convertFromBoolean($transaction['reconciled'])
             ]);
 
         //delete all previous tags for the transaction and then add the current ones
         static::deleteAllTagsForTransaction($transaction_id);
 
-        static::insertTags($transaction_id, $tags, $total);
+        static::insertTags($transaction_id, $transaction['tags'], $total);
     }
 
     /**

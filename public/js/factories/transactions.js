@@ -99,6 +99,12 @@ app.factory('transactions', function ($http) {
 		updateTransaction: function ($transaction) {
 			var $url = 'update/transaction';
 			var $description = 'transaction';
+
+            //Make sure total is negative for an expense transaction
+            if ($transaction.type === 'expense' && $transaction.total > 0) {
+                $transaction.total = $transaction.total * -1;
+            }
+
 			var $data = {
 				description: $description,
 				transaction: $transaction
