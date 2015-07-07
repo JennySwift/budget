@@ -44,7 +44,9 @@ var app = angular.module('budgetApp', ['checklist-model'], function ($interpolat
 		];
 
 		/*=========transactions=========*/
-		$scope.transactions = [];
+		//$scope.transactions = [];
+        $scope.transactions = filter_response.transactions;
+        $scope.totals.filter = filter_response.filter_totals;
 		$scope.transactions_limited = []; //limited to 30 results
 
 		/*=========edit=========*/
@@ -852,7 +854,7 @@ var app = angular.module('budgetApp', ['checklist-model'], function ($interpolat
 		 * page load
 		 */
 
-		$scope.multiSearch();
+		//$scope.multiSearch();
 		$scope.getColors();
 		$scope.getTotals();
 		$scope.getAccounts();

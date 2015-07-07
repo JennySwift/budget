@@ -1,5 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\Repositories\Transactions\TransactionsRepository;
+use JavaScript;
+
 class HomeController extends Controller {
 
 	/*
@@ -28,8 +31,29 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(TransactionsRepository $transactionsRepository)
 	{
+        $filter = [
+            "budget" => "all",
+            "total" => "",
+            "types" => [],
+            "accounts" => [],
+            "single_date" => "",
+            "from_date" => "",
+            "to_date" => "",
+            "description" => "",
+            "merchant" => "",
+            "tags" => [],
+            "reconciled" => "any",
+            "offset" => 0,
+            "num_to_fetch" => 20
+        ];
+
+        JavaScript::put([
+            //It wouldn't work if I named it 'transactions'
+            'filter_response' => $transactionsRepository->filterTransactions($filter)
+        ]);
+
 		return view('home');
 	}
 
