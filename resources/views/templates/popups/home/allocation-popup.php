@@ -2,7 +2,7 @@
 
 <div ng-show="show.allocation_popup" class="popup-outer">
     <div id="allocation-popup" class="popup-inner">
-        <p class="width-100">The total for this transaction is <span class="bold">{{allocation_popup_transaction.total}}</span>. You have more than one budget associated with this transaction. Specify what percentage of {{allocation_popup_transaction.total}} you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
+        <p class="width-100">The total for this transaction is <span class="bold">[[allocation_popup_transaction.total]]</span>. You have more than one budget associated with this transaction. Specify what percentage of [[allocation_popup_transaction.total]] you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
         
         <div id="allocation-table-container">
             <table class="table table-bordered">
@@ -20,7 +20,7 @@
                     
                     <td>
                         <div>
-                            <span ng-class="{'tag-with-fixed-budget': tag.fixed_budget !== null, 'tag-with-flex-budget': tag.flex_budget !== null}" class="label label-default">{{tag.name}}</span>
+                            <span ng-class="{'tag-with-fixed-budget': tag.fixed_budget !== null, 'tag-with-flex-budget': tag.flex_budget !== null}" class="label label-default">[[tag.name]]</span>
                         </div>
                     </td>
 
@@ -40,7 +40,7 @@
 
                             <span
                                 ng-if="!tag.editing_allocated_fixed">
-                                {{tag.pivot.allocated_fixed}}
+                                [[tag.pivot.allocated_fixed]]
                             </span>
                         </div>
                     </td>
@@ -60,14 +60,14 @@
 
                             <span
                                 ng-if="!tag.editing_allocated_percent">
-                                {{tag.pivot.allocated_percent}}
+                                [[tag.pivot.allocated_percent]]
                             </span>
                         </div>
                     </td>
             
                     <td>
                         <div>
-                            <span>{{tag.pivot.calculated_allocation}}</span>
+                            <span>[[tag.pivot.calculated_allocation]]</span>
                         </div>
                     </td>
             
@@ -79,19 +79,19 @@
 
                     <td>
                         <div>
-                            <span>{{allocation_popup_transaction.allocation_totals.fixed_sum}}</span>
+                            <span>[[allocation_popup_transaction.allocation_totals.fixed_sum]]</span>
                         </div>
                     </td>
 
                     <td>
                         <div>
-                            <span>{{allocation_popup_transaction.allocation_totals.percent_sum}}</span>
+                            <span>[[allocation_popup_transaction.allocation_totals.percent_sum]]</span>
                         </div>
                     </td>
         
                     <td>
                         <div>
-                            <span>{{allocation_popup_transaction.allocation_totals.calculated_allocation_sum}}</span>
+                            <span>[[allocation_popup_transaction.allocation_totals.calculated_allocation_sum]]</span>
                         </div>
                     </td>
 

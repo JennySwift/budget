@@ -19,7 +19,7 @@
 
         <div ng-repeat="account in accounts">
             <input checklist-model="filter.accounts" checklist-value="account.id" type="checkbox">
-            <label for="">{{account.name}}</label>
+            <label for="">[[account.name]]</label>
         </div>
 
     </div>
@@ -42,7 +42,7 @@
 
         <div ng-repeat="type in types">
             <input checklist-model="filter.types" checklist-value="type" type="checkbox">
-            <label for="">{{type}}</label>
+            <label for="">[[type]]</label>
         </div>
 
     </div>
@@ -86,15 +86,15 @@
 
 
             <div ng-if="filter.dropdown" class="tag-dropdown">
-                <li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': tag.selected}" data-id="{{tag.id}}">{{tag.name}}</li>
+                <li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': tag.selected}" data-id="[[tag.id]]">[[tag.name]]</li>
             </div>
         
         </div>
         
 
         <div ng-show="filter.tags.length > 0" class="tag-display">
-            <li ng-repeat="tag in filter.tags" ng-click="removeTag(tag, filter.tags, 'filter')" ng-class="{'tag-with-budget': tag.has_budget === 'yes', 'tag-without-budget': tag.has_budget === 'no'}" class="label label-default removable-tag" data-id="{{tag.id}}" data-allocated-percent="{{tag.allocated_percent}}" data-allocated-fixed="{{tag.allocated_fixed}}" data-amount="{{tag.amount}}">
-                {{tag.name}}
+            <li ng-repeat="tag in filter.tags" ng-click="removeTag(tag, filter.tags, 'filter')" ng-class="{'tag-with-budget': tag.has_budget === 'yes', 'tag-without-budget': tag.has_budget === 'no'}" class="label label-default removable-tag" data-id="[[tag.id]]" data-allocated-percent="[[tag.allocated_percent]]" data-allocated-fixed="[[tag.allocated_fixed]]" data-amount="[[tag.amount]]">
+                [[tag.name]]
                 <i class="fa fa-times"></i>
             </li>
         </div>

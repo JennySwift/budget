@@ -1,0 +1,1 @@
+<!-- This file is for laracasts/PHP-Vars-To-Js-Transformer to work. -->

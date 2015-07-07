@@ -1,4 +1,7 @@
-var app = angular.module('budgetApp', ['checklist-model']);
+var app = angular.module('budgetApp', ['checklist-model'], function ($interpolateProvider) {
+    $interpolateProvider.startSymbol('[[');
+    $interpolateProvider.endSymbol(']]');
+});
 
 (function () {
 

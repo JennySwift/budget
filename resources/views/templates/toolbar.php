@@ -22,7 +22,7 @@
         <option value="100">100</option>
     </select>
 
-    <span class="badge">{{filter.display_from}} to {{filter.display_to}} of {{totals.filter.num_transactions}}</span>
+    <span class="badge">[[filter.display_from]] to [[filter.display_to]] of [[totals.filter.num_transactions]]</span>
 
     <button
         ng-click="nextResults()"

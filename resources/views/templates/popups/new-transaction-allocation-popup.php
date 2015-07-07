@@ -2,7 +2,7 @@
 <!-- don't need this file anymore -->
 <div ng-show="show.new_transaction_allocation_popup" class="popup-outer">
     <div id="allocation-popup" class="popup-inner">
-        <p class="width-100">The total for this transaction is <span class="bold">{{new_transaction.total}}</span>. You have more than one budget associated with this transaction. Specify what percentage of {{new_transaction.total}} you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
+        <p class="width-100">The total for this transaction is <span class="bold">[[new_transaction.total]]</span>. You have more than one budget associated with this transaction. Specify what percentage of [[new_transaction.total]] you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
         
         <div id="allocation-table-container">
             <table class="table table-bordered">
@@ -18,7 +18,7 @@
                     
                     <td>
                         <div>
-                            <span>{{tag.name}}</span>
+                            <span>[[tag.name]]</span>
                         </div>
                     </td>
 
@@ -26,7 +26,7 @@
                         <div class="editable">
                             <input ng-if="tag.editing_allocated_fixed" ng-keyup="updateAllocation($event.keyCode, 'fixed', tag.edited_allocated_fixed, tag.id)" ng-model="tag.edited_allocated_fixed" type="text">
                             <button ng-if="!tag.editing_allocated_fixed" ng-click="tag.editing_allocated_fixed = true" class="edit">edit</button>
-                            <span ng-if="!tag.editing_allocated_fixed">{{tag.allocated_fixed}}</span>
+                            <span ng-if="!tag.editing_allocated_fixed">[[tag.allocated_fixed]]</span>
                         </div>
                     </td>
 
@@ -34,13 +34,13 @@
                         <div class="editable">
                             <input ng-if="tag.editing_allocated_percent" ng-keyup="updateAllocation($event.keyCode, 'percent', tag.edited_allocated_percent, tag.id)" ng-model="tag.edited_allocated_percent" type="text">
                             <button ng-if="!tag.editing_allocated_percent" ng-click="tag.editing_allocated_percent = true" class="edit">edit</button>
-                            <span ng-if="!tag.editing_allocated_percent">{{tag.allocated_percent}}</span>
+                            <span ng-if="!tag.editing_allocated_percent">[[tag.allocated_percent]]</span>
                         </div>
                     </td>
             
                     <td>
                         <div>
-                            <span>{{tag.calculated_allocation}}</span>
+                            <span>[[tag.calculated_allocation]]</span>
                         </div>
                     </td>
             
@@ -51,19 +51,19 @@
 
                     <td>
                         <div>
-                            <span>{{new_transaction_allocation_popup_transaction.allocation_totals.fixed_sum}}</span>
+                            <span>[[new_transaction_allocation_popup_transaction.allocation_totals.fixed_sum]]</span>
                         </div>
                     </td>
 
                     <td>
                         <div>
-                            <span>{{new_transaction_allocation_popup_transaction.allocation_totals.percent_sum}}</span>
+                            <span>[[new_transaction_allocation_popup_transaction.allocation_totals.percent_sum]]</span>
                         </div>
                     </td>
         
                     <td>
                         <div>
-                            <span>{{new_transaction_allocation_popup_transaction.allocation_totals.calculated_allocation_sum}}</span>
+                            <span>[[new_transaction_allocation_popup_transaction.allocation_totals.calculated_allocation_sum]]</span>
                         </div>
                     </td>
 

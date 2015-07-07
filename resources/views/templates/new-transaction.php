@@ -18,7 +18,7 @@
 	<div ng-show="new_transaction.type !== 'transfer'">
 		<!-- <label for="" class="center">account</label> -->
 		<select ng-model="new_transaction.account" ng-keyup="insertTransaction($event.keyCode)">
-			<option ng-repeat="account in accounts" value="{{account.id}}">{{account.name}}</option>
+			<option ng-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
 		</select>
 	</div>
 
@@ -26,13 +26,13 @@
 		<label for="" class="center">from account</label>
 		<select ng-model="new_transaction.from_account" ng-keyup="insertTransaction($event.keyCode)" type="text" id="transfer-from-account-select" class="account-dropdown">
 			<!-- <option selected>from account</option> -->
-			<option ng-repeat="account in accounts" value="{{account.id}}">{{account.name}}</option>
+			<option ng-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
 		</select>
 
 		<label for="" class="center">to account</label>
 		<select ng-model="new_transaction.to_account" ng-keyup="insertTransaction($event.keyCode)" type="text" id="transfer-from-account-select" class="account-dropdown">
 			<!-- <option value="">to account</option> -->
-			<option ng-repeat="account in accounts" value="{{account.id}}">{{account.name}}</option>
+			<option ng-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
 		</select>
 	</div>
 
@@ -54,15 +54,15 @@
 			<input ng-model="typing.new_transaction.tag" ng-focus="new_transaction.dropdown = true" ng-blur="new_transaction.dropdown = false" ng-keyup="filterTags($event.keyCode, typing.new_transaction.tag, new_transaction.tags, 'new_transaction')" placeholder="tags" type='text'>
 			
 			<div ng-if="new_transaction.dropdown" class="tag-dropdown">
-				<li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': tag.selected}" data-id="{{tag.id}}">{{tag.name}}</li>
+				<li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': tag.selected}" data-id="[[tag.id]]">[[tag.name]]</li>
 			</div>
 		
 		</div>
 		
 
 		<div ng-show="new_transaction.tags.length > 0" class="tag-display">
-			<li ng-repeat="tag in new_transaction.tags" ng-click="removeTag(tag, new_transaction.tags, 'new_transaction')" ng-class="{'tag-with-budget': tag.fixed_budget !== null || tag.flex_budget !== null, 'tag-without-budget': tag.fixed_budget === null || tag.flex_budget === null}" class="label label-default removable-tag" data-id="{{tag.id}}" data-allocated-percent="{{tag.allocated_percent}}" data-allocated-fixed="{{tag.allocated_fixed}}" data-amount="{{tag.amount}}">
-				{{tag.name}}
+			<li ng-repeat="tag in new_transaction.tags" ng-click="removeTag(tag, new_transaction.tags, 'new_transaction')" ng-class="{'tag-with-budget': tag.fixed_budget !== null || tag.flex_budget !== null, 'tag-without-budget': tag.fixed_budget === null || tag.flex_budget === null}" class="label label-default removable-tag" data-id="[[tag.id]]" data-allocated-percent="[[tag.allocated_percent]]" data-allocated-fixed="[[tag.allocated_fixed]]" data-amount="[[tag.amount]]">
+				[[tag.name]]
 				<i class="fa fa-times"></i>
 			</li>
 		</div>

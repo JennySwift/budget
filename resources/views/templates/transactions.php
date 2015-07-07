@@ -19,23 +19,23 @@
                 <th>budgets</th>
             </tr>
         </thead>
-        <tbody ng-repeat="transaction in transactions" ng-style="{color: colors[transaction.type]}" id="{{transaction.id}}" class="add_to_search_total results-transaction-tbody {{transaction.type}}">
+        <tbody ng-repeat="transaction in transactions" ng-style="{color: colors[transaction.type]}" id="[[transaction.id]]" class="add_to_search_total results-transaction-tbody [[transaction.type]]">
             <tr class="results_inner_div">
-                <td ng-show="show.date">{{transaction.date.user}}</td>
+                <td ng-show="show.date">[[transaction.date.user]]</td>
                 <td ng-show="show.description" class="max-width-md">
-                    <div>{{transaction.description}}</div>
+                    <div>[[transaction.description]]</div>
                     <div ng-if="transaction.description" class="tooltip-container">
-                        <div class="tooltip">{{transaction.description}}</div>
+                        <div class="tooltip">[[transaction.description]]</div>
                     </div>
                 </td>
                 <td ng-show="show.merchant" class="max-width-md">
-                    <div>{{transaction.merchant}}</div>
+                    <div>[[transaction.merchant]]</div>
                     <div ng-if="transaction.merchant" class="tooltip-container">
-                        <div class="tooltip">{{transaction.merchant}}</div>
+                        <div class="tooltip">[[transaction.merchant]]</div>
                     </div>
                 </td>
-                <td ng-show="show.total">{{transaction.total}}</td>
-                <td ng-show="show.account" class="max-width-md">{{transaction.account.name}}</td>
+                <td ng-show="show.total">[[transaction.total]]</td>
+                <td ng-show="show.account" class="max-width-md">[[transaction.account.name]]</td>
                 <td ng-show="show.reconciled">
                     <input ng-model="transaction.reconciled" ng-change="updateReconciliation(transaction.id, transaction.reconciled)" type="checkbox">
                 </td>
@@ -52,9 +52,9 @@
     
             <tr ng-show="show.tags" class="results-tag-location-container tag-location-container">
                 <td colspan="8">
-                    <li ng-click="removeResultTag(this);" ng-repeat="tag in transaction.tags" ng-class="{'tag-with-fixed-budget': tag.fixed_budget !== null, 'tag-with-flex-budget': tag.flex_budget !== null, 'tag-without-budget': tag.fixed_budget === null || tag.flex_budget === null}" class="label label-default" data-id="{{tag.id}}" data-allocated-percent="{{tag.allocated_percent}}" data-allocated-fixed="{{tag.allocated_fixed}}" data-allocated_fixed="{{tag.allocated_fixed}}">{{tag.name}}</li>
+                    <li ng-click="removeResultTag(this);" ng-repeat="tag in transaction.tags" ng-class="{'tag-with-fixed-budget': tag.fixed_budget !== null, 'tag-with-flex-budget': tag.flex_budget !== null, 'tag-without-budget': tag.fixed_budget === null || tag.flex_budget === null}" class="label label-default" data-id="[[tag.id]]" data-allocated-percent="[[tag.allocated_percent]]" data-allocated-fixed="[[tag.allocated_fixed]]" data-allocated_fixed="[[tag.allocated_fixed]]">[[tag.name]]</li>
                 </td>
-                <td colspan="1" class="budget-tag-info">{{transaction.allocate}}</td>
+                <td colspan="1" class="budget-tag-info">[[transaction.allocate]]</td>
             </tr>
     
             <tr class="separator"></tr>

@@ -147,6 +147,7 @@ return [
 		'Barryvdh\Debugbar\ServiceProvider',
 		'GrahamCampbell\Throttle\ThrottleServiceProvider',
 		'Spatie\Backup\BackupServiceProvider',
+        'Laracasts\Utilities\JavaScript\JavascriptServiceProvider'
 
 	],
 

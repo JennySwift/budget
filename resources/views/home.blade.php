@@ -50,3 +50,5 @@
 </div><!-- .main -->  
 
 <?php include($footer); ?>
+
+@include('footer')
