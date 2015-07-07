@@ -2,7 +2,7 @@
 
 <div ng-show="show.edit_transaction" class="popup-outer">
 	<div id="edit-transaction" class="popup-inner"> <!-- this div is so the is has same margin as other -->
-		<input ng-value="edit_transaction.date.user" id="edit-transaction-date" placeholder="date" type='text'>
+		<input ng-model="edit_transaction.date.user" id="edit-transaction-date" placeholder="date" type='text'>
 		<input ng-model="edit_transaction.description" placeholder="description" type='text'>
 		<input ng-model="edit_transaction.merchant" placeholder="merchant" type='text'>
 		<input ng-model="edit_transaction.total" placeholder="$" type='text'>
