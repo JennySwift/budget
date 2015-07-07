@@ -355,19 +355,21 @@ var app = angular.module('budgetApp', ['checklist-model']);
 				$scope.show.edit_transaction = false;
 
 				//if it is an income transaction, and if the total has decreased, remove a percentage from savings
-				var $new_total = $scope.edit_transaction.total;
-				$new_total = parseInt($new_total.replace(',', ''), 10);
-				var $original_total = $scope.edit_transaction.original_total;
-				$original_total = parseInt($original_total.replace(',', ''), 10);
+				if ($scope.edit_transaction.type === 'income') {
+                    var $new_total = $scope.edit_transaction.total;
+                    $new_total = parseInt($new_total.replace(',', ''), 10);
+                    var $original_total = $scope.edit_transaction.original_total;
+                    $original_total = parseInt($original_total.replace(',', ''), 10);
 
-				if ($scope.edit_transaction.type === 'income' && $new_total < $original_total) {
-					//income transaction total has decreased. subtract percentage from savings
-					var $diff = $original_total - $new_total;
-					//this percent is temporary
-					var $percent = 10;
-					var $amount_to_subtract = $diff / 100 * $percent;
-					$scope.reverseAutomaticInsertIntoSavings($amount_to_subtract);
-				}
+                    if ($new_total < $original_total) {
+                        //income transaction total has decreased. subtract percentage from savings
+                        var $diff = $original_total - $new_total;
+                        //this percent is temporary
+                        var $percent = 10;
+                        var $amount_to_subtract = $diff / 100 * $percent;
+                        $scope.reverseAutomaticInsertIntoSavings($amount_to_subtract);
+                    }
+                }
 
 				$scope.getTotals();
 			});
