@@ -88,107 +88,82 @@ class TransactionsController extends Controller
         $transaction->delete();
     }
 
-    //Todo: Refactor the methods below
-
     /**
-     *
-     * @param Request $request
+     * Insert tags into transaction
+     * @param $transaction_id
+     * @param $tags
+     * @param $transaction_total
      */
-    public function updateTransaction(Request $request)
+    public function insertTags($transaction, $tags, $transaction_total)
     {
-        $transaction = $request->get('transaction');
+        $transaction = Transaction::find($transaction->id);
 
-        $transaction_id = $transaction['id'];
-        $total = $transaction['total'];
-        $type = $transaction['type'];
+        foreach ($tags as $tag) {
+            $tag_id = $tag['id'];
 
-        Transaction::where('id', $transaction_id)
-            ->update([
-                'account_id' => $transaction['account']['id'],
-                'type' => $type,
-                'date' => $transaction['date']['sql'],
-                'merchant' => $transaction['merchant'],
-                'total' => $total,
-                'description' => $transaction['description'],
-                'reconciled' => Transaction::convertFromBoolean($transaction['reconciled'])
-            ]);
+            if (isset($tag['allocated_fixed'])) {
+                $tag_allocated_fixed = $tag['allocated_fixed'];
 
-        //delete all previous tags for the transaction and then add the current ones
-        Transaction::deleteAllTagsForTransaction($transaction_id);
+                $transaction->tags()->attach($tag_id, [
+                    'allocated_fixed' => $tag_allocated_fixed,
+                    'calculated_allocation' => $tag_allocated_fixed
+                ]);
 
-        $this->insertTags($transaction_id, $transaction['tags'], $total);
-    }
+            }
+            elseif (isset($tag['allocated_percent'])) {
+                $tag_allocated_percent = $tag['allocated_percent'];
 
-    /**
-     * For one transaction, change the amount that is allocated for one tag
-     * @param Request $request
-     * @return array
-     */
-    public function updateAllocation(Request $request)
-    {
-        $type = $request->get('type');
-        $value = $request->get('value');
-        $transaction_id = $request->get('transaction_id');
-        $tag_id = $request->get('tag_id');
+                $transaction->tags()->attach($tag_id, [
+                    'allocated_percent' => $tag_allocated_percent,
+                    'calculated_allocation' => $transaction_total / 100 * $tag_allocated_percent,
+                ]);
 
-        if ($type === 'percent') {
-            Transaction::updateAllocatedPercent($value, $transaction_id, $tag_id);
+            }
+            else {
+                $transaction->tags()->attach($tag_id, [
+                    'calculated_allocation' => $transaction_total,
+                ]);
+            }
         }
-        elseif ($type === 'fixed') {
-            Transaction::updateAllocatedFixed($value, $transaction_id, $tag_id);
-        }
-
-        //get the updated tag info after the update
-        $allocation_info = Tag::getAllocationInfo($transaction_id, $tag_id);
-        $allocation_totals = Transaction::getAllocationTotals($transaction_id);
-
-        $array = array(
-            "allocation_info" => $allocation_info,
-            "allocation_totals" => $allocation_totals
-        );
-
-        return $array;
     }
 
     /**
      *
      * For Postman:
-     *
-     *
-     *
 
     {"new_transaction": {
 
-    "total": -5,
-    "type": "expense",
-    "description": "",
-    "merchant": "",
-    "date": {
-    "entered": "today",
-    "sql": "2015-07-08"
-    },
-    "reconciled": false,
-    "multiple_budgets": false,
-    "reconciled": false,
-    "multiple_budgets": false,
-    "account": 1,
-    "from_account": 1,
-    "to_account": 1,
-    "tags": [
-    {
-    "id": 5,
-    "created_at": "2015-07-08 06:37:07",
-    "updated_at": "2015-07-08 06:37:07",
-    "name": "books",
-    "fixed_budget": "10.00",
-    "flex_budget": null,
-    "starting_date": "2015-01-01",
-    "budget_id": 1,
-    "user_id": 1
-    }
-    ]
+        "total": -5,
+        "type": "expense",
+        "description": "",
+        "merchant": "",
+        "date": {
+        "entered": "today",
+        "sql": "2015-07-08"
+        },
+        "reconciled": false,
+        "multiple_budgets": false,
+        "reconciled": false,
+        "multiple_budgets": false,
+        "account": 1,
+        "from_account": 1,
+        "to_account": 1,
+        "tags": [
+        {
+        "id": 5,
+        "created_at": "2015-07-08 06:37:07",
+        "updated_at": "2015-07-08 06:37:07",
+        "name": "books",
+        "fixed_budget": "10.00",
+        "flex_budget": null,
+        "starting_date": "2015-01-01",
+        "budget_id": 1,
+        "user_id": 1
+        }
+        ]
 
-    }}
+        }
+    }
      *
      * @param Request $request
      * @return array
@@ -253,46 +228,72 @@ class TransactionsController extends Controller
         $transaction->save();
 
         //inserting tags
-        $last_transaction_id = Transaction::getLastTransactionId();
-        $this->insertTags($last_transaction_id, $new_transaction['tags'], $transaction->total);
+        $this->insertTags(
+            Transaction::getLastTransactionId(),
+            $new_transaction['tags'],
+            $transaction->total
+        );
+    }
+
+
+    //Todo: Refactor the methods below
+
+    /**
+     *
+     * @param Request $request
+     */
+    public function updateTransaction(Request $request)
+    {
+        $data = $request->get('transaction');
+        $transaction = Transaction::find($data['id']);
+        $total = $data['total'];
+
+        $transaction->update([
+            'account_id' => $data['account']['id'],
+            'type' => $data['type'],
+            'date' => $data['date']['sql'],
+            'merchant' => $data['merchant'],
+            'total' => $total,
+            'description' => $data['description'],
+            'reconciled' => Transaction::convertFromBoolean($data['reconciled'])
+        ]);
+
+        //delete all previous tags for the transaction and then add the current ones
+        Transaction::deleteAllTagsForTransaction($transaction);
+
+        $transaction->save();
+
+        $this->insertTags($transaction, $data['tags'], $total);
     }
 
     /**
-     * Insert tags into transaction
-     * @param $transaction_id
-     * @param $tags
-     * @param $transaction_total
+     * For one transaction, change the amount that is allocated for one tag
+     * @param Request $request
+     * @return array
      */
-    public function insertTags($transaction_id, $tags, $transaction_total)
+    public function updateAllocation(Request $request)
     {
-        $transaction = Transaction::find($transaction_id);
+        $type = $request->get('type');
+        $value = $request->get('value');
+        $transaction_id = $request->get('transaction_id');
+        $tag_id = $request->get('tag_id');
 
-        foreach ($tags as $tag) {
-            $tag_id = $tag['id'];
-
-            if (isset($tag['allocated_fixed'])) {
-                $tag_allocated_fixed = $tag['allocated_fixed'];
-
-                $transaction->tags()->attach($tag_id, [
-                    'allocated_fixed' => $tag_allocated_fixed,
-                    'calculated_allocation' => $tag_allocated_fixed
-                ]);
-
-            }
-            elseif (isset($tag['allocated_percent'])) {
-                $tag_allocated_percent = $tag['allocated_percent'];
-
-                $transaction->tags()->attach($tag_id, [
-                    'allocated_percent' => $tag_allocated_percent,
-                    'calculated_allocation' => $transaction_total / 100 * $tag_allocated_percent,
-                ]);
-
-            }
-            else {
-                $transaction->tags()->attach($tag_id, [
-                    'calculated_allocation' => $transaction_total,
-                ]);
-            }
+        if ($type === 'percent') {
+            Transaction::updateAllocatedPercent($value, $transaction_id, $tag_id);
         }
+        elseif ($type === 'fixed') {
+            Transaction::updateAllocatedFixed($value, $transaction_id, $tag_id);
+        }
+
+        //get the updated tag info after the update
+        $allocation_info = Tag::getAllocationInfo($transaction_id, $tag_id);
+        $allocation_totals = Transaction::getAllocationTotals($transaction_id);
+
+        $array = array(
+            "allocation_info" => $allocation_info,
+            "allocation_totals" => $allocation_totals
+        );
+
+        return $array;
     }
 }

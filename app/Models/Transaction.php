@@ -60,10 +60,10 @@ class Transaction extends Model
      *
      * @param $transaction_id
      */
-    public static function deleteAllTagsForTransaction($transaction_id)
+    public static function deleteAllTagsForTransaction($transaction)
     {
         DB::table('transactions_tags')
-            ->where('transaction_id', $transaction_id)
+            ->where('transaction_id', $transaction->id)
             ->delete();
     }
 
