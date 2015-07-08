@@ -4,12 +4,14 @@ use App\Models\Tag;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function()
-{
-    return Transaction::getTags(1);
-    $transaction = Transaction::find(1);
-    return $transaction->tags;
-});
+//Route::get('/test', function()
+//{
+//    $transaction = Transaction::find(1);
+//    return $transaction->tags;
+//});
+
+Route::post('/test', 'TransactionsController@getTransaction');
+
 
 /**
  * Home page

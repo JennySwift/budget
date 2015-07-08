@@ -39,6 +39,15 @@ class Transaction extends Model
 
     /**
      *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function account()
+    {
+        return $this->belongsTo('App\Models\Account');
+    }
+
+    /**
+     *
      * @return mixed
      */
     public static function getLastTransactionId()
