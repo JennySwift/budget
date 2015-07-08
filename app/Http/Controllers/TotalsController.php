@@ -25,7 +25,7 @@ class TotalsController extends Controller
     {
         $transaction_id = $request->get('transaction_id');
 
-        return Budget::getAllocationTotals($transaction_id);
+        return Transaction::getAllocationTotals($transaction_id);
     }
 
     /**
@@ -151,7 +151,6 @@ class TotalsController extends Controller
 
         $RB = $total_income - $total_CFB + $EWB + $EFLB + $total_spent_before_CSD + $total_spent_after_CSD - $total_savings;
 
-        // dd($total_income - $total_CFB + $EWB + $EFLB);
         return $RB;
     }
 
@@ -208,8 +207,7 @@ class TotalsController extends Controller
             $ids[] = $id;
         }
 
-        $total = DB::table('transactions')
-            ->whereIn('transactions.id', $ids)
+        $total = Transaction::whereIn('transactions.id', $ids)
             ->sum('total');
 
         return $total;
@@ -309,10 +307,9 @@ class TotalsController extends Controller
      */
     public function getTotalIncomeAfterDate($db, $user_id, $cumulative_starting_date)
     {
-        $total_income = DB::table('transactions')
+        $total_income = Transaction::where('user_id', Auth::user()->id)
             ->where('type', 'income')
             ->where('transactions.date', '>=', $cumulative_starting_date)
-            ->where('user_id', Auth::user()->id)
             ->sum('transactions.total');
 
         return $total_income;
@@ -324,9 +321,8 @@ class TotalsController extends Controller
      */
     public function getReconciledSum()
     {
-        $reconciled_sum = DB::table('transactions')
+        $reconciled_sum = Transaction::where('user_id', Auth::user()->id)
             ->where('reconciled', 1)
-            ->where('user_id', Auth::user()->id)
             ->sum('total');
 
         return $reconciled_sum;
@@ -338,9 +334,8 @@ class TotalsController extends Controller
      */
     public function getTotalIncome()
     {
-        $sql_result = DB::table('transactions')
+        $sql_result = Transaction::where('user_id', Auth::user()->id)
             ->where('type', 'income')
-            ->where('user_id', Auth::user()->id)
             ->lists('total');
 
         $total_income = 0;
@@ -357,9 +352,8 @@ class TotalsController extends Controller
      */
     public function getTotalExpense()
     {
-        $sql_result = DB::table('transactions')
+        $sql_result = Transaction::where('user_id', Auth::user()->id)
             ->where('type', 'expense')
-            ->where('user_id', Auth::user()->id)
             ->lists('total');
 
         $total_expense = 0;
@@ -380,6 +374,7 @@ class TotalsController extends Controller
     {
         if ($type === 'fixed') {
             $tags = Tag::getTagsWithFixedBudget($user_id);
+            $total_cumulative_budget = 0;
         } elseif ($type === 'flex') {
             $tags = Tag::getTagsWithFlexBudget($user_id);
         }
@@ -391,11 +386,6 @@ class TotalsController extends Controller
         ];
 
         $total_budget = 0;
-
-        if ($type === 'fixed') {
-            $total_cumulative_budget = 0;
-        }
-
         $total_spent = 0;
         $total_received = 0;
         $total_remaining = 0;
@@ -403,40 +393,32 @@ class TotalsController extends Controller
 
         foreach ($tags as $tag) {
             $tag_id = $tag->id;
-            $tag_name = $tag->name;
-
-            if ($type === 'fixed') {
-                $budget = $tag->fixed_budget;
-            } elseif ($type === 'flex') {
-                $budget = $tag->flex_budget;
-            }
-
             $CSD = $tag->starting_date;
 
+            //Get cumulative month number ($CMN)
             if ($CSD) {
-                $CMN = Budget::getCMN($CSD);
+                $CMN = Tag::getCMN($CSD);
             } else {
                 $CMN = 1;
             }
 
-            if ($type === 'fixed') {
-                $cumulative_budget = $budget * $CMN;
-            }
-
+            //Get other stuff :)
             $spent = $this->getTotalSpentOnTag($tag_id, $CSD);
             $received = $this->getTotalReceivedOnTag($tag_id, $CSD);
             $spent_before_CSD = $this->getTotalSpentOnTagBeforeCSD($tag_id, $CSD);
 
-            $total_budget += $budget;
-
             if ($type === 'fixed') {
+                $budget = $tag->fixed_budget;
+                $cumulative_budget = $budget * $CMN;
                 $remaining = $cumulative_budget + $spent + $received;
                 $total_remaining += $remaining;
                 $total_cumulative_budget += $cumulative_budget;
-            } elseif ($type === 'flex') {
-
+            }
+            elseif ($type === 'flex') {
+                $budget = $tag->flex_budget;
             }
 
+            $total_budget += $budget;
             $total_spent += $spent;
             $total_received += $received;
             $total_spent_before_CSD += $spent_before_CSD;
@@ -450,7 +432,7 @@ class TotalsController extends Controller
 
             $tag_info = [
                 "id" => $tag_id,
-                "name" => $tag_name,
+                "name" => $tag->name,
                 "budget" => $budget,
                 "CSD" => $CSD,
                 "CMN" => $CMN,
@@ -476,7 +458,6 @@ class TotalsController extends Controller
             "received" => $total_received,
             "spent_before_CSD" => $total_spent_before_CSD
         );
-
 
         if ($type === 'fixed') {
             $budget_info['totals']['cumulative_budget'] = $total_cumulative_budget;

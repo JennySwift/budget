@@ -192,6 +192,8 @@ class TransactionsRepository
                 "user" => $this->convertDate($date, 'user')
             );
 
+            $transaction_model = Transaction::find($transaction->id);
+
             $transactions_array[] = array(
                 'id' => $transaction_id,
                 'date' => $date,
@@ -202,7 +204,7 @@ class TransactionsRepository
                 'reconciled' => $this->convertToBoolean($transaction->reconciled),
                 'allocated' => $this->convertToBoolean($transaction->allocated),
                 'type' => $transaction->type,
-                'tags' => Transaction::getTags($transaction_id),
+                'tags' => $transaction_model->tags,
                 'multiple_budgets' => Budget::hasMultipleBudgets($transaction_id)
             );
 
@@ -302,6 +304,40 @@ class TransactionsRepository
         }
 
         return $variable;
+    }
+
+    /**
+     *
+     * @param $column
+     * @param $typing
+     * @return mixed
+     */
+    public function autocompleteTransaction($column, $typing)
+    {
+        $transactions = Transaction::where($column, 'LIKE', $typing)
+            ->where('transactions.user_id', Auth::user()->id)
+            ->join('accounts', 'transactions.account_id', '=', 'accounts.id')
+            ->select('transactions.id', 'total', 'account_id', 'accounts.name AS account_name', 'type', 'description',
+                'merchant')
+            ->limit(50)
+            ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        foreach ($transactions as $transaction) {
+            $transaction_model = Transaction::find($transaction->id);
+            $tags = $transaction_model->tags;
+
+            $account = array(
+                "id" => $transaction->account_id,
+                "name" => $transaction->account_name
+            );
+
+            $transaction->account = $account;
+            $transaction->tags = $tags;
+        }
+
+        return $transactions;
     }
 
 }

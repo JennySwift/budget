@@ -36,8 +36,11 @@ class Tag extends Model
      */
     public static function getTagsWithFixedBudget($user_id)
     {
-        $sql = "SELECT id, name, fixed_budget, starting_date FROM tags WHERE flex_budget IS NULL AND fixed_budget IS NOT NULL AND user_id = $user_id ORDER BY name ASC;";
-        $tags = DB::select($sql);
+        $tags = Tag::where('user_id', Auth::user()->id)
+            ->where('flex_budget', null)
+            ->whereNotNull('fixed_budget')
+            ->orderBy('name', 'asc')
+            ->get();
 
         return $tags;
     }
@@ -49,10 +52,31 @@ class Tag extends Model
      */
     public static function getTagsWithFlexBudget($user_id)
     {
-        $sql = "SELECT id, name, fixed_budget, flex_budget, starting_date FROM tags WHERE flex_budget IS NOT NULL AND user_id = $user_id ORDER BY name ASC;";
-        $tags = DB::select($sql);
+        $tags = Tag::where('user_id', Auth::user()->id)
+            ->whereNotNull('flex_budget')
+            ->orderBy('name', 'asc')
+            ->get();
 
         return $tags;
+    }
+
+    /**
+     * Get the cumulative month number for a tag (CMN).
+     * CMN is based on the starting date (CSD) for a tag.
+     * @param $CSD
+     * @return string
+     */
+    public static function getCMN($CSD)
+    {
+        // CMN is cumulative month number
+        $CSD = Carbon::createFromFormat('Y-m-d', $CSD);
+        $now = Carbon::now();
+
+        $diff = $now->diff($CSD);
+
+        $CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
+
+        return $CMN;
     }
 
     /**
@@ -69,5 +93,25 @@ class Tag extends Model
         } elseif ($allocated_percent && !$allocated_fixed) {
             $tag->allocation_type = 'percent';
         }
+    }
+
+    /**
+     * For one tag.
+     * For getting the updated info after updating the allocation for that tag.
+     * @param $transaction_id
+     * @param $tag_id
+     * @return mixed|null
+     */
+    public static function getAllocationInfo($transaction_id, $tag_id)
+    {
+        $transaction = Transaction::find($transaction_id);
+
+        $tag = $transaction->tags()
+            ->where('tag_id', $tag_id)
+            ->first();
+
+        $tag->setAllocationType($tag);
+
+        return $tag;
     }
 }

@@ -1,13 +1,14 @@
 <?php
 
+use App\Models\Tag;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function()
 {
-    $transaction = Transaction::find(19);
-    //dd($transaction);
-    return Transaction::getTags(19);
+    return Transaction::getTags(1);
+    $transaction = Transaction::find(1);
+    return $transaction->tags;
 });
 
 /**
@@ -25,10 +26,6 @@ Route::get('/charts', 'ChartsController@index');
 //     return view('settings');
 // });
 
-// Route::get('/test', function()
-// {
-//     return view('test');
-// });
 
 
 
@@ -78,7 +75,7 @@ Route::post('update/massDescription', 'TransactionsController@updateMassDescript
 Route::post('update/transaction', 'TransactionsController@updateTransaction');
 Route::post('update/reconciliation', 'TransactionsController@updateReconciliation');
 Route::post('update/allocationStatus', 'TransactionsController@updateAllocationStatus');
-
+Route::post('update/allocation', 'TransactionsController@updateAllocation');
 Route::post('delete/transaction', 'TransactionsController@deleteTransaction');
 
 /**
@@ -90,8 +87,6 @@ Route::post('select/allocationTotals', 'TotalsController@getAllocationTotals');
 
 Route::post('insert/flexBudget', 'BudgetsController@insertFlexBudget');
 Route::post('insert/budgetInfo', 'BudgetsController@insertBudgetInfo');
-
-Route::post('update/allocation', 'BudgetsController@updateAllocation');
 
 /**
  * accounts
