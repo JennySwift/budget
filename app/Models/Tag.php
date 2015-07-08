@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\DB;
  */
 class Tag extends Model
 {
-    protected $fillable = ['name'];
+    /**
+     * @var array
+     */
+    protected $fillable = ['name', 'fixed_budget', 'flex_budget', 'starting_date', 'budget_id'];
 
     /**
      *

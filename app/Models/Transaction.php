@@ -15,7 +15,7 @@ class Transaction extends Model
     /**
      * @var array
      */
-    protected $fillable = ['date', 'type', 'description', 'merchant', 'account', 'reconciled', 'allocated'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'user_id'];
 
     /**
      *

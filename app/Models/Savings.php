@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Savings extends Model
 {
+    /**
+     * @var array
+     */
+    protected $fillable = ['amount'];
 
     /**
      * @var string

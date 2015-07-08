@@ -12,7 +12,7 @@ class Color extends Model
     /**
      * @var array
      */
-    protected $fillable = ['item', 'color', 'user_id'];
+    protected $fillable = ['item', 'color'];
 
     /**
      *

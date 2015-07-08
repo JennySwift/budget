@@ -11,6 +11,11 @@ use DB;
 class Account extends Model {
 
     /**
+     * @var array
+     */
+    protected $fillable = ['name'];
+
+    /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
