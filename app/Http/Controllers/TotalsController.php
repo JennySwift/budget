@@ -242,7 +242,6 @@ class TotalsController extends Controller
 
         $total = $total
             ->where('transactions.type', 'expense')
-            ->where('transactions_tags.user_id', Auth::user()->id)
             ->sum('calculated_allocation');
 
         return $total;
@@ -267,7 +266,6 @@ class TotalsController extends Controller
 
         $total = $total
             ->where('transactions.type', 'expense')
-            ->where('transactions_tags.user_id', Auth::user()->id)
             ->sum('calculated_allocation');
 
         return $total;
@@ -292,7 +290,6 @@ class TotalsController extends Controller
 
         $total = $total
             ->where('transactions.type', 'income')
-            ->where('transactions_tags.user_id', Auth::user()->id)
             ->sum('calculated_allocation');
 
         return $total;

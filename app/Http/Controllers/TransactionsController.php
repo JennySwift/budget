@@ -49,16 +49,6 @@ class TransactionsController extends Controller
     }
 
     /**
-     * For the new transaction allocation popup.
-     * @param $transaction_id
-     * @return \Illuminate\Support\Collection|null|static
-     */
-    public function getTransaction($transaction_id)
-    {
-        return Transaction::find($transaction_id);
-    }
-
-    /**
      *
      */
     public function updateMassDescription()
@@ -126,7 +116,7 @@ class TransactionsController extends Controller
         //delete all previous tags for the transaction and then add the current ones
         Transaction::deleteAllTagsForTransaction($transaction_id);
 
-        Transaction::insertTags($transaction_id, $transaction['tags'], $total);
+        $this->insertTags($transaction_id, $transaction['tags'], $total);
     }
 
     /**
@@ -171,17 +161,18 @@ class TransactionsController extends Controller
         $type = $new_transaction['type'];
 
         if ($type !== "transfer") {
-            Transaction::insertTransaction($new_transaction, $type);
-        } else {
+            $this->reallyInsertTransaction($new_transaction, $type);
+        }
+        else {
             //It's a transfer, so insert two transactions, the from and the to
-            Transaction::insertTransaction($new_transaction, "from");
-            Transaction::insertTransaction($new_transaction, "to");
+            $this->reallyInsertTransaction($new_transaction, "from");
+            $this->reallyInsertTransaction($new_transaction, "to");
         }
 
         //Check if the transaction that was just entered has multiple budgets.
         //Note for transfers this won't do both of them.
         $last_transaction_id = Transaction::getLastTransactionId();
-        $transaction = $this->getTransaction($last_transaction_id);
+        $transaction = Transaction::find($last_transaction_id);
         $multiple_budgets = Transaction::hasMultipleBudgets($last_transaction_id);
 
         $array = array(
@@ -190,5 +181,109 @@ class TransactionsController extends Controller
         );
 
         return $array;
+    }
+
+    /**
+     *
+     * @param $new_transaction
+     * @param $transaction_type
+     */
+    public function reallyInsertTransaction($new_transaction, $transaction_type)
+    {
+        $user_id = Auth::user()->id;
+        $date = $new_transaction['date']['sql'];
+        $description = $new_transaction['description'];
+        $type = $new_transaction['type'];
+        $reconciled = $new_transaction['reconciled'];
+        $reconciled = Transaction::convertFromBoolean($reconciled);
+        $tags = $new_transaction['tags'];
+
+        if ($transaction_type === "from") {
+            $from_account = $new_transaction['from_account'];
+            $total = $new_transaction['negative_total'];
+
+            Transaction::insert([
+                'account_id' => $from_account,
+                'date' => $date,
+                'total' => $total,
+                'description' => $description,
+                'type' => $type,
+                'reconciled' => $reconciled,
+                'user_id' => Auth::user()->id
+            ]);
+        }
+        elseif ($transaction_type === "to") {
+            $to_account = $new_transaction['to_account'];
+            $total = $new_transaction['total'];
+
+            Transaction::insert([
+                'account_id' => $to_account,
+                'date' => $date,
+                'total' => $total,
+                'description' => $description,
+                'type' => $type,
+                'reconciled' => $reconciled,
+                'user_id' => Auth::user()->id
+            ]);
+        }
+        elseif ($transaction_type === 'income' || $transaction_type === 'expense') {
+            $account = $new_transaction['account'];
+            $merchant = $new_transaction['merchant'];
+            $total = $new_transaction['total'];
+
+            Transaction::insert([
+                'account_id' => $account,
+                'date' => $date,
+                'merchant' => $merchant,
+                'total' => $total,
+                'description' => $description,
+                'type' => $type,
+                'reconciled' => $reconciled,
+                'user_id' => Auth::user()->id
+            ]);
+        }
+
+        //inserting tags
+        $last_transaction_id = Transaction::getLastTransactionId();
+        $this->insertTags($last_transaction_id, $tags, $total);
+    }
+
+    /**
+     * Insert tags into transaction
+     * @param $transaction_id
+     * @param $tags
+     * @param $transaction_total
+     */
+    public function insertTags($transaction_id, $tags, $transaction_total)
+    {
+        $transaction = Transaction::find($transaction_id);
+
+        foreach ($tags as $tag) {
+            $tag_id = $tag['id'];
+
+            if (isset($tag['allocated_fixed'])) {
+                $tag_allocated_fixed = $tag['allocated_fixed'];
+
+                $transaction->tags()->attach($tag_id, [
+                    'allocated_fixed' => $tag_allocated_fixed,
+                    'calculated_allocation' => $tag_allocated_fixed
+                ]);
+
+            }
+            elseif (isset($tag['allocated_percent'])) {
+                $tag_allocated_percent = $tag['allocated_percent'];
+
+                $transaction->tags()->attach($tag_id, [
+                    'allocated_percent' => $tag_allocated_percent,
+                    'calculated_allocation' => $transaction_total / 100 * $tag_allocated_percent,
+                ]);
+
+            }
+            else {
+                $transaction->tags()->attach($tag_id, [
+                    'calculated_allocation' => $transaction_total,
+                ]);
+            }
+        }
     }
 }

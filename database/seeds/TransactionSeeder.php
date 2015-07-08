@@ -72,7 +72,7 @@ class TransactionSeeder extends Seeder {
 		]);
 
 		$transaction = Transaction::find($id);
-		$transaction->tags()->attach(8, ['user_id' => 2, 'calculated_allocation' => $total]);
+		$transaction->tags()->attach(8, ['calculated_allocation' => $total]);
 
 		$id = Transaction::insertGetId([
 			'date' => Carbon::today()->format('Y-m-d'),
@@ -87,7 +87,7 @@ class TransactionSeeder extends Seeder {
 		]);
 
 		$transaction = Transaction::find($id);
-		$transaction->tags()->attach(8, ['user_id' => 2, 'calculated_allocation' => $total]);
+		$transaction->tags()->attach(8, ['calculated_allocation' => $total]);
 
 		//Insert transactions with flex budget
 
@@ -104,7 +104,7 @@ class TransactionSeeder extends Seeder {
 		]);
 
 		$transaction = Transaction::find($id);
-		$transaction->tags()->attach(11, ['user_id' => 2, 'calculated_allocation' => $total]);
+		$transaction->tags()->attach(11, ['calculated_allocation' => $total]);
 	}
 
 	private function insertUserOneTransactions()

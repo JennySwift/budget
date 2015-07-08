@@ -40,8 +40,7 @@ class TransactionTagSeeder extends Seeder {
 				if (!in_array($tag_id, $tag_ids_for_transaction)) {
 					DB::table('transactions_tags')->insert([
 						'transaction_id' => $transaction_id,
-						'tag_id' => $tag_id,
-						'user_id' => 1
+						'tag_id' => $tag_id
 					]);
 				}	
 			}
