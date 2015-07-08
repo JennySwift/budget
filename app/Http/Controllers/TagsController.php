@@ -68,9 +68,7 @@ class TagsController extends Controller
     public function insertTag(Request $request)
     {
         $tag = new Tag(['name' => $request->get('new_tag_name')]);
-
         $tag->user()->associate(Auth::user());
-
         $tag->save();
     }
 

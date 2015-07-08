@@ -152,6 +152,44 @@ class TransactionsController extends Controller
 
     /**
      *
+     * For Postman:
+     *
+     *
+     *
+
+    {"new_transaction": {
+
+    "total": -5,
+    "type": "expense",
+    "description": "",
+    "merchant": "",
+    "date": {
+    "entered": "today",
+    "sql": "2015-07-08"
+    },
+    "reconciled": false,
+    "multiple_budgets": false,
+    "reconciled": false,
+    "multiple_budgets": false,
+    "account": 1,
+    "from_account": 1,
+    "to_account": 1,
+    "tags": [
+    {
+    "id": 5,
+    "created_at": "2015-07-08 06:37:07",
+    "updated_at": "2015-07-08 06:37:07",
+    "name": "books",
+    "fixed_budget": "10.00",
+    "flex_budget": null,
+    "starting_date": "2015-01-01",
+    "budget_id": 1,
+    "user_id": 1
+    }
+    ]
+
+    }}
+     *
      * @param Request $request
      * @return array
      */
@@ -190,62 +228,33 @@ class TransactionsController extends Controller
      */
     public function reallyInsertTransaction($new_transaction, $transaction_type)
     {
-        $user_id = Auth::user()->id;
-        $date = $new_transaction['date']['sql'];
-        $description = $new_transaction['description'];
-        $type = $new_transaction['type'];
-        $reconciled = $new_transaction['reconciled'];
-        $reconciled = Transaction::convertFromBoolean($reconciled);
-        $tags = $new_transaction['tags'];
+        $transaction = new Transaction([
+            'date' => $new_transaction['date']['sql'],
+            'description' => $new_transaction['description'],
+            'type' => $new_transaction['type'],
+            'reconciled' => Transaction::convertFromBoolean($new_transaction['reconciled']),
+        ]);
 
         if ($transaction_type === "from") {
-            $from_account = $new_transaction['from_account'];
-            $total = $new_transaction['negative_total'];
-
-            Transaction::insert([
-                'account_id' => $from_account,
-                'date' => $date,
-                'total' => $total,
-                'description' => $description,
-                'type' => $type,
-                'reconciled' => $reconciled,
-                'user_id' => Auth::user()->id
-            ]);
+            $transaction->account_id = $new_transaction['from_account'];
+            $transaction->total = $new_transaction['negative_total'];
         }
         elseif ($transaction_type === "to") {
-            $to_account = $new_transaction['to_account'];
-            $total = $new_transaction['total'];
-
-            Transaction::insert([
-                'account_id' => $to_account,
-                'date' => $date,
-                'total' => $total,
-                'description' => $description,
-                'type' => $type,
-                'reconciled' => $reconciled,
-                'user_id' => Auth::user()->id
-            ]);
+            $transaction->account_id = $new_transaction['to_account'];
+            $transaction->total = $new_transaction['total'];
         }
         elseif ($transaction_type === 'income' || $transaction_type === 'expense') {
-            $account = $new_transaction['account'];
-            $merchant = $new_transaction['merchant'];
-            $total = $new_transaction['total'];
-
-            Transaction::insert([
-                'account_id' => $account,
-                'date' => $date,
-                'merchant' => $merchant,
-                'total' => $total,
-                'description' => $description,
-                'type' => $type,
-                'reconciled' => $reconciled,
-                'user_id' => Auth::user()->id
-            ]);
+            $transaction->account_id = $new_transaction['account'];
+            $transaction->merchant = $new_transaction['merchant'];
+            $transaction->total = $new_transaction['total'];
         }
+
+        $transaction->user()->associate(Auth::user());
+        $transaction->save();
 
         //inserting tags
         $last_transaction_id = Transaction::getLastTransactionId();
-        $this->insertTags($last_transaction_id, $tags, $total);
+        $this->insertTags($last_transaction_id, $new_transaction['tags'], $transaction->total);
     }
 
     /**
