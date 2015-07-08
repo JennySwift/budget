@@ -14,4 +14,13 @@ class Color extends Model
      */
     protected $fillable = ['item', 'color', 'user_id'];
 
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }

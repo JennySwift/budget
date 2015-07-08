@@ -25,7 +25,7 @@
             
             <table class="table table-bordered">
                 <tr ng-repeat="tag in tags">
-                    <td>{{tag.name}}</td>
+                    <td>[[tag.name]]</td>
                     <td>
                         <button ng-click="showEditTagPopup(tag.id, tag.name)">edit</button>
                     </td>

@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -10,6 +11,16 @@ use Illuminate\Support\Facades\DB;
  */
 class Tag extends Model
 {
+    protected $fillable = ['name'];
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 
     /**
      *

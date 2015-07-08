@@ -67,10 +67,11 @@ class TagsController extends Controller
      */
     public function insertTag(Request $request)
     {
-        Tag::insert([
-            'name' => $request->get('new_tag_name'),
-            'user_id' => Auth::user()->id
-        ]);
+        $tag = new Tag(['name' => $request->get('new_tag_name')]);
+
+        $tag->user()->associate(Auth::user());
+
+        $tag->save();
     }
 
     /**
@@ -79,10 +80,9 @@ class TagsController extends Controller
      */
     public function updateTagName(Request $request)
     {
-        Tag::where('id', $request->get('tag_id'))
-            ->update([
-                'name' => $request->get('tag_name')
-            ]);
+        $tag = Tag::find($request->get('tag_id'));
+        $tag->name = $request->get('tag_name');
+        $tag->save();
     }
 
     /**
@@ -99,14 +99,16 @@ class TagsController extends Controller
      */
     public function updateBudget(Request $request)
     {
-        $tag_id = $request->get('tag_id');
+        $tag = Tag::find($request->get('tag_id'));
+
         $budget = $request->get('budget');
         $column = $request->get('column');
 
         if (!$budget || $budget === "NULL") {
             $budget = null;
             $budget_id = null;
-        } else {
+        }
+        else {
             if ($column === "fixed_budget") {
                 $budget_id = 1;
             } else {
@@ -114,9 +116,10 @@ class TagsController extends Controller
             }
         }
 
-        Tag::where('id', $tag_id)
+        Tag::where('id', $tag->id)
             ->update([
-                $column => $budget, 'budget_id' => $budget_id
+                $column => $budget,
+                'budget_id' => $budget_id
             ]);
     }
 
@@ -126,13 +129,9 @@ class TagsController extends Controller
      */
     public function updateCSD(Request $request)
     {
-        $tag_id = $request->get('tag_id');
-        $CSD = $request->get('CSD');
-
-        Tag::where('id', $tag_id)
-            ->update([
-                'starting_date' => $CSD
-            ]);
+        $tag = Tag::find($request->get('tag_id'));
+        $tag->starting_date = $request->get('CSD');
+        $tag->save();
     }
 
     /**
@@ -141,7 +140,7 @@ class TagsController extends Controller
      */
     public function deleteTag(Request $request)
     {
-        $tag_id = $request->get('tag_id');
-        Tag::where('id', $tag_id)->delete();
+        $tag = Tag::find($request->get('tag_id'));
+        $tag->delete();
     }
 }

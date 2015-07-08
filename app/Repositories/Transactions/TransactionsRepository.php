@@ -205,7 +205,7 @@ class TransactionsRepository
                 'allocated' => $this->convertToBoolean($transaction->allocated),
                 'type' => $transaction->type,
                 'tags' => $transaction_model->tags,
-                'multiple_budgets' => Budget::hasMultipleBudgets($transaction_id)
+                'multiple_budgets' => Transaction::hasMultipleBudgets($transaction_id)
             );
 
         }

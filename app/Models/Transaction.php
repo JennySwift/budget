@@ -18,6 +18,15 @@ class Transaction extends Model
     protected $fillable = ['description', 'merchant', 'account', 'reconciled', 'allocated'];
 
     /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    /**
      * Get tags for one transaction
      * Todo: set the allocation type?
      * @return $this
@@ -26,18 +35,6 @@ class Transaction extends Model
     {
         return $this->belongsToMany('App\Models\Tag', 'transactions_tags')->withPivot('allocated_fixed',
             'allocated_percent', 'calculated_allocation');
-    }
-
-    /**
-     *
-     * @return mixed
-     */
-    public static function countTransactions()
-    {
-        $count = static::where('user_id', Auth::user()->id)
-            ->count();
-
-        return $count;
     }
 
     /**
@@ -80,7 +77,8 @@ class Transaction extends Model
                 'reconciled' => $reconciled,
                 'user_id' => Auth::user()->id
             ]);
-        } elseif ($transaction_type === "to") {
+        }
+        elseif ($transaction_type === "to") {
             $to_account = $new_transaction['to_account'];
             $total = $new_transaction['total'];
 
@@ -220,7 +218,8 @@ class Transaction extends Model
      */
     public static function hasMultipleBudgets($transaction_id)
     {
-        $tags = DB::table('transactions_tags')->where('transaction_id', $transaction_id)
+        $tags = DB::table('transactions_tags')
+            ->where('transaction_id', $transaction_id)
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->select('tags.fixed_budget', 'tags.flex_budget')
             ->get();
@@ -257,10 +256,17 @@ class Transaction extends Model
             ->where('transaction_id', $transaction_id)
             ->where('tags.budget_id', '!=', 'null')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-            ->select('transactions_tags.transaction_id', 'transactions_tags.tag_id',
-                'transactions_tags.allocated_percent', 'transactions_tags.allocated_fixed',
-                'transactions_tags.calculated_allocation', 'tags.name', 'tags.fixed_budget', 'tags.flex_budget',
-                'tags.budget_id')
+            ->select(
+                'transactions_tags.transaction_id',
+                'transactions_tags.tag_id',
+                'transactions_tags.allocated_percent',
+                'transactions_tags.allocated_fixed',
+                'transactions_tags.calculated_allocation',
+                'tags.name',
+                'tags.fixed_budget',
+                'tags.flex_budget',
+                'tags.budget_id'
+            )
             ->get();
 
         $fixed_sum = '-';

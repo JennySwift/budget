@@ -201,6 +201,7 @@ class TransactionsController extends Controller
      */
     public function deleteTransaction(Request $request)
     {
-        Transaction::where('id', $request->get('transaction_id'))->delete();
+        $transaction = Transaction::find($request->get('transaction_id'));
+        $transaction->delete();
     }
 }
