@@ -90,14 +90,12 @@ class TransactionsController extends Controller
 
     /**
      * Insert tags into transaction
-     * @param $transaction_id
+     * @param $transaction
      * @param $tags
      * @param $transaction_total
      */
-    public function insertTags($transaction, $tags, $transaction_total)
+    public function insertTags($transaction, $tags)
     {
-        $transaction = Transaction::find($transaction->id);
-
         foreach ($tags as $tag) {
             $tag_id = $tag['id'];
 
@@ -115,13 +113,13 @@ class TransactionsController extends Controller
 
                 $transaction->tags()->attach($tag_id, [
                     'allocated_percent' => $tag_allocated_percent,
-                    'calculated_allocation' => $transaction_total / 100 * $tag_allocated_percent,
+                    'calculated_allocation' => $transaction->total / 100 * $tag_allocated_percent,
                 ]);
 
             }
             else {
                 $transaction->tags()->attach($tag_id, [
-                    'calculated_allocation' => $transaction_total,
+                    'calculated_allocation' => $transaction->total,
                 ]);
             }
         }
@@ -229,14 +227,12 @@ class TransactionsController extends Controller
 
         //inserting tags
         $this->insertTags(
-            Transaction::getLastTransactionId(),
-            $new_transaction['tags'],
-            $transaction->total
+            $transaction,
+            $new_transaction['tags']
         );
+
+        return $transaction;
     }
-
-
-    //Todo: Refactor the methods below
 
     /**
      *

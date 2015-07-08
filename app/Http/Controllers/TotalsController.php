@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Models\Budget;
 use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
@@ -23,9 +22,7 @@ class TotalsController extends Controller
      */
     public function getAllocationTotals(Request $request)
     {
-        $transaction_id = $request->get('transaction_id');
-
-        return Transaction::getAllocationTotals($transaction_id);
+        return Transaction::getAllocationTotals($request->get('transaction_id'));
     }
 
     /**
@@ -37,30 +34,18 @@ class TotalsController extends Controller
         $total_income = $this->getTotalIncome();
         $total_expense = $this->getTotalExpense();
         $balance = $total_income + $total_expense;
-        $reconciled_sum = $this->getReconciledSum();
-        $savings_total = $this->getSavingsTotal();
+        $savings_total = Savings::getSavingsTotal();
         $savings_balance = $balance - $savings_total;
-        $expense_without_budget_total = $this->getTotalExpenseWithoutBudget();
-        $EFLB = $this->getTotalExpenseWithFLB();
-
-        $total_income = number_format($total_income, 2);
-        $total_expense = number_format($total_expense, 2);
-        $balance = number_format($balance, 2);
-        $reconciled_sum = number_format($reconciled_sum, 2);
-        $savings_total = number_format($savings_total, 2);
-        $savings_balance = number_format($savings_balance, 2);
-        $expense_without_budget_total = number_format($expense_without_budget_total, 2);
-        $EFLB = number_format($EFLB, 2);
 
         $totals = array(
-            "total_income" => $total_income,
-            "total_expense" => $total_expense,
-            "balance" => $balance,
-            "reconciled_sum" => $reconciled_sum,
-            "savings_total" => $savings_total,
-            "savings_balance" => $savings_balance,
-            "expense_without_budget_total" => $expense_without_budget_total,
-            "EFLB" => $EFLB
+            "total_income" => number_format($total_income, 2),
+            "total_expense" => number_format($total_expense, 2),
+            "balance" => number_format($balance, 2),
+            "reconciled_sum" => number_format($this->getReconciledSum(), 2),
+            "savings_total" => number_format($savings_total, 2),
+            "savings_balance" => number_format($savings_balance, 2),
+            "expense_without_budget_total" => number_format($this->getTotalExpenseWithoutBudget(), 2),
+            "EFLB" => number_format($this->getTotalExpenseWithFLB(), 2)
         );
 
         return $totals;
@@ -75,12 +60,11 @@ class TotalsController extends Controller
         $user_id = Auth::user()->id;
         $FB_info = $this->getBudgetInfo($user_id, 'fixed');
         $FLB_info = $this->getBudgetInfo($user_id, 'flex');
-
         $remaining_balance = $this->getRB();
 
         //adding the calculated budget for each tag. I'm doing it here rather than in getBudgetInfo because $remaining_balance is needed before each calculated_budget can be calculated.
         //I'm doing it like this (creating a new array) because it didn't work when I tried to modify the original array.
-        $FLB_tags_with_calculated_budgets = array();
+        $FLB_tags_with_calculated_budgets = [];
         $total_calculated_budget = 0;
         $total_remaining = 0;
 
@@ -95,37 +79,27 @@ class TotalsController extends Controller
             $remaining = $calculated_budget + $spent + $received;
             $total_remaining += $remaining;
 
-            $calculated_budget = number_format($calculated_budget, 2);
-            $remaining = number_format($remaining, 2);
-            $spent = number_format($spent, 2);
-            $received = number_format($received, 2);
-
-            $tag['calculated_budget'] = $calculated_budget;
-            $tag['remaining'] = $remaining;
-            $tag['spent'] = $spent;
-            $tag['received'] = $received;
+            $tag['calculated_budget'] = number_format($calculated_budget, 2);
+            $tag['remaining'] = number_format($remaining, 2);
+            $tag['spent'] = number_format($spent, 2);
+            $tag['received'] = number_format($received, 2);
 
             $FLB_tags_with_calculated_budgets[] = $tag;
         }
 
         $FLB_info['each_tag'] = $FLB_tags_with_calculated_budgets;
 
-        $total_calculated_budget = number_format($total_calculated_budget, 2);
-        $total_remaining = number_format($total_remaining, 2);
-
-        $FLB_info['totals']['calculated_budget'] = $total_calculated_budget;
-        $FLB_info['totals']['remaining'] = $total_remaining;
-
-        $remaining_balance = number_format($remaining_balance, 2);
+        $FLB_info['totals']['calculated_budget'] = number_format($total_calculated_budget, 2);
+        $FLB_info['totals']['remaining'] = number_format($total_remaining, 2);
 
         //formatting
         $FB_info['totals'] = $this->numberFormat($FB_info['totals']);
 
-        $array = array(
+        $array = [
             "FB" => $FB_info,
             "FLB" => $FLB_info,
-            "RB" => $remaining_balance
-        );
+            "RB" => number_format($remaining_balance, 2)
+        ];
 
         return $array;
     }
@@ -147,7 +121,7 @@ class TotalsController extends Controller
         $EFLB = $this->getTotalExpenseWithFLB();
         $total_spent_before_CSD = $FB_info['totals']['spent_before_CSD'];
         $total_spent_after_CSD = $FB_info['totals']['spent'];
-        $total_savings = $this->getSavingsTotal();
+        $total_savings = Savings::getSavingsTotal();
 
         $RB = $total_income - $total_CFB + $EWB + $EFLB + $total_spent_before_CSD + $total_spent_after_CSD - $total_savings;
 
@@ -170,10 +144,9 @@ class TotalsController extends Controller
         $transactions_with_FLB = DB::select($sql);
 
         //format transactions_with_one_budget into a nice array
-        $ids = array();
+        $ids = [];
         foreach ($transactions_with_FLB as $transaction) {
-            $id = $transaction->id;
-            $ids[] = $id;
+            $ids[] = $transaction->id;
         }
 
         $total = DB::table('transactions_tags')
@@ -201,26 +174,15 @@ class TotalsController extends Controller
         $transactions_with_no_budgets = DB::select($sql);
 
         //format transactions_with_one_budget into a nice array
-        $ids = array();
+        $ids = [];
         foreach ($transactions_with_no_budgets as $transaction) {
-            $id = $transaction->id;
-            $ids[] = $id;
+            $ids[] = $transaction->id;
         }
 
         $total = Transaction::whereIn('transactions.id', $ids)
             ->sum('total');
 
         return $total;
-    }
-
-
-    /**
-     *
-     * @return mixed
-     */
-    public function getSavingsTotal()
-    {
-        return Savings::getSavingsTotal();
     }
 
     /**
@@ -293,23 +255,6 @@ class TotalsController extends Controller
             ->sum('calculated_allocation');
 
         return $total;
-    }
-
-    /**
-     * Get the total income after the cumulative starting date
-     * @param $db
-     * @param $user_id
-     * @param $cumulative_starting_date
-     * @return mixed
-     */
-    public function getTotalIncomeAfterDate($db, $user_id, $cumulative_starting_date)
-    {
-        $total_income = Transaction::where('user_id', Auth::user()->id)
-            ->where('type', 'income')
-            ->where('transactions.date', '>=', $cumulative_starting_date)
-            ->sum('transactions.total');
-
-        return $total_income;
     }
 
     /**
@@ -410,8 +355,7 @@ class TotalsController extends Controller
                 $remaining = $cumulative_budget + $spent + $received;
                 $total_remaining += $remaining;
                 $total_cumulative_budget += $cumulative_budget;
-            }
-            elseif ($type === 'flex') {
+            } elseif ($type === 'flex') {
                 $budget = $tag->flex_budget;
             }
 
@@ -424,26 +368,20 @@ class TotalsController extends Controller
                 $CSD = Transaction::convertDate($CSD, 'user');
             }
 
-            $budget = number_format($budget, 2);
-            $spent_before_CSD = number_format($spent_before_CSD, 2);
-
             $tag_info = [
                 "id" => $tag_id,
                 "name" => $tag->name,
-                "budget" => $budget,
+                "budget" => number_format($budget, 2),
                 "CSD" => $CSD,
                 "CMN" => $CMN,
                 "spent" => $spent,
                 "received" => $received,
-                "spent_before_CSD" => $spent_before_CSD
+                "spent_before_CSD" => number_format($spent_before_CSD, 2)
             ];
 
             if ($type === 'fixed') {
-                $cumulative_budget = number_format($cumulative_budget, 2);
-                $tag_info['cumulative_budget'] = $cumulative_budget;
-
-                $remaining = number_format($remaining, 2);
-                $tag_info['remaining'] = $remaining;
+                $tag_info['cumulative_budget'] = number_format($cumulative_budget, 2);
+                $tag_info['remaining'] = number_format($remaining, 2);
             }
 
             $budget_info['each_tag'][] = $tag_info;

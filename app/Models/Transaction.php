@@ -93,8 +93,8 @@ class Transaction extends Model
     {
         if ($for === 'user') {
             $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/y');
-        } elseif ($for === 'sql') {
-            dd('elseif');
+        }
+        elseif ($for === 'sql') {
             $date = Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d');
 
         }
@@ -109,20 +109,13 @@ class Transaction extends Model
      */
     public static function hasMultipleBudgets($transaction_id)
     {
-        $tags = DB::table('transactions_tags')
-            ->where('transaction_id', $transaction_id)
-            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-            ->select('tags.fixed_budget', 'tags.flex_budget')
-            ->get();
+        $transaction = Transaction::find($transaction_id);
 
         $tag_with_budget_counter = 0;
         $multiple_budgets = false;
 
-        foreach ($tags as $tag) {
-            $fixed_budget = $tag->fixed_budget;
-            $flex_budget = $tag->flex_budget;
-
-            if ($fixed_budget || $flex_budget) {
+        foreach ($transaction->tags as $tag) {
+            if ($tag->fixed_budget || $tag->flex_budget) {
                 //the tag has a budget
                 $tag_with_budget_counter++;
             }
@@ -135,6 +128,20 @@ class Transaction extends Model
 
         return $multiple_budgets;
     }
+
+    /**
+     * Updates calculated_allocation column for one row in transactions_tags,
+     * where the tag has been given an allocated percent
+     * @param $transaction_id
+     * @param $tag_id
+     */
+    public static function updateAllocatedPercentCalculatedAllocation($transaction_id, $tag_id)
+    {
+        $sql = "UPDATE transactions_tags calculated_allocation JOIN transactions ON transactions.id = transaction_id SET calculated_allocation = transactions.total / 100 * allocated_percent WHERE transaction_id = $transaction_id AND tag_id = $tag_id;";
+        DB::update($sql);
+    }
+
+    //Todo: Refactor the methods below
 
     /**
      *
@@ -166,8 +173,6 @@ class Transaction extends Model
 
         foreach ($rows as $row) {
             $allocated_fixed = $row->allocated_fixed;
-            $allocated_percent = $row->allocated_percent;
-            $calculated_allocation = $row->calculated_allocation;
 
             //so that the total displays '-' instead of $0.00 if there were no values to add up.
             if ($allocated_fixed && $fixed_sum === '-') {
@@ -178,21 +183,18 @@ class Transaction extends Model
                 $fixed_sum += $allocated_fixed;
             }
 
-            $percent_sum += $allocated_percent;
-            $calculated_allocation_sum += $calculated_allocation;
+            $percent_sum += $row->allocated_percent;
+            $calculated_allocation_sum += $row->calculated_allocation;
         }
 
         if ($fixed_sum !== '-') {
             $fixed_sum = number_format($fixed_sum, 2);
         }
 
-        $percent_sum = number_format($percent_sum, 2);
-        $calculated_allocation_sum = number_format($calculated_allocation_sum, 2);
-
         $allocation_totals = array(
             "fixed_sum" => $fixed_sum,
-            "percent_sum" => $percent_sum,
-            "calculated_allocation_sum" => $calculated_allocation_sum
+            "percent_sum" => number_format($percent_sum, 2),
+            "calculated_allocation_sum" => number_format($calculated_allocation_sum, 2)
         );
 
         return $allocation_totals;
@@ -230,17 +232,5 @@ class Transaction extends Model
             ->update(['allocated_percent' => $allocated_percent, 'allocated_fixed' => null]);
 
         static::updateAllocatedPercentCalculatedAllocation($transaction_id, $tag_id);
-    }
-
-    /**
-     * Updates calculated_allocation column for one row in transactions_tags,
-     * where the tag has been given an allocated percent
-     * @param $transaction_id
-     * @param $tag_id
-     */
-    public static function updateAllocatedPercentCalculatedAllocation($transaction_id, $tag_id)
-    {
-        $sql = "UPDATE transactions_tags calculated_allocation JOIN transactions ON transactions.id = transaction_id SET calculated_allocation = transactions.total / 100 * allocated_percent WHERE transaction_id = $transaction_id AND tag_id = $tag_id;";
-        DB::update($sql);
     }
 }
