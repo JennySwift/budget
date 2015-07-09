@@ -9,7 +9,8 @@ var app = angular.module('budgetApp');
 		/**
 		 * scope properties
 		 */
-		
+
+        $scope.me = me;
 		$scope.totals = {};
 		$scope.show = {
 			basic_totals: true,

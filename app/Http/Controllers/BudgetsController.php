@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use JavaScript;
 
 /**
  * Class BudgetsController
@@ -32,6 +33,10 @@ class BudgetsController extends Controller
      */
     public function index()
     {
+        JavaScript::put([
+            'me' => Auth::user()
+        ]);
+
         return view('budgets');
     }
 }

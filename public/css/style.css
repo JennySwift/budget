@@ -148,10 +148,12 @@ ul {
   top: 41px;
   right: 0px;
   opacity: .8;
-  height: 745px;
+  height: 732px;
+  width: 275px;
   overflow: scroll;
   padding: 8px;
-  z-index: 9; }
+  z-index: 9;
+  box-shadow: -4px 4px 6px #777; }
   #filter .tag-input-wrapper input {
     width: auto; }
   #filter .accounts > div, #filter .types > div, #filter .status > div, #filter .budget > div {
@@ -320,44 +322,30 @@ ul {
       width: 5px;
       bottom: 0; }
 
-#nav {
+#navbar {
   display: flex;
-  flex-wrap: wrap;
-  color: #777;
+  display: -webkit-flex;
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  background: white;
   position: fixed;
-  align-items: stretch;
   top: 0;
   width: 100%;
-  height: 40px;
-  background: white;
-  z-index: 9; }
-  #nav > * {
-    flex: 1; }
-  #nav a {
-    color: #777;
-    text-decoration: none; }
-  #nav li {
+  padding: 0;
+  color: #888;
+  background: #000000; }
+  #navbar li {
+    padding: 4px 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer; }
-    #nav li ul {
-      visibility: hidden;
-      position: absolute;
-      left: 0;
-      top: 41px;
-      width: 100%;
-      background: white;
-      font-size: 20px; }
-      #nav li ul li {
-        padding: 5px 0; }
-    #nav li:hover > ul {
-      visibility: visible; }
+    align-items: center; }
+    #navbar li a {
+      color: #337ab7;
+      width: 100%; }
+  #navbar .nav-gravatar-container .gravatar {
+    border-radius: 8px;
+    height: 32px;
+    margin-left: 5px; }
 
-@media all and (max-width: 500px) {
-  #nav .fa {
-    font-size: 14px; } }
 .tag-with-budget {
   background: green; }
 

@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Repositories\Transactions\TransactionsRepository;
+use Illuminate\Support\Facades\Auth;
 use JavaScript;
 
 class HomeController extends Controller {
@@ -51,7 +52,8 @@ class HomeController extends Controller {
 
         JavaScript::put([
             //It wouldn't work if I named it 'transactions'
-            'filter_response' => $transactionsRepository->filterTransactions($filter)
+            'filter_response' => $transactionsRepository->filterTransactions($filter),
+            'me' => Auth::user()
         ]);
 
 		return view('home');

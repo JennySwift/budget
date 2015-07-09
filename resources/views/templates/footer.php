@@ -9,6 +9,7 @@
 <script type="text/javascript" src="tools/underscore-min.js"></script>
 <script type="text/javascript" src="tools/tooltipster.min.js"></script>
 <script type="text/javascript" src="tools/bootstrap-tour.min.js"></script>
+<script type="text/javascript" src="tools/bootstrap.min.js"></script>
 <script type="text/javascript" src="tools/date-en-AU.js"></script>
 <script type="text/javascript" src="tools/time.js"></script>
 <script type="text/javascript" src="tools/moment.js"></script>

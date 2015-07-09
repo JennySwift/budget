@@ -5,6 +5,7 @@ use App\Models\Tag;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use JavaScript;
 
 /**
  * Class TagsController
@@ -30,6 +31,10 @@ class TagsController extends Controller
      */
     public function index()
     {
+        JavaScript::put([
+            'me' => Auth::user()
+        ]);
+
         return view('tags');
     }
 

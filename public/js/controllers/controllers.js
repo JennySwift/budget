@@ -27,6 +27,8 @@ var app = angular.module('budgetApp', ['checklist-model'], function ($interpolat
 		$scope.preferences = {};
 
 		$scope.totals = {};
+
+        $scope.me = me;
 				
 		$scope.new_transaction.tags = [
 			// {

@@ -3,10 +3,13 @@
 	top: 41px;
 	right: 0px;
 	opacity: .8;
-	height: 745px;
+	height: 732px;
+    width: 275px;
 	overflow: scroll;
 	padding: 8px;
 	z-index: 9;
+//    border: 3px ridge #fff;
+    box-shadow: -4px 4px 6px #777;
 	.tag-input-wrapper input {
 		width: auto;
 	}

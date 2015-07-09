@@ -24,12 +24,28 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $fillable = ['name', 'email', 'password'];
 
+    /**
+     * @var array
+     */
+    protected $appends = ['gravatar'];
+
 	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * Return the gravatar URL for the user
+     * @return string
+     */
+    public function getGravatarAttribute()
+    {
+        $email = md5($this->email);
+
+        return "https://secure.gravatar.com/avatar/{$email}?s=37&r=g&default=mm";
+    }
 
 	/**
 	 * From Valentin:

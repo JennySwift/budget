@@ -9,7 +9,8 @@ var app = angular.module('budgetApp');
 		/**
 		 * scope properties
 		 */
-		
+
+        $scope.me = me;
 		$scope.autocomplete = {};
 		$scope.edit_tag = false;
 		$scope.edit_account = false;

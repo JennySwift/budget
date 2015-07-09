@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use JavaScript;
 
 class ChartsController extends Controller
 {
@@ -22,6 +23,10 @@ class ChartsController extends Controller
      */
     public function index()
     {
+        JavaScript::put([
+            'me' => Auth::user()
+        ]);
+
         return view('charts');
     }
 }

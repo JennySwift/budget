@@ -1,49 +1,85 @@
-#nav {
-	display: flex;
-	flex-wrap: wrap;
-	color: #777;
-	> * {
-		flex: 1;
-	}
-	a {
-		color: #777;
-		text-decoration: none;
-	}
-	position: fixed;
-	align-items: stretch;
-	top: 0;
-	width: 100%;
-	height: 40px;
-	background: white;
-	z-index: 9;
-	li {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		position: relative;
-		cursor: pointer;
-		ul {
-			visibility: hidden;
-			position: absolute;
-			left:0;
-			top: 41px;
-			width: 100%;
-			background: white;
-			font-size: 20px;
-			li {
-				padding: 5px 0;
-			}
-		}
-		&:hover > ul {
-			visibility: visible;
-		}
-	}
+#navbar {
+    display:flex;
+    display: -webkit-flex;
+    justify-content: space-around;
+    -webkit-justify-content: space-around;
+    background: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 0;
+    color: #888;
+    background: #000000;
+    li {
+        padding: 4px 0;
+        display: flex;
+        align-items: center;
+        a {
+            color: #337ab7;
+            width: 100%;
+        }
+    }
+    .nav-gravatar-container {
+//        position: relative;
+        .gravatar {
+            border-radius: 8px;
+//            position: absolute;
+//            top: 0;
+//            bottom: 0;
+//            margin: auto;
+            height: 32px;
+            margin-left: 5px;
+        }
+    }
+
 }
 
-@media all and (max-width: 500px) {
-	#nav {
-		.fa {
-			font-size: 14px;
-		}
-	}
-}
+//#nav {
+//	display: flex;
+//	flex-wrap: wrap;
+//	color: #888;
+//	> * {
+//		flex: 1;
+//	}
+//	a {
+//		color: #777;
+//		text-decoration: none;
+//	}
+//	position: fixed;
+//	align-items: stretch;
+//	top: 0;
+//	width: 100%;
+//	height: 40px;
+//	background: #000000;
+//	z-index: 9;
+//	li {
+//		display: flex;
+//		align-items: center;
+//		justify-content: center;
+//		position: relative;
+//		cursor: pointer;
+//		ul {
+//			visibility: hidden;
+//			position: absolute;
+//			left:0;
+//			top: 41px;
+//			width: 100%;
+//			background: white;
+//			font-size: 20px;
+//			li {
+//				padding: 5px 0;
+//			}
+//		}
+//		&:hover > ul {
+//			visibility: visible;
+//		}
+//	}
+//}
+//
+//@media all and (max-width: 500px) {
+//	#nav {
+//		.fa {
+//			font-size: 14px;
+//		}
+//	}
+//}

@@ -5,6 +5,7 @@ use App\Models\Account;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use JavaScript;
 
 /**
  * Class AccountsController
@@ -30,6 +31,10 @@ class AccountsController extends Controller
      */
     public function index()
     {
+        JavaScript::put([
+            'me' => Auth::user()
+        ]);
+
         return view('accounts');
     }
 
