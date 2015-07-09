@@ -271,19 +271,19 @@ class TransactionsController extends Controller
     {
         $type = $request->get('type');
         $value = $request->get('value');
-        $transaction_id = $request->get('transaction_id');
+        $transaction = Transaction::find($request->get('transaction_id'));
         $tag_id = $request->get('tag_id');
 
         if ($type === 'percent') {
-            Transaction::updateAllocatedPercent($value, $transaction_id, $tag_id);
+            Transaction::updateAllocatedPercent($value, $transaction, $tag_id);
         }
         elseif ($type === 'fixed') {
-            Transaction::updateAllocatedFixed($value, $transaction_id, $tag_id);
+            Transaction::updateAllocatedFixed($value, $transaction, $tag_id);
         }
 
         //get the updated tag info after the update
-        $allocation_info = Tag::getAllocationInfo($transaction_id, $tag_id);
-        $allocation_totals = Transaction::getAllocationTotals($transaction_id);
+        $allocation_info = Tag::getAllocationInfo($transaction->id, $tag_id);
+        $allocation_totals = Transaction::getAllocationTotals($transaction->id);
 
         $array = array(
             "allocation_info" => $allocation_info,

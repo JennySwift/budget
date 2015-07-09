@@ -62,8 +62,12 @@ class TotalsController extends Controller
         $FLB_info = $this->getBudgetInfo($user_id, 'flex');
         $remaining_balance = $this->getRB();
 
-        //adding the calculated budget for each tag. I'm doing it here rather than in getBudgetInfo because $remaining_balance is needed before each calculated_budget can be calculated.
-        //I'm doing it like this (creating a new array) because it didn't work when I tried to modify the original array.
+        //adding the calculated budget for each tag.
+        //I'm doing it here rather than in getBudgetInfo because
+        //$remaining_balance is needed before each calculated_budget can be
+        //calculated.
+        //I'm creating a new array because it didn't work when I tried
+        //to modify the original array.
         $FLB_tags_with_calculated_budgets = [];
         $total_calculated_budget = 0;
         $total_remaining = 0;
@@ -95,17 +99,15 @@ class TotalsController extends Controller
         //formatting
         $FB_info['totals'] = $this->numberFormat($FB_info['totals']);
 
-        $array = [
+        return [
             "FB" => $FB_info,
             "FLB" => $FLB_info,
             "RB" => number_format($remaining_balance, 2)
         ];
-
-        return $array;
     }
 
     /**
-     *
+     * Get the user's remaining balance (RB)
      * @return int
      */
     public function getRB()
@@ -186,7 +188,7 @@ class TotalsController extends Controller
     }
 
     /**
-     * Get total spent on a given tag after starting date
+     * Get total spent on a given tag before starting date
      * @param $tag_id
      * @param $CSD
      * @return mixed
@@ -210,7 +212,7 @@ class TotalsController extends Controller
     }
 
     /**
-     * Get total spent on a given tag after starting date
+     * Get total spent on a given tag on or after starting date
      * @param $tag_id
      * @param $starting_date
      * @return mixed
@@ -234,7 +236,7 @@ class TotalsController extends Controller
     }
 
     /**
-     * Get total received on a given tag after starting date
+     * Get total received on a given tag on or after starting date
      * @param $tag_id
      * @param $starting_date
      * @return mixed
@@ -258,7 +260,7 @@ class TotalsController extends Controller
     }
 
     /**
-     * Get the sum of all transactions that are reconciled
+     * Get the sum of all the user's transactions that are reconciled
      * @return mixed
      */
     public function getReconciledSum()
@@ -271,36 +273,36 @@ class TotalsController extends Controller
     }
 
     /**
-     *
+     * Get the sum of all the user's income transactions
      * @return int
      */
     public function getTotalIncome()
     {
-        $sql_result = Transaction::where('user_id', Auth::user()->id)
+        $totals = Transaction::where('user_id', Auth::user()->id)
             ->where('type', 'income')
             ->lists('total');
 
         $total_income = 0;
-        foreach ($sql_result as $transaction_total) {
-            $total_income += $transaction_total;
+        foreach ($totals as $total) {
+            $total_income += $total;
         }
 
         return $total_income;
     }
 
     /**
-     *
+     * Get the sum of all the user's expense transactions
      * @return int
      */
     public function getTotalExpense()
     {
-        $sql_result = Transaction::where('user_id', Auth::user()->id)
+        $totals = Transaction::where('user_id', Auth::user()->id)
             ->where('type', 'expense')
             ->lists('total');
 
         $total_expense = 0;
-        foreach ($sql_result as $transaction_total) {
-            $total_expense += $transaction_total;
+        foreach ($totals as $total) {
+            $total_expense += $total;
         }
 
         return $total_expense;

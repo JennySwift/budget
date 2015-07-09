@@ -48,7 +48,7 @@ class Tag extends Model
      * @param $user_id
      * @return mixed
      */
-    public static function getTagsWithFixedBudget($user_id)
+    public static function getTagsWithFixedBudget()
     {
         $tags = Tag::where('user_id', Auth::user()->id)
             ->where('flex_budget', null)
@@ -64,7 +64,7 @@ class Tag extends Model
      * @param $user_id
      * @return mixed
      */
-    public static function getTagsWithFlexBudget($user_id)
+    public static function getTagsWithFlexBudget()
     {
         $tags = Tag::where('user_id', Auth::user()->id)
             ->whereNotNull('flex_budget')

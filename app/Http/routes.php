@@ -4,13 +4,13 @@ use App\Models\Tag;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
-//Route::get('/test', function()
-//{
-//    $transaction = Transaction::find(1);
-//    return $transaction->tags;
-//});
-
-Route::post('/test', 'TransactionsController@getTransaction');
+Route::post('/test', function()
+{
+    $transaction = Transaction::first();
+    //dd($transaction);
+//    return 'hi';
+    return Transaction::getAllocationTotals($transaction->id);
+});
 
 
 /**
