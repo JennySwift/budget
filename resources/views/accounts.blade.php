@@ -25,7 +25,7 @@
             
             <table class="table table-bordered">
                 <tr ng-repeat="account in accounts">
-                    <td>{{account.name}}</td>
+                    <td>[[account.name]]</td>
                     <td>
                         <button ng-click="showEditAccountPopup(account.id, account.name)">edit</button>
                     </td>

@@ -60,28 +60,6 @@ class TransactionsController extends Controller
      *
      * @param Request $request
      */
-    public function updateAllocationStatus(Request $request)
-    {
-        $transaction = Transaction::find($request->get('transaction_id'));
-        $transaction->allocated = $request->get('status');
-        $transaction->save();
-    }
-
-    /**
-     *
-     * @param Request $request
-     */
-    public function updateReconciliation(Request $request, TransactionsRepository $transactionsRepository)
-    {
-        $transaction = Transaction::find($request->get('id'));
-        $transaction->reconciled = $transactionsRepository->convertFromBoolean($request->get('reconciled'));
-        $transaction->save();
-    }
-
-    /**
-     *
-     * @param Request $request
-     */
     public function deleteTransaction(Request $request)
     {
         $transaction = Transaction::find($request->get('transaction_id'));
@@ -234,6 +212,8 @@ class TransactionsController extends Controller
         return $transaction;
     }
 
+    //Todo: Combine the update methods below into one method
+
     /**
      *
      * @param Request $request
@@ -260,6 +240,28 @@ class TransactionsController extends Controller
         $transaction->save();
 
         $this->insertTags($transaction, $data['tags'], $total);
+    }
+
+    /**
+     *
+     * @param Request $request
+     */
+    public function updateAllocationStatus(Request $request)
+    {
+        $transaction = Transaction::find($request->get('transaction_id'));
+        $transaction->allocated = $request->get('status');
+        $transaction->save();
+    }
+
+    /**
+     *
+     * @param Request $request
+     */
+    public function updateReconciliation(Request $request, TransactionsRepository $transactionsRepository)
+    {
+        $transaction = Transaction::find($request->get('id'));
+        $transaction->reconciled = $transactionsRepository->convertFromBoolean($request->get('reconciled'));
+        $transaction->save();
     }
 
     /**

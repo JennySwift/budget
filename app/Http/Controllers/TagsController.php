@@ -84,14 +84,6 @@ class TagsController extends Controller
     }
 
     /**
-     *
-     */
-    public function updateMassTags()
-    {
-
-    }
-
-    /**
      * This either adds or deletes a budget, both using an update query.
      * @param Request $request
      */
@@ -130,6 +122,14 @@ class TagsController extends Controller
         $tag = Tag::find($request->get('tag_id'));
         $tag->starting_date = $request->get('CSD');
         $tag->save();
+    }
+
+    /**
+     *
+     */
+    public function updateMassTags()
+    {
+
     }
 
     /**

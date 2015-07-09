@@ -50,10 +50,9 @@ class AccountsController extends Controller
      */
     public function insertAccount(Request $request)
     {
-        Account::insert([
-            'name' => $request->get('name'),
-            'user_id' => Auth::user()->id
-        ]);
+        $account = new Account(['name' => $request->get('name')]);
+        $account->user()->associate(Auth::user());
+        $account->save();
     }
 
     /**
@@ -73,8 +72,8 @@ class AccountsController extends Controller
      */
     public function deleteAccount(Request $request)
     {
-        Account::where('id', $request->get('account_id'))
-            ->delete();
+        $account = Account::find($request->get('account_id'));
+        $account->delete();
     }
 
 }
