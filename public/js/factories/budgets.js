@@ -66,17 +66,16 @@ app.factory('budgets', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-		updateCSD: function ($tag_id, $CSD) {
-			$CSD = Date.parse($CSD).toString('yyyy-MM-dd');
-			var $url = 'update/CSD';
-			var $description = 'CSD';
-			var $data = {
-				description: $description,
-				tag_id: $tag_id,
-				CSD: $CSD
-			};
-			
-			return $http.post($url, $data);
+		updateCSD: function ($tag) {
+            var $url = $tag.path;
+
+            var $data = {
+                //description: 'CSD',
+                tag: $tag,
+                CSD: Date.parse($tag.CSD).toString('yyyy-MM-dd')
+            };
+            
+            return $http.put($url, $data);
 		},
 
 		/**

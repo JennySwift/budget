@@ -144,13 +144,12 @@ class TransactionsRepository
             ->get();
 
         $transactions = $transactions
-            ->join('accounts', 'transactions.account_id', '=', 'accounts.id')
             ->orderBy('date', 'desc')
             ->orderBy('id', 'desc')
-            ->select('allocated', 'transactions.id', 'date', 'type', 'transactions.account_id AS account_id',
-                'accounts.name AS account_name', 'merchant', 'description', 'reconciled', 'total')
             ->skip($filter['offset'])
             ->take($filter['num_to_fetch'])
+            ->with('tags')
+            ->with('account')
             ->get();
 
         //========================get the filter totals========================
@@ -160,57 +159,31 @@ class TransactionsRepository
 
         //========================get the transactions========================
 
-        $transactions_array = $this->getFilteredTransactions($transactions);
-
-        $result = array(
-            "transactions" => $transactions_array,
+        return [
+            "transactions" => $this->getFilteredTransactions($transactions),
             "filter_totals" => $filter_totals
-        );
-
-        return $result;
+        ];
     }
 
     /**
      *
      * @param $transactions
-     * @return array
+     * @return mixed
      */
     private function getFilteredTransactions($transactions)
     {
-        $transactions_array = array();
-
         foreach ($transactions as $transaction) {
-            $transaction_id = $transaction->id;
-            $date = $transaction->date;
+            $date = [
+                'user' => $this->convertDate($transaction->date, 'user')
+            ];
 
-            $account = array(
-                'id' => $transaction->account_id,
-                'name' => $transaction->account_name
-            );
-
-            $date = array(
-                "user" => $this->convertDate($date, 'user')
-            );
-
-            $transaction_model = Transaction::find($transaction->id);
-
-            $transactions_array[] = array(
-                'id' => $transaction_id,
-                'date' => $date,
-                'description' => $transaction->description,
-                'merchant' => $transaction->merchant,
-                'total' => $transaction->total,
-                'account' => $account,
-                'reconciled' => $this->convertToBoolean($transaction->reconciled),
-                'allocated' => $this->convertToBoolean($transaction->allocated),
-                'type' => $transaction->type,
-                'tags' => $transaction_model->tags,
-                'multiple_budgets' => Transaction::hasMultipleBudgets($transaction_id)
-            );
-
+            $transaction->date = $date;
+            $transaction->reconciled = $this->convertToBoolean($transaction->reconciled);
+            $transaction->allocated = $this->convertToBoolean($transaction->allocated);
+            $transaction->multiple_budgets = Transaction::hasMultipleBudgets($transaction->id);
         }
 
-        return $transactions_array;
+        return $transactions;
     }
 
     /**
@@ -231,12 +204,15 @@ class TransactionsRepository
 
             if ($type === 'income') {
                 $income += $total;
-            } elseif ($type === 'expense') {
+            }
+            elseif ($type === 'expense') {
                 $expenses += $total;
-            } elseif ($type === 'transfer') {
+            }
+            elseif ($type === 'transfer') {
                 if ($total > 0) {
                     $income += $total;
-                } elseif ($total < 0) {
+                }
+                elseif ($total < 0) {
                     $expenses += $total;
                 }
             }

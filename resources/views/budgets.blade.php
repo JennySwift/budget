@@ -69,7 +69,7 @@
                 </tr>
             
                 <!-- table content -->
-                <tr ng-repeat="tag in totals.budget.FB.each_tag" class="budget_info_ul">
+                <tr ng-repeat="tag in totals.budget.FB.tags" class="budget_info_ul">
             
                     <td class="budget-tag">[[tag.name]]</td>
             
@@ -151,7 +151,7 @@
                     <th>x</th>
                 </tr>
                 <!-- table content -->
-                <tr ng-repeat="tag in totals.budget.FLB.each_tag" class="budget_info_ul">
+                <tr ng-repeat="tag in totals.budget.FLB.tags" class="budget_info_ul">
                     <td class="budget-tag">[[tag.name]]</td>
                     <td class="amount">[[tag.calculated_budget]]</td>
                     <td class="CSD">

@@ -213,12 +213,17 @@ class TransactionsController extends Controller
     }
 
     //Todo: Combine the update methods below into one method
+    // Create an array with the new fields merged
+//     $data = array_compare($exercise->toArray(), $request->get('exercise'));
+
+    // Update the model with this array
+//     $exercise->update($data);
 
     /**
-     *
+     * Update the transaction
      * @param Request $request
      */
-    public function updateTransaction(Request $request)
+    public function update(Request $request)
     {
         $data = $request->get('transaction');
         $transaction = Transaction::find($data['id']);

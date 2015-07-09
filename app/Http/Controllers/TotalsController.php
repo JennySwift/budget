@@ -66,16 +66,14 @@ class TotalsController extends Controller
         //I'm doing it here rather than in getBudgetInfo because
         //$remaining_balance is needed before each calculated_budget can be
         //calculated.
-        //I'm creating a new array because it didn't work when I tried
-        //to modify the original array.
-        $FLB_tags_with_calculated_budgets = [];
+
         $total_calculated_budget = 0;
         $total_remaining = 0;
 
-        foreach ($FLB_info['each_tag'] as $tag) {
-            $budget = $tag['budget'];
-            $spent = $tag['spent'];
-            $received = $tag['received'];
+        foreach ($FLB_info['tags'] as $tag) {
+            $budget = $tag->flex_budget;
+            $spent = $tag->spent;
+            $received = $tag->received;
 
             $calculated_budget = $remaining_balance / 100 * $budget;
             $total_calculated_budget += $calculated_budget;
@@ -87,11 +85,7 @@ class TotalsController extends Controller
             $tag['remaining'] = number_format($remaining, 2);
             $tag['spent'] = number_format($spent, 2);
             $tag['received'] = number_format($received, 2);
-
-            $FLB_tags_with_calculated_budgets[] = $tag;
         }
-
-        $FLB_info['each_tag'] = $FLB_tags_with_calculated_budgets;
 
         $FLB_info['totals']['calculated_budget'] = number_format($total_calculated_budget, 2);
         $FLB_info['totals']['remaining'] = number_format($total_remaining, 2);
@@ -323,12 +317,6 @@ class TotalsController extends Controller
             $tags = Tag::getTagsWithFlexBudget($user_id);
         }
 
-        // We will be returning $budget_info.
-        $budget_info = [
-            "each_tag" => [],
-            "totals" => []
-        ];
-
         $total_budget = 0;
         $total_spent = 0;
         $total_received = 0;
@@ -357,7 +345,8 @@ class TotalsController extends Controller
                 $remaining = $cumulative_budget + $spent + $received;
                 $total_remaining += $remaining;
                 $total_cumulative_budget += $cumulative_budget;
-            } elseif ($type === 'flex') {
+            }
+            elseif ($type === 'flex') {
                 $budget = $tag->flex_budget;
             }
 
@@ -370,38 +359,34 @@ class TotalsController extends Controller
                 $CSD = Transaction::convertDate($CSD, 'user');
             }
 
-            $tag_info = [
-                "id" => $tag_id,
-                "name" => $tag->name,
-                "budget" => number_format($budget, 2),
-                "CSD" => $CSD,
-                "CMN" => $CMN,
-                "spent" => $spent,
-                "received" => $received,
-                "spent_before_CSD" => number_format($spent_before_CSD, 2)
-            ];
+            $tag->CSD = $CSD;
+            $tag->CMN = $CMN;
+            $tag->spent = $spent;
+            $tag->received = $received;
+            $tag->spent_before_CSD = number_format($spent_before_CSD, 2);
 
             if ($type === 'fixed') {
-                $tag_info['cumulative_budget'] = number_format($cumulative_budget, 2);
-                $tag_info['remaining'] = number_format($remaining, 2);
+                $tag->cumulative_budget = number_format($cumulative_budget, 2);
+                $tag->remaining = number_format($remaining, 2);
             }
-
-            $budget_info['each_tag'][] = $tag_info;
         }
 
-        $budget_info['totals'] = array(
+        $totals = [
             "budget" => $total_budget,
             "spent" => $total_spent,
             "received" => $total_received,
             "spent_before_CSD" => $total_spent_before_CSD
-        );
+        ];
 
         if ($type === 'fixed') {
-            $budget_info['totals']['cumulative_budget'] = $total_cumulative_budget;
-            $budget_info['totals']['remaining'] = $total_remaining;
+            $totals['cumulative_budget'] = $total_cumulative_budget;
+            $totals['remaining'] = $total_remaining;
         }
 
-        return $budget_info;
+        return [
+            'tags' => $tags,
+            'totals' => $totals
+        ];
     }
 
     /**

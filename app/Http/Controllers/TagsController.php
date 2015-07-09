@@ -84,7 +84,19 @@ class TagsController extends Controller
     }
 
     /**
+     * Update the starting date for a tag
+     * @param Request $request
+     */
+    public function update(Request $request)
+    {
+        $tag = Tag::find($request->get('tag')['id']);
+        $tag->starting_date = $request->get('CSD');
+        $tag->save();
+    }
+
+    /**
      * This either adds or deletes a budget, both using an update query.
+     * Todo: Combine this method into the update method
      * @param Request $request
      */
     public function updateBudget(Request $request)
@@ -111,17 +123,6 @@ class TagsController extends Controller
                 $column => $budget,
                 'budget_id' => $budget_id
             ]);
-    }
-
-    /**
-     *
-     * @param Request $request
-     */
-    public function updateCSD(Request $request)
-    {
-        $tag = Tag::find($request->get('tag_id'));
-        $tag->starting_date = $request->get('CSD');
-        $tag->save();
     }
 
     /**

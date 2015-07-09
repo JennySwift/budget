@@ -17,6 +17,11 @@ class Tag extends Model
     protected $fillable = ['name', 'fixed_budget', 'flex_budget', 'starting_date', 'budget_id'];
 
     /**
+     * @var array
+     */
+    protected $appends = ['path'];
+
+    /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -41,6 +46,15 @@ class Tag extends Model
     public function budget()
     {
         return $this->belongsTo('App\Models\Budget');
+    }
+    
+    /**
+     * Return the URL of the resource
+     * @return string
+     */
+    public function getPathAttribute()
+    {
+        return route('tags.show', $this->id);
     }
 
     /**

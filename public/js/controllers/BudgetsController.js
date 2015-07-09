@@ -159,7 +159,7 @@ var app = angular.module('budgetApp');
 		};
 
 		$scope.updateCSD = function () {
-			budgets.updateCSD($scope.edit_CSD.id, $scope.edit_CSD.CSD).then(function (response) {
+			budgets.updateCSD($scope.edit_CSD).then(function (response) {
 				$scope.getTotals();
 				$scope.show.edit_CSD = false;
 			});

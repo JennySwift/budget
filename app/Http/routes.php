@@ -4,13 +4,14 @@ use App\Models\Tag;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/test', function()
-{
-    $transaction = Transaction::first();
-    //dd($transaction);
-//    return 'hi';
-    return Transaction::getAllocationTotals($transaction->id);
-});
+//Route::get('/test', function()
+//{
+//    $transaction = Transaction::first();
+//    //dd($transaction);
+//    return Transaction::with('account')->first();
+//});
+
+Route::post('/test', 'TransactionsController@filterTransactions');
 
 
 /**
@@ -60,6 +61,13 @@ Route::controllers([
 ]);
 
 /**
+ * Resources
+ */
+
+Route::resource('tags', 'TagsController', ['only' => ['show', 'update']]);
+Route::resource('transactions', 'TransactionsController', ['only' => ['show', 'update']]);
+
+/**
  * Ajax
  */
 
@@ -74,7 +82,7 @@ Route::post('select/countTransactionsWithTag', 'TransactionsController@countTran
 Route::post('insert/transaction', 'TransactionsController@insertTransaction');
 
 Route::post('update/massDescription', 'TransactionsController@updateMassDescription');
-Route::post('update/transaction', 'TransactionsController@updateTransaction');
+//Route::post('update/transaction', 'TransactionsController@updateTransaction');
 Route::post('update/reconciliation', 'TransactionsController@updateReconciliation');
 Route::post('update/allocationStatus', 'TransactionsController@updateAllocationStatus');
 Route::post('update/allocation', 'TransactionsController@updateAllocation');
@@ -111,7 +119,6 @@ Route::post('select/duplicate-tag-check', 'TagsController@duplicateTagCheck');
 
 Route::post('insert/tag', 'TagsController@insertTag');
 
-Route::post('update/CSD', 'TagsController@updateCSD');
 Route::post('update/budget', 'TagsController@updateBudget');
 Route::post('update/tagName', 'TagsController@updateTagName');
 Route::post('update/massTags', 'TagsController@updateMassTags');

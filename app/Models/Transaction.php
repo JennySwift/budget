@@ -16,6 +16,8 @@ class Transaction extends Model
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at', 'user_id'];
+    
+    protected $appends = ['path'];
 
     /**
      *
@@ -55,6 +57,15 @@ class Transaction extends Model
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
+    }
+    
+    /**
+     * Return the URL of the resource
+     * @return string
+     */
+    public function getPathAttribute()
+    {
+        return route('transactions.show', $this->id);
     }
 
     /**

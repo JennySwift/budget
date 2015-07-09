@@ -97,20 +97,19 @@ app.factory('transactions', function ($http) {
 			});
 		},
 		updateTransaction: function ($transaction) {
-			var $url = 'update/transaction';
-			var $description = 'transaction';
+            var $url = $transaction.path;
 
             //Make sure total is negative for an expense transaction
             if ($transaction.type === 'expense' && $transaction.total > 0) {
                 $transaction.total = $transaction.total * -1;
             }
 
-			var $data = {
-				description: $description,
-				transaction: $transaction
-			};
-				
-			return $http.post($url, $data);
+            var $data = {
+                description: 'transaction',
+                transaction: $transaction
+            };
+
+            return $http.put($url, $data);
 		},
 		updateReconciliation: function ($transaction_id, $reconciled) {
 			var $url = 'update/reconciliation';
