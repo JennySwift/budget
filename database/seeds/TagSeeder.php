@@ -18,43 +18,85 @@ class TagSeeder extends Seeder {
 		 * Objective:
 		 */
 
-		$user_one_tags = ['food', 'clothes', 'work', 'recreation', 'books', 'computer', 'gifts'];
-		$user_two_tags = ['food', 'clothes', 'work', 'recreation', 'books', 'computer', 'gifts'];
+//		$user_one_tags = ['insurance', 'petrol', 'food', 'clothes', 'work', 'recreation', 'books', 'computer', 'gifts'];
+//		$user_two_tags = ['food', 'clothes', 'work', 'recreation', 'books', 'computer', 'gifts'];
 
-		$this->insertTags(1, $user_one_tags);
-		$this->insertTags(2, $user_two_tags);
+//		$this->insertTags(1, $user_one_tags);
+//		$this->insertTags(2, $user_two_tags);
+
+        $faker = Faker::create();
+
+        $fixed_budget_tags = ['insurance', 'petrol'];
+        $flex_budget_tags = ['recreation', 'clothes'];
+        $no_budget_tags = ['bank fees'];
+
+        foreach ($fixed_budget_tags as $tag) {
+            Tag::create([
+                'name' => $tag,
+                'fixed_budget' => $faker->randomElement([10, 20, 50, 100]),
+                'starting_date' => '2015-01-01',
+                'budget_id' => 1,
+                'user_id' => 1
+            ]);
+        }
+
+        foreach ($flex_budget_tags as $tag) {
+            Tag::create([
+                'name' => $tag,
+                'flex_budget' => $faker->randomElement([10, 20, 50]),
+                'starting_date' => '2015-01-01',
+                'budget_id' => 2,
+                'user_id' => 1
+            ]);
+        }
+
+        foreach ($no_budget_tags as $tag) {
+            Tag::create([
+                'name' => $tag,
+                'user_id' => 1
+            ]);
+        }
 
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
-	private function insertTags($user_id, $tags)
-	{
-		$faker = Faker::create();
+//	private function insertTags($user_id, $tags)
+//	{
+//		$faker = Faker::create();
+//
+//		foreach ($tags as $tag) {
+//			//Decide if the tag should have a budget
+//            if ($tag === 'food' || $tag === 'clothes' || $tag === 'recreation') {
+//                $has_budget = true;
+//            }
+//            else {
+//                $has_budget = false;
+//            }
 
-		foreach ($tags as $tag) {
-			//Decide if the tag should have a budget
-			if ($user_id === 2) {
-				if ($tag === 'food' || $tag === 'clothes' || $tag === 'recreation') {
-					$has_budget = true;
-				}
-				else {
-					$has_budget = false;
-				}	
-			}
-			else {
-				$has_budget = $faker->boolean($chanceOfGettingTrue = 60);
-			}
-			
-			if ($has_budget) {
-				$this->insertTagWithBudget($user_id, $tag);
-			}
 
-			else {
-				$this->insertTagWithoutBudget($user_id, $tag);
-			}
-		}
 
-	}
+//			if ($user_id === 2) {
+//				if ($tag === 'food' || $tag === 'clothes' || $tag === 'recreation') {
+//					$has_budget = true;
+//				}
+//				else {
+//					$has_budget = false;
+//				}
+//			}
+//			else {
+//				$has_budget = $faker->boolean($chanceOfGettingTrue = 60);
+//			}
+//
+//			if ($has_budget) {
+//				$this->insertTagWithBudget($user_id, $tag);
+//			}
+//
+//			else {
+//				$this->insertTagWithoutBudget($user_id, $tag);
+//			}
+//		}
+//
+//	}
 
 	private function insertTagWithBudget($user_id, $tag)
 	{

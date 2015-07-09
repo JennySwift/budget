@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder {
 
 		$this->call('TagSeeder');
 
-		$this->call('TransactionTagSeeder');
+//		$this->call('TransactionTagSeeder');
 
 		$this->call('TransactionSeeder');
 	}
