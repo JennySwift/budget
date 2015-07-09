@@ -238,7 +238,7 @@ ul {
     transition: all, 1.5s, ease; }
     #transactions td:hover .tooltip-container {
       visibility: visible; }
-    #transactions td div:not(.tooltip) {
+    #transactions td div:not(.my-tooltip) {
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
