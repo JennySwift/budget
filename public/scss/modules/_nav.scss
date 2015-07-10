@@ -10,6 +10,16 @@
     padding: 0;
     color: #888;
     background: #000000;
+    > li {
+        > a {
+            transition: all .5s ease;
+        }
+        &:hover {
+            > a {
+                font-size: 25px;
+            }
+        }
+    }
     li {
         padding: 4px 0;
         display: flex;
@@ -19,8 +29,9 @@
             width: 100%;
         }
     }
-    .nav-gravatar-container {
+    .gravatar-container {
 //        position: relative;
+        margin-left: 5px;
         .gravatar {
             border-radius: 8px;
 //            position: absolute;
@@ -28,7 +39,6 @@
 //            bottom: 0;
 //            margin: auto;
             height: 32px;
-            margin-left: 5px;
         }
     }
 

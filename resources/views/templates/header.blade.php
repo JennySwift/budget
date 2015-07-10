@@ -21,10 +21,6 @@
             <li ng-click="show.color_picker = true">
                 <a href="">Colours</a>
             </li>
-
-            <li ng-click="show.credits = true">
-                <a href="">Credits</a>
-            </li>
         </ul>
     </li>
 
@@ -32,11 +28,11 @@
         <a href="/charts" class="fa fa-bar-chart-o"></a>
     </li>
 
-    <li id="menu-dropdown" class="dropdown nav-gravatar-container">
+    <li id="menu-dropdown" class="dropdown">
         <a href="#" data-toggle="dropdown">
             <?php echo Auth::user()->name; ?>
         </a>
-        <a href="#" data-toggle="dropdown">
+        <a href="#" data-toggle="dropdown" class="gravatar-container">
             <img ng-src="[[me.gravatar]]" class="gravatar"/>
             <span class="caret"></span>
         </a>
