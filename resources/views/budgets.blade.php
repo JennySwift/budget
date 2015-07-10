@@ -73,7 +73,7 @@
             
                     <td class="budget-tag">[[tag.name]]</td>
             
-                    <td class="amount right">[[tag.budget]]</td>
+                    <td class="amount right">[[tag.fixed_budget]]</td>
             
                     <td class="CSD">
                         <span>[[tag.CSD]]</span>
@@ -162,7 +162,7 @@
                     <td class="spent">[[tag.spent]]</td>
                     <td class="received">[[tag.received]]</td>
                     <td class="remaining">[[tag.remaining]]</td>
-                    <td class="percent">[[tag.budget]]</td>
+                    <td class="percent">[[tag.flex_budget]]</td>
                     <td ng-click="removeFlexBudget(tag.id, tag.name)" class="pointer">x</td>
                 </tr>
                 <!-- flex budget totals -->
