@@ -57,9 +57,7 @@
                 </td>
                 <td colspan="1" class="budget-tag-info">[[transaction.allocate]]</td>
             </tr>
-    
-            <tr class="separator"></tr>
-    
+
         </tbody>
      </table>
 </div>

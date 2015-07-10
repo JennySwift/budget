@@ -244,7 +244,8 @@ ul {
 
 #transactions {
   background: white;
-  border: 2px solid #ddd; }
+  border: 2px solid #ddd;
+  box-shadow: 3px 3px 10px #777; }
   #transactions td {
     height: 39px;
     position: relative;
