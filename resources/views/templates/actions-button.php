@@ -1,16 +1,12 @@
 
-<div class="my-btn-dropdown">
-    <button ng-click="show.actions = !show.actions" class="my-btn">Actions</button>
-    <ul ng-show="show.actions" class="list-group bg-blue">
+<div dropdown animate-in="flipInX" animate-out="flipOutX" class="dropdown-directive">
+    <button ng-click="showDropdown()" class="btn btn-info">
+        Actions
+        <span class="caret"></span>
+    </button>
 
-        <li class="list-group-item left">
-            <span>Date format</span>
-            dd/mm/yy<input ng-model="preferences.date_format" type="radio" value="dd/mm/yy">
-            dd/mm/yyyy<input ng-model="preferences.date_format" type="radio" value="dd/mm/yyyy">
-            
-        </li>
-        <li class="list-group-item left">Mass Delete</li>
-        <li class="list-group-item left">Mass Edit</li>
-
-    </ul>
+    <div id="actions" class="dropdown-content animated">
+        <div>Mass Delete</div>
+        <div>Mass Edit</div>
+    </div>
 </div>

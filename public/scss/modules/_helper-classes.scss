@@ -133,26 +133,7 @@
 	right: 0;
 }
 
-// =================================button dropdown=================================
 
-.my-btn-dropdown {
-	width: 124px;
-	button {
-		width: 100%;
-	}
-	ul {
-		position: absolute;
-		width: 124px;
-		text-align: right;
-		z-index: 9;
-	}
-}
-
-.my-row {
-	//for holding my button dropdown
-	height: 34px;
-	position: relative;
-}
 
 // =================================input group=================================
 

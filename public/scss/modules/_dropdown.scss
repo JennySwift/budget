@@ -1,0 +1,44 @@
+//Bootstrap's dropdown
+.dropdown {
+    display: inline-block;
+    .dropdown-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        @include dropdown_contents;
+    }
+}
+
+.dropdown-directive {
+    display: inline-block;
+    .dropdown-content {
+        flex-wrap: wrap;
+        justify-content: space-around;
+        display: none;
+        @include dropdown_contents;
+//        animation-duration: 1s;
+    }
+}
+
+#actions {
+    flex-direction: column;
+    width: 200px;
+}
+
+//My dropdown
+.my-btn-dropdown {
+    display: inline-block;
+    .dropdown-content {
+        //animation
+        animation: slideInDown .5s;
+        &.ng-hide {
+            animation: slideOutUp .5s;
+        }
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        @include dropdown_contents;
+
+    }
+}

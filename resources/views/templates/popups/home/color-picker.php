@@ -25,4 +25,12 @@
         <button ng-click="updateColors()" class="btn btn-default close-modal">close</button>
 
     </div>
+
+    <div>
+        <div>Date format</div>
+        <label>dd/mm/yy</label>
+        <input ng-model="preferences.date_format" type="radio" value="dd/mm/yy">
+        <label>dd/mm/yyyy</label>
+        <input ng-model="preferences.date_format" type="radio" value="dd/mm/yyyy">
+    </div>
 </div>

@@ -5,6 +5,24 @@
 	height: 20px;
 }
 
+@mixin dropdown_contents {
+    width: 400px;
+    opacity: .8;
+    z-index: 9;
+    position: absolute;
+    border-radius: 7px;
+    background: #ffffff;
+    box-shadow: 3px 5px 5px #777;
+    padding: 10px 20px;
+    border: .5px solid #777;
+    margin-top: 9px;
+    label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
 @mixin totals {
 	background: #777;
 	color: white;
