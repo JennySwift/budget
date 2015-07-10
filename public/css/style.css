@@ -337,32 +337,38 @@ ul {
 
 #navbar {
   display: flex;
-  display: -webkit-flex;
   justify-content: space-around;
-  -webkit-justify-content: space-around;
-  background: white;
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 0;
   color: #888;
   background: #000000; }
-  #navbar > li > a {
-    transition: all .5s ease; }
-  #navbar > li:hover > a {
-    font-size: 25px; }
-  #navbar li {
-    padding: 4px 0;
+  #navbar > li {
     display: flex;
-    align-items: center; }
-    #navbar li a {
-      color: #337ab7;
-      width: 100%; }
-  #navbar .gravatar-container {
-    margin-left: 5px; }
-    #navbar .gravatar-container .gravatar {
-      border-radius: 8px;
-      height: 32px; }
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 44px;
+    min-width: 70px; }
+    #navbar > li > div {
+      position: absolute;
+      height: 20px;
+      top: 0;
+      bottom: 0;
+      margin: auto; }
+    #navbar > li a {
+      transition: all .5s ease; }
+    #navbar > li:hover a {
+      font-size: 25px; }
+  #navbar .gravatar-li {
+    min-width: 160px; }
+    #navbar .gravatar-li .gravatar-container {
+      margin-left: 5px;
+      display: flex;
+      align-items: center; }
+      #navbar .gravatar-li .gravatar-container .gravatar {
+        border-radius: 8px;
+        height: 32px; }
 
 .tag-with-budget {
   background: green; }

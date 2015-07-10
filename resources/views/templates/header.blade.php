@@ -28,7 +28,7 @@
         <a href="/charts" class="fa fa-bar-chart-o"></a>
     </li>
 
-    <li id="menu-dropdown" class="dropdown">
+    <li id="menu-dropdown" class="dropdown gravatar-li">
         <a href="#" data-toggle="dropdown">
             <?php echo Auth::user()->name; ?>
         </a>
