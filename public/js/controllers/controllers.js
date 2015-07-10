@@ -24,6 +24,8 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 			multiple_budgets: false
 		};
 
+        $scope.page = 'home';
+
 		$scope.preferences = {};
 
 		$scope.totals = {};

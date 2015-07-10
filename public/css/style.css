@@ -350,16 +350,12 @@ ul {
     position: relative;
     height: 44px;
     min-width: 70px; }
-    #navbar > li > div {
-      position: absolute;
-      height: 20px;
-      top: 0;
-      bottom: 0;
-      margin: auto; }
     #navbar > li a {
       transition: all .5s ease; }
     #navbar > li:hover a {
       font-size: 25px; }
+  #navbar a {
+    color: #337ab7; }
   #navbar .gravatar-li {
     min-width: 160px; }
     #navbar .gravatar-li .gravatar-container {

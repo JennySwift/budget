@@ -64,7 +64,7 @@
         </ul>
     </li>
 
-    <li>
+    <li ng-if="page === 'home'">
         <a ng-click="toggleFilter()" href="#" class="fa fa-search"></a>
     </li>
 
