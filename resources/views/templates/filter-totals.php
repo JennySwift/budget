@@ -1,5 +1,5 @@
 <div ng-show="show.filter_totals" class="col-sm-2">
-    <ul class="list-group">
+    <ul class="list-group totals">
         <li class="list-group-item list-group-heading">
             Search totals
         </li>

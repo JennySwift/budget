@@ -3,7 +3,7 @@
     <!-- basic totals -->
     <div ng-show="show.basic_totals">
 
-        <ul class="list-group">
+        <ul class="list-group totals">
         
             <li id="total_income" class="tooltipster list-group-item list-group-item-success" title="credit">
                 <span id="total_income_span" class="badge">[[totals.basic.total_income]]</span>
@@ -55,7 +55,7 @@
 
 
 
-        <ul class="list-group">
+        <ul class="list-group totals">
         
         
             <li id="total" class="tooltipster list-group-item list-group-item-danger" title="debit">

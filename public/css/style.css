@@ -180,6 +180,9 @@ ul {
   .flex > * {
     margin: 15px 15px; }
 
+.totals {
+  box-shadow: 3px 3px 10px #777; }
+
 .tag-wrapper {
   width: 100%; }
   .tag-wrapper .tag-input-wrapper input {
