@@ -144,6 +144,7 @@ ul {
     justify-content: center; }
 
 #filter {
+  animation: slideInRight .5s;
   position: fixed;
   top: 41px;
   right: 0px;
@@ -154,6 +155,8 @@ ul {
   padding: 8px;
   z-index: 9;
   box-shadow: -4px 4px 6px #777; }
+  #filter.ng-hide {
+    animation: bounceOutRight 2s; }
   #filter .tag-input-wrapper input {
     width: auto; }
   #filter .accounts > div, #filter .types > div, #filter .status > div, #filter .budget > div {
@@ -228,6 +231,11 @@ ul {
 
 #edit-transaction {
   padding: 22px; }
+
+#test {
+  animation: rollIn 2s; }
+  #test.ng-hide {
+    animation: bounceOut 2s; }
 
 #transactions {
   background: white;

@@ -1,4 +1,11 @@
+
 #filter {
+    //animation
+    animation: slideInRight .5s;
+    &.ng-hide {
+        animation: bounceOutRight 2s;
+    }
+
 	position: fixed;
 	top: 41px;
 	right: 0px;

@@ -15,6 +15,7 @@
 <script type="text/javascript" src="tools/moment.js"></script>
 <script type="text/javascript" src="tools/mousetrap.min.js"></script>
 <script type="text/javascript" src="tools/checklist-model.js"></script>
+<script type="text/javascript" src="tools/angular-animate.min.js"></script>
 
 
 <!-- my scripts -->

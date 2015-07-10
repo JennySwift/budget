@@ -1,19 +1,12 @@
 
-//.tooltip-container {
-//    visibility: hidden;
-//}
-//
-//#transactions td {
-//    transition: all, 1.5s, ease;
-//}
-//
-//#transactions td:hover {
-//    background: pink;
-//}
-//
-//#transactions td:hover .tooltip-container {
-//    visibility: visible;
-//}
+
+#test {
+    animation: rollIn 2s;
+    &.ng-hide {
+        animation: bounceOut 2s;
+    }
+
+}
 
 #transactions {
 	background: white;
