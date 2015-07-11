@@ -31,7 +31,7 @@
             ?>
         </div>
         
-        <div class="flex">
+        <div class="main-content">
             <?php
                 include($templates . '/totals.php');
                 include($templates . '/transactions.php');

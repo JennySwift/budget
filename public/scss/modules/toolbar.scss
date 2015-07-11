@@ -2,11 +2,25 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin: 15px 30px 18px 30px;
-	>* {
-		margin: 0 5px 0 3px;
-	}
+	margin: 25px 33px 18px 30px;
+//    > * {
+//        margin: 0px 15px;
+//    }
+    button:not(:last-child) {
+        margin-right: 3px;
+    }
+    .badge {
+        margin-left: 15px;
+        margin-right: 20px;
+    }
 	select {
 		width: auto;
 	}
+    .toolbar-filter, .flex {
+        display: flex;
+        align-items: center;
+    }
+    .flex {
+        justify-content: flex-start;
+    }
 }

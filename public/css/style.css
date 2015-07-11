@@ -173,11 +173,11 @@ ul {
   #filter > * {
     margin: 8px; }
 
-.flex {
+.main-content {
   display: flex;
   flex-wrap: wrap;
   margin: 15px 15px; }
-  .flex > * {
+  .main-content > * {
     margin: 15px 15px; }
 
 .totals {
@@ -566,11 +566,19 @@ ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 15px 30px 18px 30px; }
-  #toolbar > * {
-    margin: 0 5px 0 3px; }
+  margin: 25px 33px 18px 30px; }
+  #toolbar button:not(:last-child) {
+    margin-right: 3px; }
+  #toolbar .badge {
+    margin-left: 15px;
+    margin-right: 20px; }
   #toolbar select {
     width: auto; }
+  #toolbar .toolbar-filter, #toolbar .flex {
+    display: flex;
+    align-items: center; }
+  #toolbar .flex {
+    justify-content: flex-start; }
 
 .pointer {
   cursor: pointer; }
