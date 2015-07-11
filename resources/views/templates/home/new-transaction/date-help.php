@@ -1,4 +1,4 @@
-<div id="date-help">
+<div class="help-row">
     <label>Enter the transaction's date</label>
 
     <div dropdown class="dropdown-directive">
@@ -8,7 +8,7 @@
         </button>
 
         <div class="dropdown-content animated">
-            <div id="acceptable-formats">
+            <div class="help">
                 <h3>Acceptable formats</h3>
 
                 <div>

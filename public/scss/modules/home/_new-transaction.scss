@@ -4,14 +4,20 @@
 	justify-content: center;
     #new-transaction {
         @include transaction_popup;
-        #acceptable-formats {
-            > div {
-                margin: 15px 0;
-            }
-        }
-        #date-help {
+        .help-row {
             display: flex;
             justify-content: space-between;
+            .help {
+                > div {
+                    margin: 15px 0;
+                }
+            }
+        }
+        label {
+            max-width: 210px;
+        }
+        #add-transaction {
+//            width: 100%;
         }
     }
 }

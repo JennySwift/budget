@@ -96,13 +96,6 @@ caption {
   padding: 8px;
   font-weight: bold; }
 
-li {
-  list-style-type: none; }
-
-ul {
-  margin: 0;
-  padding: 0; }
-
 #allocation-popup {
   max-width: 500px; }
   #allocation-popup #allocation-table-container {
@@ -242,11 +235,13 @@ ul {
       #new-transaction-container #new-transaction .tag-wrapper .tag-dropdown {
         max-height: 200px;
         overflow: scroll; }
-    #new-transaction-container #new-transaction #acceptable-formats > div {
-      margin: 15px 0; }
-    #new-transaction-container #new-transaction #date-help {
+    #new-transaction-container #new-transaction .help-row {
       display: flex;
       justify-content: space-between; }
+      #new-transaction-container #new-transaction .help-row .help > div {
+        margin: 15px 0; }
+    #new-transaction-container #new-transaction label {
+      max-width: 210px; }
 
 #edit-transaction {
   padding: 22px;
@@ -798,7 +793,8 @@ ul {
       align-items: center; }
 
 .dropdown-directive {
-  display: inline-block; }
+  display: inline-block;
+  position: relative; }
   .dropdown-directive .dropdown-content {
     flex-wrap: wrap;
     justify-content: space-around;

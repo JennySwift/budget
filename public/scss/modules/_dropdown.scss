@@ -11,6 +11,7 @@
 
 .dropdown-directive {
     display: inline-block;
+    position: relative;
     .dropdown-content {
         flex-wrap: wrap;
         justify-content: space-around;

@@ -38,6 +38,9 @@
                 <td ng-show="show.total">[[transaction.total]]</td>
                 <td ng-show="show.account" class="max-width-md">[[transaction.account.name]]</td>
                 <td ng-show="show.reconciled">
+<!--                    <checkbox-->
+<!--                        model="transaction.reconciled">-->
+<!--                    </checkbox>-->
                     <input ng-model="transaction.reconciled" ng-change="updateReconciliation(transaction.id, transaction.reconciled)" type="checkbox">
                 </td>
                 <td ng-show="show.dlt" ng-click="deleteTransaction(transaction)" class="pointer">
