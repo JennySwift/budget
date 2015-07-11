@@ -1,6 +1,9 @@
 <div ng-cloak ng-show="new_transaction.type !== 'transfer'">
     <label>Select an account</label>
-    <select ng-model="new_transaction.account" ng-keyup="insertTransaction($event.keyCode)">
+    <select
+        ng-model="new_transaction.account"
+        ng-keyup="insertTransaction($event.keyCode)"
+        class="form-control">
         <option ng-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
     </select>
 </div>
@@ -14,7 +17,7 @@
         ng-keyup="insertTransaction($event.keyCode)"
         type="text"
         id="transfer-from-account-select"
-        class="account-dropdown">
+        class="account-dropdown form-control">
         <option ng-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
     </select>
 
@@ -25,7 +28,7 @@
         ng-keyup="insertTransaction($event.keyCode)"
         type="text"
         id="transfer-from-account-select"
-        class="account-dropdown">
+        class="account-dropdown form-control">
         <option ng-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
     </select>
 

@@ -12,7 +12,7 @@
     <div class="toolbar-filter">
 
         <div class="flex">
-            <select ng-model="filter.num_to_fetch" name="" id="">
+            <select ng-model="filter.num_to_fetch" name="" id="" class="form-control">
                 <option value="2">2</option>
                 <option value="4">4</option>
                 <option value="10">10</option>
