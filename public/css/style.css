@@ -565,6 +565,29 @@ ul {
   display: flex;
   align-items: center; }
 
+.checkbox-animate input {
+  visibility: hidden;
+  position: absolute; }
+.checkbox-animate label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  border: 1px solid #777;
+  padding: 0px;
+  cursor: pointer;
+  width: 27px;
+  height: 27px;
+  position: relative;
+  box-shadow: 0px 0px 4px #777 inset; }
+  .checkbox-animate label .label-icon {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    animation-duration: .5s; }
+    .checkbox-animate label .label-icon .fa-check {
+      font-size: 24px; }
+
 .cb-container {
   display: flex;
   justify-content: center;

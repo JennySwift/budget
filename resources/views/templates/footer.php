@@ -43,6 +43,7 @@
 
 <!-- directives -->
 <script type="text/javascript" src="js/directives/DropdownsDirective.js"></script>
+<script type="text/javascript" src="js/directives/CheckboxesDirective.js"></script>
 
 </body>
 </html>

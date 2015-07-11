@@ -85,24 +85,10 @@
     <div>
         <label>Check this box if your transaction is reconciled</label>
 
-        <div class="cb-container">
+        <checkbox
+            model="new_transaction.reconciled">
+        </checkbox>
 
-            <span class="label-text">Reconciled</span>
-
-            <div class="cb-slider-wrapper">
-
-                <input
-                    ng-model="new_transaction.reconciled"
-                    type="checkbox"
-                    id="new-transaction-reconciled">
-
-                <label for="new-transaction-reconciled">
-                    <span class="label-icon"></span>
-                </label>
-
-            </div>
-
-        </div>
     </div>
 
     <div>
