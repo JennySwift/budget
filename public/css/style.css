@@ -21,6 +21,9 @@ body {
 html, body {
   height: 100%; }
 
+h1, h2, h3, h4, h5 {
+  text-align: center; }
+
 body .main {
   padding-bottom: 60px;
   min-height: 100%; }
@@ -183,62 +186,122 @@ ul {
 .totals {
   box-shadow: 3px 3px 10px #777; }
 
-.tag-wrapper {
-  width: 100%; }
-  .tag-wrapper .tag-input-wrapper input {
-    width: 100%; }
-  .tag-wrapper .tag-display {
-    height: 34px; }
-    .tag-wrapper .tag-display .removable-tag {
-      cursor: pointer;
-      transition: all, .3s, ease;
-      position: relative; }
-      .tag-wrapper .tag-display .removable-tag:hover {
-        padding: .4em 1.6em .4em; }
-        .tag-wrapper .tag-display .removable-tag:hover .fa-times {
-          display: inline; }
-      .tag-wrapper .tag-display .removable-tag .fa-times {
-        font-size: 10px;
-        position: relative;
-        left: 8px;
-        display: none; }
-  .tag-wrapper .tag-dropdown {
-    max-height: 200px;
-    overflow: scroll; }
-
 #new-transaction-container {
   display: flex;
   justify-content: center; }
+  #new-transaction-container #new-transaction {
+    width: 300px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 25px;
+    box-shadow: 3px 3px 5px #777;
+    border: 1px solid #777; }
+    #new-transaction-container #new-transaction > div {
+      margin: 12px 0; }
+    #new-transaction-container #new-transaction input {
+      margin-bottom: 4px;
+      flex-grow: 1; }
+    #new-transaction-container #new-transaction .autocomplete-container {
+      position: relative; }
+      #new-transaction-container #new-transaction .autocomplete-container > input {
+        width: 100%; }
+      #new-transaction-container #new-transaction .autocomplete-container #autocomplete-transactions {
+        max-height: 200px;
+        overflow: scroll;
+        z-index: 9;
+        background: white; }
+        #new-transaction-container #new-transaction .autocomplete-container #autocomplete-transactions td, #new-transaction-container #new-transaction .autocomplete-container #autocomplete-transactions th {
+          max-width: 57px;
+          font-size: 9px;
+          padding: 0;
+          overflow: scroll; }
+    #new-transaction-container #new-transaction .btn-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: space-between; }
+    #new-transaction-container #new-transaction .tag-wrapper {
+      width: 100%; }
+      #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper input {
+        width: 100%; }
+      #new-transaction-container #new-transaction .tag-wrapper .tag-display {
+        height: 34px; }
+        #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag {
+          cursor: pointer;
+          transition: all, .3s, ease;
+          position: relative; }
+          #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag:hover {
+            padding: .4em 1.6em .4em; }
+            #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag:hover .fa-times {
+              display: inline; }
+          #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag .fa-times {
+            font-size: 10px;
+            position: relative;
+            left: 8px;
+            display: none; }
+      #new-transaction-container #new-transaction .tag-wrapper .tag-dropdown {
+        max-height: 200px;
+        overflow: scroll; }
+    #new-transaction-container #new-transaction #acceptable-formats > div {
+      margin: 15px 0; }
+    #new-transaction-container #new-transaction #date-help {
+      display: flex;
+      justify-content: space-between; }
 
-#new-transaction, #edit-transaction {
+#edit-transaction {
+  padding: 22px;
   width: 300px;
   border-radius: 5px;
   display: flex;
-  flex-direction: column; }
-  #new-transaction input, #edit-transaction input {
+  flex-direction: column;
+  padding: 15px 25px;
+  box-shadow: 3px 3px 5px #777;
+  border: 1px solid #777; }
+  #edit-transaction > div {
+    margin: 12px 0; }
+  #edit-transaction input {
     margin-bottom: 4px;
     flex-grow: 1; }
-  #new-transaction .autocomplete-container, #edit-transaction .autocomplete-container {
+  #edit-transaction .autocomplete-container {
     position: relative; }
-    #new-transaction .autocomplete-container > input, #edit-transaction .autocomplete-container > input {
+    #edit-transaction .autocomplete-container > input {
       width: 100%; }
-    #new-transaction .autocomplete-container #autocomplete-transactions, #edit-transaction .autocomplete-container #autocomplete-transactions {
+    #edit-transaction .autocomplete-container #autocomplete-transactions {
       max-height: 200px;
       overflow: scroll;
       z-index: 9;
       background: white; }
-      #new-transaction .autocomplete-container #autocomplete-transactions td, #new-transaction .autocomplete-container #autocomplete-transactions th, #edit-transaction .autocomplete-container #autocomplete-transactions td, #edit-transaction .autocomplete-container #autocomplete-transactions th {
+      #edit-transaction .autocomplete-container #autocomplete-transactions td, #edit-transaction .autocomplete-container #autocomplete-transactions th {
         max-width: 57px;
         font-size: 9px;
         padding: 0;
         overflow: scroll; }
-  #new-transaction .btn-wrapper, #edit-transaction .btn-wrapper {
+  #edit-transaction .btn-wrapper {
     width: 100%;
     display: flex;
     justify-content: space-between; }
-
-#edit-transaction {
-  padding: 22px; }
+  #edit-transaction .tag-wrapper {
+    width: 100%; }
+    #edit-transaction .tag-wrapper .tag-input-wrapper input {
+      width: 100%; }
+    #edit-transaction .tag-wrapper .tag-display {
+      height: 34px; }
+      #edit-transaction .tag-wrapper .tag-display .removable-tag {
+        cursor: pointer;
+        transition: all, .3s, ease;
+        position: relative; }
+        #edit-transaction .tag-wrapper .tag-display .removable-tag:hover {
+          padding: .4em 1.6em .4em; }
+          #edit-transaction .tag-wrapper .tag-display .removable-tag:hover .fa-times {
+            display: inline; }
+        #edit-transaction .tag-wrapper .tag-display .removable-tag .fa-times {
+          font-size: 10px;
+          position: relative;
+          left: 8px;
+          display: none; }
+    #edit-transaction .tag-wrapper .tag-dropdown {
+      max-height: 200px;
+      overflow: scroll; }
 
 #test {
   animation: rollIn 2s; }
@@ -255,7 +318,7 @@ ul {
     transition: all, 1.5s, ease; }
     #transactions td:hover .tooltip-container {
       visibility: visible; }
-    #transactions td div:not(.my-tooltip) {
+    #transactions td div:not(.tooltip) {
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
@@ -517,15 +580,17 @@ ul {
   position: relative; }
   .cb-slider-wrapper input {
     visibility: hidden; }
-  .cb-slider-wrapper label span.label-icon {
-    background: red;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    position: absolute;
-    left: 0;
-    cursor: pointer;
-    transition: all, .5s, ease; }
+  .cb-slider-wrapper label {
+    display: inline; }
+    .cb-slider-wrapper label span.label-icon {
+      background: red;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      position: absolute;
+      left: 0;
+      cursor: pointer;
+      transition: all, .5s, ease; }
   .cb-slider-wrapper input:checked + label span.label-icon {
     background: green;
     left: 23px; }
@@ -537,6 +602,7 @@ ul {
   .cb-fa-wrapper input {
     visibility: hidden; }
   .cb-fa-wrapper label {
+    display: inline;
     text-align: center;
     border: 1px solid black;
     width: 40px;

@@ -134,7 +134,8 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 			edit_CSD: false,
 			filter: false,
 			autocomplete: {
-				transactions: false
+				description: false,
+                merchant: false
 			},
 			allocation_popup: false,
 			new_transaction_allocation_popup: false,
@@ -535,7 +536,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
 		$scope.filterTransactions = function ($keycode, $typing, $field) {
 			//for the transaction autocomplete
-			$scope.show.autocomplete.transactions = true;
+			$scope.show.autocomplete[$field] = true;
 			if ($keycode !== 38 && $keycode !== 40 && $keycode !== 13) {
 				//not up arrow, down arrow or enter, so filter transactions
 				autocomplete.removeSelected($scope.transactions);

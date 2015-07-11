@@ -1,117 +1,24 @@
 
-.tag-wrapper {
-	// flex-grow: 1;
-	width: 100%;
-	.tag-input-wrapper {
-		input {
-			width: 100%;
-		}
-	}
-	.tag-display {
-		height: 34px;
-		.removable-tag {
-			cursor: pointer;
-			transition: all, .3s, ease;
-			position: relative;
-			&:hover {
-				padding: .4em 1.6em .4em;
-				.fa-times {
-					display: inline;
-				}
-			}
-			.fa-times {
-				font-size: 10px;
-				position: relative;
-				left: 8px;
-				// background: pink;
-				display: none;
-			}
-		}
-	}
-	.tag-dropdown {
-		max-height: 200px;
-		overflow: scroll;
-	}
-}
-
 #new-transaction-container {
 	display: flex;
 	justify-content: center;
+    #new-transaction {
+        @include transaction_popup;
+        #acceptable-formats {
+            > div {
+                margin: 15px 0;
+            }
+        }
+        #date-help {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
 }
-
-#new-transaction, #edit-transaction {
-	width: 300px;
-	border-radius: 5px;
-	display: flex;
-	flex-direction: column;
-	input {
-		margin-bottom: 4px;
-		flex-grow: 1;
-		// width: 100%;
-	}
-	.autocomplete-container {
-		position: relative;
-		> input {
-			width: 100%;
-		}
-		#autocomplete-transactions {
-			max-height: 200px;
-			overflow: scroll;
-			z-index: 9;
-			background: white;
-			td, th {
-				max-width: 57px;
-				font-size: 9px;
-				padding: 0;
-				overflow: scroll;
-			}
-		}
-	}
-	.btn-wrapper {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		> * {
-			// flex-grow: 1;
-		}
-	}
-}
-
-// #new-transaction, #edit-transaction {
-// 	width: 300px;
-// 	display: flex;
-// 	flex-direction: column;
-// 	> * {
-// 		margin: 8px;
-// 	}
-// 	input {
-// 		margin-bottom: 4px;
-// 		flex-grow: 1;
-// 	}
-// 	select {
-// 		width: 100%;
-// 	}
-// 	#autocomplete-transactions {
-// 		max-height: 200px;
-// 		overflow: scroll;
-// 		width: 100%;
-// 	}
-// 	.btn-wrapper {
-// 		width: 100%;
-// 		display: flex;
-// 		justify-content: space-between;
-// 		> * {
-// 			// flex-grow: 1;
-// 		}
-// 	}
-// }
-
-// #new-transaction {
-// 	border-radius: 5px;
-// }
 
 #edit-transaction {
 	padding: 22px;
+    @include transaction_popup;
 }
 
 // @media all and (min-width: 300px) {

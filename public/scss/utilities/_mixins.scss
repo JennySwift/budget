@@ -23,6 +23,86 @@
     }
 }
 
+@mixin transaction_popup {
+    width: 300px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 25px;
+    box-shadow: 3px 3px 5px #777;
+    border: 1px solid #777;
+    > div {
+        margin: 12px 0;
+    }
+    input {
+        margin-bottom: 4px;
+        flex-grow: 1;
+    }
+    .autocomplete-container {
+        @include autocomplete_container;
+    }
+    .btn-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .tag-wrapper {
+        @include tag_wrapper;
+    }
+}
+
+@mixin autocomplete_container {
+    position: relative;
+    > input {
+        width: 100%;
+    }
+    #autocomplete-transactions {
+        max-height: 200px;
+        overflow: scroll;
+        z-index: 9;
+        background: white;
+        td, th {
+            max-width: 57px;
+            font-size: 9px;
+            padding: 0;
+            overflow: scroll;
+        }
+    }
+}
+
+@mixin tag_wrapper {
+    width: 100%;
+    .tag-input-wrapper {
+        input {
+            width: 100%;
+        }
+    }
+    .tag-display {
+        height: 34px;
+        .removable-tag {
+            cursor: pointer;
+            transition: all, .3s, ease;
+            position: relative;
+            &:hover {
+                padding: .4em 1.6em .4em;
+                .fa-times {
+                    display: inline;
+                }
+            }
+            .fa-times {
+                font-size: 10px;
+                position: relative;
+                left: 8px;
+                display: none;
+            }
+        }
+    }
+    .tag-dropdown {
+        max-height: 200px;
+        overflow: scroll;
+    }
+}
+
 @mixin totals {
 	background: #777;
 	color: white;

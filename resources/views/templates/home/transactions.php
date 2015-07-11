@@ -26,13 +26,13 @@
                 <td ng-show="show.description" class="max-width-md">
                     <div>[[transaction.description]]</div>
                     <div ng-if="transaction.description" class="tooltip-container">
-                        <div class="my-tooltip">[[transaction.description]]</div>
+                        <div class="tooltip">[[transaction.description]]</div>
                     </div>
                 </td>
                 <td ng-show="show.merchant" class="max-width-md">
                     <div>[[transaction.merchant]]</div>
                     <div ng-if="transaction.merchant" class="tooltip-container">
-                        <div class="my-tooltip">[[transaction.merchant]]</div>
+                        <div class="tooltip">[[transaction.merchant]]</div>
                     </div>
                 </td>
                 <td ng-show="show.total">[[transaction.total]]</td>

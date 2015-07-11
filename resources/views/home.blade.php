@@ -23,18 +23,18 @@
     
     <div>
     
-        <?php include($templates . '/toolbar.php'); ?>
+        <?php include($templates . '/home/toolbar.php'); ?>
     
         <div id="new-transaction-container" class="">
             <?php
-                include($templates . '/new-transaction.php');
+                include($templates . '/home/new-transaction.php');
             ?>
         </div>
         
         <div class="main-content">
             <?php
                 include($templates . '/totals.php');
-                include($templates . '/transactions.php');
+                include($templates . '/home/transactions.php');
             ?>
             <div>
                 <?php

@@ -24,6 +24,7 @@
 		visibility: hidden;
 	}
 	label {
+        display: inline;
 		span.label-icon {
 			background: red;
 			width: 15px;
@@ -51,6 +52,7 @@
 		visibility: hidden;
 	}
 	label {
+        display: inline;
 		text-align: center;
 		// background: black;
 		border: 1px solid black;

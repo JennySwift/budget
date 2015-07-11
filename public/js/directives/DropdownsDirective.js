@@ -15,30 +15,42 @@
             //    'showPopup': '=show'
             //},
             //templateUrl: 'js/directives/DropdownsTemplate.php',
+            scope: true,
             link: function($scope, elem, attrs) {
-
-                //$scope.currentIndex = 1;
-                //$scope.showPopup = true;
-
+                $scope.animateIn = attrs.animateIn || 'flipInX';
+                $scope.animateOut = attrs.animateOut || 'flipOutX';
                 var $content = $(elem).find('.dropdown-content');
 
-                //$($content).hide();
-
                 $scope.showDropdown = function () {
-                    var $animateIn = attrs.animateIn;
-                    var $animateOut = attrs.animateOut;
-                    if ($($content).hasClass($animateIn)) {
-                        $($content).removeClass($animateIn)
-                            .addClass($animateOut);
+                    if ($($content).hasClass($scope.animateIn)) {
+                        $scope.hideDropdown();
                     }
                     else {
                         $($content).css('display', 'flex')
-                            .removeClass($animateOut)
-                            .addClass($animateIn);
+                            .removeClass($scope.animateOut)
+                            .addClass($scope.animateIn);
                     }
-                    //$($content).toggleClass('bounceIn')
-                    //    .toggleClass('bounceOut');
                 };
+
+                //Todo: Why is this click firing twice?
+                $("body").on('click', function (event) {
+                    if (!elem[0].contains(event.target)) {
+                        $scope.hideDropdown();
+                    }
+                });
+
+                $scope.hideDropdown = function () {
+                    $($content).removeClass($scope.animateIn)
+                        .addClass($scope.animateOut);
+                };
+
+                //$scope.closePopup = function ($event, $popup) {
+                //    var $target = $event.target;
+                //    if ($target.className === 'popup-outer') {
+                //        $scope.show.popups[$popup] = false;
+                //    }
+                //    $scope.stopJsTimer();
+                //};
 
                 /**
                  * Query the database

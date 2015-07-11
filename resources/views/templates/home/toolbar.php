@@ -3,8 +3,8 @@
     <div>
 
         <?php
-            include($templates . '/show-button.php');
-            include($templates . '/actions-button.php');
+            include($templates . '/home/show-button.php');
+            include($templates . '/home/actions-button.php');
         ?>
 
     </div>
