@@ -1,13 +1,4 @@
 
-
-#test {
-    animation: rollIn 2s;
-    &.ng-hide {
-        animation: bounceOut 2s;
-    }
-
-}
-
 #transactions {
 	background: white;
     border: 2px solid #ddd;
@@ -17,7 +8,6 @@
         position: relative;
         transition: all, 1.5s, ease;
         &:hover {
-//            background: pink;
             .tooltip-container {
                 visibility: visible;
             }
@@ -30,17 +20,13 @@
 		}
         .tooltip-container {
             visibility: hidden;
-//            display: flex;
             background: #777;
             color: #fff;
             border-radius: 4px;
             position: absolute;
             left: 90px;
             z-index: 9;
-//            min-height: 33px;
-//            min-width: 100px;
             padding: 9px 30px;
-//            white-space: nowrap;
             top: 0;
             bottom: 0;
             margin: auto;

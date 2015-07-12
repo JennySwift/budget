@@ -17,30 +17,3 @@
 		font-size: 6px;
 	}
 }
-
-.tag-location-container {
-	height: $results_tag_location_container_height;
-	.tag-location {
-		padding: 0;
-	}
-}
-
-.tag-location li {
-	cursor: pointer;
-}
-
-.tag_div {
-	position: fixed;
-	background: white;
-}
-
-.tags {
-	display: block;
-	height: 19px;
-	border-bottom: .5px inset black;
-	border-top: .5px inset black;
-	li {
-		@include tags;
-		border-radius: $border-radius + 3px;
-	}
-}

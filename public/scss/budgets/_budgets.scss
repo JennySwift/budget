@@ -1,0 +1,28 @@
+#budget {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: 30px;
+	tr {
+		background: #fff;
+	}
+	th {
+		cursor: help;
+	}
+	td {
+	    text-align: right;
+	}
+	input, select {
+		width: 100%;
+	}
+	.CSD {
+		width: 140px;
+	}
+	.totals {
+		@include totals;
+	}
+	.edit {
+		width: 20px;
+		font-size: 6px;
+	}
+}

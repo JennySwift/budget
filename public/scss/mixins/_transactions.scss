@@ -1,0 +1,27 @@
+@mixin transaction_popup {
+    width: 300px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 25px;
+    box-shadow: 3px 3px 5px #777;
+    border: 1px solid #777;
+    > div {
+        margin: 12px 0;
+    }
+    input {
+        margin-bottom: 4px;
+        flex-grow: 1;
+    }
+    .autocomplete-container {
+        @include autocomplete_container;
+    }
+    .btn-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .tag-wrapper {
+        @include tag_wrapper;
+    }
+}

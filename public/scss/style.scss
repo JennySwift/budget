@@ -1,19 +1,14 @@
 
 @import "_colors.scss";
-
-@import "utilities/index";
-
-@import "base/index";
-
-@import "layout/index";
-
+@import "_variables.scss";
+@import "_base.scss";
+@import "mixins/index";
 @import "modules/index";
-
-@import "themes/index";
-
-@import "_home.scss";
-
-@import "states/index";
+@import 'helper-classes';
+@import 'home/index';
+@import 'settings/index';
+@import 'budgets/index';
+@import 'charts/index';
 
 
 
