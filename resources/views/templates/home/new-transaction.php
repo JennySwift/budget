@@ -178,7 +178,7 @@
 
     <div>
         <div class="help-row">
-            <button ng-click="insertTransaction(13)" id="add-transaction" class="btn btn-success">Add transaction</button>
+            <button ng-mousedown="insertTransaction(13)" id="add-transaction" class="btn btn-success">Add transaction</button>
 
             <div dropdown class="dropdown-directive">
                 <button ng-click="showDropdown()" class="btn btn-info btn-xs">
@@ -188,8 +188,7 @@
 
                 <div class="dropdown-content animated">
                     <div class="help">
-                        <div>Make sure you don't have the tags dropdown open when you try to click this button, or it won't work.</div>
-                        <div>First close the dropdown by clicking outside of it, and then click the button to insert the transaction.</div>
+                        <div>You can also add a new transaction by pressing enter on your keyboard when the cursor is in one of the inputs (unless pressing enter is to select an item from one of the dropdown menus).</div>
                     </div>
                 </div>
             </div>

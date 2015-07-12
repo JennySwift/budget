@@ -160,6 +160,8 @@ caption {
     animation: bounceOutRight 2s; }
   #filter .tag-input-wrapper input {
     width: auto; }
+  #filter .tag-wrapper li {
+    list-style-type: none; }
   #filter .accounts > div, #filter .types > div, #filter .status > div, #filter .budget > div {
     display: flex;
     align-items: center; }
@@ -172,9 +174,12 @@ caption {
 .main-content {
   display: flex;
   flex-wrap: wrap;
-  margin: 15px 15px; }
+  justify-content: space-around;
+  margin: 30px 15px 15px 15px; }
   .main-content > * {
     margin: 15px 15px; }
+  .main-content ul.list-group {
+    margin-top: 0; }
 
 .totals {
   box-shadow: 3px 3px 10px #777; }
@@ -189,7 +194,8 @@ caption {
     flex-direction: column;
     padding: 15px 25px;
     box-shadow: 3px 3px 5px #777;
-    border: 1px solid #777; }
+    border: 1px solid #777;
+    animation: slideInDown 1s; }
     #new-transaction-container #new-transaction > div {
       margin: 12px 0; }
     #new-transaction-container #new-transaction input {
@@ -235,6 +241,10 @@ caption {
       #new-transaction-container #new-transaction .tag-wrapper .tag-dropdown {
         max-height: 200px;
         overflow: scroll; }
+        #new-transaction-container #new-transaction .tag-wrapper .tag-dropdown li {
+          list-style-type: none; }
+    #new-transaction-container #new-transaction.ng-hide {
+      animation: slideOutUp 1s; }
     #new-transaction-container #new-transaction .help-row {
       display: flex;
       justify-content: space-between; }
@@ -297,6 +307,8 @@ caption {
     #edit-transaction .tag-wrapper .tag-dropdown {
       max-height: 200px;
       overflow: scroll; }
+      #edit-transaction .tag-wrapper .tag-dropdown li {
+        list-style-type: none; }
 
 #test {
   animation: rollIn 2s; }
@@ -404,7 +416,9 @@ caption {
   top: 0;
   width: 100%;
   color: #888;
-  background: #000000; }
+  background: #000000;
+  padding: 0;
+  margin: 0; }
   #navbar > li {
     display: flex;
     align-items: center;
@@ -412,9 +426,9 @@ caption {
     position: relative;
     height: 44px;
     min-width: 70px; }
-    #navbar > li a {
+    #navbar > li > a {
       transition: all .5s ease; }
-    #navbar > li:hover a {
+    #navbar > li:hover > a {
       font-size: 25px; }
   #navbar a {
     color: #337ab7; }

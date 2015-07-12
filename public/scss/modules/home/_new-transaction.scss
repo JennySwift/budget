@@ -4,6 +4,10 @@
 	justify-content: center;
     #new-transaction {
         @include transaction_popup;
+        animation: slideInDown 1s;
+        &.ng-hide {
+            animation: slideOutUp 1s;
+        }
         .help-row {
             display: flex;
             justify-content: space-between;

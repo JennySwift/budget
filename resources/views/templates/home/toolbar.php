@@ -7,6 +7,12 @@
             include($templates . '/home/actions-button.php');
         ?>
 
+        <button ng-if="!show.new_transaction" ng-click="show.new_transaction = !show.new_transaction" class="btn btn-info">
+            New transaction
+<!--            <span class="caret"></span>-->
+        </button>
+        <button ng-if="show.new_transaction" ng-click="show.new_transaction = !show.new_transaction" class="btn btn-info">Hide new transaction</button>
+
     </div>
 
     <div class="toolbar-filter">

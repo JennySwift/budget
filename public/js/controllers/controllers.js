@@ -125,7 +125,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 			// modals
 			color_picker: false,
 			//components
-			new_transaction: true,
+			new_transaction: false,
 			basic_totals: true,
 			budget_totals: true,
 			filter_totals: true,

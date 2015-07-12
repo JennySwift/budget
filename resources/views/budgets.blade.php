@@ -25,6 +25,22 @@
 
         <div>
 
+            <div class="help-row">
+
+                <div dropdown class="dropdown-directive">
+                    <button ng-click="showDropdown()" class="btn btn-info btn-xs">
+                        Help
+                        <span class="caret"></span>
+                    </button>
+
+                    <div class="dropdown-content animated">
+                        <div class="help">
+                            <div>Hover the abbreviations in the tables to see what they mean.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ==============================savings============================== -->
 
             <div class="margin-bottom">
@@ -38,6 +54,8 @@
 
             <div class="tag-wrapper">
                 <div class="tag-input-wrapper">
+
+                    <label>Add a fixed budget to one of your tags</label>
                     
                     <input ng-model="new_fixed_budget.tag.name" ng-focus="new_fixed_budget.dropdown = true" ng-blur="new_fixed_budget.dropdown = false" ng-keyup="filterTags($event.keyCode, new_fixed_budget.tag.name, new_fixed_budget.tag, 'new_fixed_budget')" placeholder="tag" id="budget-fixed-tag-input" type='text'>
                     
@@ -122,6 +140,8 @@
             
             <div class="tag-wrapper">
                 <div class="tag-input-wrapper">
+
+                    <label>Add a flex budget to one of your tags</label>
                     
                     <input ng-model="new_flex_budget.tag.name" ng-focus="new_flex_budget.dropdown = true" ng-blur="new_flex_budget.dropdown = false" ng-keyup="filterTags($event.keyCode, new_flex_budget.tag.name, new_flex_budget.tag, 'new_flex_budget')" placeholder="tag" id="budget-flex-tag-input" type='text'>
                     

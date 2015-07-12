@@ -1,10 +1,14 @@
 .main-content {
 	display: flex;
 	flex-wrap: wrap;
-	margin: 15px 15px;
+    justify-content: space-around;
+	margin: 30px 15px 15px 15px;
 	> * {
 		margin: 15px 15px;
 	}
+    ul.list-group {
+        margin-top: 0;
+    }
 }
 
 .totals {

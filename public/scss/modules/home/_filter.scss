@@ -20,6 +20,12 @@
 	.tag-input-wrapper input {
 		width: auto;
 	}
+    .tag-wrapper {
+        li {
+            list-style-type: none;
+        }
+//        @include tag_wrapper;
+    }
 	.accounts, .types, .status, .budget {
 		> div {
 			display: flex;
