@@ -20,7 +20,7 @@
             <label>Enter a description (optional)</label>
 
             <div dropdown class="dropdown-directive">
-                <button ng-click="showDropdown()" class="btn btn-info btn-xs">
+                <button ng-click="showDropdown()" tabindex="-1" class="btn btn-info btn-xs">
                     Help
                     <span class="caret"></span>
                 </button>
@@ -60,7 +60,7 @@
             <label>Enter a merchant (optional)</label>
 
             <div dropdown class="dropdown-directive">
-                <button ng-click="showDropdown()" class="btn btn-info btn-xs">
+                <button ng-click="showDropdown()" tabindex="-1" class="btn btn-info btn-xs">
                     Help
                     <span class="caret"></span>
                 </button>
@@ -99,7 +99,7 @@
             <label>Enter the total</label>
 
             <div dropdown class="dropdown-directive">
-                <button ng-click="showDropdown()" class="btn btn-info btn-xs">
+                <button ng-click="showDropdown()" tabindex="-1" class="btn btn-info btn-xs">
                     Help
                     <span class="caret"></span>
                 </button>
@@ -151,7 +151,7 @@
             <label>Check this box if your transaction is reconciled</label>
 
             <div dropdown class="dropdown-directive">
-                <button ng-click="showDropdown()" class="btn btn-info btn-xs">
+                <button ng-click="showDropdown()" tabindex="-1" class="btn btn-info btn-xs">
                     Help
                     <span class="caret"></span>
                 </button>
@@ -178,10 +178,10 @@
 
     <div>
         <div class="help-row">
-            <button ng-mousedown="insertTransaction(13)" id="add-transaction" class="btn btn-success">Add transaction</button>
+            <button ng-mousedown="insertTransaction(13)" tabindex="-1" id="add-transaction" class="btn btn-success">Add transaction</button>
 
             <div dropdown class="dropdown-directive">
-                <button ng-click="showDropdown()" class="btn btn-info btn-xs">
+                <button ng-click="showDropdown()" tabindex="-1" class="btn btn-info btn-xs">
                     Help
                     <span class="caret"></span>
                 </button>
