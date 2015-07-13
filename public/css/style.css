@@ -401,6 +401,13 @@ caption {
       justify-content: space-between;
       align-items: center; }
 
+.totals {
+  box-shadow: 3px 3px 10px #777; }
+  .totals .changed {
+    position: absolute;
+    right: -115px;
+    top: 13px; }
+
 .pointer {
   cursor: pointer; }
 
@@ -595,9 +602,6 @@ caption {
     margin: 15px 15px; }
   .main-content ul.list-group {
     margin-top: 0; }
-
-.totals {
-  box-shadow: 3px 3px 10px #777; }
 
 #my_results .my-dropdown-container, #new-transaction-wrapper .my-dropdown-container {
   padding: 0px !important; }

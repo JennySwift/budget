@@ -148,6 +148,7 @@ Route::post('update/reverseAutomaticInsertIntoSavings', 'SavingsController@rever
 
 Route::post('totals/basic', 'TotalsController@getBasicTotals');
 Route::post('totals/budget', 'TotalsController@getBudgetTotals');
+Route::post('totals/basicAndBudget', 'TotalsController@getBasicAndBudgetTotals');
 
 /**
  * preferences

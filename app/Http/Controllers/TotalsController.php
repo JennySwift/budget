@@ -29,6 +29,17 @@ class TotalsController extends Controller
      *
      * @return array
      */
+    public function getBasicAndBudgetTotals() {
+        return [
+            'basic' => $this->getBasicTotals(),
+            'budget' => $this->getBudgetTotals()
+        ];
+    }
+
+    /**
+     *
+     * @return array
+     */
     public function getBasicTotals()
     {
         $total_income = $this->getTotalIncome();
@@ -38,8 +49,8 @@ class TotalsController extends Controller
         $savings_balance = $balance - $savings_total;
 
         $totals = array(
-            "total_income" => number_format($total_income, 2),
-            "total_expense" => number_format($total_expense, 2),
+            "credit" => number_format($total_income, 2),
+            "debit" => number_format($total_expense, 2),
             "balance" => number_format($balance, 2),
             "reconciled_sum" => number_format($this->getReconciledSum(), 2),
             "savings_total" => number_format($savings_total, 2),

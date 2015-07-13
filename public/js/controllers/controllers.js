@@ -28,7 +28,11 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
 		$scope.preferences = {};
 
-		$scope.totals = {};
+		$scope.totals = {
+            changes: {
+                RB: []
+            }
+        };
 
         $scope.me = me;
 				
@@ -229,6 +233,12 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 			$(this).closest(".input-group").children("input").val("");
 			$scope.multiSearch(true);
 		});
+
+        $scope.clearChanges = function () {
+            $scope.totals.changes = {
+                RB: []
+            };
+        };
 
 		/**
 		 * insert
@@ -728,6 +738,98 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 			$scope.multiSearch(true);
 		});
 
+        /**
+         * Notify user when totals change
+         */
+
+        //Credit
+        $scope.$watch('totals.basic.credit', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.credit = newValue - oldValue;
+        });
+
+        //CFB
+        $scope.$watch('totals.budget.FB.totals.cumulative_budget', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.CFB = newValue - oldValue;
+        });
+
+        //EWB
+        $scope.$watch('totals.basic.expense_without_budget_total', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.EWB = newValue - oldValue;
+        });
+
+        //EFLB
+        $scope.$watch('totals.basic.EFLB', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.EFLB = newValue - oldValue;
+        });
+
+        //EFBBCSD
+        $scope.$watch('totals.budget.FB.totals.spent_before_CSD', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.EFBBCSD = newValue - oldValue;
+        });
+
+        //EFBACSD
+        $scope.$watch('totals.budget.FB.totals.spent', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.EFBACSD = newValue - oldValue;
+        });
+
+        //Savings
+        $scope.$watch(' totals.basic.savings_total', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.savings = newValue - oldValue;
+        });
+
+        //RB
+        $scope.$watch('totals.budget.RB', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.RB.push(newValue - oldValue);
+        });
+
+        //Debit
+        $scope.$watch('totals.basic.debit', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.debit = newValue - oldValue;
+        });
+
+        //Balance
+        $scope.$watch('totals.basic.balance', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.balance = newValue - oldValue;
+        });
+
+        //Reconciled
+        $scope.$watch('totals.basic.reconciled_sum', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.reconciled = newValue - oldValue;
+        });
+
 		/**
 		 * other
 		 */
@@ -779,12 +881,17 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 		 */
 
 		$scope.getTotals = function () {
-			totals.basicTotals().then(function (response) {
-				$scope.totals.basic = response.data;
-			});
-			totals.budget().then(function (response) {
-				$scope.totals.budget = response.data;
-			});
+			//totals.basicTotals().then(function (response) {
+			//	$scope.totals.basic = response.data;
+			//});
+			//totals.budget().then(function (response) {
+			//	$scope.totals.budget = response.data;
+			//});
+
+            totals.basicAndBudget().then(function (response) {
+                $scope.totals.basic = response.data.basic;
+                $scope.totals.budget = response.data.budget;
+            });
 		};
 
 		$scope.updateSavingsTotal = function ($keycode) {

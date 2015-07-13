@@ -6,22 +6,19 @@ app.factory('totals', function ($http) {
 
 		basicTotals: function () {
 			var $url = 'totals/basic';
-			var $description = 'basic totals';
-			var $data = {
-				description: $description
-			};
 			
-			return $http.post($url, $data);
+			return $http.post($url);
 		},
 		budget: function () {
 			var $url = 'totals/budget';
-			var $description = 'budget totals';
-			var $data = {
-				description: $description
-			};
 			
-			return $http.post($url, $data);
+			return $http.post($url);
 		},
+        basicAndBudget: function () {
+            var $url = 'totals/basicAndBudget';
+
+            return $http.post($url);
+        }
 		
 	};
 		
