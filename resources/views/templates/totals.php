@@ -1,5 +1,6 @@
 <div ng-show="show.basic_totals || show.budget_totals" class="col-sm-2">
     <!-- basic totals -->
+    <button ng-click="clearChanges()" class="btn btn-info btn-xs">clear changes</button>
     <div ng-show="show.basic_totals">
 
         <ul class="list-group totals">
@@ -10,10 +11,10 @@
                 <span ng-if="totals.changes.credit" class="changed">Changed: [[totals.changes.credit]]</span>
             </li>
 
-            <li class="tooltipster list-group-item list-group-item-danger" title="fixed budget (total of fixed budget info column A)">
-                CFB:
-                <span id="budget_span" class="badge">[[totals.budget.FB.totals.cumulative_budget]]</span>
-                <span ng-if="totals.changes.CFB" class="changed">Changed: [[totals.changes.CFB]]</span>
+            <li class="tooltipster list-group-item list-group-item-danger" title="remaining fixed budget (total of fixed budget info column R)">
+                RFB:
+                <span id="budget_span" class="badge">[[totals.budget.FB.totals.remaining]]</span>
+                <span ng-if="totals.changes.RFB" class="changed">Changed: [[totals.changes.RFB]]</span>
             </li>
 
             <li class="tooltipster list-group-item list-group-item-danger" title="total of expense transactions that have no budget">
@@ -79,6 +80,12 @@
                 R:
                 <span class="badge">[[totals.basic.reconciled_sum]]</span>
                 <span ng-if="totals.changes.reconciled" class="changed">Changed: [[totals.changes.reconciled]]</span>
+            </li>
+
+            <li class="tooltipster list-group-item list-group-item-danger" title="fixed budget (total of fixed budget info column C)">
+                CFB:
+                <span id="budget_span" class="badge">[[totals.budget.FB.totals.cumulative_budget]]</span>
+                <span ng-if="totals.changes.CFB" class="changed">Changed: [[totals.changes.CFB]]</span>
             </li>
         
         </ul>

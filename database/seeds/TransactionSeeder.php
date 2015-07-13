@@ -118,42 +118,7 @@ class TransactionSeeder extends Seeder {
 			$total = $faker->randomElement([5, 10, 15, 20]);
 
 			if ($is_transfer) {
-				$from_account_id = $faker->randomElement($account_ids);
-				$to_account_id = $faker->randomElement($account_ids);
-
-				while ($from_account_id === $to_account_id) {
-					$to_account_id = $faker->randomElement($account_ids);
-				}
-
-				$date = $faker->date($format = 'Y-m-d', $max = 'now');
-				// $description = $faker->word();
-				$description = 'transfer';
-				// $total = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200);
-				
-				$negative_total = $total * -1;
-				$reconciled = $faker->numberBetween($min = 0, $max = 1);
-
-				Transaction::create([
-					'date' => $date,
-					'type' => 'transfer',
-					'description' => $description,
-					'total' => $total,
-					'account_id' => $to_account_id,
-					'reconciled' => $reconciled,
-					'allocated' => 0,
-					'user_id' => 1
-				]);
-
-				Transaction::create([
-					'date' => $date,
-					'type' => 'transfer',
-					'description' => $description,
-					'total' => $negative_total,
-					'account_id' => $from_account_id,
-					'reconciled' => $reconciled,
-					'allocated' => 0,
-					'user_id' => 1
-				]);
+                $this->insertTransfer($total, $account_ids);
 			}
 
 			else {
@@ -164,17 +129,7 @@ class TransactionSeeder extends Seeder {
 					$total = $total * -1;
 				}
 
-				$transaction = Transaction::create([
-					'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
-					'type' => $type,
-					'description' => $faker->sentence(),
-					'merchant' => $faker->name(),
-					'total' => $total,
-					'account_id' => $account_id,
-					'reconciled' => $faker->numberBetween($min = 0, $max = 1),
-					'allocated' => 0,
-					'user_id' => 1
-				]);
+				$transaction = $this->insertTransaction($type, $total, $account_id);
 
                 $number = $faker->numberBetween(1,3);
                 $random_tag_ids = $faker->randomElements($tag_ids, $number);
@@ -190,6 +145,9 @@ class TransactionSeeder extends Seeder {
 			}
 			
 		}
+
+        //So that balance is likely to be in the positive
+        $this->insertTransaction('income', 1000, 1);
 	}
 
     private function doAllocation($transaction)
@@ -224,6 +182,65 @@ class TransactionSeeder extends Seeder {
             $transaction->allocated = 1;
             $transaction->save();
         }
+    }
+
+    private function insertTransfer($total, $account_ids)
+    {
+        $faker = Faker::create();
+        $from_account_id = $faker->randomElement($account_ids);
+        $to_account_id = $faker->randomElement($account_ids);
+
+        while ($from_account_id === $to_account_id) {
+            $to_account_id = $faker->randomElement($account_ids);
+        }
+
+        $date = $faker->date($format = 'Y-m-d', $max = 'now');
+        // $description = $faker->word();
+        $description = 'transfer';
+        // $total = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200);
+
+        $negative_total = $total * -1;
+        $reconciled = $faker->numberBetween($min = 0, $max = 1);
+
+        Transaction::create([
+            'date' => $date,
+            'type' => 'transfer',
+            'description' => $description,
+            'total' => $total,
+            'account_id' => $to_account_id,
+            'reconciled' => $reconciled,
+            'allocated' => 0,
+            'user_id' => 1
+        ]);
+
+        Transaction::create([
+            'date' => $date,
+            'type' => 'transfer',
+            'description' => $description,
+            'total' => $negative_total,
+            'account_id' => $from_account_id,
+            'reconciled' => $reconciled,
+            'allocated' => 0,
+            'user_id' => 1
+        ]);
+    }
+
+    private function insertTransaction($type, $total, $account_id)
+    {
+        $faker = Faker::create();
+        $transaction = Transaction::create([
+            'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
+            'type' => $type,
+            'description' => $faker->sentence(),
+            'merchant' => $faker->name(),
+            'total' => $total,
+            'account_id' => $account_id,
+            'reconciled' => $faker->numberBetween($min = 0, $max = 1),
+            'allocated' => 0,
+            'user_id' => 1
+        ]);
+
+        return $transaction;
     }
 
 }

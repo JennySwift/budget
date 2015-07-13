@@ -7,8 +7,6 @@
             include($templates . '/home/actions-button.php');
         ?>
 
-        <button ng-click="clearChanges()" class="btn btn-info btn-xs">clear changes</button>
-
         <button ng-if="!show.new_transaction" ng-click="show.new_transaction = !show.new_transaction" class="btn btn-info">
             New transaction
 <!--            <span class="caret"></span>-->

@@ -317,6 +317,14 @@ var app = angular.module('budgetApp');
             $scope.totals.changes.credit = newValue - oldValue;
         });
 
+        //RFB
+        $scope.$watch('totals.budget.FB.totals.remaining', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.RFB = newValue - oldValue;
+        });
+
         //CFB
         $scope.$watch('totals.budget.FB.totals.cumulative_budget', function (newValue, oldValue) {
             if (!oldValue || newValue === oldValue) {
