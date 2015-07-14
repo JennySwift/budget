@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
+use App\Services\GreetingService;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -14,6 +15,11 @@ use Illuminate\Http\Request;
  */
 class TotalsController extends Controller
 {
+
+    public function getGreeting(GreetingService $greetingService)
+    {
+        return $greetingService->greet();
+    }
 
     /**
      *
@@ -415,6 +421,7 @@ class TotalsController extends Controller
      */
     public function numberFormat($array)
     {
+        // @TODO Could be moved in the helpers.php file :)
         $formatted_array = array();
         foreach ($array as $key => $value) {
             $formatted_value = number_format($value, 2);
