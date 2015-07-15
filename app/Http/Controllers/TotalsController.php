@@ -379,22 +379,18 @@ class TotalsController extends Controller
         $total_spent_before_CSD = 0;
 
         foreach ($tags as $tag) {
-            // Don't need to create a variable if value not modified anywhere
-            $tag_id = $tag->id;
-            $CSD = $tag->starting_date;
-
             // Get cumulative month number ($CMN)
             // Could be extracted to a Budget service (just like line 330+) or the Tag model
-            if ($CSD) {
-                $CMN = Tag::getCMN($CSD);
+            if ($tag->starting_date) {
+                $CMN = Tag::getCMN($tag->starting_date);
             } else {
                 $CMN = 1;
             }
 
             // Get other stuff :)
-            $spent = $this->getTotalSpentOnTag($tag_id, $CSD);
-            $received = $this->getTotalReceivedOnTag($tag_id, $CSD);
-            $spent_before_CSD = $this->getTotalSpentOnTagBeforeCSD($tag_id, $CSD);
+            $spent = $this->getTotalSpentOnTag($tag->id, $tag->starting_date);
+            $received = $this->getTotalReceivedOnTag($tag->id, $tag->starting_date);
+            $spent_before_CSD = $this->getTotalSpentOnTagBeforeCSD($tag->id, $tag->starting_date);
 
             if ($type === 'fixed') {
                 $budget = $tag->fixed_budget;
@@ -412,11 +408,11 @@ class TotalsController extends Controller
             $total_received += $received;
             $total_spent_before_CSD += $spent_before_CSD;
 
-            if ($CSD) {
-                $CSD = Transaction::convertDate($CSD, 'user');
+            if ($tag->starting_date) {
+                $tag->starting_date = Transaction::convertDate($tag->starting_date, 'user');
             }
 
-            $tag->CSD = $CSD;
+            $tag->CSD = $tag->starting_date;
             $tag->CMN = $CMN;
             $tag->spent = $spent;
             $tag->received = $received;
