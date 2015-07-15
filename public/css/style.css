@@ -405,8 +405,10 @@ caption {
   box-shadow: 3px 3px 10px #777; }
   .totals .changed {
     position: absolute;
-    right: -115px;
-    top: 13px; }
+    right: -280px;
+    top: 13px;
+    border: 1px solid #777;
+    z-index: 99999; }
 
 .pointer {
   cursor: pointer; }

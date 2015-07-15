@@ -23,12 +23,6 @@
                 <span ng-if="totals.changes.EWB" class="changed">Changed: [[totals.changes.EWB]]</span>
             </li>
 
-            <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a flex budget">
-                EFLB:
-                <span class="badge">[[totals.basic.EFLB]]</span>
-                <span ng-if="totals.changes.EFLB" class="changed">Changed: [[totals.changes.EFLB]]</span>
-            </li>
-
             <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget before its CSD">
                 EFBBCSD:
                 <span class="badge">[[totals.budget.FB.totals.spent_before_CSD]]</span>
@@ -49,11 +43,20 @@
                 <span ng-if="totals.changes.savings" class="changed">Changed: [[totals.changes.savings]]</span>
             </li>
 
-            <li class="tooltipster list-group-item list-group-item-info" title="remaining balance (prev flexible income)">
+<!--            <li class="tooltipster list-group-item list-group-item-info" title="remaining balance (prev flexible income)">-->
+<!--                RB:-->
+<!--                <span class="badge">[[totals.budget.RB]]</span>-->
+<!--                <div ng-if="totals.changes.RB.length > 0" class="changed">-->
+<!--                    <span ng-repeat="change in totals.changes.RB">Changed: [[change]]</span>-->
+<!--                </div>-->
+<!--            </li>-->
+
+            <li class="tooltipster list-group-item list-group-item-info" title="remaining balance without EFLB">
+<!--                RBWEFLB:-->
                 RB:
-                <span class="badge">[[totals.budget.RB]]</span>
-                <div ng-if="totals.changes.RB.length > 0" class="changed">
-                    <span ng-repeat="change in totals.changes.RB">Changed: [[change]]</span>
+                <span class="badge">[[totals.budget.RBWEFLB]]</span>
+                <div ng-if="totals.changes.RBWEFLB.length > 0" class="changed">
+                    <span ng-repeat="change in totals.changes.RBWEFLB">Changed: [[change]]</span>
                 </div>
             </li>
 
@@ -86,6 +89,12 @@
                 CFB:
                 <span id="budget_span" class="badge">[[totals.budget.FB.totals.cumulative_budget]]</span>
                 <span ng-if="totals.changes.CFB" class="changed">Changed: [[totals.changes.CFB]]</span>
+            </li>
+
+            <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a flex budget">
+                EFLB:
+                <span class="badge">[[totals.basic.EFLB]]</span>
+                <span ng-if="totals.changes.EFLB" class="changed">Changed: [[totals.changes.EFLB]]</span>
             </li>
         
         </ul>

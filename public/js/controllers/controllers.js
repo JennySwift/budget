@@ -30,7 +30,8 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
 		$scope.totals = {
             changes: {
-                RB: []
+                RB: [],
+                RBWEFLB: []
             }
         };
 
@@ -236,7 +237,8 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
         $scope.clearChanges = function () {
             $scope.totals.changes = {
-                RB: []
+                RB: [],
+                RBWEFLB: []
             };
         };
 
@@ -812,6 +814,14 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
                 return;
             }
             $scope.totals.changes.RB.push(newValue - oldValue);
+        });
+
+        //RBWEFLB
+        $scope.$watch('totals.budget.RBWEFLB', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.RBWEFLB.push(newValue - oldValue);
         });
 
         //Debit

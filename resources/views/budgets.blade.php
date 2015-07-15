@@ -164,7 +164,7 @@
                     <th class="tooltipster" title="amount (% column % of F/I)">A</th>
                     <th class="tooltipster" title="cumulative starting date">CSD</th>
                     <th class="tooltipster" title="cumulative month number">CMN</th>
-                    <th class="tooltipster" title="spent">-</th>
+                    <th class="tooltipster" title="spent after starting date">-</th>
                     <th class="tooltipster" title="received">+</th>
                     <th class="tooltipster" title="remaining">R</th>
                     <th class="tooltipster" title="# percent of F/I">%</th>
@@ -184,6 +184,18 @@
                     <td class="remaining">[[tag.remaining]]</td>
                     <td class="percent">[[tag.flex_budget]]</td>
                     <td ng-click="removeFlexBudget(tag.id, tag.name)" class="pointer">x</td>
+                </tr>
+                {{--unallocated--}}
+                <tr id="flex-budget-unallocated" class="budget_info_ul">
+                    <td>unallocated</td>
+                    <td>[[totals.budget.FLB.unallocated.calculated_budget]]</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>[[totals.budget.FLB.unallocated.remaining]]</td>
+                    <td>[[totals.budget.FLB.unallocated.budget]]</td>
+                    <td>-</td>
                 </tr>
                 <!-- flex budget totals -->
                 <tr id="flex-budget-totals" class="budget_info_ul totals">

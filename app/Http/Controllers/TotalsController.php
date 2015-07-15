@@ -68,10 +68,9 @@ class TotalsController extends Controller
      */
     public function getBudgetTotals()
     {
-        $user_id = Auth::user()->id;
-        $FB_info = $this->getBudgetInfo($user_id, 'fixed');
-        $FLB_info = $this->getBudgetInfo($user_id, 'flex');
-        $remaining_balance = $this->getRB();
+        $FB_info = $this->getBudgetInfo(Auth::user()->id, 'fixed');
+        $FLB_info = $this->getBudgetInfo(Auth::user()->id, 'flex');
+        $RBWEFLB = $this->getRBWEFLB();
 
         //adding the calculated budget for each tag.
         //I'm doing it here rather than in getBudgetInfo because
@@ -82,32 +81,56 @@ class TotalsController extends Controller
         $total_remaining = 0;
 
         foreach ($FLB_info['tags'] as $tag) {
-            $budget = $tag->flex_budget;
-            $spent = $tag->spent;
-            $received = $tag->received;
-
-            $calculated_budget = $remaining_balance / 100 * $budget;
+//            $calculated_budget = $remaining_balance / 100 * $tag->flex_budget;
+            $calculated_budget = $RBWEFLB / 100 * $tag->flex_budget;
             $total_calculated_budget += $calculated_budget;
 
-            $remaining = $calculated_budget + $spent + $received;
+            $remaining = $calculated_budget + $tag->spent + $tag->received;
             $total_remaining += $remaining;
 
             $tag['calculated_budget'] = number_format($calculated_budget, 2);
             $tag['remaining'] = number_format($remaining, 2);
-            $tag['spent'] = number_format($spent, 2);
-            $tag['received'] = number_format($received, 2);
+            $tag['spent'] = number_format($tag->spent, 2);
+            $tag['received'] = number_format($tag->received, 2);
         }
 
-        $FLB_info['totals']['calculated_budget'] = number_format($total_calculated_budget, 2);
-        $FLB_info['totals']['remaining'] = number_format($total_remaining, 2);
+        //Get the unallocated values for flex budget
+        $FLB_info['unallocated'] = $this->getUnallocatedFLB($FLB_info, $RBWEFLB);
+
+        //Add the unallocated budget to the total budget so it equals 100%
+        $FLB_info['totals']['budget']+= $FLB_info['unallocated']['budget'];
+
+        //Add the unallocated calculated budget to the total budget
+        $total_calculated_budget+= $FLB_info['unallocated']['calculated_budget'];
+
+        //Add the unallocated remaining budget to the total budget
+        $total_remaining+= $FLB_info['unallocated']['remaining'];
 
         //formatting
+        $FLB_info['totals']['calculated_budget'] = number_format($total_calculated_budget, 2);
+        $FLB_info['totals']['budget'] = number_format($FLB_info['totals']['budget'], 2);
+        $FLB_info['totals']['remaining'] = number_format($total_remaining, 2);
         $FB_info['totals'] = $this->numberFormat($FB_info['totals']);
+        $FLB_info['unallocated']['budget'] = number_format($FLB_info['unallocated']['budget'], 2);
+        $FLB_info['unallocated']['remaining'] = number_format($FLB_info['unallocated']['remaining'], 2);
+
 
         return [
             "FB" => $FB_info,
             "FLB" => $FLB_info,
-            "RB" => number_format($remaining_balance, 2)
+            "RB" => number_format($this->getRB(), 2),
+            "RBWEFLB" => number_format($this->getRBWEFLB(), 2)
+        ];
+    }
+
+    private function getUnallocatedFLB($FLB_info, $RBWEFLB)
+    {
+        $total = $FLB_info['totals']['budget'];
+        $budget = 100 - $total;
+        return [
+            'budget' => $budget,
+            'calculated_budget' => $RBWEFLB / 100 * $budget,
+            'remaining' => $RBWEFLB / 100 * $budget
         ];
     }
 
@@ -134,6 +157,15 @@ class TotalsController extends Controller
         $RB = $total_income - $total_RFB + $EWB + $EFLB + $total_spent_before_CSD + $total_spent_after_CSD - $total_savings;
 
         return $RB;
+    }
+
+    /**
+     * Get remaining balance without the expenses with flex budget
+     * @return int
+     */
+    private function getRBWEFLB()
+    {
+        return $this->getRB() - $this->getTotalExpenseWithFLB();
     }
 
     /**

@@ -13,7 +13,8 @@ var app = angular.module('budgetApp');
         $scope.me = me;
         $scope.totals = {
             changes: {
-                RB: []
+                RB: [],
+                RBWEFLB: []
             }
         };
 		$scope.show = {
@@ -106,7 +107,8 @@ var app = angular.module('budgetApp');
 
         $scope.clearChanges = function () {
             $scope.totals.changes = {
-                RB: []
+                RB: [],
+                RBWEFLB: []
             };
         };
 		
@@ -323,6 +325,14 @@ var app = angular.module('budgetApp');
                 return;
             }
             $scope.totals.changes.RFB = newValue - oldValue;
+        });
+
+        //RBWEFLB
+        $scope.$watch('totals.budget.RBWEFLB', function (newValue, oldValue) {
+            if (!oldValue || newValue === oldValue) {
+                return;
+            }
+            $scope.totals.changes.RBWEFLB.push(newValue - oldValue);
         });
 
         //CFB
