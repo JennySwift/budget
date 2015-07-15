@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
+use App\Services\GreetingService;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -14,6 +15,11 @@ use Illuminate\Http\Request;
  */
 class TotalsController extends Controller
 {
+
+    public function getGreeting(GreetingService $greetingService)
+    {
+        return $greetingService->greet();
+    }
 
     /**
      *
@@ -354,6 +360,11 @@ class TotalsController extends Controller
      */
     public function getBudgetInfo($user_id, $type)
     {
+        // This logic could be on the Tag model class
+//        $type = ucwords(strtolower($type)); // Fixed / Flex
+//        $method = "getTagsWith{$type}Budget";
+//        $tags = call_user_func($method, $user_id);
+
         if ($type === 'fixed') {
             $tags = Tag::getTagsWithFixedBudget($user_id);
             $total_cumulative_budget = 0;
@@ -368,17 +379,19 @@ class TotalsController extends Controller
         $total_spent_before_CSD = 0;
 
         foreach ($tags as $tag) {
+            // Don't need to create a variable if value not modified anywhere
             $tag_id = $tag->id;
             $CSD = $tag->starting_date;
 
-            //Get cumulative month number ($CMN)
+            // Get cumulative month number ($CMN)
+            // Could be extracted to a Budget service (just like line 330+) or the Tag model
             if ($CSD) {
                 $CMN = Tag::getCMN($CSD);
             } else {
                 $CMN = 1;
             }
 
-            //Get other stuff :)
+            // Get other stuff :)
             $spent = $this->getTotalSpentOnTag($tag_id, $CSD);
             $received = $this->getTotalReceivedOnTag($tag_id, $CSD);
             $spent_before_CSD = $this->getTotalSpentOnTagBeforeCSD($tag_id, $CSD);
@@ -440,6 +453,7 @@ class TotalsController extends Controller
      */
     public function numberFormat($array)
     {
+        // @TODO Could be moved in the helpers.php file :)
         $formatted_array = array();
         foreach ($array as $key => $value) {
             $formatted_value = number_format($value, 2);
