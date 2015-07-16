@@ -44,11 +44,7 @@ class TagsController extends Controller
      */
     public function getTags()
     {
-        $tags = Tag::where('user_id', Auth::user()->id)
-            ->orderBy('name', 'asc')
-            ->get();
-
-        return $tags;
+        return Tag::getTags();
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Account;
 use App\Models\Tag;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
@@ -11,7 +12,12 @@ use Illuminate\Support\Facades\Route;
 //    return Transaction::with('account')->first();
 //});
 
-Route::post('/test', 'TransactionsController@filterTransactions');
+//Route::post('/test', 'TransactionsController@filterTransactions');
+
+Route::get('/test', function()
+{
+    return Account::getAccounts();
+});
 
 
 /**

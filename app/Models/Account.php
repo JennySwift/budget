@@ -29,4 +29,11 @@ class Account extends Model {
         return $this->hasMany('App\Models\Transaction');
     }
 
+    public static function getAccounts()
+    {
+        return Account::where('user_id', Auth::user()->id)
+            ->orderBy('name', 'asc')
+            ->get();
+    }
+
 }

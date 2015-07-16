@@ -44,9 +44,7 @@ class AccountsController extends Controller
      */
     public function getAccounts()
     {
-        return Account::where('user_id', Auth::user()->id)
-            ->orderBy('name', 'asc')
-            ->get();
+        return Account::getAccounts();
     }
 
     /**

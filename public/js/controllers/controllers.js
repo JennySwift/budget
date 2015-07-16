@@ -28,11 +28,15 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
 		$scope.preferences = {};
 
-		$scope.totals = {
-            changes: {
-                RB: [],
-                RBWEFLB: []
-            }
+        $scope.accounts = accounts_response;
+        $scope.tags = tags_response;
+        $scope.colors = colors_response;
+
+        $scope.totals = totals_response;
+
+		$scope.totals.changes = {
+            RB: [],
+            RBWEFLB: []
         };
 
         $scope.me = me;
@@ -94,8 +98,6 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
 		/*=========other=========*/
 		$scope.allocation_popup_transaction = {};
-		$scope.tags = {};
-		$scope.accounts = {};
 		$scope.selected = {}; //for getting the selected tag in autocomplete
 		$scope.typing = {
 			new_transaction: {
@@ -106,7 +108,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 			transactions: {},
 			tags: {}
 		};
-		$scope.colors = {};
+
 		$scope.messages = {};
 		$scope.tag_input = ""; //for the inputs where the tag is autocompleted
 
@@ -977,18 +979,6 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 		$scope.toggleFilter = function () {
 			$scope.show.filter = !$scope.show.filter;
 		};
-
-
-
-		/**
-		 * page load
-		 */
-
-		//$scope.multiSearch();
-		$scope.getColors();
-		$scope.getTotals();
-		$scope.getAccounts();
-		$scope.getTags();
 
 	}); //end controller
 

@@ -57,6 +57,13 @@ class Tag extends Model
         return route('tags.show', $this->id);
     }
 
+    public static function getTags()
+    {
+        return Tag::where('user_id', Auth::user()->id)
+            ->orderBy('name', 'asc')
+            ->get();
+    }
+
     /**
      *
      * @param $user_id
