@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
+use App\Repositories\Tags\TagsRepository;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
@@ -13,6 +14,19 @@ use Auth;
  * @package App\Services
  */
 class BudgetService {
+
+    /**
+     * @var TagsRepository
+     */
+    protected $tagsRepository;
+
+    /**
+     * @param TagsRepository $tagsRepository
+     */
+    public function __construct(TagsRepository $tagsRepository)
+    {
+        $this->tagsRepository = $tagsRepository;
+    }
 
     /**
      *
@@ -28,10 +42,10 @@ class BudgetService {
 //        $tags = call_user_func('Tag::' . $method);
 
         if ($type === 'fixed') {
-            $tags = Tag::getTagsWithFixedBudget();
+            $tags = $this->tagsRepository->getTagsWithFixedBudget();
         }
         elseif ($type === 'flex') {
-            $tags = Tag::getTagsWithFlexBudget();
+            $tags = $this->tagsRepository->getTagsWithFlexBudget();
         }
 
         $total_budget = 0;
@@ -42,10 +56,10 @@ class BudgetService {
         $total_cumulative_budget = 0;
 
         foreach ($tags as $tag) {
-            $CMN = Tag::getCMN($tag);
-            $spent = Tag::getTotalSpentOnTag($tag->id, $tag->starting_date);
-            $received = Tag::getTotalReceivedOnTag($tag->id, $tag->starting_date);
-            $spent_before_CSD = Tag::getTotalSpentOnTagBeforeCSD($tag->id, $tag->starting_date);
+            $CMN = $tag->getCMN();
+            $spent = $tag->getTotalSpent();
+            $received = $tag->getTotalReceived();
+            $spent_before_CSD = $tag->getTotalSpentBeforeCSD();
 
             if ($type === 'fixed') {
                 $budget = $tag->fixed_budget;
@@ -67,11 +81,8 @@ class BudgetService {
                 $tag->starting_date = Transaction::convertDate($tag->starting_date, 'user');
             }
 
-            $tag->CSD = $tag->starting_date;
-            $tag->CMN = $CMN;
-            $tag->spent = $spent;
-            $tag->received = $received;
-            $tag->spent_before_CSD = number_format($spent_before_CSD, 2);
+            //formatting
+            $tag->spent_before_CSD = number_format($tag->spent_before_CSD, 2);
 
             if ($type === 'fixed') {
                 $tag->cumulative_budget = number_format($cumulative_budget, 2);
@@ -104,7 +115,9 @@ class BudgetService {
     public function getBudgetTotals()
     {
         $FB_info = $this->getBudgetInfo('fixed');
+//        return $FB_info;
         $FLB_info = $this->getBudgetInfo('flex');
+//        return $FLB_info;
         $RBWEFLB = $this->getRBWEFLB();
 
         //adding the calculated budget for each tag.
@@ -122,10 +135,10 @@ class BudgetService {
             $remaining = $calculated_budget + $tag->spent + $tag->received;
             $total_remaining += $remaining;
 
-            $tag['calculated_budget'] = number_format($calculated_budget, 2);
-            $tag['remaining'] = number_format($remaining, 2);
-            $tag['spent'] = number_format($tag->spent, 2);
-            $tag['received'] = number_format($tag->received, 2);
+            $tag->calculated_budget = number_format($calculated_budget, 2);
+            $tag->remaining = number_format($remaining, 2);
+            $tag->spent = number_format($tag->spent, 2);
+            $tag->received = number_format($tag->received, 2);
         }
 
         //Get the unallocated values for flex budget

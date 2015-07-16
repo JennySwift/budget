@@ -12,12 +12,15 @@ use Illuminate\Support\Facades\Route;
 //    return Transaction::with('account')->first();
 //});
 
-//Route::post('/test', 'TransactionsController@filterTransactions');
+Route::get('/test', 'TotalsController@getBudgetTotals');
 
-Route::get('/test', function()
-{
-    return Account::getAccounts();
-});
+//Route::get('/test', function()
+//{
+//    $tag = Tag::first();
+//    //dd($tag);
+//    $tag->getTotalSpent();
+//    return $tag;
+//});
 
 
 /**

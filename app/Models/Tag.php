@@ -65,46 +65,15 @@ class Tag extends Model
     }
 
     /**
-     *
-     * @param $user_id
-     * @return mixed
-     */
-    public static function getTagsWithFixedBudget()
-    {
-        $tags = Tag::where('user_id', Auth::user()->id)
-            ->where('flex_budget', null)
-            ->whereNotNull('fixed_budget')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        return $tags;
-    }
-
-    /**
-     *
-     * @param $user_id
-     * @return mixed
-     */
-    public static function getTagsWithFlexBudget()
-    {
-        $tags = Tag::where('user_id', Auth::user()->id)
-            ->whereNotNull('flex_budget')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        return $tags;
-    }
-
-    /**
      * Get the cumulative month number for a tag (CMN).
      * CMN is based on the starting date (CSD) for a tag.
      * @param $CSD
      * @return string
      */
-    public static function getCMN($tag)
+    public function getCMN()
     {
-        if ($tag->starting_date) {
-            $diff = Carbon::now()->diff(Carbon::createFromFormat('Y-m-d', $tag->starting_date));
+        if ($this->starting_date) {
+            $diff = Carbon::now()->diff(Carbon::createFromFormat('Y-m-d', $this->starting_date));
 
             $CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
         }
@@ -112,7 +81,7 @@ class Tag extends Model
             $CMN = 1;
         }
 
-        return $CMN;
+        return $this->CMN = $CMN;
     }
 
     /**
@@ -157,22 +126,22 @@ class Tag extends Model
      * @param $starting_date
      * @return mixed
      */
-    public static function getTotalSpentOnTag($tag_id, $starting_date)
+    public function getTotalSpent()
     {
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
-            ->where('transactions_tags.tag_id', $tag_id);
+            ->where('transactions_tags.tag_id', $this->id);
 
-        if ($starting_date) {
-            $total = $total->where('transactions.date', '>=', $starting_date);
+        if ($this->starting_date) {
+            $total = $total->where('transactions.date', '>=', $this->starting_date);
         }
 
         $total = $total
             ->where('transactions.type', 'expense')
             ->sum('calculated_allocation');
 
-        return $total;
+        return $this->spent = $total;
     }
 
     /**
@@ -181,22 +150,22 @@ class Tag extends Model
      * @param $starting_date
      * @return mixed
      */
-    public static function getTotalReceivedOnTag($tag_id, $starting_date)
+    public function getTotalReceived()
     {
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
-            ->where('transactions_tags.tag_id', $tag_id);
+            ->where('transactions_tags.tag_id', $this->id);
 
-        if ($starting_date) {
-            $total = $total->where('transactions.date', '>=', $starting_date);
+        if ($this->starting_date) {
+            $total = $total->where('transactions.date', '>=', $this->starting_date);
         }
 
         $total = $total
             ->where('transactions.type', 'income')
             ->sum('calculated_allocation');
 
-        return $total;
+        return $this->received = $total;
     }
 
     /**
@@ -205,21 +174,21 @@ class Tag extends Model
      * @param $CSD
      * @return mixed
      */
-    public static function getTotalSpentOnTagBeforeCSD($tag_id, $CSD)
+    public function getTotalSpentBeforeCSD()
     {
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
-            ->where('transactions_tags.tag_id', $tag_id);
+            ->where('transactions_tags.tag_id', $this->id);
 
-        if ($CSD) {
-            $total = $total->where('transactions.date', '<', $CSD);
+        if ($this->starting_date) {
+            $total = $total->where('transactions.date', '<', $this->starting_date);
         }
 
         $total = $total
             ->where('transactions.type', 'expense')
             ->sum('calculated_allocation');
 
-        return $total;
+        return $this->spent_before_CSD = $total;
     }
 }
