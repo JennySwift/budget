@@ -354,6 +354,8 @@ caption {
 .dropdown-directive {
   display: inline-block;
   position: relative; }
+  .dropdown-directive .btn {
+    margin-left: 10px; }
   .dropdown-directive .dropdown-content {
     flex-wrap: wrap;
     justify-content: space-around;
@@ -633,16 +635,23 @@ caption {
   display: flex;
   justify-content: center; }
   #new-transaction-container #new-transaction {
-    width: 300px;
+    width: 600px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     padding: 15px 25px;
     box-shadow: 3px 3px 5px #777;
     border: 1px solid #777;
-    animation: slideInDown 1s; }
+    animation: slideInDown .5s; }
     #new-transaction-container #new-transaction > div {
+      display: flex;
+      justify-content: space-between;
       margin: 12px 0; }
+      #new-transaction-container #new-transaction > div.type {
+        justify-content: center; }
+      #new-transaction-container #new-transaction > div > div {
+        margin: 0px 20px;
+        width: 200px; }
     #new-transaction-container #new-transaction input {
       margin-bottom: 4px;
       flex-grow: 1; }
@@ -688,8 +697,17 @@ caption {
         overflow: scroll; }
         #new-transaction-container #new-transaction .tag-wrapper .tag-dropdown li {
           list-style-type: none; }
+    #new-transaction-container #new-transaction .btn-group .btn {
+      margin: 0 -2px;
+      border-radius: 0px; }
+      #new-transaction-container #new-transaction .btn-group .btn:first-child {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px; }
+      #new-transaction-container #new-transaction .btn-group .btn:last-child {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px; }
     #new-transaction-container #new-transaction.ng-hide {
-      animation: slideOutUp 1s; }
+      animation: slideOutUp .5s; }
     #new-transaction-container #new-transaction .help-row {
       display: flex;
       justify-content: space-between; }
@@ -700,7 +718,7 @@ caption {
 
 #edit-transaction {
   padding: 22px;
-  width: 300px;
+  width: 600px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -708,7 +726,14 @@ caption {
   box-shadow: 3px 3px 5px #777;
   border: 1px solid #777; }
   #edit-transaction > div {
+    display: flex;
+    justify-content: space-between;
     margin: 12px 0; }
+    #edit-transaction > div.type {
+      justify-content: center; }
+    #edit-transaction > div > div {
+      margin: 0px 20px;
+      width: 200px; }
   #edit-transaction input {
     margin-bottom: 4px;
     flex-grow: 1; }
@@ -754,6 +779,15 @@ caption {
       overflow: scroll; }
       #edit-transaction .tag-wrapper .tag-dropdown li {
         list-style-type: none; }
+  #edit-transaction .btn-group .btn {
+    margin: 0 -2px;
+    border-radius: 0px; }
+    #edit-transaction .btn-group .btn:first-child {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px; }
+    #edit-transaction .btn-group .btn:last-child {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px; }
 
 #transactions {
   background: white;

@@ -9,7 +9,6 @@
 </div>
 
 <div ng-cloak ng-show="new_transaction.type === 'transfer'">
-
     <label for="" class="center">Select the account you are transferring money from</label>
 
     <select
@@ -21,6 +20,9 @@
         <option ng-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
     </select>
 
+</div>
+
+<div ng-cloak ng-show="new_transaction.type === 'transfer'">
     <label for="" class="center">Select the account you are transferring money to</label>
 
     <select
@@ -31,5 +33,4 @@
         class="account-dropdown form-control">
         <option ng-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
     </select>
-
 </div>
