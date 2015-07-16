@@ -11,3 +11,20 @@ function array_compare(array $base, array $newItems)
 //    dd($base);
     return array_merge($base, array_filter($newItems));
 }
+
+/**
+ *
+ * @param $array
+ * @return array
+ */
+function numberFormat($array)
+{
+    // @TODO Could be moved in the helpers.php file :)
+    $formatted_array = array();
+    foreach ($array as $key => $value) {
+        $formatted_value = number_format($value, 2);
+        $formatted_array[$key] = $formatted_value;
+    }
+
+    return $formatted_array;
+}

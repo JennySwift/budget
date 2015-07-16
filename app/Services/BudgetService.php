@@ -20,18 +20,18 @@ class BudgetService {
      * @param $type
      * @return array
      */
-    public function getBudgetInfo($user_id, $type)
+    public function getBudgetInfo($type)
     {
         // This logic could be on the Tag model class
 //        $type = ucwords(strtolower($type)); // Fixed / Flex
 //        $method = "getTagsWith{$type}Budget";
-//        $tags = call_user_func($method, $user_id);
+//        $tags = call_user_func('Tag::' . $method);
 
         if ($type === 'fixed') {
-            $tags = Tag::getTagsWithFixedBudget($user_id);
-            $total_cumulative_budget = 0;
-        } elseif ($type === 'flex') {
-            $tags = Tag::getTagsWithFlexBudget($user_id);
+            $tags = Tag::getTagsWithFixedBudget();
+        }
+        elseif ($type === 'flex') {
+            $tags = Tag::getTagsWithFlexBudget();
         }
 
         $total_budget = 0;
@@ -39,20 +39,13 @@ class BudgetService {
         $total_received = 0;
         $total_remaining = 0;
         $total_spent_before_CSD = 0;
+        $total_cumulative_budget = 0;
 
         foreach ($tags as $tag) {
-            // Get cumulative month number ($CMN)
-            // Could be extracted to a Budget service (just like line 330+) or the Tag model
-            if ($tag->starting_date) {
-                $CMN = Tag::getCMN($tag->starting_date);
-            } else {
-                $CMN = 1;
-            }
-
-            // Get other stuff :)
-            $spent = $this->getTotalSpentOnTag($tag->id, $tag->starting_date);
-            $received = $this->getTotalReceivedOnTag($tag->id, $tag->starting_date);
-            $spent_before_CSD = $this->getTotalSpentOnTagBeforeCSD($tag->id, $tag->starting_date);
+            $CMN = Tag::getCMN($tag);
+            $spent = Tag::getTotalSpentOnTag($tag->id, $tag->starting_date);
+            $received = Tag::getTotalReceivedOnTag($tag->id, $tag->starting_date);
+            $spent_before_CSD = Tag::getTotalSpentOnTagBeforeCSD($tag->id, $tag->starting_date);
 
             if ($type === 'fixed') {
                 $budget = $tag->fixed_budget;
@@ -110,8 +103,8 @@ class BudgetService {
      */
     public function getBudgetTotals()
     {
-        $FB_info = $this->getBudgetInfo(Auth::user()->id, 'fixed');
-        $FLB_info = $this->getBudgetInfo(Auth::user()->id, 'flex');
+        $FB_info = $this->getBudgetInfo('fixed');
+        $FLB_info = $this->getBudgetInfo('flex');
         $RBWEFLB = $this->getRBWEFLB();
 
         //adding the calculated budget for each tag.
@@ -123,7 +116,6 @@ class BudgetService {
         $total_remaining = 0;
 
         foreach ($FLB_info['tags'] as $tag) {
-//            $calculated_budget = $remaining_balance / 100 * $tag->flex_budget;
             $calculated_budget = $RBWEFLB / 100 * $tag->flex_budget;
             $total_calculated_budget += $calculated_budget;
 
@@ -152,7 +144,7 @@ class BudgetService {
         $FLB_info['totals']['calculated_budget'] = number_format($total_calculated_budget, 2);
         $FLB_info['totals']['budget'] = number_format($FLB_info['totals']['budget'], 2);
         $FLB_info['totals']['remaining'] = number_format($total_remaining, 2);
-        $FB_info['totals'] = $this->numberFormat($FB_info['totals']);
+        $FB_info['totals'] = numberFormat($FB_info['totals']);
         $FLB_info['unallocated']['budget'] = number_format($FLB_info['unallocated']['budget'], 2);
         $FLB_info['unallocated']['remaining'] = number_format($FLB_info['unallocated']['remaining'], 2);
 
@@ -219,11 +211,9 @@ class BudgetService {
      */
     public function getRB()
     {
-        $user_id = Auth::user()->id;
-        $FB_info = $this->getBudgetInfo($user_id, 'fixed');
-        $FLB_info = $this->getBudgetInfo($user_id, 'flex');
+        $FB_info = $this->getBudgetInfo('fixed');
+        $FLB_info = $this->getBudgetInfo('flex');
 
-        //calculating remaining balance
         $total_income = $this->getTotalIncome();
 //        $total_CFB = $FB_info['totals']['cumulative_budget'];
         $total_RFB = $FB_info['totals']['remaining'];
@@ -231,7 +221,7 @@ class BudgetService {
         $EFLB = $this->getTotalExpenseWithFLB();
         $EFBBCSD = $FB_info['totals']['spent_before_CSD'];
         $EFLBBCSD = $FLB_info['totals']['spent_before_CSD'];
-        $total_spent_after_CSD = $FB_info['totals']['spent'];
+//        $total_spent_after_CSD = $FB_info['totals']['spent'];
         $total_savings = Savings::getSavingsTotal();
 
         $RB = $total_income - $total_RFB + $EWB + $EFLB + $EFBBCSD + $EFLBBCSD - $total_savings;
@@ -306,78 +296,6 @@ class BudgetService {
     }
 
     /**
-     * Get total spent on a given tag before starting date
-     * @param $tag_id
-     * @param $CSD
-     * @return mixed
-     */
-    public function getTotalSpentOnTagBeforeCSD($tag_id, $CSD)
-    {
-        $total = DB::table('transactions_tags')
-            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-            ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
-            ->where('transactions_tags.tag_id', $tag_id);
-
-        if ($CSD) {
-            $total = $total->where('transactions.date', '<', $CSD);
-        }
-
-        $total = $total
-            ->where('transactions.type', 'expense')
-            ->sum('calculated_allocation');
-
-        return $total;
-    }
-
-    /**
-     * Get total spent on a given tag on or after starting date
-     * @param $tag_id
-     * @param $starting_date
-     * @return mixed
-     */
-    public function getTotalSpentOnTag($tag_id, $starting_date)
-    {
-        $total = DB::table('transactions_tags')
-            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-            ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
-            ->where('transactions_tags.tag_id', $tag_id);
-
-        if ($starting_date) {
-            $total = $total->where('transactions.date', '>=', $starting_date);
-        }
-
-        $total = $total
-            ->where('transactions.type', 'expense')
-            ->sum('calculated_allocation');
-
-        return $total;
-    }
-
-    /**
-     * Get total received on a given tag on or after starting date
-     * @param $tag_id
-     * @param $starting_date
-     * @return mixed
-     */
-    public function getTotalReceivedOnTag($tag_id, $starting_date)
-    {
-        $total = DB::table('transactions_tags')
-            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-            ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
-            ->where('transactions_tags.tag_id', $tag_id);
-
-        if ($starting_date) {
-            $total = $total->where('transactions.date', '>=', $starting_date);
-        }
-
-        $total = $total
-            ->where('transactions.type', 'income')
-            ->sum('calculated_allocation');
-
-        return $total;
-    }
-
-    /**
      * Get the sum of all the user's transactions that are reconciled
      * @return mixed
      */
@@ -424,22 +342,5 @@ class BudgetService {
         }
 
         return $total_expense;
-    }
-
-    /**
-     *
-     * @param $array
-     * @return array
-     */
-    public function numberFormat($array)
-    {
-        // @TODO Could be moved in the helpers.php file :)
-        $formatted_array = array();
-        foreach ($array as $key => $value) {
-            $formatted_value = number_format($value, 2);
-            $formatted_array[$key] = $formatted_value;
-        }
-
-        return $formatted_array;
     }
 }

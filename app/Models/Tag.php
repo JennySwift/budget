@@ -101,15 +101,16 @@ class Tag extends Model
      * @param $CSD
      * @return string
      */
-    public static function getCMN($CSD)
+    public static function getCMN($tag)
     {
-        // CMN is cumulative month number
-        $CSD = Carbon::createFromFormat('Y-m-d', $CSD);
-        $now = Carbon::now();
+        if ($tag->starting_date) {
+            $diff = Carbon::now()->diff(Carbon::createFromFormat('Y-m-d', $tag->starting_date));
 
-        $diff = $now->diff($CSD);
-
-        $CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
+            $CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
+        }
+        else {
+            $CMN = 1;
+        }
 
         return $CMN;
     }
@@ -148,5 +149,77 @@ class Tag extends Model
         $tag->setAllocationType($tag);
 
         return $tag;
+    }
+
+    /**
+     * Get total spent on a given tag on or after starting date
+     * @param $tag_id
+     * @param $starting_date
+     * @return mixed
+     */
+    public static function getTotalSpentOnTag($tag_id, $starting_date)
+    {
+        $total = DB::table('transactions_tags')
+            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+            ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
+            ->where('transactions_tags.tag_id', $tag_id);
+
+        if ($starting_date) {
+            $total = $total->where('transactions.date', '>=', $starting_date);
+        }
+
+        $total = $total
+            ->where('transactions.type', 'expense')
+            ->sum('calculated_allocation');
+
+        return $total;
+    }
+
+    /**
+     * Get total received on a given tag on or after starting date
+     * @param $tag_id
+     * @param $starting_date
+     * @return mixed
+     */
+    public static function getTotalReceivedOnTag($tag_id, $starting_date)
+    {
+        $total = DB::table('transactions_tags')
+            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+            ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
+            ->where('transactions_tags.tag_id', $tag_id);
+
+        if ($starting_date) {
+            $total = $total->where('transactions.date', '>=', $starting_date);
+        }
+
+        $total = $total
+            ->where('transactions.type', 'income')
+            ->sum('calculated_allocation');
+
+        return $total;
+    }
+
+    /**
+     * Get total spent on a given tag before starting date
+     * @param $tag_id
+     * @param $CSD
+     * @return mixed
+     */
+    public static function getTotalSpentOnTagBeforeCSD($tag_id, $CSD)
+    {
+        $total = DB::table('transactions_tags')
+            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+            ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
+            ->where('transactions_tags.tag_id', $tag_id);
+
+        if ($CSD) {
+            $total = $total->where('transactions.date', '<', $CSD);
+        }
+
+        $total = $total
+            ->where('transactions.type', 'expense')
+            ->sum('calculated_allocation');
+
+        return $total;
     }
 }
