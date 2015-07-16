@@ -25,14 +25,14 @@
 
             <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget before its CSD">
                 EFBBCSD:
-                <span class="badge">[[totals.budget.FB.totals.spent_before_CSD]]</span>
+                <span class="badge">[[totals.budget.FLB.totals.spent_before_CSD]]</span>
                 <span ng-if="totals.changes.EFBBCSD" class="changed">Changed: [[totals.changes.EFBBCSD]]</span>
             </li>
 
-            <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget after its CSD">
-                EFBACSD:
-                <span class="badge">[[totals.budget.FB.totals.spent]]</span>
-                <span ng-if="totals.changes.EFBACSD" class="changed">Changed: [[totals.changes.EFBACSD]]</span>
+            <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a flex budget before its CSD">
+                EFLBBCSD:
+                <span class="badge">[[totals.budget.FLB.totals.spent_before_CSD]]</span>
+                <span ng-if="totals.changes.EFLBBCSD" class="changed">Changed: [[totals.changes.EFLBBCSD]]</span>
             </li>
 
             <li class="tooltipster list-group-item list-group-item-danger" title="savings">
@@ -95,6 +95,12 @@
                 EFLB:
                 <span class="badge">[[totals.basic.EFLB]]</span>
                 <span ng-if="totals.changes.EFLB" class="changed">Changed: [[totals.changes.EFLB]]</span>
+            </li>
+
+            <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget after its CSD">
+                EFBACSD:
+                <span class="badge">[[totals.budget.FB.totals.spent]]</span>
+                <span ng-if="totals.changes.EFBACSD" class="changed">Changed: [[totals.changes.EFBACSD]]</span>
             </li>
         
         </ul>

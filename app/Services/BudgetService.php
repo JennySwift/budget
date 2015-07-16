@@ -229,11 +229,12 @@ class BudgetService {
         $total_RFB = $FB_info['totals']['remaining'];
         $EWB = $this->getTotalExpenseWithoutBudget();
         $EFLB = $this->getTotalExpenseWithFLB();
-        $total_spent_before_CSD = $FB_info['totals']['spent_before_CSD'];
+        $EFBBCSD = $FB_info['totals']['spent_before_CSD'];
+        $EFLBBCSD = $FLB_info['totals']['spent_before_CSD'];
         $total_spent_after_CSD = $FB_info['totals']['spent'];
         $total_savings = Savings::getSavingsTotal();
 
-        $RB = $total_income - $total_RFB + $EWB + $EFLB + $total_spent_before_CSD + $total_spent_after_CSD - $total_savings;
+        $RB = $total_income - $total_RFB + $EWB + $EFLB + $EFBBCSD + $EFLBBCSD - $total_savings;
 
         return $RB;
     }
