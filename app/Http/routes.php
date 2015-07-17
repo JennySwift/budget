@@ -81,6 +81,11 @@ Route::resource('transactions', 'TransactionsController', ['only' => ['show', 'u
  */
 
 /**
+ * Settings
+ */
+Route::post('update/settings', 'SettingsController@updateSettings');
+
+/**
  * transactions
  */
 

@@ -1,11 +1,17 @@
 <?php namespace App;
 
+use App\Models\Setting;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Auth;
 
+/**
+ * Class User
+ * @package App
+ */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
 	use Authenticatable, CanResetPassword;
@@ -22,12 +28,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email', 'password'];
+	protected $fillable = ['name', 'email', 'password', 'settings'];
 
     /**
      * @var array
      */
     protected $appends = ['gravatar'];
+
+    /**
+     * @var array
+     */
+    protected $casts = ['settings' => 'json'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -58,11 +69,19 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	//     return $this->attempts > 5;
 	// }
 
-	/**
-	 * functions
-	 */
-	
-	public static function insertRowsForNewUser()
+    /**
+     *
+     * @return Setting
+     */
+    public function settings()
+    {
+        return new Setting($this);
+    }
+
+    /**
+     *
+     */
+    public static function insertRowsForNewUser()
 	{
 		Color::create([
 			'item' => 'income',
