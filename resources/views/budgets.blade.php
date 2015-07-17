@@ -20,8 +20,8 @@
     <!-- if I used ng-if here, tooltipster didn't work. -->
     <div id="budget" class="main">
 
-    
-        <?php include($templates . '/totals.php'); ?>
+        <totals-directive totals="totals">
+        </totals-directive>
 
         <div>
 

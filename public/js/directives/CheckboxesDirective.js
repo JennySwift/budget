@@ -14,7 +14,7 @@
                 //'url': '@url',
                 //'showPopup': '=show'
             },
-            templateUrl: 'js/directives/CheckboxesTemplate.php',
+            templateUrl: 'templates/CheckboxesTemplate.php',
             //scope: true,
             link: function($scope, elem, attrs) {
                 $scope.animateIn = attrs.animateIn || 'zoomIn';

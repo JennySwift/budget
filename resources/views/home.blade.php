@@ -38,8 +38,10 @@
         </div>
         
         <div class="main-content">
+            <totals-directive totals="totals">
+            </totals-directive>
+
             <?php
-                include($templates . '/totals.php');
                 include($templates . '/home/transactions.php');
             ?>
             <div>

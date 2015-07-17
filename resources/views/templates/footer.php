@@ -45,6 +45,7 @@
 <!-- directives -->
 <script type="text/javascript" src="js/directives/DropdownsDirective.js"></script>
 <script type="text/javascript" src="js/directives/CheckboxesDirective.js"></script>
+<script type="text/javascript" src="js/directives/TotalsDirective.js"></script>
 
 </body>
 </html>

@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Models\Budget;
 use App\Models\Tag;
 use App\Models\Transaction;
+use App\Services\BudgetService;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -31,10 +32,11 @@ class BudgetsController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(BudgetService $budgetService)
     {
         JavaScript::put([
-            'me' => Auth::user()
+            'me' => Auth::user(),
+            'totals_response' => $budgetService->getBasicAndBudgetTotals(),
         ]);
 
         return view('budgets');

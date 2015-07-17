@@ -14,7 +14,7 @@
             //    'url': '@url',
             //    'showPopup': '=show'
             //},
-            //templateUrl: 'js/directives/DropdownsTemplate.php',
+            //templateUrl: 'templates/DropdownsTemplate.php',
             scope: true,
             link: function($scope, elem, attrs) {
                 $scope.animateIn = attrs.animateIn || 'flipInX';
