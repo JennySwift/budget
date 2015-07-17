@@ -28,7 +28,8 @@
 <script type="text/javascript" src="js/other.js"></script>
 
 <!-- controllers -->
-<script type="text/javascript" src="js/controllers/controllers.js"></script>
+<script type="text/javascript" src="js/controllers/BaseController.js"></script>
+<script type="text/javascript" src="js/controllers/HomeController.js"></script>
 <script type="text/javascript" src="js/controllers/SettingsController.js"></script>
 <script type="text/javascript" src="js/controllers/BudgetsController.js"></script>
 

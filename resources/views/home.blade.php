@@ -11,7 +11,7 @@
 
 </head>
 
-<body ng-controller="mainCtrl">
+<body ng-controller="HomeController">
 
 <div class="main">
 
