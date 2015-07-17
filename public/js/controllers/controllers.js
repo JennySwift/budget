@@ -24,6 +24,8 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 			multiple_budgets: false
 		};
 
+        $scope.feedback_messages = [];
+
         $scope.page = 'home';
 
 		$scope.preferences = {};
@@ -306,24 +308,26 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 				return;
 			}
 
-			transactions.insertTransaction($scope.new_transaction).then(function (response) {
-				//see if the transaction that was just entered has multiple budgets
-				//the allocation popup is shown from $scope.multiSearch().
-				var $transaction = response.data.transaction;
-				var $multiple_budgets = response.data.multiple_budgets;
+			transactions.insertTransaction($scope.new_transaction)
+                .then(function (response) {
+                    $scope.provideFeedback('Transaction added');
+                    //see if the transaction that was just entered has multiple budgets
+                    //the allocation popup is shown from $scope.multiSearch().
+                    var $transaction = response.data.transaction;
+                    var $multiple_budgets = response.data.multiple_budgets;
 
-				if ($multiple_budgets) {
-					$scope.new_transaction.multiple_budgets = true;
-					$scope.allocation_popup_transaction = $transaction;
-				}
-				else {
-					$scope.new_transaction.multiple_budgets = false;
-				}
+                    if ($multiple_budgets) {
+                        $scope.new_transaction.multiple_budgets = true;
+                        $scope.allocation_popup_transaction = $transaction;
+                    }
+                    else {
+                        $scope.new_transaction.multiple_budgets = false;
+                    }
 
-				$scope.getTotals();
-				$scope.multiSearch(false, true);
-				//clearing the new transaction tags
-				$scope.new_transaction.tags = [];
+                    $scope.getTotals();
+                    $scope.multiSearch(false, true);
+                    //clearing the new transaction tags
+                    $scope.new_transaction.tags = [];
 			});
 			$scope.new_transaction.dropdown = false;
 		};
@@ -896,7 +900,20 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 			return true; //it is not a duplicate
 		};
 
-		/**
+        $scope.provideFeedback = function ($message) {
+            $scope.feedback_messages.push($message);
+            setTimeout(function () {
+                $scope.feedback_messages = _.without($scope.feedback_messages, $message);
+                $scope.$apply();
+            }, 3000);
+        };
+
+        $scope.testFeedback = function () {
+            $scope.provideFeedback('something');
+        };
+
+
+        /**
 		 * totals
 		 */
 

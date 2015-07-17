@@ -20,6 +20,12 @@
         include($templates . '/messages.php');
         include($templates . '/popups/home/index.php');
     ?>
+
+    <button ng-click="testFeedback()">test feedback</button>
+
+    <div id="feedback">
+        <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">[[message]]</div>
+    </div>
     
     <div>
     
