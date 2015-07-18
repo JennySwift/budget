@@ -32,6 +32,7 @@
 <script type="text/javascript" src="js/controllers/HomeController.js"></script>
 <script type="text/javascript" src="js/controllers/SettingsController.js"></script>
 <script type="text/javascript" src="js/controllers/BudgetsController.js"></script>
+<script type="text/javascript" src="js/controllers/FilterController.js"></script>
 
 <!-- factories -->
 <script type="text/javascript" src="js/factories/autocomplete.js"></script>
@@ -46,6 +47,7 @@
 <script type="text/javascript" src="js/directives/DropdownsDirective.js"></script>
 <script type="text/javascript" src="js/directives/CheckboxesDirective.js"></script>
 <script type="text/javascript" src="js/directives/TotalsDirective.js"></script>
+<script type="text/javascript" src="js/directives/FilterDirective.js"></script>
 
 </body>
 </html>

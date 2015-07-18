@@ -45,6 +45,11 @@
                 include($templates . '/home/transactions.php');
             ?>
             <div>
+                {{--<filter-directive--}}
+                        {{--show="show.filter"--}}
+                        {{--search = "multiSearch()"--}}
+                        {{--accounts = "accounts">--}}
+                {{--</filter-directive>--}}
                 <?php
                     include($templates . '/filter.php');
                     include($templates . '/filter-totals.php');
