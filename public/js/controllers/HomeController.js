@@ -597,13 +597,18 @@
             }
         };
 
-
-
+        /**
+         * For the transaction autocomplete
+         * @param $keycode
+         * @param $typing
+         * @param $field
+         */
         $scope.filterTransactions = function ($keycode, $typing, $field) {
-            //for the transaction autocomplete
-            $scope.show.autocomplete[$field] = true;
             if ($keycode !== 38 && $keycode !== 40 && $keycode !== 13) {
-                //not up arrow, down arrow or enter, so filter transactions
+                //not up arrow, down arrow or enter
+                //show the dropdown
+                $scope.show.autocomplete[$field] = true;
+                // so filter transactions
                 autocomplete.removeSelected($scope.transactions);
                 //fetch the transactions that match $typing to display in the autocomplete dropdown
                 autocomplete.filterTransactions($typing, $field)
@@ -656,7 +661,8 @@
 
             $scope.new_transaction.tags = $selected.tags;
 
-            $scope.show.autocomplete = false;
+            $scope.show.autocomplete.description = false;
+            $scope.show.autocomplete.merchant = false;
 
             autocomplete.removeSelected($scope.transactions);
             autocomplete.removeSelected($scope.autocomplete.transactions);
