@@ -4,17 +4,20 @@
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, $http, autocomplete, totals, budgets, savings, settings, transactions, preferences) {
+    function home ($scope, $http, autocomplete, totals, budgets, savings, settings, transactions, preferences, PreferencesFactory) {
         /**
          * scope properties
          */
+
+        $scope.one = true;
+        $scope.two = false;
 
         /*=========new_transaction=========*/
         $scope.new_transaction = {
             total: '5',
             type: 'income',
-            description: '',
-            merchant: '',
+            description: 'test clear fields',
+            merchant: 'merchant',
             date: {
                 entered: 'today'
             },
@@ -301,11 +304,13 @@
             return true;
         };
 
-        $scope.clearNewTransactionValues = function () {
-            $transaction_tag_array.length = 0;
-            $("#new-transaction-tr").find(".merchant, .total, .description").val("");
-            $("#new-transaction-tr .checkbox_container").removeClass('reconciled');
-            $("#select_transaction_type").focus();
+        $scope.clearNewTransactionFields = function () {
+            $scope.new_transaction.total = '';
+            $scope.new_transaction.description = '';
+            $scope.new_transaction.merchant = '';
+            $scope.new_transaction.reconciled = false;
+            $scope.new_transaction.multiple_budgets = false;
+            $scope.new_transaction.tags = [];
         };
 
         $scope.insertTransaction = function ($keycode) {
@@ -333,6 +338,10 @@
                     $scope.multiSearch(false, true);
                     //clearing the new transaction tags
                     $scope.new_transaction.tags = [];
+
+                    if (me.settings.clear_fields) {
+                        $scope.clearNewTransactionFields();
+                    }
                 })
                 .catch(function (response) {
                     $scope.provideFeedback('There was an error');
@@ -941,6 +950,16 @@
             $(".bar_chart_li:nth-child(2)").css('height', getTotal()[5] + '%');
         };
 
+        $scope.savePreferences = function () {
+            PreferencesFactory.savePreferences($scope.me.settings)
+                .then(function (response) {
+                    //$scope. = response.data;
+                })
+                .catch(function (response) {
+
+                });
+        };
+
         /**
          * show
          */
@@ -952,6 +971,13 @@
 
         $scope.toggleFilter = function () {
             $scope.show.filter = !$scope.show.filter;
+        };
+
+        $scope.closePopup = function ($event, $popup) {
+            var $target = $event.target;
+            if ($target.className === 'popup-outer') {
+                $scope.show.popups[$popup] = false;
+            }
         };
     }
 

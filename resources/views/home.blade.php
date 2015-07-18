@@ -41,6 +41,16 @@
             <totals-directive totals="totals">
             </totals-directive>
 
+            <checkbox
+                    model="one"
+                    for="one">
+            </checkbox>
+
+            <checkbox
+                    model="two"
+                    for="two">
+            </checkbox>
+
             <?php
                 include($templates . '/home/transactions.php');
             ?>

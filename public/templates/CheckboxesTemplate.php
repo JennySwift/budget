@@ -1,10 +1,9 @@
 <div class="checkbox-animate">
     <input
         ng-model="model"
-        type="checkbox"
-        id="new-transaction-reconciled">
+        type="checkbox">
 
-    <label ng-click="toggleIcon()" for="new-transaction-reconciled">
+    <label ng-click="toggleIcon()">
         <div class="label-icon animated">
             <i class="fa fa-check"></i>
         </div>

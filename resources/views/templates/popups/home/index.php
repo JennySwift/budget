@@ -4,4 +4,5 @@
 	include('mass-edit.php');
 	include('edit-transaction.php');
 	include('allocation-popup.php');
+	include('preferences.php');
 ?>

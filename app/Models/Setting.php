@@ -16,7 +16,7 @@ class Setting extends Model {
     /**
      * @var array
      */
-    protected $allowed = ['income', 'expense', 'transfer'];
+    protected $allowed = ['income', 'expense', 'transfer', 'clear_fields'];
 
     /**
      * @param User $user

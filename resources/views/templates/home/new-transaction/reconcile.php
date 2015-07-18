@@ -20,7 +20,8 @@
     </div>
 
     <checkbox
-        model="new_transaction.reconciled">
+        model="new_transaction.reconciled"
+        element="new_transaction">
     </checkbox>
 
 </div>
