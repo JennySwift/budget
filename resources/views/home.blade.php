@@ -38,7 +38,10 @@
         </div>
         
         <div class="main-content">
-            <totals-directive totals="totals">
+            <totals-directive
+                    totals="totals"
+                    getTotals="getTotals()"
+                    provideFeedback="provideFeedback()">
             </totals-directive>
 
             <checkbox
@@ -50,6 +53,13 @@
                     model="two"
                     for="two">
             </checkbox>
+
+            <button ng-click="testControllers()">Do something to transactions controller from home controller</button>
+            <div>Home controller num: [[num]]</div>
+
+            <div ng-controller="TransactionsController">transactions controller
+                <div>TransactionsController num: [[num]]</div>
+            </div>
 
             <?php
                 include($templates . '/home/transactions.php');

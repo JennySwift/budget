@@ -1,9 +1,17 @@
-app.factory('transactions', function ($http) {
+app.factory('TransactionsFactory', function ($http) {
+    //var $num = 5;
+    var $num;
+    var $object = {};
+    $object.testControllers = function ($new_num) {
+        $num = $new_num || $num;
+        return $num;
+    };
+    //num: $num,
+
 	return {
 		/**
 		 * select
 		 */
-		
 		multiSearch: function ($filter, $reset) {
 			if ($filter.single_date) {
 				$filter.single_date_sql = Date.parse($filter.single_date).toString('yyyy-MM-dd');
@@ -23,6 +31,13 @@ app.factory('transactions', function ($http) {
 
 			return $http.post($url, $data);
 		},
+        testControllers: function ($new_num) {
+            if ($new_num) {
+                $num = $new_num;
+            }
+            return $num;
+        },
+        //num: $object.testControllers(),
 
 		/**
 		 * insert

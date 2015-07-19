@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, $http, autocomplete, totals, budgets, savings, settings, transactions, preferences, PreferencesFactory) {
+    function home ($scope, $http, autocomplete, totals, budgets, savings, settings, TransactionsFactory, preferences, PreferencesFactory) {
         /**
          * scope properties
          */
@@ -14,8 +14,9 @@
 
         /*=========new_transaction=========*/
         $scope.new_transaction = {
-            total: '5',
+            total: '10',
             type: 'income',
+            account: 1,
             description: 'test clear fields',
             merchant: 'merchant',
             date: {
@@ -32,6 +33,13 @@
         $scope.preferences = {};
 
         $scope.accounts = accounts_response;
+        if ($scope.accounts[0]) {
+            //this if check is to get rid of the error for a new user who does not yet have any accounts.
+            $scope.new_transaction.account = $scope.accounts[0].id;
+            $scope.new_transaction.from_account = $scope.accounts[0].id;
+            $scope.new_transaction.to_account = $scope.accounts[0].id;
+        }
+
         $scope.tags = tags_response;
         $scope.colors = colors_response;
 
@@ -154,35 +162,20 @@
          * select
          */
 
-        $scope.getTags = function () {
-            settings.getTags()
-                .then(function (response) {
-                    $scope.tags = response.data;
-                    $scope.autocomplete.tags = response.data;
-                })
-                .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
-                });
+        $scope.transactionsFactory = TransactionsFactory;
+
+        $scope.testControllers = function () {
+            TransactionsFactory.testControllers(10);
         };
 
-        $scope.getAccounts = function () {
-            settings.getAccounts()
-                .then(function (response) {
-                    $scope.accounts = response.data;
-                    if ($scope.accounts[0]) {
-                        //this if check is to get rid of the error for a new user who does not yet have any accounts.
-                        $scope.new_transaction.account = $scope.accounts[0].id;
-                        $scope.new_transaction.from_account = $scope.accounts[0].id;
-                        $scope.new_transaction.to_account = $scope.accounts[0].id;
-                    }
-                })
-                .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
-                });
-        };
+        $scope.num = TransactionsFactory.testControllers(5);
+
+        $scope.$watch('transactionsFactory.testControllers()', function (newValue, oldValue, scope) {
+            scope.num = newValue;
+        });
 
         $scope.multiSearch = function ($reset, $new_transaction) {
-            transactions.multiSearch($scope.filter, $reset)
+            TransactionsFactory.multiSearch($scope.filter, $reset)
                 .then(function (response) {
                     $scope.transactions = response.data.transactions;
                     $scope.totals.filter = response.data.filter_totals;
@@ -191,7 +184,7 @@
                     if ($new_transaction && $scope.new_transaction.multiple_budgets) {
                         //multiSearch has been called after entering a new transaction.
                         //The new transaction has multiple budgets.
-                        //Find the transaction that was just entered in $scope.transactions.
+                        //Find the transaction that was just entered in $scope.TransactionsFactory.
                         //This is so that the transaction is updated live when actions are done in the allocation popup. Otherwise it will need a page refresh.
                         $transaction = _.find($scope.transactions, function ($scope_transaction) {
                             return $scope_transaction.id === $scope.allocation_popup_transaction.id;
@@ -246,13 +239,6 @@
             $(this).closest(".input-group").children("input").val("");
             $scope.multiSearch(true);
         });
-
-        //$scope.clearChanges = function () {
-        //    $scope.totals.changes = {
-        //        RB: [],
-        //        RBWEFLB: []
-        //    };
-        //};
 
         /**
          * insert
@@ -318,7 +304,7 @@
                 return;
             }
 
-            transactions.insertTransaction($scope.new_transaction)
+            TransactionsFactory.insertTransaction($scope.new_transaction)
                 .then(function (response) {
                     $scope.provideFeedback('Transaction added');
                     //see if the transaction that was just entered has multiple budgets
@@ -365,7 +351,7 @@
         };
 
         $scope.updateReconciliation = function ($transaction_id, $reconciliation) {
-            transactions.updateReconciliation($transaction_id, $reconciliation)
+            TransactionsFactory.updateReconciliation($transaction_id, $reconciliation)
                 .then(function (response) {
                     $scope.multiSearch();
                     $scope.getTotals();
@@ -376,7 +362,7 @@
         };
 
         $scope.updateTagSelectHTML = function () {
-            transactions.updateTagSelectHTML()
+            TransactionsFactory.updateTagSelectHTML()
                 .then(function (response) {
                     $("#fixed-budget-tag-select").html('<option>Fixed Budget</option>' + response);
                     $("#flex-budget-tag-select").html('<option>Flex Budget</option>' + response);
@@ -409,7 +395,7 @@
             var $date_entry = $("#edit-transaction-date").val();
             $scope.edit_transaction.date.user = $date_entry;
             $scope.edit_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
-            transactions.updateTransaction($scope.edit_transaction)
+            TransactionsFactory.updateTransaction($scope.edit_transaction)
                 .then(function (response) {
                     $scope.multiSearch();
                     $scope.show.edit_transaction = false;
@@ -452,7 +438,7 @@
         };
 
         $scope.massEditTags = function () {
-            transactions.updateMassTags()
+            TransactionsFactory.updateMassTags()
                 .then(function (response) {
                     multiSearch();
                     $tag_array.length = 0;
@@ -464,7 +450,7 @@
         };
 
         $scope.massEditDescription = function () {
-            transactions.updateMassDescription()
+            TransactionsFactory.updateMassDescription()
                 .then(function (response) {
                     multiSearch();
                 })
@@ -536,7 +522,7 @@
 
         $scope.deleteTransaction = function ($transaction) {
             if (confirm("Are you sure?")) {
-                transactions.deleteTransaction($transaction.id)
+                TransactionsFactory.deleteTransaction($transaction.id)
                     .then(function (response) {
                         $scope.multiSearch();
 
@@ -694,25 +680,6 @@
             $("#income-color-picker").val(newValue.income);
             $("#expense-color-picker").val(newValue.expense);
             $("#transfer-color-picker").val(newValue.transfer);
-        });
-
-        $scope.$watch('totals.budget.RB', function (newValue, oldValue) {
-            //Before the refactor I didn't need this if check. Not sure why I need it now or it errors on page load.
-            if (!newValue || !oldValue) {
-                return;
-            }
-            //get rid of the commas and convert to integers
-            var $new_RB = parseInt(newValue.replace(',', ''), 10);
-            var $old_RB = parseInt(oldValue.replace(',', ''), 10);
-            if ($new_RB > $old_RB) {
-                //$RB has increased due to a user action
-                //Figure out how much it has increased by.
-                var $diff = $new_RB - $old_RB;
-                //This value will change. Just for developing purposes.
-                var $percent = 10;
-                var $amount_to_add = $diff / 100 * $percent;
-                $scope.addPercentageToSavingsAutomatically($amount_to_add);
-            }
         });
 
         $scope.$watchCollection('filter.accounts', function (newValue, oldValue) {
@@ -885,43 +852,6 @@
             });
         };
 
-        $scope.updateSavingsTotal = function ($keycode) {
-            if ($keycode !== 13) {
-                return;
-            }
-            savings.updateSavingsTotal().then(function (response) {
-                $scope.totals.basic.savings_total = response.data;
-                $scope.show.savings_total.input = false;
-                $scope.show.savings_total.edit_btn = true;
-                $scope.getTotals();
-            });
-        };
-
-        $scope.addFixedToSavings = function ($keycode) {
-            if ($keycode !== 13) {
-                return;
-            }
-            savings.addFixedToSavings()
-                .then(function (response) {
-                    $scope.totals.basic.savings_total = response.data;
-                    $scope.getTotals();
-                })
-                .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
-                });
-        };
-
-        $scope.addPercentageToSavingsAutomatically = function ($amount_to_add) {
-            savings.addPercentageToSavingsAutomatically($amount_to_add)
-                .then(function (response) {
-                    $scope.totals.basic.savings_total = response.data;
-                    $scope.getTotals();
-                })
-                .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
-                });
-        };
-
         $scope.reverseAutomaticInsertIntoSavings = function ($amount_to_subtract) {
             savings.reverseAutomaticInsertIntoSavings($amount_to_subtract)
                 .then(function (response) {
@@ -931,16 +861,6 @@
                 .catch(function (response) {
                     $scope.provideFeedback('There was an error');
                 });
-        };
-
-        $scope.addPercentageToSavings = function ($keycode) {
-            if ($keycode !== 13) {
-                return;
-            }
-            savings.addPercentageToSavings().then(function (response) {
-                $scope.totals.basic.savings_total = response.data;
-                $scope.getTotals();
-            });
         };
 
         $scope.updateChart = function () {

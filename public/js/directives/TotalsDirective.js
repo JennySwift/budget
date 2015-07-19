@@ -5,12 +5,14 @@
         .directive('totalsDirective', totals);
 
     /* @inject */
-    function totals() {
+    function totals(savings, totals) {
         return {
             restrict: 'EA',
             scope: {
                 //"id": "@id",
-                "totals": "=totals"
+                "totals": "=totals",
+                //"getTotals" : "&gettotals",
+                "provideFeedback" : "&providefeedback"
             },
             templateUrl: 'templates/TotalsTemplate.php',
             //scope: true,
@@ -139,6 +141,43 @@
                     }
                     $scope.totals.changes.reconciled = newValue - oldValue;
                 });
+
+                $scope.$watch('totals.budget.RB', function (newValue, oldValue) {
+                    //Before the refactor I didn't need this if check. Not sure why I need it now or it errors on page load.
+                    if (!newValue || !oldValue) {
+                        return;
+                    }
+                    //get rid of the commas and convert to integers
+                    var $new_RB = parseInt(newValue.replace(',', ''), 10);
+                    var $old_RB = parseInt(oldValue.replace(',', ''), 10);
+                    if ($new_RB > $old_RB) {
+                        //$RB has increased due to a user action
+                        //Figure out how much it has increased by.
+                        var $diff = $new_RB - $old_RB;
+                        //This value will change. Just for developing purposes.
+                        var $percent = 10;
+                        var $amount_to_add = $diff / 100 * $percent;
+                        $scope.addPercentageToSavingsAutomatically($amount_to_add);
+                    }
+                });
+
+                $scope.addPercentageToSavingsAutomatically = function ($amount_to_add) {
+                    savings.addPercentageToSavingsAutomatically($amount_to_add)
+                        .then(function (response) {
+                            $scope.totals.basic.savings_total = response.data;
+                            $scope.getTotals();
+                        })
+                        .catch(function (response) {
+                            $scope.provideFeedback('There was an error');
+                        });
+                };
+
+                $scope.getTotals = function () {
+                    totals.basicAndBudget().then(function (response) {
+                        $scope.totals.basic = response.data.basic;
+                        $scope.totals.budget = response.data.budget;
+                    });
+                };
             }
         };
     }

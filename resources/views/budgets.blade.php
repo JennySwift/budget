@@ -20,7 +20,9 @@
     <!-- if I used ng-if here, tooltipster didn't work. -->
     <div id="budget" class="main">
 
-        <totals-directive totals="totals">
+        <totals-directive
+                totals="totals"
+                getTotals="getTotals()">
         </totals-directive>
 
         <div>
