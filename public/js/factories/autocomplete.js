@@ -14,43 +14,43 @@ app.factory('autocomplete', function ($http) {
 	// 		$(".selected").first().removeClass('selected');
 	// 	}
 	// };
-	$object.upArrow = function ($array) {
-		var $selected = _.find($array, function ($item) {
-			return $item.selected === true;
-		});
-		var $index = _.indexOf($array, $selected);
-		var $prev_index = $index - 1;
-		var $prev_item = $array[$prev_index];
-
-		if ($prev_item) {
-			delete $selected.selected;
-			$prev_item.selected = true;
-		}
-		return $prev_item;
-	};
-	$object.downArrow = function ($array) {
-		var $selected = _.find($array, function ($item) {
-			return $item.selected === true;
-		});
-		var $next_item;
-
-		if (!$selected) {
-			var $first = _.first($array);
-			$first.selected = true;
-		}
-
-		else {
-			var $index = _.indexOf($array, $selected);
-			var $next_index = $index + 1;
-			$next_item = $array[$next_index];
-
-			if ($next_item) {
-				delete $selected.selected;
-				$next_item.selected = true;
-			}
-		}
-		return $next_item;
-	};
+	//$object.upArrow = function ($array) {
+	//	var $selected = _.find($array, function ($item) {
+	//		return $item.selected === true;
+	//	});
+	//	var $index = _.indexOf($array, $selected);
+	//	var $prev_index = $index - 1;
+	//	var $prev_item = $array[$prev_index];
+    //
+	//	if ($prev_item) {
+	//		delete $selected.selected;
+	//		$prev_item.selected = true;
+	//	}
+	//	return $prev_item;
+	//};
+	//$object.downArrow = function ($array) {
+	//	var $selected = _.find($array, function ($item) {
+	//		return $item.selected === true;
+	//	});
+	//	var $next_item;
+    //
+	//	if (!$selected) {
+	//		var $first = _.first($array);
+	//		$first.selected = true;
+	//	}
+    //
+	//	else {
+	//		var $index = _.indexOf($array, $selected);
+	//		var $next_index = $index + 1;
+	//		$next_item = $array[$next_index];
+    //
+	//		if ($next_item) {
+	//			delete $selected.selected;
+	//			$next_item.selected = true;
+	//		}
+	//	}
+	//	return $next_item;
+	//};
 	$object.filterTags = function ($tags, $typing) {
 		$filtered_tags = _.filter($tags, function ($tag) {
 			return $tag.name.toLowerCase().indexOf($typing.toLowerCase()) !== -1;
@@ -80,19 +80,19 @@ app.factory('autocomplete', function ($http) {
 		
 	// 	return $http.post($url, $data);
 	// };
-	$object.removeSelected = function ($array) {
-		var $first = _.first($array);
-		//removing the previous selected, in case the input is focused again after already setting the selected transaction
-		var $selected = _.find($array, function ($item) {
-			return $item.selected === true;
-		});
-		if ($selected) {
-			//if it's the first time the input is focused, $selected won't exist yet
-			delete $selected.selected;
-		}
-		//resetting the selected transaction to the first one
-		// $first.selected = true;
-	};
+	//$object.removeSelected = function ($array) {
+	//	var $first = _.first($array);
+	//	//removing the previous selected, in case the input is focused again after already setting the selected transaction
+	//	var $selected = _.find($array, function ($item) {
+	//		return $item.selected === true;
+	//	});
+	//	if ($selected) {
+	//		//if it's the first time the input is focused, $selected won't exist yet
+	//		delete $selected.selected;
+	//	}
+	//	//resetting the selected transaction to the first one
+	//	// $first.selected = true;
+	//};
 	$object.selectFirstItem = function ($array) {
 		var $first = _.first($array);
 		$first.selected = true;

@@ -19,9 +19,10 @@
         </div>
     </div>
 
-
     <tag-autocomplete-directive
-        newtransaction="new_transaction"
+        chosenTags="new_transaction.tags"
+        dropdown="new_transaction.dropdown"
         tags="tags">
     </tag-autocomplete-directive>
+
 </div>

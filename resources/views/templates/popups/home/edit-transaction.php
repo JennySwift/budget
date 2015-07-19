@@ -46,31 +46,13 @@
                 model="edit_transaction.reconciled">
             </checkbox>
         </div>
-		
-		<!-- ================tag wrapper================ -->
 
-		<div class="tag-wrapper">
-			<div class="tag-input-wrapper">
-				
-				<input ng-model="typing.edit_transaction.tag" ng-focus="edit_transaction.dropdown = true" ng-blur="edit_transaction.dropdown = false" ng-keyup="filterTags($event.keyCode, typing.edit_transaction.tag, edit_transaction.tags, 'edit_transaction')" placeholder="tags" type='text'>
-				
-				<div ng-if="edit_transaction.dropdown" class="tag-dropdown">
-					<li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': tag.selected}" data-id="[[tag.id]]">[[tag.name]]</li>
-				</div>
-			
-			</div>
-			
+        <tag-autocomplete-directive
+            chosenTags="edit_transaction.tags"
+            dropdown="edit_transaction.dropdown"
+            tags="tags">
+        </tag-autocomplete-directive>
 
-			<div ng-show="edit_transaction.tags.length > 0" class="tag-display">
-				<li ng-repeat="tag in edit_transaction.tags" ng-click="removeTag(tag, edit_transaction.tags, 'edit_transaction')" ng-class="{'tag-with-budget': tag.has_budget === 'yes', 'tag-without-budget': tag.has_budget === 'no'}" class="label label-default removable-tag" data-id="[[tag.id]]" data-allocated-percent="[[tag.allocated_percent]]" data-allocated-fixed="[[tag.allocated_fixed]]" data-amount="[[tag.amount]]">
-					[[tag.name]]
-					<i class="fa fa-times"></i>
-				</li>
-			</div>
-		</div>
-
-		<!-- ================end tag wrapper================ -->
-	
 		<div class="btn-wrapper">
 			<button ng-click="multiSearch(); show.edit_transaction = false" class="cancel">Cancel</button>
 			<button ng-click="updateTransaction()" class="save">Save</button>

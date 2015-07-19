@@ -10,6 +10,8 @@
 
         $scope.transactions = filter_response.transactions;
 
+        $scope.tags = tags_response;
+
         $scope.accounts = accounts_response;
 
         //$scope.edit_transaction = {

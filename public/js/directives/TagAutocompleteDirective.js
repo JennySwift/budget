@@ -9,15 +9,15 @@
         return {
             restrict: 'EA',
             scope: {
-                //"totals": "=totals",
-                //"provideFeedback" : "&providefeedback"
-                "new_transaction": "=newtransaction",
+                "chosenTags": "=chosentags",
+                "dropdown": "=dropdown",
                 "tags": "=tags"
             },
             templateUrl: 'templates/TagAutocompleteTemplate.php',
             //scope: true,
             link: function($scope, elem, attrs) {
-                $scope.autocomplete = {};
+                //$scope.currentIndex = 1;
+                $scope.results = {};
                 $scope.messages = {};
 
                 $scope.duplicateTagCheck = function ($tag_id, $tag_array) {
@@ -31,65 +31,66 @@
                 };
 
 
-                $scope.addTagToTransaction = function ($tags) {
+                $scope.addTag = function () {
                     $scope.messages.tag_exists = false;
-                    var $tag_id = $scope.selected.id;
+                    //var $tag_id = $scope.selected.id;
+                    var $tag_id = $scope.results[$scope.currentIndex].id;
 
-                    if ($scope.duplicateTagCheck($tag_id, $tags)) {
-                        $tags.push($scope.selected);
-
-                        autocomplete.removeSelected($scope.autocomplete.tags);
+                    if ($scope.duplicateTagCheck($tag_id, $scope.chosenTags)) {
+                        $scope.chosenTags.push($scope.results[$scope.currentIndex]);
+                        $scope.currentIndex = 0;
                     }
                     else {
                         $scope.messages.tag_exists = true;
                     }
 
                     //clearing the tag input
-                    $scope.typing = {};
+                    $scope.typing = '';
                 };
 
                 /**
-                 * Almost duplicate of filterTags in budgets controller
+                 * Act on keypress for input field
                  * @param $keycode
-                 * @param $typing
-                 * @param $location_for_tags
-                 * @param $scope_property
+                 * @returns {boolean}
                  */
-                $scope.filterTags = function ($keycode, $typing, $location_for_tags, $scope_property) {
-                    if ($keycode !== 38 && $keycode !== 40 && $keycode !== 13) {
-                        //not up arrow, down arrow or enter, so filter tags
-                        autocomplete.removeSelected($scope.tags);
-                        $scope[$scope_property]['dropdown'] = true;
-                        $scope.autocomplete.tags = autocomplete.filterTags($scope.tags, $typing);
-                        if ($typing !== "" && $scope.autocomplete.tags.length > 0) {
-                            $scope.selected = autocomplete.selectFirstItem($scope.autocomplete.tags);
-                        }
-                    }
-                    else if ($keycode === 38) {
-                        //up arrow
-                        $scope.selected = autocomplete.upArrow($scope.autocomplete.tags);
-                    }
-                    else if ($keycode === 40) {
-                        //down arrow
-                        $scope.selected = autocomplete.downArrow($scope.autocomplete.tags);
-                    }
-                    else if ($keycode === 13) {
-                        var $selected = $("#new-transaction .selected");
-                        if ($selected.length === 0 && $location_for_tags === $scope.new_transaction.tags) {
+                $scope.filterTags = function ($keycode, $typing) {
+                    if ($keycode === 13) {
+                        //enter is pressed
+                        //$scope.chooseItem();
+
+                        if ($scope.results[$scope.currentIndex].length === 0) {
                             //We are not adding a tag. We are inserting the transaction.
                             $scope.insertTransaction(13);
                             return;
                         }
                         //We are adding a tag
-                        $scope.addTagToTransaction($location_for_tags);
+                        $scope.addTag();
 
                         //resetting the dropdown to show all the tags again after a tag has been added
-                        $scope.autocomplete.tags = $scope.tags;
+                        $scope.results = $scope.tags;
+                    }
+                    else if ($keycode === 38) {
+                        //up arrow is pressed
+                        if ($scope.currentIndex > 0) {
+                            $scope.currentIndex--;
+                        }
+                    }
+                    else if ($keycode === 40) {
+                        //down arrow is pressed
+                        if ($scope.currentIndex + 1 < $scope.results.length) {
+                            $scope.currentIndex++;
+                        }
+                    }
+                    else {
+                        //Not enter, up or down arrow
+                        $scope.currentIndex = 0;
+                        $scope.dropdown = true;
+                        $scope.results = autocomplete.filterTags($scope.tags, $typing);
                     }
                 };
 
-                $scope.removeTag = function ($tag, $array, $scope_property) {
-                    $scope[$scope_property]['tags'] = _.without($array, $tag);
+                $scope.removeTag = function ($tag) {
+                    $scope.chosenTags = _.without($scope.chosenTags, $tag);
                 };
             }
         };
