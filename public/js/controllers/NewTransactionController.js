@@ -49,12 +49,15 @@
         $scope.types = ["income", "expense", "transfer"];
 
         $scope.clearNewTransactionFields = function () {
-            $scope.new_transaction.total = '';
-            $scope.new_transaction.description = '';
-            $scope.new_transaction.merchant = '';
-            $scope.new_transaction.reconciled = false;
-            $scope.new_transaction.multiple_budgets = false;
             $scope.new_transaction.tags = [];
+
+            if (me.settings.clear_fields) {
+                $scope.new_transaction.total = '';
+                $scope.new_transaction.description = '';
+                $scope.new_transaction.merchant = '';
+                $scope.new_transaction.reconciled = false;
+                $scope.new_transaction.multiple_budgets = false;
+            }
         };
 
         $scope.errorCheck = function () {
@@ -94,32 +97,34 @@
             TransactionsFactory.insertTransaction($scope.new_transaction)
                 .then(function (response) {
                     $scope.provideFeedback('Transaction added');
-                    //see if the transaction that was just entered has multiple budgets
-                    //the allocation popup is shown from $scope.multiSearch().
-                    var $transaction = response.data.transaction;
-                    var $multiple_budgets = response.data.multiple_budgets;
+                    $scope.checkNewTransactionForMultipleBudgets(response);
+                    $scope.clearNewTransactionFields();
+                    $scope.new_transaction.dropdown = false;
 
-                    //if ($multiple_budgets) {
-                    //    $scope.new_transaction.multiple_budgets = true;
-                    //    $scope.allocation_popup_transaction = $transaction;
-                    //}
-                    //else {
-                    //    $scope.new_transaction.multiple_budgets = false;
-                    //}
 
                     $scope.totals = response.data.totals;
                     $scope.multiSearch(false, true);
-                    //clearing the new transaction tags
-                    $scope.new_transaction.tags = [];
-
-                    if (me.settings.clear_fields) {
-                        $scope.clearNewTransactionFields();
-                    }
                 })
                 .catch(function (response) {
                     $scope.provideFeedback('There was an error');
                 });
-            $scope.new_transaction.dropdown = false;
+        };
+
+        /**
+         * See if the transaction that was just entered has multiple budgets.
+         * The allocation popup is shown from $scope.multiSearch().
+         */
+        $scope.checkNewTransactionForMultipleBudgets = function (response) {
+            var $transaction = response.data.transaction;
+            var $multiple_budgets = response.data.multiple_budgets;
+
+            if ($multiple_budgets) {
+                $scope.new_transaction.multiple_budgets = true;
+                $scope.allocation_popup_transaction = $transaction;
+            }
+            else {
+                $scope.new_transaction.multiple_budgets = false;
+            }
         };
 
 
