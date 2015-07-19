@@ -18,6 +18,12 @@
             scope.num = newValue;
         });
 
+        $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
+            if (newValue) {
+                scope.filter = newValue;
+            }
+        });
+
         //$scope.$watch('filterFactory.multiSearch()', function (newValue, oldValue) {
         //    $scope.multiSearch();
         //});
@@ -147,25 +153,29 @@
 
         $scope.deleteTransaction = function ($transaction) {
             if (confirm("Are you sure?")) {
-                TransactionsFactory.deleteTransaction($transaction.id)
+                TransactionsFactory.deleteTransaction($transaction, $scope.filter)
                     .then(function (response) {
-                        $scope.multiSearch();
+                        $scope.totals = response.data.totals;
+                        //$scope.calculateAmountToTakeFromSavings($transaction);
 
-                        //reverse the automatic insertion into savings if it is an income expense
-                        if ($transaction.type === 'income') {
-                            //This value will change. Just for developing purposes.
-                            var $percent = 10;
-                            var $amount_to_subtract = $transaction.total / 100 * $percent;
-                            $scope.reverseAutomaticInsertIntoSavings($amount_to_subtract);
-                        }
-
-                        $scope.totals = response.data;
+                        FilterFactory.updateFilterResultsForControllers(response.data.filter_results);
+                        FilterFactory.updateTotalsForControllers(response.data.totals);
                     })
                     .catch(function (response) {
                         $scope.provideFeedback('There was an error');
                     });
             }
         };
+
+        //$scope.calculateAmountToTakeFromSavings = function ($transaction) {
+        //    //reverse the automatic insertion into savings if it is an income expense
+        //    if ($transaction.type === 'income') {
+        //        //This value will change. Just for developing purposes.
+        //        var $percent = 10;
+        //        var $amount_to_subtract = $transaction.total / 100 * $percent;
+        //        $scope.reverseAutomaticInsertIntoSavings($amount_to_subtract);
+        //    }
+        //};
 
         $("#mass-delete-button").on('click', function () {
             if (confirm("You are about to delete " + $(".checked").length + " transactions. Are you sure you want to do this?")) {

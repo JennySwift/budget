@@ -103,12 +103,11 @@ app.factory('TransactionsFactory', function ($http) {
         return $http.post($url, $data);
     };
 
-    $object.deleteTransaction = function ($transaction_id) {
+    $object.deleteTransaction = function ($transaction, $filter) {
         var $url = 'delete/transaction';
-        var $description = 'transaction';
         var $data = {
-            description: $description,
-            transaction_id: $transaction_id
+            transaction: $transaction,
+            filter: $filter
         };
 
         return $http.post($url, $data);

@@ -71,7 +71,23 @@ class Savings extends Model
     {
         Savings::where('user_id', Auth::user()->id)
             ->decrement('amount', $amount_to_subtract);
+
+//        return $this->budgetService->getBasicAndBudgetTotals();
     }
+
+    /**
+     * Before reversing the automatic insert into savings,
+     * calculate the amount to subtract from savings.
+     * @param $transaction
+     */
+    public static function calculateAmountToSubtract($transaction)
+    {
+        //This value will change. Just for developing purposes.
+        $percent = 10;
+        $amount_to_subtract = $transaction->total / 100 * $percent;
+        static::reverseAutomaticInsertIntoSavings($amount_to_subtract);
+    }
+
 
     /**
      *

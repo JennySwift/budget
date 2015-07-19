@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Models\Budget;
+use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
 use App\Repositories\Transactions\TransactionsRepository;
@@ -22,13 +23,15 @@ class TransactionsController extends Controller
      * @var BudgetService
      */
     protected $budgetService;
+    protected $transactionsRepository;
 
     /**
      * @param BudgetService $budgetService
      */
-    public function __construct(BudgetService $budgetService)
+    public function __construct(BudgetService $budgetService, TransactionsRepository $transactionsRepository)
     {
         $this->budgetService = $budgetService;
+        $this->transactionsRepository = $transactionsRepository;
     }
 
     /**
@@ -61,10 +64,10 @@ class TransactionsController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function autocompleteTransaction(Request $request, TransactionsRepository $transactionsRepository)
+    public function autocompleteTransaction(Request $request)
     {
         $typing = '%' . $request->get('typing') . '%';
-        $transactions = $transactionsRepository->autocompleteTransaction($request->get('column'), $typing);
+        $transactions = $this->transactionsRepository->autocompleteTransaction($request->get('column'), $typing);
 
         return $transactions;
     }
@@ -83,10 +86,18 @@ class TransactionsController extends Controller
      */
     public function deleteTransaction(Request $request)
     {
-        $transaction = Transaction::find($request->get('transaction_id'));
+        $transaction = Transaction::find($request->get('transaction')['id']);
         $transaction->delete();
 
-        return $this->budgetService->getBasicAndBudgetTotals();
+        //Reverse the automatic insertion into savings if it is an income expense
+        if ($transaction->type === 'income') {
+            Savings::calculateAmountToSubtract($transaction);
+        }
+
+        return [
+            'totals' => $this->budgetService->getBasicAndBudgetTotals(),
+            'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
+        ];
     }
 
     /**

@@ -85,10 +85,10 @@ class SavingsController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function reverseAutomaticInsertIntoSavings(Request $request)
-    {
-        Savings::reverseAutomaticInsertIntoSavings($request->get('amount_to_subtract'));
-
-        return $this->budgetService->getBasicAndBudgetTotals();
-    }
+//    public function reverseAutomaticInsertIntoSavings(Request $request)
+//    {
+//        Savings::reverseAutomaticInsertIntoSavings($request->get('amount_to_subtract'));
+//
+//        return $this->budgetService->getBasicAndBudgetTotals();
+//    }
 }
