@@ -49,6 +49,7 @@
 <script type="text/javascript" src="js/factories/TagsFactory.js"></script>
 <script type="text/javascript" src="js/factories/AccountsFactory.js"></script>
 <script type="text/javascript" src="js/factories/FilterFactory.js"></script>
+<script type="text/javascript" src="js/factories/FeedbackFactory.js"></script>
 
 <!-- directives -->
 <script type="text/javascript" src="js/directives/DropdownsDirective.js"></script>

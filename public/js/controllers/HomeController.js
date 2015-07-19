@@ -4,10 +4,12 @@
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, $http, autocomplete, totals, budgets, savings, ColorsFactory, TransactionsFactory, preferences, PreferencesFactory) {
+    function home ($scope, $http, autocomplete, totals, budgets, savings, ColorsFactory, TransactionsFactory, preferences, PreferencesFactory, FeedbackFactory) {
         /**
          * scope properties
          */
+
+        $scope.feedbackFactory = FeedbackFactory;
 
         $scope.feedback_messages = [];
 
@@ -75,6 +77,24 @@
                 input: false,
                 edit_btn: true
             }
+        };
+
+        $scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
+            if (newValue && newValue.message) {
+                scope.provideFeedback(newValue.message);
+            }
+        });
+
+        $scope.provideFeedback = function ($message) {
+            $scope.feedback_messages.push($message);
+            setTimeout(function () {
+                $scope.feedback_messages = _.without($scope.feedback_messages, $message);
+                $scope.$apply();
+            }, 3000);
+        };
+
+        $scope.testFeedback = function () {
+            $scope.provideFeedback('something');
         };
 
         /**
@@ -168,18 +188,6 @@
                 .catch(function (response) {
                     $scope.provideFeedback('There was an error');
                 });
-        };
-
-        $scope.provideFeedback = function ($message) {
-            $scope.feedback_messages.push($message);
-            setTimeout(function () {
-                $scope.feedback_messages = _.without($scope.feedback_messages, $message);
-                $scope.$apply();
-            }, 3000);
-        };
-
-        $scope.testFeedback = function () {
-            $scope.provideFeedback('something');
         };
 
         $scope.updateChart = function () {

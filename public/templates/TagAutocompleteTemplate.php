@@ -10,14 +10,16 @@
             placeholder="tags"
             type='text'>
 
-        <div ng-if="dropdown" class="tag-dropdown">
-            <li
+        <div ng-show="dropdown" class="tag-dropdown">
+            <div
                 ng-repeat="tag in results"
-                ng-mousedown="chooseItem($index)"
+                ng-mousedown="addTag($index)"
                 ng-mouseover="hoverItem($index)"
                 ng-class="{'selected': $index == currentIndex}"
-                data-id="[[tag.id]]">[[tag.name]]
-            </li>
+                class="dropdown-item"
+                data-id="[[tag.id]]">
+                <div ng-bind-html="tag.html"></div>
+            </div>
         </div>
 
     </div>

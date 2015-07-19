@@ -4,6 +4,23 @@
         input {
             width: 100%;
         }
+        .tag-dropdown {
+            max-height: 200px;
+            overflow: scroll;
+            cursor: pointer;
+            .dropdown-item {
+                padding: 4px 0;
+                .highlight {
+                    background-color: lightblue;
+                    color: #ffffff;
+                }
+                &.selected {
+                    background-color: lightblue;
+                    color: #ffffff;
+                }
+            }
+
+        }
     }
     .tag-display {
         height: 34px;
@@ -23,13 +40,6 @@
                 left: 8px;
                 display: none;
             }
-        }
-    }
-    .tag-dropdown {
-        max-height: 200px;
-        overflow: scroll;
-        li {
-            list-style-type: none;
         }
     }
 }

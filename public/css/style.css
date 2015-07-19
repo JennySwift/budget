@@ -682,6 +682,18 @@ caption {
       width: 100%; }
       #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper input {
         width: 100%; }
+      #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown {
+        max-height: 200px;
+        overflow: scroll;
+        cursor: pointer; }
+        #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item {
+          padding: 4px 0; }
+          #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .highlight {
+            background-color: lightblue;
+            color: #ffffff; }
+          #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item.selected {
+            background-color: lightblue;
+            color: #ffffff; }
       #new-transaction-container #new-transaction .tag-wrapper .tag-display {
         height: 34px; }
         #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag {
@@ -697,11 +709,6 @@ caption {
             position: relative;
             left: 8px;
             display: none; }
-      #new-transaction-container #new-transaction .tag-wrapper .tag-dropdown {
-        max-height: 200px;
-        overflow: scroll; }
-        #new-transaction-container #new-transaction .tag-wrapper .tag-dropdown li {
-          list-style-type: none; }
     #new-transaction-container #new-transaction .btn-group .btn {
       margin: 0 -2px;
       border-radius: 0px; }
@@ -764,6 +771,18 @@ caption {
     width: 100%; }
     #edit-transaction .tag-wrapper .tag-input-wrapper input {
       width: 100%; }
+    #edit-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown {
+      max-height: 200px;
+      overflow: scroll;
+      cursor: pointer; }
+      #edit-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item {
+        padding: 4px 0; }
+        #edit-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .highlight {
+          background-color: lightblue;
+          color: #ffffff; }
+        #edit-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item.selected {
+          background-color: lightblue;
+          color: #ffffff; }
     #edit-transaction .tag-wrapper .tag-display {
       height: 34px; }
       #edit-transaction .tag-wrapper .tag-display .removable-tag {
@@ -779,11 +798,6 @@ caption {
           position: relative;
           left: 8px;
           display: none; }
-    #edit-transaction .tag-wrapper .tag-dropdown {
-      max-height: 200px;
-      overflow: scroll; }
-      #edit-transaction .tag-wrapper .tag-dropdown li {
-        list-style-type: none; }
   #edit-transaction .btn-group .btn {
     margin: 0 -2px;
     border-radius: 0px; }
