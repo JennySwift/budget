@@ -4,10 +4,12 @@
         .module('budgetApp')
         .controller('NewTransactionController', newTransaction);
 
-    function newTransaction ($scope, $http, autocomplete) {
+    function newTransaction ($scope, $http, autocomplete, TransactionsFactory, FilterFactory) {
         /**
          * scope properties
          */
+
+        $scope.filterFactory = FilterFactory;
 
         $scope.new_transaction = {
             total: '10',
@@ -94,21 +96,26 @@
                 return;
             }
 
-            TransactionsFactory.insertTransaction($scope.new_transaction)
+            TransactionsFactory.insertTransaction($scope.new_transaction, $scope.filter)
                 .then(function (response) {
                     $scope.provideFeedback('Transaction added');
                     $scope.checkNewTransactionForMultipleBudgets(response);
                     $scope.clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
 
-
-                    $scope.totals = response.data.totals;
-                    $scope.multiSearch(false, true);
+                    FilterFactory.updateFilterResultsForControllers(response.data.filter_results);
+                    FilterFactory.updateTotalsForControllers(response.data.totals);
                 })
                 .catch(function (response) {
                     $scope.provideFeedback('There was an error');
                 });
         };
+
+        $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
+            if (newValue) {
+                scope.filter = newValue;
+            }
+        });
 
         /**
          * See if the transaction that was just entered has multiple budgets.

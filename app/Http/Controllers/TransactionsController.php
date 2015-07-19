@@ -167,7 +167,7 @@ class TransactionsController extends Controller
      * @param Request $request
      * @return array
      */
-    public function insertTransaction(Request $request)
+    public function insertTransaction(Request $request, TransactionsRepository $transactionsRepository)
     {
         $new_transaction = $request->get('new_transaction');
         $type = $new_transaction['type'];
@@ -190,7 +190,8 @@ class TransactionsController extends Controller
         return [
             "transaction" => $transaction,
             "multiple_budgets" => $multiple_budgets,
-            'totals' => $this->budgetService->getBasicAndBudgetTotals()
+            'totals' => $this->budgetService->getBasicAndBudgetTotals(),
+            'filter_results' => $transactionsRepository->filterTransactions($request->get('filter'))
         ];
     }
 

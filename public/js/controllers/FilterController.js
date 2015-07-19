@@ -18,7 +18,6 @@
         $scope.totals = {
             filter: filter_response.filter_totals
         };
-        console.log($scope.totals.filter);
 
         $scope.resetFilter = function () {
             $scope.filter = {
@@ -40,8 +39,14 @@
 
         $scope.resetFilter();
 
-        $scope.multiSearch = function ($reset, $new_transaction) {
-            FilterFactory.multiSearch($scope.filter, $reset);
+        $scope.multiSearch = function () {
+            FilterFactory.multiSearch($scope.filter)
+                .then(function (response) {
+                    FilterFactory.updateDataForControllers(response.data);
+                })
+                .catch(function (response) {
+                    $scope.provideFeedback('There was an error');
+                })
         };
 
         $scope.$watch('filterFactory.filter_results.filter_totals', function (newValue, oldValue, scope) {

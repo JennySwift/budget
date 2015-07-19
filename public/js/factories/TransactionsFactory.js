@@ -2,7 +2,7 @@ app.factory('TransactionsFactory', function ($http) {
     var $object = {};
     $object.totals = {};
 
-    $object.insertTransaction = function ($new_transaction) {
+    $object.insertTransaction = function ($new_transaction, $filter) {
         var $url = 'insert/transaction';
         var $description = 'new transaction';
 
@@ -17,13 +17,11 @@ app.factory('TransactionsFactory', function ($http) {
 
         var $data = {
             description: $description,
-            new_transaction: $new_transaction
+            new_transaction: $new_transaction,
+            filter: $filter
         };
 
-        $http.post($url, $data)
-            .success(function (response) {
-                $object.totals = response;
-            });
+        return $http.post($url, $data);
     };
 
     $object.updateMassTags = function ($tag_array, $url, $tag_location) {
