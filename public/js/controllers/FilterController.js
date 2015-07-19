@@ -18,6 +18,7 @@
         $scope.totals = {
             filter: filter_response.filter_totals
         };
+        console.log($scope.totals.filter);
 
         $scope.resetFilter = function () {
             $scope.filter = {
@@ -44,7 +45,10 @@
         };
 
         $scope.$watch('filterFactory.filter_results.filter_totals', function (newValue, oldValue, scope) {
-            scope.totals.filter = newValue;
+            if (newValue) {
+                scope.totals.filter = newValue;
+            }
+
 
             //todo: This stuff should go elsewhere
             //if ($new_transaction && $scope.new_transaction.multiple_budgets) {

@@ -5,6 +5,7 @@ use App\Models\Transaction;
 use Auth;
 use Carbon\Carbon;
 use Debugbar;
+use DB;
 
 /**
  * Class TransactionsRepository

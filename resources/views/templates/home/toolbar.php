@@ -15,7 +15,7 @@
 
     </div>
 
-    <div class="toolbar-filter">
+    <div ng-controller="FilterController" class="toolbar-filter">
 
         <div class="flex">
             <select ng-model="filter.num_to_fetch" name="" id="" class="form-control">
