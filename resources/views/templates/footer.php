@@ -34,22 +34,28 @@
 <script type="text/javascript" src="js/controllers/BudgetsController.js"></script>
 <script type="text/javascript" src="js/controllers/FilterController.js"></script>
 <script type="text/javascript" src="js/controllers/TransactionsController.js"></script>
+<script type="text/javascript" src="js/controllers/NewTransactionController.js"></script>
+<script type="text/javascript" src="js/controllers/PreferencesController.js"></script>
 
 <!-- factories -->
 <script type="text/javascript" src="js/factories/autocomplete.js"></script>
 <script type="text/javascript" src="js/factories/budgets.js"></script>
 <script type="text/javascript" src="js/factories/savings.js"></script>
-<script type="text/javascript" src="js/factories/settings.js"></script>
+<script type="text/javascript" src="js/factories/ColorsFactory.js"></script>
 <script type="text/javascript" src="js/factories/totals.js"></script>
 <script type="text/javascript" src="js/factories/TransactionsFactory.js"></script>
 <script type="text/javascript" src="js/factories/preferences.js"></script>
 <script type="text/javascript" src="js/factories/PreferencesFactory.js"></script>
+<script type="text/javascript" src="js/factories/TagsFactory.js"></script>
+<script type="text/javascript" src="js/factories/AccountsFactory.js"></script>
+<script type="text/javascript" src="js/factories/FilterFactory.js"></script>
 
 <!-- directives -->
 <script type="text/javascript" src="js/directives/DropdownsDirective.js"></script>
 <script type="text/javascript" src="js/directives/CheckboxesDirective.js"></script>
 <script type="text/javascript" src="js/directives/TotalsDirective.js"></script>
 <script type="text/javascript" src="js/directives/FilterDirective.js"></script>
+<script type="text/javascript" src="js/directives/TagAutocompleteDirective.js"></script>
 
 </body>
 </html>

@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Models\Savings;
+use App\Services\BudgetService;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -12,6 +13,19 @@ use Illuminate\Http\Request;
  */
 class SavingsController extends Controller
 {
+    /**
+     * @var
+     */
+    protected $budgetService;
+
+    /**
+     * @param BudgetService $budgetService
+     */
+    public function __construct(BudgetService $budgetService)
+    {
+        $this->budgetService = $budgetService;
+    }
+
     /**
      *
      * @param Request $request
@@ -63,7 +77,7 @@ class SavingsController extends Controller
     {
         Savings::addPercentageToSavingsAutomatically($request->get('amount_to_add'));
 
-        return Savings::getSavingsTotal();
+        return $this->budgetService->getBasicAndBudgetTotals();
     }
 
     /**
@@ -75,6 +89,6 @@ class SavingsController extends Controller
     {
         Savings::reverseAutomaticInsertIntoSavings($request->get('amount_to_subtract'));
 
-        return Savings::getSavingsTotal();
+        return $this->budgetService->getBasicAndBudgetTotals();
     }
 }

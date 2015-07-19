@@ -12,25 +12,7 @@ app.factory('TransactionsFactory', function ($http) {
 		/**
 		 * select
 		 */
-		multiSearch: function ($filter, $reset) {
-			if ($filter.single_date) {
-				$filter.single_date_sql = Date.parse($filter.single_date).toString('yyyy-MM-dd');
-			}
-			if ($filter.from_date) {
-				$filter.from_date_sql = Date.parse($filter.from_date).toString('yyyy-MM-dd');
-			}
-			if ($filter.to_date) {
-				$filter.to_date_sql = Date.parse($filter.to_date).toString('yyyy-MM-dd');
-			}
 
-			var $url = 'select/filter';
-			var $data = {
-				description: 'filter',
-				filter: $filter
-			};
-
-			return $http.post($url, $data);
-		},
         testControllers: function ($new_num) {
             if ($new_num) {
                 $num = $new_num;

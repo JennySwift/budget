@@ -31,7 +31,7 @@
     
         <?php include($templates . '/home/toolbar.php'); ?>
     
-        <div id="new-transaction-container" class="">
+        <div ng-controller="NewTransactionController" id="new-transaction-container" class="">
             <?php
                 include($templates . '/home/new-transaction.php');
             ?>
@@ -44,27 +44,30 @@
                     provideFeedback="provideFeedback()">
             </totals-directive>
 
-            <checkbox
-                    model="one"
-                    for="one">
-            </checkbox>
+            {{--<checkbox--}}
+                    {{--model="one"--}}
+                    {{--for="one">--}}
+            {{--</checkbox>--}}
 
-            <checkbox
-                    model="two"
-                    for="two">
-            </checkbox>
+            {{--<checkbox--}}
+                    {{--model="two"--}}
+                    {{--for="two">--}}
+            {{--</checkbox>--}}
 
-            <button ng-click="testControllers()">Do something to transactions controller from home controller</button>
-            <div>Home controller num: [[num]]</div>
+            {{--<button ng-click="testControllers()">Do something to transactions controller from home controller</button>--}}
+            {{--<div>Home controller num: [[num]]</div>--}}
 
-            <div ng-controller="TransactionsController">transactions controller
-                <div>TransactionsController num: [[num]]</div>
+            {{--<div ng-controller="TransactionsController">transactions controller--}}
+                {{--<div>TransactionsController num: [[num]]</div>--}}
+            {{--</div>--}}
+
+            <div ng-controller="TransactionsController" class="flex-grow-2">
+                <h1>[[filter_results]]</h1>
+                <?php include($templates . '/home/transactions.php'); ?>
             </div>
 
-            <?php
-                include($templates . '/home/transactions.php');
-            ?>
-            <div>
+
+            <div ng-controller="FilterController">
                 {{--<filter-directive--}}
                         {{--show="show.filter"--}}
                         {{--search = "multiSearch()"--}}

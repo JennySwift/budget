@@ -9,9 +9,7 @@
         return {
             restrict: 'EA',
             scope: {
-                //"id": "@id",
                 "totals": "=totals",
-                //"getTotals" : "&gettotals",
                 "provideFeedback" : "&providefeedback"
             },
             templateUrl: 'templates/TotalsTemplate.php',
@@ -164,19 +162,28 @@
                 $scope.addPercentageToSavingsAutomatically = function ($amount_to_add) {
                     savings.addPercentageToSavingsAutomatically($amount_to_add)
                         .then(function (response) {
-                            $scope.totals.basic.savings_total = response.data;
-                            $scope.getTotals();
+                            $scope.totals = response.data;
                         })
                         .catch(function (response) {
                             $scope.provideFeedback('There was an error');
                         });
                 };
 
-                $scope.getTotals = function () {
-                    totals.basicAndBudget().then(function (response) {
-                        $scope.totals.basic = response.data.basic;
-                        $scope.totals.budget = response.data.budget;
-                    });
+                //$scope.getTotals = function () {
+                //    totals.basicAndBudget().then(function (response) {
+                //        $scope.totals.basic = response.data.basic;
+                //        $scope.totals.budget = response.data.budget;
+                //    });
+                //};
+
+                $scope.reverseAutomaticInsertIntoSavings = function ($amount_to_subtract) {
+                    savings.reverseAutomaticInsertIntoSavings($amount_to_subtract)
+                        .then(function (response) {
+                            $scope.totals = response.data;
+                        })
+                        .catch(function (response) {
+                            $scope.provideFeedback('There was an error');
+                        });
                 };
             }
         };

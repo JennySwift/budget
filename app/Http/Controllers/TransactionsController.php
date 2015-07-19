@@ -1,9 +1,11 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Budget;
 use App\Models\Tag;
 use App\Models\Transaction;
 use App\Repositories\Transactions\TransactionsRepository;
+use App\Services\BudgetService;
 use Auth;
 use DB;
 use Debugbar;
@@ -16,6 +18,19 @@ use Illuminate\Http\Request;
  */
 class TransactionsController extends Controller
 {
+    /**
+     * @var BudgetService
+     */
+    protected $budgetService;
+
+    /**
+     * @param BudgetService $budgetService
+     */
+    public function __construct(BudgetService $budgetService)
+    {
+        $this->budgetService = $budgetService;
+    }
+
     /**
      *
      * @param Request $request
@@ -30,6 +45,12 @@ class TransactionsController extends Controller
         return $count;
     }
 
+    /**
+     *
+     * @param Request $request
+     * @param TransactionsRepository $transactionsRepository
+     * @return array
+     */
     public function filterTransactions(Request $request, TransactionsRepository $transactionsRepository)
     {
         return $transactionsRepository->filterTransactions($request->get('filter'));
@@ -64,6 +85,8 @@ class TransactionsController extends Controller
     {
         $transaction = Transaction::find($request->get('transaction_id'));
         $transaction->delete();
+
+        return $this->budgetService->getBasicAndBudgetTotals();
     }
 
     /**
@@ -106,40 +129,40 @@ class TransactionsController extends Controller
     /**
      *
      * For Postman:
-
-    {"new_transaction": {
-
-        "total": -5,
-        "type": "expense",
-        "description": "",
-        "merchant": "",
-        "date": {
-        "entered": "today",
-        "sql": "2015-07-08"
-        },
-        "reconciled": false,
-        "multiple_budgets": false,
-        "reconciled": false,
-        "multiple_budgets": false,
-        "account": 1,
-        "from_account": 1,
-        "to_account": 1,
-        "tags": [
-        {
-        "id": 5,
-        "created_at": "2015-07-08 06:37:07",
-        "updated_at": "2015-07-08 06:37:07",
-        "name": "books",
-        "fixed_budget": "10.00",
-        "flex_budget": null,
-        "starting_date": "2015-01-01",
-        "budget_id": 1,
-        "user_id": 1
-        }
-        ]
-
-        }
-    }
+     *
+     * {"new_transaction": {
+     *
+     * "total": -5,
+     * "type": "expense",
+     * "description": "",
+     * "merchant": "",
+     * "date": {
+     * "entered": "today",
+     * "sql": "2015-07-08"
+     * },
+     * "reconciled": false,
+     * "multiple_budgets": false,
+     * "reconciled": false,
+     * "multiple_budgets": false,
+     * "account": 1,
+     * "from_account": 1,
+     * "to_account": 1,
+     * "tags": [
+     * {
+     * "id": 5,
+     * "created_at": "2015-07-08 06:37:07",
+     * "updated_at": "2015-07-08 06:37:07",
+     * "name": "books",
+     * "fixed_budget": "10.00",
+     * "flex_budget": null,
+     * "starting_date": "2015-01-01",
+     * "budget_id": 1,
+     * "user_id": 1
+     * }
+     * ]
+     *
+     * }
+     * }
      *
      * @param Request $request
      * @return array
@@ -164,12 +187,11 @@ class TransactionsController extends Controller
         $transaction = Transaction::find($last_transaction_id);
         $multiple_budgets = Transaction::hasMultipleBudgets($last_transaction_id);
 
-        $array = array(
+        return [
             "transaction" => $transaction,
-            "multiple_budgets" => $multiple_budgets
-        );
-
-        return $array;
+            "multiple_budgets" => $multiple_budgets,
+            'totals' => $this->budgetService->getBasicAndBudgetTotals()
+        ];
     }
 
     /**
@@ -245,6 +267,8 @@ class TransactionsController extends Controller
         $transaction->save();
 
         $this->insertTags($transaction, $data['tags'], $total);
+
+        return $this->budgetService->getBasicAndBudgetTotals();
     }
 
     /**
@@ -267,6 +291,8 @@ class TransactionsController extends Controller
         $transaction = Transaction::find($request->get('id'));
         $transaction->reconciled = $transactionsRepository->convertFromBoolean($request->get('reconciled'));
         $transaction->save();
+
+        return $this->budgetService->getBasicAndBudgetTotals();
     }
 
     /**
