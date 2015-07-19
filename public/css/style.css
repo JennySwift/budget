@@ -415,7 +415,7 @@ caption {
   box-shadow: 3px 3px 10px #777; }
   .totals .changed {
     position: absolute;
-    right: -280px;
+    right: -100px;
     top: 13px;
     border: 1px solid #777;
     z-index: 99999; }
