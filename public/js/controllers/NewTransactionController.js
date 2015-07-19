@@ -57,6 +57,35 @@
             $scope.new_transaction.tags = [];
         };
 
+        $scope.errorCheck = function () {
+            $scope.messages = {};
+
+            var $date_entry = $("#date").val();
+            $scope.new_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
+
+            if ($scope.new_transaction.date.sql === null) {
+                $scope.messages.invalid_date = true;
+                return false;
+            }
+            else if ($scope.new_transaction.total === "") {
+                $scope.message.total_required = true;
+                return false;
+            }
+            else if (!$.isNumeric($scope.new_transaction.total)) {
+                $scope.messages.total_not_number = true;
+                return false;
+            }
+            else if ($scope.new_transaction.type === 'transfer' && $scope.new_transaction.from_account === "from") {
+                $scope.messages.from_account_required = true;
+                return false;
+            }
+            else if ($scope.new_transaction.type === 'transfer' && $scope.new_transaction.to_account === "to") {
+                $scope.messages.to_account_required = true;
+                return false;
+            }
+            return true;
+        };
+
         $scope.insertTransaction = function ($keycode) {
             if ($keycode !== 13 || !$scope.errorCheck()) {
                 return;
@@ -70,13 +99,13 @@
                     var $transaction = response.data.transaction;
                     var $multiple_budgets = response.data.multiple_budgets;
 
-                    if ($multiple_budgets) {
-                        $scope.new_transaction.multiple_budgets = true;
-                        $scope.allocation_popup_transaction = $transaction;
-                    }
-                    else {
-                        $scope.new_transaction.multiple_budgets = false;
-                    }
+                    //if ($multiple_budgets) {
+                    //    $scope.new_transaction.multiple_budgets = true;
+                    //    $scope.allocation_popup_transaction = $transaction;
+                    //}
+                    //else {
+                    //    $scope.new_transaction.multiple_budgets = false;
+                    //}
 
                     $scope.totals = response.data.totals;
                     $scope.multiSearch(false, true);
