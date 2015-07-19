@@ -23,12 +23,19 @@
         #add-transaction {
 //            width: 100%;
         }
+        input {
+            margin-bottom: 4px;
+            flex-grow: 1;
+        }
     }
 }
 
 #edit-transaction {
 	padding: 22px;
     @include transaction_popup;
+    input {
+        margin-bottom: 4px;
+    }
 }
 
 // @media all and (min-width: 300px) {

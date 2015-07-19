@@ -660,9 +660,6 @@ caption {
       #new-transaction-container #new-transaction > div > div {
         margin: 0px 20px;
         width: 200px; }
-    #new-transaction-container #new-transaction input {
-      margin-bottom: 4px;
-      flex-grow: 1; }
     #new-transaction-container #new-transaction .autocomplete-container {
       position: relative; }
       #new-transaction-container #new-transaction .autocomplete-container > input {
@@ -723,6 +720,9 @@ caption {
         margin: 15px 0; }
     #new-transaction-container #new-transaction label {
       max-width: 210px; }
+    #new-transaction-container #new-transaction input {
+      margin-bottom: 4px;
+      flex-grow: 1; }
 
 #edit-transaction {
   padding: 22px;
@@ -742,9 +742,6 @@ caption {
     #edit-transaction > div > div {
       margin: 0px 20px;
       width: 200px; }
-  #edit-transaction input {
-    margin-bottom: 4px;
-    flex-grow: 1; }
   #edit-transaction .autocomplete-container {
     position: relative; }
     #edit-transaction .autocomplete-container > input {
@@ -796,6 +793,8 @@ caption {
     #edit-transaction .btn-group .btn:last-child {
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px; }
+  #edit-transaction input {
+    margin-bottom: 4px; }
 
 #transactions {
   background: white;

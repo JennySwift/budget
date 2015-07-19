@@ -10,9 +10,11 @@
 
         $scope.transactions = filter_response.transactions;
 
-        $scope.edit_transaction = {
-            tags: []
-        };
+        $scope.accounts = accounts_response;
+
+        //$scope.edit_transaction = {
+        //    tags: []
+        //};
 
         $scope.$watch('transactionsFactory.testControllers()', function (newValue, oldValue, scope) {
             scope.num = newValue;
@@ -48,7 +50,9 @@
 
         $scope.updateTransactionSetup = function ($transaction) {
             $scope.edit_transaction = $transaction;
-            //save the original total so I can calculate the difference if the total changes, so I can remove the correct amount from savings if required.
+            //save the original total so I can calculate
+            // the difference if the total changes,
+            // so I can remove the correct amount from savings if required.
             $scope.edit_transaction.original_total = $scope.edit_transaction.total;
             $scope.show.edit_transaction = true;
         };
@@ -57,27 +61,13 @@
             var $date_entry = $("#edit-transaction-date").val();
             $scope.edit_transaction.date.user = $date_entry;
             $scope.edit_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
-            TransactionsFactory.updateTransaction($scope.edit_transaction)
+            TransactionsFactory.updateTransaction($scope.edit_transaction, $scope.filter)
                 .then(function (response) {
-                    $scope.multiSearch();
+                    FilterFactory.updateFilterResultsForControllers(response.data.filter_results);
+                    FilterFactory.updateTotalsForControllers(response.data.totals);
+                    $scope.provideFeedback('Transaction updated');
+
                     $scope.show.edit_transaction = false;
-
-                    //if it is an income transaction, and if the total has decreased, remove a percentage from savings
-                    if ($scope.edit_transaction.type === 'income') {
-                        var $new_total = $scope.edit_transaction.total;
-                        $new_total = parseInt($new_total.replace(',', ''), 10);
-                        var $original_total = $scope.edit_transaction.original_total;
-                        $original_total = parseInt($original_total.replace(',', ''), 10);
-
-                        if ($new_total < $original_total) {
-                            //income transaction total has decreased. subtract percentage from savings
-                            var $diff = $original_total - $new_total;
-                            //this percent is temporary
-                            var $percent = 10;
-                            var $amount_to_subtract = $diff / 100 * $percent;
-                            $scope.reverseAutomaticInsertIntoSavings($amount_to_subtract);
-                        }
-                    }
 
                     $scope.totals = response.data;
                 })
@@ -160,6 +150,8 @@
 
                         FilterFactory.updateFilterResultsForControllers(response.data.filter_results);
                         FilterFactory.updateTotalsForControllers(response.data.totals);
+
+                        $scope.provideFeedback('Transaction deleted');
                     })
                     .catch(function (response) {
                         $scope.provideFeedback('There was an error');

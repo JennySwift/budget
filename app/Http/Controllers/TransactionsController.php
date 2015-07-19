@@ -259,18 +259,25 @@ class TransactionsController extends Controller
      */
     public function update(Request $request)
     {
-        $data = $request->get('transaction');
-        $transaction = Transaction::find($data['id']);
-        $total = $data['total'];
+        $js_transaction = $request->get('transaction');
+        $transaction = Transaction::find($js_transaction['id']);
+        $previous_total = $transaction->total;
+        $new_total = $js_transaction['total'];
+
+        // If it is an income transaction, and if the total has decreased,
+        // remove a percentage from savings
+        if ($transaction->type === 'income' && $new_total < $previous_total) {
+            Savings::calculateAfterUpdate($previous_total, $new_total);
+        }
 
         $transaction->update([
-            'account_id' => $data['account']['id'],
-            'type' => $data['type'],
-            'date' => $data['date']['sql'],
-            'merchant' => $data['merchant'],
-            'total' => $total,
-            'description' => $data['description'],
-            'reconciled' => Transaction::convertFromBoolean($data['reconciled'])
+            'account_id' => $js_transaction['account']['id'],
+            'type' => $js_transaction['type'],
+            'date' => $js_transaction['date']['sql'],
+            'merchant' => $js_transaction['merchant'],
+            'total' => $new_total,
+            'description' => $js_transaction['description'],
+            'reconciled' => Transaction::convertFromBoolean($js_transaction['reconciled'])
         ]);
 
         //delete all previous tags for the transaction and then add the current ones
@@ -278,9 +285,12 @@ class TransactionsController extends Controller
 
         $transaction->save();
 
-        $this->insertTags($transaction, $data['tags'], $total);
+        $this->insertTags($transaction, $js_transaction['tags']);
 
-        return $this->budgetService->getBasicAndBudgetTotals();
+        return [
+            'totals' => $this->budgetService->getBasicAndBudgetTotals(),
+            'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
+        ];
     }
 
     /**

@@ -78,6 +78,7 @@ class Savings extends Model
     /**
      * Before reversing the automatic insert into savings,
      * calculate the amount to subtract from savings.
+     * This is for after an income transaction is deleted.
      * @param $transaction
      */
     public static function calculateAmountToSubtract($transaction)
@@ -85,6 +86,21 @@ class Savings extends Model
         //This value will change. Just for developing purposes.
         $percent = 10;
         $amount_to_subtract = $transaction->total / 100 * $percent;
+        static::reverseAutomaticInsertIntoSavings($amount_to_subtract);
+    }
+
+    /**
+     * For when an income transaction total has decreased,
+     * updating the savings accordingly (subtract percentage from savings)
+     * @param $previous_total
+     * @param $new_total
+     */
+    public static function calculateAfterUpdate($previous_total, $new_total)
+    {
+        $diff = $previous_total - $new_total;
+        //this percent is temporary
+        $percent = 10;
+        $amount_to_subtract = $diff / 100 * $percent;
         static::reverseAutomaticInsertIntoSavings($amount_to_subtract);
     }
 

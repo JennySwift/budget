@@ -18,7 +18,6 @@
     <?php
         include($templates . '/header.blade.php');
         include($templates . '/messages.php');
-        include($templates . '/popups/home/index.php');
     ?>
 
     {{--<button ng-click="testFeedback()">test feedback</button>--}}
@@ -61,9 +60,19 @@
                 {{--<div>TransactionsController num: [[num]]</div>--}}
             {{--</div>--}}
 
+            {{--<div ng-controller="TransactionsController">[[edit_transaction]]</div>--}}
+
+            {{--<div ng-controller="TransactionsController" class="flex-grow-2">--}}
+                {{--[[edit_transaction]]--}}
+            {{--</div>--}}
+
             <div ng-controller="TransactionsController" class="flex-grow-2">
-                <h1>[[filter_results]]</h1>
-                <?php include($templates . '/home/transactions.php'); ?>
+                {{--This line had to be inside the div or the scope property--}}
+                {{--wouldn't work in the popup--}}
+                <?php
+                    include($templates . '/popups/home/index.php');
+                    include($templates . '/home/transactions.php');
+                ?>
             </div>
 
 

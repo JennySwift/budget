@@ -69,7 +69,7 @@ app.factory('TransactionsFactory', function ($http) {
         });
     };
 
-    $object.updateTransaction = function ($transaction) {
+    $object.updateTransaction = function ($transaction, $filter) {
         var $url = $transaction.path;
 
         //Make sure total is negative for an expense transaction
@@ -78,8 +78,8 @@ app.factory('TransactionsFactory', function ($http) {
         }
 
         var $data = {
-            description: 'transaction',
-            transaction: $transaction
+            transaction: $transaction,
+            filter: $filter
         };
 
         return $http.put($url, $data);
