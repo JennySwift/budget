@@ -16,9 +16,7 @@
 
         $scope.types = ["income", "expense", "transfer"];
 
-        $scope.totals = {
-            filter: filter_response.filter_totals
-        };
+        $scope.totals = filter_response.totals;
 
         $scope.resetFilter = function () {
             $scope.filter = {
@@ -40,42 +38,52 @@
 
         $scope.resetFilter();
 
+        /**
+         * Watches
+         */
+
+        // Not sure why I have to do this in the filter controller,
+        // but $scope.filter wasn't updating otherwise
+        $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
+            if (newValue) {
+                scope.filter = newValue;
+            }
+        });
+
+        $scope.$watch('filterFactory.filter_results.totals', function (newValue, oldValue, scope) {
+            if (newValue) {
+                scope.totals = newValue;
+            }
+        });
+
         $scope.multiSearch = function () {
             FilterFactory.multiSearch($scope.filter)
                 .then(function (response) {
-                    FilterFactory.updateFilterResultsForControllers(response.data.transactions);
-                    //FilterFactory.updateTotalsForControllers(response.data.filter_totals);
+                    FilterFactory.updateDataForControllers({filter_results: response.data});
                 })
                 .catch(function (response) {
                     $scope.provideFeedback('There was an error');
                 })
         };
 
-        $scope.$watch('filterFactory.totals', function (newValue, oldValue, scope) {
-            if (newValue) {
-                scope.totals.filter = newValue;
-            }
-
-
-            //todo: This stuff should go elsewhere
-            //if ($new_transaction && $scope.new_transaction.multiple_budgets) {
-            //    //multiSearch has been called after entering a new transaction.
-            //    //The new transaction has multiple budgets.
-            //    //Find the transaction that was just entered in $scope.TransactionsFactory.
-            //    //This is so that the transaction is updated live when actions are done in the allocation popup. Otherwise it will need a page refresh.
-            //    $transaction = _.find($scope.transactions, function ($scope_transaction) {
-            //        return $scope_transaction.id === $scope.allocation_popup_transaction.id;
-            //    });
-            //
-            //    if ($transaction) {
-            //        $scope.showAllocationPopup($transaction);
-            //    }
-            //    else {
-            //        //the transaction isn't showing with the current filter settings
-            //        $scope.showAllocationPopup($scope.allocation_popup_transaction);
-            //    }
-            //}
-        });
+        //todo: This stuff should go elsewhere
+        //if ($new_transaction && $scope.new_transaction.multiple_budgets) {
+        //    //multiSearch has been called after entering a new transaction.
+        //    //The new transaction has multiple budgets.
+        //    //Find the transaction that was just entered in $scope.TransactionsFactory.
+        //    //This is so that the transaction is updated live when actions are done in the allocation popup. Otherwise it will need a page refresh.
+        //    $transaction = _.find($scope.transactions, function ($scope_transaction) {
+        //        return $scope_transaction.id === $scope.allocation_popup_transaction.id;
+        //    });
+        //
+        //    if ($transaction) {
+        //        $scope.showAllocationPopup($transaction);
+        //    }
+        //    else {
+        //        //the transaction isn't showing with the current filter settings
+        //        $scope.showAllocationPopup($scope.allocation_popup_transaction);
+        //    }
+        //}
 
         //Todo: I might not need some of this code (not allowing offset to be less than 0)
         // todo: since I disabled the button if that is the case
@@ -90,7 +98,7 @@
         };
 
         $scope.nextResults = function () {
-            if ($scope.filter.offset + ($scope.filter.num_to_fetch * 1) > $scope.totals.filter.num_transactions) {
+            if ($scope.filter.offset + ($scope.filter.num_to_fetch * 1) > $scope.totals.num_transactions) {
                 //stop it going past the end.
                 return;
             }

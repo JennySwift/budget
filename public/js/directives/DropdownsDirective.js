@@ -2,7 +2,7 @@
     'use strict';
     angular
         .module('budgetApp')
-        .directive('dropdown', dropdown);
+        .directive('dropdownsDirective', dropdown);
 
     /* @inject */
     function dropdown($parse, $http) {

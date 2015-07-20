@@ -20,7 +20,7 @@
             }
         });
 
-        $scope.$watch('filterFactory.transactions', function (newValue, oldValue, scope) {
+        $scope.$watch('filterFactory.filter_results.transactions', function (newValue, oldValue, scope) {
             if (newValue) {
                 scope.transactions = newValue;
             }
@@ -52,8 +52,7 @@
             $scope.edit_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
             TransactionsFactory.updateTransaction($scope.edit_transaction, $scope.filter)
                 .then(function (response) {
-                    FilterFactory.updateFilterResultsForControllers(response.data.filter_results);
-                    FilterFactory.updateTotalsForControllers(response.data.totals);
+                    FilterFactory.updateDataForControllers(response.data);
                     $scope.provideFeedback('Transaction updated');
 
                     $scope.show.edit_transaction = false;
@@ -137,8 +136,7 @@
                         $scope.totals = response.data.totals;
                         //$scope.calculateAmountToTakeFromSavings($transaction);
 
-                        FilterFactory.updateFilterResultsForControllers(response.data.filter_results);
-                        FilterFactory.updateTotalsForControllers(response.data.totals);
+                        FilterFactory.updateDataForControllers(response.data);
 
                         $scope.provideFeedback('Transaction deleted');
                     })

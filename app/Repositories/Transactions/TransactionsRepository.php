@@ -162,7 +162,7 @@ class TransactionsRepository
 
         return [
             "transactions" => $this->getFilteredTransactions($transactions),
-            "filter_totals" => $filter_totals
+            "totals" => $filter_totals
         ];
     }
 

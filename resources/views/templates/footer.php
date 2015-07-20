@@ -57,6 +57,7 @@
 <script type="text/javascript" src="js/directives/TotalsDirective.js"></script>
 <script type="text/javascript" src="js/directives/FilterDirective.js"></script>
 <script type="text/javascript" src="js/directives/TagAutocompleteDirective.js"></script>
+<script type="text/javascript" src="js/directives/AutocompleteDirective.js"></script>
 
 </body>
 </html>

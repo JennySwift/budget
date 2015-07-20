@@ -58,17 +58,15 @@ app.factory('autocomplete', function ($http) {
     //
 	//	return $filtered_tags;
 	//};
-	$object.filterTransactions = function ($typing, $column) {
-		var $url = 'select/autocompleteTransaction';
-		var $description = 'autocomplete transaction';
-		var $data = {
-			description: $description,
-			typing: $typing,
-			column: $column
-		};
-		
-		return $http.post($url, $data);
-	};
+	//$object.filterTransactions = function ($typing, $column) {
+	//	var $url = 'select/autocompleteTransaction';
+	//	var $data = {
+	//		typing: $typing,
+	//		column: $column
+	//	};
+	//
+	//	return $http.post($url, $data);
+	//};
 	// $object.autocompleteTransaction = function ($typing, $iterate) {
 	// 	var $url = 'select/autocompleteTransaction';
 	// 	var $description = 'autocomplete transaction';
