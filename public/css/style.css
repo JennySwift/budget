@@ -135,6 +135,38 @@ caption {
     content: ' flex';
     font-size: 6px; }
 
+.tag-wrapper {
+  width: 100%; }
+  .tag-wrapper .tag-input-wrapper input {
+    width: 100%; }
+  .tag-wrapper .tag-input-wrapper .tag-dropdown {
+    max-height: 200px;
+    overflow: scroll;
+    cursor: pointer; }
+    .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item {
+      padding: 4px 0; }
+      .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .highlight {
+        background-color: lightblue;
+        color: #ffffff; }
+      .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item.selected {
+        background-color: lightblue;
+        color: #ffffff; }
+  .tag-wrapper .tag-display {
+    height: 34px; }
+    .tag-wrapper .tag-display .removable-tag {
+      cursor: pointer;
+      transition: all, .3s, ease;
+      position: relative; }
+      .tag-wrapper .tag-display .removable-tag:hover {
+        padding: .4em 1.6em .4em; }
+        .tag-wrapper .tag-display .removable-tag:hover .fa-times {
+          display: inline; }
+      .tag-wrapper .tag-display .removable-tag .fa-times {
+        font-size: 10px;
+        position: relative;
+        left: 8px;
+        display: none; }
+
 .error_message {
   font-size: 17px;
   position: fixed;
@@ -596,37 +628,6 @@ caption {
     display: flex; }
   #filter .tag-input-wrapper input {
     width: auto; }
-  #filter .tag-wrapper {
-    width: 100%; }
-    #filter .tag-wrapper .tag-input-wrapper input {
-      width: 100%; }
-    #filter .tag-wrapper .tag-input-wrapper .tag-dropdown {
-      max-height: 200px;
-      overflow: scroll;
-      cursor: pointer; }
-      #filter .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item {
-        padding: 4px 0; }
-        #filter .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .highlight {
-          background-color: lightblue;
-          color: #ffffff; }
-        #filter .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item.selected {
-          background-color: lightblue;
-          color: #ffffff; }
-    #filter .tag-wrapper .tag-display {
-      height: 34px; }
-      #filter .tag-wrapper .tag-display .removable-tag {
-        cursor: pointer;
-        transition: all, .3s, ease;
-        position: relative; }
-        #filter .tag-wrapper .tag-display .removable-tag:hover {
-          padding: .4em 1.6em .4em; }
-          #filter .tag-wrapper .tag-display .removable-tag:hover .fa-times {
-            display: inline; }
-        #filter .tag-wrapper .tag-display .removable-tag .fa-times {
-          font-size: 10px;
-          position: relative;
-          left: 8px;
-          display: none; }
   #filter .accounts > div, #filter .types > div, #filter .status > div, #filter .budget > div {
     display: flex;
     align-items: center; }
@@ -709,37 +710,6 @@ caption {
       width: 100%;
       display: flex;
       justify-content: space-between; }
-    #new-transaction-container #new-transaction .tag-wrapper {
-      width: 100%; }
-      #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper input {
-        width: 100%; }
-      #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown {
-        max-height: 200px;
-        overflow: scroll;
-        cursor: pointer; }
-        #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item {
-          padding: 4px 0; }
-          #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .highlight {
-            background-color: lightblue;
-            color: #ffffff; }
-          #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item.selected {
-            background-color: lightblue;
-            color: #ffffff; }
-      #new-transaction-container #new-transaction .tag-wrapper .tag-display {
-        height: 34px; }
-        #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag {
-          cursor: pointer;
-          transition: all, .3s, ease;
-          position: relative; }
-          #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag:hover {
-            padding: .4em 1.6em .4em; }
-            #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag:hover .fa-times {
-              display: inline; }
-          #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag .fa-times {
-            font-size: 10px;
-            position: relative;
-            left: 8px;
-            display: none; }
     #new-transaction-container #new-transaction .btn-group .btn {
       margin: 0 -2px;
       border-radius: 0px; }
@@ -798,37 +768,6 @@ caption {
     width: 100%;
     display: flex;
     justify-content: space-between; }
-  #edit-transaction .tag-wrapper {
-    width: 100%; }
-    #edit-transaction .tag-wrapper .tag-input-wrapper input {
-      width: 100%; }
-    #edit-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown {
-      max-height: 200px;
-      overflow: scroll;
-      cursor: pointer; }
-      #edit-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item {
-        padding: 4px 0; }
-        #edit-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .highlight {
-          background-color: lightblue;
-          color: #ffffff; }
-        #edit-transaction .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item.selected {
-          background-color: lightblue;
-          color: #ffffff; }
-    #edit-transaction .tag-wrapper .tag-display {
-      height: 34px; }
-      #edit-transaction .tag-wrapper .tag-display .removable-tag {
-        cursor: pointer;
-        transition: all, .3s, ease;
-        position: relative; }
-        #edit-transaction .tag-wrapper .tag-display .removable-tag:hover {
-          padding: .4em 1.6em .4em; }
-          #edit-transaction .tag-wrapper .tag-display .removable-tag:hover .fa-times {
-            display: inline; }
-        #edit-transaction .tag-wrapper .tag-display .removable-tag .fa-times {
-          font-size: 10px;
-          position: relative;
-          left: 8px;
-          display: none; }
   #edit-transaction .btn-group .btn {
     margin: 0 -2px;
     border-radius: 0px; }

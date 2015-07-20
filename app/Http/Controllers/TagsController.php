@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Models\Tag;
+use App\Services\BudgetService;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -13,15 +14,17 @@ use JavaScript;
  */
 class TagsController extends Controller
 {
+    protected $budgetService;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(BudgetService $budgetService)
     {
         $this->middleware('auth');
+        $this->budgetService = $budgetService;
     }
 
     /**
@@ -93,6 +96,8 @@ class TagsController extends Controller
         $tag = Tag::find($request->get('tag')['id']);
         $tag->starting_date = $request->get('CSD');
         $tag->save();
+
+        return $this->budgetService->getBasicAndBudgetTotals();
     }
 
     /**
@@ -124,6 +129,8 @@ class TagsController extends Controller
                 $column => $budget,
                 'budget_id' => $budget_id
             ]);
+
+        return $this->budgetService->getBasicAndBudgetTotals();
     }
 
     /**

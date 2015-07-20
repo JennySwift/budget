@@ -12,7 +12,8 @@
                 "chosenTags": "=chosentags",
                 "dropdown": "=dropdown",
                 "tags": "=tags",
-                "fnOnEnter": "&fnonenter"
+                "fnOnEnter": "&fnonenter",
+                "multipleTags": "=multipletags"
             },
             templateUrl: 'templates/TagAutocompleteTemplate.php',
             //scope: true,
@@ -38,12 +39,32 @@
                 };
 
 
-                $scope.addTag = function ($index) {
+                $scope.chooseTag = function ($index) {
                     if ($index !== undefined) {
                         //Item was chosen by clicking, not by pressing enter
                         $scope.currentIndex = $index;
                     }
 
+                    if ($scope.multipleTags) {
+                        $scope.addTag();
+                    }
+                    else {
+                        $scope.fillField();
+                    }
+                };
+
+                /**
+                 * For if only one tag can be chosen
+                 */
+                $scope.fillField = function () {
+                    $scope.typing = $scope.results[$scope.currentIndex].name;
+                    $scope.hideAndClear();
+                };
+
+                /**
+                 * For if multiple tags can be chosen
+                 */
+                $scope.addTag = function () {
                     var $tag_id = $scope.results[$scope.currentIndex].id;
 
                     if (!$scope.duplicateTagCheck($tag_id, $scope.chosenTags)) {
@@ -61,7 +82,11 @@
                  */
                 $scope.hideAndClear = function () {
                     $scope.hideDropdown();
-                    $scope.typing = '';
+
+                    if ($scope.multipleTags) {
+                        $scope.typing = '';
+                    }
+
                     $scope.currentIndex = null;
                     $('.highlight').removeClass('highlight');
                 };
@@ -102,8 +127,8 @@
                             $scope.fnOnEnter();
                             return;
                         }
-                        //We are adding a tag
-                        $scope.addTag();
+                        //We are choosing a tag
+                        $scope.chooseTag();
 
                         //resetting the dropdown to show all the tags again after a tag has been added
                         $scope.results = $scope.tags;

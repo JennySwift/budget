@@ -50,7 +50,8 @@
         <tag-autocomplete-directive
             chosenTags="edit_transaction.tags"
             dropdown="edit_transaction.dropdown"
-            tags="tags">
+            tags="tags"
+            multipleTags="true">
         </tag-autocomplete-directive>
 
 		<div class="btn-wrapper">

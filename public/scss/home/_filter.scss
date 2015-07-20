@@ -22,9 +22,6 @@
 	.tag-input-wrapper input {
 		width: auto;
 	}
-    .tag-wrapper {
-        @include tag_wrapper;
-    }
 	.accounts, .types, .status, .budget {
 		> div {
 			display: flex;

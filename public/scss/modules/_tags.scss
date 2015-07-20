@@ -17,3 +17,49 @@
 		font-size: 6px;
 	}
 }
+
+.tag-wrapper {
+    width: 100%;
+    .tag-input-wrapper {
+        input {
+            width: 100%;
+        }
+        .tag-dropdown {
+            max-height: 200px;
+            overflow: scroll;
+            cursor: pointer;
+            .dropdown-item {
+                padding: 4px 0;
+                .highlight {
+                    background-color: lightblue;
+                    color: #ffffff;
+                }
+                &.selected {
+                    background-color: lightblue;
+                    color: #ffffff;
+                }
+            }
+
+        }
+    }
+    .tag-display {
+        height: 34px;
+        .removable-tag {
+            cursor: pointer;
+            transition: all, .3s, ease;
+            position: relative;
+            &:hover {
+                padding: .4em 1.6em .4em;
+                .fa-times {
+                    display: inline;
+                }
+            }
+            .fa-times {
+                font-size: 10px;
+                position: relative;
+                left: 8px;
+                display: none;
+            }
+        }
+    }
+}

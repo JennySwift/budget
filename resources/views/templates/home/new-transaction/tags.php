@@ -23,7 +23,8 @@
         chosenTags="new_transaction.tags"
         dropdown="new_transaction.dropdown"
         tags="tags"
-        fnOnEnter="insertTransaction(13)">
+        fnOnEnter="insertTransaction(13)"
+        multipleTags="true">
     </tag-autocomplete-directive>
 
 </div>

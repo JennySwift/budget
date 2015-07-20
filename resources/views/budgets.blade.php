@@ -45,30 +45,28 @@
 
             <!-- ==============================savings============================== -->
 
-            <div class="margin-bottom">
-                <input ng-keyup="addFixedToSavings($event.keyCode)" type="text" placeholder="add fixed amount to savings" id="add-fixed-to-savings">
-                <input ng-keyup="addPercentageToSavings($event.keyCode)" type="text" placeholder="add percentage of RB to savings" id="add-percentage-to-savings">
-            </div>
+            {{--<div class="margin-bottom">--}}
+                {{--<input ng-keyup="addFixedToSavings($event.keyCode)" type="text" placeholder="add fixed amount to savings" id="add-fixed-to-savings">--}}
+                {{--<input ng-keyup="addPercentageToSavings($event.keyCode)" type="text" placeholder="add percentage of RB to savings" id="add-percentage-to-savings">--}}
+            {{--</div>--}}
 
             <!-- ==============================fixed budget inputs============================== -->
             
             <!-- ================tag wrapper================ -->
 
-            <div class="tag-wrapper">
-                <div class="tag-input-wrapper">
+            <label>Add a fixed budget to one of your tags</label>
 
-                    <label>Add a fixed budget to one of your tags</label>
-                    
-                    <input ng-model="new_fixed_budget.tag.name" ng-focus="new_fixed_budget.dropdown = true" ng-blur="new_fixed_budget.dropdown = false" ng-keyup="filterTags($event.keyCode, new_fixed_budget.tag.name, new_fixed_budget.tag, 'new_fixed_budget')" placeholder="tag" id="budget-fixed-tag-input" type='text'>
-                    
-                    <div ng-show="new_fixed_budget.dropdown" class="tag-dropdown">
-                        <li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': tag.selected}">[[tag.name]]</li>
-                    </div>
-                
-                </div>
-            </div>
+            <tag-autocomplete-directive
+                    dropdown="new_fixed_budget.dropdown"
+                    tags="tags"
+                    fnOnEnter="filterTags(13)"
+                    multipleTags="false">
+            </tag-autocomplete-directive>
             
-            <input ng-model="new_fixed_budget.budget" ng-keyup="updateFixedBudget($event.keyCode)" id="budget-fixed-budget-input" type="text">
+            <input ng-model="new_fixed_budget.budget"
+                   ng-keyup="updateFixedBudget($event.keyCode)"
+                   id="budget-fixed-budget-input"
+                   type="text">
                   
             <!-- ==============================fixed budget table============================== -->
             
@@ -137,22 +135,15 @@
             </table>
                 
             <!-- ==============================flex budget inputs============================== -->
-            
-            <!-- ================tag wrapper================ -->
-            
-            <div class="tag-wrapper">
-                <div class="tag-input-wrapper">
 
-                    <label>Add a flex budget to one of your tags</label>
-                    
-                    <input ng-model="new_flex_budget.tag.name" ng-focus="new_flex_budget.dropdown = true" ng-blur="new_flex_budget.dropdown = false" ng-keyup="filterTags($event.keyCode, new_flex_budget.tag.name, new_flex_budget.tag, 'new_flex_budget')" placeholder="tag" id="budget-flex-tag-input" type='text'>
-                    
-                    <div ng-show="new_flex_budget.dropdown" class="tag-dropdown">
-                        <li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': tag.selected}">[[tag.name]]</li>
-                    </div>
-                
-                </div>
-            </div>
+            <label>Add a flex budget to one of your tags</label>
+
+            <tag-autocomplete-directive
+                    dropdown="new_flex_budget.dropdown"
+                    tags="tags"
+                    fnOnEnter="filterTags(13)"
+                    multipleTags="false">
+            </tag-autocomplete-directive>
             
             <input ng-model="new_flex_budget.budget" ng-keyup="updateFlexBudget($event.keyCode)" id="budget-flex-budget-input" type="text">
             

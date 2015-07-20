@@ -13,7 +13,7 @@
         <div ng-show="dropdown" class="tag-dropdown">
             <div
                 ng-repeat="tag in results"
-                ng-mousedown="addTag($index)"
+                ng-mousedown="chooseTag($index)"
                 ng-mouseover="hoverItem($index)"
                 ng-class="{'selected': $index == currentIndex}"
                 class="dropdown-item"

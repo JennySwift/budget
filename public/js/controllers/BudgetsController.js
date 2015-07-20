@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('budgets', budgets);
 
-    function budgets ($scope, $http, budgets, totals, autocomplete, settings, savings) {
+    function budgets ($scope, $http, budgets, totals, autocomplete, savings, TagsFactory, FilterFactory, FeedbackFactory) {
         /**
          * scope properties
          */
@@ -12,6 +12,8 @@
         $scope.me = me;
 
         $scope.totals = totals_response;
+
+        $scope.tags = tags_response;
 
         $scope.show = {
             basic_totals: true,
@@ -42,13 +44,13 @@
          */
 
         $scope.getTags = function () {
-            settings.getTags()
+            TagsFactory.getTags()
                 .then(function (response) {
                     $scope.tags = response.data;
                     $scope.autocomplete.tags = response.data;
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    FeedbackFactory.provideFeedback('There was an error');
                 });
         };
 
@@ -118,7 +120,7 @@
             }
             budgets.updateBudget($scope.new_fixed_budget.tag.id, 'fixed_budget', $scope.new_fixed_budget.budget)
                 .then(function (response) {
-                    $scope.getTotals();
+                    FilterFactory.updateDataForControllers(response.data);
                     //unselect the tag in the dropdown
                     _.findWhere($scope.tags, {selected: true}).selected = false;
                     //clear the tag inputs and focus the correct input
@@ -127,7 +129,7 @@
                     $("#budget-fixed-tag-input").focus();
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    FeedbackFactory.provideFeedback('There was an error');
                 });
         };
 
@@ -137,7 +139,7 @@
             }
             budgets.updateBudget($scope.new_flex_budget.tag.id, 'flex_budget', $scope.new_flex_budget.budget)
                 .then(function (response) {
-                    $scope.getTotals();
+                    FilterFactory.updateDataForControllers(response.data);
                     //unselect the tag in the dropdown
                     _.findWhere($scope.tags, {selected: true}).selected = false;
                     //clear the tag inputs and focus the correct input
@@ -146,7 +148,7 @@
                     $("#budget-flex-tag-input").focus();
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    FeedbackFactory.provideFeedback('There was an error');
                 });
         };
 
@@ -154,10 +156,10 @@
             if (confirm("remove fixed budget for " + $tag_name + "?")) {
                 budgets.updateBudget($tag_id, 'fixed_budget', 'NULL')
                     .then(function (response) {
-                        $scope.getTotals();
+                        FilterFactory.updateDataForControllers(response.data);
                     })
                     .catch(function (response) {
-                        $scope.provideFeedback('There was an error');
+                        FeedbackFactory.provideFeedback('There was an error');
                     });
             }
         };
@@ -166,10 +168,10 @@
             if (confirm("remove flex budget for " + $tag_name + "?")) {
                 budgets.updateBudget($tag_id, 'flex_budget', 'NULL')
                     .then(function (response) {
-                        $scope.getTotals();
+                        FilterFactory.updateDataForControllers(response.data);
                     })
                     .catch(function (response) {
-                        $scope.provideFeedback('There was an error');
+                        FeedbackFactory.provideFeedback('There was an error');
                     });
             }
         };
@@ -182,11 +184,11 @@
         $scope.updateCSD = function () {
             budgets.updateCSD($scope.edit_CSD)
                 .then(function (response) {
-                    $scope.getTotals();
+                    FilterFactory.updateDataForControllers(response.data);
                     $scope.show.edit_CSD = false;
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    FeedbackFactory.provideFeedback('There was an error');
                 });
         };
 
@@ -240,88 +242,49 @@
          * delete
          */
 
-        /**
-         * totals-duplicates from main controller
-         */
+        //$scope.updateSavingsTotal = function ($keycode) {
+        //    if ($keycode !== 13) {
+        //        return;
+        //    }
+        //    savings.updatesavingsTotal()
+        //        .then(function (response) {
+        //            $scope.totals.basic.savings_total = response.data;
+        //            $scope.show.savings_total.input = false;
+        //            $scope.show.savings_total.edit_btn = true;
+        //            $scope.getTotals();
+        //        })
+        //        .catch(function (response) {
+        //            FeedbackFactory.provideFeedback('There was an error');
+        //        });
+        //};
 
-        $scope.getTotals = function () {
-            totals.basicTotals()
-                .then(function (response) {
-                    $scope.totals.basic = response.data;
-                })
-                .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
-                });
-            totals.budget()
-                .then(function (response) {
-                    $scope.totals.budget = response.data;
-                })
-                .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
-                });
-        };
+        //$scope.addFixedToSavings = function ($keycode) {
+        //    if ($keycode !== 13) {
+        //        return;
+        //    }
+        //    savings.addFixedToSavings()
+        //        .then(function (response) {
+        //            $scope.totals.basic.savings_total = response.data;
+        //            $scope.getTotals();
+        //        })
+        //        .catch(function (response) {
+        //            FeedbackFactory.provideFeedback('There was an error');
+        //        });
+        //};
 
-        $scope.updateSavingsTotal = function ($keycode) {
-            if ($keycode !== 13) {
-                return;
-            }
-            savings.updatesavingsTotal()
-                .then(function (response) {
-                    $scope.totals.basic.savings_total = response.data;
-                    $scope.show.savings_total.input = false;
-                    $scope.show.savings_total.edit_btn = true;
-                    $scope.getTotals();
-                })
-                .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
-                });
-        };
-
-        $scope.addFixedToSavings = function ($keycode) {
-            if ($keycode !== 13) {
-                return;
-            }
-            savings.addFixedToSavings()
-                .then(function (response) {
-                    $scope.totals.basic.savings_total = response.data;
-                    $scope.getTotals();
-                })
-                .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
-                });
-        };
-
-        $scope.reverseAutomaticInsertIntoSavings = function ($amount_to_subtract) {
-            savings.reverseAutomaticInsertIntoSavings($amount_to_subtract)
-                .then(function (response) {
-                    $scope.totals.basic.savings_total = response.data;
-                    $scope.getTotals();
-                })
-                .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
-                });
-        };
-
-        $scope.addPercentageToSavings = function ($keycode) {
-            if ($keycode !== 13) {
-                return;
-            }
-            savings.addPercentageToSavings()
-                .then(function (response) {
-                    $scope.totals.basic.savings_total = response.data;
-                    $scope.getTotals();
-                })
-                .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
-                });
-        };
-
-        /**
-         * page load
-         */
-
-        $scope.getTotals();
-        $scope.getTags();
+        //$scope.addPercentageToSavings = function ($keycode) {
+        //    if ($keycode !== 13) {
+        //        return;
+        //    }
+        //    savings.addPercentageToSavings()
+        //        .then(function (response) {
+        //            $scope.totals.basic.savings_total = response.data;
+        //            $scope.getTotals();
+        //        })
+        //        .catch(function (response) {
+        //            FeedbackFactory.provideFeedback('There was an error');
+        //        });
+        //};
     }
 
 })();

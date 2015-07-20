@@ -23,13 +23,13 @@
         </div>
     </div>
 
-    <autocomplete-directive
+    <transaction-autocomplete-directive
         dropdown="dropdown.merchant"
         placeholder="merchant"
         typing="new_transaction.merchant"
         newTransaction="new_transaction"
         fnOnEnter="insertTransaction(13)">
-    </autocomplete-directive>
+    </transaction-autocomplete-directive>
 
 <!--    <input-->
 <!--        ng-model="new_transaction.merchant"-->

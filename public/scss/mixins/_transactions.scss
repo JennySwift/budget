@@ -26,9 +26,6 @@
         display: flex;
         justify-content: space-between;
     }
-    .tag-wrapper {
-        @include tag_wrapper;
-    }
     .btn-group {
         .btn {
             margin: 0 -2px;

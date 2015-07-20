@@ -2,10 +2,10 @@
     'use strict';
     angular
         .module('budgetApp')
-        .directive('autocompleteDirective', autocomplete);
+        .directive('transactionAutocompleteDirective', transactionAutocomplete);
 
     /* @inject */
-    function autocomplete(FeedbackFactory, autocomplete, $sce, $http) {
+    function transactionAutocomplete(FeedbackFactory, autocomplete, $sce, $http) {
         return {
             restrict: 'EA',
             scope: {
@@ -15,7 +15,7 @@
                 "new_transaction": "=newtransaction",
                 "fnOnEnter": "&fnonenter"
             },
-            templateUrl: 'templates/AutocompleteTemplate.php',
+            templateUrl: 'templates/TransactionAutocompleteTemplate.php',
             link: function($scope, elem, attrs) {
                 $scope.results = {};
                 $scope.typing = '';
