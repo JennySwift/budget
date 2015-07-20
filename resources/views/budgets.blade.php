@@ -60,7 +60,9 @@
                     dropdown="new_fixed_budget.dropdown"
                     tags="tags"
                     fnOnEnter="filterTags(13)"
-                    multipleTags="false">
+                    multipleTags="false"
+                    model="new_fixed_budget.tag"
+                    focusOnEnter="budget-fixed-budget-input">
             </tag-autocomplete-directive>
             
             <input ng-model="new_fixed_budget.budget"
@@ -142,10 +144,15 @@
                     dropdown="new_flex_budget.dropdown"
                     tags="tags"
                     fnOnEnter="filterTags(13)"
-                    multipleTags="false">
+                    multipleTags="false"
+                    model="new_flex_budget.tag"
+                    focusOnEnter="budget-flex-budget-input">
             </tag-autocomplete-directive>
             
-            <input ng-model="new_flex_budget.budget" ng-keyup="updateFlexBudget($event.keyCode)" id="budget-flex-budget-input" type="text">
+            <input ng-model="new_flex_budget.budget"
+                   ng-keyup="updateFlexBudget($event.keyCode)"
+                   id="budget-flex-budget-input"
+                   type="text">
             
             <!-- ==============================flex budget table============================== -->
             

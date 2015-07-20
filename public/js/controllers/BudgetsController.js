@@ -55,62 +55,6 @@
         };
 
         /**
-         * filter
-         */
-
-        /**
-         * Almost duplicate of filterTags in controller.js
-         * @param $keycode
-         * @param $typing
-         * @param $location_for_tags
-         * @param $scope_property
-         */
-        $scope.filterTags = function ($keycode, $typing, $location_for_tags, $scope_property) {
-            if ($keycode !== 38 && $keycode !== 40 && $keycode !== 13) {
-                //not up arrow, down arrow or enter, so filter tags
-                autocomplete.removeSelected($scope.tags);
-                $scope[$scope_property]['dropdown'] = true;
-                $scope.autocomplete.tags = autocomplete.filterTags($scope.tags, $typing);
-                if ($typing !== "" && $scope.autocomplete.tags.length > 0) {
-                    $scope.selected = autocomplete.selectFirstItem($scope.autocomplete.tags);
-                }
-            }
-            else if ($keycode === 38) {
-                //up arrow
-                $scope.selected = autocomplete.upArrow($scope.autocomplete.tags);
-            }
-            else if ($keycode === 40) {
-                //down arrow
-                $scope.selected = autocomplete.downArrow($scope.autocomplete.tags);
-            }
-            else if ($keycode === 13) {
-                if ($location_for_tags === $scope.new_fixed_budget.tag) {
-                    //We are just autocompleting the budget tag input, not adding a tag anywhere
-                    if (!$typing) {
-                        return;
-                    }
-                    $scope.autocompleteFixedBudget();
-                    return;
-                }
-                else if ($location_for_tags === $scope.new_flex_budget.tag) {
-                    //We are just autocompleting the budget tag input, not adding a tag anywhere
-                    if (!$typing) {
-                        return;
-                    }
-                    $scope.autocompleteFlexBudget();
-                    return;
-                }
-
-                //resetting the dropdown to show all the tags again after a tag has been added
-                $scope.autocomplete.tags = $scope.tags;
-            }
-        };
-
-        /**
-         * insert
-         */
-
-        /**
          * update
          */
 
@@ -121,8 +65,8 @@
             budgets.updateBudget($scope.new_fixed_budget.tag.id, 'fixed_budget', $scope.new_fixed_budget.budget)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
-                    //unselect the tag in the dropdown
-                    _.findWhere($scope.tags, {selected: true}).selected = false;
+                    $scope.totals.budget = response.data.budget;
+
                     //clear the tag inputs and focus the correct input
                     $scope.new_fixed_budget.tag.name = "";
                     $scope.new_fixed_budget.budget = "";
@@ -140,8 +84,8 @@
             budgets.updateBudget($scope.new_flex_budget.tag.id, 'flex_budget', $scope.new_flex_budget.budget)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
-                    //unselect the tag in the dropdown
-                    _.findWhere($scope.tags, {selected: true}).selected = false;
+                    $scope.totals.budget = response.data.budget;
+
                     //clear the tag inputs and focus the correct input
                     $scope.new_flex_budget.tag.name = "";
                     $scope.new_flex_budget.budget = "";
@@ -157,6 +101,7 @@
                 budgets.updateBudget($tag_id, 'fixed_budget', 'NULL')
                     .then(function (response) {
                         FilterFactory.updateDataForControllers(response.data);
+                        $scope.totals.budget = response.data.budget;
                     })
                     .catch(function (response) {
                         FeedbackFactory.provideFeedback('There was an error');
@@ -169,6 +114,7 @@
                 budgets.updateBudget($tag_id, 'flex_budget', 'NULL')
                     .then(function (response) {
                         FilterFactory.updateDataForControllers(response.data);
+                        $scope.totals.budget = response.data.budget;
                     })
                     .catch(function (response) {
                         FeedbackFactory.provideFeedback('There was an error');
@@ -185,6 +131,7 @@
             budgets.updateCSD($scope.edit_CSD)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
+                    $scope.totals.budget = response.data.budget;
                     $scope.show.edit_CSD = false;
                 })
                 .catch(function (response) {
@@ -192,51 +139,20 @@
                 });
         };
 
-        /**
-         * delete
-         */
-
-        /**
-         * autocomplete
-         */
-
-        $scope.autocompleteFixedBudget = function () {
-            $scope.autocomplete.tags = $scope.tags;
-            $scope.new_fixed_budget.tag.id = $scope.selected.id;
-            $scope.new_fixed_budget.tag.name = $scope.selected.name;
-            $scope.new_fixed_budget.tag.fixed_budget = $scope.selected.fixed_budget;
-            $scope.new_fixed_budget.tag.flex_budget = $scope.selected.flex_budget;
-            $scope.new_fixed_budget.dropdown = false;
-
-            if ($scope.new_fixed_budget.tag.flex_budget) {
-                $scope.new_fixed_budget.tag = {};
-                $scope.selected = {};
-                alert("You've got a flex budget for that tag.");
-                return;
-            }
-
-            $("#budget-fixed-tag-input").val($scope.selected.name);
-            $("#budget-fixed-budget-input").focus();
-        };
-
-        $scope.autocompleteFlexBudget = function () {
-            $scope.autocomplete.tags = $scope.tags;
-            $scope.new_flex_budget.tag.id = $scope.selected.id;
-            $scope.new_flex_budget.tag.name = $scope.selected.name;
-            $scope.new_flex_budget.tag.fixed_budget = $scope.selected.fixed_budget;
-            $scope.new_flex_budget.tag.flex_budget = $scope.selected.flex_budget;
-            $scope.new_flex_budget.dropdown = false;
-
-            if ($scope.new_flex_budget.tag.fixed_budget) {
-                $scope.new_flex_budget.tag = {};
-                $scope.selected = {};
-                alert("You've got a fixed budget for that tag.");
-                return;
-            }
-
-            $("#budget-flex-tag-input").val($scope.selected.name);
-            $("#budget-flex-budget-input").focus();
-        };
+        //Todo: add this code back in somewhere
+        //if ($scope.new_fixed_budget.tag.flex_budget) {
+        //    $scope.new_fixed_budget.tag = {};
+        //    $scope.selected = {};
+        //    alert("You've got a flex budget for that tag.");
+        //    return;
+        //}
+        //
+        //if ($scope.new_flex_budget.tag.fixed_budget) {
+        //    $scope.new_flex_budget.tag = {};
+        //    $scope.selected = {};
+        //    alert("You've got a fixed budget for that tag.");
+        //    return;
+        //}
 
         /**
          * delete

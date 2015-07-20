@@ -13,7 +13,9 @@
                 "dropdown": "=dropdown",
                 "tags": "=tags",
                 "fnOnEnter": "&fnonenter",
-                "multipleTags": "=multipletags"
+                "multipleTags": "=multipletags",
+                "model": "=model",
+                "focusOnEnter": "@focusonenter"
             },
             templateUrl: 'templates/TagAutocompleteTemplate.php',
             //scope: true,
@@ -58,6 +60,11 @@
                  */
                 $scope.fillField = function () {
                     $scope.typing = $scope.results[$scope.currentIndex].name;
+                    $scope.model = $scope.results[$scope.currentIndex];
+                    if ($scope.focusOnEnter) {
+                        // Todo: This line doesn't work if tag is chosen with mouse click
+                        $("#" + $scope.focusOnEnter).focus();
+                    }
                     $scope.hideAndClear();
                 };
 
