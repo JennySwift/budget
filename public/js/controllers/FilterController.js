@@ -12,6 +12,7 @@
         $scope.filterFactory = FilterFactory;
 
         $scope.accounts = accounts_response;
+        $scope.tags = tags_response;
 
         $scope.types = ["income", "expense", "transfer"];
 
@@ -42,14 +43,15 @@
         $scope.multiSearch = function () {
             FilterFactory.multiSearch($scope.filter)
                 .then(function (response) {
-                    FilterFactory.updateDataForControllers(response.data);
+                    FilterFactory.updateFilterResultsForControllers(response.data.transactions);
+                    //FilterFactory.updateTotalsForControllers(response.data.filter_totals);
                 })
                 .catch(function (response) {
                     $scope.provideFeedback('There was an error');
                 })
         };
 
-        $scope.$watch('filterFactory.filter_results.filter_totals', function (newValue, oldValue, scope) {
+        $scope.$watch('filterFactory.totals', function (newValue, oldValue, scope) {
             if (newValue) {
                 scope.totals.filter = newValue;
             }

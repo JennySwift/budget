@@ -5,13 +5,14 @@
         .directive('tagAutocompleteDirective', tagAutocomplete);
 
     /* @inject */
-    function tagAutocomplete(autocomplete, FeedbackFactory, $sce) {
+    function tagAutocomplete(FeedbackFactory, $sce) {
         return {
             restrict: 'EA',
             scope: {
                 "chosenTags": "=chosentags",
                 "dropdown": "=dropdown",
-                "tags": "=tags"
+                "tags": "=tags",
+                "fnOnEnter": "&fnonenter"
             },
             templateUrl: 'templates/TagAutocompleteTemplate.php',
             //scope: true,
@@ -19,6 +20,7 @@
                 //$scope.currentIndex = 1;
                 $scope.results = {};
                 $scope.messages = {};
+                $scope.typing = '';
 
                 /**
                  * Check for duplicate tags when adding a new tag to an array
@@ -60,6 +62,8 @@
                 $scope.hideAndClear = function () {
                     $scope.hideDropdown();
                     $scope.typing = '';
+                    $scope.currentIndex = null;
+                    $('.highlight').removeClass('highlight');
                 };
 
                 $scope.hideDropdown = function () {
@@ -88,14 +92,14 @@
                  * @param $keycode
                  * @returns {boolean}
                  */
-                $scope.filterTags = function ($keycode, $typing) {
+                $scope.filterTags = function ($keycode) {
                     if ($keycode === 13) {
                         //enter is pressed
                         //$scope.chooseItem();
 
-                        if ($scope.results[$scope.currentIndex].length === 0) {
+                        if (!$scope.results[$scope.currentIndex]) {
                             //We are not adding a tag. We are inserting the transaction.
-                            $scope.insertTransaction(13);
+                            $scope.fnOnEnter();
                             return;
                         }
                         //We are adding a tag
@@ -119,10 +123,21 @@
                     else {
                         //Not enter, up or down arrow
                         $scope.currentIndex = 0;
-                        $scope.dropdown = true;
-                        $scope.results = autocomplete.filterTags($scope.tags, $typing);
-                        $scope.results = $scope.highlightLetters($scope.results, $typing);
+                        $scope.showDropdown();
                     }
+                };
+
+                $scope.showDropdown = function () {
+                    $scope.dropdown = true;
+                    $scope.results = $scope.highlightLetters($scope.searchLocal(), $scope.typing);
+                };
+
+                $scope.searchLocal = function () {
+                    var $filtered_tags = _.filter($scope.tags, function ($tag) {
+                        return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
+                    });
+
+                    return $filtered_tags;
                 };
 
                 $scope.removeTag = function ($tag) {

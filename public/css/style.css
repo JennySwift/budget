@@ -592,10 +592,41 @@ caption {
   box-shadow: -4px 4px 6px #777; }
   #filter.ng-hide {
     animation: bounceOutRight 2s; }
+  #filter .group {
+    display: flex; }
   #filter .tag-input-wrapper input {
     width: auto; }
-  #filter .tag-wrapper li {
-    list-style-type: none; }
+  #filter .tag-wrapper {
+    width: 100%; }
+    #filter .tag-wrapper .tag-input-wrapper input {
+      width: 100%; }
+    #filter .tag-wrapper .tag-input-wrapper .tag-dropdown {
+      max-height: 200px;
+      overflow: scroll;
+      cursor: pointer; }
+      #filter .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item {
+        padding: 4px 0; }
+        #filter .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .highlight {
+          background-color: lightblue;
+          color: #ffffff; }
+        #filter .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item.selected {
+          background-color: lightblue;
+          color: #ffffff; }
+    #filter .tag-wrapper .tag-display {
+      height: 34px; }
+      #filter .tag-wrapper .tag-display .removable-tag {
+        cursor: pointer;
+        transition: all, .3s, ease;
+        position: relative; }
+        #filter .tag-wrapper .tag-display .removable-tag:hover {
+          padding: .4em 1.6em .4em; }
+          #filter .tag-wrapper .tag-display .removable-tag:hover .fa-times {
+            display: inline; }
+        #filter .tag-wrapper .tag-display .removable-tag .fa-times {
+          font-size: 10px;
+          position: relative;
+          left: 8px;
+          display: none; }
   #filter .accounts > div, #filter .types > div, #filter .status > div, #filter .budget > div {
     display: flex;
     align-items: center; }

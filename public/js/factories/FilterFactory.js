@@ -1,7 +1,6 @@
 app.factory('FilterFactory', function ($http) {
     var $object = {};
-    $object.filter_results = {};
-    //$object.filter = {};
+    //$object.filter_results = {};
     $object.filter = {
         budget: "all",
         total: "",
@@ -48,7 +47,7 @@ app.factory('FilterFactory', function ($http) {
     };
 
     $object.updateFilterResultsForControllers = function ($data) {
-        $object.filter_results = $data;
+        $object.transactions = $data;
     };
 
     $object.updateTotalsForControllers = function ($data) {

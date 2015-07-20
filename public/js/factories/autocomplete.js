@@ -51,13 +51,13 @@ app.factory('autocomplete', function ($http) {
 	//	}
 	//	return $next_item;
 	//};
-	$object.filterTags = function ($tags, $typing) {
-		$filtered_tags = _.filter($tags, function ($tag) {
-			return $tag.name.toLowerCase().indexOf($typing.toLowerCase()) !== -1;
-		});
-
-		return $filtered_tags;
-	};
+	//$object.filterTags = function ($tags, $typing) {
+	//	$filtered_tags = _.filter($tags, function ($tag) {
+	//		return $tag.name.toLowerCase().indexOf($typing.toLowerCase()) !== -1;
+	//	});
+    //
+	//	return $filtered_tags;
+	//};
 	$object.filterTransactions = function ($typing, $column) {
 		var $url = 'select/autocompleteTransaction';
 		var $description = 'autocomplete transaction';

@@ -14,26 +14,13 @@
 
         $scope.accounts = accounts_response;
 
-        //$scope.edit_transaction = {
-        //    tags: []
-        //};
-
-        $scope.$watch('transactionsFactory.testControllers()', function (newValue, oldValue, scope) {
-            scope.num = newValue;
-        });
-
         $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
             if (newValue) {
                 scope.filter = newValue;
             }
         });
 
-        //$scope.$watch('filterFactory.multiSearch()', function (newValue, oldValue) {
-        //    $scope.multiSearch();
-        //});
-
-        $scope.$watch('filterFactory.filter_results.transactions', function (newValue, oldValue, scope) {
-            //scope.filter_results = newValue;
+        $scope.$watch('filterFactory.transactions', function (newValue, oldValue, scope) {
             if (newValue) {
                 scope.transactions = newValue;
             }
