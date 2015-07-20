@@ -30,7 +30,8 @@
 <!-- controllers -->
 <script type="text/javascript" src="js/controllers/BaseController.js"></script>
 <script type="text/javascript" src="js/controllers/HomeController.js"></script>
-<script type="text/javascript" src="js/controllers/SettingsController.js"></script>
+<script type="text/javascript" src="js/controllers/TagsController.js"></script>
+<script type="text/javascript" src="js/controllers/AccountsController.js"></script>
 <script type="text/javascript" src="js/controllers/BudgetsController.js"></script>
 <script type="text/javascript" src="js/controllers/FilterController.js"></script>
 <script type="text/javascript" src="js/controllers/TransactionsController.js"></script>

@@ -10,7 +10,7 @@
     ?>
 
 </head>
-<body ng-controller="settings">
+<body ng-controller="AccountsController">
 
     <?php
         include($header);

@@ -32,7 +32,8 @@ class AccountsController extends Controller
     public function index()
     {
         JavaScript::put([
-            'me' => Auth::user()
+            'me' => Auth::user(),
+            'accounts' => $this->getAccounts()
         ]);
 
         return view('accounts');
