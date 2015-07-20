@@ -2,7 +2,7 @@
 
 <div ng-show="show.allocation_popup" ng-cloak class="popup-outer">
     <div id="allocation-popup" class="popup-inner">
-        <p class="width-100">The total for this transaction is <span class="bold">[[allocation_popup_transaction.total]]</span>. You have more than one budget associated with this transaction. Specify what percentage of [[allocation_popup_transaction.total]] you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
+        <p class="width-100">The total for this transaction is <span class="bold">[[allocation_popup.total]]</span>. You have more than one budget associated with this transaction. Specify what percentage of [[allocation_popup.total]] you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
         
         <div id="allocation-table-container">
             <table class="table table-bordered">
@@ -16,7 +16,7 @@
                 </tr>
 
                 <!-- table content -->
-                <tr ng-repeat="tag in allocation_popup_transaction.tags" ng-if="tag.fixed_budget || tag.flex_budget">
+                <tr ng-repeat="tag in allocation_popup.tags" ng-if="tag.fixed_budget || tag.flex_budget">
                     
                     <td>
                         <div>
@@ -79,19 +79,19 @@
 
                     <td>
                         <div>
-                            <span>[[allocation_popup_transaction.allocation_totals.fixed_sum]]</span>
+                            <span>[[allocation_popup.allocation_totals.fixed_sum]]</span>
                         </div>
                     </td>
 
                     <td>
                         <div>
-                            <span>[[allocation_popup_transaction.allocation_totals.percent_sum]]</span>
+                            <span>[[allocation_popup.allocation_totals.percent_sum]]</span>
                         </div>
                     </td>
         
                     <td>
                         <div>
-                            <span>[[allocation_popup_transaction.allocation_totals.calculated_allocation_sum]]</span>
+                            <span>[[allocation_popup.allocation_totals.calculated_allocation_sum]]</span>
                         </div>
                     </td>
 
@@ -104,7 +104,7 @@
         <div class="center-contents">
             <div class="checkbox-wrapper">
                 <label for="allocate-checkbox">allocated</label>
-                <input ng-model="allocation_popup_transaction.allocated" ng-change="updateAllocationStatus()" type="checkbox">
+                <input ng-model="allocation_popup.allocated" ng-change="updateAllocationStatus()" type="checkbox">
             </div>
         </div>
 

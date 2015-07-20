@@ -144,11 +144,11 @@
 
         $scope.showAllocationPopup = function ($transaction) {
             $scope.show.allocation_popup = true;
-            $scope.allocation_popup_transaction = $transaction;
+            $scope.allocation_popup = $transaction;
 
             budgets.getAllocationTotals($transaction.id)
                 .then(function (response) {
-                    $scope.allocation_popup_transaction.allocation_totals = response.data;
+                    $scope.allocation_popup.allocation_totals = response.data;
                 })
                 .catch(function (response) {
                     $scope.provideFeedback('There was an error');

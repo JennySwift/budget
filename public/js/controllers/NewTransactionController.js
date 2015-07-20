@@ -25,18 +25,18 @@
             reconciled: false,
             multiple_budgets: false,
             tags: [
-                // {
-                // 	id: '16',
-                // 	name: 'test',
-                // 	fixed_budget: '10.00',
-                // 	flex_budget: null
-                // },
-                // {
-                // 	id: '17',
-                // 	name: 'testtwo',
-                // 	fixed_budget: null,
-                // 	flex_budget: '5'
-                // }
+                {
+                	id: '1',
+                	name: 'insurance',
+                	//fixed_budget: '10.00',
+                	//flex_budget: null
+                },
+                {
+                	id: '2',
+                	name: 'petrol',
+                	//fixed_budget: null,
+                	//flex_budget: '5'
+                }
             ]
         };
 
@@ -61,6 +61,17 @@
                 scope.filter = newValue;
             }
         });
+
+        /**
+         * This is so I have $scope.transactions to use in $scope.findTransaction,
+         * for the allocation popup after entering a new transaction.
+         */
+        //$scope.transactions = filter_response.transactions;
+        //$scope.$watch('filterFactory.filter_results.transactions', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        scope.transactions = newValue;
+        //    }
+        //});
 
         /**
          * Clear new transaction fields
@@ -118,11 +129,10 @@
             TransactionsFactory.insertTransaction($scope.new_transaction, $scope.filter)
                 .then(function (response) {
                     $scope.provideFeedback('Transaction added');
-                    $scope.checkNewTransactionForMultipleBudgets(response);
                     $scope.clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
-
                     FilterFactory.updateDataForControllers(response.data);
+                    $scope.checkNewTransactionForMultipleBudgets(response);
                 })
                 .catch(function (response) {
                     $scope.provideFeedback('There was an error');
@@ -131,20 +141,40 @@
 
         /**
          * See if the transaction that was just entered has multiple budgets.
-         * The allocation popup is shown from $scope.multiSearch().
          * @param response
          */
         $scope.checkNewTransactionForMultipleBudgets = function (response) {
-            var $transaction = response.data.transaction;
-            var $multiple_budgets = response.data.multiple_budgets;
+            if (response.data.multiple_budgets) {
+                $scope.allocation_popup = response.data.transaction;
+                $scope.showAllocationPopupForNewTransaction();
+            }
+        };
 
-            if ($multiple_budgets) {
-                $scope.new_transaction.multiple_budgets = true;
-                $scope.allocation_popup_transaction = $transaction;
+        $scope.showAllocationPopupForNewTransaction = function () {
+            var $transaction = $scope.findTransaction();
+
+            if ($transaction) {
+                $scope.showAllocationPopup($transaction);
             }
             else {
-                $scope.new_transaction.multiple_budgets = false;
+                //the transaction isn't showing with the current filter settings
+                $scope.showAllocationPopup($scope.allocation_popup);
             }
+        };
+
+        /**
+         * For the allocation popup when a new transaction is entered.
+         * Find the transaction that was just entered.
+         * This is so that the transaction is updated live
+         * when actions are done in the allocation popup.
+         * Otherwise it will need a page refresh.
+         */
+        $scope.findTransaction = function () {
+            var $transaction = _.find(FilterFactory.filter_results.transactions, function ($scope_transaction) {
+                return $scope_transaction.id === $scope.allocation_popup.id;
+            });
+
+            return $transaction;
         };
     }
 

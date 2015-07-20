@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('TransactionsController', transactions);
 
-    function transactions ($scope, $http, TransactionsFactory, FilterFactory) {
+    function transactions ($scope, $http, TransactionsFactory, FilterFactory, budgets) {
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
 
@@ -101,17 +101,17 @@
 
         $scope.updateAllocation = function ($keycode, $type, $value, $tag_id) {
             if ($keycode === 13) {
-                budgets.updateAllocation($type, $value, $scope.allocation_popup_transaction.id, $tag_id)
+                budgets.updateAllocation($type, $value, $scope.allocation_popup.id, $tag_id)
                     .then(function (response) {
-                        //find the tag in $scope.allocation_popup_transaction.tags
-                        var $the_tag = _.find($scope.allocation_popup_transaction.tags, function ($tag) {
+                        //find the tag in $scope.allocation_popup.tags
+                        var $the_tag = _.find($scope.allocation_popup.tags, function ($tag) {
                             return $tag.id === $tag_id;
                         });
                         //get the index of the tag in $scope.allocation_popup_transaction.tags
-                        var $index = _.indexOf($scope.allocation_popup_transaction.tags, $the_tag);
+                        var $index = _.indexOf($scope.allocation_popup.tags, $the_tag);
                         //make the tag equal the ajax response
-                        $scope.allocation_popup_transaction.tags[$index] = response.data.allocation_info;
-                        $scope.allocation_popup_transaction.allocation_totals = response.data.allocation_totals;
+                        $scope.allocation_popup.tags[$index] = response.data.allocation_info;
+                        $scope.allocation_popup.allocation_totals = response.data.allocation_totals;
                     })
                     .catch(function (response) {
                         $scope.provideFeedback('There was an error');
@@ -120,7 +120,7 @@
         };
 
         $scope.updateAllocationStatus = function () {
-            budgets.updateAllocationStatus($scope.allocation_popup_transaction.id, $scope.allocation_popup_transaction.allocated)
+            budgets.updateAllocationStatus($scope.allocation_popup.id, $scope.allocation_popup.allocated)
                 .then(function (response) {
                     console.log("something");
                 })

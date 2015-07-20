@@ -66,25 +66,6 @@
                 })
         };
 
-        //todo: This stuff should go elsewhere
-        //if ($new_transaction && $scope.new_transaction.multiple_budgets) {
-        //    //multiSearch has been called after entering a new transaction.
-        //    //The new transaction has multiple budgets.
-        //    //Find the transaction that was just entered in $scope.TransactionsFactory.
-        //    //This is so that the transaction is updated live when actions are done in the allocation popup. Otherwise it will need a page refresh.
-        //    $transaction = _.find($scope.transactions, function ($scope_transaction) {
-        //        return $scope_transaction.id === $scope.allocation_popup_transaction.id;
-        //    });
-        //
-        //    if ($transaction) {
-        //        $scope.showAllocationPopup($transaction);
-        //    }
-        //    else {
-        //        //the transaction isn't showing with the current filter settings
-        //        $scope.showAllocationPopup($scope.allocation_popup_transaction);
-        //    }
-        //}
-
         //Todo: I might not need some of this code (not allowing offset to be less than 0)
         // todo: since I disabled the button if that is the case
         $scope.prevResults = function () {

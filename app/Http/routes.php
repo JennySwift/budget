@@ -5,22 +5,15 @@ use App\Models\Tag;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
-//Route::get('/test', function()
-//{
-//    $transaction = Transaction::first();
-//    //dd($transaction);
-//    return Transaction::with('account')->first();
-//});
+Route::get('/test', function()
+{
+    $transaction = Transaction::with('tags')->find(1);
+    return $transaction;
+});
 
-Route::get('/test', 'TotalsController@getBudgetTotals');
+//Route::get('/test', 'TotalsController@getBudgetTotals');
 
-//Route::get('/test', function()
-//{
-//    $tag = Tag::first();
-//    //dd($tag);
-//    $tag->getTotalSpent();
-//    return $tag;
-//});
+
 
 
 /**

@@ -195,7 +195,7 @@ class TransactionsController extends Controller
         //Check if the transaction that was just entered has multiple budgets.
         //Note for transfers this won't do both of them.
         $last_transaction_id = Transaction::getLastTransactionId();
-        $transaction = Transaction::find($last_transaction_id);
+        $transaction = Transaction::with('tags')->find($last_transaction_id);
         $multiple_budgets = Transaction::hasMultipleBudgets($last_transaction_id);
 
         return [
