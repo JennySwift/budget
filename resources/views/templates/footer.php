@@ -39,13 +39,12 @@
 <script type="text/javascript" src="js/controllers/PreferencesController.js"></script>
 
 <!-- factories -->
-<script type="text/javascript" src="js/factories/autocomplete.js"></script>
-<script type="text/javascript" src="js/factories/budgets.js"></script>
-<script type="text/javascript" src="js/factories/savings.js"></script>
+<script type="text/javascript" src="js/factories/AutocompleteFactory.js"></script>
+<script type="text/javascript" src="js/factories/BudgetsFactory.js"></script>
+<script type="text/javascript" src="js/factories/SavingsFactory.js"></script>
 <script type="text/javascript" src="js/factories/ColorsFactory.js"></script>
-<script type="text/javascript" src="js/factories/totals.js"></script>
+<script type="text/javascript" src="js/factories/TotalsFactory.js"></script>
 <script type="text/javascript" src="js/factories/TransactionsFactory.js"></script>
-<script type="text/javascript" src="js/factories/preferences.js"></script>
 <script type="text/javascript" src="js/factories/PreferencesFactory.js"></script>
 <script type="text/javascript" src="js/factories/TagsFactory.js"></script>
 <script type="text/javascript" src="js/factories/AccountsFactory.js"></script>

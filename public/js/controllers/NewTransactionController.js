@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('NewTransactionController', newTransaction);
 
-    function newTransaction ($scope, $http, autocomplete, TransactionsFactory, FilterFactory) {
+    function newTransaction ($scope, $http, TransactionsFactory, FilterFactory) {
         /**
          * scope properties
          */

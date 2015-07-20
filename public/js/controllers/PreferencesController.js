@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('PreferencesController', preferences);
 
-    function preferences ($scope, $http) {
+    function preferences ($scope, $http, PreferencesFactory) {
         /**
          * scope properties
          */

@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, $http, autocomplete, totals, budgets, savings, ColorsFactory, TransactionsFactory, preferences, PreferencesFactory, FeedbackFactory) {
+    function home ($scope, $http, BudgetsFactory, TransactionsFactory, PreferencesFactory, FeedbackFactory) {
         /**
          * scope properties
          */
@@ -146,7 +146,7 @@
             $scope.show.allocation_popup = true;
             $scope.allocation_popup = $transaction;
 
-            budgets.getAllocationTotals($transaction.id)
+            BudgetsFactory.getAllocationTotals($transaction.id)
                 .then(function (response) {
                     $scope.allocation_popup.allocation_totals = response.data;
                 })
@@ -159,11 +159,11 @@
          * watches
          */
 
-        $scope.$watch('preferences.date_format', function (newValue, oldValue) {
+        $scope.$watch('PreferencesFactory.date_format', function (newValue, oldValue) {
             if (!newValue) {
                 return;
             }
-            preferences.insertOrUpdateDateFormat(newValue).then(function (response) {
+            PreferencesFactory.insertOrUpdateDateFormat(newValue).then(function (response) {
                 // $scope. = response.data;
             });
         });

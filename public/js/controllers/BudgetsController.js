@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('budgets', budgets);
 
-    function budgets ($scope, $http, budgets, totals, autocomplete, savings, TagsFactory, FilterFactory, FeedbackFactory) {
+    function budgets ($scope, $http, BudgetsFactory, TagsFactory, FilterFactory, FeedbackFactory) {
         /**
          * scope properties
          */
@@ -62,7 +62,7 @@
             if ($keycode !== 13) {
                 return;
             }
-            budgets.updateBudget($scope.new_fixed_budget.tag.id, 'fixed_budget', $scope.new_fixed_budget.budget)
+            BudgetsFactory.updateBudget($scope.new_fixed_budget.tag.id, 'fixed_budget', $scope.new_fixed_budget.budget)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
                     $scope.totals.budget = response.data.budget;
@@ -81,7 +81,7 @@
             if ($keycode !== 13) {
                 return;
             }
-            budgets.updateBudget($scope.new_flex_budget.tag.id, 'flex_budget', $scope.new_flex_budget.budget)
+            BudgetsFactory.updateBudget($scope.new_flex_budget.tag.id, 'flex_budget', $scope.new_flex_budget.budget)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
                     $scope.totals.budget = response.data.budget;
@@ -98,7 +98,7 @@
 
         $scope.removeFixedBudget = function ($tag_id, $tag_name) {
             if (confirm("remove fixed budget for " + $tag_name + "?")) {
-                budgets.updateBudget($tag_id, 'fixed_budget', 'NULL')
+                BudgetsFactory.updateBudget($tag_id, 'fixed_budget', 'NULL')
                     .then(function (response) {
                         FilterFactory.updateDataForControllers(response.data);
                         $scope.totals.budget = response.data.budget;
@@ -111,7 +111,7 @@
 
         $scope.removeFlexBudget = function ($tag_id, $tag_name) {
             if (confirm("remove flex budget for " + $tag_name + "?")) {
-                budgets.updateBudget($tag_id, 'flex_budget', 'NULL')
+                BudgetsFactory.updateBudget($tag_id, 'flex_budget', 'NULL')
                     .then(function (response) {
                         FilterFactory.updateDataForControllers(response.data);
                         $scope.totals.budget = response.data.budget;
@@ -128,7 +128,7 @@
         };
 
         $scope.updateCSD = function () {
-            budgets.updateCSD($scope.edit_CSD)
+            BudgetsFactory.updateCSD($scope.edit_CSD)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
                     $scope.totals.budget = response.data.budget;

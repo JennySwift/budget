@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('TransactionsController', transactions);
 
-    function transactions ($scope, $http, TransactionsFactory, FilterFactory, budgets) {
+    function transactions ($scope, $http, TransactionsFactory, FilterFactory, BudgetsFactory) {
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
 
@@ -101,7 +101,7 @@
 
         $scope.updateAllocation = function ($keycode, $type, $value, $tag_id) {
             if ($keycode === 13) {
-                budgets.updateAllocation($type, $value, $scope.allocation_popup.id, $tag_id)
+                BudgetsFactory.updateAllocation($type, $value, $scope.allocation_popup.id, $tag_id)
                     .then(function (response) {
                         //find the tag in $scope.allocation_popup.tags
                         var $the_tag = _.find($scope.allocation_popup.tags, function ($tag) {
@@ -120,7 +120,7 @@
         };
 
         $scope.updateAllocationStatus = function () {
-            budgets.updateAllocationStatus($scope.allocation_popup.id, $scope.allocation_popup.allocated)
+            BudgetsFactory.updateAllocationStatus($scope.allocation_popup.id, $scope.allocation_popup.allocated)
                 .then(function (response) {
                     console.log("something");
                 })

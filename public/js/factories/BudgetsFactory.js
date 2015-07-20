@@ -1,4 +1,4 @@
-app.factory('budgets', function ($http) {
+app.factory('BudgetsFactory', function ($http) {
 	return {
 		/**
 		 * select
