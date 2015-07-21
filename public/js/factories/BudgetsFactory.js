@@ -31,12 +31,10 @@ app.factory('BudgetsFactory', function ($http) {
 		 * update
 		 */
 		
-		updateBudget: function ($tag_id, $column, $budget) {
+		updateBudget: function ($tag, $column, $budget) {
 			var $url = 'update/budget';
-			var $description = 'budget';
 			var $data = {
-				description: $description,
-				tag_id: $tag_id,
+				tag_id: $tag.id,
 				column: $column,
 				budget: $budget
 			};

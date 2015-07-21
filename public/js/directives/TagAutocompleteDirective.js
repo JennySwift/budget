@@ -15,6 +15,8 @@
                 "fnOnEnter": "&fnonenter",
                 "multipleTags": "=multipletags",
                 "model": "=model",
+                //"typing": "=modelname",
+                "id": "@id",
                 "focusOnEnter": "@focusonenter"
             },
             templateUrl: 'templates/TagAutocompleteTemplate.php',
@@ -23,7 +25,6 @@
                 //$scope.currentIndex = 1;
                 $scope.results = {};
                 $scope.messages = {};
-                $scope.typing = '';
 
                 /**
                  * Check for duplicate tags when adding a new tag to an array
@@ -159,9 +160,15 @@
                     }
                 };
 
+                /**
+                 * Todo: when the new budget tag input is focused after entering a budget,
+                 * todo: I don't want the dropdown to show. I had a lot of trouble and need help though.
+                 */
                 $scope.showDropdown = function () {
                     $scope.dropdown = true;
-                    $scope.results = $scope.highlightLetters($scope.searchLocal(), $scope.typing);
+                    if ($scope.typing) {
+                        $scope.results = $scope.highlightLetters($scope.searchLocal(), $scope.typing);
+                    }
                 };
 
                 $scope.searchLocal = function () {

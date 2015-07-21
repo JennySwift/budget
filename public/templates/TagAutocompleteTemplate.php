@@ -8,7 +8,8 @@
             ng-blur="hideAndClear()"
             ng-keyup="filterTags($event.keyCode)"
             placeholder="tags"
-            type='text'>
+            type='text'
+            id="[[id]]-input">
 
         <div ng-show="dropdown" class="tag-dropdown">
             <div

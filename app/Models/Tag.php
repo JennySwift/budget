@@ -19,7 +19,7 @@ class Tag extends Model
     /**
      * @var array
      */
-    protected $appends = ['path'];
+    protected $appends = ['path', 'budget_type'];
 
     /**
      *
@@ -57,11 +57,30 @@ class Tag extends Model
         return route('tags.show', $this->id);
     }
 
+    /**
+     *
+     * @return mixed
+     */
     public static function getTags()
     {
         return Tag::where('user_id', Auth::user()->id)
             ->orderBy('name', 'asc')
             ->get();
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getBudgetTypeAttribute()
+    {
+        if ($this->fixed_budget) {
+            return 'fixed';
+        }
+        elseif ($this->flex_budget) {
+            return 'flex';
+        }
+        return;
     }
 
     /**

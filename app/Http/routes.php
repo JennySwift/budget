@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function()
 {
-//    return App::environment();
-//    return app()->environment();
-    return app()->env;
+    $tag = Tag::find(4);
+    //dd($tag);
+    return $tag;
 });
 
 //Route::get('/test', 'TotalsController@getBudgetTotals');

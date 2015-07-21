@@ -25,6 +25,10 @@
                 getTotals="getTotals()">
         </totals-directive>
 
+        <div id="feedback">
+            <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">[[message]]</div>
+        </div>
+
         <div>
 
             <div class="help-row">
@@ -56,17 +60,22 @@
 
             <label>Add a fixed budget to one of your tags</label>
 
+            {{--I'm baffled as to why, if I use model=new_fixed_budget it is buggy.
+            After a tag is chosen, if the user then hits backspace it edits the tag in the dropdown to that new name in the input field.--}}
+
             <tag-autocomplete-directive
                     dropdown="new_fixed_budget.dropdown"
                     tags="tags"
                     fnOnEnter="filterTags(13)"
                     multipleTags="false"
-                    model="new_fixed_budget.tag"
+                    model="new_FB"
+                    modelName="new_fixed_budget.name"
+                    id="new-fixed-budget-name"
                     focusOnEnter="budget-fixed-budget-input">
             </tag-autocomplete-directive>
             
-            <input ng-model="new_fixed_budget.budget"
-                   ng-keyup="updateFixedBudget($event.keyCode)"
+            <input ng-model="new_FB.budget"
+                   ng-keyup="updateBudget($event.keyCode, new_FB, 'fixed')"
                    id="budget-fixed-budget-input"
                    type="text">
                   
@@ -116,7 +125,7 @@
             
                     <td class="remaining">[[tag.remaining]]</td>
             
-                    <td ng-click="removeFixedBudget(tag.id, tag.name)" class="pointer">x</td>
+                    <td ng-click="removeBudget(tag)" class="pointer">x</td>
             
                 </tr>
             
@@ -145,12 +154,13 @@
                     tags="tags"
                     fnOnEnter="filterTags(13)"
                     multipleTags="false"
-                    model="new_flex_budget.tag"
+                    model="new_FLB"
+                    id="new-flex-budget-name"
                     focusOnEnter="budget-flex-budget-input">
             </tag-autocomplete-directive>
             
-            <input ng-model="new_flex_budget.budget"
-                   ng-keyup="updateFlexBudget($event.keyCode)"
+            <input ng-model="new_FLB.budget"
+                   ng-keyup="updateBudget($event.keyCode, new_FLB, 'flex')"
                    id="budget-flex-budget-input"
                    type="text">
             
@@ -183,7 +193,7 @@
                     <td class="received">[[tag.received]]</td>
                     <td class="remaining">[[tag.remaining]]</td>
                     <td class="percent">[[tag.flex_budget]]</td>
-                    <td ng-click="removeFlexBudget(tag.id, tag.name)" class="pointer">x</td>
+                    <td ng-click="removeBudget(tag)" class="pointer">x</td>
                 </tr>
                 {{--unallocated--}}
                 <tr id="flex-budget-unallocated" class="budget_info_ul">

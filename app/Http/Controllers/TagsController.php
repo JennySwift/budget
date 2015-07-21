@@ -124,13 +124,15 @@ class TagsController extends Controller
             }
         }
 
-        Tag::where('id', $tag->id)
-            ->update([
-                $column => $budget,
-                'budget_id' => $budget_id
-            ]);
+        $tag->update([
+            $column => $budget,
+            'budget_id' => $budget_id
+        ]);
 
-        return $this->budgetService->getBasicAndBudgetTotals();
+        return [
+            'totals' => $this->budgetService->getBasicAndBudgetTotals(),
+            'tag' => $tag
+        ];
     }
 
     /**
