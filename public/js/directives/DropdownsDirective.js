@@ -2,7 +2,7 @@
     'use strict';
     angular
         .module('budgetApp')
-        .directive('dropdown', dropdown);
+        .directive('dropdownsDirective', dropdown);
 
     /* @inject */
     function dropdown($parse, $http) {
@@ -43,32 +43,6 @@
                     $($content).removeClass($scope.animateIn)
                         .addClass($scope.animateOut);
                 };
-
-                //$scope.closePopup = function ($event, $popup) {
-                //    var $target = $event.target;
-                //    if ($target.className === 'popup-outer') {
-                //        $scope.show.popups[$popup] = false;
-                //    }
-                //    $scope.stopJsTimer();
-                //};
-
-                /**
-                 * Query the database
-                 */
-                //$scope.searchDatabase = function () {
-                //    var $data = {
-                //        typing: $scope.inputValue
-                //    };
-                //
-                //    $http.post($scope.url, $data).
-                //        success(function(response, status, headers, config) {
-                //            $scope.dealWithResults(response);
-                //        }).
-                //        error(function(data, status, headers, config) {
-                //            //todo: Can I access my provideFeedback method in my controller from here?
-                //            console.log("There was an error");
-                //        });
-                //};
             }
         };
     }

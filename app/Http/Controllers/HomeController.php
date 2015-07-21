@@ -61,7 +61,8 @@ class HomeController extends Controller {
             'accounts_response' => Account::getAccounts(),
             'tags_response' => Tag::getTags(),
             'colors_response' => Color::getColors(),
-            'me' => Auth::user()
+            'me' => Auth::user(),
+            'env' => app()->env
         ]);
 
 		return view('home');

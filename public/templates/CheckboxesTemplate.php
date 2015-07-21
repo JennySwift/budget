@@ -1,11 +1,14 @@
 <div class="checkbox-animate">
+
     <input
         ng-model="model"
-        type="checkbox">
+        type="checkbox"
+        id="[[id]]-checkbox">
 
-    <label ng-click="toggleIcon()">
+    <label for="[[id]]-checkbox">
         <div class="label-icon animated">
             <i class="fa fa-check"></i>
         </div>
     </label>
+
 </div>

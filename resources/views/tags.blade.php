@@ -10,7 +10,7 @@
     ?>
 
 </head>
-<body ng-controller="settings">
+<body ng-controller="TagsController">
 
     <?php
         include($header);
@@ -18,6 +18,12 @@
     ?>
     
     <div class="main">
+
+        <div id="feedback">
+            <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
+                [[message]]
+            </div>
+        </div>
 
         <div id="tags">
 

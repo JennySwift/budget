@@ -15,7 +15,7 @@
 
     </div>
 
-    <div class="toolbar-filter">
+    <div ng-controller="FilterController" class="toolbar-filter">
 
         <div class="flex">
             <select ng-model="filter.num_to_fetch" name="" id="" class="form-control">
@@ -28,7 +28,7 @@
                 <option value="100">100</option>
             </select>
 
-            <span class="badge">[[filter.display_from]] to [[filter.display_to]] of [[totals.filter.num_transactions]]</span>
+            <span class="badge">[[filter.display_from]] to [[filter.display_to]] of [[totals.num_transactions]]</span>
 
         </div>
 

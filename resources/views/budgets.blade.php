@@ -20,8 +20,16 @@
     <!-- if I used ng-if here, tooltipster didn't work. -->
     <div id="budget" class="main">
 
-        <totals-directive totals="totals">
+        <totals-directive
+                totals="totals"
+                getTotals="getTotals()">
         </totals-directive>
+
+        <div id="feedback">
+            <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
+                [[message]]
+            </div>
+        </div>
 
         <div>
 
@@ -43,30 +51,35 @@
 
             <!-- ==============================savings============================== -->
 
-            <div class="margin-bottom">
-                <input ng-keyup="addFixedToSavings($event.keyCode)" type="text" placeholder="add fixed amount to savings" id="add-fixed-to-savings">
-                <input ng-keyup="addPercentageToSavings($event.keyCode)" type="text" placeholder="add percentage of RB to savings" id="add-percentage-to-savings">
-            </div>
+            {{--<div class="margin-bottom">--}}
+                {{--<input ng-keyup="addFixedToSavings($event.keyCode)" type="text" placeholder="add fixed amount to savings" id="add-fixed-to-savings">--}}
+                {{--<input ng-keyup="addPercentageToSavings($event.keyCode)" type="text" placeholder="add percentage of RB to savings" id="add-percentage-to-savings">--}}
+            {{--</div>--}}
 
             <!-- ==============================fixed budget inputs============================== -->
             
             <!-- ================tag wrapper================ -->
 
-            <div class="tag-wrapper">
-                <div class="tag-input-wrapper">
+            <label>Add a fixed budget to one of your tags</label>
 
-                    <label>Add a fixed budget to one of your tags</label>
-                    
-                    <input ng-model="new_fixed_budget.tag.name" ng-focus="new_fixed_budget.dropdown = true" ng-blur="new_fixed_budget.dropdown = false" ng-keyup="filterTags($event.keyCode, new_fixed_budget.tag.name, new_fixed_budget.tag, 'new_fixed_budget')" placeholder="tag" id="budget-fixed-tag-input" type='text'>
-                    
-                    <div ng-show="new_fixed_budget.dropdown" class="tag-dropdown">
-                        <li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': tag.selected}">[[tag.name]]</li>
-                    </div>
-                
-                </div>
-            </div>
+            {{--I'm baffled as to why, if I use model=new_fixed_budget it is buggy.
+            After a tag is chosen, if the user then hits backspace it edits the tag in the dropdown to that new name in the input field.--}}
+
+            <tag-autocomplete-directive
+                    dropdown="new_fixed_budget.dropdown"
+                    tags="tags"
+                    fnOnEnter="filterTags(13)"
+                    multipleTags="false"
+                    model="new_FB"
+                    modelName="new_fixed_budget.name"
+                    id="new-fixed-budget-name"
+                    focusOnEnter="budget-fixed-budget-input">
+            </tag-autocomplete-directive>
             
-            <input ng-model="new_fixed_budget.budget" ng-keyup="updateFixedBudget($event.keyCode)" id="budget-fixed-budget-input" type="text">
+            <input ng-model="new_FB.budget"
+                   ng-keyup="updateBudget($event.keyCode, new_FB, 'fixed')"
+                   id="budget-fixed-budget-input"
+                   type="text">
                   
             <!-- ==============================fixed budget table============================== -->
             
@@ -114,7 +127,7 @@
             
                     <td class="remaining">[[tag.remaining]]</td>
             
-                    <td ng-click="removeFixedBudget(tag.id, tag.name)" class="pointer">x</td>
+                    <td ng-click="removeBudget(tag)" class="pointer">x</td>
             
                 </tr>
             
@@ -135,24 +148,23 @@
             </table>
                 
             <!-- ==============================flex budget inputs============================== -->
-            
-            <!-- ================tag wrapper================ -->
-            
-            <div class="tag-wrapper">
-                <div class="tag-input-wrapper">
 
-                    <label>Add a flex budget to one of your tags</label>
-                    
-                    <input ng-model="new_flex_budget.tag.name" ng-focus="new_flex_budget.dropdown = true" ng-blur="new_flex_budget.dropdown = false" ng-keyup="filterTags($event.keyCode, new_flex_budget.tag.name, new_flex_budget.tag, 'new_flex_budget')" placeholder="tag" id="budget-flex-tag-input" type='text'>
-                    
-                    <div ng-show="new_flex_budget.dropdown" class="tag-dropdown">
-                        <li ng-repeat="tag in autocomplete.tags" ng-class="{'selected': tag.selected}">[[tag.name]]</li>
-                    </div>
-                
-                </div>
-            </div>
+            <label>Add a flex budget to one of your tags</label>
+
+            <tag-autocomplete-directive
+                    dropdown="new_flex_budget.dropdown"
+                    tags="tags"
+                    fnOnEnter="filterTags(13)"
+                    multipleTags="false"
+                    model="new_FLB"
+                    id="new-flex-budget-name"
+                    focusOnEnter="budget-flex-budget-input">
+            </tag-autocomplete-directive>
             
-            <input ng-model="new_flex_budget.budget" ng-keyup="updateFlexBudget($event.keyCode)" id="budget-flex-budget-input" type="text">
+            <input ng-model="new_FLB.budget"
+                   ng-keyup="updateBudget($event.keyCode, new_FLB, 'flex')"
+                   id="budget-flex-budget-input"
+                   type="text">
             
             <!-- ==============================flex budget table============================== -->
             
@@ -183,7 +195,7 @@
                     <td class="received">[[tag.received]]</td>
                     <td class="remaining">[[tag.remaining]]</td>
                     <td class="percent">[[tag.flex_budget]]</td>
-                    <td ng-click="removeFlexBudget(tag.id, tag.name)" class="pointer">x</td>
+                    <td ng-click="removeBudget(tag)" class="pointer">x</td>
                 </tr>
                 {{--unallocated--}}
                 <tr id="flex-budget-unallocated" class="budget_info_ul">

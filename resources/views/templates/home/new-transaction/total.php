@@ -2,7 +2,7 @@
     <div class="help-row">
         <label>Enter the total</label>
 
-        <div dropdown class="dropdown-directive">
+        <div dropdowns-directive class="dropdown-directive">
             <button ng-click="showDropdown()" tabindex="-1" class="btn btn-info btn-xs">
                 Help
                 <span class="caret"></span>

@@ -3,7 +3,7 @@
     <div class="help-row">
         <label>Enter a description (optional)</label>
 
-        <div dropdown class="dropdown-directive">
+        <div dropdown-directive class="dropdown-directive">
             <button ng-click="showDropdown()" tabindex="-1" class="btn btn-info btn-xs">
                 Help
                 <span class="caret"></span>
@@ -23,17 +23,12 @@
         </div>
     </div>
 
-    <input
-        ng-model="new_transaction.description"
-        ng-blur="show.autocomplete.description = false"
-        ng-keyup="filterTransactions($event.keyCode, new_transaction.description, 'description')"
-        id="new-transaction-description"
-        class="description mousetrap form-control"
+    <transaction-autocomplete-directive
+        dropdown="dropdown.description"
         placeholder="description"
-        type='text'>
-
-    <div ng-cloak ng-show="show.autocomplete.description" id="autocomplete-transactions" class="">
-        <?php include($templates . '/home/new-transaction/autocomplete.php'); ?>
-    </div>
+        typing="new_transaction.description"
+        newTransaction="new_transaction"
+        fnOnEnter="insertTransaction(13)">
+    </transaction-autocomplete-directive>
 
 </div>

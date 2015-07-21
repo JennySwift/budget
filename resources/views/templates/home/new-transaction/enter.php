@@ -2,7 +2,7 @@
     <div class="help-row">
         <button ng-mousedown="insertTransaction(13)" tabindex="-1" id="add-transaction" class="btn btn-success">Add transaction</button>
 
-        <div dropdown class="dropdown-directive">
+        <div dropdowns-directive class="dropdown-directive">
             <button ng-click="showDropdown()" tabindex="-1" class="btn btn-info btn-xs">
                 Help
                 <span class="caret"></span>

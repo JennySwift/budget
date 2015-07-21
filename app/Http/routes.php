@@ -3,24 +3,18 @@
 use App\Models\Account;
 use App\Models\Tag;
 use App\Models\Transaction;
+use App\Services\BudgetService;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-//Route::get('/test', function()
-//{
-//    $transaction = Transaction::first();
-//    //dd($transaction);
-//    return Transaction::with('account')->first();
-//});
+Route::get('/test', function(BudgetService $budgetService)
+{
+    return $budgetService->getRB();
+});
 
-Route::get('/test', 'TotalsController@getBudgetTotals');
+//Route::get('/test', 'TotalsController@getBudgetTotals');
 
-//Route::get('/test', function()
-//{
-//    $tag = Tag::first();
-//    //dd($tag);
-//    $tag->getTotalSpent();
-//    return $tag;
-//});
+
 
 
 /**

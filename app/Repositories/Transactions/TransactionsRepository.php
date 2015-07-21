@@ -5,6 +5,7 @@ use App\Models\Transaction;
 use Auth;
 use Carbon\Carbon;
 use Debugbar;
+use DB;
 
 /**
  * Class TransactionsRepository
@@ -161,7 +162,7 @@ class TransactionsRepository
 
         return [
             "transactions" => $this->getFilteredTransactions($transactions),
-            "filter_totals" => $filter_totals
+            "totals" => $filter_totals
         ];
     }
 

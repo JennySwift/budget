@@ -17,28 +17,31 @@
 
     <?php
         include($templates . '/header.blade.php');
-        include($templates . '/messages.php');
-        include($templates . '/popups/home/index.php');
     ?>
 
     {{--<button ng-click="testFeedback()">test feedback</button>--}}
 
     <div id="feedback">
-        <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">[[message]]</div>
+        <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
+            [[message]]
+        </div>
     </div>
     
     <div>
     
         <?php include($templates . '/home/toolbar.php'); ?>
     
-        <div id="new-transaction-container" class="">
+        <div ng-controller="NewTransactionController" id="new-transaction-container" class="">
             <?php
                 include($templates . '/home/new-transaction.php');
             ?>
         </div>
         
         <div class="main-content">
-            <totals-directive totals="totals">
+            <totals-directive
+                    totals="totals"
+                    getTotals="getTotals()"
+                    provideFeedback="provideFeedback()">
             </totals-directive>
 
             {{--<checkbox--}}
@@ -51,10 +54,30 @@
                     {{--for="two">--}}
             {{--</checkbox>--}}
 
-            <?php
-                include($templates . '/home/transactions.php');
-            ?>
-            <div>
+            {{--<button ng-click="testControllers()">Do something to transactions controller from home controller</button>--}}
+            {{--<div>Home controller num: [[num]]</div>--}}
+
+            {{--<div ng-controller="TransactionsController">transactions controller--}}
+                {{--<div>TransactionsController num: [[num]]</div>--}}
+            {{--</div>--}}
+
+            {{--<div ng-controller="TransactionsController">[[edit_transaction]]</div>--}}
+
+            {{--<div ng-controller="TransactionsController" class="flex-grow-2">--}}
+                {{--[[edit_transaction]]--}}
+            {{--</div>--}}
+
+            <div ng-controller="TransactionsController" class="flex-grow-2">
+                {{--This line had to be inside the div or the scope property--}}
+                {{--wouldn't work in the popup--}}
+                <?php
+                    include($templates . '/popups/home/index.php');
+                    include($templates . '/home/transactions.php');
+                ?>
+            </div>
+
+
+            <div ng-controller="FilterController">
                 {{--<filter-directive--}}
                         {{--show="show.filter"--}}
                         {{--search = "multiSearch()"--}}

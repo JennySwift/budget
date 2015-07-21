@@ -74,6 +74,58 @@ class Savings extends Model
     }
 
     /**
+     * Before reversing the automatic insert into savings,
+     * calculate the amount to subtract from savings.
+     * This is for after an income transaction is deleted.
+     * @param $transaction
+     */
+    public static function calculateAmountToSubtract($transaction)
+    {
+        //This value will change. Just for developing purposes.
+        $percent = 10;
+        $amount_to_subtract = $transaction->total / 100 * $percent;
+        static::reverseAutomaticInsertIntoSavings($amount_to_subtract);
+    }
+
+    /**
+     * Add an amount into savings.
+     * For when an income transaction is added.
+     * @param $transaction
+     */
+    public static function add($transaction)
+    {
+        $percent = 10;
+        static::addPercentageToSavingsAutomatically($transaction->total / 100 * $percent);
+    }
+
+    /**
+     * For when an income transaction total has been edited and decreased,
+     * updating the savings accordingly (subtract percentage from savings)
+     * @param $previous_total
+     * @param $new_total
+     */
+    public static function calculateAfterDecrease($previous_total, $new_total)
+    {
+        $diff = $previous_total - $new_total;
+        $percent = 10;
+        static::reverseAutomaticInsertIntoSavings($diff / 100 * $percent);
+    }
+
+    /**
+     * For when an income transaction total has been edited and increased,
+     * updating the savings accordingly (add percentage to savings)
+     * @param $previous_total
+     * @param $new_total
+     */
+    public static function calculateAfterIncrease($previous_total, $new_total)
+    {
+        $diff = $new_total - $previous_total;
+        $percent = 10;
+        static::addPercentageToSavingsAutomatically($diff / 100 * $percent);
+    }
+
+
+    /**
      *
      * @param $percentage_of_RB
      */

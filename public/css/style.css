@@ -135,6 +135,38 @@ caption {
     content: ' flex';
     font-size: 6px; }
 
+.tag-wrapper {
+  width: 100%; }
+  .tag-wrapper .tag-input-wrapper input {
+    width: 100%; }
+  .tag-wrapper .tag-input-wrapper .tag-dropdown {
+    max-height: 200px;
+    overflow: scroll;
+    cursor: pointer; }
+    .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item {
+      padding: 4px 0; }
+      .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .highlight {
+        background-color: lightblue;
+        color: #ffffff; }
+      .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item.selected {
+        background-color: lightblue;
+        color: #ffffff; }
+  .tag-wrapper .tag-display {
+    height: 34px; }
+    .tag-wrapper .tag-display .removable-tag {
+      cursor: pointer;
+      transition: all, .3s, ease;
+      position: relative; }
+      .tag-wrapper .tag-display .removable-tag:hover {
+        padding: .4em 1.6em .4em; }
+        .tag-wrapper .tag-display .removable-tag:hover .fa-times {
+          display: inline; }
+      .tag-wrapper .tag-display .removable-tag .fa-times {
+        font-size: 10px;
+        position: relative;
+        left: 8px;
+        display: none; }
+
 .error_message {
   font-size: 17px;
   position: fixed;
@@ -415,7 +447,7 @@ caption {
   box-shadow: 3px 3px 10px #777; }
   .totals .changed {
     position: absolute;
-    right: -280px;
+    right: -100px;
     top: 13px;
     border: 1px solid #777;
     z-index: 99999; }
@@ -592,10 +624,10 @@ caption {
   box-shadow: -4px 4px 6px #777; }
   #filter.ng-hide {
     animation: bounceOutRight 2s; }
+  #filter .group {
+    display: flex; }
   #filter .tag-input-wrapper input {
     width: auto; }
-  #filter .tag-wrapper li {
-    list-style-type: none; }
   #filter .accounts > div, #filter .types > div, #filter .status > div, #filter .budget > div {
     display: flex;
     align-items: center; }
@@ -660,9 +692,6 @@ caption {
       #new-transaction-container #new-transaction > div > div {
         margin: 0px 20px;
         width: 200px; }
-    #new-transaction-container #new-transaction input {
-      margin-bottom: 4px;
-      flex-grow: 1; }
     #new-transaction-container #new-transaction .autocomplete-container {
       position: relative; }
       #new-transaction-container #new-transaction .autocomplete-container > input {
@@ -681,30 +710,6 @@ caption {
       width: 100%;
       display: flex;
       justify-content: space-between; }
-    #new-transaction-container #new-transaction .tag-wrapper {
-      width: 100%; }
-      #new-transaction-container #new-transaction .tag-wrapper .tag-input-wrapper input {
-        width: 100%; }
-      #new-transaction-container #new-transaction .tag-wrapper .tag-display {
-        height: 34px; }
-        #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag {
-          cursor: pointer;
-          transition: all, .3s, ease;
-          position: relative; }
-          #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag:hover {
-            padding: .4em 1.6em .4em; }
-            #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag:hover .fa-times {
-              display: inline; }
-          #new-transaction-container #new-transaction .tag-wrapper .tag-display .removable-tag .fa-times {
-            font-size: 10px;
-            position: relative;
-            left: 8px;
-            display: none; }
-      #new-transaction-container #new-transaction .tag-wrapper .tag-dropdown {
-        max-height: 200px;
-        overflow: scroll; }
-        #new-transaction-container #new-transaction .tag-wrapper .tag-dropdown li {
-          list-style-type: none; }
     #new-transaction-container #new-transaction .btn-group .btn {
       margin: 0 -2px;
       border-radius: 0px; }
@@ -723,6 +728,9 @@ caption {
         margin: 15px 0; }
     #new-transaction-container #new-transaction label {
       max-width: 210px; }
+    #new-transaction-container #new-transaction input {
+      margin-bottom: 4px;
+      flex-grow: 1; }
 
 #edit-transaction {
   padding: 22px;
@@ -742,9 +750,6 @@ caption {
     #edit-transaction > div > div {
       margin: 0px 20px;
       width: 200px; }
-  #edit-transaction input {
-    margin-bottom: 4px;
-    flex-grow: 1; }
   #edit-transaction .autocomplete-container {
     position: relative; }
     #edit-transaction .autocomplete-container > input {
@@ -763,30 +768,6 @@ caption {
     width: 100%;
     display: flex;
     justify-content: space-between; }
-  #edit-transaction .tag-wrapper {
-    width: 100%; }
-    #edit-transaction .tag-wrapper .tag-input-wrapper input {
-      width: 100%; }
-    #edit-transaction .tag-wrapper .tag-display {
-      height: 34px; }
-      #edit-transaction .tag-wrapper .tag-display .removable-tag {
-        cursor: pointer;
-        transition: all, .3s, ease;
-        position: relative; }
-        #edit-transaction .tag-wrapper .tag-display .removable-tag:hover {
-          padding: .4em 1.6em .4em; }
-          #edit-transaction .tag-wrapper .tag-display .removable-tag:hover .fa-times {
-            display: inline; }
-        #edit-transaction .tag-wrapper .tag-display .removable-tag .fa-times {
-          font-size: 10px;
-          position: relative;
-          left: 8px;
-          display: none; }
-    #edit-transaction .tag-wrapper .tag-dropdown {
-      max-height: 200px;
-      overflow: scroll; }
-      #edit-transaction .tag-wrapper .tag-dropdown li {
-        list-style-type: none; }
   #edit-transaction .btn-group .btn {
     margin: 0 -2px;
     border-radius: 0px; }
@@ -796,6 +777,8 @@ caption {
     #edit-transaction .btn-group .btn:last-child {
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px; }
+  #edit-transaction input {
+    margin-bottom: 4px; }
 
 #transactions {
   background: white;

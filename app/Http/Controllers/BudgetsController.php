@@ -36,6 +36,7 @@ class BudgetsController extends Controller
     {
         JavaScript::put([
             'me' => Auth::user(),
+            'tags_response' => Tag::getTags(),
             'totals_response' => $budgetService->getBasicAndBudgetTotals(),
         ]);
 

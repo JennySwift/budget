@@ -5,16 +5,17 @@
         .directive('totalsDirective', totals);
 
     /* @inject */
-    function totals() {
+    function totals(SavingsFactory, FilterFactory) {
         return {
             restrict: 'EA',
             scope: {
-                //"id": "@id",
-                "totals": "=totals"
+                "totals": "=totals",
+                "provideFeedback" : "&providefeedback"
             },
             templateUrl: 'templates/TotalsTemplate.php',
             //scope: true,
             link: function($scope, elem, attrs) {
+                $scope.filterFactory = FilterFactory;
                 $scope.show = {
                     basic_totals: true,
                     budget_totals: true
@@ -31,6 +32,13 @@
                         RBWEFLB: []
                     };
                 };
+
+                $scope.$watch('filterFactory.totals', function (newValue, oldValue, scope) {
+                    if (newValue) {
+                        scope.totals.basic = newValue.basic;
+                        scope.totals.budget = newValue.budget;
+                    }
+                });
 
                 /**
                  * Notify user when totals change
@@ -49,7 +57,7 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.RFB = newValue - oldValue;
+                    $scope.totals.changes.RFB = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
                 //CFB
@@ -57,7 +65,7 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.CFB = newValue - oldValue;
+                    $scope.totals.changes.CFB = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
                 //EWB
@@ -65,7 +73,7 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.EWB = newValue - oldValue;
+                    $scope.totals.changes.EWB = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
                 //EFLB
@@ -73,7 +81,7 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.EFLB = newValue - oldValue;
+                    $scope.totals.changes.EFLB = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
                 //EFBBCSD
@@ -81,7 +89,7 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.EFBBCSD = newValue - oldValue;
+                    $scope.totals.changes.EFBBCSD = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
                 //EFBACSD
@@ -89,7 +97,7 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.EFBACSD = newValue - oldValue;
+                    $scope.totals.changes.EFBACSD = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
                 //Savings
@@ -97,7 +105,7 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.savings = newValue - oldValue;
+                    $scope.totals.changes.savings = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
                 //RB
@@ -105,7 +113,7 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.RB.push(newValue - oldValue);
+                    $scope.totals.changes.RB.push(newValue.replace(',', '') - oldValue.replace(',', ''));
                 });
 
                 //RBWEFLB
@@ -113,7 +121,7 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.RBWEFLB.push(newValue - oldValue);
+                    $scope.totals.changes.RBWEFLB.push(newValue.replace(',', '') - oldValue.replace(',', ''));
                 });
 
                 //Debit
@@ -121,7 +129,7 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.debit = newValue - oldValue;
+                    $scope.totals.changes.debit = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
                 //Balance
@@ -129,7 +137,7 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.balance = newValue - oldValue;
+                    $scope.totals.changes.balance = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
                 //Reconciled
@@ -137,8 +145,13 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.reconciled = newValue - oldValue;
+                    $scope.totals.changes.reconciled = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
+
+                $scope.showSavingsTotalInput = function () {
+                    $scope.show.savings_total.input = true;
+                    $scope.show.savings_total.edit_btn = false;
+                };
             }
         };
     }

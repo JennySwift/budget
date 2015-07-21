@@ -3,7 +3,7 @@
     <div class="help-row">
         <label>Enter a merchant (optional)</label>
 
-        <div dropdown class="dropdown-directive">
+        <div dropdowns-directive class="dropdown-directive">
             <button ng-click="showDropdown()" tabindex="-1" class="btn btn-info btn-xs">
                 Help
                 <span class="caret"></span>
@@ -23,17 +23,12 @@
         </div>
     </div>
 
-    <input
-        ng-model="new_transaction.merchant"
-        ng-blur="show.autocomplete.merchant = false"
-        ng-keyup="filterTransactions($event.keyCode, new_transaction.merchant, 'merchant')"
-        id="new-transaction-merchant"
-        class="merchant mousetrap form-control"
+    <transaction-autocomplete-directive
+        dropdown="dropdown.merchant"
         placeholder="merchant"
-        type='text'>
-
-    <div ng-cloak ng-show="show.autocomplete.merchant" id="autocomplete-transactions" class="">
-        <?php include($templates . '/home/new-transaction/autocomplete.php'); ?>
-    </div>
+        typing="new_transaction.merchant"
+        newTransaction="new_transaction"
+        fnOnEnter="insertTransaction(13)">
+    </transaction-autocomplete-directive>
 
 </div>

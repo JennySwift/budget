@@ -16,15 +16,12 @@
 	padding: 8px;
 	z-index: 9;
     box-shadow: -4px 4px 6px #777;
+    .group {
+        display: flex;
+    }
 	.tag-input-wrapper input {
 		width: auto;
 	}
-    .tag-wrapper {
-        li {
-            list-style-type: none;
-        }
-//        @include tag_wrapper;
-    }
 	.accounts, .types, .status, .budget {
 		> div {
 			display: flex;
