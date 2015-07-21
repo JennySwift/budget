@@ -27,9 +27,9 @@
         });
 
         $scope.updateReconciliation = function ($transaction_id, $reconciliation) {
-            TransactionsFactory.updateReconciliation($transaction_id, $reconciliation)
+            TransactionsFactory.updateReconciliation($transaction_id, $reconciliation, $scope.filter)
                 .then(function (response) {
-                    $scope.multiSearch();
+                    FilterFactory.updateDataForControllers(response.data);
                     $scope.totals = response.data;
                 })
                 .catch(function (response) {

@@ -85,7 +85,7 @@ app.factory('TransactionsFactory', function ($http) {
         return $http.put($url, $data);
     };
 
-    $object.updateReconciliation = function ($transaction_id, $reconciled) {
+    $object.updateReconciliation = function ($transaction_id, $reconciled, $filter) {
         var $url = 'update/reconciliation';
 
         if ($reconciled === true) {
@@ -97,7 +97,8 @@ app.factory('TransactionsFactory', function ($http) {
 
         var $data = {
             id: $transaction_id,
-            reconciled: $reconciled
+            reconciled: $reconciled,
+            filter: $filter
         };
 
         return $http.post($url, $data);

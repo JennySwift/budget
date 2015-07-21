@@ -314,7 +314,10 @@ class TransactionsController extends Controller
         $transaction->reconciled = $transactionsRepository->convertFromBoolean($request->get('reconciled'));
         $transaction->save();
 
-        return $this->budgetService->getBasicAndBudgetTotals();
+        return [
+            'totals' => $this->budgetService->getBasicAndBudgetTotals(),
+            'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
+        ];
     }
 
     /**
