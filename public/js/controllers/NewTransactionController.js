@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('NewTransactionController', newTransaction);
 
-    function newTransaction ($scope, $http, TransactionsFactory, FilterFactory) {
+    function newTransaction ($scope, $http, TransactionsFactory, FilterFactory, FeedbackFactory) {
         /**
          * scope properties
          */
@@ -32,6 +32,7 @@
          */
         if ($scope.env === 'local') {
             $scope.new_transaction.total = 10;
+            $scope.new_transaction.date.entered = 'j';
             $scope.new_transaction.merchant = 'some merchant';
             $scope.new_transaction.description = 'some description';
             $scope.new_transaction.tags = [
@@ -98,33 +99,36 @@
             }
         };
 
-        $scope.errorCheck = function () {
-            $scope.messages = {};
+        /**
+         * Return true if there are errors.
+         * @returns {boolean}
+         */
+        $scope.anyErrors = function () {
+            $errorCount = 0;
+            var $messages = [];
 
-            var $date_entry = $("#date").val();
-            $scope.new_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
-
-            if ($scope.new_transaction.date.sql === null) {
-                $scope.messages.invalid_date = true;
-                return false;
+            if (!Date.parse($scope.new_transaction.date.entered)) {
+                FeedbackFactory.provideFeedback('Date is not valid');
+                $errorCount++;
             }
-            else if ($scope.new_transaction.total === "") {
-                $scope.message.total_required = true;
-                return false;
+            else {
+                $scope.new_transaction.date.sql = Date.parse($scope.new_transaction.date.sql).toString('yyyy-MM-dd');
+            }
+
+            if ($scope.new_transaction.total === "") {
+                FeedbackFactory.provideFeedback('Total is required');
+                $errorCount++;
             }
             else if (!$.isNumeric($scope.new_transaction.total)) {
-                $scope.messages.total_not_number = true;
-                return false;
+                FeedbackFactory.provideFeedback('Total is not a valid number');
+                $errorCount++;
             }
-            else if ($scope.new_transaction.type === 'transfer' && $scope.new_transaction.from_account === "from") {
-                $scope.messages.from_account_required = true;
-                return false;
+
+            if ($errorCount > 0) {
+                return true;
             }
-            else if ($scope.new_transaction.type === 'transfer' && $scope.new_transaction.to_account === "to") {
-                $scope.messages.to_account_required = true;
-                return false;
-            }
-            return true;
+
+            return false;
         };
 
         /**
@@ -132,7 +136,7 @@
          * @param $keycode
          */
         $scope.insertTransaction = function ($keycode) {
-            if ($keycode !== 13 || !$scope.errorCheck()) {
+            if ($keycode !== 13 || $scope.anyErrors()) {
                 return;
             }
 

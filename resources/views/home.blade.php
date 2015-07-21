@@ -17,13 +17,14 @@
 
     <?php
         include($templates . '/header.blade.php');
-        include($templates . '/messages.php');
     ?>
 
     {{--<button ng-click="testFeedback()">test feedback</button>--}}
 
     <div id="feedback">
-        <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">[[message]]</div>
+        <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
+            [[message]]
+        </div>
     </div>
     
     <div>

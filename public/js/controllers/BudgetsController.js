@@ -10,13 +10,9 @@
          */
 
         $scope.me = me;
-
         $scope.totals = totals_response;
-
         $scope.feedback_messages = [];
-
         $scope.tags = tags_response;
-
         $scope.feedbackFactory = FeedbackFactory;
 
         $scope.show = {
@@ -24,25 +20,7 @@
             budget_totals: true,
             popups: {}
         };
-        $scope.autocomplete = {};
 
-        //$scope.new_fixed_budget = {
-        //    tag: {
-        //        name: "wee",
-        //        id: ""
-        //    },
-        //    budget: "",
-        //    dropdown: false
-        //};
-
-        $scope.new_flex_budget = {
-            tag: {
-                name: "",
-                id: ""
-            },
-            budget: "",
-            dropdown: false
-        };
 
         /**
          * Watches
@@ -70,7 +48,6 @@
             TagsFactory.getTags()
                 .then(function (response) {
                     $scope.tags = response.data;
-                    $scope.autocomplete.tags = response.data;
                 })
                 .catch(function (response) {
                     FeedbackFactory.provideFeedback('There was an error');

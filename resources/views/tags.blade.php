@@ -19,6 +19,12 @@
     
     <div class="main">
 
+        <div id="feedback">
+            <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
+                [[message]]
+            </div>
+        </div>
+
         <div id="tags">
 
             <input ng-keyup="insertTag($event.keyCode)" type="text" class="font-size-sm center margin-bottom" id="new-tag-input" placeholder="new tag">

@@ -4,7 +4,7 @@ var app = angular.module('budgetApp');
 
     // ===========================display controller===========================
 
-    app.controller('TagsController', function ($scope, $http, TagsFactory) {
+    app.controller('TagsController', function ($scope, $http, TagsFactory, FeedbackFactory) {
 
         /**
          * scope properties
@@ -13,11 +13,27 @@ var app = angular.module('budgetApp');
         $scope.me = me;
         $scope.autocomplete = {};
         $scope.edit_tag = false;
+        $scope.feedback_messages = [];
+        $scope.feedbackFactory = FeedbackFactory;
 
         $scope.show = {
             popups: {}
         };
         $scope.edit_tag_popup = {};
+
+        $scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
+            if (newValue && newValue.message) {
+                scope.provideFeedback(newValue.message);
+            }
+        });
+
+        $scope.provideFeedback = function ($message) {
+            $scope.feedback_messages.push($message);
+            setTimeout(function () {
+                $scope.feedback_messages = _.without($scope.feedback_messages, $message);
+                $scope.$apply();
+            }, 3000);
+        };
 
         /**
          * select
@@ -34,16 +50,19 @@ var app = angular.module('budgetApp');
          * insert
          */
 
+        /**
+         * Inserts a new tag into tags table, not into a transaction
+         * @param $keycode
+         */
         $scope.insertTag = function ($keycode) {
             if ($keycode !== 13) {
                 return;
             }
 
-            //inserts a new tag into tags table, not into a transaction
             TagsFactory.duplicateTagCheck().then(function (response) {
                 var $duplicate = response.data;
                 if ($duplicate > 0) {
-                    $("#tag-already-created").show();
+                    FeedbackFactory.provideFeedback('You already have a tag with that name');
                 }
                 else {
                     TagsFactory.insertTag().then(function (response) {

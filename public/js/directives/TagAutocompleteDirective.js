@@ -20,9 +20,7 @@
                 "focusOnEnter": "@focusonenter"
             },
             templateUrl: 'templates/TagAutocompleteTemplate.php',
-            //scope: true,
             link: function($scope, elem, attrs) {
-                //$scope.currentIndex = 1;
                 $scope.results = {};
                 $scope.messages = {};
 
