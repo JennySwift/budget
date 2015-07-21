@@ -183,24 +183,30 @@ class TransactionsController extends Controller
         $new_transaction = $request->get('new_transaction');
         $type = $new_transaction['type'];
 
+        //Insert income or expense transaction
         if ($type !== "transfer") {
             $this->reallyInsertTransaction($new_transaction, $type);
         }
+
+        //It's a transfer, so insert two transactions, the from and the to
         else {
-            //It's a transfer, so insert two transactions, the from and the to
             $this->reallyInsertTransaction($new_transaction, "from");
             $this->reallyInsertTransaction($new_transaction, "to");
         }
 
-        //Check if the transaction that was just entered has multiple budgets.
-        //Note for transfers this won't do both of them.
-        $last_transaction_id = Transaction::getLastTransactionId();
-        $transaction = Transaction::with('tags')->find($last_transaction_id);
-        $multiple_budgets = Transaction::hasMultipleBudgets($last_transaction_id);
+        //Find the last transaction that was entered
+        $transaction = Transaction::with('tags')->find(Transaction::getLastTransactionId());
+
+        // Put an amount into savings if it is an income expense
+        if ($transaction->type === 'income') {
+            Savings::add($transaction);
+        }
+
+        // Todo: Check both transactions for multiple budgets, not just the last one?
 
         return [
             "transaction" => $transaction,
-            "multiple_budgets" => $multiple_budgets,
+            "multiple_budgets" => Transaction::hasMultipleBudgets($transaction->id),
             'totals' => $this->budgetService->getBasicAndBudgetTotals(),
             'filter_results' => $transactionsRepository->filterTransactions($request->get('filter'))
         ];
@@ -267,7 +273,13 @@ class TransactionsController extends Controller
         // If it is an income transaction, and if the total has decreased,
         // remove a percentage from savings
         if ($transaction->type === 'income' && $new_total < $previous_total) {
-            Savings::calculateAfterUpdate($previous_total, $new_total);
+            Savings::calculateAfterDecrease($previous_total, $new_total);
+        }
+
+        // If it is an income transaction, and if the total has increased,
+        // add a percentage to savings
+        if ($transaction->type === 'income' && $new_total > $previous_total) {
+            Savings::calculateAfterIncrease($previous_total, $new_total);
         }
 
         $transaction->update([

@@ -148,47 +148,6 @@
                     $scope.totals.changes.reconciled = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
-                $scope.$watch('totals.budget.RB', function (newValue, oldValue) {
-                    //Before the refactor I didn't need this if check. Not sure why I need it now or it errors on page load.
-                    if (!newValue || !oldValue) {
-                        return;
-                    }
-                    //get rid of the commas and convert to integers
-                    var $new_RB = parseInt(newValue.replace(',', ''), 10);
-                    var $old_RB = parseInt(oldValue.replace(',', ''), 10);
-                    if ($new_RB > $old_RB) {
-                        //$RB has increased due to a user action
-                        //Figure out how much it has increased by.
-                        var $diff = $new_RB - $old_RB;
-                        //This value will change. Just for developing purposes.
-                        var $percent = 10;
-                        var $amount_to_add = $diff / 100 * $percent;
-                        $scope.addPercentageToSavingsAutomatically($amount_to_add);
-                    }
-                });
-
-                $scope.addPercentageToSavingsAutomatically = function ($amount_to_add) {
-                    SavingsFactory.addPercentageToSavingsAutomatically($amount_to_add)
-                        .then(function (response) {
-                            $scope.totals.basic = response.data.basic;
-                            $scope.totals.budget = response.data.budget;
-                        })
-                        .catch(function (response) {
-                            $scope.provideFeedback('There was an error');
-                        });
-                };
-
-                $scope.reverseAutomaticInsertIntoSavings = function ($amount_to_subtract) {
-                    SavingsFactory.reverseAutomaticInsertIntoSavings($amount_to_subtract)
-                        .then(function (response) {
-                            $scope.totals.basic = response.data.basic;
-                            $scope.totals.budget = response.data.budget;
-                        })
-                        .catch(function (response) {
-                            $scope.provideFeedback('There was an error');
-                        });
-                };
-
                 $scope.showSavingsTotalInput = function () {
                     $scope.show.savings_total.input = true;
                     $scope.show.savings_total.edit_btn = false;

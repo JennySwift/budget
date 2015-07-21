@@ -31,7 +31,7 @@
          */
         if ($scope.env === 'local') {
             $scope.new_transaction.total = 10;
-            $scope.new_transaction.date.entered = 'j';
+            $scope.new_transaction.date.entered = 'today';
             $scope.new_transaction.merchant = 'some merchant';
             $scope.new_transaction.description = 'some description';
             $scope.new_transaction.tags = [
@@ -96,7 +96,7 @@
                 $errorCount++;
             }
             else {
-                $scope.new_transaction.date.sql = Date.parse($scope.new_transaction.date.sql).toString('yyyy-MM-dd');
+                $scope.new_transaction.date.sql = Date.parse($scope.new_transaction.date.entered).toString('yyyy-MM-dd');
             }
 
             if ($scope.new_transaction.total === "") {

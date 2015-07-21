@@ -71,8 +71,6 @@ class Savings extends Model
     {
         Savings::where('user_id', Auth::user()->id)
             ->decrement('amount', $amount_to_subtract);
-
-//        return $this->budgetService->getBasicAndBudgetTotals();
     }
 
     /**
@@ -90,18 +88,40 @@ class Savings extends Model
     }
 
     /**
-     * For when an income transaction total has decreased,
+     * Add an amount into savings.
+     * For when an income transaction is added.
+     * @param $transaction
+     */
+    public static function add($transaction)
+    {
+        $percent = 10;
+        static::addPercentageToSavingsAutomatically($transaction->total / 100 * $percent);
+    }
+
+    /**
+     * For when an income transaction total has been edited and decreased,
      * updating the savings accordingly (subtract percentage from savings)
      * @param $previous_total
      * @param $new_total
      */
-    public static function calculateAfterUpdate($previous_total, $new_total)
+    public static function calculateAfterDecrease($previous_total, $new_total)
     {
         $diff = $previous_total - $new_total;
-        //this percent is temporary
         $percent = 10;
-        $amount_to_subtract = $diff / 100 * $percent;
-        static::reverseAutomaticInsertIntoSavings($amount_to_subtract);
+        static::reverseAutomaticInsertIntoSavings($diff / 100 * $percent);
+    }
+
+    /**
+     * For when an income transaction total has been edited and increased,
+     * updating the savings accordingly (add percentage to savings)
+     * @param $previous_total
+     * @param $new_total
+     */
+    public static function calculateAfterIncrease($previous_total, $new_total)
+    {
+        $diff = $new_total - $previous_total;
+        $percent = 10;
+        static::addPercentageToSavingsAutomatically($diff / 100 * $percent);
     }
 
 
