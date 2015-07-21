@@ -5,7 +5,7 @@
         .directive('totalsDirective', totals);
 
     /* @inject */
-    function totals(SavingsFactory, TotalsFactory, FilterFactory) {
+    function totals(SavingsFactory, FilterFactory) {
         return {
             restrict: 'EA',
             scope: {
@@ -187,6 +187,11 @@
                         .catch(function (response) {
                             $scope.provideFeedback('There was an error');
                         });
+                };
+
+                $scope.showSavingsTotalInput = function () {
+                    $scope.show.savings_total.input = true;
+                    $scope.show.savings_total.edit_btn = false;
                 };
             }
         };

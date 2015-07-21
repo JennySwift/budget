@@ -32,10 +32,6 @@
             }
         });
 
-        /**
-         * select
-         */
-
         $scope.provideFeedback = function ($message) {
             $scope.feedback_messages.push($message);
             setTimeout(function () {
@@ -53,10 +49,6 @@
                     FeedbackFactory.provideFeedback('There was an error');
                 });
         };
-
-        /**
-         * update
-         */
 
         $scope.updateBudget = function ($keycode, $new, $type) {
             if ($keycode !== 13 || $scope.tagHasBudget($new)) {
@@ -143,10 +135,6 @@
                     FeedbackFactory.provideFeedback('There was an error');
                 });
         };
-
-        /**
-         * delete
-         */
 
         //$scope.updateSavingsTotal = function ($keycode) {
         //    if ($keycode !== 13) {

@@ -43,7 +43,6 @@
 <script type="text/javascript" src="js/factories/BudgetsFactory.js"></script>
 <script type="text/javascript" src="js/factories/SavingsFactory.js"></script>
 <script type="text/javascript" src="js/factories/ColorsFactory.js"></script>
-<script type="text/javascript" src="js/factories/TotalsFactory.js"></script>
 <script type="text/javascript" src="js/factories/TransactionsFactory.js"></script>
 <script type="text/javascript" src="js/factories/PreferencesFactory.js"></script>
 <script type="text/javascript" src="js/factories/TagsFactory.js"></script>

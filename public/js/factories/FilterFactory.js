@@ -1,6 +1,5 @@
 app.factory('FilterFactory', function ($http) {
     var $object = {};
-    //$object.filter_results = {};
     $object.filter = {
         budget: "all",
         total: "",
@@ -37,13 +36,6 @@ app.factory('FilterFactory', function ($http) {
         };
 
         return $http.post($url, $data);
-            //.success(function (response) {
-            //    $object.filter_results = response;
-            //    return $object.filter_results;
-            //});
-        //$object.filter_results = 2;
-
-
     };
 
     /**

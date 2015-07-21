@@ -4,44 +4,18 @@
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, $http, BudgetsFactory, TransactionsFactory, PreferencesFactory, FeedbackFactory) {
+    function home ($scope, $http, BudgetsFactory, TransactionsFactory, PreferencesFactory, FeedbackFactory, ColorsFactory) {
         /**
          * scope properties
          */
 
         $scope.feedbackFactory = FeedbackFactory;
-
+        $scope.transactionsFactory = TransactionsFactory;
         $scope.feedback_messages = [];
-
         $scope.page = 'home';
-
         $scope.colors = colors_response;
-
         $scope.totals = totals_response;
-
         $scope.me = me;
-
-        //$scope.transactions_limited = []; //limited to 30 results
-
-        /*=========other=========*/
-        $scope.allocation_popup_transaction = {};
-        $scope.selected = {}; //for getting the selected tag in autocomplete
-        $scope.typing = {
-            new_transaction: {
-                tag: ''
-            }
-        };
-        //$scope.autocomplete = {
-        //    transactions: {},
-        //    tags: {}
-        //};
-
-        $scope.messages = {};
-        $scope.tag_input = ""; //for the inputs where the tag is autocompleted
-
-        /*=========selected=========*/
-
-        $scope.selected = {};
 
         /*=========show=========*/
         $scope.show = {
@@ -79,10 +53,29 @@
             }
         };
 
+        /**
+         * Watches
+         */
+
         $scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
             if (newValue && newValue.message) {
                 scope.provideFeedback(newValue.message);
             }
+        });
+
+        $scope.$watch('PreferencesFactory.date_format', function (newValue, oldValue) {
+            if (!newValue) {
+                return;
+            }
+            PreferencesFactory.insertOrUpdateDateFormat(newValue).then(function (response) {
+                // $scope. = response.data;
+            });
+        });
+
+        $scope.$watchCollection('colors', function (newValue) {
+            $("#income-color-picker").val(newValue.income);
+            $("#expense-color-picker").val(newValue.expense);
+            $("#transfer-color-picker").val(newValue.transfer);
         });
 
         $scope.provideFeedback = function ($message) {
@@ -97,30 +90,10 @@
             $scope.provideFeedback('something');
         };
 
-        /**
-         * select
-         */
-
-        $scope.transactionsFactory = TransactionsFactory;
-
-        //$scope.testControllers = function () {
-        //    TransactionsFactory.testControllers(10);
-        //};
-        //
-        //$scope.num = TransactionsFactory.testControllers(5);
-        //
-        //$scope.$watch('transactionsFactory.testControllers()', function (newValue, oldValue, scope) {
-        //    scope.num = newValue;
-        //});
-
-        /**
-         * update
-         */
-
         $scope.updateColors = function () {
-            settings.updateColors($scope.colors)
+            ColorsFactory.updateColors($scope.colors)
                 .then(function (response) {
-                    $scope.getColors();
+                    //Todo: return the colors in the response to update them
                     $scope.show.color_picker = false;
                 })
                 .catch(function (response) {
@@ -155,57 +128,11 @@
                 });
         };
 
-        /**
-         * watches
-         */
-
-        $scope.$watch('PreferencesFactory.date_format', function (newValue, oldValue) {
-            if (!newValue) {
-                return;
-            }
-            PreferencesFactory.insertOrUpdateDateFormat(newValue).then(function (response) {
-                // $scope. = response.data;
-            });
-        });
-
-        $scope.$watchCollection('colors', function (newValue) {
-            $("#income-color-picker").val(newValue.income);
-            $("#expense-color-picker").val(newValue.expense);
-            $("#transfer-color-picker").val(newValue.transfer);
-        });
-
-
-
-        /**
-         * other
-         */
-
-        $scope.getColors = function () {
-            settings.getColors()
-                .then(function (response) {
-                    $scope.colors = response.data;
-                })
-                .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
-                });
-        };
-
         $scope.updateChart = function () {
             $(".bar_chart_li:first-child").css('height', '0%');
             $(".bar_chart_li:nth-child(2)").css('height', '0%');
             $(".bar_chart_li:first-child").css('height', getTotal()[6] + '%');
             $(".bar_chart_li:nth-child(2)").css('height', getTotal()[5] + '%');
-        };
-
-
-
-        /**
-         * show
-         */
-
-        $scope.showSavingsTotalInput = function () {
-            $scope.show.savings_total.input = true;
-            $scope.show.savings_total.edit_btn = false;
         };
 
         $scope.toggleFilter = function () {

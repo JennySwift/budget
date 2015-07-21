@@ -31,17 +31,4 @@
         fnOnEnter="insertTransaction(13)">
     </transaction-autocomplete-directive>
 
-<!--    <input-->
-<!--        ng-model="new_transaction.merchant"-->
-<!--        ng-blur="show.autocomplete.merchant = false"-->
-<!--        ng-keyup="filterTransactions($event.keyCode, new_transaction.merchant, 'merchant')"-->
-<!--        id="new-transaction-merchant"-->
-<!--        class="merchant mousetrap form-control"-->
-<!--        placeholder="merchant"-->
-<!--        type='text'>-->
-<!---->
-<!--    <div ng-cloak ng-show="show.autocomplete.merchant" id="autocomplete-transactions" class="">-->
-<!--        --><?php //include($templates . '/home/new-transaction/autocomplete.php'); ?>
-<!--    </div>-->
-
 </div>

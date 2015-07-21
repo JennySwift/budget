@@ -1,17 +1,5 @@
 app.factory('SavingsFactory', function ($http) {
 	return {
-		/**
-		 * select
-		 */
-		
-		/**
-		 * insert
-		 */
-		
-		/**
-		 * update
-		 */
-		
 		updateSavingsTotal: function () {
 			var $amount = $("#edited-savings-total").val().replace(',', '');
 			var $url = 'update/savingsTotal';
@@ -56,11 +44,6 @@ app.factory('SavingsFactory', function ($http) {
 			};
 			
 			return $http.post($url, $data);
-		},
-		
-		/**
-		 * delete
-		 */
-
+		}
 	};
 });

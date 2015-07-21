@@ -10,12 +10,11 @@
          */
 
         $scope.filterFactory = FilterFactory;
-
         $scope.dropdown = {};
-
         $scope.me = me;
-
         $scope.env = env;
+        $scope.tags = tags_response;
+        $scope.types = ["income", "expense", "transfer"];
 
         $scope.new_transaction = {
             type: 'income',
@@ -59,10 +58,6 @@
             $scope.new_transaction.to_account = $scope.accounts[0].id;
         }
 
-        $scope.tags = tags_response;
-
-        $scope.types = ["income", "expense", "transfer"];
-
         /**
          * Watches
          */
@@ -72,17 +67,6 @@
                 scope.filter = newValue;
             }
         });
-
-        /**
-         * This is so I have $scope.transactions to use in $scope.findTransaction,
-         * for the allocation popup after entering a new transaction.
-         */
-        //$scope.transactions = filter_response.transactions;
-        //$scope.$watch('filterFactory.filter_results.transactions', function (newValue, oldValue, scope) {
-        //    if (newValue) {
-        //        scope.transactions = newValue;
-        //    }
-        //});
 
         /**
          * Clear new transaction fields

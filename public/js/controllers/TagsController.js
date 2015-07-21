@@ -2,8 +2,6 @@ var app = angular.module('budgetApp');
 
 (function () {
 
-    // ===========================display controller===========================
-
     app.controller('TagsController', function ($scope, $http, TagsFactory, FeedbackFactory) {
 
         /**
@@ -15,11 +13,11 @@ var app = angular.module('budgetApp');
         $scope.edit_tag = false;
         $scope.feedback_messages = [];
         $scope.feedbackFactory = FeedbackFactory;
+        $scope.edit_tag_popup = {};
 
         $scope.show = {
             popups: {}
         };
-        $scope.edit_tag_popup = {};
 
         $scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
             if (newValue && newValue.message) {

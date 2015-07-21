@@ -2,8 +2,6 @@ var app = angular.module('budgetApp');
 
 (function () {
 
-    // ===========================display controller===========================
-
     app.controller('AccountsController', function ($scope, $http, AccountsFactory) {
 
         /**

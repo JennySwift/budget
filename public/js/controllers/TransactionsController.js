@@ -5,14 +5,19 @@
         .controller('TransactionsController', transactions);
 
     function transactions ($scope, $http, TransactionsFactory, FilterFactory, BudgetsFactory) {
+        /**
+         * Scope properties
+         */
+
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
-
         $scope.transactions = filter_response.transactions;
-
         $scope.tags = tags_response;
-
         $scope.accounts = accounts_response;
+
+        /**
+         * Watches
+         */
 
         $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
             if (newValue) {
