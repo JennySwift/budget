@@ -17,7 +17,8 @@
 
         $scope.show = {
             basic_totals: true,
-            budget_totals: true
+            budget_totals: true,
+            popups: {}
         };
         $scope.autocomplete = {};
 
@@ -124,7 +125,7 @@
 
         $scope.updateCSDSetup = function ($tag) {
             $scope.edit_CSD = $tag;
-            $scope.show.edit_CSD = true;
+            $scope.show.popups.edit_CSD = true;
         };
 
         $scope.updateCSD = function () {
@@ -132,7 +133,7 @@
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
                     $scope.totals.budget = response.data.budget;
-                    $scope.show.edit_CSD = false;
+                    $scope.show.popups.edit_CSD = false;
                 })
                 .catch(function (response) {
                     FeedbackFactory.provideFeedback('There was an error');
@@ -201,6 +202,13 @@
         //            FeedbackFactory.provideFeedback('There was an error');
         //        });
         //};
+
+        $scope.closePopup = function ($event, $popup) {
+            var $target = $event.target;
+            if ($target.className === 'popup-outer') {
+                $scope.show.popups[$popup] = false;
+            }
+        };
     }
 
 })();

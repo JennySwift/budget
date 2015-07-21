@@ -35,18 +35,18 @@
             $scope.new_transaction.merchant = 'some merchant';
             $scope.new_transaction.description = 'some description';
             $scope.new_transaction.tags = [
-                {
-                    id: '1',
-                    name: 'insurance',
-                    //fixed_budget: '10.00',
-                    //flex_budget: null
-                },
-                {
-                    id: '2',
-                    name: 'petrol',
-                    //fixed_budget: null,
-                    //flex_budget: '5'
-                }
+                //{
+                //    id: '1',
+                //    name: 'insurance',
+                //    //fixed_budget: '10.00',
+                //    //flex_budget: null
+                //},
+                //{
+                //    id: '2',
+                //    name: 'petrol',
+                //    //fixed_budget: null,
+                //    //flex_budget: '5'
+                //}
             ];
         }
 
