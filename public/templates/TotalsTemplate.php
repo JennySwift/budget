@@ -26,7 +26,7 @@
 
             <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget before its CSD">
                 EFBBCSD:
-                <span class="badge">[[totals.budget.FLB.totals.spent_before_CSD]]</span>
+                <span class="badge">[[totals.budget.FB.totals.spent_before_CSD]]</span>
                 <span ng-if="totals.changes.EFBBCSD" class="changed">Changed: [[totals.changes.EFBBCSD]]</span>
             </li>
 

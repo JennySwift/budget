@@ -180,7 +180,6 @@ class BudgetService {
         $total_expense = $this->getTotalExpense();
         $balance = $total_income + $total_expense;
         $savings_total = Savings::getSavingsTotal();
-        $savings_balance = $balance - $savings_total;
 
         $totals = array(
             "credit" => number_format($total_income, 2),
@@ -188,7 +187,7 @@ class BudgetService {
             "balance" => number_format($balance, 2),
             "reconciled_sum" => number_format($this->getReconciledSum(), 2),
             "savings_total" => number_format($savings_total, 2),
-            "savings_balance" => number_format($savings_balance, 2),
+            "savings_balance" => number_format($balance - $savings_total, 2),
             "expense_without_budget_total" => number_format($this->getTotalExpenseWithoutBudget(), 2),
             "EFLB" => number_format($this->getTotalExpenseWithFLB(), 2)
         );
