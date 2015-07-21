@@ -1,5 +1,5 @@
 
-<div ng-show="show.popups.preferences" ng-click="closePopup($event, 'preferences')" id="" class="popup-outer">
+<div ng-controller="PreferencesController" ng-show="show.popups.preferences" ng-click="closePopup($event, 'preferences')" id="" class="popup-outer">
 
     <div class="popup-inner">
 
@@ -9,7 +9,7 @@
 
         <checkbox
             model="me.settings.clear_fields"
-            element="clear_fields">
+            id="clear-fields">
         </checkbox>
 
         <button ng-click="show.popups.preferences = false" class="close-popup btn btn-sm">close</button>

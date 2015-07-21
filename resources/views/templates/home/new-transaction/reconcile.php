@@ -21,7 +21,7 @@
 
     <checkbox
         model="new_transaction.reconciled"
-        element="new_transaction">
+        id="new-transaction-reconciled">
     </checkbox>
 
 </div>

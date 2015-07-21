@@ -9,22 +9,17 @@
         return {
             restrict: 'EA',
             scope: {
-                //"id": "@id",
                 "model": "=model",
-                //"element": "@element",
-                //"model": "@model"
+                "id": "@id"
             },
-            //scope: true,
             templateUrl: 'templates/CheckboxesTemplate.php',
             link: function($scope, elem, attrs) {
-                //$scope.model = attrs.model;
                 $scope.animateIn = attrs.animateIn || 'zoomIn';
                 $scope.animateOut = attrs.animateOut || 'zoomOut';
+                $scope.icon = $(elem).find('.label-icon');
 
                 $scope.toggleIcon = function () {
-                    var $input = $(elem).find('input');
-                    var $icon = $(elem).find('.label-icon');
-                    if ($($input).is(':checked')) {
+                    if (!$scope.model) {
                         //Input was checked and now it won't be
                         $scope.hideIcon();
                     }
@@ -35,18 +30,12 @@
                 };
 
                 $scope.hideIcon = function () {
-                    $scope.model = false;
-                    var $input = $(elem).find('input');
-                    var $icon = $(elem).find('.label-icon');
-                    $($icon).removeClass($scope.animateIn)
+                    $($scope.icon).removeClass($scope.animateIn)
                         .addClass($scope.animateOut);
                 };
 
                 $scope.showIcon = function () {
-                    $scope.model = true;
-                    var $input = $(elem).find('input');
-                    var $icon = $(elem).find('.label-icon');
-                    $($icon).css('display', 'flex')
+                    $($scope.icon).css('display', 'flex')
                         .removeClass($scope.animateOut)
                         .addClass($scope.animateIn);
                 };
@@ -56,22 +45,9 @@
                     $scope.showIcon();
                 }
 
-                //$scope.$watch('model', function (newValue, oldValue) {
-                //    $scope.toggleIcon();
-                //    console.log(elem);
-                //});
-
-
-                //$scope.showDropdown = function () {
-                //    if ($($content).hasClass($scope.animateIn)) {
-                //        $scope.hideDropdown();
-                //    }
-                //    else {
-                //        $($content).css('display', 'flex')
-                //            .removeClass($scope.animateOut)
-                //            .addClass($scope.animateIn);
-                //    }
-                //};
+                $scope.$watch('model', function (newValue, oldValue) {
+                    $scope.toggleIcon();
+                });
             }
         };
     }

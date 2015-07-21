@@ -13,6 +13,8 @@
 
         $scope.dropdown = {};
 
+        $scope.me = me;
+
         $scope.new_transaction = {
             total: '10',
             type: 'income',

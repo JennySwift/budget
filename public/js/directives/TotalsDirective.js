@@ -5,7 +5,7 @@
         .directive('totalsDirective', totals);
 
     /* @inject */
-    function totals(savings, totals, FilterFactory) {
+    function totals(SavingsFactory, TotalsFactory, FilterFactory) {
         return {
             restrict: 'EA',
             scope: {
@@ -168,7 +168,7 @@
                 });
 
                 $scope.addPercentageToSavingsAutomatically = function ($amount_to_add) {
-                    savings.addPercentageToSavingsAutomatically($amount_to_add)
+                    SavingsFactory.addPercentageToSavingsAutomatically($amount_to_add)
                         .then(function (response) {
                             $scope.totals.basic = response.data.basic;
                             $scope.totals.budget = response.data.budget;
@@ -186,7 +186,7 @@
                 //};
 
                 $scope.reverseAutomaticInsertIntoSavings = function ($amount_to_subtract) {
-                    savings.reverseAutomaticInsertIntoSavings($amount_to_subtract)
+                    SavingsFactory.reverseAutomaticInsertIntoSavings($amount_to_subtract)
                         .then(function (response) {
                             $scope.totals.basic = response.data.basic;
                             $scope.totals.budget = response.data.budget;
