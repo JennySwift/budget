@@ -59,7 +59,7 @@
             // modals
             color_picker: false,
             //components
-            new_transaction: false,
+            new_transaction: true,
             basic_totals: true,
             budget_totals: true,
             filter_totals: true,

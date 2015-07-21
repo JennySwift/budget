@@ -18,7 +18,6 @@
             templateUrl: 'templates/TransactionAutocompleteTemplate.php',
             link: function($scope, elem, attrs) {
                 $scope.results = {};
-                $scope.typing = '';
 
                 /**
                  * Hide the dropdown and clear the input field
@@ -114,8 +113,8 @@
                         success(function(response, status, headers, config) {
                             //$scope.dealWithResults(response);
                             $scope.results = response;
-                            $scope.results = autocomplete.transferTransactions($scope.results);
-                            $scope.results = autocomplete.removeDuplicates($scope.results);
+                            $scope.results = AutocompleteFactory.transferTransactions($scope.results);
+                            $scope.results = AutocompleteFactory.removeDuplicates($scope.results);
                         }).
                         error(function(data, status, headers, config) {
                             console.log("There was an error");

@@ -15,32 +15,40 @@
 
         $scope.me = me;
 
+        $scope.env = env;
+
         $scope.new_transaction = {
-            total: '10',
             type: 'income',
             account: 1,
-            description: 'test clear fields',
-            merchant: 'merchant',
             date: {
                 entered: 'today'
             },
             reconciled: false,
             multiple_budgets: false,
-            tags: [
+        };
+
+        /**
+         * Fill in the new transaction fields if development environment
+         */
+        if ($scope.env === 'local') {
+            $scope.new_transaction.total = 10;
+            $scope.new_transaction.merchant = 'some merchant';
+            $scope.new_transaction.description = 'some description';
+            $scope.new_transaction.tags = [
                 {
-                	id: '1',
-                	name: 'insurance',
-                	//fixed_budget: '10.00',
-                	//flex_budget: null
+                    id: '1',
+                    name: 'insurance',
+                    //fixed_budget: '10.00',
+                    //flex_budget: null
                 },
                 {
-                	id: '2',
-                	name: 'petrol',
-                	//fixed_budget: null,
-                	//flex_budget: '5'
+                    id: '2',
+                    name: 'petrol',
+                    //fixed_budget: null,
+                    //flex_budget: '5'
                 }
-            ]
-        };
+            ];
+        }
 
         $scope.accounts = accounts_response;
         if ($scope.accounts[0]) {

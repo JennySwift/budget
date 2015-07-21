@@ -1,4 +1,3 @@
-
 <input
     ng-model="typing"
     ng-blur="hideAndClear()"

@@ -3,12 +3,14 @@
 use App\Models\Account;
 use App\Models\Tag;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function()
 {
-    $transaction = Transaction::with('tags')->find(1);
-    return $transaction;
+//    return App::environment();
+//    return app()->environment();
+    return app()->env;
 });
 
 //Route::get('/test', 'TotalsController@getBudgetTotals');
