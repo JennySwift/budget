@@ -77,10 +77,10 @@ class Tag extends Model
     public function getRemainingAttribute()
     {
         if ($this->budget_type === 'fixed') {
-            return $this->cumulative + $this->spent_after_SD + $this->get_received_after_SD;
+            return $this->cumulative + $this->spent_after_SD + $this->received_after_SD;
         }
         elseif ($this->budget_type === 'flex') {
-            return $this->calculated_budget + $this->spent + $this->received;
+            return $this->calculated_budget + $this->spent_after_SD + $this->received_after_SD;
         }
     }
 

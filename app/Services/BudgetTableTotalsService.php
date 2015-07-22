@@ -3,6 +3,7 @@
 namespace App\Services;
 
 
+use App\Models\Total;
 use App\Repositories\Tags\TagsRepository;
 
 /**
@@ -27,6 +28,10 @@ class BudgetTableTotalsService {
 
         foreach ($tags as $tag) {
             $total += $tag->$string;
+        }
+
+        if ($type === 'flex') {
+            $total+= 100 - $total; //In other words, $total = 100 :)
         }
 
         return $total;
@@ -117,6 +122,10 @@ class BudgetTableTotalsService {
             $total += $tag->remaining;
         }
 
+        if ($type === 'flex') {
+            $total+= $this->getUnallocatedFLB()['remaining'];
+        }
+
         return $total;
     }
 
@@ -134,6 +143,8 @@ class BudgetTableTotalsService {
             $total += $tag->calculated_budget;
         }
 
+        $total+= $this->getUnallocatedFLB()['calculated_budget'];
+
         return $total;
     }
 
@@ -143,14 +154,16 @@ class BudgetTableTotalsService {
      * @param $RBWEFLB
      * @return array
      */
-    public function getUnallocatedFLB($FLB_info, $RBWEFLB)
+    public function getUnallocatedFLB()
     {
-        $total = $FLB_info['totals']['budget'];
-        $budget = 100 - $total;
+        $total = new Total();
+        $RBWEFLB = $total->getRBWEFLB();
+        $unallocated_budget = 100 - $this->getBudget('flex');
+
         return [
-            'budget' => $budget,
-            'calculated_budget' => $RBWEFLB / 100 * $budget,
-            'remaining' => $RBWEFLB / 100 * $budget
+            'budget' => $unallocated_budget,
+            'calculated_budget' => $RBWEFLB / 100 * $unallocated_budget,
+            'remaining' => $RBWEFLB / 100 * $unallocated_budget
         ];
     }
 }

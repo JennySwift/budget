@@ -17,18 +17,10 @@ class Total extends Model {
     {
         $FB_info = $this->getTagsAndTotalsForSpecifiedBudget('fixed');
         $FLB_info = $this->getTagsAndTotalsForSpecifiedBudget('flex');
+        $budgetTableTotalsService = new BudgetTableTotalsService();
 
-//        //Get the unallocated values for flex budget
-//        $FLB_info['unallocated'] = $this->budgetTableTotalsService->getUnallocatedFLB($FLB_info, $RBWEFLB);
-//
-//        //Add the unallocated budget to the total budget so it equals 100%
-//        $FLB_info['totals']['budget']+= $FLB_info['unallocated']['budget'];
-//
-//        //Add the unallocated calculated budget to the total budget
-//        $total_calculated_budget+= $FLB_info['unallocated']['calculated_budget'];
-//
-//        //Add the unallocated remaining budget to the total budget
-//        $total_remaining+= $FLB_info['unallocated']['remaining'];
+        //Get the unallocated values for flex budget
+        $FLB_info['unallocated'] = $budgetTableTotalsService->getUnallocatedFLB();
 
         return [
             "FB" => $FB_info,
@@ -78,12 +70,12 @@ class Total extends Model {
             "budget" => $budgetTableTotalsService->getBudget($type),
             "spent_after_SD" => $budgetTableTotalsService->getSpentAfterSD($type),
             "received_after_SD" => $budgetTableTotalsService->getReceivedAfterSD($type),
-            "spent_before_SD" => $budgetTableTotalsService->getSpentBeforeSD($type)
+            "spent_before_SD" => $budgetTableTotalsService->getSpentBeforeSD($type),
+            "remaining" => $budgetTableTotalsService->getRemainingBudget($type)
         ];
 
         if ($type === 'fixed') {
             $totals['cumulative'] = $budgetTableTotalsService->getCumulativeBudget();
-            $totals['remaining'] = $budgetTableTotalsService->getRemainingBudget($type);
         }
 
         else {
