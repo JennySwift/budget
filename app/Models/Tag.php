@@ -83,7 +83,10 @@ class Tag extends Model
     }
 
     /**
-     *
+     * For tags with a flex budget.
+     * This figure is dependant on what's left after fixed budget, savings,
+     * and perhaps other figures are taken care of.
+     * It is a percentage of what is left, hence the name 'flex' budget.
      * @return float
      */
     public function getCalculatedBudgetAttribute()

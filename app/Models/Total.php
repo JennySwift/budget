@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Total extends Model {
 
     /**
-     * This is the method that calls the other total stuff
+     * Get all the data for the fixed and flex budget tables,
+     * as well as RB and RBWEFLB.
+     * This is the method that calls the other total stuff.
      * @return array
      */
     public function getFixedAndFlexData()
     {
-        $FB_info = $this->getTagsAndTotals('fixed');
-        $FLB_info = $this->getTagsAndTotals('flex');
+        $FB_info = $this->getTagsAndTotalsForSpecifiedBudget('fixed');
+        $FLB_info = $this->getTagsAndTotalsForSpecifiedBudget('flex');
 
 //        //Get the unallocated values for flex budget
 //        $FLB_info['unallocated'] = $this->budgetTableTotalsService->getUnallocatedFLB($FLB_info, $RBWEFLB);
@@ -43,11 +45,11 @@ class Total extends Model {
      * @param $type
      * @return array
      */
-    public function getTagsAndTotals($type)
+    public function getTagsAndTotalsForSpecifiedBudget($type)
     {
         return [
-            'tags' => $this->getTags($type),
-            'totals' => $this->getTotals($type)
+            'tags' => $this->getTagsForSpecifiedBudget($type),
+            'totals' => $this->getTotalsForSpecifiedBudget($type)
         ];
     }
 
@@ -56,7 +58,7 @@ class Total extends Model {
      * @param $type
      * @return mixed
      */
-    public function getTags($type)
+    public function getTagsForSpecifiedBudget($type)
     {
         $tagsRepository = new TagsRepository();
         return $tagsRepository->getTagsWithSpecifiedBudget($type);
@@ -68,7 +70,7 @@ class Total extends Model {
      * @param $type
      * @return array
      */
-    public function getTotals($type)
+    public function getTotalsForSpecifiedBudget($type)
     {
         $budgetTableTotalsService = new BudgetTableTotalsService();
 
@@ -89,6 +91,7 @@ class Total extends Model {
 
     /**
      * Get the user's remaining balance (RB), with EFLB in the formula.
+     * Still figuring out the formula and if this is the figure we want.
      * @return int
      */
     public function getRBWithEFLB()
@@ -110,7 +113,8 @@ class Total extends Model {
     }
 
     /**
-     * Get remaining balance without the expenses with flex budget
+     * Get remaining balance without the expenses with flex budget.
+     * Still figuring out the formula and if this is the figure we want.
      * @return int
      */
     public function getRBWEFLB()
