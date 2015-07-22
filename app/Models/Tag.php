@@ -20,7 +20,7 @@ class Tag extends Model
     /**
      * @var array
      */
-    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining'];
+    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining', 'cumulative'];
 
     /**
      * @var
@@ -94,7 +94,7 @@ class Tag extends Model
     public function getRemainingAttribute()
     {
         if ($this->budget_type === 'fixed') {
-            return $this->getCumulative() + $this->getSpentAfterSD() + $this->getReceivedAfterSD();
+            return $this->cumulative + $this->getSpentAfterSD() + $this->getReceivedAfterSD();
         }
         elseif ($this->budget_type === 'flex') {
             return $this->calculated_budget + $this->spent + $this->received;
@@ -125,9 +125,11 @@ class Tag extends Model
      *
      * @return mixed
      */
-    public function getCumulative()
+    public function getCumulativeAttribute()
     {
-        return $this->fixed_budget * $this->CMN;
+        if ($this->budget_type === 'fixed') {
+            return $this->fixed_budget * $this->CMN;
+        }
     }
 
     /**

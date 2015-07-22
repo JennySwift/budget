@@ -64,7 +64,8 @@ class BudgetService {
     }
 
     /**
-     * @param $user_id
+     * Get tags with $type budget (with each tag's totals), i.e, $tags.
+     * Get totals for the totals row in the $type budget table, i.e, $totals.
      * @param $type
      * @return array
      */
@@ -80,7 +81,7 @@ class BudgetService {
         ];
 
         if ($type === 'fixed') {
-            $totals['cumulative_budget'] = $this->budgetTableTotalsService->getCumulativeBudget();
+            $totals['cumulative'] = $this->budgetTableTotalsService->getCumulativeBudget();
             $totals['remaining'] = $this->budgetTableTotalsService->getRemainingBudget($type);
         }
 

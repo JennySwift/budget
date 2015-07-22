@@ -100,7 +100,7 @@ class BudgetTableTotalsService {
         $total = 0;
 
         foreach ($tags as $tag) {
-            $total += $tag->getCumulative();
+            $total += $tag->cumulative;
         }
 
         return $total;

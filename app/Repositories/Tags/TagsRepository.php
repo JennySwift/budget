@@ -1,15 +1,33 @@
 <?php namespace App\Repositories\Tags;
 
 use App\Models\Tag;
+use App\Services\BudgetService;
 use Auth;
 
+/**
+ * Class TagsRepository
+ * @package App\Repositories\Tags
+ */
 class TagsRepository {
+    /**
+     * @var
+     */
+    protected $budgetService;
+
+//    This errored again.
+    /**
+     * @param BudgetService $budgetService
+     */
+    public function __construct(BudgetService $budgetService) {
+        $this->budgetService = $budgetService;
+    }
+
     /**
      *
      * @param $user_id
      * @return mixed
      */
-    public static function getTagsWithFixedBudget()
+    public function getTagsWithFixedBudget()
     {
         $tags = Tag::where('user_id', Auth::user()->id)
             ->where('flex_budget', null)
@@ -25,12 +43,16 @@ class TagsRepository {
      * @param $user_id
      * @return mixed
      */
-    public static function getTagsWithFlexBudget()
+    public function getTagsWithFlexBudget()
     {
         $tags = Tag::where('user_id', Auth::user()->id)
             ->whereNotNull('flex_budget')
             ->orderBy('name', 'asc')
             ->get();
+
+        foreach ($tags as $tag) {
+            $tag->getCalculatedBudget($this->budgetService);
+        }
 
         return $tags;
     }
@@ -46,6 +68,11 @@ class TagsRepository {
             ->get();
     }
 
+    /**
+     *
+     * @param $type
+     * @return mixed
+     */
     public function getTagsWithSpecifiedBudget($type)
     {
         if ($type === 'fixed') {

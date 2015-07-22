@@ -3,14 +3,15 @@
 use App\Models\Account;
 use App\Models\Tag;
 use App\Models\Transaction;
+use App\Repositories\Tags\TagsRepository;
 use App\Services\BudgetService;
 use App\Services\TotalsService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function(TotalsService $totalsService, BudgetService $budgetService)
+Route::get('/test', function(TotalsService $totalsService, BudgetService $budgetService, TagsRepository $tagsRepository)
 {
-    return $totalsService->getBasicAndBudgetTotals($budgetService);
+    return $budgetService->getBudgetInfo('flex');
 });
 
 
