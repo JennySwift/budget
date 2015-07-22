@@ -131,7 +131,8 @@ class TransactionSeeder extends Seeder {
 
 				$transaction = $this->insertTransaction($type, $total, $account_id);
 
-                $number = $faker->numberBetween(1,3);
+//                $number = $faker->numberBetween(1,3);
+                $number = 1;
                 $random_tag_ids = $faker->randomElements($tag_ids, $number);
 
                 foreach ($random_tag_ids as $tag_id) {

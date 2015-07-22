@@ -107,7 +107,7 @@
                     <td class="amount right">[[tag.fixed_budget]]</td>
             
                     <td class="CSD">
-                        <span>[[tag.starting_date]]</span>
+                        <span>[[tag.formatted_starting_date]]</span>
                         <button ng-click="updateCSDSetup(tag)" class="edit">edit</button>
                     </td>
             
@@ -187,7 +187,7 @@
                     <td class="budget-tag">[[tag.name]]</td>
                     <td class="amount">[[tag.calculated_budget]]</td>
                     <td class="CSD">
-                        <span>[[tag.starting_date]]</span>
+                        <span>[[tag.formatted_starting_date]]</span>
                         <button ng-click="updateCSDSetup(tag)" class="edit">edit</button>
                     </td>
                     <td class="month-number">[[tag.CMN]]</td>

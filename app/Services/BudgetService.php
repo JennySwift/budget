@@ -28,6 +28,95 @@ class BudgetService {
         $this->tagsRepository = $tagsRepository;
     }
 
+    public function getTagsWithSpecifiedBudget($type)
+    {
+        if ($type === 'fixed') {
+            $tags = $this->tagsRepository->getTagsWithFixedBudget();
+        }
+        elseif ($type === 'flex') {
+            $tags = $this->tagsRepository->getTagsWithFlexBudget();
+        }
+        return $tags;
+    }
+
+    public function getTotalBudget($tags, $type)
+    {
+        $total = 0;
+        $string = $type . '_budget';
+
+        foreach ($tags as $tag) {
+            $total += $tag->$string;
+        }
+
+        return $total;
+    }
+
+    /**
+     * Get total expenses, either fixed or flex, after starting date
+     * @return int
+     */
+    public function getTotalEACSD($tags)
+    {
+        $total = 0;
+
+        foreach ($tags as $tag) {
+            $total += $tag->getTotalSpentAfterCSD();
+        }
+
+        return $total;
+    }
+
+    public function getEBCSD($tags)
+    {
+        $total = 0;
+
+        foreach ($tags as $tag) {
+            $total += $tag->getTotalSpentBeforeCSD();
+        }
+
+        return $total;
+    }
+
+    /**
+     * Get total received on after CSD, either fixed or flex
+     * @return int
+     */
+    public function getIACSD($tags)
+    {
+        $total = 0;
+
+        foreach ($tags as $tag) {
+            $total += $tag->getTotalReceivedAfterCSD();
+        }
+
+        return $total;
+    }
+
+    public function getTotalCumulativeBudget()
+    {
+        $tags = $this->getTagsWithSpecifiedBudget('fixed');
+        $total = 0;
+
+        foreach ($tags as $tag) {
+            $total += $tag->getCumulativeBudget();
+        }
+
+        return $total;
+    }
+
+    public function getTotalRemainingBudget()
+    {
+        $tags = $this->getTagsWithSpecifiedBudget('fixed');
+        $total = 0;
+
+        foreach ($tags as $tag) {
+            $total += $tag->remaining;
+        }
+
+        return $total;
+    }
+
+
     /**
      *
      * @param $user_id
@@ -36,70 +125,18 @@ class BudgetService {
      */
     public function getBudgetInfo($type)
     {
-        // This logic could be on the Tag model class
-//        $type = ucwords(strtolower($type)); // Fixed / Flex
-//        $method = "getTagsWith{$type}Budget";
-//        $tags = call_user_func('Tag::' . $method);
-
-        if ($type === 'fixed') {
-            $tags = $this->tagsRepository->getTagsWithFixedBudget();
-        }
-        elseif ($type === 'flex') {
-            $tags = $this->tagsRepository->getTagsWithFlexBudget();
-        }
-
-        $total_budget = 0;
-        $total_spent = 0;
-        $total_received = 0;
-        $total_remaining = 0;
-        $total_spent_before_CSD = 0;
-        $total_cumulative_budget = 0;
-
-        foreach ($tags as $tag) {
-            $CMN = $tag->getCMN();
-            $spent = $tag->getTotalSpent();
-            $received = $tag->getTotalReceived();
-            $spent_before_CSD = $tag->getTotalSpentBeforeCSD();
-
-            if ($type === 'fixed') {
-                $budget = $tag->fixed_budget;
-                $cumulative_budget = $budget * $CMN;
-                $remaining = $cumulative_budget + $spent + $received;
-                $total_remaining += $remaining;
-                $total_cumulative_budget += $cumulative_budget;
-            }
-            elseif ($type === 'flex') {
-                $budget = $tag->flex_budget;
-            }
-
-            $total_budget += $budget;
-            $total_spent += $spent;
-            $total_received += $received;
-            $total_spent_before_CSD += $spent_before_CSD;
-
-            if ($tag->starting_date) {
-                $tag->starting_date = Transaction::convertDate($tag->starting_date, 'user');
-            }
-
-            //formatting
-            $tag->spent_before_CSD = number_format($tag->spent_before_CSD, 2);
-
-            if ($type === 'fixed') {
-                $tag->cumulative_budget = number_format($cumulative_budget, 2);
-                $tag->remaining = number_format($remaining, 2);
-            }
-        }
+        $tags = $this->getTagsWithSpecifiedBudget($type);
 
         $totals = [
-            "budget" => $total_budget,
-            "spent" => $total_spent,
-            "received" => $total_received,
-            "spent_before_CSD" => $total_spent_before_CSD
+            "budget" => $this->getTotalBudget($tags, $type),
+            "spent" => $this->getTotalEACSD($tags),
+            "received" => $this->getIACSD($tags),
+            "spent_before_CSD" => $this->getEBCSD($tags)
         ];
 
         if ($type === 'fixed') {
-            $totals['cumulative_budget'] = $total_cumulative_budget;
-            $totals['remaining'] = $total_remaining;
+            $totals['cumulative_budget'] = $this->getTotalCumulativeBudget();
+            $totals['remaining'] = $this->getTotalRemainingBudget();
         }
 
         return [
@@ -115,9 +152,7 @@ class BudgetService {
     public function getBudgetTotals()
     {
         $FB_info = $this->getBudgetInfo('fixed');
-//        return $FB_info;
         $FLB_info = $this->getBudgetInfo('flex');
-//        return $FLB_info;
         $RBWEFLB = $this->getRBWEFLB();
 
         //adding the calculated budget for each tag.
@@ -133,6 +168,8 @@ class BudgetService {
             $total_calculated_budget += $calculated_budget;
 
             $remaining = $calculated_budget + $tag->spent + $tag->received;
+
+            return $remaining;
             $total_remaining += $remaining;
 
             $tag->calculated_budget = number_format($calculated_budget, 2);
@@ -165,7 +202,7 @@ class BudgetService {
         return [
             "FB" => $FB_info,
             "FLB" => $FLB_info,
-            "RB" => number_format($this->getRB(), 2),
+            "RB" => number_format($this->getRBWithEFLB(), 2),
             "RBWEFLB" => number_format($this->getRBWEFLB(), 2)
         ];
     }
@@ -218,10 +255,10 @@ class BudgetService {
     }
 
     /**
-     * Get the user's remaining balance (RB)
+     * Get the user's remaining balance (RB), with EFLB in the formula.
      * @return int
      */
-    public function getRB()
+    public function getRBWithEFLB()
     {
         $FB_info = $this->getBudgetInfo('fixed');
         $FLB_info = $this->getBudgetInfo('flex');
@@ -247,7 +284,7 @@ class BudgetService {
      */
     private function getRBWEFLB()
     {
-        return $this->getRB() - $this->getTotalExpenseWithFLB();
+        return $this->getRBWithEFLB() - $this->getTotalExpenseWithFLB();
     }
 
     /**

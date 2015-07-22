@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function(BudgetService $budgetService)
 {
-    return $budgetService->getRB();
+    return $budgetService->getBasicAndBudgetTotals();
 });
 
 //Route::get('/test', 'TotalsController@getBudgetTotals');

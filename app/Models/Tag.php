@@ -19,7 +19,7 @@ class Tag extends Model
     /**
      * @var array
      */
-    protected $appends = ['path', 'budget_type'];
+    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining'];
 
     /**
      *
@@ -57,6 +57,39 @@ class Tag extends Model
         return route('tags.show', $this->id);
     }
 
+    public function getFormattedStartingDateAttribute()
+    {
+        if ($this->starting_date) {
+            return Transaction::convertDate($this->starting_date, 'user');
+        }
+    }
+
+    public function getCumulativeBudget()
+    {
+        return $this->fixed_budget * $this->CMN;
+    }
+
+    /**
+     * Get the remaining budget for tags with fixed budget
+     * @return mixed
+     */
+    public function getRemainingAttribute()
+    {
+        if ($this->budget_type === 'fixed') {
+            return $this->getCumulativeBudget() + $this->getTotalSpentAfterCSD() + $this->getTotalReceivedAfterCSD();
+        }
+    }
+
+    /**
+     * Get the remaining budget for tags with flex budget
+     * @return mixed
+     */
+//    public function getRemainingBudget()
+//    {
+//        return $this->getCumulativeBudget() + $this->getTotalSpentAfterCSD() + $this->getTotalReceivedAfterCSD();
+//    }
+
+
     /**
      *
      * @return mixed
@@ -89,7 +122,7 @@ class Tag extends Model
      * @param $CSD
      * @return string
      */
-    public function getCMN()
+    public function getCMNAttribute()
     {
         if ($this->starting_date) {
             $diff = Carbon::now()->diff(Carbon::createFromFormat('Y-m-d', $this->starting_date));
@@ -100,7 +133,7 @@ class Tag extends Model
             $CMN = 1;
         }
 
-        return $this->CMN = $CMN;
+        return $CMN;
     }
 
     /**
@@ -145,7 +178,7 @@ class Tag extends Model
      * @param $starting_date
      * @return mixed
      */
-    public function getTotalSpent()
+    public function getTotalSpentAfterCSD()
     {
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
@@ -169,7 +202,7 @@ class Tag extends Model
      * @param $starting_date
      * @return mixed
      */
-    public function getTotalReceived()
+    public function getTotalReceivedAfterCSD()
     {
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
