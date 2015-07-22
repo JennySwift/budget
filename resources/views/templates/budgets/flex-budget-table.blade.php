@@ -22,8 +22,8 @@
             <button ng-click="updateCSDSetup(tag)" class="edit">edit</button>
         </td>
         <td class="month-number">[[tag.CMN]]</td>
-        <td class="spent">[[tag.spent]]</td>
-        <td class="received">[[tag.received]]</td>
+        <td class="spent">[[tag.spent_after_SD]]</td>
+        <td class="received">[[tag.received_after_SD]]</td>
         <td class="remaining">[[tag.remaining]]</td>
         <td class="percent">[[tag.flex_budget]]</td>
         <td ng-click="removeBudget(tag)" class="pointer">x</td>
@@ -46,8 +46,8 @@
         <td>[[totals.budget.FLB.totals.calculated_budget]]</td>
         <td>-</td>
         <td>-</td>
-        <td>[[totals.budget.FLB.totals.spent]]</td>
-        <td>[[totals.budget.FLB.totals.received]]</td>
+        <td>[[totals.budget.FLB.totals.spent_after_SD]]</td>
+        <td>[[totals.budget.FLB.totals.received_after_SD]]</td>
         <td>[[totals.budget.FLB.totals.remaining]]</td>
         <td>[[totals.budget.FLB.totals.budget]]</td>
         <td>-</td>

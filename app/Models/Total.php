@@ -76,14 +76,18 @@ class Total extends Model {
 
         $totals = [
             "budget" => $budgetTableTotalsService->getBudget($type),
-            "spent" => $budgetTableTotalsService->getSpentAfterSD($type),
-            "received" => $budgetTableTotalsService->getReceivedAfterSD($type),
+            "spent_after_SD" => $budgetTableTotalsService->getSpentAfterSD($type),
+            "received_after_SD" => $budgetTableTotalsService->getReceivedAfterSD($type),
             "spent_before_SD" => $budgetTableTotalsService->getSpentBeforeSD($type)
         ];
 
         if ($type === 'fixed') {
             $totals['cumulative'] = $budgetTableTotalsService->getCumulativeBudget();
             $totals['remaining'] = $budgetTableTotalsService->getRemainingBudget($type);
+        }
+
+        else {
+            $totals['calculated_budget'] = $budgetTableTotalsService->getCalculatedBudget();
         }
 
         return $totals;
@@ -119,8 +123,8 @@ class Total extends Model {
      */
     public function getRBWEFLB()
     {
-        $EFLB = 0;
-        return $this->getRBWithEFLB() - $EFLB;
+        $budgetTableTotalsService = new BudgetTableTotalsService();
+        return $this->getRBWithEFLB() - $budgetTableTotalsService->getSpentAfterSD('flex');
     }
 
 

@@ -35,10 +35,10 @@
         </td>
 
         <td class="spent">
-            <div>[[tag.spent]]</div>
+            <div>[[tag.spent_after_SD]]</div>
         </td>
 
-        <td class="received">[[tag.received]]</td>
+        <td class="received">[[tag.received_after_SD]]</td>
 
         <td class="remaining">[[tag.remaining]]</td>
 
@@ -54,8 +54,8 @@
         <td>-</td>
         <td>[[totals.budget.FB.totals.cumulative]]</td>
         <td>[[totals.budget.FB.totals.spent_before_SD]]</td>
-        <td>[[totals.budget.FB.totals.spent]]</td>
-        <td>[[totals.budget.FB.totals.received]]</td>
+        <td>[[totals.budget.FB.totals.spent_after_SD]]</td>
+        <td>[[totals.budget.FB.totals.received_after_SD]]</td>
         <td>[[totals.budget.FB.totals.remaining]]</td>
         <td>-</td>
     </tr>

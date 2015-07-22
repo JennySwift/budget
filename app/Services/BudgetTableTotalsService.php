@@ -44,7 +44,7 @@ class BudgetTableTotalsService {
         $total = 0;
 
         foreach ($tags as $tag) {
-            $total += $tag->getSpentAfterSD();
+            $total += $tag->spent_after_SD;
         }
 
         return $total;
@@ -80,7 +80,7 @@ class BudgetTableTotalsService {
         $total = 0;
 
         foreach ($tags as $tag) {
-            $total += $tag->getReceivedAfterSD();
+            $total += $tag->received_after_SD;
         }
 
         return $total;
@@ -115,6 +115,23 @@ class BudgetTableTotalsService {
 
         foreach ($tags as $tag) {
             $total += $tag->remaining;
+        }
+
+        return $total;
+    }
+
+    /**
+     * For the total A column in the flex budget table
+     * @return int
+     */
+    public function getCalculatedBudget()
+    {
+        $tagsRepository = new TagsRepository();
+        $tags = $tagsRepository->getTagsWithSpecifiedBudget('flex');
+        $total = 0;
+
+        foreach ($tags as $tag) {
+            $total += $tag->calculated_budget;
         }
 
         return $total;

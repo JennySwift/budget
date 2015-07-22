@@ -94,13 +94,13 @@
 
             <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a flex budget">
                 EFLBASD:
-                <span class="badge">[[totals.budget.FLB.totals.spent]]</span>
+                <span class="badge">[[totals.budget.FLB.totals.spent_after_SD]]</span>
                 <span ng-if="totals.changes.EFLB" class="changed">Changed: [[totals.changes.EFLB]]</span>
             </li>
 
             <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget after its starting date">
                 EFBASD:
-                <span class="badge">[[totals.budget.FB.totals.spent]]</span>
+                <span class="badge">[[totals.budget.FB.totals.spent_after_SD]]</span>
                 <span ng-if="totals.changes.EFBASD" class="changed">Changed: [[totals.changes.EFBASD]]</span>
             </li>
 

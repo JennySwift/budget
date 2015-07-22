@@ -10,12 +10,18 @@ use App\Services\TotalsService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function(TotalsService $totalsService, BudgetTableTotalsService $budgetTableTotalsService, TagsRepository $tagsRepository)
+Route::get('/test', function()
 {
     $total = new Total();
-    return $total->getBudgetInfo('fixed');
+    return $total->getTagsAndTotalsForSpecifiedBudget('flex');
 });
 
+//Route::get('/test', function()
+//{
+//    $tag = Tag::first();
+//    //dd($tag);
+//    return $tag->spent_before_SD;
+//});
 
 //Route::get('/test', 'TotalsController@getFixedAndFlexData');
 

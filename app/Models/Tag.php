@@ -18,8 +18,10 @@ class Tag extends Model
 
     /**
      * @var array
+     * @VP: Which is better, putting these attributes here when I don't need them all the time,
+     * or looping through all the tags to add the attributes to each tag when I need them?
      */
-    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining', 'cumulative', 'calculated_budget', 'spent_before_SD'];
+    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining', 'cumulative', 'calculated_budget', 'spent_before_SD', 'spent_after_SD', 'received_after_SD'];
 
     /**
      *
@@ -75,7 +77,7 @@ class Tag extends Model
     public function getRemainingAttribute()
     {
         if ($this->budget_type === 'fixed') {
-            return $this->cumulative + $this->getSpentAfterSD() + $this->getReceivedAfterSD();
+            return $this->cumulative + $this->spent_after_SD + $this->get_received_after_SD;
         }
         elseif ($this->budget_type === 'flex') {
             return $this->calculated_budget + $this->spent + $this->received;
@@ -183,7 +185,7 @@ class Tag extends Model
      * @param $starting_date
      * @return mixed
      */
-    public function getSpentAfterSD()
+    public function getSpentAfterSDAttribute()
     {
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
@@ -198,7 +200,7 @@ class Tag extends Model
             ->where('transactions.type', 'expense')
             ->sum('calculated_allocation');
 
-        return $this->spent = $total;
+        return $total;
     }
 
     /**
@@ -207,7 +209,7 @@ class Tag extends Model
      * @param $starting_date
      * @return mixed
      */
-    public function getReceivedAfterSD()
+    public function getReceivedAfterSDAttribute()
     {
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
