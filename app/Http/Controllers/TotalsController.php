@@ -2,7 +2,6 @@
 
 use App\Http\Requests;
 use App\Models\Transaction;
-use App\Services\BudgetService;
 use App\Services\GreetingService;
 use App\Services\TotalsService;
 use Illuminate\Http\Request;
@@ -31,34 +30,7 @@ class TotalsController extends Controller
     }
 
     /**
-     * @VP:
-     * How do I access my BudgetService from routes.php so I don't need to create these methods?
-     */
-
-
-    /**
      *
-     * @param BudgetService $budgetService
-     * @return array
-     */
-    public function getBasicTotals()
-    {
-        return $this->totalsService->getBasicTotals();
-    }
-
-    /**
-     *
-     * @param BudgetService $budgetService
-     * @return array
-     */
-    public function getBudgetTotals()
-    {
-        return $this->totalsService->getBudgetTotals();
-    }
-
-    /**
-     *
-     * @param BudgetService $budgetService
      * @return array
      */
     public function getBasicAndBudgetTotals()

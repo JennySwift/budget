@@ -5,7 +5,6 @@ use App\Models\Budget;
 use App\Models\Tag;
 use App\Models\Transaction;
 use App\Repositories\Tags\TagsRepository;
-use App\Services\BudgetService;
 use App\Services\TotalsService;
 use Auth;
 use DB;
@@ -34,12 +33,12 @@ class BudgetsController extends Controller
      *
      * @return Response
      */
-    public function index(BudgetService $budgetService, TagsRepository $tagsRepository, TotalsService $totalsService)
+    public function index(TagsRepository $tagsRepository, TotalsService $totalsService)
     {
         JavaScript::put([
             'me' => Auth::user(),
             'tags_response' => $tagsRepository->getTags(),
-            'totals_response' => $totalsService->getBasicAndBudgetTotals($budgetService),
+            'totals_response' => $totalsService->getBasicAndBudgetTotals(),
         ]);
 
         return view('budgets');

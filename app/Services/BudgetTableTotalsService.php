@@ -13,18 +13,6 @@ use App\Repositories\Tags\TagsRepository;
 class BudgetTableTotalsService {
 
     /**
-     * @var TagsRepository
-     */
-    protected $tagsRepository;
-
-    /**
-     * @param TagsRepository $tagsRepository
-     */
-//    public function __construct()
-//    {
-//        $this->tagsRepository = new TagsRepository();
-//    }
-    /**
      * For the total A column in either the fixed or flex budget table.
      * @param $tags
      * @param $type

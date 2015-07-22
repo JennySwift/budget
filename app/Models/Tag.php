@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
 use App\Repositories\Tags\TagsRepository;
-use App\Services\BudgetService;
 use App\Services\BudgetTableTotalsService;
 use App\Services\TotalsService;
 use Auth;
@@ -24,24 +23,6 @@ class Tag extends Model
      * @var array
      */
     protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining', 'cumulative', 'calculated_budget'];
-
-    /**
-     * @var
-     */
-    //    protected $budgetService;
-
-    /**
-     * The following caused this error:
-     * Argument 1 passed to App\Models\Tag::__construct() must be an
-     * instance of App\Services\BudgetService, none given
-     */
-
-    /**
-     * @param BudgetService $budgetService
-     */
-//    public function __construct(BudgetService $budgetService) {
-//        return $this->budgetService = $budgetService;
-//    }
 
     /**
      *
@@ -91,7 +72,7 @@ class Tag extends Model
     }
 
     /**
-     * Get the remaining budget for tags with fixed budget
+     * Get the remaining budget for tags with fixed or flex budget
      * @return mixed
      */
     public function getRemainingAttribute()
@@ -112,19 +93,9 @@ class Tag extends Model
     {
         $total = new Total();
         if ($this->budget_type === 'flex') {
-//            return 5;
             return $this->calculated_budget = $total->getRBWEFLB() / 100 * $this->flex_budget;
         }
     }
-
-    /**
-     * Get the remaining budget for tags with flex budget
-     * @return mixed
-     */
-//    public function getRemainingBudget()
-//    {
-//        return $this->getCumulativeBudget() + $this->getTotalSpentAfterCSD() + $this->getTotalReceivedAfterCSD();
-//    }
 
     /**
      *

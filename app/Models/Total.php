@@ -1,31 +1,11 @@
 <?php namespace App\Models;
 
 use App\Repositories\Tags\TagsRepository;
-use App\Services\BudgetService;
 use App\Services\BudgetTableTotalsService;
 use App\Services\TotalsService;
 use Illuminate\Database\Eloquent\Model;
 
 class Total extends Model {
-
-    /**
-     * @var TagsRepository
-     */
-//    protected $tagsRepository;
-//
-//    protected $budgetTableTotalsService;
-//
-//    protected $totalsService;
-
-    /**
-     * @param TagsRepository $tagsRepository
-     */
-//    public function __construct(TagsRepository $tagsRepository, BudgetTableTotalsService $budgetTableTotalsService, TotalsService $totalsService)
-//    {
-//        $this->tagsRepository = $tagsRepository;
-//        $this->budgetTableTotalsService = $budgetTableTotalsService;
-//        $this->totalsService = $totalsService;
-//    }
 
     /**
      *
@@ -108,7 +88,6 @@ class Total extends Model {
             - Savings::getSavingsTotal();
 
         return $RB;
-//        return 0;
     }
 
     /**

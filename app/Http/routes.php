@@ -5,7 +5,6 @@ use App\Models\Tag;
 use App\Models\Total;
 use App\Models\Transaction;
 use App\Repositories\Tags\TagsRepository;
-use App\Services\BudgetService;
 use App\Services\BudgetTableTotalsService;
 use App\Services\TotalsService;
 use Illuminate\Support\Facades\App;

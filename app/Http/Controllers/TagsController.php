@@ -4,7 +4,6 @@ use App\Http\Requests;
 use App\Models\Tag;
 use App\Models\Total;
 use App\Repositories\Tags\TagsRepository;
-use App\Services\BudgetService;
 use App\Services\TotalsService;
 use Auth;
 use DB;
@@ -18,11 +17,6 @@ use JavaScript;
 class TagsController extends Controller
 {
     /**
-     * @var BudgetService
-     */
-    protected $budgetService;
-
-    /**
      * @var TagsRepository
      */
     protected $tagsRepository;
@@ -32,10 +26,9 @@ class TagsController extends Controller
      *
      * @return void
      */
-    public function __construct(BudgetService $budgetService, TagsRepository $tagsRepository)
+    public function __construct(TagsRepository $tagsRepository)
     {
         $this->middleware('auth');
-        $this->budgetService = $budgetService;
         $this->tagsRepository = $tagsRepository;
     }
 

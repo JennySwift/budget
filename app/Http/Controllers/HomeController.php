@@ -5,7 +5,6 @@ use App\Models\Color;
 use App\Models\Tag;
 use App\Repositories\Tags\TagsRepository;
 use App\Repositories\Transactions\TransactionsRepository;
-use App\Services\BudgetService;
 use App\Services\TotalsService;
 use Illuminate\Support\Facades\Auth;
 use JavaScript;
@@ -38,7 +37,7 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(TransactionsRepository $transactionsRepository, BudgetService $budgetService, TagsRepository $tagsRepository, TotalsService $totalsService)
+	public function index(TransactionsRepository $transactionsRepository, TagsRepository $tagsRepository, TotalsService $totalsService)
 	{
         $filter = [
             "budget" => "all",
@@ -59,7 +58,7 @@ class HomeController extends Controller {
         JavaScript::put([
             //It wouldn't work if I named it 'transactions', or 'totals'
             'filter_response' => $transactionsRepository->filterTransactions($filter),
-            'totals_response' => $totalsService->getBasicAndBudgetTotals($budgetService),
+            'totals_response' => $totalsService->getBasicAndBudgetTotals(),
             'accounts_response' => Account::getAccounts(),
             'tags_response' => $tagsRepository->getTags(),
             'colors_response' => Color::getColors(),

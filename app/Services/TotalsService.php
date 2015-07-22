@@ -17,26 +17,6 @@ use DB;
 class TotalsService {
 
     /**
-     * @var
-     */
-    protected $budgetService;
-
-    /**
-     * @VP:
-     * If I do the following, why do I get:
-     * FatalErrorException in Container.php line 1134:
-     * Maximum function nesting level of '250' reached, aborting!
-     */
-
-    /**
-     * @param BudgetService $budgetService
-     */
-//    public function __construct(BudgetService $budgetService)
-//    {
-//        $this->budgetService = $budgetService;
-//    }
-
-    /**
      * Get the sum of all the user's expense transactions
      * @return int
      */

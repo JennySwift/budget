@@ -6,7 +6,6 @@ use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
 use App\Repositories\Transactions\TransactionsRepository;
-use App\Services\BudgetService;
 use App\Services\TotalsService;
 use Auth;
 use DB;
@@ -21,10 +20,6 @@ use Illuminate\Http\Request;
 class TransactionsController extends Controller
 {
     /**
-     * @var BudgetService
-     */
-    protected $budgetService;
-    /**
      * @var TransactionsRepository
      */
     protected $transactionsRepository;
@@ -34,11 +29,11 @@ class TransactionsController extends Controller
     protected $totalsService;
 
     /**
-     * @param BudgetService $budgetService
+     * @param TransactionsRepository $transactionsRepository
+     * @param TotalsService $totalsService
      */
-    public function __construct(BudgetService $budgetService, TransactionsRepository $transactionsRepository, TotalsService $totalsService)
+    public function __construct(TransactionsRepository $transactionsRepository, TotalsService $totalsService)
     {
-        $this->budgetService = $budgetService;
         $this->transactionsRepository = $transactionsRepository;
         $this->totalsService = $totalsService;
     }

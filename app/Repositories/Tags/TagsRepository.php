@@ -1,7 +1,6 @@
 <?php namespace App\Repositories\Tags;
 
 use App\Models\Tag;
-use App\Services\BudgetService;
 use App\Services\BudgetTableTotalsService;
 use App\Services\TotalsService;
 use Auth;
@@ -11,18 +10,6 @@ use Auth;
  * @package App\Repositories\Tags
  */
 class TagsRepository {
-    /**
-     * @var
-     */
-    protected $budgetService;
-
-//    This errored again.
-    /**
-     * @param BudgetService $budgetService
-     */
-//    public function __construct(BudgetService $budgetService) {
-//        $this->budgetService = $budgetService;
-//    }
 
     /**
      *
@@ -51,10 +38,6 @@ class TagsRepository {
             ->whereNotNull('flex_budget')
             ->orderBy('name', 'asc')
             ->get();
-
-//        foreach ($tags as $tag) {
-//            $tag->getCalculatedBudget();
-//        }
 
         return $tags;
     }

@@ -88,7 +88,7 @@
 
             <li class="tooltipster list-group-item list-group-item-danger" title="fixed budget (total of fixed budget info column C)">
                 CFB:
-                <span id="budget_span" class="badge">[[totals.budget.FB.totals.cumulative_budget]]</span>
+                <span id="budget_span" class="badge">[[totals.budget.FB.totals.cumulative]]</span>
                 <span ng-if="totals.changes.CFB" class="changed">Changed: [[totals.changes.CFB]]</span>
             </li>
 
