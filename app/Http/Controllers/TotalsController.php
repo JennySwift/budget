@@ -2,7 +2,6 @@
 
 use App\Http\Requests;
 use App\Models\Transaction;
-use App\Services\GreetingService;
 use App\Services\TotalsService;
 use Illuminate\Http\Request;
 

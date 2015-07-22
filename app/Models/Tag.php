@@ -1,8 +1,5 @@
 <?php namespace App\Models;
 
-use App\Repositories\Tags\TagsRepository;
-use App\Services\BudgetTableTotalsService;
-use App\Services\TotalsService;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +19,7 @@ class Tag extends Model
     /**
      * @var array
      */
-    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining', 'cumulative', 'calculated_budget'];
+    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining', 'cumulative', 'calculated_budget', 'spent_before_SD'];
 
     /**
      *
@@ -231,7 +228,7 @@ class Tag extends Model
      * @param $CSD
      * @return mixed
      */
-    public function getSpentBeforeSD()
+    public function getSpentBeforeSDAttribute()
     {
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
@@ -246,6 +243,11 @@ class Tag extends Model
             ->where('transactions.type', 'expense')
             ->sum('calculated_allocation');
 
-        return $this->spent_before_SD = $total;
+        return $total;
+    }
+
+    public function getTotals()
+    {
+
     }
 }

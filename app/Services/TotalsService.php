@@ -115,7 +115,7 @@ class TotalsService {
         $total = new Total();
         return [
             'basic' => $this->getBasicTotals(),
-            'budget' => $total->getBudgetTotals()
+            'budget' => $total->getFixedAndFlexData()
         ];
     }
 }

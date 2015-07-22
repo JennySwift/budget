@@ -18,8 +18,10 @@ class BudgetTableTotalsService {
      * @param $type
      * @return int
      */
-    public function getBudget($tags, $type)
+    public function getBudget($type)
     {
+        $tagsRepository = new TagsRepository();
+        $tags = $tagsRepository->getTagsWithSpecifiedBudget($type);
         $total = 0;
         $string = $type . '_budget';
 
@@ -35,8 +37,10 @@ class BudgetTableTotalsService {
      * For the total '-' column in either the fixed or flex budget table.
      * @return int
      */
-    public function getSpentAfterSD($tags)
+    public function getSpentAfterSD($type)
     {
+        $tagsRepository = new TagsRepository();
+        $tags = $tagsRepository->getTagsWithSpecifiedBudget($type);
         $total = 0;
 
         foreach ($tags as $tag) {
@@ -51,12 +55,14 @@ class BudgetTableTotalsService {
      * For the total '-' column in either the fixed or flex budget table.
      * @return int
      */
-    public function getSpentBeforeSD($tags)
+    public function getSpentBeforeSD($type)
     {
+        $tagsRepository = new TagsRepository();
+        $tags = $tagsRepository->getTagsWithSpecifiedBudget($type);
         $total = 0;
 
         foreach ($tags as $tag) {
-            $total += $tag->getSpentBeforeSD();
+            $total += $tag->spent_before_SD;
         }
 
         return $total;
@@ -67,8 +73,10 @@ class BudgetTableTotalsService {
      * For the total '+' column in either the fixed or flex budget table.
      * @return int
      */
-    public function getReceivedAfterSD($tags)
+    public function getReceivedAfterSD($type)
     {
+        $tagsRepository = new TagsRepository();
+        $tags = $tagsRepository->getTagsWithSpecifiedBudget($type);
         $total = 0;
 
         foreach ($tags as $tag) {

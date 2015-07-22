@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Total extends Model {
 
     /**
-     *
+     * This is the method that calls the other total stuff
      * @return array
      */
-    public function getBudgetTotals()
+    public function getFixedAndFlexData()
     {
-        $FB_info = $this->getBudgetInfo('fixed');
-        $FLB_info = $this->getBudgetInfo('flex');
+        $FB_info = $this->getTagsAndTotals('fixed');
+        $FLB_info = $this->getTagsAndTotals('flex');
 
 //        //Get the unallocated values for flex budget
 //        $FLB_info['unallocated'] = $this->budgetTableTotalsService->getUnallocatedFLB($FLB_info, $RBWEFLB);
@@ -37,22 +37,46 @@ class Total extends Model {
     }
 
     /**
+     * For either the fixed of flex budget table.
      * Get tags with $type budget (with each tag's totals), i.e, $tags.
      * Get totals for the totals row in the $type budget table, i.e, $totals.
      * @param $type
      * @return array
      */
-    public function getBudgetInfo($type)
+    public function getTagsAndTotals($type)
+    {
+        return [
+            'tags' => $this->getTags($type),
+            'totals' => $this->getTotals($type)
+        ];
+    }
+
+    /**
+     * Get the tags (with their totals) for either the fixed or flex budget table
+     * @param $type
+     * @return mixed
+     */
+    public function getTags($type)
     {
         $tagsRepository = new TagsRepository();
-        $tags = $tagsRepository->getTagsWithSpecifiedBudget($type);
+        return $tagsRepository->getTagsWithSpecifiedBudget($type);
+    }
+
+
+    /**
+     * Get the numbers for the total row for either the fixed or flex budget table
+     * @param $type
+     * @return array
+     */
+    public function getTotals($type)
+    {
         $budgetTableTotalsService = new BudgetTableTotalsService();
 
         $totals = [
-            "budget" => $budgetTableTotalsService->getBudget($tags, $type),
-            "spent" => $budgetTableTotalsService->getSpentAfterSD($tags),
-            "received" => $budgetTableTotalsService->getReceivedAfterSD($tags),
-            "spent_before_SD" => $budgetTableTotalsService->getSpentBeforeSD($tags)
+            "budget" => $budgetTableTotalsService->getBudget($type),
+            "spent" => $budgetTableTotalsService->getSpentAfterSD($type),
+            "received" => $budgetTableTotalsService->getReceivedAfterSD($type),
+            "spent_before_SD" => $budgetTableTotalsService->getSpentBeforeSD($type)
         ];
 
         if ($type === 'fixed') {
@@ -60,10 +84,7 @@ class Total extends Model {
             $totals['remaining'] = $budgetTableTotalsService->getRemainingBudget($type);
         }
 
-        return [
-            'tags' => $tags,
-            'totals' => $totals
-        ];
+        return $totals;
     }
 
     /**
@@ -72,8 +93,6 @@ class Total extends Model {
      */
     public function getRBWithEFLB()
     {
-//        $FB_totals = $this->getBudgetInfo('fixed')['totals'];
-//        $FLB_totals = $this->getBudgetInfo('flex')['totals'];
         $budgetTableTotalsService = new BudgetTableTotalsService();
         $tagsRepository = new TagsRepository();
         $totalsService = new TotalsService();
@@ -82,9 +101,9 @@ class Total extends Model {
               $totalsService->getCredit()
             - $budgetTableTotalsService->getRemainingBudget('fixed')
             + $totalsService->getEWB()
-            + 0 //EFLB-not sure what it should be yet
-            + $budgetTableTotalsService->getSpentBeforeSD($tagsRepository->getTagsWithSpecifiedBudget('fixed'))
-            + $budgetTableTotalsService->getSpentBeforeSD($tagsRepository->getTagsWithSpecifiedBudget('flex'))
+            + $budgetTableTotalsService->getSpentAfterSD('flex')
+            + $budgetTableTotalsService->getSpentBeforeSD('fixed')
+            + $budgetTableTotalsService->getSpentBeforeSD('flex')
             - Savings::getSavingsTotal();
 
         return $RB;

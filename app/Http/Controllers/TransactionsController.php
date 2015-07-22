@@ -99,7 +99,7 @@ class TransactionsController extends Controller
         }
 
         return [
-            'totals' => $this->totalsService->getBasicAndBudgetTotals($this->budgetService),
+            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
             'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
         ];
     }
@@ -211,7 +211,7 @@ class TransactionsController extends Controller
         return [
             "transaction" => $transaction,
             "multiple_budgets" => Transaction::hasMultipleBudgets($transaction->id),
-            'totals' => $this->totalsService->getBasicAndBudgetTotals($this->budgetService),
+            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
             'filter_results' => $transactionsRepository->filterTransactions($request->get('filter'))
         ];
     }
@@ -304,7 +304,7 @@ class TransactionsController extends Controller
         $this->insertTags($transaction, $js_transaction['tags']);
 
         return [
-            'totals' => $this->totalsService->getBasicAndBudgetTotals($this->budgetService),
+            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
             'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
         ];
     }
@@ -331,7 +331,7 @@ class TransactionsController extends Controller
         $transaction->save();
 
         return [
-            'totals' => $this->totalsService->getBasicAndBudgetTotals($this->budgetService),
+            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
             'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
         ];
     }

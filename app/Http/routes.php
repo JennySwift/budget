@@ -10,14 +10,14 @@ use App\Services\TotalsService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function(TotalsService $totalsService, BudgetService $budgetService, BudgetTableTotalsService $budgetTableTotalsService, TagsRepository $tagsRepository)
+Route::get('/test', function(TotalsService $totalsService, BudgetTableTotalsService $budgetTableTotalsService, TagsRepository $tagsRepository)
 {
     $total = new Total();
-    return $total->getBudgetInfo('flex');
+    return $total->getBudgetInfo('fixed');
 });
 
 
-//Route::get('/test', 'TotalsController@getBudgetTotals');
+//Route::get('/test', 'TotalsController@getFixedAndFlexData');
 
 
 
@@ -160,7 +160,7 @@ Route::post('update/reverseAutomaticInsertIntoSavings', 'SavingsController@rever
  */
 
 Route::post('totals/basic', 'TotalsController@getBasicTotals');
-Route::post('totals/budget', 'TotalsController@getBudgetTotals');
+Route::post('totals/budget', 'TotalsController@getFixedAndFlexData');
 Route::post('totals/basicAndBudget', 'TotalsController@getBasicAndBudgetTotals');
 
 /**
