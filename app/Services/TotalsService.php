@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 use App\Models\Savings;
+use App\Models\Total;
 use App\Models\Transaction;
 use Auth;
 use DB;
@@ -130,10 +131,11 @@ class TotalsService {
      *
      * @return array
      */
-    public function getBasicAndBudgetTotals(BudgetService $budgetService) {
+    public function getBasicAndBudgetTotals() {
+        $total = new Total();
         return [
             'basic' => $this->getBasicTotals(),
-            'budget' => $budgetService->getBudgetTotals()
+            'budget' => $total->getBudgetTotals()
         ];
     }
 }

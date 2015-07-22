@@ -20,10 +20,10 @@ class BudgetTableTotalsService {
     /**
      * @param TagsRepository $tagsRepository
      */
-    public function __construct(TagsRepository $tagsRepository)
-    {
-        $this->tagsRepository = $tagsRepository;
-    }
+//    public function __construct()
+//    {
+//        $this->tagsRepository = new TagsRepository();
+//    }
     /**
      * For the total A column in either the fixed or flex budget table.
      * @param $tags
@@ -96,7 +96,8 @@ class BudgetTableTotalsService {
      */
     public function getCumulativeBudget()
     {
-        $tags = $this->tagsRepository->getTagsWithSpecifiedBudget('fixed');
+        $tagsRepository = new TagsRepository();
+        $tags = $tagsRepository->getTagsWithSpecifiedBudget('fixed');
         $total = 0;
 
         foreach ($tags as $tag) {
@@ -112,7 +113,8 @@ class BudgetTableTotalsService {
      */
     public function getRemainingBudget($type)
     {
-        $tags = $this->tagsRepository->getTagsWithSpecifiedBudget($type);
+        $tagsRepository = new TagsRepository();
+        $tags = $tagsRepository->getTagsWithSpecifiedBudget($type);
         $total = 0;
 
         foreach ($tags as $tag) {

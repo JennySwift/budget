@@ -2,8 +2,10 @@
 
 use App\Http\Requests;
 use App\Models\Tag;
+use App\Models\Total;
 use App\Repositories\Tags\TagsRepository;
 use App\Services\BudgetService;
+use App\Services\TotalsService;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -103,11 +105,12 @@ class TagsController extends Controller
      */
     public function update(Request $request)
     {
+        $total = new Total();
         $tag = Tag::find($request->get('tag')['id']);
         $tag->starting_date = $request->get('CSD');
         $tag->save();
 
-        return $this->budgetService->getBasicAndBudgetTotals();
+        return $total->getBasicAndBudgetTotals();
     }
 
     /**
@@ -118,6 +121,7 @@ class TagsController extends Controller
     public function updateBudget(Request $request)
     {
         $tag = Tag::find($request->get('tag_id'));
+        $totalsService = new TotalsService();
 
         $budget = $request->get('budget');
         $column = $request->get('column');
@@ -140,7 +144,7 @@ class TagsController extends Controller
         ]);
 
         return [
-            'totals' => $this->budgetService->getBasicAndBudgetTotals(),
+            'totals' => $totalsService->getBasicAndBudgetTotals(),
             'tag' => $tag
         ];
     }

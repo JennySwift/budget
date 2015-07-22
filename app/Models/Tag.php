@@ -1,6 +1,9 @@
 <?php namespace App\Models;
 
+use App\Repositories\Tags\TagsRepository;
 use App\Services\BudgetService;
+use App\Services\BudgetTableTotalsService;
+use App\Services\TotalsService;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +23,7 @@ class Tag extends Model
     /**
      * @var array
      */
-    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining', 'cumulative'];
+    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining', 'cumulative', 'calculated_budget'];
 
     /**
      * @var
@@ -105,10 +108,12 @@ class Tag extends Model
      *
      * @return float
      */
-    public function getCalculatedBudget(BudgetService $budgetService)
+    public function getCalculatedBudgetAttribute()
     {
+        $total = new Total();
         if ($this->budget_type === 'flex') {
-            return $this->calculated_budget = $budgetService->getRBWEFLB() / 100 * $this->flex_budget;
+//            return 5;
+            return $this->calculated_budget = $total->getRBWEFLB() / 100 * $this->flex_budget;
         }
     }
 

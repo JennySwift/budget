@@ -2,6 +2,8 @@
 
 use App\Models\Tag;
 use App\Services\BudgetService;
+use App\Services\BudgetTableTotalsService;
+use App\Services\TotalsService;
 use Auth;
 
 /**
@@ -18,9 +20,9 @@ class TagsRepository {
     /**
      * @param BudgetService $budgetService
      */
-    public function __construct(BudgetService $budgetService) {
-        $this->budgetService = $budgetService;
-    }
+//    public function __construct(BudgetService $budgetService) {
+//        $this->budgetService = $budgetService;
+//    }
 
     /**
      *
@@ -50,9 +52,9 @@ class TagsRepository {
             ->orderBy('name', 'asc')
             ->get();
 
-        foreach ($tags as $tag) {
-            $tag->getCalculatedBudget($this->budgetService);
-        }
+//        foreach ($tags as $tag) {
+//            $tag->getCalculatedBudget();
+//        }
 
         return $tags;
     }
