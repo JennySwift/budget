@@ -89,7 +89,7 @@
                 <tr>
                     <th class="tag">Tag</th>
                     <th class="tooltipster" title="amount">A</th>
-                    <th class="tooltipster" title="cumulative starting date">CSD</th>
+                    <th class="tooltipster" title="cumulative starting date">SD</th>
                     <th class="tooltipster" title="cumulative month number">CMN</th>
                     <th class="tooltipster" title="cumulative (amount * cumulative month number)">C</th>
                     <th class="tooltipster" title="spent before cumulative starting date">-</th>
@@ -116,7 +116,7 @@
                     <td class="cumulative">[[tag.cumulative_budget]]</td>
             
                     <td class="spent">
-                        <div>[[tag.spent_before_CSD]]</div>      
+                        <div>[[tag.spent_before_SD]]</div>
                     </td>
             
                     <td class="spent">
@@ -138,7 +138,7 @@
                     <td>-</td>
                     <td>-</td>
                     <td>[[totals.budget.FB.totals.cumulative_budget]]</td>
-                    <td>[[totals.budget.FB.totals.spent_before_CSD]]</td>
+                    <td>[[totals.budget.FB.totals.spent_before_SD]]</td>
                     <td>[[totals.budget.FB.totals.spent]]</td>
                     <td>[[totals.budget.FB.totals.received]]</td>
                     <td>[[totals.budget.FB.totals.remaining]]</td>
@@ -174,7 +174,7 @@
                 <tr>
                     <th class="tag">Tag</th>
                     <th class="tooltipster" title="amount (% column % of F/I)">A</th>
-                    <th class="tooltipster" title="cumulative starting date">CSD</th>
+                    <th class="tooltipster" title="cumulative starting date">SD</th>
                     <th class="tooltipster" title="cumulative month number">CMN</th>
                     <th class="tooltipster" title="spent after starting date">-</th>
                     <th class="tooltipster" title="received">+</th>

@@ -19,11 +19,9 @@ function array_compare(array $base, array $newItems)
  */
 function numberFormat($array)
 {
-    // @TODO Could be moved in the helpers.php file :)
     $formatted_array = array();
     foreach ($array as $key => $value) {
-        $formatted_value = number_format($value, 2);
-        $formatted_array[$key] = $formatted_value;
+        $formatted_array[$key] = number_format($value, 2);
     }
 
     return $formatted_array;

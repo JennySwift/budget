@@ -4,13 +4,15 @@ use App\Models\Account;
 use App\Models\Tag;
 use App\Models\Transaction;
 use App\Services\BudgetService;
+use App\Services\TotalsService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function(BudgetService $budgetService)
+Route::get('/test', function(TotalsService $totalsService, BudgetService $budgetService)
 {
-    return $budgetService->getBasicAndBudgetTotals();
+    return $totalsService->getBasicAndBudgetTotals($budgetService);
 });
+
 
 //Route::get('/test', 'TotalsController@getBudgetTotals');
 

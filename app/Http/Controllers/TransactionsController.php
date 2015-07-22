@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\Transaction;
 use App\Repositories\Transactions\TransactionsRepository;
 use App\Services\BudgetService;
+use App\Services\TotalsService;
 use Auth;
 use DB;
 use Debugbar;
@@ -23,15 +24,23 @@ class TransactionsController extends Controller
      * @var BudgetService
      */
     protected $budgetService;
+    /**
+     * @var TransactionsRepository
+     */
     protected $transactionsRepository;
+    /**
+     * @var TotalsService
+     */
+    protected $totalsService;
 
     /**
      * @param BudgetService $budgetService
      */
-    public function __construct(BudgetService $budgetService, TransactionsRepository $transactionsRepository)
+    public function __construct(BudgetService $budgetService, TransactionsRepository $transactionsRepository, TotalsService $totalsService)
     {
         $this->budgetService = $budgetService;
         $this->transactionsRepository = $transactionsRepository;
+        $this->totalsService = $totalsService;
     }
 
     /**
@@ -95,7 +104,7 @@ class TransactionsController extends Controller
         }
 
         return [
-            'totals' => $this->budgetService->getBasicAndBudgetTotals(),
+            'totals' => $this->totalsService->getBasicAndBudgetTotals($this->budgetService),
             'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
         ];
     }
@@ -207,7 +216,7 @@ class TransactionsController extends Controller
         return [
             "transaction" => $transaction,
             "multiple_budgets" => Transaction::hasMultipleBudgets($transaction->id),
-            'totals' => $this->budgetService->getBasicAndBudgetTotals(),
+            'totals' => $this->totalsService->getBasicAndBudgetTotals($this->budgetService),
             'filter_results' => $transactionsRepository->filterTransactions($request->get('filter'))
         ];
     }
@@ -300,7 +309,7 @@ class TransactionsController extends Controller
         $this->insertTags($transaction, $js_transaction['tags']);
 
         return [
-            'totals' => $this->budgetService->getBasicAndBudgetTotals(),
+            'totals' => $this->totalsService->getBasicAndBudgetTotals($this->budgetService),
             'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
         ];
     }
@@ -327,7 +336,7 @@ class TransactionsController extends Controller
         $transaction->save();
 
         return [
-            'totals' => $this->budgetService->getBasicAndBudgetTotals(),
+            'totals' => $this->totalsService->getBasicAndBudgetTotals($this->budgetService),
             'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
         ];
     }

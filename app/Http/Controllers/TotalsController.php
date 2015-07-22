@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Models\Transaction;
 use App\Services\BudgetService;
 use App\Services\GreetingService;
+use App\Services\TotalsService;
 use Illuminate\Http\Request;
 
 /**
@@ -12,15 +13,11 @@ use Illuminate\Http\Request;
  */
 class TotalsController extends Controller
 {
+    protected $totalsService;
 
-    /**
-     *
-     * @param GreetingService $greetingService
-     * @return string
-     */
-    public function getGreeting(GreetingService $greetingService)
+    public function __construct(TotalsService $totalsService)
     {
-        return $greetingService->greet();
+        $this->totalsService = $totalsService;
     }
 
     /**
@@ -44,9 +41,9 @@ class TotalsController extends Controller
      * @param BudgetService $budgetService
      * @return array
      */
-    public function getBasicTotals(BudgetService $budgetService)
+    public function getBasicTotals()
     {
-        return $budgetService->getBasicTotals();
+        return $this->totalsService->getBasicTotals();
     }
 
     /**
@@ -54,9 +51,9 @@ class TotalsController extends Controller
      * @param BudgetService $budgetService
      * @return array
      */
-    public function getBudgetTotals(BudgetService $budgetService)
+    public function getBudgetTotals()
     {
-        return $budgetService->getBudgetTotals();
+        return $this->totalsService->getBudgetTotals();
     }
 
     /**
@@ -64,8 +61,8 @@ class TotalsController extends Controller
      * @param BudgetService $budgetService
      * @return array
      */
-    public function getBasicAndBudgetTotals(BudgetService $budgetService)
+    public function getBasicAndBudgetTotals()
     {
-        return $budgetService->getBasicAndBudgetTotals();
+        return $this->totalsService->getBasicAndBudgetTotals();
     }
 }

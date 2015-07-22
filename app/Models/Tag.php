@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Services\BudgetService;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,24 @@ class Tag extends Model
      * @var array
      */
     protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining'];
+
+    /**
+     * @var
+     */
+    //    protected $budgetService;
+
+    /**
+     * The following caused this error:
+     * Argument 1 passed to App\Models\Tag::__construct() must be an
+     * instance of App\Services\BudgetService, none given
+     */
+
+    /**
+     * @param BudgetService $budgetService
+     */
+//    public function __construct(BudgetService $budgetService) {
+//        return $this->budgetService = $budgetService;
+//    }
 
     /**
      *
@@ -57,16 +76,15 @@ class Tag extends Model
         return route('tags.show', $this->id);
     }
 
+    /**
+     *
+     * @return string
+     */
     public function getFormattedStartingDateAttribute()
     {
         if ($this->starting_date) {
             return Transaction::convertDate($this->starting_date, 'user');
         }
-    }
-
-    public function getCumulativeBudget()
-    {
-        return $this->fixed_budget * $this->CMN;
     }
 
     /**
@@ -76,7 +94,21 @@ class Tag extends Model
     public function getRemainingAttribute()
     {
         if ($this->budget_type === 'fixed') {
-            return $this->getCumulativeBudget() + $this->getTotalSpentAfterCSD() + $this->getTotalReceivedAfterCSD();
+            return $this->getCumulative() + $this->getSpentAfterSD() + $this->getReceivedAfterSD();
+        }
+        elseif ($this->budget_type === 'flex') {
+            return $this->calculated_budget + $this->spent + $this->received;
+        }
+    }
+
+    /**
+     *
+     * @return float
+     */
+    public function getCalculatedBudget(BudgetService $budgetService)
+    {
+        if ($this->budget_type === 'flex') {
+            return $this->calculated_budget = $budgetService->getRBWEFLB() / 100 * $this->flex_budget;
         }
     }
 
@@ -89,16 +121,13 @@ class Tag extends Model
 //        return $this->getCumulativeBudget() + $this->getTotalSpentAfterCSD() + $this->getTotalReceivedAfterCSD();
 //    }
 
-
     /**
      *
      * @return mixed
      */
-    public static function getTags()
+    public function getCumulative()
     {
-        return Tag::where('user_id', Auth::user()->id)
-            ->orderBy('name', 'asc')
-            ->get();
+        return $this->fixed_budget * $this->CMN;
     }
 
     /**
@@ -140,15 +169,13 @@ class Tag extends Model
      *
      * @param $tag
      */
-    public function setAllocationType($tag)
+    public function setAllocationType()
     {
-        $allocated_fixed = $tag->pivot->allocated_fixed;
-        $allocated_percent = $tag->pivot->allocated_percent;
-
-        if (isset($allocated_fixed) && !$allocated_percent) {
-            $tag->allocation_type = 'fixed';
-        } elseif ($allocated_percent && !$allocated_fixed) {
-            $tag->allocation_type = 'percent';
+        if (isset($this->pivot->allocated_fixed) && !$this->pivot->allocated_percent) {
+            $this->allocation_type = 'fixed';
+        }
+        elseif ($this->pivot->allocated_percent && !$this->pivot->allocated_fixed) {
+            $this->allocation_type = 'percent';
         }
     }
 
@@ -167,7 +194,7 @@ class Tag extends Model
             ->where('tag_id', $tag_id)
             ->first();
 
-        $tag->setAllocationType($tag);
+        $tag->setAllocationType();
 
         return $tag;
     }
@@ -178,7 +205,7 @@ class Tag extends Model
      * @param $starting_date
      * @return mixed
      */
-    public function getTotalSpentAfterCSD()
+    public function getSpentAfterSD()
     {
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
@@ -202,7 +229,7 @@ class Tag extends Model
      * @param $starting_date
      * @return mixed
      */
-    public function getTotalReceivedAfterCSD()
+    public function getReceivedAfterSD()
     {
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
@@ -226,7 +253,7 @@ class Tag extends Model
      * @param $CSD
      * @return mixed
      */
-    public function getTotalSpentBeforeCSD()
+    public function getSpentBeforeSD()
     {
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
@@ -241,6 +268,6 @@ class Tag extends Model
             ->where('transactions.type', 'expense')
             ->sum('calculated_allocation');
 
-        return $this->spent_before_CSD = $total;
+        return $this->spent_before_SD = $total;
     }
 }

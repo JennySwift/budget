@@ -20,25 +20,25 @@
 
             <li class="tooltipster list-group-item list-group-item-danger" title="total of expense transactions that have no budget">
                 EWB:
-                <span class="badge">[[totals.basic.expense_without_budget_total]]</span>
+                <span class="badge">[[totals.basic.EWB]]</span>
                 <span ng-if="totals.changes.EWB" class="changed">Changed: [[totals.changes.EWB]]</span>
             </li>
 
-            <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget before its CSD">
-                EFBBCSD:
-                <span class="badge">[[totals.budget.FB.totals.spent_before_CSD]]</span>
-                <span ng-if="totals.changes.EFBBCSD" class="changed">Changed: [[totals.changes.EFBBCSD]]</span>
+            <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget before its starting date">
+                EFBBSD:
+                <span class="badge">[[totals.budget.FB.totals.spent_before_SD]]</span>
+                <span ng-if="totals.changes.EFBBSD" class="changed">Changed: [[totals.changes.EFBBSD]]</span>
             </li>
 
-            <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a flex budget before its CSD">
-                EFLBBCSD:
-                <span class="badge">[[totals.budget.FLB.totals.spent_before_CSD]]</span>
-                <span ng-if="totals.changes.EFLBBCSD" class="changed">Changed: [[totals.changes.EFLBBCSD]]</span>
+            <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a flex budget before its starting date">
+                EFLBBSD:
+                <span class="badge">[[totals.budget.FLB.totals.spent_before_SD]]</span>
+                <span ng-if="totals.changes.EFLBBSD" class="changed">Changed: [[totals.changes.EFLBBSD]]</span>
             </li>
 
             <li class="tooltipster list-group-item list-group-item-danger" title="savings">
                 S:
-                <span class="badge">[[totals.basic.savings_total]]</span>
+                <span class="badge">[[totals.basic.savings]]</span>
                 <button ng-show="show.savings_total.edit_btn" ng-click="showSavingsTotalInput()" class="btn-xs">edit</button>
                 <input ng-show="show.savings_total.input" ng-model="totals.basic.savings_total" ng-keyup="updateSavingsTotal($event.keyCode)" type="text" placeholder="new savings total" id="edited-savings-total">
                 <span ng-if="totals.changes.savings" class="changed">Changed: [[totals.changes.savings]]</span>
@@ -93,15 +93,15 @@
             </li>
 
             <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a flex budget">
-                EFLB:
-                <span class="badge">[[totals.basic.EFLB]]</span>
+                EFLBASD:
+                <span class="badge">[[totals.budget.FLB.totals.spent]]</span>
                 <span ng-if="totals.changes.EFLB" class="changed">Changed: [[totals.changes.EFLB]]</span>
             </li>
 
-            <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget after its CSD">
-                EFBACSD:
+            <li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget after its starting date">
+                EFBASD:
                 <span class="badge">[[totals.budget.FB.totals.spent]]</span>
-                <span ng-if="totals.changes.EFBACSD" class="changed">Changed: [[totals.changes.EFBACSD]]</span>
+                <span ng-if="totals.changes.EFBASD" class="changed">Changed: [[totals.changes.EFBASD]]</span>
             </li>
 
         </ul>

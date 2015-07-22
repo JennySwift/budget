@@ -51,6 +51,17 @@ class Transaction extends Model
     }
 
     /**
+     * Get the transaction's tags that have a flex budget
+     * @return $this
+     */
+    public function tagsWithFlexBudget()
+    {
+        return $this->belongsToMany('App\Models\Tag', 'transactions_tags')
+            ->where('budget_id', 2)
+            ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation');
+    }
+
+    /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

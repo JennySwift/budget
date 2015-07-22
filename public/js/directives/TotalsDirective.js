@@ -69,7 +69,7 @@
                 });
 
                 //EWB
-                $scope.$watch('totals.basic.expense_without_budget_total', function (newValue, oldValue) {
+                $scope.$watch('totals.basic.EWB', function (newValue, oldValue) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
@@ -85,19 +85,19 @@
                 });
 
                 //EFBBCSD
-                $scope.$watch('totals.budget.FB.totals.spent_before_CSD', function (newValue, oldValue) {
+                $scope.$watch('totals.budget.FB.totals.spent_before_SD', function (newValue, oldValue) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.EFBBCSD = newValue.replace(',', '') - oldValue.replace(',', '');
+                    $scope.totals.changes.EFBBSD = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
-                //EFBACSD
+                //EFBASD
                 $scope.$watch('totals.budget.FB.totals.spent', function (newValue, oldValue) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.EFBACSD = newValue.replace(',', '') - oldValue.replace(',', '');
+                    $scope.totals.changes.EFBASD = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
                 //Savings

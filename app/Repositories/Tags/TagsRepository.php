@@ -34,4 +34,26 @@ class TagsRepository {
 
         return $tags;
     }
+
+    /**
+     *
+     * @return mixed
+     */
+    public function getTags()
+    {
+        return Tag::where('user_id', Auth::user()->id)
+            ->orderBy('name', 'asc')
+            ->get();
+    }
+
+    public function getTagsWithSpecifiedBudget($type)
+    {
+        if ($type === 'fixed') {
+            $tags = $this->getTagsWithFixedBudget();
+        }
+        elseif ($type === 'flex') {
+            $tags = $this->getTagsWithFlexBudget();
+        }
+        return $tags;
+    }
 }
