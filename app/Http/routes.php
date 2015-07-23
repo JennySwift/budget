@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test', function()
 {
     $total = new Total();
-    return $total->getTagsAndTotalsForSpecifiedBudget('flex');
+    return $total->getFixedAndFlexData();
 });
 
 //Route::get('/test', function()
