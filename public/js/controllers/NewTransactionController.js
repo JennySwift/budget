@@ -24,6 +24,7 @@
             },
             reconciled: false,
             multiple_budgets: false,
+            tags: []
         };
 
         /**
