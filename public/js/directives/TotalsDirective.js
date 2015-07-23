@@ -76,15 +76,7 @@
                     $scope.totals.changes.EWB = newValue.replace(',', '') - oldValue.replace(',', '');
                 });
 
-                //EFLB
-                $scope.$watch('totals.basic.EFLB', function (newValue, oldValue) {
-                    if (!oldValue || newValue === oldValue) {
-                        return;
-                    }
-                    $scope.totals.changes.EFLB = newValue.replace(',', '') - oldValue.replace(',', '');
-                });
-
-                //EFBBCSD
+                //EFBBSD
                 $scope.$watch('totals.budget.FB.totals.spent_before_SD', function (newValue, oldValue) {
                     if (!oldValue || newValue === oldValue) {
                         return;
@@ -93,7 +85,7 @@
                 });
 
                 //EFBASD
-                $scope.$watch('totals.budget.FB.totals.spent', function (newValue, oldValue) {
+                $scope.$watch('totals.budget.FB.totals.spent_after_SD', function (newValue, oldValue) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
