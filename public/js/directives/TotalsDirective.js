@@ -93,7 +93,7 @@
                 });
 
                 //Savings
-                $scope.$watch(' totals.basic.savings_total', function (newValue, oldValue) {
+                $scope.$watch(' totals.basic.savings', function (newValue, oldValue) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
