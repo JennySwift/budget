@@ -30,11 +30,26 @@ class BudgetTableTotalsService {
             $total += $tag->$string;
         }
 
-        if ($type === 'flex') {
-            $total+= 100 - $total; //In other words, $total = 100 :)
-        }
-
         return $total;
+    }
+
+    /**
+     * For the unallocated row in the flex budget table
+     * @param $FLB_info
+     * @param $RBWEFLB
+     * @return array
+     */
+    public function getUnallocatedFLB()
+    {
+        $total = new Total();
+        $RBWEFLB = $total->getRBWEFLB();
+        $unallocated_budget = 100 - $this->getBudget('flex');
+
+        return [
+            'budget' => $unallocated_budget,
+            'calculated_budget' => $RBWEFLB / 100 * $unallocated_budget,
+            'remaining' => $RBWEFLB / 100 * $unallocated_budget
+        ];
     }
 
     /**
@@ -146,24 +161,5 @@ class BudgetTableTotalsService {
         $total+= $this->getUnallocatedFLB()['calculated_budget'];
 
         return $total;
-    }
-
-    /**
-     * For the unallocated row in the flex budget table
-     * @param $FLB_info
-     * @param $RBWEFLB
-     * @return array
-     */
-    public function getUnallocatedFLB()
-    {
-        $total = new Total();
-        $RBWEFLB = $total->getRBWEFLB();
-        $unallocated_budget = 100 - $this->getBudget('flex');
-
-        return [
-            'budget' => $unallocated_budget,
-            'calculated_budget' => $RBWEFLB / 100 * $unallocated_budget,
-            'remaining' => $RBWEFLB / 100 * $unallocated_budget
-        ];
     }
 }

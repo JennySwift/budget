@@ -21,7 +21,8 @@ class Total extends Model {
 
         //Get the unallocated values for flex budget
         $FLB_info['unallocated'] = $budgetTableTotalsService->getUnallocatedFLB();
-
+        $FLB_info['totals']['budget'] = 100;
+        
         return [
             "FB" => $FB_info,
             "FLB" => $FLB_info,
