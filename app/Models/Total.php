@@ -103,11 +103,10 @@ class Total extends Model {
               $totalsService->getCredit()
             - $budgetTableTotalsService->getRemainingBudget('fixed')
             + $totalsService->getEWB()
-            //This used to be before or after SD. Not sure if it should be just after SD.
+            + $budgetTableTotalsService->getSpentBeforeSD('flex')
             + $budgetTableTotalsService->getSpentAfterSD('flex')
             + $budgetTableTotalsService->getSpentBeforeSD('fixed')
             + $budgetTableTotalsService->getSpentAfterSD('fixed')
-//            + $budgetTableTotalsService->getSpentBeforeSD('flex')
             - Savings::getSavingsTotal();
 
         return $RB;
