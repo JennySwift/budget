@@ -12,28 +12,28 @@ class ColorSeeder extends Seeder {
 	{
         if (app()->env === 'local') {
             Color::truncate();
-            $this->insertColors(1);
+            $this->insertColors(User::whereEmail('cheezyspaghetti@gmail.com')->first());
         }
         else {
-            $this->insertColors(User::whereEmail('cheezyspaghetti@optusnet.com.au')->id);
+            $this->insertColors(User::whereEmail('cheezyspaghetti@optusnet.com.au')->first());
         }
 	}
 
-    private function insertColors($user_id)
+    private function insertColors($user)
     {
-        $this->insertColor($user_id, 'income', '#017d00');
-        $this->insertColor($user_id, 'expense', '#fb5e52');
-        $this->insertColor($user_id, 'transfer', '#fca700');
+        $this->insertColor($user, 'income', '#017d00');
+        $this->insertColor($user, 'expense', '#fb5e52');
+        $this->insertColor($user, 'transfer', '#fca700');
     }
 
-    private function insertColor($user_id, $type, $color)
+    private function insertColor($user, $type, $color)
     {
         $color = new Color([
             'item' => $type,
             'color' => $color
         ]);
 
-        $color->user()->associate(User::find($user_id));
+        $color->user()->associate($user);
         $color->save();
     }
 }

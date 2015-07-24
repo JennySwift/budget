@@ -15,26 +15,26 @@ class AccountSeeder extends Seeder {
 
         if (app()->env === 'local') {
             Account::truncate();
-            $this->insertAccounts(1);
+            $this->insertAccounts(User::whereEmail('cheezyspaghetti@gmail.com')->first());
         }
         else {
-            $this->insertAccounts(User::whereEmail('cheezyspaghetti@optusnet.com.au')->id);
+            $this->insertAccounts(User::whereEmail('cheezyspaghetti@optusnet.com.au')->first);
         }
 
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
-	private function insertAccounts($user_id)
+	private function insertAccounts($user)
 	{
-        $this->insertAccount($user_id, 'Bankwest');
-        $this->insertAccount($user_id, 'nab');
-        $this->insertAccount($user_id, 'cash');
+        $this->insertAccount($user, 'Bankwest');
+        $this->insertAccount($user, 'nab');
+        $this->insertAccount($user, 'cash');
 	}
 
-    private function insertAccount($user_id, $name)
+    private function insertAccount($user, $name)
     {
         $account = new Account(['name' => $name]);
-        $account->user()->associate(User::find($user_id));
+        $account->user()->associate($user);
         $account->save();
     }
 

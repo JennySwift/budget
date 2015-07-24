@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Transaction;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +18,9 @@ class UserSeeder extends Seeder {
         }
         else {
             //Seeding production site. So that I don't delete all my users, but just the seeded user.
-            User::whereEmail('cheezyspaghetti@optusnet.com.au')->delete();
+            $dummy = User::whereEmail('cheezyspaghetti@optusnet.com.au')->first();
+            Transaction::where('user_id', $dummy->id)->delete();
+            $dummy->delete();
             $this->createUser('Dummy', 'cheezyspaghetti@optusnet.com.au');
         }
 

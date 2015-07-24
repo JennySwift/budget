@@ -20,28 +20,27 @@ class TransactionSeeder extends Seeder {
             Transaction::truncate();
             DB::table('transactions_tags')->truncate();
 
-            $this->insertTransactions(1);
+            $this->insertTransactions(User::whereEmail('cheezyspaghetti@gmail.com')->first());
         }
         else {
-            $this->insertTransactions(User::whereEmail('cheezyspaghetti@optusnet.com.au')->id);
+            $this->insertTransactions(User::whereEmail('cheezyspaghetti@optusnet.com.au')->first());
         }
 
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
-	private function insertTransactions($user_id)
+	private function insertTransactions($user)
 	{
 		$faker = Faker::create();
-		
-		$account_ids = Account::where('user_id', $user_id)->lists('id');
-        $tag_ids = Tag::where('user_id', $user_id)->lists('id');
+		$account_ids = Account::where('user_id', $user->id)->lists('id');
+        $tag_ids = Tag::where('user_id', $user->id)->lists('id');
 		
 		foreach (range(1, 10) as $index) {
 			$is_transfer = $faker->boolean($chanceOfGettingTrue = 20);
 			$total = $faker->randomElement([5, 10, 15, 20]);
 
 			if ($is_transfer) {
-                $this->insertTransfer($total, $account_ids, $user_id);
+                $this->insertTransfer($total, $account_ids, $user);
 			}
 
 			else {
@@ -52,7 +51,7 @@ class TransactionSeeder extends Seeder {
 					$total = $total * -1;
 				}
 
-				$transaction = $this->insertTransaction($type, $total, $account_id, $user_id);
+				$transaction = $this->insertTransaction($type, $total, $account_id, $user);
 
 //                $number = $faker->numberBetween(1,3);
                 $number = 1;
@@ -71,7 +70,7 @@ class TransactionSeeder extends Seeder {
 		}
 
         //So that balance is likely to be in the positive
-        $this->insertTransaction('income', 1000, 1, $user_id);
+        $this->insertTransaction('income', 1000, 1, $user);
 	}
 
     private function doAllocation($transaction)
@@ -108,7 +107,7 @@ class TransactionSeeder extends Seeder {
         }
     }
 
-    private function insertTransfer($total, $account_ids, $user_id)
+    private function insertTransfer($total, $account_ids, $user)
     {
         $faker = Faker::create();
         $from_account_id = $faker->randomElement($account_ids);
@@ -126,33 +125,38 @@ class TransactionSeeder extends Seeder {
         $negative_total = $total * -1;
         $reconciled = $faker->numberBetween($min = 0, $max = 1);
 
-        Transaction::create([
+        $transaction = new Transaction([
             'date' => $date,
             'type' => 'transfer',
             'description' => $description,
             'total' => $total,
             'account_id' => $to_account_id,
             'reconciled' => $reconciled,
-            'allocated' => 0,
-            'user_id' => $user_id
+            'allocated' => 0
         ]);
 
-        Transaction::create([
+        $transaction->user()->associate($user);
+        $transaction->save();
+
+        $transaction = new Transaction([
             'date' => $date,
             'type' => 'transfer',
             'description' => $description,
             'total' => $negative_total,
             'account_id' => $from_account_id,
             'reconciled' => $reconciled,
-            'allocated' => 0,
-            'user_id' => $user_id
+            'allocated' => 0
         ]);
+
+        $transaction->user()->associate($user);
+        $transaction->save();
     }
 
-    private function insertTransaction($type, $total, $account_id, $user_id)
+    private function insertTransaction($type, $total, $account_id, $user)
     {
         $faker = Faker::create();
-        $transaction = Transaction::create([
+
+        $transaction = new Transaction([
             'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
             'type' => $type,
             'description' => $faker->sentence(),
@@ -160,9 +164,11 @@ class TransactionSeeder extends Seeder {
             'total' => $total,
             'account_id' => $account_id,
             'reconciled' => $faker->numberBetween($min = 0, $max = 1),
-            'allocated' => 0,
-            'user_id' => $user_id
+            'allocated' => 0
         ]);
+
+        $transaction->user()->associate($user);
+        $transaction->save();
 
         return $transaction;
     }

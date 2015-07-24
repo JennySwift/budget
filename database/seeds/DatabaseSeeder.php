@@ -16,19 +16,19 @@ class DatabaseSeeder extends Seeder {
 
         $this->call('UserSeeder');
 
-		$this->call('SavingsSeeder');
-
-		$this->call('ColorSeeder');
-
-        if ($env === 'local') {
-            $this->call('BudgetSeeder');
-        }
-
-		$this->call('AccountSeeder');
-
-		$this->call('TagSeeder');
-
-		$this->call('TransactionSeeder');
+//		$this->call('SavingsSeeder');
+//
+//		$this->call('ColorSeeder');
+//
+//        if ($env === 'local') {
+//            $this->call('BudgetSeeder');
+//        }
+//
+//		$this->call('AccountSeeder');
+//
+//		$this->call('TagSeeder');
+//
+//		$this->call('TransactionSeeder');
 	}
 
 }

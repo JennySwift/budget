@@ -13,10 +13,10 @@ class SavingsSeeder extends Seeder {
 	{
         if (app()->env === 'local') {
             Savings::truncate();
-            $this->createSavingsForUser(User::find(1));
+            $this->createSavingsForUser(User::whereEmail('cheezyspaghetti@gmail.com')->first());
         }
         else {
-            $this->createSavingsForUser(User::whereEmail('cheezyspaghetti@optusnet.com.au'));
+            $this->createSavingsForUser(User::whereEmail('cheezyspaghetti@optusnet.com.au')->first());
         }
 
 	}
