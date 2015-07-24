@@ -10,13 +10,9 @@ class BudgetSeeder extends Seeder {
 	public function run()
 	{
 		DB::statement('SET FOREIGN_KEY_CHECKS=0');
-		Model::unguard();
+        Model::unguard();
 
 		Budget::truncate();
-
-		/**
-		 * Objective:
-		 */
 		
 		Budget::create([
 			'type' => 'fixed',

@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Faker\Factory as Faker;
@@ -15,110 +16,32 @@ class TransactionSeeder extends Seeder {
 	{
 		DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-		Transaction::truncate();
-        DB::table('transactions_tags')->truncate();
+        if (app()->env === 'local') {
+            Transaction::truncate();
+            DB::table('transactions_tags')->truncate();
 
-		/**
-		 * Objective:
-		 */
-		
-		$this->insertUserOneTransactions();
-//		$this->insertUserTwoTransactions();
+            $this->insertTransactions(1);
+        }
+        else {
+            $this->insertTransactions(User::whereEmail('cheezyspaghetti@optusnet.com.au')->id);
+        }
 
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
-//	private function insertUserTwoTransactions()
-//	{
-//		$total = -10;
-//
-//		Transaction::create([
-//			'date' => Carbon::today()->format('Y-m-d'),
-//			'type' => 'income',
-//			'description' => '',
-//			'merchant' => '',
-//			'total' => 1000,
-//			'account_id' => 1,
-//			'reconciled' => 0,
-//			'allocated' => 0,
-//			'user_id' => 2
-//		]);
-//
-//		Transaction::create([
-//			'date' => Carbon::today()->format('Y-m-d'),
-//			'type' => 'expense',
-//			'description' => '',
-//			'merchant' => '',
-//			'total' => $total,
-//			'account_id' => 1,
-//			'reconciled' => 0,
-//			'allocated' => 0,
-//			'user_id' => 2
-//		]);
-//
-//		//Insert transactions with fixed budget
-//
-//		$id = Transaction::insertGetId([
-//			'date' => '2014-01-01',
-//			'type' => 'expense',
-//			'description' => 'fixed before CSD',
-//			'merchant' => '',
-//			'total' => $total,
-//			'account_id' => 1,
-//			'reconciled' => 0,
-//			'allocated' => 0,
-//			'user_id' => 2
-//		]);
-//
-//		$transaction = Transaction::find($id);
-//		$transaction->tags()->attach(8, ['calculated_allocation' => $total]);
-//
-//		$id = Transaction::insertGetId([
-//			'date' => Carbon::today()->format('Y-m-d'),
-//			'type' => 'expense',
-//			'description' => 'fixed after CSD',
-//			'merchant' => '',
-//			'total' => $total,
-//			'account_id' => 1,
-//			'reconciled' => 0,
-//			'allocated' => 0,
-//			'user_id' => 2
-//		]);
-//
-//		$transaction = Transaction::find($id);
-//		$transaction->tags()->attach(8, ['calculated_allocation' => $total]);
-//
-//		//Insert transactions with flex budget
-//
-//		$id = Transaction::insertGetId([
-//			'date' => '2014-01-01',
-//			'type' => 'expense',
-//			'description' => 'flex budget',
-//			'merchant' => '',
-//			'total' => $total,
-//			'account_id' => 1,
-//			'reconciled' => 0,
-//			'allocated' => 0,
-//			'user_id' => 2
-//		]);
-//
-//		$transaction = Transaction::find($id);
-//		$transaction->tags()->attach(11, ['calculated_allocation' => $total]);
-//	}
-
-	private function insertUserOneTransactions()
+	private function insertTransactions($user_id)
 	{
 		$faker = Faker::create();
 		
-		$account_ids = Account::where('user_id', 1)->lists('id');
-        $tag_ids = Tag::where('user_id', 1)->lists('id');
+		$account_ids = Account::where('user_id', $user_id)->lists('id');
+        $tag_ids = Tag::where('user_id', $user_id)->lists('id');
 		
 		foreach (range(1, 10) as $index) {
 			$is_transfer = $faker->boolean($chanceOfGettingTrue = 20);
 			$total = $faker->randomElement([5, 10, 15, 20]);
 
 			if ($is_transfer) {
-                $this->insertTransfer($total, $account_ids);
+                $this->insertTransfer($total, $account_ids, $user_id);
 			}
 
 			else {
@@ -129,7 +52,7 @@ class TransactionSeeder extends Seeder {
 					$total = $total * -1;
 				}
 
-				$transaction = $this->insertTransaction($type, $total, $account_id);
+				$transaction = $this->insertTransaction($type, $total, $account_id, $user_id);
 
 //                $number = $faker->numberBetween(1,3);
                 $number = 1;
@@ -148,7 +71,7 @@ class TransactionSeeder extends Seeder {
 		}
 
         //So that balance is likely to be in the positive
-        $this->insertTransaction('income', 1000, 1);
+        $this->insertTransaction('income', 1000, 1, $user_id);
 	}
 
     private function doAllocation($transaction)
@@ -185,7 +108,7 @@ class TransactionSeeder extends Seeder {
         }
     }
 
-    private function insertTransfer($total, $account_ids)
+    private function insertTransfer($total, $account_ids, $user_id)
     {
         $faker = Faker::create();
         $from_account_id = $faker->randomElement($account_ids);
@@ -211,7 +134,7 @@ class TransactionSeeder extends Seeder {
             'account_id' => $to_account_id,
             'reconciled' => $reconciled,
             'allocated' => 0,
-            'user_id' => 1
+            'user_id' => $user_id
         ]);
 
         Transaction::create([
@@ -222,11 +145,11 @@ class TransactionSeeder extends Seeder {
             'account_id' => $from_account_id,
             'reconciled' => $reconciled,
             'allocated' => 0,
-            'user_id' => 1
+            'user_id' => $user_id
         ]);
     }
 
-    private function insertTransaction($type, $total, $account_id)
+    private function insertTransaction($type, $total, $account_id, $user_id)
     {
         $faker = Faker::create();
         $transaction = Transaction::create([
@@ -238,7 +161,7 @@ class TransactionSeeder extends Seeder {
             'account_id' => $account_id,
             'reconciled' => $faker->numberBetween($min = 0, $max = 1),
             'allocated' => 0,
-            'user_id' => 1
+            'user_id' => $user_id
         ]);
 
         return $transaction;

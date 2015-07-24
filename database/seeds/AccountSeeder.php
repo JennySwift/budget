@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,36 +13,29 @@ class AccountSeeder extends Seeder {
 	{
 		DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-		Account::truncate();
-		
-		$faker = Faker::create();
-
-		/**
-		 * Objective:
-		 */
-		
-		$this->insertAccounts(1);
-		$this->insertAccounts(2);
+        if (app()->env === 'local') {
+            Account::truncate();
+            $this->insertAccounts(1);
+        }
+        else {
+            $this->insertAccounts(User::whereEmail('cheezyspaghetti@optusnet.com.au')->id);
+        }
 
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 	private function insertAccounts($user_id)
 	{
-		Account::create([
-			'name' => 'Bankwest',
-			'user_id' => $user_id
-		]);
-
-		Account::create([
-			'name' => 'nab',
-			'user_id' => $user_id
-		]);
-		
-		Account::create([
-			'name' => 'Cash',
-			'user_id' => $user_id
-		]);
+        $this->insertAccount($user_id, 'Bankwest');
+        $this->insertAccount($user_id, 'nab');
+        $this->insertAccount($user_id, 'cash');
 	}
+
+    private function insertAccount($user_id, $name)
+    {
+        $account = new Account(['name' => $name]);
+        $account->user()->associate(User::find($user_id));
+        $account->save();
+    }
 
 }

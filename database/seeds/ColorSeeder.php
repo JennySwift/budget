@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,34 +10,30 @@ class ColorSeeder extends Seeder {
 
 	public function run()
 	{
-		Color::truncate();
-
-		/**
-		 * Objective:
-		 */
-		
-		$this->insertColors(1);
-		$this->insertColors(2);
-		
+        if (app()->env === 'local') {
+            Color::truncate();
+            $this->insertColors(1);
+        }
+        else {
+            $this->insertColors(User::whereEmail('cheezyspaghetti@optusnet.com.au')->id);
+        }
 	}
 
-	private function insertColors($user_id)
-	{
-		Color::create([
-			'item' => 'income',
-			'color' => '#017d00',
-			'user_id' => $user_id
-		]);
-		Color::create([
-			'item' => 'expense',
-			'color' => '#fb5e52',
-			'user_id' => $user_id
-		]);
-		Color::create([
-			'item' => 'transfer',
-			'color' => '#fca700',
-			'user_id' => $user_id
-		]);	
-	}
+    private function insertColors($user_id)
+    {
+        $this->insertColor($user_id, 'income', '#017d00');
+        $this->insertColor($user_id, 'expense', '#fb5e52');
+        $this->insertColor($user_id, 'transfer', '#fca700');
+    }
 
+    private function insertColor($user_id, $type, $color)
+    {
+        $color = new Color([
+            'item' => $type,
+            'color' => $color
+        ]);
+
+        $color->user()->associate(User::find($user_id));
+        $color->save();
+    }
 }

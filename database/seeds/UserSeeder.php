@@ -11,31 +11,32 @@ class UserSeeder extends Seeder {
 	{
 		DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-		User::truncate();
-		
-		User::create([
-			'name' => 'Dummy1',
-			'email' => 'cheezyspaghetti@gmail.com',
-			'password' => bcrypt('abcdefg'),
-            'settings' => [
-                'income' => 'green',
-                'expense' => 'red',
-                'transfer' => 'orange'
-            ]
-		]);
-
-		User::create([
-			'name' => 'Dummy2',
-			'email' => 'cheezyspaghetti@optusnet.com.au',
-			'password' => bcrypt('hijklmnop'),
-            'settings' => [
-                'income' => 'green',
-                'expense' => 'red',
-                'transfer' => 'orange'
-            ]
-		]);
+        if (app()->env === 'local') {
+            User::truncate();
+            $this->createUser('Dummy', 'cheezyspaghetti@gmail.com');
+        }
+        else {
+            //Seeding production site. So that I don't delete all my users, but just the seeded user.
+            User::whereEmail('cheezyspaghetti@optusnet.com.au')->delete();
+            $this->createUser('Dummy', 'cheezyspaghetti@optusnet.com.au');
+        }
 
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
+
+    private function createUser($name, $email)
+    {
+        User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => bcrypt('abcdefg'),
+            'settings' => [
+                'income' => 'green',
+                'expense' => 'red',
+                'transfer' => 'orange'
+            ]
+        ]);
+    }
+
 
 }

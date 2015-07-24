@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,25 +11,21 @@ class SavingsSeeder extends Seeder {
 
 	public function run()
 	{
-		Model::unguard();
-		
-		Savings::truncate();
-		
-		$faker = Faker::create();
+        if (app()->env === 'local') {
+            Savings::truncate();
+            $this->createSavingsForUser(User::find(1));
+        }
+        else {
+            $this->createSavingsForUser(User::whereEmail('cheezyspaghetti@optusnet.com.au'));
+        }
 
-		/**
-		 * Objective:
-		 */
-		
-		Savings::create([
-			'amount' => 50,
-			'user_id' => 1
-		]);
-
-		Savings::create([
-			'amount' => 50,
-			'user_id' => 2
-		]);
 	}
+
+    private function createSavingsForUser($user)
+    {
+        $savings = new Savings(['amount' => 50]);
+        $savings->user()->associate($user);
+        $savings->save();
+    }
 
 }

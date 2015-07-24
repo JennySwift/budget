@@ -11,14 +11,18 @@ class DatabaseSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run()
-	{	
-		$this->call('UserSeeder');
+	{
+        $env = app()->env;
+
+        $this->call('UserSeeder');
 
 		$this->call('SavingsSeeder');
 
 		$this->call('ColorSeeder');
 
-		$this->call('BudgetSeeder');
+        if ($env === 'local') {
+            $this->call('BudgetSeeder');
+        }
 
 		$this->call('AccountSeeder');
 
