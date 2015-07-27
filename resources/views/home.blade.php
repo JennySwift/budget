@@ -95,6 +95,7 @@
   
 </div><!-- .main -->  
 
-<?php include($footer); ?>
+@include('templates/footer')
+@include('templates/home/footer')
 
 @include('footer')

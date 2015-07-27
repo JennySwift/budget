@@ -38,9 +38,9 @@
 
     </div>
 
-    <?php include($footer); ?>
-
-    @include('footer')
+@include('templates/footer')
+@include('footer')
+@include('templates/accounts/footer')
 
 </body>
 </html>

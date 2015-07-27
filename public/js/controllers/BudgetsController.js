@@ -2,7 +2,7 @@
 
     angular
         .module('budgetApp')
-        .controller('budgets', budgets);
+        .controller('BudgetsController', budgets);
 
     function budgets ($scope, $http, BudgetsFactory, TagsFactory, FilterFactory, FeedbackFactory) {
         /**

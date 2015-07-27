@@ -44,9 +44,9 @@
 
     </div>
 
-    <?php include($footer); ?>
-
+    @include('templates/footer')
     @include('footer')
+    @include('templates/tags/footer')
 
 </body>
 </html>

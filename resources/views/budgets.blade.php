@@ -10,7 +10,7 @@
     ?>
 
 </head>
-<body ng-controller="budgets">
+<body ng-controller="BudgetsController">
 
     <?php
         include($header);
@@ -49,9 +49,9 @@
         <span id="budget_hover_span" class="tooltipster" title=""></span>
     </div>
 
-    <?php include($footer); ?>
-
-    @include('footer')
+@include('templates/footer')
+@include('footer')
+@include('templates/budgets/footer')
 
 </body>
 </html>

@@ -15,7 +15,7 @@
                 "new_transaction": "=newtransaction",
                 "fnOnEnter": "&fnonenter"
             },
-            templateUrl: 'templates/TransactionAutocompleteTemplate.php',
+            templateUrl: 'transaction-autocomplete',
             link: function($scope, elem, attrs) {
                 $scope.results = {};
 

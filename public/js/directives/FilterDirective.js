@@ -14,7 +14,7 @@
                 "accounts": "=accounts",
                 "multiSearch": "&search"
             },
-            templateUrl: 'templates/FilterTemplate.php',
+            templateUrl: 'filter',
             //scope: true,
             link: function($scope, elem, attrs) {
                 $scope.resetFilter = function () {

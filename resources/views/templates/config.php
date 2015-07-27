@@ -5,7 +5,6 @@
 	$templates = base_path() . '/resources/views/templates';
 	$head_links = $templates . '/head-links.php';
 	$header = $templates . '/header.blade.php';
-	$footer = $templates . '/footer.php';
 	$tools = $public . '/tools';
 	$css = $public . '/css';
 	$ajax = $app . '/ajax';

@@ -12,7 +12,7 @@
                 "totals": "=totals",
                 "provideFeedback" : "&providefeedback"
             },
-            templateUrl: 'templates/TotalsTemplate.php',
+            templateUrl: 'totals',
             //scope: true,
             link: function($scope, elem, attrs) {
                 $scope.filterFactory = FilterFactory;
