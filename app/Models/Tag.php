@@ -66,7 +66,7 @@ class Tag extends Model
     public function getFormattedStartingDateAttribute()
     {
         if ($this->starting_date) {
-            return Transaction::convertDate($this->starting_date, 'user');
+            return convertDate($this->starting_date, 'user');
         }
     }
 

@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Models\Budget;
 use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
@@ -123,8 +122,7 @@ class TransactionsController extends Controller
                     'calculated_allocation' => $tag_allocated_fixed
                 ]);
 
-            }
-            elseif (isset($tag['allocated_percent'])) {
+            } elseif (isset($tag['allocated_percent'])) {
                 $tag_allocated_percent = $tag['allocated_percent'];
 
                 $transaction->tags()->attach($tag_id, [
@@ -132,8 +130,7 @@ class TransactionsController extends Controller
                     'calculated_allocation' => $transaction->total / 100 * $tag_allocated_percent,
                 ]);
 
-            }
-            else {
+            } else {
                 $transaction->tags()->attach($tag_id, [
                     'calculated_allocation' => $transaction->total,
                 ]);
@@ -190,9 +187,7 @@ class TransactionsController extends Controller
         //Insert income or expense transaction
         if ($type !== "transfer") {
             $this->reallyInsertTransaction($new_transaction, $type);
-        }
-
-        //It's a transfer, so insert two transactions, the from and the to
+        } //It's a transfer, so insert two transactions, the from and the to
         else {
             $this->reallyInsertTransaction($new_transaction, "from");
             $this->reallyInsertTransaction($new_transaction, "to");
@@ -227,18 +222,16 @@ class TransactionsController extends Controller
             'date' => $new_transaction['date']['sql'],
             'description' => $new_transaction['description'],
             'type' => $new_transaction['type'],
-            'reconciled' => Transaction::convertFromBoolean($new_transaction['reconciled']),
+            'reconciled' => convertFromBoolean($new_transaction['reconciled']),
         ]);
 
         if ($transaction_type === "from") {
             $transaction->account_id = $new_transaction['from_account'];
             $transaction->total = $new_transaction['negative_total'];
-        }
-        elseif ($transaction_type === "to") {
+        } elseif ($transaction_type === "to") {
             $transaction->account_id = $new_transaction['to_account'];
             $transaction->total = $new_transaction['total'];
-        }
-        elseif ($transaction_type === 'income' || $transaction_type === 'expense') {
+        } elseif ($transaction_type === 'income' || $transaction_type === 'expense') {
             $transaction->account_id = $new_transaction['account'];
             $transaction->merchant = $new_transaction['merchant'];
             $transaction->total = $new_transaction['total'];
@@ -293,7 +286,7 @@ class TransactionsController extends Controller
             'merchant' => $js_transaction['merchant'],
             'total' => $new_total,
             'description' => $js_transaction['description'],
-            'reconciled' => Transaction::convertFromBoolean($js_transaction['reconciled'])
+            'reconciled' => convertFromBoolean($js_transaction['reconciled'])
         ]);
 
         //delete all previous tags for the transaction and then add the current ones
@@ -327,7 +320,7 @@ class TransactionsController extends Controller
     public function updateReconciliation(Request $request, TransactionsRepository $transactionsRepository)
     {
         $transaction = Transaction::find($request->get('id'));
-        $transaction->reconciled = $transactionsRepository->convertFromBoolean($request->get('reconciled'));
+        $transaction->reconciled = convertFromBoolean($request->get('reconciled'));
         $transaction->save();
 
         return [
@@ -350,8 +343,7 @@ class TransactionsController extends Controller
 
         if ($type === 'percent') {
             Transaction::updateAllocatedPercent($value, $transaction, $tag_id);
-        }
-        elseif ($type === 'fixed') {
+        } elseif ($type === 'fixed') {
             Transaction::updateAllocatedFixed($value, $transaction, $tag_id);
         }
 

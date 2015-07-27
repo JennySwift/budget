@@ -1,4 +1,5 @@
 <?php
+use Carbon\Carbon;
 
 /**
  * Merge two array together, passing the second array through array filter to remove null values
@@ -26,3 +27,57 @@ function numberFormat($array)
 
     return $formatted_array;
 }
+
+/**
+ *
+ * @param $variable
+ * @return int
+ */
+function convertFromBoolean($variable)
+{
+    if ($variable == 'true') {
+        $variable = 1;
+    }
+    elseif ($variable == 'false') {
+        $variable = 0;
+    }
+
+    return $variable;
+}
+
+/**
+ *
+ * @param $variable
+ * @return bool
+ */
+function convertToBoolean($variable)
+{
+    if ($variable === 1) {
+        $variable = true;
+    }
+    else {
+        $variable = false;
+    }
+
+    return $variable;
+}
+
+/**
+ *
+ * @param $date
+ * @param $for
+ * @return string
+ */
+function convertDate($date, $for)
+{
+    if ($for === 'user') {
+        $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/y');
+    }
+    elseif ($for === 'sql') {
+        $date = Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d');
+
+    }
+
+    return $date;
+}
+

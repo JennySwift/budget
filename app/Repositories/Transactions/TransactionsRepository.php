@@ -1,11 +1,9 @@
 <?php namespace App\Repositories\Transactions;
 
-use App\Models\Budget;
 use App\Models\Transaction;
 use Auth;
-use Carbon\Carbon;
-use Debugbar;
 use DB;
+use Debugbar;
 
 /**
  * Class TransactionsRepository
@@ -13,138 +11,216 @@ use DB;
  */
 class TransactionsRepository
 {
-
     /**
      * For Postman:
      *
-        {"filter": {
-
-            "types": [],
-            "offset":0,
-            "num_to_fetch":20,
-            "budget": "all",
-            "total":"",
-            "accounts":[],
-            "single_date":"",
-            "from_date":"",
-            "to_date":"",
-            "description":"",
-            "merchant":"",
-            "tags":[],
-            "reconciled":"any"
-        }}
+     * {"filter": {
+     *
+     * "types": [],
+     * "offset":0,
+     * "num_to_fetch":20,
+     * "budget": "all",
+     * "total":"",
+     * "accounts":[],
+     * "single_date":"",
+     * "from_date":"",
+     * "to_date":"",
+     * "description":"",
+     * "merchant":"",
+     * "tags":[],
+     * "reconciled":"any"
+     * }}
      *
      * @param Request $request
      * @return array
      */
     public function filterTransactions($filter)
     {
-        $user_id = Auth::user()->id;
-        if ($filter['types']) {
-            $transaction_type = $filter['types'];
-        }
-
-        $transactions = Transaction::where('transactions.user_id', $user_id);
-        $totals = Transaction::where('transactions.user_id', $user_id);
+        $query = Transaction::where('transactions.user_id', Auth::user()->id);
 
         foreach ($filter as $type => $value) {
             if ($value) {
-                //================accounts================
+
+                $query = $this->filterDates($query, $type, $value);
+
                 if ($type === "accounts") {
-                    $accounts = $value;
-
-                    $transactions = $transactions->whereIn('account_id', $accounts);
-                    $totals = $totals->whereIn('account_id', $accounts);
-                } //==========type, ie, income, expense, transfer==========
+                    $query = $this->filterAccounts($query, $value);
+                }
                 elseif ($type === "types") {
-                    $types = $value;
-
-                    $transactions = $transactions->whereIn('type', $types);
-                    $totals = $totals->whereIn('type', $types);
-                } // =============dates=============
-                elseif ($type === "single_date_sql") {
-                    $transactions = $transactions->where('date', $value);
-                    $totals = $totals->where('date', $value);
-                } elseif ($type === "from_date_sql") {
-                    $transactions = $transactions->where('date', '>=', $value);
-                    $totals = $totals->where('date', '>=', $value);
-                } elseif ($type === "to_date_sql") {
-                    $transactions = $transactions->where('date', '<=', $value);
-                    $totals = $totals->where('date', '<=', $value);
-                } //==========total==========
+                    $query = $this->filterTypes($query, $value);
+                }
                 elseif ($type === "total") {
-                    $transactions = $transactions->where('total', $value);
-                    $totals = $totals->where('total', $value);
-                } //==========reconciled==========
+                    $query = $this->filterTotal($query, $value);
+                }
                 elseif ($type === "reconciled") {
-                    if ($value !== "any") {
-                        $reconciled = $value;
-                        $reconciled = $this->convertFromBoolean($reconciled);
-                        $transactions = $transactions->where('reconciled', $reconciled);
-                        $totals = $totals->where('reconciled', $reconciled);
-                    }
-                } //==========tags==========
+                    $query = $this->filterReconciled($query, $value);
+                }
                 elseif ($type === "tags") {
-                    $tags = $value;
-
-                    $tag_ids = array();
-                    foreach ($tags as $tag) {
-                        $tag_id = $tag['id'];
-                        $tag_ids[] = $tag_id;
-                    }
-
-                    foreach ($tag_ids as $tag_id) {
-                        $transactions = $transactions->whereHas('tags', function ($q) use ($tag_id) {
-                            $q->where('tags.id', $tag_id);
-                        });
-                        $totals = $totals->whereHas('tags', function ($q) use ($tag_id) {
-                            $q->where('tags.id', $tag_id);
-                        });
-                    }
-                } //==========budget==========
+                    $query = $this->filterTags($query, $value);
+                }
                 elseif ($type === "budget" && $value !== "all") {
-                    if ($value === "none") {
-                        $num = ' = 0';
-                    } elseif ($value === "single") {
-                        $num = ' = 1';
-                    } elseif ($value === "multiple") {
-                        $num = ' > 1';
-                    }
+                    $query = $this->filterNumBudgets($query, $value);
+                }
+                elseif ($type === "description" || $type === "merchant") {
+                    $query = $this->filterDescriptionOrMerchant($query, $type, $value);
+                }
+            }
+        }
 
-                    //first, find get all the transactions that have x number of budgets
-                    $sql = "select id from transactions where transactions.user_id = " . Auth::user()->id . " and (select count(*) from tags inner join transactions_tags on tags.id = transactions_tags.tag_id
+        return [
+            "transactions" => $this->getFilteredTransactions($this->finishTransactionsQuery($query, $filter)),
+            "totals" => $this->getFilterTotals($this->finishTotalsQuery($query))
+        ];
+    }
+
+
+    /**
+     *
+     * @param $query
+     * @param $accounts
+     * @return mixed
+     */
+    private function filterAccounts($query, $accounts)
+    {
+        return $query->whereIn('account_id', $accounts);
+    }
+
+    /**
+     * Filter by type (credit, debit, or transfer)
+     * @param $query
+     * @param $types
+     * @return mixed
+     */
+    private function filterTypes($query, $types)
+    {
+        return $query->whereIn('type', $types);
+    }
+
+    /**
+     * Filter by total
+     * @param $query
+     * @param $total
+     * @return mixed
+     */
+    private function filterTotal($query, $total)
+    {
+        return $query->where('total', $total);
+    }
+
+    /**
+     * Filter by reconciliation
+     * @param $query
+     * @param $value
+     * @return mixed
+     */
+    private function filterReconciled($query, $value)
+    {
+        if ($value !== "any") {
+            return $query->where('reconciled', convertFromBoolean($value));
+        }
+
+        return $query;
+    }
+
+    /**
+     * Filter by the number of budgets associated with a transaction
+     * @param $query
+     * @param $value
+     * @return mixed
+     */
+    private function filterNumBudgets($query, $value)
+    {
+        if ($value === "none") {
+            $num = ' = 0';
+        }
+        elseif ($value === "single") {
+            $num = ' = 1';
+        }
+        elseif ($value === "multiple") {
+            $num = ' > 1';
+        }
+
+        //first, find get all the transactions that have x number of budgets
+        $sql = "select id from transactions where transactions.user_id = " . Auth::user()->id . " and (select count(*) from tags inner join transactions_tags on tags.id = transactions_tags.tag_id
 	                where transactions_tags.transaction_id = transactions.id
 	                and tags.budget_id is not null)" . $num;
 
-                    $transactions_with_x_budgets = DB::select($sql);
+        $transactions_with_x_budgets = DB::select($sql);
 
-                    //format transactions_with_one_budget into a nice array
-                    $ids = array();
-                    foreach ($transactions_with_x_budgets as $transaction) {
-                        $id = $transaction->id;
-                        $ids[] = $id;
-                    }
-
-                    $transactions = $transactions->whereIn('transactions.id', $ids);
-                    $totals = $totals->whereIn('transactions.id', $ids);
-
-                } //==========description, merchant==========
-                elseif ($type === "description" || $type === "merchant") {
-                    $value = '%' . $value . '%';
-                    $transactions = $transactions->where($type, 'LIKE', $value);
-                    $totals = $totals->where($type, 'LIKE', $value);
-                }
-            }
-
+        //format transactions_with_one_budget into a nice array
+        $ids = array();
+        foreach ($transactions_with_x_budgets as $transaction) {
+            $id = $transaction->id;
+            $ids[] = $id;
         }
 
-        $num_transactions = $totals->count();
+        return $query->whereIn('transactions.id', $ids);
+    }
 
-        $totals = $totals
-            ->select('type', 'reconciled', 'total')
-            ->get();
+    /**
+     *
+     * @param $query
+     * @param $value
+     */
+    private function filterDescriptionOrMerchant($query, $type, $value)
+    {
+        return $query->where($type, 'LIKE', '%' . $value . '%');
+    }
 
-        $transactions = $transactions
+    /**
+     * Filter the transactions for those that have all the tags searched for
+     * @param $query
+     * @param $tags
+     * @return mixed
+     */
+    private function filterTags($query, $tags)
+    {
+        //Make an array of the tag ids searched for
+        $tag_ids = array();
+        foreach ($tags as $tag) {
+            $tag_ids[] = $tag['id'];
+        }
+
+        //Add to the $query
+        foreach ($tag_ids as $tag_id) {
+            $query = $query->whereHas('tags', function ($q) use ($tag_id) {
+                $q->where('tags.id', $tag_id);
+            });
+        }
+
+        return $query;
+    }
+
+    /**
+     * Filter by date
+     * @param $query
+     * @param $type
+     * @param $value
+     */
+    private function filterDates($query, $type, $value)
+    {
+        if ($type === "single_date_sql") {
+            $query = $query->where('date', $value);
+        }
+        elseif ($type === "from_date_sql") {
+            $query = $query->where('date', '>=', $value);
+        }
+        elseif ($type === "to_date_sql") {
+            $query = $query->where('date', '<=', $value);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Get the transactions after putting together the query
+     * @param $query
+     * @param $filter
+     * @return mixed
+     */
+    private function finishTransactionsQuery($query, $filter)
+    {
+        return $query
             ->orderBy('date', 'desc')
             ->orderBy('id', 'desc')
             ->skip($filter['offset'])
@@ -152,18 +228,18 @@ class TransactionsRepository
             ->with('tags')
             ->with('account')
             ->get();
+    }
 
-        //========================get the filter totals========================
-
-        $filter_totals = $this->getFilterTotals($totals);
-        $filter_totals['num_transactions'] = $num_transactions;
-
-        //========================get the transactions========================
-
-        return [
-            "transactions" => $this->getFilteredTransactions($transactions),
-            "totals" => $filter_totals
-        ];
+    /**
+     * Get the totals after putting together the query
+     * @param $query
+     * @return mixed
+     */
+    private function finishTotalsQuery($query)
+    {
+        return $query
+            ->select('type', 'reconciled', 'total')
+            ->get();
     }
 
     /**
@@ -175,12 +251,12 @@ class TransactionsRepository
     {
         foreach ($transactions as $transaction) {
             $date = [
-                'user' => $this->convertDate($transaction->date, 'user')
+                'user' => convertDate($transaction->date, 'user')
             ];
 
             $transaction->date = $date;
-            $transaction->reconciled = $this->convertToBoolean($transaction->reconciled);
-            $transaction->allocated = $this->convertToBoolean($transaction->allocated);
+            $transaction->reconciled = convertToBoolean($transaction->reconciled);
+            $transaction->allocated = convertToBoolean($transaction->allocated);
             $transaction->multiple_budgets = Transaction::hasMultipleBudgets($transaction->id);
         }
 
@@ -228,59 +304,9 @@ class TransactionsRepository
             'income' => number_format($income, 2),
             'expenses' => number_format($expenses, 2),
             'balance' => number_format($balance, 2),
-            'reconciled' => number_format($total_reconciled, 2)
+            'reconciled' => number_format($total_reconciled, 2),
+            'num_transactions' => $totals->count()
         ];
-    }
-
-    /**
-     *
-     * @param $date
-     * @param $for
-     * @return string|static
-     */
-    public function convertDate($date, $for)
-    {
-        $date = Carbon::createFromFormat('Y-m-d', $date);
-
-        if ($for === 'user') {
-            $date = $date->format('d/m/y');
-        } elseif ($for === 'sql') {
-            $date = $date->format('Y-m-d');
-        }
-
-        return $date;
-    }
-
-    /**
-     *
-     * @param $variable
-     * @return int
-     */
-    public function convertFromBoolean($variable)
-    {
-        if ($variable == 'true') {
-            $variable = 1;
-        } elseif ($variable == 'false') {
-            $variable = 0;
-        }
-
-        return $variable;
-    }
-
-    /**
-     *
-     * @param $variable
-     * @return bool
-     */
-    public function convertToBoolean($variable)
-    {
-        if ($variable === 1) {
-            $variable = true;
-        } else {
-            $variable = false;
-        }
-
-        return $variable;
     }
 
     /**

@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
 use Auth;
-use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +15,7 @@ class Transaction extends Model
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at', 'user_id'];
-    
+
     protected $appends = ['path'];
 
     /**
@@ -69,7 +68,7 @@ class Transaction extends Model
     {
         return $this->belongsTo('App\Models\Account');
     }
-    
+
     /**
      * Return the URL of the resource
      * @return string
@@ -98,41 +97,6 @@ class Transaction extends Model
         DB::table('transactions_tags')
             ->where('transaction_id', $transaction->id)
             ->delete();
-    }
-
-    /**
-     * Duplicate function from transactions controller
-     * @param $variable
-     * @return int
-     */
-    public static function convertFromBoolean($variable)
-    {
-        if ($variable == 'true') {
-            $variable = 1;
-        } elseif ($variable == 'false') {
-            $variable = 0;
-        }
-
-        return $variable;
-    }
-
-    /**
-     *
-     * @param $date
-     * @param $for
-     * @return string
-     */
-    public static function convertDate($date, $for)
-    {
-        if ($for === 'user') {
-            $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/y');
-        }
-        elseif ($for === 'sql') {
-            $date = Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d');
-
-        }
-
-        return $date;
     }
 
     /**
