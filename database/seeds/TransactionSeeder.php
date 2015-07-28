@@ -34,8 +34,15 @@ class TransactionSeeder extends Seeder {
 		$faker = Faker::create();
 		$account_ids = Account::where('user_id', $user->id)->lists('id');
         $tag_ids = Tag::where('user_id', $user->id)->lists('id');
+
+        if (app()->env === 'local') {
+            $num_transactions = 10;
+        }
+        else {
+            $num_transactions = 2000;
+        }
 		
-		foreach (range(1, 2000) as $index) {
+		foreach (range(1, $num_transactions) as $index) {
 			$is_transfer = $faker->boolean($chanceOfGettingTrue = 20);
 			$total = $faker->randomElement([5, 10, 15, 20]);
 
