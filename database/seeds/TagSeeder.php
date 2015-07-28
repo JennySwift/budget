@@ -34,7 +34,25 @@ class TagSeeder extends Seeder {
     private function insertFixedBudgetTags($user)
     {
         $faker = Faker::create();
-        $fixed_budget_tags = ['insurance', 'petrol'];
+
+        if (app()->env === 'local') {
+            $fixed_budget_tags = ['insurance', 'petrol'];
+        }
+        else {
+            $fixed_budget_tags = [
+                'one',
+                'two',
+                'three',
+                'four',
+                'five',
+                'six',
+                'seven',
+                'eight',
+                'nine',
+                'ten',
+            ];
+        }
+
 
         foreach ($fixed_budget_tags as $tag) {
             $tag = new Tag([
@@ -52,7 +70,34 @@ class TagSeeder extends Seeder {
     private function insertFlexBudgetTags($user)
     {
         $faker = Faker::create();
-        $flex_budget_tags = ['recreation', 'clothes'];
+
+        if (app()->env === 'local') {
+            $flex_budget_tags = ['recreation', 'clothes'];
+        }
+        else {
+            $flex_budget_tags = [
+                'eleven',
+                'twelve',
+                'thirteen',
+                'fourteen',
+                'fifteen',
+                'sixteen',
+                'seventeen',
+                'eighteen',
+                'nineteen',
+                'twenty',
+                'twenty-one',
+                'twenty-two',
+                'twenty-three',
+                'twenty-four',
+                'twenty-five',
+                'twenty-six',
+                'twenty-seven',
+                'twenty-eight',
+                'twenty-nine',
+                'thirty'
+            ];
+        }
 
         foreach ($flex_budget_tags as $tag) {
             $tag = new Tag([
