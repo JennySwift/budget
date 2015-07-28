@@ -40,13 +40,22 @@
             }, 3000);
         };
 
+        $scope.responseError = function (response) {
+            if (response.status === 503) {
+                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
+            }
+            else {
+                FeedbackFactory.provideFeedback('There was an error');
+            }
+        };
+
         $scope.getTags = function () {
             TagsFactory.getTags()
                 .then(function (response) {
                     $scope.tags = response.data;
                 })
                 .catch(function (response) {
-                    FeedbackFactory.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 });
         };
 
@@ -62,7 +71,7 @@
                     $scope.clearAndFocus($type);
                 })
                 .catch(function (response) {
-                    FeedbackFactory.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 });
         };
 
@@ -114,7 +123,7 @@
                         $scope.updateTag($tag, response);
                     })
                     .catch(function (response) {
-                        FeedbackFactory.provideFeedback('There was an error');
+                        $scope.responseError(response);
                     });
             }
         };
@@ -132,7 +141,7 @@
                     $scope.show.popups.edit_CSD = false;
                 })
                 .catch(function (response) {
-                    FeedbackFactory.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 });
         };
 

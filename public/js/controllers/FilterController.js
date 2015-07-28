@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('FilterController', filter);
 
-    function filter ($scope, $http, FilterFactory) {
+    function filter ($scope, $http, FilterFactory, FeedbackFactory) {
         /**
          * scope properties
          */
@@ -53,13 +53,22 @@
             }
         });
 
+        $scope.responseError = function (response) {
+            if (response.status === 503) {
+                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
+            }
+            else {
+                FeedbackFactory.provideFeedback('There was an error');
+            }
+        };
+
         $scope.multiSearch = function () {
             FilterFactory.multiSearch($scope.filter)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers({filter_results: response.data});
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 })
         };
 

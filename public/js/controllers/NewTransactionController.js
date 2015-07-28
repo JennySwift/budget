@@ -69,6 +69,15 @@
             }
         });
 
+        $scope.responseError = function (response) {
+            if (response.status === 503) {
+                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
+            }
+            else {
+                FeedbackFactory.provideFeedback('There was an error');
+            }
+        };
+
         /**
          * Clear new transaction fields
          */
@@ -134,7 +143,7 @@
                     $scope.checkNewTransactionForMultipleBudgets(response);
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 });
         };
 

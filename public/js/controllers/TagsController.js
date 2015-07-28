@@ -33,14 +33,27 @@ var app = angular.module('budgetApp');
             }, 3000);
         };
 
+        $scope.responseError = function (response) {
+            if (response.status === 503) {
+                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
+            }
+            else {
+                FeedbackFactory.provideFeedback('There was an error');
+            }
+        };
+
         /**
          * select
          */
 
         $scope.getTags = function () {
-            TagsFactory.getTags().then(function (response) {
-                $scope.tags = response.data;
-            });
+            TagsFactory.getTags()
+                .then(function (response) {
+                    $scope.tags = response.data;
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
         };
         $scope.getTags();
 
@@ -57,18 +70,26 @@ var app = angular.module('budgetApp');
                 return;
             }
 
-            TagsFactory.duplicateTagCheck().then(function (response) {
-                var $duplicate = response.data;
-                if ($duplicate > 0) {
-                    FeedbackFactory.provideFeedback('You already have a tag with that name');
-                }
-                else {
-                    TagsFactory.insertTag().then(function (response) {
-                        $scope.getTags();
-                        $("#new-tag-input").val("");
-                    });
-                }
-            });
+            TagsFactory.duplicateTagCheck()
+                .then(function (response) {
+                    var $duplicate = response.data;
+                    if ($duplicate > 0) {
+                        FeedbackFactory.provideFeedback('You already have a tag with that name');
+                    }
+                    else {
+                        TagsFactory.insertTag()
+                            .then(function (response) {
+                                $scope.getTags();
+                                $("#new-tag-input").val("");
+                            })
+                            .catch(function (response) {
+                                $scope.responseError(response);
+                            })
+                    }
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
         };
 
         /**
@@ -82,10 +103,14 @@ var app = angular.module('budgetApp');
         };
 
         $scope.updateTag = function () {
-            TagsFactory.updateTagName($scope.edit_tag_popup.id, $scope.edit_tag_popup.name).then(function (response) {
-                $scope.getTags();
-                $scope.show.popups.edit_tag = false;
-            });
+            TagsFactory.updateTagName($scope.edit_tag_popup.id, $scope.edit_tag_popup.name)
+                .then(function (response) {
+                    $scope.getTags();
+                    $scope.show.popups.edit_tag = false;
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
         };
 
         /**
@@ -93,14 +118,22 @@ var app = angular.module('budgetApp');
          */
 
         $scope.deleteTag = function ($tag_id) {
-            TagsFactory.countTransactionsWithTag($tag_id).then(function (response) {
-                var $count = response.data;
-                if (confirm("You have " + $count + " transactions with this tag. Are you sure?")) {
-                    TagsFactory.deleteTag($tag_id).then(function (response) {
-                        $scope.getTags();
-                    });
-                }
-            });
+            TagsFactory.countTransactionsWithTag($tag_id)
+                .then(function (response) {
+                    var $count = response.data;
+                    if (confirm("You have " + $count + " transactions with this tag. Are you sure?")) {
+                        TagsFactory.deleteTag($tag_id)
+                            .then(function (response) {
+                                $scope.getTags();
+                            })
+                            .catch(function (response) {
+                                $scope.responseError(response);
+                            })
+                    }
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
         };
 
         /**

@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('TransactionsController', transactions);
 
-    function transactions ($scope, $http, TransactionsFactory, FilterFactory, BudgetsFactory) {
+    function transactions ($scope, $http, TransactionsFactory, FilterFactory, BudgetsFactory, FeedbackFactory) {
         /**
          * Scope properties
          */
@@ -31,6 +31,15 @@
             }
         });
 
+        $scope.responseError = function (response) {
+            if (response.status === 503) {
+                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
+            }
+            else {
+                FeedbackFactory.provideFeedback('There was an error');
+            }
+        };
+
         $scope.updateReconciliation = function ($transaction_id, $reconciliation) {
             TransactionsFactory.updateReconciliation($transaction_id, $reconciliation, $scope.filter)
                 .then(function (response) {
@@ -38,7 +47,7 @@
                     $scope.totals = response.data;
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 });
         };
 
@@ -65,7 +74,7 @@
                     $scope.totals = response.data;
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 });
         };
 
@@ -90,7 +99,7 @@
                     $tag_location.html($tag_array);
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 });
         };
 
@@ -100,7 +109,7 @@
                     multiSearch();
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 });
         };
 
@@ -119,7 +128,7 @@
                         $scope.allocation_popup.allocation_totals = response.data.allocation_totals;
                     })
                     .catch(function (response) {
-                        $scope.provideFeedback('There was an error');
+                        $scope.responseError(response);
                     });
             }
         };
@@ -130,7 +139,7 @@
                     console.log("something");
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 });
         };
 
@@ -146,7 +155,7 @@
                         $scope.provideFeedback('Transaction deleted');
                     })
                     .catch(function (response) {
-                        $scope.provideFeedback('There was an error');
+                        $scope.responseError(response);
                     });
             }
         };

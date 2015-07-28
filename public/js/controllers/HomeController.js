@@ -86,6 +86,15 @@
             }, 3000);
         };
 
+        $scope.responseError = function (response) {
+            if (response.status === 503) {
+                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
+            }
+            else {
+                FeedbackFactory.provideFeedback('There was an error');
+            }
+        };
+
         $scope.testFeedback = function () {
             $scope.provideFeedback('something');
         };
@@ -97,7 +106,7 @@
                     $scope.show.color_picker = false;
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 });
         };
 
@@ -124,7 +133,7 @@
                     $scope.allocation_popup.allocation_totals = response.data;
                 })
                 .catch(function (response) {
-                    $scope.provideFeedback('There was an error');
+                    $scope.responseError(response);
                 });
         };
 

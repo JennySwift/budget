@@ -19,6 +19,12 @@
          
     <div class="main">
 
+        <div id="feedback">
+            <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
+                [[message]]
+            </div>
+        </div>
+
         <div id="accounts">
 
             <input ng-keyup="insertAccount($event.keyCode)" type="text" class="new_account_input font-size-sm center margin-bottom" id="new_account_input" placeholder="new account">
