@@ -11,6 +11,9 @@ use Debugbar;
  */
 class TransactionsRepository
 {
+
+    private $num_transactions;
+
     /**
      * For Postman:
      *
@@ -66,6 +69,8 @@ class TransactionsRepository
                 }
             }
         }
+
+        $this->num_transactions = $query->count();
 
         return [
             "transactions" => $this->getFilteredTransactions($this->finishTransactionsQuery($query, $filter)),
@@ -305,7 +310,7 @@ class TransactionsRepository
             'expenses' => number_format($expenses, 2),
             'balance' => number_format($balance, 2),
             'reconciled' => number_format($total_reconciled, 2),
-            'num_transactions' => $totals->count()
+            'num_transactions' => $this->num_transactions
         ];
     }
 
