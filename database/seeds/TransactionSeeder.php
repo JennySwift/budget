@@ -36,10 +36,10 @@ class TransactionSeeder extends Seeder {
         $tag_ids = Tag::where('user_id', $user->id)->lists('id');
 
         if (app()->env === 'local') {
-            $num_transactions = 2000;
+            $num_transactions = 100;
         }
         else {
-            $num_transactions = 2000;
+            $num_transactions = 100;
         }
 		
 		foreach (range(1, $num_transactions) as $index) {

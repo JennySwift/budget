@@ -12,7 +12,8 @@ use Auth;
 class TagsRepository {
 
     /**
-     *
+     * @VP:
+     * This seems to be causing 3 queries, not sure why.
      * @param $user_id
      * @return mixed
      */
@@ -23,6 +24,8 @@ class TagsRepository {
             ->whereNotNull('fixed_budget')
             ->orderBy('name', 'asc')
             ->get();
+
+//        $tags = Tag::find(1);
 
         return $tags;
     }

@@ -36,10 +36,10 @@ class TagSeeder extends Seeder {
         $faker = Faker::create();
 
         if (app()->env === 'local') {
-            $fixed_budget_tags = $this->getFixedBudgetTags('few');
+            $fixed_budget_tags = $this->getFixedBudgetTags(4);
         }
         else {
-            $fixed_budget_tags = $this->getFixedBudgetTags('lots');
+            $fixed_budget_tags = $this->getFixedBudgetTags(4);
         }
 
 
@@ -61,10 +61,10 @@ class TagSeeder extends Seeder {
         $faker = Faker::create();
 
         if (app()->env === 'local') {
-            $flex_budget_tags = $this->getFlexBudgetTags('few');
+            $flex_budget_tags = $this->getFlexBudgetTags(4);
         }
         else {
-            $flex_budget_tags = $this->getFlexBudgetTags('lots');
+            $flex_budget_tags = $this->getFlexBudgetTags(4);
         }
 
         foreach ($flex_budget_tags as $tag) {
@@ -95,57 +95,53 @@ class TagSeeder extends Seeder {
 
     private function getFlexBudgetTags($quantity)
     {
-        if ($quantity === 'lots') {
-            $flex_budget_tags = [
-                'eleven',
-                'twelve',
-                'thirteen',
-                'fourteen',
-                'fifteen',
-                'sixteen',
-                'seventeen',
-                'eighteen',
-                'nineteen',
-                'twenty',
-                'twenty-one',
-                'twenty-two',
-                'twenty-three',
-                'twenty-four',
-                'twenty-five',
-                'twenty-six',
-                'twenty-seven',
-                'twenty-eight',
-                'twenty-nine',
-                'thirty'
-            ];
-        }
-        else {
-            $flex_budget_tags = ['recreation', 'clothes'];
+        $array = [
+            'eating out',
+            'entertainment',
+            'recreation',
+            'holidays',
+            'gifts',
+            'books',
+            'clothes',
+            'church',
+            'equipment',
+            'guitar',
+            'health',
+            'miscellaneous',
+            'music',
+            'superannuation',
+            'tax'
+        ];
+
+        //In order to have the specified $quantity of tags
+        $tags = [];
+        foreach (range(1, $quantity) as $index) {
+            $tags[] = $array[$index -1];
         }
 
-        return $flex_budget_tags;
+        return $tags;
     }
 
     private function getFixedBudgetTags($quantity)
     {
-        if ($quantity === 'lots') {
-            $fixed_budget_tags = [
-                'one',
-                'two',
-                'three',
-                'four',
-                'five',
-                'six',
-                'seven',
-                'eight',
-                'nine',
-                'ten',
-            ];
-        }
-        else {
-            $fixed_budget_tags = ['insurance', 'petrol'];
+        $array = [
+            'groceries',
+            'rent',
+            'licenses',
+            'insurance',
+            'conferences',
+            'car',
+            'mobile phone',
+            'petrol',
+            'sport'
+        ];
+
+        //In order to have the specified $quantity of tags
+        $tags = [];
+        foreach (range(1, $quantity) as $index) {
+            $tags[] = $array[$index -1];
         }
 
-        return $fixed_budget_tags;
+        return $tags;
     }
 }
