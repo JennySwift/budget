@@ -36,21 +36,10 @@ class TagSeeder extends Seeder {
         $faker = Faker::create();
 
         if (app()->env === 'local') {
-            $fixed_budget_tags = ['insurance', 'petrol'];
+            $fixed_budget_tags = $this->getFixedBudgetTags('lots');
         }
         else {
-            $fixed_budget_tags = [
-                'one',
-                'two',
-                'three',
-                'four',
-                'five',
-                'six',
-                'seven',
-                'eight',
-                'nine',
-                'ten',
-            ];
+            $fixed_budget_tags = $this->getFixedBudgetTags('lots');
         }
 
 
@@ -72,31 +61,10 @@ class TagSeeder extends Seeder {
         $faker = Faker::create();
 
         if (app()->env === 'local') {
-            $flex_budget_tags = ['recreation', 'clothes'];
+            $flex_budget_tags = $this->getFlexBudgetTags('lots');
         }
         else {
-            $flex_budget_tags = [
-                'eleven',
-                'twelve',
-                'thirteen',
-                'fourteen',
-                'fifteen',
-                'sixteen',
-                'seventeen',
-                'eighteen',
-                'nineteen',
-                'twenty',
-                'twenty-one',
-                'twenty-two',
-                'twenty-three',
-                'twenty-four',
-                'twenty-five',
-                'twenty-six',
-                'twenty-seven',
-                'twenty-eight',
-                'twenty-nine',
-                'thirty'
-            ];
+            $flex_budget_tags = $this->getFlexBudgetTags('lots');
         }
 
         foreach ($flex_budget_tags as $tag) {
@@ -123,5 +91,61 @@ class TagSeeder extends Seeder {
             $tag->user()->associate($user);
             $tag->save();
         }
+    }
+
+    private function getFlexBudgetTags($quantity)
+    {
+        if ($quantity === 'lots') {
+            $flex_budget_tags = [
+                'eleven',
+                'twelve',
+                'thirteen',
+                'fourteen',
+                'fifteen',
+                'sixteen',
+                'seventeen',
+                'eighteen',
+                'nineteen',
+                'twenty',
+                'twenty-one',
+                'twenty-two',
+                'twenty-three',
+                'twenty-four',
+                'twenty-five',
+                'twenty-six',
+                'twenty-seven',
+                'twenty-eight',
+                'twenty-nine',
+                'thirty'
+            ];
+        }
+        else {
+            $flex_budget_tags = ['recreation', 'clothes'];
+        }
+
+        return $flex_budget_tags;
+    }
+
+    private function getFixedBudgetTags($quantity)
+    {
+        if ($quantity === 'lots') {
+            $fixed_budget_tags = [
+                'one',
+                'two',
+                'three',
+                'four',
+                'five',
+                'six',
+                'seven',
+                'eight',
+                'nine',
+                'ten',
+            ];
+        }
+        else {
+            $fixed_budget_tags = ['insurance', 'petrol'];
+        }
+
+        return $fixed_budget_tags;
     }
 }
