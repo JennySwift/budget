@@ -28,8 +28,8 @@ class CreateTransactionsTable extends Migration {
 			$table->boolean('allocated');
 			$table->integer('user_id')->unsigned(); //foreign key
 
-			$table->foreign('account_id')->references('id')->on('accounts');
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');	
+			$table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 		});
 
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');
