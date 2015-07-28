@@ -18,7 +18,7 @@ class AccountSeeder extends Seeder {
             $this->insertAccounts(User::whereEmail('cheezyspaghetti@gmail.com')->first());
         }
         else {
-            $this->insertAccounts(User::whereEmail('cheezyspaghetti@optusnet.com.au')->first);
+            $this->insertAccounts(User::whereEmail('cheezyspaghetti@optusnet.com.au')->first());
         }
 
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');
