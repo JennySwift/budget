@@ -36,7 +36,7 @@ class TransactionSeeder extends Seeder {
         $tag_ids = Tag::where('user_id', $user->id)->lists('id');
 
         if (app()->env === 'local') {
-            $num_transactions = 10;
+            $num_transactions = 2000;
         }
         else {
             $num_transactions = 2000;
