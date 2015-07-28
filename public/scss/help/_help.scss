@@ -1,0 +1,21 @@
+#help {
+    display: flex;
+//    flex-direction: column;
+    justify-content: center;
+//    align-items: center;
+    color: #777;
+    > div {
+        border: 1px solid #777;
+        margin-top: 60px;
+        margin-bottom: 60px;
+        box-shadow: 3px 3px 5px #777;
+        border-radius: 4px;
+        padding: 20px 33px;
+    }
+    p, li {
+        width: 780px;
+        font-size: 18px;
+        line-height: 1.5em;
+        text-align: left;
+    }
+}

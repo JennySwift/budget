@@ -871,3 +871,20 @@ caption {
       position: absolute;
       width: 5px;
       bottom: 0; }
+
+#help {
+  display: flex;
+  justify-content: center;
+  color: #777; }
+  #help > div {
+    border: 1px solid #777;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    box-shadow: 3px 3px 5px #777;
+    border-radius: 4px;
+    padding: 20px 33px; }
+  #help p, #help li {
+    width: 780px;
+    font-size: 18px;
+    line-height: 1.5em;
+    text-align: left; }

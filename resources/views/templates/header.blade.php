@@ -58,13 +58,7 @@
         </a>
         <ul class="dropdown-menu" role="menu">
             <li>
-                <a href="#">Tour</a>
-            </li>
-            <li>
-                <a href="#">Tour 2</a>
-            </li>
-            <li>
-                <a href="#">How to</a>
+                <a href="/help">Start here :)</a>
             </li>
         </ul>
     </li>

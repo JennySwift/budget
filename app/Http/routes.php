@@ -113,6 +113,7 @@ Route::resource('tags', 'TagsController', ['only' => ['show', 'update']]);
 Route::resource('transactions', 'TransactionsController', ['only' => ['show', 'update']]);
 Route::resource('users', 'UsersController', ['only' => ['destroy']]);
 Route::resource('totals', 'TotalsController', ['only' => ['index']]);
+Route::resource('help', 'HelpController', ['only' => ['index']]);
 
 /**
  * Ajax
