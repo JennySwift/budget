@@ -57,6 +57,42 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function accounts()
+    {
+        return $this->hasMany('App\Models\Account');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function colors()
+    {
+        return $this->hasMany('App\Models\Color');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function savings()
+    {
+        return $this->hasOne('App\Models\Savings');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tags()
+    {
+        return $this->hasMany('App\Models\Tag');
+    }
+
+    /**
      * Return the gravatar URL for the user
      * @return string
      */
