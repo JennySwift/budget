@@ -52,7 +52,7 @@ class UserSeeder extends Seeder {
             $this->createUser('Dummy', 'cheezyspaghetti@gmail.com');
         }
         else {
-            $this->createUser('Dummy', 'cheezyspaghetti@optusnet.com.au');
+            $this->createUser('Dummy', 'cheezyspaghetti@optusnet.com.au', 's2fkxo6jkx%c{AnNUYqfLx6(TWhBni');
         }
     }
 
@@ -66,12 +66,12 @@ class UserSeeder extends Seeder {
         $dummy->delete();
     }
 
-    private function createUser($name, $email)
+    private function createUser($name, $email, $password = 'abcdefg')
     {
         User::create([
             'name' => $name,
             'email' => $email,
-            'password' => bcrypt('abcdefg'),
+            'password' => bcrypt($password),
             'settings' => [
                 'income' => 'green',
                 'expense' => 'red',
