@@ -95,6 +95,14 @@
             }
         };
 
+        /**
+         * For trying to get the page load faster,
+         * seeing the queries that are taking place
+         */
+        $scope.debugTotals = function () {
+            return $http.get('/totals');
+        };
+
         $scope.testFeedback = function () {
             $scope.provideFeedback('something');
         };

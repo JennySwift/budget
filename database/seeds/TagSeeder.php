@@ -36,7 +36,7 @@ class TagSeeder extends Seeder {
         $faker = Faker::create();
 
         if (app()->env === 'local') {
-            $fixed_budget_tags = $this->getFixedBudgetTags('lots');
+            $fixed_budget_tags = $this->getFixedBudgetTags('few');
         }
         else {
             $fixed_budget_tags = $this->getFixedBudgetTags('lots');
@@ -61,7 +61,7 @@ class TagSeeder extends Seeder {
         $faker = Faker::create();
 
         if (app()->env === 'local') {
-            $flex_budget_tags = $this->getFlexBudgetTags('lots');
+            $flex_budget_tags = $this->getFlexBudgetTags('few');
         }
         else {
             $flex_budget_tags = $this->getFlexBudgetTags('lots');

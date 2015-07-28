@@ -26,6 +26,8 @@
             [[message]]
         </div>
     </div>
+
+        <button ng-click="debugTotals()">debug totals</button>
     
     <div>
     

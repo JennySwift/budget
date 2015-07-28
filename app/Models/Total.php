@@ -3,16 +3,21 @@
 use App\Repositories\Tags\TagsRepository;
 use App\Services\BudgetTableTotalsService;
 use App\Services\TotalsService;
-use Illuminate\Database\Eloquent\Model;
 
-class Total extends Model {
+class Total {
+    //Todo: This whole file could be TotalsRepository.
+
 
     /**
      * Get all the data for the fixed and flex budget tables,
      * as well as RB and RBWEFLB.
      * This is the method that calls the other total stuff.
+     * Todo: Could be fixedandflexdata model with 4 properties (the ones I am returning here)
+     * In the future I could also create interfaces.
+     * Like example in codementor. Don't use extends model and line 6 here because I don't need the model method things.
      * @return array
      */
+
     public function getFixedAndFlexData()
     {
         $FB_info = $this->getTagsAndTotalsForSpecifiedBudget('fixed');
@@ -97,7 +102,12 @@ class Total extends Model {
     {
         $budgetTableTotalsService = new BudgetTableTotalsService();
         $tagsRepository = new TagsRepository();
-        $totalsService = new TotalsService();
+        //If totalsservice is calling this file, this file should not call TotalsService (unless tightly coupled, but rare)
+        //(put the getCredit method in this file)
+        //maybe interface if two repositories have similar methods?
+        //flex budget repository and fixed budget repository and they would share same methods, interface budget
+        //or extend budgetrepository
+        $totalsService = new TotalsService($this);
 
         $RB =
               $totalsService->getCredit()

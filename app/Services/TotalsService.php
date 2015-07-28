@@ -17,6 +17,16 @@ use DB;
 class TotalsService {
 
     /**
+     * @var Total
+     */
+    private $total;
+
+    public function __construct(Total $total)
+    {
+        $this->total = $total;
+    }
+
+    /**
      * Get the sum of all the user's expense transactions
      * @return int
      */
@@ -112,10 +122,10 @@ class TotalsService {
      * @return array
      */
     public function getBasicAndBudgetTotals() {
-        $total = new Total();
+//        $total = new Total();
         return [
             'basic' => $this->getBasicTotals(),
-            'budget' => $total->getFixedAndFlexData()
+            'budget' => $this->total->getFixedAndFlexData()
         ];
     }
 }

@@ -24,8 +24,13 @@ class BudgetTableTotalsService {
         $tagsRepository = new TagsRepository();
         $tags = $tagsRepository->getTagsWithSpecifiedBudget($type);
         $total = 0;
+
+        //I could do this in my tag model
         $string = $type . '_budget';
 
+        //This could be in TagsRepository
+        //Foreach is slower on collections
+        //Could use map (see codementor example). Foreach efficient if real array.
         foreach ($tags as $tag) {
             $total += $tag->$string;
         }

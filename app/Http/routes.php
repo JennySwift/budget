@@ -112,6 +112,7 @@ Route::controllers([
 Route::resource('tags', 'TagsController', ['only' => ['show', 'update']]);
 Route::resource('transactions', 'TransactionsController', ['only' => ['show', 'update']]);
 Route::resource('users', 'UsersController', ['only' => ['destroy']]);
+Route::resource('totals', 'TotalsController', ['only' => ['index']]);
 
 /**
  * Ajax
@@ -197,9 +198,7 @@ Route::post('update/reverseAutomaticInsertIntoSavings', 'SavingsController@rever
  * totals
  */
 
-Route::post('totals/basic', 'TotalsController@getBasicTotals');
-Route::post('totals/budget', 'TotalsController@getFixedAndFlexData');
-Route::post('totals/basicAndBudget', 'TotalsController@getBasicAndBudgetTotals');
+//Route::post('totals/basicAndBudget', 'TotalsController@index');
 
 /**
  * preferences
