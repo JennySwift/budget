@@ -4,18 +4,19 @@
     <!-- table header -->
     <tr>
         <th class="tag">Tag</th>
+        <th class="tooltipster" title="# percent of F/I">%</th>
         <th class="tooltipster" title="amount (% column % of F/I)">A</th>
         <th class="tooltipster" title="cumulative starting date">SD</th>
         <th class="tooltipster" title="cumulative month number">CMN</th>
         <th class="tooltipster" title="spent after starting date">-</th>
         <th class="tooltipster" title="received">+</th>
         <th class="tooltipster" title="remaining">R</th>
-        <th class="tooltipster" title="# percent of F/I">%</th>
         <th>x</th>
     </tr>
     <!-- table content -->
     <tr ng-repeat="tag in totals.budget.FLB.tags" class="budget_info_ul">
         <td class="budget-tag">[[tag.name]]</td>
+        <td class="percent">[[tag.flex_budget]]</td>
         <td class="amount">[[tag.calculated_budget]]</td>
         <td class="CSD">
             <span>[[tag.formatted_starting_date]]</span>
@@ -25,7 +26,6 @@
         <td class="spent">[[tag.spent_after_SD]]</td>
         <td class="received">[[tag.received_after_SD]]</td>
         <td class="remaining">[[tag.remaining]]</td>
-        <td class="percent">[[tag.flex_budget]]</td>
         <td ng-click="removeBudget(tag)" class="pointer">x</td>
     </tr>
     {{--unallocated--}}

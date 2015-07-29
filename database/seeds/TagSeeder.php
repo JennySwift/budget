@@ -36,10 +36,10 @@ class TagSeeder extends Seeder {
         $faker = Faker::create();
 
         if (app()->env === 'local') {
-            $fixed_budget_tags = $this->getFixedBudgetTags(4);
+            $fixed_budget_tags = $this->getFixedBudgetTags(1);
         }
         else {
-            $fixed_budget_tags = $this->getFixedBudgetTags(4);
+            $fixed_budget_tags = $this->getFixedBudgetTags(1);
         }
 
 
@@ -61,10 +61,10 @@ class TagSeeder extends Seeder {
         $faker = Faker::create();
 
         if (app()->env === 'local') {
-            $flex_budget_tags = $this->getFlexBudgetTags(4);
+            $flex_budget_tags = $this->getFlexBudgetTags(1);
         }
         else {
-            $flex_budget_tags = $this->getFlexBudgetTags(4);
+            $flex_budget_tags = $this->getFlexBudgetTags(1);
         }
 
         foreach ($flex_budget_tags as $tag) {

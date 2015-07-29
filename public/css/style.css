@@ -875,16 +875,31 @@ caption {
 #help {
   display: flex;
   justify-content: center;
-  color: #777; }
-  #help > div {
+  color: #777;
+  line-height: 1.5em;
+  margin-top: 60px;
+  margin-bottom: 60px; }
+  #help #help-content {
     border: 1px solid #777;
-    margin-top: 60px;
-    margin-bottom: 60px;
     box-shadow: 3px 3px 5px #777;
     border-radius: 4px;
     padding: 20px 33px; }
-  #help p, #help li {
-    width: 780px;
-    font-size: 18px;
-    line-height: 1.5em;
-    text-align: left; }
+    #help #help-content p, #help #help-content li {
+      font-size: 18px;
+      width: 780px;
+      text-align: left; }
+  #help h2:before, #help h4:before {
+    display: block;
+    content: " ";
+    margin-top: -60px;
+    height: 60px;
+    visibility: hidden; }
+
+#help-navigation-container {
+  position: fixed; }
+  #help-navigation-container .dropdown-content {
+    width: 215px; }
+    #help-navigation-container .dropdown-content #help-navigation > ul {
+      padding-left: 5px; }
+      #help-navigation-container .dropdown-content #help-navigation > ul li {
+        list-style: none; }

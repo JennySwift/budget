@@ -44,7 +44,7 @@ Route::get('tag-autocomplete', function()
     return view('directives/TagAutocompleteTemplate');
 });
 
-Route::get('totals', function()
+Route::get('totals-directive', function()
 {
     return view('directives/TotalsTemplate');
 });
