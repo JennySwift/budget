@@ -1,40 +1,16 @@
-<?php namespace App\Models;
+<?php namespace App\Repositories\Totals;
 
+use App\Models\FixedAndFlexData;
+use App\Models\Savings;
 use App\Repositories\Tags\TagsRepository;
 use App\Services\BudgetTableTotalsService;
 use App\Services\TotalsService;
 
-class Total {
-    //Todo: This whole file could be TotalsRepository.
-
-
-    /**
-     * Get all the data for the fixed and flex budget tables,
-     * as well as RB and RBWEFLB.
-     * This is the method that calls the other total stuff.
-     * Todo: Could be fixedandflexdata model with 4 properties (the ones I am returning here)
-     * In the future I could also create interfaces.
-     * Like example in codementor. Don't use extends model and line 6 here because I don't need the model method things.
-     * @return array
-     */
-
-    public function getFixedAndFlexData()
-    {
-        $FB_info = $this->getTagsAndTotalsForSpecifiedBudget('fixed');
-        $FLB_info = $this->getTagsAndTotalsForSpecifiedBudget('flex');
-        $budgetTableTotalsService = new BudgetTableTotalsService();
-
-        //Get the unallocated values for flex budget
-        $FLB_info['unallocated'] = $budgetTableTotalsService->getUnallocatedFLB();
-        $FLB_info['totals']['budget'] = 100;
-        
-        return [
-            "FB" => $FB_info,
-            "FLB" => $FLB_info,
-            "RB" => number_format($this->getRBWithEFLB(), 2),
-            "RBWEFLB" => number_format($this->getRBWEFLB(), 2)
-        ];
-    }
+/**
+ * Class TotalsRepository
+ * @package App\Repositories\Totals
+ */
+class TotalsRepository {
 
     /**
      * For either the fixed of flex budget table.
@@ -107,10 +83,11 @@ class Total {
         //maybe interface if two repositories have similar methods?
         //flex budget repository and fixed budget repository and they would share same methods, interface budget
         //or extend budgetrepository
-        $totalsService = new TotalsService($this);
+        $fixedAndFlexData = new FixedAndFlexData($this);
+        $totalsService = new TotalsService($fixedAndFlexData);
 
         $RB =
-              $totalsService->getCredit()
+            $totalsService->getCredit()
             - $budgetTableTotalsService->getRemainingBudget('fixed')
             + $totalsService->getEWB()
             + $budgetTableTotalsService->getSpentBeforeSD('flex')
@@ -132,6 +109,4 @@ class Total {
         $budgetTableTotalsService = new BudgetTableTotalsService();
         return $this->getRBWithEFLB() - $budgetTableTotalsService->getSpentAfterSD('flex');
     }
-
-
 }

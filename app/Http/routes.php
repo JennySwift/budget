@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Account;
+use App\Models\FixedAndFlexData;
 use App\Models\Tag;
 use App\Models\Total;
 use App\Models\Transaction;
@@ -10,11 +11,18 @@ use App\Services\TotalsService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function(TotalsService $totalsService, BudgetTableTotalsService $budgetTableTotalsService)
+Route::get('/test', function(TotalsService $totalsService, BudgetTableTotalsService $budgetTableTotalsService, FixedAndFlexData $fixedAndFlexData)
 {
+    /**
+     * @VP:
+     * How to I inject something into my routes file?
+     * So I can do return $this->totalsService->getBasicAndBudgetTotals();
+     */
     $total = new Total;
     $tagsRepository = new TagsRepository();
-    return $tagsRepository->getTagsWithFixedBudget();
+    return $totalsService->getBasicAndBudgetTotals();
+//    return $fixedAndFlexData->getFixedAndFlexData();
+//    return $tagsRepository->getTagsWithFixedBudget();
 //    return $tagsRepository->getTagsWithSpecifiedBudget('fixed');
 //    return $total->getTagsAndTotalsForSpecifiedBudget('fixed');
 //    return $budgetTableTotalsService->getSpentAfterSD('fixed');

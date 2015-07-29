@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Models\Total;
 use App\Repositories\Tags\TagsRepository;
+use App\Repositories\Totals\TotalsRepository;
 
 /**
  * Class BudgetTableTotalsService
@@ -46,8 +47,8 @@ class BudgetTableTotalsService {
      */
     public function getUnallocatedFLB()
     {
-        $total = new Total();
-        $RBWEFLB = $total->getRBWEFLB();
+        $totalsRepository = new TotalsRepository();
+        $RBWEFLB = $totalsRepository->getRBWEFLB();
         $unallocated_budget = 100 - $this->getBudget('flex');
 
         return [

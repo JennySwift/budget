@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Repositories\Totals\TotalsRepository;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -93,9 +94,14 @@ class Tag extends Model
      */
     public function getCalculatedBudgetAttribute()
     {
-        $total = new Total();
+        /**
+         * @VP:
+         * So what am I supposed to do instead of this line,
+         * since the constructor doesn't work in a model?
+         */
+        $totalsRepository = new TotalsRepository();
         if ($this->budget_type === 'flex') {
-            return $this->calculated_budget = $total->getRBWEFLB() / 100 * $this->flex_budget;
+            return $this->calculated_budget = $totalsRepository->getRBWEFLB() / 100 * $this->flex_budget;
         }
     }
 

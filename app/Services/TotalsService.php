@@ -3,6 +3,7 @@
 namespace App\Services;
 
 
+use App\Models\FixedAndFlexData;
 use App\Models\Savings;
 use App\Models\Total;
 use App\Models\Transaction;
@@ -17,13 +18,17 @@ use DB;
 class TotalsService {
 
     /**
-     * @var Total
+     * @var FixedAndFlexData
      */
-    private $total;
+    private $fixedAndFlexData;
 
-    public function __construct(Total $total)
+    /**
+     * @param Total $total
+     * @param FixedAndFlexData $fixedAndFlexData
+     */
+    public function __construct(FixedAndFlexData $fixedAndFlexData)
     {
-        $this->total = $total;
+        $this->fixedAndFlexData = $fixedAndFlexData;
     }
 
     /**
@@ -122,10 +127,10 @@ class TotalsService {
      * @return array
      */
     public function getBasicAndBudgetTotals() {
-//        $total = new Total();
         return [
             'basic' => $this->getBasicTotals(),
-            'budget' => $this->total->getFixedAndFlexData()
+            'budget' => $this->fixedAndFlexData->getFixedAndFlexData()
+//            'budget' => new $this->fixedAndFlexData()
         ];
     }
 }
