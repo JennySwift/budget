@@ -25,8 +25,6 @@ class TagsRepository {
             ->orderBy('name', 'asc')
             ->get();
 
-//        $tags = Tag::find(1);
-
         return $tags;
     }
 
