@@ -3,7 +3,7 @@
     <div class="help-row">
         <label>Enter a description (optional)</label>
 
-        <div dropdown-directive class="dropdown-directive">
+        <div dropdowns-directive class="dropdown-directive">
             <button ng-click="showDropdown()" tabindex="-1" class="btn btn-info btn-xs">
                 Help
                 <span class="caret"></span>

@@ -1,6 +1,6 @@
 <div class="help-row">
 
-    <div dropdown class="dropdown-directive">
+    <div dropdowns-directive class="dropdown-directive">
         <button ng-click="showDropdown()" class="btn btn-info btn-xs">
             Help
             <span class="caret"></span>
