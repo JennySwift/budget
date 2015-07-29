@@ -10,18 +10,10 @@ use App\Services\TotalsService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function()
+Route::get('/test', function(TotalsService $totalsService)
 {
-    $total = new Total();
-    return $total->getFixedAndFlexData();
+    return $totalsService->getBasicAndBudgetTotals();
 });
-
-//Route::get('/test', function()
-//{
-//    $tag = Tag::first();
-//    //dd($tag);
-//    return $tag->spent_before_SD;
-//});
 
 //Route::get('/test', 'TotalsController@getFixedAndFlexData');
 

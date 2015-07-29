@@ -100,7 +100,7 @@
          * seeing the queries that are taking place
          */
         $scope.debugTotals = function () {
-            return $http.get('/totals');
+            return $http.get('/test');
         };
 
         $scope.testFeedback = function () {

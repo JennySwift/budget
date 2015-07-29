@@ -16,17 +16,17 @@ class CreateTransactionsTable extends Migration {
 
 		Schema::create('transactions', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('id')->index();
 			$table->timestamps();
-			$table->date('date');
-			$table->string('type');
-			$table->string('description')->nullable();
-			$table->string('merchant')->nullable();
-			$table->decimal('total', 10, 2);
-			$table->integer('account_id')->unsigned(); //foreign key
-			$table->boolean('reconciled');
-			$table->boolean('allocated');
-			$table->integer('user_id')->unsigned(); //foreign key
+			$table->date('date')->index();
+			$table->string('type')->index();
+			$table->string('description')->nullable()->index();
+			$table->string('merchant')->nullable()->index();
+			$table->decimal('total', 10, 2)->index();
+			$table->integer('account_id')->unsigned()->index();
+			$table->boolean('reconciled')->index();
+			$table->boolean('allocated')->index();
+			$table->integer('user_id')->unsigned()->index();
 
 			$table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

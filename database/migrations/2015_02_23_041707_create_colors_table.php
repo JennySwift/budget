@@ -18,9 +18,9 @@ class CreateColorsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->timestamps();
-			$table->string('item');
-			$table->string('color');
-			$table->integer('user_id')->unsigned(); //foreign key
+			$table->string('item')->index();
+			$table->string('color')->index();
+			$table->integer('user_id')->unsigned()->index();
 
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 		});
