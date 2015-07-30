@@ -24,7 +24,7 @@ class Tag extends Model
      * @VP: Which is better, putting these attributes here when I don't need them all the time,
      * or looping through all the tags to add the attributes to each tag when I need them?
      */
-    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining', 'cumulative', 'spent_before_SD', 'spent_after_SD', 'received_after_SD'];
+    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'cumulative'];
 
     /**
      *
@@ -70,21 +70,6 @@ class Tag extends Model
     {
         if ($this->starting_date) {
             return convertDate($this->starting_date, 'user');
-        }
-    }
-
-    /**
-     * Get the remaining budget for tags with fixed or flex budget
-     * @return mixed
-     */
-    public function getRemainingAttribute()
-    {
-        if ($this->budget_type === 'fixed') {
-            return $this->cumulative + $this->spent_after_SD + $this->received_after_SD;
-        }
-        elseif ($this->budget_type === 'flex') {
-//            return $this->spent_after_SD + $this->received_after_SD;
-            return $this->calculated_budget + $this->spent_after_SD + $this->received_after_SD;
         }
     }
 
@@ -184,6 +169,14 @@ class Tag extends Model
         return $tag;
     }
 
+//    public function spentAfterSD()
+//    {
+//        return $this->hasOne('App/Models/Tag')
+//            ->selectRaw('product_id, sum(available_stock) as aggregate');
+//    }
+
+    //Todo: The four methods below are causing a lot of queries to run.
+
     /**
      * Get total spent on a given tag on or after starting date
      * @param $tag_id
@@ -192,6 +185,7 @@ class Tag extends Model
      */
     public function getSpentAfterSDAttribute()
     {
+//        return 3;
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
@@ -216,6 +210,7 @@ class Tag extends Model
      */
     public function getReceivedAfterSDAttribute()
     {
+//        return 3;
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
@@ -240,6 +235,7 @@ class Tag extends Model
      */
     public function getSpentBeforeSDAttribute()
     {
+//        return 3;
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
@@ -256,8 +252,19 @@ class Tag extends Model
         return $total;
     }
 
-    public function getTotals()
+    /**
+     * Get the remaining budget for tags with fixed or flex budget
+     * @return mixed
+     */
+    public function getRemainingAttribute()
     {
-
+//        return 3;
+        if ($this->budget_type === 'fixed') {
+            return $this->cumulative + $this->spent_after_SD + $this->received_after_SD;
+        }
+        elseif ($this->budget_type === 'flex') {
+//            return $this->spent_after_SD + $this->received_after_SD;
+            return $this->calculated_budget + $this->spent_after_SD + $this->received_after_SD;
+        }
     }
 }

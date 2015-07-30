@@ -201,7 +201,7 @@ class TransactionsController extends Controller
 
         return [
             "transaction" => $transaction,
-            "multiple_budgets" => Transaction::hasMultipleBudgets($transaction->id),
+            "multiple_budgets" => $transaction->hasMultipleBudgets(),
             'totals' => $this->totalsService->getBasicAndBudgetTotals(),
             'filter_results' => $transactionsRepository->filterTransactions($request->get('filter'))
         ];

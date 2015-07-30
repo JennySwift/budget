@@ -104,14 +104,12 @@ class Transaction extends Model
      * @param $transaction_id
      * @return bool
      */
-    public static function hasMultipleBudgets($transaction_id)
+    public function hasMultipleBudgets()
     {
-        $transaction = Transaction::find($transaction_id);
-
         $tag_with_budget_counter = 0;
         $multiple_budgets = false;
 
-        foreach ($transaction->tags as $tag) {
+        foreach ($this->tags as $tag) {
             if ($tag->fixed_budget || $tag->flex_budget) {
                 //the tag has a budget
                 $tag_with_budget_counter++;

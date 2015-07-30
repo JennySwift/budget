@@ -262,7 +262,7 @@ class TransactionsRepository
             $transaction->date = $date;
             $transaction->reconciled = convertToBoolean($transaction->reconciled);
             $transaction->allocated = convertToBoolean($transaction->allocated);
-            $transaction->multiple_budgets = Transaction::hasMultipleBudgets($transaction->id);
+            $transaction->multiple_budgets = $transaction->hasMultipleBudgets();
         }
 
         return $transactions;

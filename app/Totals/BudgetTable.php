@@ -14,8 +14,14 @@ class BudgetTable {
      */
     public $tags;
 
+    /**
+     * @var array
+     */
     public $totals;
 
+    /**
+     * @var
+     */
     public $type;
 
     /**
@@ -74,15 +80,18 @@ class BudgetTable {
      */
     public function getTotalsForSpecifiedBudget()
     {
+
         $totals = [
             "budget" => $this->getBudget(),
+            //Todo: These three queries are running for each tag,
+            //Todo: but I'm not sure how to use eager loading for them.
             "spent_after_SD" => $this->getSpentAfterSD(),
             "received_after_SD" => $this->getReceivedAfterSD(),
             "spent_before_SD" => $this->getSpentBeforeSD(),
-//            "remaining" => $this->getRemainingBudget()
         ];
 
         if ($this->type === 'fixed') {
+            //This is also running for each tag
             $totals['remaining'] = $this->getRemainingBudget();
             $totals['cumulative'] = $this->getCumulativeBudget();
         }
@@ -134,10 +143,6 @@ class BudgetTable {
             $total += $tag->remaining;
         }
 
-//        if ($this->type === 'flex') {
-//            $total+= $this->getUnallocatedFLB()['remaining'];
-//        }
-
         return $total;
     }
 
@@ -152,7 +157,26 @@ class BudgetTable {
         $total = 0;
 
         foreach ($this->tags as $tag) {
+
             $total += $tag->spent_after_SD;
+//            dd($tag);
+
+            /**
+             * @VP:
+             * Question 1:
+             * Can I get the 'spent_after_SD' property here without running the query again?
+             * (The query in the getSpentAfterSDAttribute method on the tag model.)
+             * It is an appended attribute (at the time of writing),
+             * and I thought maybe it could just get it the first time and then remember it
+             * when I need to access the property like this, without running the query again.
+             *
+             * $total += $tag->spent_after_SD;
+             *
+             * Question 2:
+             * I have now removed the 'spent_after_SD' attribute from $appends on my tag model,
+             * because my appended attributes were running a lot of queries.
+             * But why is the above line not adding the property to the tag?
+             */
         }
 
         return $total;

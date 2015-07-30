@@ -35,7 +35,6 @@ class TotalsService
         return [
             'basic' => $this->getBasicTotals(),
             'budget' => $this->getFixedAndFlexData()
-//            'budget' => new $this->fixedAndFlexData()
         ];
     }
 

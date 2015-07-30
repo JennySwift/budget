@@ -8,13 +8,13 @@ class RB {
 
     public $withEFLB;
     public $withoutEFLB;
-    public $FB_table;
-    public $FLB_table;
+    public $FB;
+    public $FLB;
 
-    public function __construct(BudgetTable $FB_table, BudgetTable $FLB_table)
+    public function __construct(BudgetTable $FB, BudgetTable $FLB)
     {
-        $this->FB_table = $FB_table;
-        $this->FLB_table = $FLB_table;
+        $this->FB = $FB;
+        $this->FLB = $FLB;
         $this->withEFLB = 5;
         $this->withEFLB = $this->getRBWithEFLB();
         $this->withoutEFLB = $this->getRBWEFLB();
@@ -31,24 +31,24 @@ class RB {
     public function calculateBudgets()
     {
         $total = 0;
-        foreach ($this->FLB_table->tags as $tag) {
+        foreach ($this->FLB->tags as $tag) {
             $tag->calculated_budget = $this->withoutEFLB / 100 * $tag->flex_budget;
             $total+= $tag->calculated_budget;
         }
 
         $this->calculateUnallocatedRow();
 
-        $total+= $this->FLB_table->unallocated['calculated_budget'];
+        $total+= $this->FLB->unallocated['calculated_budget'];
 
-        $this->FLB_table->totals['budget'] = '100.00';
-        $this->FLB_table->totals['calculated_budget'] = $total;
+        $this->FLB->totals['budget'] = '100.00';
+        $this->FLB->totals['calculated_budget'] = $total;
 
         $this->calculateRemainingFLB();
     }
 
     public function calculateUnallocatedRow()
     {
-        $unallocated_budget = 100 - $this->FLB_table->totals['budget'];
+        $unallocated_budget = 100 - $this->FLB->totals['budget'];
 
         $unallocated_row = [
             'budget' => $unallocated_budget,
@@ -56,17 +56,17 @@ class RB {
             'remaining' => $this->withoutEFLB / 100 * $unallocated_budget
         ];
 
-        $this->FLB_table->unallocated = $unallocated_row;
+        $this->FLB->unallocated = $unallocated_row;
     }
 
     public function calculateRemainingFLB()
     {
         $remaining = 0;
-        foreach ($this->FLB_table->tags as $tag) {
+        foreach ($this->FLB->tags as $tag) {
             $remaining+= $tag->remaining;
         }
-        $remaining+= $this->FLB_table->unallocated['remaining'];
-        $this->FLB_table->totals['remaining'] = $remaining;
+        $remaining+= $this->FLB->unallocated['remaining'];
+        $this->FLB->totals['remaining'] = $remaining;
     }
 
     /**
@@ -87,12 +87,12 @@ class RB {
 
         $RB =
             $basicTotals->getCredit()
-            - $this->FB_table->totals['remaining']
+            - $this->FB->totals['remaining']
             + $basicTotals->getEWB()
-            + $this->FLB_table->totals['spent_before_SD']
-            + $this->FLB_table->totals['spent_after_SD']
-            + $this->FB_table->totals['spent_before_SD']
-            + $this->FB_table->totals['spent_after_SD']
+            + $this->FLB->totals['spent_before_SD']
+            + $this->FLB->totals['spent_after_SD']
+            + $this->FB->totals['spent_before_SD']
+            + $this->FB->totals['spent_after_SD']
             - Savings::getSavingsTotal();
 
         return $RB;
@@ -105,6 +105,6 @@ class RB {
      */
     public function getRBWEFLB()
     {
-        return $this->getRBWithEFLB() - $this->FLB_table->totals['spent_after_SD'];
+        return $this->getRBWithEFLB() - $this->FLB->totals['spent_after_SD'];
     }
 }

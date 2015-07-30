@@ -13,6 +13,7 @@
         $scope.transactionsFactory = TransactionsFactory;
         $scope.feedback_messages = [];
         $scope.page = 'home';
+
         $scope.colors = colors_response;
         $scope.totals = totals_response;
         $scope.me = me;

@@ -34,10 +34,6 @@ class TotalsController extends Controller
      */
     public function index()
     {
-        //I don't need to pass the Total parameter here
-        //because I have put it in my constructor.
-        //If I instead did new TotalsService(),
-        //then I would need to pass the Total parameter.
         return $this->totalsService->getBasicAndBudgetTotals();
     }
 }
