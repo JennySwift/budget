@@ -80,26 +80,19 @@ class BudgetTable {
      */
     public function getTotalsForSpecifiedBudget()
     {
-
-        $totals = [
-            "budget" => $this->getBudget(),
-            //Todo: These three queries are running for each tag,
-            //Todo: but I'm not sure how to use eager loading for them.
-            "spent_after_SD" => $this->getSpentAfterSD(),
-            "received_after_SD" => $this->getReceivedAfterSD(),
-            "spent_before_SD" => $this->getSpentBeforeSD(),
-        ];
+        $totals = new BudgetTotalsRow(
+            $this->getBudget(),
+            $this->getSpentBeforeSD(),
+            $this->getSpentAfterSD(),
+            $this->getReceivedAfterSD()
+        );
 
         if ($this->type === 'fixed') {
-            //This is also running for each tag
-            $totals['remaining'] = $this->getRemainingBudget();
-            $totals['cumulative'] = $this->getCumulativeBudget();
+            $totals->remaining = $this->getRemainingBudget();
+            $totals->cumulative = $this->getCumulativeBudget();
         }
-        else {
-
-        }
-
-        $totals = numberFormat($totals);
+        
+        $totals = numberFormatObject($totals);
 
         return $totals;
     }

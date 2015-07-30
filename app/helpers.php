@@ -14,7 +14,7 @@ function array_compare(array $base, array $newItems)
 }
 
 /**
- *
+ * Loop through an array, formatting each value
  * @param $array
  * @return array
  */
@@ -26,6 +26,18 @@ function numberFormat($array)
     }
 
     return $formatted_array;
+}
+
+/**
+ * Loop through an object's properties, formatting each value
+ * @param $totals
+ */
+function numberFormatObject($totals)
+{
+    foreach ($totals as $key => $value) {
+        $totals->$key = number_format($value, 2);
+    }
+    return $totals;
 }
 
 /**

@@ -53,9 +53,9 @@
         <td>-</td>
         <td>-</td>
         <td>[[totals.budget.FB.totals.cumulative]]</td>
-        <td>[[totals.budget.FB.totals.spent_before_SD]]</td>
-        <td>[[totals.budget.FB.totals.spent_after_SD]]</td>
-        <td>[[totals.budget.FB.totals.received_after_SD]]</td>
+        <td>[[totals.budget.FB.totals.spentBeforeSD]]</td>
+        <td>[[totals.budget.FB.totals.spentAfterSD]]</td>
+        <td>[[totals.budget.FB.totals.receivedAfterSD]]</td>
         <td>[[totals.budget.FB.totals.remaining]]</td>
         <td>-</td>
     </tr>

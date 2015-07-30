@@ -40,15 +40,15 @@ class RB {
 
         $total+= $this->FLB->unallocated['calculated_budget'];
 
-        $this->FLB->totals['budget'] = '100.00';
-        $this->FLB->totals['calculated_budget'] = $total;
+        $this->FLB->totals->budget = '100.00';
+        $this->FLB->totals->calculated_budget = $total;
 
         $this->calculateRemainingFLB();
     }
 
     public function calculateUnallocatedRow()
     {
-        $unallocated_budget = 100 - $this->FLB->totals['budget'];
+        $unallocated_budget = 100 - $this->FLB->totals->budget;
 
         $unallocated_row = [
             'budget' => $unallocated_budget,
@@ -66,7 +66,7 @@ class RB {
             $remaining+= $tag->remaining;
         }
         $remaining+= $this->FLB->unallocated['remaining'];
-        $this->FLB->totals['remaining'] = $remaining;
+        $this->FLB->totals->remaining = $remaining;
     }
 
     /**
@@ -87,12 +87,12 @@ class RB {
 
         $RB =
             $basicTotals->getCredit()
-            - $this->FB->totals['remaining']
+            - $this->FB->totals->remaining
             + $basicTotals->getEWB()
-            + $this->FLB->totals['spent_before_SD']
-            + $this->FLB->totals['spent_after_SD']
-            + $this->FB->totals['spent_before_SD']
-            + $this->FB->totals['spent_after_SD']
+            + $this->FLB->totals->spentBeforeSD
+            + $this->FLB->totals->spentAfterSD
+            + $this->FB->totals->spentBeforeSD
+            + $this->FB->totals->spentAfterSD
             - Savings::getSavingsTotal();
 
         return $RB;
@@ -105,6 +105,6 @@ class RB {
      */
     public function getRBWEFLB()
     {
-        return $this->getRBWithEFLB() - $this->FLB->totals['spent_after_SD'];
+        return $this->getRBWithEFLB() - $this->FLB->totals->spentAfterSD;
     }
 }

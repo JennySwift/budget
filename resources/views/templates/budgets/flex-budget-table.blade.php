@@ -47,8 +47,8 @@
         <td>[[totals.budget.FLB.totals.calculated_budget]]</td>
         <td>-</td>
         <td>-</td>
-        <td>[[totals.budget.FLB.totals.spent_after_SD]]</td>
-        <td>[[totals.budget.FLB.totals.received_after_SD]]</td>
+        <td>[[totals.budget.FLB.totals.spentAfterSD]]</td>
+        <td>[[totals.budget.FLB.totals.receivedAfterSD]]</td>
         <td>[[totals.budget.FLB.totals.remaining]]</td>
         <td>-</td>
     </tr>
