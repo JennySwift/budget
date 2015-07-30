@@ -1,31 +1,22 @@
 <?php
 
-use App\Models\Account;
-use App\Models\FixedAndFlexData;
-use App\Models\Tag;
-use App\Models\Total;
-use App\Models\Transaction;
-use App\Repositories\Tags\TagsRepository;
-use App\Services\BudgetTableTotalsService;
-use App\Services\TotalsService;
-use Illuminate\Support\Facades\App;
+use App\Totals\FixedAndFlexData;
+use App\Totals\TotalsService;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function(TotalsService $totalsService, BudgetTableTotalsService $budgetTableTotalsService, FixedAndFlexData $fixedAndFlexData)
-{
+Route::get('/test', function (TotalsService $totalsService) {
     /**
      * @VP:
      * How to I inject something into my routes file?
      * So I can do return $this->totalsService->getBasicAndBudgetTotals();
      */
-    $total = new Total;
-    $tagsRepository = new TagsRepository();
-    return $totalsService->getBasicAndBudgetTotals();
-//    return $fixedAndFlexData->getFixedAndFlexData();
-//    return $tagsRepository->getTagsWithFixedBudget();
-//    return $tagsRepository->getTagsWithSpecifiedBudget('fixed');
-//    return $total->getTagsAndTotalsForSpecifiedBudget('fixed');
-//    return $budgetTableTotalsService->getSpentAfterSD('fixed');
+
+//    return $fixedAndFlexData->getTagsAndTotalsForSpecifiedBudget('fixed');
+//    $FBTableTotals = new BudgetTableTotalsService('fixed');
+//    return $FBTableTotals->getTotalsForSpecifiedBudget();
+
+    $data = new FixedAndFlexData();
+    dd($data->FLB->totals);
 });
 
 //Route::get('/test', 'TotalsController@getFixedAndFlexData');
@@ -34,34 +25,25 @@ Route::get('/test', function(TotalsService $totalsService, BudgetTableTotalsServ
  * Angular directive templates
  */
 
-Route::get('checkboxes', function()
-{
+Route::get('checkboxes', function () {
     return view('directives/CheckboxesTemplate');
 });
 
-Route::get('filter', function()
-{
+Route::get('filter', function () {
     return view('directives/FilterTemplate');
 });
 
-Route::get('tag-autocomplete', function()
-{
+Route::get('tag-autocomplete', function () {
     return view('directives/TagAutocompleteTemplate');
 });
 
-Route::get('totals-directive', function()
-{
+Route::get('totals-directive', function () {
     return view('directives/TotalsTemplate');
 });
 
-Route::get('transaction-autocomplete', function()
-{
+Route::get('transaction-autocomplete', function () {
     return view('directives/TransactionAutocompleteTemplate');
 });
-
-
-
-
 
 
 /**
@@ -80,25 +62,24 @@ Route::get('/charts', 'ChartsController@index');
 // });
 
 
-
-
 /**
  * Authentication
  */
 
-Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function(){
+Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
 
-    Route::group(['middleware' => 'guest'], function(){
+    Route::group(['middleware' => 'guest'], function () {
         // Login
         Route::get('login', ['as' => 'auth.login', 'uses' => 'AuthController@getLogin']);
-        Route::post('login', ['as' => 'auth.login.store', 'before' => 'throttle:6,60', 'uses' => 'AuthController@postLogin']);
+        Route::post('login',
+            ['as' => 'auth.login.store', 'before' => 'throttle:6,60', 'uses' => 'AuthController@postLogin']);
 
         // Register
         Route::get('register', ['as' => 'auth.register', 'uses' => 'AuthController@getRegister']);
         Route::post('register', ['as' => 'auth.register.store', 'uses' => 'AuthController@postRegister']);
     });
 
-    Route::group(['middleware' => 'auth'], function(){
+    Route::group(['middleware' => 'auth'], function () {
         // Logout
         Route::get('logout', ['as' => 'auth.logout', 'uses' => 'AuthController@getLogout']);
     });
@@ -106,8 +87,8 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function(){
 });
 
 Route::controllers([
-	// 'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
+    // 'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
 ]);
 
 /**

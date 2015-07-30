@@ -31,25 +31,25 @@
     {{--unallocated--}}
     <tr id="flex-budget-unallocated" class="budget_info_ul">
         <td>unallocated</td>
+        <td>[[totals.budget.FLB.unallocated.budget]]</td>
         <td>[[totals.budget.FLB.unallocated.calculated_budget]]</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
         <td>[[totals.budget.FLB.unallocated.remaining]]</td>
-        <td>[[totals.budget.FLB.unallocated.budget]]</td>
         <td>-</td>
     </tr>
     <!-- flex budget totals -->
     <tr id="flex-budget-totals" class="budget_info_ul totals">
         <td>totals</td>
+        <td>[[totals.budget.FLB.totals.budget]]</td>
         <td>[[totals.budget.FLB.totals.calculated_budget]]</td>
         <td>-</td>
         <td>-</td>
         <td>[[totals.budget.FLB.totals.spent_after_SD]]</td>
         <td>[[totals.budget.FLB.totals.received_after_SD]]</td>
         <td>[[totals.budget.FLB.totals.remaining]]</td>
-        <td>[[totals.budget.FLB.totals.budget]]</td>
         <td>-</td>
     </tr>
 </table>

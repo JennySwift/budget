@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Models\Transaction;
-use App\Services\TotalsService;
+use App\Totals\TotalsService;
 use Illuminate\Http\Request;
 
 /**

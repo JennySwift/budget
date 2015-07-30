@@ -1,14 +1,10 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Models\Budget;
-use App\Models\Tag;
-use App\Models\Transaction;
 use App\Repositories\Tags\TagsRepository;
-use App\Services\TotalsService;
+use App\Totals\TotalsService;
 use Auth;
 use DB;
-use Illuminate\Http\Request;
 use JavaScript;
 
 /**

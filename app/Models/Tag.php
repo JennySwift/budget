@@ -1,6 +1,8 @@
 <?php namespace App\Models;
 
-use App\Repositories\Totals\TotalsRepository;
+use App\Repositories\Tags\TagsRepository;
+use App\Totals\RB;
+use App\Totals\TotalsRepository;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +24,7 @@ class Tag extends Model
      * @VP: Which is better, putting these attributes here when I don't need them all the time,
      * or looping through all the tags to add the attributes to each tag when I need them?
      */
-    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining', 'cumulative', 'calculated_budget', 'spent_before_SD', 'spent_after_SD', 'received_after_SD'];
+    protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'remaining', 'cumulative', 'spent_before_SD', 'spent_after_SD', 'received_after_SD'];
 
     /**
      *
@@ -81,6 +83,7 @@ class Tag extends Model
             return $this->cumulative + $this->spent_after_SD + $this->received_after_SD;
         }
         elseif ($this->budget_type === 'flex') {
+//            return $this->spent_after_SD + $this->received_after_SD;
             return $this->calculated_budget + $this->spent_after_SD + $this->received_after_SD;
         }
     }
@@ -92,18 +95,14 @@ class Tag extends Model
      * It is a percentage of what is left, hence the name 'flex' budget.
      * @return float
      */
-    public function getCalculatedBudgetAttribute()
-    {
-        /**
-         * @VP:
-         * So what am I supposed to do instead of this line,
-         * since the constructor doesn't work in a model?
-         */
-        $totalsRepository = new TotalsRepository();
-        if ($this->budget_type === 'flex') {
-            return $this->calculated_budget = $totalsRepository->getRBWEFLB() / 100 * $this->flex_budget;
-        }
-    }
+//    public function getCalculatedBudgetAttribute()
+//    {
+////        $RB = new RB();
+//        if ($this->budget_type === 'flex') {
+//            return 3;
+////            return $RB->withoutEFLB / 100 * $this->flex_budget;
+//        }
+//    }
 
     /**
      *

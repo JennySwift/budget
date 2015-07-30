@@ -5,7 +5,7 @@ use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
 use App\Repositories\Transactions\TransactionsRepository;
-use App\Services\TotalsService;
+use App\Totals\TotalsService;
 use Auth;
 use DB;
 use Debugbar;
@@ -22,10 +22,6 @@ class TransactionsController extends Controller
      * @var TransactionsRepository
      */
     protected $transactionsRepository;
-    /**
-     * @var TotalsService
-     */
-    protected $totalsService;
 
     /**
      * @param TransactionsRepository $transactionsRepository

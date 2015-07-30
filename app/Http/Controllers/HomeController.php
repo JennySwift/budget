@@ -2,10 +2,9 @@
 
 use App\Models\Account;
 use App\Models\Color;
-use App\Models\Tag;
 use App\Repositories\Tags\TagsRepository;
 use App\Repositories\Transactions\TransactionsRepository;
-use App\Services\TotalsService;
+use App\Totals\TotalsService;
 use Illuminate\Support\Facades\Auth;
 use JavaScript;
 
