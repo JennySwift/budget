@@ -31,14 +31,14 @@
         <td class="cumulative">[[tag.cumulative]]</td>
 
         <td class="spent">
-            <div>[[tag.spent_before_SD]]</div>
+            <div>[[tag.spentBeforeSD]]</div>
         </td>
 
         <td class="spent">
-            <div>[[tag.spent_after_SD]]</div>
+            <div>[[tag.spentAfterSD]]</div>
         </td>
 
-        <td class="received">[[tag.received_after_SD]]</td>
+        <td class="received">[[tag.receivedAfterSD]]</td>
 
         <td class="remaining">[[tag.remaining]]</td>
 

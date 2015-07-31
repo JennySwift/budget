@@ -21,8 +21,6 @@ class Tag extends Model
 
     /**
      * @var array
-     * @VP: Which is better, putting these attributes here when I don't need them all the time,
-     * or looping through all the tags to add the attributes to each tag when I need them?
      */
     protected $appends = ['path', 'budget_type', 'formatted_starting_date', 'CMN', 'cumulative'];
 
@@ -42,6 +40,20 @@ class Tag extends Model
     public function transactions()
     {
         return $this->belongsToMany('App\Models\Transaction', 'transactions_tags');
+    }
+
+    public function sum()
+    {
+//        return $this->belongsToMany('App\Models\Transaction', 'transactions_tags')
+//            ->selectRaw('calculated_allocation');
+//            ->selectRaw('sum(calculated_allocation) as aggregate');
+//            ->groupBy('tag_id');
+
+//        $query = $this->belongsToMany('App\Models\Transaction', 'transactions_tags')
+//            ->selectRaw('transactions_tags.calculated_allocation');
+//        return $query;
+//        dd($query->toSql());
+//        return $this->transactions->sum('total');
     }
 
     /**
@@ -185,7 +197,6 @@ class Tag extends Model
      */
     public function getSpentAfterSDAttribute()
     {
-//        return 3;
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
@@ -199,7 +210,7 @@ class Tag extends Model
             ->where('transactions.type', 'expense')
             ->sum('calculated_allocation');
 
-        return $total;
+        return $this->spentAfterSD = $total;
     }
 
     /**
@@ -224,7 +235,7 @@ class Tag extends Model
             ->where('transactions.type', 'income')
             ->sum('calculated_allocation');
 
-        return $this->received = $total;
+        return $this->receivedAfterSD = $total;
     }
 
     /**
@@ -236,6 +247,19 @@ class Tag extends Model
     public function getSpentBeforeSDAttribute()
     {
 //        return 3;
+
+
+//        $total = Transaction::whereHas('tags', function($q)
+//        {
+//            $q->where('id', $this->id);
+//        });
+
+
+
+
+
+
+
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
@@ -249,7 +273,7 @@ class Tag extends Model
             ->where('transactions.type', 'expense')
             ->sum('calculated_allocation');
 
-        return $total;
+        return $this->spentBeforeSD = $total;
     }
 
     /**
@@ -260,11 +284,10 @@ class Tag extends Model
     {
 //        return 3;
         if ($this->budget_type === 'fixed') {
-            return $this->cumulative + $this->spent_after_SD + $this->received_after_SD;
+            return $this->remaining = $this->cumulative + $this->spentAfterSD + $this->receivedAfterSD;
         }
         elseif ($this->budget_type === 'flex') {
-//            return $this->spent_after_SD + $this->received_after_SD;
-            return $this->calculated_budget + $this->spent_after_SD + $this->received_after_SD;
+            return $this->remaining = $this->calculated_budget + $this->spentAfterSD + $this->receivedAfterSD;
         }
     }
 }

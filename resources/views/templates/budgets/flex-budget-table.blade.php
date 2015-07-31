@@ -23,8 +23,8 @@
             <button ng-click="updateCSDSetup(tag)" class="edit">edit</button>
         </td>
         <td class="month-number">[[tag.CMN]]</td>
-        <td class="spent">[[tag.spent_after_SD]]</td>
-        <td class="received">[[tag.received_after_SD]]</td>
+        <td class="spent">[[tag.spentAfterSD]]</td>
+        <td class="received">[[tag.receivedAfterSD]]</td>
         <td class="remaining">[[tag.remaining]]</td>
         <td ng-click="removeBudget(tag)" class="pointer">x</td>
     </tr>

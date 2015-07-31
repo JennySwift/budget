@@ -91,8 +91,6 @@ class BudgetTable {
             $totals->remaining = $this->getRemainingBudget();
             $totals->cumulative = $this->getCumulativeBudget();
         }
-        
-        $totals = numberFormatObject($totals);
 
         return $totals;
     }
@@ -134,6 +132,7 @@ class BudgetTable {
 
         foreach ($this->tags as $tag) {
             $total += $tag->remaining;
+//            dd($tag);
         }
 
         return $total;
@@ -151,22 +150,22 @@ class BudgetTable {
 
         foreach ($this->tags as $tag) {
 
-            $total += $tag->spent_after_SD;
+            $total += $tag->spentAfterSD;
 //            dd($tag);
 
             /**
              * @VP:
              * Question 1:
-             * Can I get the 'spent_after_SD' property here without running the query again?
+             * Can I get the 'spentAfterSD' property here without running the query again?
              * (The query in the getSpentAfterSDAttribute method on the tag model.)
              * It is an appended attribute (at the time of writing),
              * and I thought maybe it could just get it the first time and then remember it
              * when I need to access the property like this, without running the query again.
              *
-             * $total += $tag->spent_after_SD;
+             * $total += $tag->spentAfterSD;
              *
              * Question 2:
-             * I have now removed the 'spent_after_SD' attribute from $appends on my tag model,
+             * I have now removed the 'spentAfterSD' attribute from $appends on my tag model,
              * because my appended attributes were running a lot of queries.
              * But why is the above line not adding the property to the tag?
              */
@@ -185,7 +184,7 @@ class BudgetTable {
         $total = 0;
 
         foreach ($this->tags as $tag) {
-            $total += $tag->spent_before_SD;
+            $total += $tag->spentBeforeSD;
         }
 
         return $total;
@@ -201,7 +200,7 @@ class BudgetTable {
         $total = 0;
 
         foreach ($this->tags as $tag) {
-            $total += $tag->received_after_SD;
+            $total += $tag->receivedAfterSD;
         }
 
         return $total;

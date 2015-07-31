@@ -41,7 +41,6 @@ class RB {
         $total+= $this->FLB->unallocated['calculated_budget'];
 
         $this->FLB->totals->budget = '100.00';
-        $this->FLB->totals->calculated_budget = $total;
 
         $this->calculateRemainingFLB();
     }
@@ -66,7 +65,6 @@ class RB {
             $remaining+= $tag->remaining;
         }
         $remaining+= $this->FLB->unallocated['remaining'];
-        $this->FLB->totals->remaining = $remaining;
     }
 
     /**

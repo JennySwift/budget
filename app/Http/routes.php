@@ -16,7 +16,12 @@ Route::get('/test', function () {
      */
 
     $data = new FixedAndFlexData();
-    dd($data->FB->totals);
+    dd($data->FB->tags);
+
+    $tag = Tag::find(1);
+    $tag->spentBeforeSD;
+    $tag->sum;
+    return $tag;
 
 });
 

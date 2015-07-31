@@ -77,7 +77,7 @@
                 });
 
                 //EFBBSD
-                $scope.$watch('totals.budget.FB.totals.spent_before_SD', function (newValue, oldValue) {
+                $scope.$watch('totals.budget.FB.totals.spentBeforeSD', function (newValue, oldValue) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
@@ -85,7 +85,7 @@
                 });
 
                 //EFBASD
-                $scope.$watch('totals.budget.FB.totals.spent_after_SD', function (newValue, oldValue) {
+                $scope.$watch('totals.budget.FB.totals.spentAfterSD', function (newValue, oldValue) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
