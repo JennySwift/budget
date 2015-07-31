@@ -52,6 +52,14 @@ Route::get('transaction-autocomplete', function () {
     return view('directives/TransactionAutocompleteTemplate');
 });
 
+Route::get('filter-dropdowns', function () {
+    return view('directives/FilterDropdownsTemplate');
+});
+
+//Route::get('filter/types', function () {
+//    return view('templates/home/filter/types');
+//});
+
 
 /**
  * Home page

@@ -85,10 +85,10 @@
                         {{--search = "multiSearch()"--}}
                         {{--accounts = "accounts">--}}
                 {{--</filter-directive>--}}
-                <?php
-                    include($templates . '/filter.php');
-                    include($templates . '/filter-totals.php');
-                ?>
+
+                @include('templates/filter')
+                @include('templates/filter-totals')
+
             </div>
     
         </div>

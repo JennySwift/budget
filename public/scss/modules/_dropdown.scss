@@ -9,7 +9,13 @@
     }
 }
 
-.dropdown-directive {
+.dropdown-directive.no-dropdown-style {
+    .dropdown-content {
+        display: none;
+    }
+}
+
+.dropdown-directive:not(.no-dropdown-style) {
     display: inline-block;
     position: relative;
     .btn {

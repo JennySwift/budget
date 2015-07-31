@@ -21,14 +21,12 @@
                 $scope.animateOut = attrs.animateOut || 'flipOutX';
                 var $content = $(elem).find('.dropdown-content');
 
-                $scope.showDropdown = function () {
+                $scope.toggleDropdown = function () {
                     if ($($content).hasClass($scope.animateIn)) {
                         $scope.hideDropdown();
                     }
                     else {
-                        $($content).css('display', 'flex')
-                            .removeClass($scope.animateOut)
-                            .addClass($scope.animateIn);
+                        $scope.showDropdown();
                     }
                 };
 
@@ -39,9 +37,18 @@
                     }
                 });
 
+                $scope.showDropdown = function () {
+                    $($content)
+                        .css('display', 'flex')
+                        .removeClass($scope.animateOut)
+                        .addClass($scope.animateIn);
+                };
+
                 $scope.hideDropdown = function () {
-                    $($content).removeClass($scope.animateIn)
+                    $($content)
+                        .removeClass($scope.animateIn)
                         .addClass($scope.animateOut);
+                        //.css('display', 'none');
                 };
             }
         };

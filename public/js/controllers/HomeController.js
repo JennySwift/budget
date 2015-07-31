@@ -41,7 +41,7 @@
             edit_transaction: false,
             edit_tag: false,
             edit_CSD: false,
-            filter: false,
+            filter: true,
             autocomplete: {
                 description: false,
                 merchant: false

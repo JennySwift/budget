@@ -10,12 +10,44 @@
 	top: 41px;
 	right: 0px;
 	opacity: .8;
-	height: 732px;
+//	height: 732px;
     width: 275px;
 	overflow: scroll;
 	padding: 8px;
 	z-index: 9;
     box-shadow: -4px 4px 6px #777;
+    background: white;
+
+    .section {
+//        background: pink;
+//        margin: 0;
+        h4 {
+            margin: 0;
+            padding: 10px 0;
+            background: black;
+            color: #CFCFCF;
+        }
+        .content {
+            display: none;
+        }
+    }
+
+
+
+//    .transition {
+//        opacity: 1;
+//        height: 180px;
+//    }
+//    .transition.ng-hide-add.ng-hide-add-active,
+//    .transition.ng-hide-remove.ng-hide-remove-active {
+//        -webkit-transition: all linear .5s;
+//        transition: all linear .5s;
+//    }
+//    .transition.ng-hide {
+//        opacity: 0;
+//        height: 0px;
+//    }
+
     .group {
         display: flex;
     }

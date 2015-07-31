@@ -234,6 +234,16 @@
             $scope.filter.offset = 0;
         };
 
+        $scope.showContent = function (event) {
+            $(event.target).next().addClass('show-me').removeClass('hide');
+            //$(event.target).next().addClass('animated slideInDown').removeClass('hide');
+        };
+
+        $scope.hideContent = function (event) {
+            $(event.target).next().addClass('hide-me').removeClass('show');
+            //$(event.target).next().addClass('animated slideOutUp').removeClass('show');
+        };
+
 
     }
 

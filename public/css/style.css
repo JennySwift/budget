@@ -391,12 +391,15 @@ caption {
       justify-content: space-between;
       align-items: center; }
 
-.dropdown-directive {
+.dropdown-directive.no-dropdown-style .dropdown-content {
+  display: none; }
+
+.dropdown-directive:not(.no-dropdown-style) {
   display: inline-block;
   position: relative; }
-  .dropdown-directive .btn {
+  .dropdown-directive:not(.no-dropdown-style) .btn {
     margin-left: 10px; }
-  .dropdown-directive .dropdown-content {
+  .dropdown-directive:not(.no-dropdown-style) .dropdown-content {
     flex-wrap: wrap;
     justify-content: space-around;
     display: none;
@@ -410,7 +413,7 @@ caption {
     padding: 10px 20px;
     border: .5px solid #777;
     margin-top: 9px; }
-    .dropdown-directive .dropdown-content label {
+    .dropdown-directive:not(.no-dropdown-style) .dropdown-content label {
       display: flex;
       justify-content: space-between;
       align-items: center; }
@@ -616,14 +619,21 @@ caption {
   top: 41px;
   right: 0px;
   opacity: .8;
-  height: 732px;
   width: 275px;
   overflow: scroll;
   padding: 8px;
   z-index: 9;
-  box-shadow: -4px 4px 6px #777; }
+  box-shadow: -4px 4px 6px #777;
+  background: white; }
   #filter.ng-hide {
     animation: bounceOutRight 2s; }
+  #filter .section h4 {
+    margin: 0;
+    padding: 10px 0;
+    background: black;
+    color: #CFCFCF; }
+  #filter .section .content {
+    display: none; }
   #filter .group {
     display: flex; }
   #filter .tag-input-wrapper input {
