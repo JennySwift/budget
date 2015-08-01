@@ -17,13 +17,32 @@
             <label for="">none</label>
         </div>
 
-        <div ng-repeat="type in types">
+        <div ng-show="filterTab === 'show'" ng-repeat="type in types">
             <input
-                checklist-model="filter.types"
+                checklist-model="filter.types.in"
                 checklist-value="type"
                 checklist-change="multiSearch()"
+                ng-disabled="filter.types.out.indexOf(type) !== -1"
                 type="checkbox">
-            <label for="">[[type]]</label>
+            <label
+                ng-class="{'disabled': filter.types.out.indexOf(type) !== -1}"
+                for="">
+                [[type]]
+            </label>
+        </div>
+
+        <div ng-show="filterTab === 'hide'" ng-repeat="type in types">
+            <input
+                    checklist-model="filter.types.out"
+                    checklist-value="type"
+                    checklist-change="multiSearch()"
+                    ng-disabled="filter.types.in.indexOf(type) !== -1"
+                    type="checkbox">
+            <label
+                ng-class="{'disabled': filter.types.in.indexOf(type) !== -1}"
+                for="">
+                [[type]]
+            </label>
         </div>
 
     </div>

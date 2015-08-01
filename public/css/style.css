@@ -680,8 +680,14 @@ caption {
     #filter .section .content {
       display: none; }
       #filter .section .content label.disabled {
-        text-decoration: line-through;
-        text-decoration-color: red; }
+        position: relative; }
+        #filter .section .content label.disabled:after {
+          content: '';
+          border-bottom: 2px solid red;
+          position: absolute;
+          left: 0;
+          top: 50%;
+          width: 100%; }
   #filter .group {
     display: flex; }
   #filter .tag-input-wrapper input {

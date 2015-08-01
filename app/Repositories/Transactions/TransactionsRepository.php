@@ -104,7 +104,13 @@ class TransactionsRepository
      */
     private function filterTypes($query, $types)
     {
-        return $query->whereIn('type', $types);
+        if ($types['in']) {
+            $query = $query->whereIn('type', $types['in']);
+        }
+        if ($types['out']) {
+            $query = $query->whereNotIn('type', $types['out']);
+        }
+        return $query;
     }
 
     /**

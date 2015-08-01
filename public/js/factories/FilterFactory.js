@@ -3,7 +3,10 @@ app.factory('FilterFactory', function ($http) {
     $object.filter = {
         budget: "all",
         total: "",
-        types: [],
+        types: {
+            in: [],
+            out: []
+        },
         accounts: {
             in: [],
             out: []
