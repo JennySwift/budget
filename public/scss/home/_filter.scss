@@ -32,9 +32,10 @@
             padding: 10px 0;
             background: black;
             color: #CFCFCF;
+            cursor: pointer;
         }
         .content {
-//            display: none;
+            display: none;
             label {
                 &.disabled {
                     text-decoration: line-through;

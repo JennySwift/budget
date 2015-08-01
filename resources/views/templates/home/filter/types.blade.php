@@ -1,10 +1,9 @@
 
 <div filter-dropdowns-directive
-     ng-mouseleave="hideContent($event)"
      types="types"
      class="section">
 
-    <h4 ng-mouseover="showContent($event)" class="center">types</h4>
+    <h4 class="center">types</h4>
 
     <div class="types transition content">
 
@@ -22,6 +21,7 @@
             <input
                 checklist-model="filter.types"
                 checklist-value="type"
+                checklist-change="multiSearch()"
                 type="checkbox">
             <label for="">[[type]]</label>
         </div>

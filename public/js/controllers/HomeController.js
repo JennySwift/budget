@@ -79,6 +79,18 @@
             $("#transfer-color-picker").val(newValue.transfer);
         });
 
+        /**
+         * End watches
+         */
+
+        $scope.showLoading = function () {
+            $scope.loading = true;
+        };
+
+        $scope.hideLoading = function () {
+            $scope.loading = false;
+        };
+
         $scope.provideFeedback = function ($message) {
             $scope.feedback_messages.push($message);
             setTimeout(function () {

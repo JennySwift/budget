@@ -15,6 +15,9 @@
         $scope.types = ["income", "expense", "transfer"];
         $scope.totals = filter_response.totals;
         $scope.filterTab = 'show';
+        //$scope.loading = true;
+
+        //console.log($scope.loading);
 
         //$scope.resetFilter = function () {
         //    $scope.filter = {
@@ -57,6 +60,26 @@
             }
         });
 
+        $scope.$watchCollection('filter.tags', function (newValue, oldValue) {
+            if (newValue === oldValue) {
+                return;
+            }
+            $scope.multiSearch(true);
+        });
+
+        $scope.$watchGroup(['filter.offset', 'filter.num_to_fetch'], function (newValue, oldValue) {
+            $scope.filter.display_from = $scope.filter.offset + 1;
+            $scope.filter.display_to = $scope.filter.offset + ($scope.filter.num_to_fetch * 1);
+            if (newValue === oldValue) {
+                return;
+            }
+            $scope.multiSearch(true);
+        });
+
+        /**
+         * End watches
+         */
+
         $scope.responseError = function (response) {
             if (response.status === 503) {
                 FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
@@ -67,13 +90,15 @@
         };
 
         $scope.multiSearch = function () {
-            console.log($scope.filter);
+            $scope.showLoading();
             FilterFactory.multiSearch($scope.filter)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers({filter_results: response.data});
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
+                    $scope.hideLoading();
                 })
         };
 
@@ -104,115 +129,40 @@
             $scope.multiSearch(true);
         };
 
-        $(".clear-search-button").on('click', function () {
-            if ($(this).attr('id') == "clear-tags-btn") {
-                $search_tag_array.length = 0;
-                $("#search-tag-location").html($search_tag_array);
-            }
-            $(this).closest(".input-group").children("input").val("");
-            $scope.multiSearch(true);
-        });
+        //$(".clear-search-button").on('click', function () {
+        //    if ($(this).attr('id') == "clear-tags-btn") {
+        //        $search_tag_array.length = 0;
+        //        $("#search-tag-location").html($search_tag_array);
+        //    }
+        //    $(this).closest(".input-group").children("input").val("");
+        //    $scope.multiSearch(true);
+        //});
 
-        $("#search-div").on('click', '#search-tag-location li', function () {
-            removeTag(this, $search_tag_array, $("#search-tag-location"), multiSearch);
-        });
+        //$("#search-div").on('click', '#search-tag-location li', function () {
+        //    removeTag(this, $search_tag_array, $("#search-tag-location"), multiSearch);
+        //});
 
-        $scope.$watch('filter.accounts', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $scope.multiSearch(true);
-        }, true);
-
-        $scope.$watchCollection('filter.types', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $scope.multiSearch(true);
-        });
-
-        $scope.$watch('filter.description', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
+        $scope.filterDescriptionOrMerchant = function ($keycode) {
+            if ($keycode !== 13) {
+                return false;
             }
             $scope.resetOffset();
             $scope.multiSearch(true);
-        });
+        };
 
-        $scope.$watch('filter.merchant', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
+        $scope.filterDate = function ($keycode) {
+            if ($keycode !== 13) {
+                return false;
             }
-            $scope.resetOffset();
-            $scope.multiSearch(true);
-        });
+            $scope.multiSearch();
+        };
 
-        $scope.$watchCollection('filter.tags', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
+        $scope.filterTotal = function ($keycode) {
+            if ($keycode !== 13) {
+                return false;
             }
-            $scope.multiSearch(true);
-        });
-
-        $scope.$watch('filter.single_date', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            if (newValue === "") {
-                $scope.filter.single_date_sql = "";
-                $scope.multiSearch(true);
-            }
-        });
-
-        $scope.$watch('filter.from_date', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            if (newValue === "") {
-                $scope.filter.from_date_sql = "";
-                $scope.multiSearch(true);
-            }
-        });
-
-        $scope.$watch('filter.to_date', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            if (newValue === "") {
-                $scope.filter.to_date_sql = "";
-                $scope.multiSearch(true);
-            }
-        });
-
-        $scope.$watch('filter.total', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $scope.multiSearch(true);
-        });
-
-        $scope.$watch('filter.reconciled', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $scope.multiSearch(true);
-        });
-
-        $scope.$watch('filter.budget', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $scope.multiSearch(true);
-        });
-
-        $scope.$watchGroup(['filter.offset', 'filter.num_to_fetch'], function (newValue, oldValue) {
-            $scope.filter.display_from = $scope.filter.offset + 1;
-            $scope.filter.display_to = $scope.filter.offset + ($scope.filter.num_to_fetch * 1);
-            if (newValue === oldValue) {
-                return;
-            }
-            $scope.multiSearch(true);
-        });
+            $scope.multiSearch();
+        };
 
         /**
          * Needed for filter
@@ -220,11 +170,11 @@
          * @param $func
          * @param $params
          */
-        $scope.checkKeycode = function ($keycode, $func, $params) {
-            if ($keycode === 13) {
-                $func($params);
-            }
-        };
+        //$scope.checkKeycode = function ($keycode, $func, $params) {
+        //    if ($keycode === 13) {
+        //        $func($params);
+        //    }
+        //};
 
         $scope.clearFilterField = function ($field) {
             if ($field === 'tags') {

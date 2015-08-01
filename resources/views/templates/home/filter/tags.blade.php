@@ -1,9 +1,8 @@
 
 <div filter-dropdowns-directive
-     ng-mouseleave="hideContent($event)"
      class="section">
 
-    <h4 ng-mouseover="showContent($event)" class="center">tags</h4>
+    <h4 class="center">tags</h4>
 
     <div class="content">
         <div class="group">

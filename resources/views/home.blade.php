@@ -15,9 +15,7 @@
 
 <div class="main">
 
-    <?php
-        include($templates . '/header.blade.php');
-    ?>
+    @include('templates.header')
 
     {{--<button ng-click="testFeedback()">test feedback</button>--}}
 
@@ -27,16 +25,18 @@
         </div>
     </div>
 
+    <div ng-show="loading" id="loading">
+        <i class="fa fa-spinner fa-spin"></i>
+    </div>
+
         <button ng-click="debugTotals()">debug totals</button>
     
     <div>
-    
-        <?php include($templates . '/home/toolbar.php'); ?>
-    
+
+        @include('templates.home.toolbar')
+
         <div ng-controller="NewTransactionController" id="new-transaction-container" class="">
-            <?php
-                include($templates . '/home/new-transaction.php');
-            ?>
+            @include('templates.home.new-transaction')
         </div>
         
         <div class="main-content">
@@ -46,49 +46,21 @@
                     provideFeedback="provideFeedback()">
             </totals-directive>
 
-            {{--<checkbox--}}
-                    {{--model="one"--}}
-                    {{--for="one">--}}
-            {{--</checkbox>--}}
-
-            {{--<checkbox--}}
-                    {{--model="two"--}}
-                    {{--for="two">--}}
-            {{--</checkbox>--}}
-
-            {{--<button ng-click="testControllers()">Do something to transactions controller from home controller</button>--}}
-            {{--<div>Home controller num: [[num]]</div>--}}
-
-            {{--<div ng-controller="TransactionsController">transactions controller--}}
-                {{--<div>TransactionsController num: [[num]]</div>--}}
-            {{--</div>--}}
-
-            {{--<div ng-controller="TransactionsController">[[edit_transaction]]</div>--}}
-
-            {{--<div ng-controller="TransactionsController" class="flex-grow-2">--}}
-                {{--[[edit_transaction]]--}}
-            {{--</div>--}}
-
             <div ng-controller="TransactionsController" class="flex-grow-2">
                 {{--This line had to be inside the div or the scope property--}}
                 {{--wouldn't work in the popup--}}
+
                 <?php
                     include($templates . '/popups/home/index.php');
-                    include($templates . '/home/transactions.php');
                 ?>
+
+                @include('templates.home.transactions')
             </div>
 
 
             <div ng-controller="FilterController">
-                {{--<filter-directive--}}
-                        {{--show="show.filter"--}}
-                        {{--search = "multiSearch()"--}}
-                        {{--accounts = "accounts">--}}
-                {{--</filter-directive>--}}
-
                 @include('templates/filter')
                 @include('templates/filter-totals')
-
             </div>
     
         </div>
@@ -99,5 +71,4 @@
 
 @include('templates/footer')
 @include('templates/home/footer')
-
 @include('footer')

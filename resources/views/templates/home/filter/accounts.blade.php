@@ -1,9 +1,8 @@
 
 <div filter-dropdowns-directive
-     ng-mouseleave="hideContent($event)"
      class="section">
 
-    <h4 ng-mouseover="showContent($event)" class="center">accounts</h4>
+    <h4 class="center">accounts</h4>
 
     <div class="accounts content">
 
@@ -21,6 +20,7 @@
             <input
                     checklist-model="filter.accounts.in"
                     checklist-value="account.id"
+                    checklist-change="multiSearch()"
                     ng-disabled="filter.accounts.out.indexOf(account.id) !== -1"
                     type="checkbox">
 
@@ -33,6 +33,7 @@
 
         <div ng-show="filterTab === 'hide'" ng-repeat="account in accounts">
             <input
+                    checklist-change="multiSearch()"
                     checklist-model="filter.accounts.out"
                     checklist-value="account.id"
                     ng-disabled="filter.accounts.in.indexOf(account.id) !== -1"
