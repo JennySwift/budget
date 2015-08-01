@@ -17,6 +17,7 @@
         $scope.colors = colors_response;
         $scope.totals = totals_response;
         $scope.me = me;
+        //$scope.loading = true;
 
         $(window).load(function () {
             $(".main").css('display', 'block');

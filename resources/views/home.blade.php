@@ -18,7 +18,7 @@
 <body ng-controller="HomeController">
 
 <div ng-show="loading" id="loading">
-    <i class="fa fa-spinner fa-spin"></i>
+    <i class="fa fa-spinner fa-pulse"></i>
 </div>
 
 <div class="main">
