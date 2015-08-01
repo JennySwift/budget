@@ -182,6 +182,7 @@
             }
             else {
                 $scope.filter[$field] = "";
+                $scope.multiSearch();
             }
         };
 

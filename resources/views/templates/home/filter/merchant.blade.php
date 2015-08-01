@@ -8,7 +8,15 @@
 
         <div class="group">
             <input
-                ng-model="filter.merchant"
+                ng-show="filterTab === 'show'"
+                ng-model="filter.merchant.in"
+                ng-keyup="filterDescriptionOrMerchant($event.keyCode)"
+                type="text"
+                placeholder="merchant">
+
+            <input
+                ng-show="filterTab === 'hide'"
+                ng-model="filter.merchant.out"
                 ng-keyup="filterDescriptionOrMerchant($event.keyCode)"
                 type="text"
                 placeholder="merchant">

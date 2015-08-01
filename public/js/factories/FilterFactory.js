@@ -14,8 +14,14 @@ app.factory('FilterFactory', function ($http) {
         single_date: "",
         from_date: "",
         to_date: "",
-        description: "",
-        merchant: "",
+        description: {
+            in: "",
+            out: ""
+        },
+        merchant: {
+            in: "",
+            out: ""
+        },
         tags: [],
         reconciled: "any",
         offset: 0,

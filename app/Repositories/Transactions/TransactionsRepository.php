@@ -177,11 +177,19 @@ class TransactionsRepository
     /**
      *
      * @param $query
+     * @param $type
      * @param $value
+     * @return
      */
     private function filterDescriptionOrMerchant($query, $type, $value)
     {
-        return $query->where($type, 'LIKE', '%' . $value . '%');
+        if ($value['in']) {
+            $query = $query->where($type, 'LIKE', '%' . $value['in'] . '%');
+        }
+        if ($value['out']) {
+            $query = $query->where($type, 'NOT LIKE', '%' . $value['out'] . '%');
+        }
+        return $query;
     }
 
     /**

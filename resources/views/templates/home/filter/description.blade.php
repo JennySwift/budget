@@ -8,10 +8,18 @@
 
         <div class="group">
             <input
-                ng-model="filter.description"
+                ng-show="filterTab === 'show'"
+                ng-model="filter.description.in"
                 ng-keyup="filterDescriptionOrMerchant($event.keyCode)"
                 type="text"
                 placeholder="description">
+
+            <input
+                    ng-show="filterTab === 'hide'"
+                    ng-model="filter.description.out"
+                    ng-keyup="filterDescriptionOrMerchant($event.keyCode)"
+                    type="text"
+                    placeholder="description">
 
             <span class="input-group-btn">
                 <button
