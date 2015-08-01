@@ -11,7 +11,15 @@
 
 </head>
 
+<div id="page-loading">
+    <i class="fa fa-spinner fa-spin"></i>
+</div>
+
 <body ng-controller="HomeController">
+
+<div ng-show="loading" id="loading">
+    <i class="fa fa-spinner fa-spin"></i>
+</div>
 
 <div class="main">
 
@@ -23,10 +31,6 @@
         <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
             [[message]]
         </div>
-    </div>
-
-    <div ng-show="loading" id="loading">
-        <i class="fa fa-spinner fa-spin"></i>
     </div>
 
         <button ng-click="debugTotals()">debug totals</button>

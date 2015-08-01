@@ -26,9 +26,11 @@ body {
     .main {
         padding-bottom: 60px;
         min-height: 100%;
+        display: none;
     }
     footer {
-        display: flex;
+        display: none;
+//        display: flex;
         justify-content: space-around;
         padding: 11px;
         background: #000000;

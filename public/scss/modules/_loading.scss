@@ -3,7 +3,6 @@
     top: 0;
     bottom: 0;
     margin: auto;
-//    text-align: center;
     font-size: 40px;
     color: #5bc0de;
     display: flex;
@@ -13,4 +12,18 @@
     width: 100%;
     height: 60px;
     z-index: 9;
+}
+
+#page-loading {
+    background: white;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 99;
+    font-size: 40px;
+    color: #5bc0de;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

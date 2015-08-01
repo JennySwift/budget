@@ -18,6 +18,12 @@
         $scope.totals = totals_response;
         $scope.me = me;
 
+        $(window).load(function () {
+            $(".main").css('display', 'block');
+            $("footer, #navbar").css('display', 'flex');
+            $("#page-loading").hide();
+        });
+
         /*=========show=========*/
         $scope.show = {
             actions: false,
