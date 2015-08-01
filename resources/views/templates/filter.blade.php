@@ -6,21 +6,22 @@
         <button ng-click="filterTab = 'hide'" class="btn btn-danger">Hide</button>
     </div>
 
-    <div ng-show="filterTab === 'show'">
-        @include('templates/home/filter/accounts')
-        @include('templates/home/filter/types')
-        @include('templates/home/filter/description')
-        @include('templates/home/filter/merchant')
-        @include('templates/home/filter/tags')
-        @include('templates/home/filter/date')
-        @include('templates/home/filter/amount')
-        @include('templates/home/filter/reconciled')
-        @include('templates/home/filter/num-budgets')
+    <div ng-if="filterTab === 'show'">
+        Show tab
+    </div>
+    <div ng-if="filterTab === 'hide'">
+        Hide tab
     </div>
 
-    <div ng-show="filterTab === 'hide'">
-        nothing here yet
-    </div>
+    @include('templates/home/filter/accounts')
+    @include('templates/home/filter/types')
+    @include('templates/home/filter/description')
+    @include('templates/home/filter/merchant')
+    @include('templates/home/filter/tags')
+    @include('templates/home/filter/date')
+    @include('templates/home/filter/amount')
+    @include('templates/home/filter/reconciled')
+    @include('templates/home/filter/num-budgets')
 
 
 

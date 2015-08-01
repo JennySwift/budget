@@ -19,7 +19,10 @@
         </div>
 
         <div ng-repeat="type in types">
-            <input checklist-model="filter.types" checklist-value="type" type="checkbox">
+            <input
+                checklist-model="filter.types"
+                checklist-value="type"
+                type="checkbox">
             <label for="">[[type]]</label>
         </div>
 

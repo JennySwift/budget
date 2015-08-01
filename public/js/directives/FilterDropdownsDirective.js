@@ -26,7 +26,7 @@
                 };
 
                 $scope.hideContent = function (event) {
-                    $scope.content.slideUp();
+                    //$scope.content.slideUp();
                 };
             }
         };

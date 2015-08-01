@@ -16,25 +16,28 @@
         $scope.totals = filter_response.totals;
         $scope.filterTab = 'show';
 
-        $scope.resetFilter = function () {
-            $scope.filter = {
-                budget: "all",
-                total: "",
-                types: [],
-                accounts: [],
-                single_date: "",
-                from_date: "",
-                to_date: "",
-                description: "",
-                merchant: "",
-                tags: [],
-                reconciled: "any",
-                offset: 0,
-                num_to_fetch: 20
-            };
-        };
+        //$scope.resetFilter = function () {
+        //    $scope.filter = {
+        //        budget: "all",
+        //        total: "",
+        //        types: [],
+        //        //accounts: {
+        //        //    in: [],
+        //        //    out: []
+        //        //},
+        //        single_date: "",
+        //        from_date: "",
+        //        to_date: "",
+        //        description: "",
+        //        merchant: "",
+        //        tags: [],
+        //        reconciled: "any",
+        //        offset: 0,
+        //        num_to_fetch: 20
+        //    };
+        //};
 
-        $scope.resetFilter();
+        //$scope.resetFilter();
 
         /**
          * Watches
@@ -64,6 +67,7 @@
         };
 
         $scope.multiSearch = function () {
+            console.log($scope.filter);
             FilterFactory.multiSearch($scope.filter)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers({filter_results: response.data});
@@ -113,12 +117,12 @@
             removeTag(this, $search_tag_array, $("#search-tag-location"), multiSearch);
         });
 
-        $scope.$watchCollection('filter.accounts', function (newValue, oldValue) {
+        $scope.$watch('filter.accounts', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
             $scope.multiSearch(true);
-        });
+        }, true);
 
         $scope.$watchCollection('filter.types', function (newValue, oldValue) {
             if (newValue === oldValue) {

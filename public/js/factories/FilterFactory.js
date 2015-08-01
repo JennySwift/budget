@@ -4,7 +4,10 @@ app.factory('FilterFactory', function ($http) {
         budget: "all",
         total: "",
         types: [],
-        accounts: [],
+        accounts: {
+            in: [],
+            out: []
+        },
         single_date: "",
         from_date: "",
         to_date: "",

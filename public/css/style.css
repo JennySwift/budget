@@ -648,8 +648,9 @@ caption {
       padding: 10px 0;
       background: black;
       color: #CFCFCF; }
-    #filter .section .content {
-      display: none; }
+    #filter .section .content label.disabled {
+      text-decoration: line-through;
+      text-decoration-color: red; }
   #filter .group {
     display: flex; }
   #filter .tag-input-wrapper input {

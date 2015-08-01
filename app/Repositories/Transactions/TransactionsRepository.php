@@ -45,7 +45,7 @@ class TransactionsRepository
             if ($value) {
 
                 $query = $this->filterDates($query, $type, $value);
-
+                Debugbar::info('filter', $filter);
                 if ($type === "accounts") {
                     $query = $this->filterAccounts($query, $value);
                 }
@@ -87,7 +87,13 @@ class TransactionsRepository
      */
     private function filterAccounts($query, $accounts)
     {
-        return $query->whereIn('account_id', $accounts);
+        if ($accounts['in']) {
+            $query = $query->whereIn('account_id', $accounts['in']);
+        }
+        if ($accounts['out']) {
+            $query = $query->whereNotIn('account_id', $accounts['out']);
+        }
+        return $query;
     }
 
     /**
