@@ -19,28 +19,9 @@
 
         //console.log($scope.loading);
 
-        //$scope.resetFilter = function () {
-        //    $scope.filter = {
-        //        budget: "all",
-        //        total: "",
-        //        types: [],
-        //        //accounts: {
-        //        //    in: [],
-        //        //    out: []
-        //        //},
-        //        single_date: "",
-        //        from_date: "",
-        //        to_date: "",
-        //        description: "",
-        //        merchant: "",
-        //        tags: [],
-        //        reconciled: "any",
-        //        offset: 0,
-        //        num_to_fetch: 20
-        //    };
-        //};
-
-        //$scope.resetFilter();
+        $scope.resetFilter = function () {
+            FilterFactory.resetFilter();
+        };
 
         /**
          * Watches

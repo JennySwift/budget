@@ -36,7 +36,7 @@ class TagSeeder extends Seeder {
         $faker = Faker::create();
 
         if (app()->env === 'local') {
-            $fixed_budget_tags = $this->getFixedBudgetTags(1);
+            $fixed_budget_tags = $this->getFixedBudgetTags(8);
         }
         else {
             $fixed_budget_tags = $this->getFixedBudgetTags(1);

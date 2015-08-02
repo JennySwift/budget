@@ -304,28 +304,9 @@ function newMonth () {
 
         //console.log($scope.loading);
 
-        //$scope.resetFilter = function () {
-        //    $scope.filter = {
-        //        budget: "all",
-        //        total: "",
-        //        types: [],
-        //        //accounts: {
-        //        //    in: [],
-        //        //    out: []
-        //        //},
-        //        single_date: "",
-        //        from_date: "",
-        //        to_date: "",
-        //        description: "",
-        //        merchant: "",
-        //        tags: [],
-        //        reconciled: "any",
-        //        offset: 0,
-        //        num_to_fetch: 20
-        //    };
-        //};
-
-        //$scope.resetFilter();
+        $scope.resetFilter = function () {
+            FilterFactory.resetFilter();
+        };
 
         /**
          * Watches
@@ -1418,33 +1399,38 @@ app.factory('AccountsFactory', function ($http) {
 });
 app.factory('FilterFactory', function ($http) {
     var $object = {};
-    $object.filter = {
-        budget: "all",
-        total: "",
-        types: {
-            in: [],
-            out: []
-        },
-        accounts: {
-            in: [],
-            out: []
-        },
-        single_date: "",
-        from_date: "",
-        to_date: "",
-        description: {
-            in: "",
-            out: ""
-        },
-        merchant: {
-            in: "",
-            out: ""
-        },
-        tags: [],
-        reconciled: "any",
-        offset: 0,
-        num_to_fetch: 20
+
+    $object.resetFilter = function () {
+        $object.filter = {
+            budget: "all",
+            total: "",
+            types: {
+                in: [],
+                out: []
+            },
+            accounts: {
+                in: [],
+                out: []
+            },
+            single_date: "",
+            from_date: "",
+            to_date: "",
+            description: {
+                in: "",
+                out: ""
+            },
+            merchant: {
+                in: "",
+                out: ""
+            },
+            tags: [],
+            reconciled: "any",
+            offset: 0,
+            num_to_fetch: 20
+        };
     };
+
+    $object.resetFilter();
 
     $object.multiSearch = function ($filter) {
         $object.filter = $filter;
