@@ -11,6 +11,39 @@ var elixir = require('laravel-elixir');
  |
  */
 
+//elixir(function(mix) {
+//    mix.less('app.less');
+//});
+
 elixir(function(mix) {
-    mix.less('app.less');
+    mix.scripts([
+        'controllers/BaseController.js',
+        'controllers/HomeController.js',
+        'controllers/FilterController.js',
+        'controllers/TransactionsController.js',
+        'controllers/NewTransactionController.js',
+        'controllers/PreferencesController.js',
+        'factories/AutocompleteFactory.js',
+        'factories/BudgetsFactory.js',
+        'factories/SavingsFactory.js',
+        'factories/ColorsFactory.js',
+        'factories/TransactionsFactory.js',
+        'factories/PreferencesFactory.js',
+        'factories/TagsFactory.js',
+        'factories/AccountsFactory.js',
+        'factories/FilterFactory.js',
+        'factories/FeedbackFactory.js',
+        'directives/DropdownsDirective.js',
+        'directives/CheckboxesDirective.js',
+        'directives/TotalsDirective.js',
+        'directives/FilterDirective.js',
+        'directives/TagAutocompleteDirective.js',
+        'directives/FilterDropdownsDirective.js',
+        'directives/TransactionAutocompleteDirective.js',
+    ]);
 });
+
+//Not working
+//elixir(function(mix) {
+//    mix.scriptsIn('factories');
+//});
