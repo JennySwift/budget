@@ -220,6 +220,8 @@ class TransactionsController extends Controller
             'type' => $new_transaction['type'],
             'reconciled' => convertFromBoolean($new_transaction['reconciled']),
         ]);
+        
+        Debugbar::info('new_transaction', $new_transaction);
 
         if ($transaction_type === "from") {
             $transaction->account_id = $new_transaction['from_account'];

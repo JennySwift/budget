@@ -22,6 +22,8 @@
             date: {
                 entered: 'today'
             },
+            merchant: '',
+            description: '',
             reconciled: false,
             multiple_budgets: false,
             tags: []
