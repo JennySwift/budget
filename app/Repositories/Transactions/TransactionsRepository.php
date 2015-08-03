@@ -45,7 +45,7 @@ class TransactionsRepository
             if ($value) {
 
                 $query = $this->filterDates($query, $type, $value);
-                Debugbar::info('filter', $filter);
+//                Debugbar::info('filter', $filter);
                 if ($type === "accounts") {
                     $query = $this->filterAccounts($query, $value);
                 }
