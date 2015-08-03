@@ -1657,7 +1657,7 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.credit = newValue.replace(',', '') - oldValue.replace(',', '');
+                    $scope.totals.changes.credit = $scope.format(newValue, oldValue);
                 });
 
                 //RFB
@@ -1665,7 +1665,7 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.RFB = newValue.replace(',', '') - oldValue.replace(',', '');
+                    $scope.totals.changes.RFB = $scope.format(newValue, oldValue);
                 });
 
                 //CFB
@@ -1673,7 +1673,7 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.CFB = newValue.replace(',', '') - oldValue.replace(',', '');
+                    $scope.totals.changes.CFB = $scope.format(newValue, oldValue);
                 });
 
                 //EWB
@@ -1681,7 +1681,7 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.EWB = newValue.replace(',', '') - oldValue.replace(',', '');
+                    $scope.totals.changes.EWB = $scope.format(newValue, oldValue);
                 });
 
                 //EFBBSD
@@ -1689,7 +1689,7 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.EFBBSD = newValue.replace(',', '') - oldValue.replace(',', '');
+                    $scope.totals.changes.EFBBSD = $scope.format(newValue, oldValue);
                 });
 
                 //EFBASD
@@ -1697,7 +1697,7 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.EFBASD = newValue.replace(',', '') - oldValue.replace(',', '');
+                    $scope.totals.changes.EFBASD = $scope.format(newValue, oldValue);
                 });
 
                 //Savings
@@ -1705,7 +1705,8 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.savings = newValue.replace(',', '') - oldValue.replace(',', '');
+
+                    $scope.totals.changes.savings = $scope.format(newValue, oldValue);
                 });
 
                 //RB
@@ -1713,7 +1714,7 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.RB.push(newValue.replace(',', '') - oldValue.replace(',', ''));
+                    $scope.totals.changes.RB.push($scope.format(newValue, oldValue));
                 });
 
                 //RBWEFLB
@@ -1721,7 +1722,7 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.RBWEFLB.push(newValue.replace(',', '') - oldValue.replace(',', ''));
+                    $scope.totals.changes.RBWEFLB.push($scope.format(newValue, oldValue));
                 });
 
                 //Debit
@@ -1729,7 +1730,7 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.debit = newValue.replace(',', '') - oldValue.replace(',', '');
+                    $scope.totals.changes.debit = $scope.format(newValue, oldValue);
                 });
 
                 //Balance
@@ -1737,7 +1738,7 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.balance = newValue.replace(',', '') - oldValue.replace(',', '');
+                    $scope.totals.changes.balance = $scope.format(newValue, oldValue);
                 });
 
                 //Reconciled
@@ -1745,9 +1746,24 @@ app.factory('FeedbackFactory', function ($http) {
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.reconciled = newValue.replace(',', '') - oldValue.replace(',', '');
+                    $scope.totals.changes.reconciled = $scope.format(newValue, oldValue);
                 });
 
+                /**
+                 * End watches
+                 */
+
+                /**
+                 * For formatting the numbers in the total changes to two decimal places
+                 * @param newValue
+                 * @param oldValue
+                 * @returns {string}
+                 */
+                $scope.format = function (newValue, oldValue) {
+                    var $diff = newValue.replace(',', '') - oldValue.replace(',', '');
+                    return $diff.toFixed(2);
+                };
+                
                 $scope.showSavingsTotalInput = function () {
                     $scope.show.savings_total.input = true;
                     $scope.show.savings_total.edit_btn = false;
