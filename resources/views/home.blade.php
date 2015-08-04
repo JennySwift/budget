@@ -1,42 +1,20 @@
-<!doctype html>
-<html lang="en" class="" ng-app="budgetApp">
-<head>
-    <meta charset="UTF-8">
-    <title>Budget App</title>
 
-    <?php
-        include(base_path().'/resources/views/templates/config.php');
-        include($head_links);
-    ?>
+@extends('layouts.master')
 
-</head>
+@section('controller', 'HomeController')
 
-@include('templates.page-loading')
+@section('page-content')
 
-<body ng-controller="BaseController">
+<div>
 
-@include('templates.loading')
+    @include('templates.home.toolbar')
 
-<div ng-controller="HomeController" class="main">
-
-    @include('templates.header')
-
-    @include('templates.feedback')
-    
-    <div>
-
-        @include('templates.home.toolbar')
-
-        <div ng-controller="NewTransactionController" id="new-transaction-container" class="">
-            @include('templates.home.new-transaction')
-        </div>
-        
-        @include('templates.home.main-content')
-
+    <div ng-controller="NewTransactionController" id="new-transaction-container" class="">
+        @include('templates.home.new-transaction')
     </div>
-  
+
+    @include('templates.home.main-content')
+
 </div>
 
-@include('templates/footer')
-@include('templates/home/footer')
-@include('footer')
+@stop

@@ -1,5 +1,5 @@
 <div>
-    <?php include($templates . '/home/new-transaction/date-help.php'); ?>
+    @include('templates.home.new-transaction.date-help')
 
     <input
         ng-model="new_transaction.date.entered"

@@ -2,10 +2,8 @@
 
     <div>
 
-        <?php
-            include($templates . '/home/show-button.php');
-            include($templates . '/home/actions-button.php');
-        ?>
+        @include('templates.home.show-button')
+        @include('templates.home.actions-button')
 
         <button ng-if="!show.new_transaction" ng-click="show.new_transaction = !show.new_transaction" class="btn btn-info">
             New transaction

@@ -1,47 +1,39 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="budgetApp">
-<head>
-    <meta charset="UTF-8">
-    <title>Budget App</title>
 
-    <?php
-        include(base_path().'/resources/views/templates/config.php');
-        include($head_links);
-    ?>
+@extends('layouts.master')
 
-</head>
-<body ng-controller="BaseController">
+@section('controller', 'AccountsController')
 
-    @include('templates.header')
-    @include('templates.loading')
+@section('page-content')
 
-    <div ng-controller="AccountsController" class="main">
+    <div id="accounts">
 
-        @include('templates.feedback')
         @include('templates.popups.settings.index')
 
-        <div id="accounts">
+        <input
+            ng-keyup="insertAccount($event.keyCode)"
+            type="text"
+            class="new_account_input font-size-sm center margin-bottom"
+            id="new_account_input"
+            placeholder="new account">
 
-            <input ng-keyup="insertAccount($event.keyCode)" type="text" class="new_account_input font-size-sm center margin-bottom" id="new_account_input" placeholder="new account">
-            
-            <table class="table table-bordered">
-                <tr ng-repeat="account in accounts">
-                    <td>[[account.name]]</td>
-                    <td>
-                        <button ng-click="showEditAccountPopup(account.id, account.name)">edit</button>
-                    </td>
-                    <td>
-                        <button ng-click="deleteAccount(account.id)" class="btn btn-default">delete</button>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
+        <table class="table table-bordered">
+            <tr ng-repeat="account in accounts">
+                <td>[[account.name]]</td>
+                <td>
+                    <button
+                        ng-click="showEditAccountPopup(account.id, account.name)">
+                        edit
+                    </button>
+                </td>
+                <td>
+                    <button
+                        ng-click="deleteAccount(account.id)"
+                        class="btn btn-default">
+                        delete
+                    </button>
+                </td>
+            </tr>
+        </table>
     </div>
 
-@include('templates/footer')
-@include('footer')
-@include('templates/home/footer')
-
-</body>
-</html>
+@stop
