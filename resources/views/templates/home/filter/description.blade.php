@@ -6,30 +6,40 @@
 
     <div class="content">
 
-        <div class="group">
+        <div class="group" ng-show="filterTab === 'show'">
             <input
-                ng-show="filterTab === 'show'"
                 ng-model="filter.description.in"
                 ng-keyup="filterDescriptionOrMerchant($event.keyCode)"
                 type="text"
                 placeholder="description">
 
-            <input
-                    ng-show="filterTab === 'hide'"
-                    ng-model="filter.description.out"
-                    ng-keyup="filterDescriptionOrMerchant($event.keyCode)"
-                    type="text"
-                    placeholder="description">
-
             <span class="input-group-btn">
                 <button
-                    ng-click="clearFilterField('description')"
+                    ng-click="clearFilterField('description', 'in')"
                     class="clear-search-button">
                     clear
                 </button>
             </span>
 
         </div>
+
+        <div class="group" ng-show="filterTab === 'hide'">
+            <input
+                ng-model="filter.description.out"
+                ng-keyup="filterDescriptionOrMerchant($event.keyCode)"
+                type="text"
+                placeholder="description">
+
+            <span class="input-group-btn">
+                <button
+                        ng-click="clearFilterField('description', 'out')"
+                        class="clear-search-button">
+                    clear
+                </button>
+            </span>
+        </div>
+
+
 
     </div>
 

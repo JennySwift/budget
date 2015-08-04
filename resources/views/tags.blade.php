@@ -10,20 +10,18 @@
     ?>
 
 </head>
-<body ng-controller="TagsController">
 
-    <?php
-        include($header);
-        include($templates . '/popups/settings/index.php');
-    ?>
+@include('templates.page-loading')
+
+<body ng-controller="BaseController">
+
+    @include('templates.loading')
+    @include('templates.header')
+    @include('templates.popups.settings.index')
     
-    <div class="main">
+    <div ng-controller="TagsController" class="main">
 
-        <div id="feedback">
-            <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
-                [[message]]
-            </div>
-        </div>
+        @include('templates.feedback')
 
         <div id="tags">
 

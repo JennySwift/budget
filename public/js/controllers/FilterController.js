@@ -5,6 +5,7 @@
         .controller('FilterController', filter);
 
     function filter ($scope, $http, FilterFactory, FeedbackFactory) {
+
         /**
          * scope properties
          */
@@ -16,8 +17,6 @@
         $scope.totals = filter_response.totals;
         $scope.filterTab = 'show';
         //$scope.loading = true;
-
-        //console.log($scope.loading);
 
         $scope.resetFilter = function () {
             FilterFactory.resetFilter();
@@ -32,6 +31,7 @@
         $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
             if (newValue) {
                 scope.filter = newValue;
+                $scope.multiSearch();
             }
         });
 
@@ -61,15 +61,6 @@
          * End watches
          */
 
-        $scope.responseError = function (response) {
-            if (response.status === 503) {
-                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
-            }
-            else {
-                FeedbackFactory.provideFeedback('There was an error');
-            }
-        };
-
         $scope.multiSearch = function () {
             $scope.showLoading();
             FilterFactory.multiSearch($scope.filter)
@@ -79,7 +70,6 @@
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
-                    $scope.hideLoading();
                 })
         };
 
@@ -110,19 +100,6 @@
             $scope.multiSearch(true);
         };
 
-        //$(".clear-search-button").on('click', function () {
-        //    if ($(this).attr('id') == "clear-tags-btn") {
-        //        $search_tag_array.length = 0;
-        //        $("#search-tag-location").html($search_tag_array);
-        //    }
-        //    $(this).closest(".input-group").children("input").val("");
-        //    $scope.multiSearch(true);
-        //});
-
-        //$("#search-div").on('click', '#search-tag-location li', function () {
-        //    removeTag(this, $search_tag_array, $("#search-tag-location"), multiSearch);
-        //});
-
         $scope.filterDescriptionOrMerchant = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
@@ -146,23 +123,16 @@
         };
 
         /**
-         * Needed for filter
-         * @param $keycode
-         * @param $func
-         * @param $params
+         * $type is either 'in' or 'out'
+         * @param $field
+         * @param $type
          */
-        //$scope.checkKeycode = function ($keycode, $func, $params) {
-        //    if ($keycode === 13) {
-        //        $func($params);
-        //    }
-        //};
-
-        $scope.clearFilterField = function ($field) {
+        $scope.clearFilterField = function ($field, $type) {
             if ($field === 'tags') {
                 $scope.filter.tags = [];
             }
             else {
-                $scope.filter[$field] = "";
+                $scope.filter[$field][$type] = "";
                 $scope.multiSearch();
             }
         };
@@ -173,14 +143,11 @@
 
         $scope.showContent = function (event) {
             $(event.target).next().addClass('show-me').removeClass('hide');
-            //$(event.target).next().addClass('animated slideInDown').removeClass('hide');
         };
 
         $scope.hideContent = function (event) {
             $(event.target).next().addClass('hide-me').removeClass('show');
-            //$(event.target).next().addClass('animated slideOutUp').removeClass('show');
         };
-
 
     }
 

@@ -10,20 +10,15 @@
     ?>
 
 </head>
-<body ng-controller="AccountsController">
+<body ng-controller="BaseController">
 
-    <?php
-        include($header);
-        include($templates . '/popups/settings/index.php');
-    ?>
-         
-    <div class="main">
+    @include('templates.header')
+    @include('templates.loading')
 
-        <div id="feedback">
-            <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
-                [[message]]
-            </div>
-        </div>
+    <div ng-controller="AccountsController" class="main">
+
+        @include('templates.feedback')
+        @include('templates.popups.settings.index')
 
         <div id="accounts">
 
@@ -46,7 +41,7 @@
 
 @include('templates/footer')
 @include('footer')
-@include('templates/accounts/footer')
+@include('templates/home/footer')
 
 </body>
 </html>

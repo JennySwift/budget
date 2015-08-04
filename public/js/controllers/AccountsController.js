@@ -11,11 +11,7 @@ var app = angular.module('budgetApp');
         $scope.me = me;
         $scope.autocomplete = {};
         $scope.edit_account = false;
-        $scope.show = {
-            popups: {}
-        };
         $scope.accounts = accounts;
-        $scope.feedback_messages = [];
         $scope.feedbackFactory = FeedbackFactory;
         $scope.edit_account_popup = {};
 
@@ -25,31 +21,16 @@ var app = angular.module('budgetApp');
             }
         });
 
-        $scope.provideFeedback = function ($message) {
-            $scope.feedback_messages.push($message);
-            setTimeout(function () {
-                $scope.feedback_messages = _.without($scope.feedback_messages, $message);
-                $scope.$apply();
-            }, 3000);
-        };
-
-        $scope.responseError = function (response) {
-            if (response.status === 503) {
-                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
-            }
-            else {
-                FeedbackFactory.provideFeedback('There was an error');
-            }
-        };
-
         /**
          * select
          */
 
         $scope.getAccounts = function () {
+            $scope.showLoading();
             AccountsFactory.getAccounts()
                 .then(function (response) {
                     $scope.accounts = response.data;
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -65,10 +46,13 @@ var app = angular.module('budgetApp');
                 return;
             }
 
+            $scope.showLoading();
             AccountsFactory.insertAccount()
                 .then(function (response) {
                     $scope.getAccounts();
+                    $scope.provideFeedback('Account added');
                     $("#new_account_input").val("");
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -86,10 +70,13 @@ var app = angular.module('budgetApp');
         };
 
         $scope.updateAccount = function () {
+            $scope.showLoading();
             AccountsFactory.updateAccountName($scope.edit_account_popup.id, $scope.edit_account_popup.name)
                 .then(function (response) {
                     $scope.getAccounts();
+                    $scope.provideFeedback('Account edited');
                     $scope.show.popups.edit_account = false;
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -102,24 +89,16 @@ var app = angular.module('budgetApp');
 
         $scope.deleteAccount = function ($account_id) {
             if (confirm("Are you sure you want to delete this account?")) {
+                $scope.showLoading();
                 AccountsFactory.deleteAccount($account_id)
                     .then(function (response) {
                         $scope.getAccounts();
+                        $scope.provideFeedback('Account deleted');
+                        $scope.hideLoading();
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
                     });
-            }
-        };
-
-        /**
-         * other
-         */
-
-        $scope.closePopup = function ($event, $popup) {
-            var $target = $event.target;
-            if ($target.className === 'popup-outer') {
-                $scope.show.popups[$popup] = false;
             }
         };
 

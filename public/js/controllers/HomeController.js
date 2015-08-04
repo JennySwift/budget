@@ -16,14 +16,6 @@
 
         $scope.colors = colors_response;
         $scope.totals = totals_response;
-        $scope.me = me;
-        //$scope.loading = true;
-
-        $(window).load(function () {
-            $(".main").css('display', 'block');
-            $("footer, #navbar").css('display', 'flex');
-            $("#page-loading").hide();
-        });
 
         /*=========show=========*/
         $scope.show = {
@@ -89,14 +81,6 @@
         /**
          * End watches
          */
-
-        $scope.showLoading = function () {
-            $scope.loading = true;
-        };
-
-        $scope.hideLoading = function () {
-            $scope.loading = false;
-        };
 
         $scope.provideFeedback = function ($message) {
             $scope.feedback_messages.push($message);

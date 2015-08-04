@@ -19,6 +19,8 @@ elixir(function(mix) {
     mix.scripts([
         'controllers/BaseController.js',
         'controllers/HomeController.js',
+        'controllers/AccountsController.js',
+        'controllers/BudgetsController.js',
         'controllers/FilterController.js',
         'controllers/TransactionsController.js',
         'controllers/NewTransactionController.js',

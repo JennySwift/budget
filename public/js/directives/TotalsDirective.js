@@ -155,7 +155,7 @@
                     var $diff = newValue.replace(',', '') - oldValue.replace(',', '');
                     return $diff.toFixed(2);
                 };
-                
+
                 $scope.showSavingsTotalInput = function () {
                     $scope.show.savings_total.input = true;
                     $scope.show.savings_total.edit_btn = false;

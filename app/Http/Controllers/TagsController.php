@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Models\Tag;
 use App\Repositories\Tags\TagsRepository;
+use App\Totals\FixedAndFlexData;
 use App\Totals\TotalsService;
 use Auth;
 use DB;
@@ -113,7 +114,8 @@ class TagsController extends Controller
     public function updateBudget(Request $request)
     {
         $tag = Tag::find($request->get('tag_id'));
-        $totalsService = new TotalsService();
+        $fixedAndFlexData = new FixedAndFlexData();
+        $totalsService = new TotalsService($fixedAndFlexData);
 
         $budget = $request->get('budget');
         $column = $request->get('column');

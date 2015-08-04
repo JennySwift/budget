@@ -8,16 +8,10 @@ var app = angular.module('budgetApp');
          * scope properties
          */
 
-        $scope.me = me;
         $scope.autocomplete = {};
         $scope.edit_tag = false;
-        $scope.feedback_messages = [];
         $scope.feedbackFactory = FeedbackFactory;
         $scope.edit_tag_popup = {};
-
-        $scope.show = {
-            popups: {}
-        };
 
         $scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
             if (newValue && newValue.message) {
@@ -25,31 +19,16 @@ var app = angular.module('budgetApp');
             }
         });
 
-        $scope.provideFeedback = function ($message) {
-            $scope.feedback_messages.push($message);
-            setTimeout(function () {
-                $scope.feedback_messages = _.without($scope.feedback_messages, $message);
-                $scope.$apply();
-            }, 3000);
-        };
-
-        $scope.responseError = function (response) {
-            if (response.status === 503) {
-                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
-            }
-            else {
-                FeedbackFactory.provideFeedback('There was an error');
-            }
-        };
-
         /**
          * select
          */
 
         $scope.getTags = function () {
+            $scope.showLoading();
             TagsFactory.getTags()
                 .then(function (response) {
                     $scope.tags = response.data;
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -70,17 +49,22 @@ var app = angular.module('budgetApp');
                 return;
             }
 
+            $scope.showLoading();
             TagsFactory.duplicateTagCheck()
                 .then(function (response) {
                     var $duplicate = response.data;
                     if ($duplicate > 0) {
                         FeedbackFactory.provideFeedback('You already have a tag with that name');
+                        $scope.hideLoading();
                     }
                     else {
+                        $scope.showLoading();
                         TagsFactory.insertTag()
                             .then(function (response) {
                                 $scope.getTags();
                                 $("#new-tag-input").val("");
+                                $scope.hideLoading();
+                                $scope.provideFeedback('Tag created');
                             })
                             .catch(function (response) {
                                 $scope.responseError(response);
@@ -103,10 +87,13 @@ var app = angular.module('budgetApp');
         };
 
         $scope.updateTag = function () {
+            $scope.showLoading();
             TagsFactory.updateTagName($scope.edit_tag_popup.id, $scope.edit_tag_popup.name)
                 .then(function (response) {
                     $scope.getTags();
                     $scope.show.popups.edit_tag = false;
+                    $scope.hideLoading();
+                    $scope.provideFeedback('Tag edited');
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -118,13 +105,19 @@ var app = angular.module('budgetApp');
          */
 
         $scope.deleteTag = function ($tag_id) {
+            $scope.showLoading();
             TagsFactory.countTransactionsWithTag($tag_id)
                 .then(function (response) {
                     var $count = response.data;
+                    //The loading symbol isn't hiding here because of the confirm()
+                    $scope.hideLoading();
                     if (confirm("You have " + $count + " transactions with this tag. Are you sure?")) {
+                        $scope.showLoading();
                         TagsFactory.deleteTag($tag_id)
                             .then(function (response) {
                                 $scope.getTags();
+                                $scope.hideLoading();
+                                $scope.provideFeedback('Tag deleted');
                             })
                             .catch(function (response) {
                                 $scope.responseError(response);
@@ -134,17 +127,6 @@ var app = angular.module('budgetApp');
                 .catch(function (response) {
                     $scope.responseError(response);
                 })
-        };
-
-        /**
-         * other
-         */
-
-        $scope.closePopup = function ($event, $popup) {
-            var $target = $event.target;
-            if ($target.className === 'popup-outer') {
-                $scope.show.popups[$popup] = false;
-            }
         };
 
     }); //end controller

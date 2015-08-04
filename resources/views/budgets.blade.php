@@ -10,26 +10,25 @@
     ?>
 
 </head>
-<body ng-controller="BudgetsController">
 
-    <?php
-        include($header);
-        include($templates . '/popups/budget/index.php');
-    ?>
+@include('templates.page-loading')
+
+<body ng-controller="BaseController">
+
+@include('templates.loading')
+@include('templates.header')
     
     <!-- if I used ng-if here, tooltipster didn't work. -->
-    <div id="budget" class="main">
+    <div ng-controller="BudgetsController" id="budget" class="main">
+
+        @include('templates.popups.budget/index')
 
         <totals-directive
                 totals="totals"
                 getTotals="getTotals()">
         </totals-directive>
 
-        <div id="feedback">
-            <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
-                [[message]]
-            </div>
-        </div>
+        @include('templates.feedback')
 
         <div>
 
@@ -51,7 +50,7 @@
 
 @include('templates/footer')
 @include('footer')
-@include('templates/budgets/footer')
+@include('templates/home/footer')
 
 </body>
 </html>

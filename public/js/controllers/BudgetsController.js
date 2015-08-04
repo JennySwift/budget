@@ -9,9 +9,7 @@
          * scope properties
          */
 
-        $scope.me = me;
         $scope.totals = totals_response;
-        $scope.feedback_messages = [];
         $scope.tags = tags_response;
         $scope.feedbackFactory = FeedbackFactory;
 
@@ -20,7 +18,6 @@
             budget_totals: true,
             popups: {}
         };
-
 
         /**
          * Watches
@@ -31,23 +28,6 @@
                 scope.provideFeedback(newValue.message);
             }
         });
-
-        $scope.provideFeedback = function ($message) {
-            $scope.feedback_messages.push($message);
-            setTimeout(function () {
-                $scope.feedback_messages = _.without($scope.feedback_messages, $message);
-                $scope.$apply();
-            }, 3000);
-        };
-
-        $scope.responseError = function (response) {
-            if (response.status === 503) {
-                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
-            }
-            else {
-                FeedbackFactory.provideFeedback('There was an error');
-            }
-        };
 
         $scope.getTags = function () {
             TagsFactory.getTags()
@@ -63,12 +43,16 @@
             if ($keycode !== 13 || $scope.tagHasBudget($new)) {
                 return;
             }
+
+            $scope.showLoading();
             BudgetsFactory.updateBudget($new, $type + '_budget', $new.budget)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
                     $scope.totals.budget = response.data.totals.budget;
                     $scope.updateTag($new, response);
                     $scope.clearAndFocus($type);
+                    $scope.provideFeedback('Budget created/updated');
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -116,11 +100,14 @@
 
         $scope.removeBudget = function ($tag) {
             if (confirm("Remove " + $tag.budget_type + " budget for " + $tag.name + "?")) {
+                $scope.showLoading();
                 BudgetsFactory.updateBudget($tag, $tag.budget_type + '_budget', 'NULL')
                     .then(function (response) {
                         FilterFactory.updateDataForControllers(response.data);
                         $scope.totals.budget = response.data.totals.budget;
                         $scope.updateTag($tag, response);
+                        $scope.provideFeedback('Budget deleted');
+                        $scope.hideLoading();
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
@@ -134,11 +121,14 @@
         };
 
         $scope.updateCSD = function () {
+            $scope.showLoading();
             BudgetsFactory.updateCSD($scope.edit_CSD)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
                     $scope.totals.budget = response.data.budget;
                     $scope.show.popups.edit_CSD = false;
+                    $scope.provideFeedback('Date updated');
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -189,12 +179,6 @@
         //        });
         //};
 
-        $scope.closePopup = function ($event, $popup) {
-            var $target = $event.target;
-            if ($target.className === 'popup-outer') {
-                $scope.show.popups[$popup] = false;
-            }
-        };
     }
 
 })();

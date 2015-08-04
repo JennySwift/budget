@@ -11,29 +11,17 @@
 
 </head>
 
-<div id="page-loading">
-    <i class="fa fa-spinner fa-spin"></i>
-</div>
+@include('templates.page-loading')
 
-<body ng-controller="HomeController">
+<body ng-controller="BaseController">
 
-<div ng-show="loading" id="loading">
-    <i class="fa fa-spinner fa-pulse"></i>
-</div>
+@include('templates.loading')
 
-<div class="main">
+<div ng-controller="HomeController" class="main">
 
     @include('templates.header')
 
-    {{--<button ng-click="testFeedback()">test feedback</button>--}}
-
-    <div id="feedback">
-        <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
-            [[message]]
-        </div>
-    </div>
-
-        <button ng-click="debugTotals()">debug totals</button>
+    @include('templates.feedback')
     
     <div>
 
@@ -43,35 +31,11 @@
             @include('templates.home.new-transaction')
         </div>
         
-        <div class="main-content">
-            <totals-directive
-                    totals="totals"
-                    getTotals="getTotals()"
-                    provideFeedback="provideFeedback()">
-            </totals-directive>
-
-            <div ng-controller="TransactionsController" class="flex-grow-2">
-                {{--This line had to be inside the div or the scope property--}}
-                {{--wouldn't work in the popup--}}
-
-                <?php
-                    include($templates . '/popups/home/index.php');
-                ?>
-
-                @include('templates.home.transactions')
-            </div>
-
-
-            <div ng-controller="FilterController">
-                @include('templates/filter')
-                @include('templates/filter-totals')
-            </div>
-    
-        </div>
+        @include('templates.home.main-content')
 
     </div>
   
-</div><!-- .main -->  
+</div>
 
 @include('templates/footer')
 @include('templates/home/footer')
