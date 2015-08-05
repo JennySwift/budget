@@ -11,7 +11,7 @@
 
         $scope.filterFactory = FilterFactory;
         $scope.dropdown = {};
-        $scope.me = me;
+        //$scope.me = me;
         $scope.env = env;
         $scope.tags = tags_response;
         $scope.types = ["income", "expense", "transfer"];
@@ -127,6 +127,7 @@
                 return;
             }
 
+            $scope.showLoading();
             TransactionsFactory.insertTransaction($scope.new_transaction, $scope.filter)
                 .then(function (response) {
                     $scope.provideFeedback('Transaction added');
@@ -134,6 +135,7 @@
                     $scope.new_transaction.dropdown = false;
                     FilterFactory.updateDataForControllers(response.data);
                     $scope.checkNewTransactionForMultipleBudgets(response);
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);

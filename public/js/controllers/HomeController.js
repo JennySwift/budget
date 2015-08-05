@@ -67,9 +67,14 @@
             if (!newValue) {
                 return;
             }
-            PreferencesFactory.insertOrUpdateDateFormat(newValue).then(function (response) {
-                // $scope. = response.data;
-            });
+            $scope.showLoading();
+            PreferencesFactory.insertOrUpdateDateFormat(newValue)
+                .then(function (response) {
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
         });
 
         $scope.$watchCollection('colors', function (newValue) {
@@ -91,10 +96,12 @@
         };
 
         $scope.updateColors = function () {
+            $scope.showLoading();
             ColorsFactory.updateColors($scope.colors)
                 .then(function (response) {
                     //Todo: return the colors in the response to update them
                     $scope.show.color_picker = false;
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -119,9 +126,11 @@
             $scope.show.allocation_popup = true;
             $scope.allocation_popup = $transaction;
 
+            $scope.showLoading();
             BudgetsFactory.getAllocationTotals($transaction.id)
                 .then(function (response) {
                     $scope.allocation_popup.allocation_totals = response.data;
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
