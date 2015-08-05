@@ -1,23 +1,32 @@
 <?php namespace App\Http\Controllers;
 
+use App\Exceptions\NotLoggedInException;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 use App\User;
-use Illuminate\Http\Request;
+use Auth;
+use Debugbar;
 
-class UsersController extends Controller {
+/**
+ * Class UsersController
+ * @package App\Http\Controllers
+ */
+class UsersController extends Controller
+{
 
-	/**
-	 * For debugging.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-        $dummy = User::whereEmail('cheezyspaghetti@gmail.com')->first();
-        $dummy->delete();
-	}
+    /**
+     * Delete the user's account
+     * @param $id
+     */
+    public function destroy($id)
+    {
+        if ($id == Auth::user()->id) {
+            $user = User::findOrFail($id);
+            $user->delete();
+        }
+        else {
+            //They could actually be logged in, but trying to delete another account mischievously
+            throw new NotLoggedInException;
+        }
+    }
 
 }

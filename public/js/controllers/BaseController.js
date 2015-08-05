@@ -9,7 +9,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         .module('budgetApp')
         .controller('BaseController', base);
 
-    function base ($scope, $http, FeedbackFactory) {
+    function base ($scope, $http, FeedbackFactory, UsersFactory) {
         /**
          * Scope properties
          */
@@ -61,14 +61,26 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
                 $scope.show.popups[$popup] = false;
             }
         };
+
+        $scope.deleteUser = function () {
+            if (confirm("Do you really want to delete your account?")) {
+                if (confirm("You are about to delete your account! You will no longer be able to use the budget app. Are you sure this is what you want?")) {
+                    $scope.showLoading();
+                    UsersFactory.deleteAccount($scope.me)
+                        .then(function (response) {
+                            //$scope. = response.data;
+                            $scope.provideFeedback('Your account has been deleted');
+                            $scope.hideLoading();
+                        })
+                        .catch(function (response) {
+                            $scope.responseError(response);
+                        });
+                }
+            }
+        }
     }
 
 })();
-
-
-
-
-
 
 
 

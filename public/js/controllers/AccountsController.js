@@ -8,7 +8,7 @@ var app = angular.module('budgetApp');
          * scope properties
          */
 
-        $scope.me = me;
+        //$scope.me = me;
         $scope.autocomplete = {};
         $scope.edit_account = false;
         $scope.accounts = accounts;

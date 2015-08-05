@@ -4,6 +4,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use JavaScript;
+use Auth;
 
 class HelpController extends Controller {
 
@@ -24,6 +26,10 @@ class HelpController extends Controller {
 	 */
 	public function index()
 	{
+        JavaScript::put([
+            'me' => Auth::user(),
+        ]);
+
 		return view('help');
 	}
 

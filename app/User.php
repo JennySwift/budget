@@ -33,7 +33,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * @var array
      */
-    protected $appends = ['gravatar'];
+    protected $appends = ['gravatar', 'path'];
 
     /**
      * @var array
@@ -101,6 +101,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         $email = md5($this->email);
 
         return "https://secure.gravatar.com/avatar/{$email}?s=37&r=g&default=mm";
+    }
+    
+    /**
+     * Return the URL of the resource
+     * @return string
+     */
+    public function getPathAttribute()
+    {
+        return route('user.show', $this->id);
     }
 
 	/**

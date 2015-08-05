@@ -14,6 +14,7 @@
 <script type="text/javascript" src="js/controllers/TransactionsController.js"></script>
 <script type="text/javascript" src="js/controllers/BudgetsController.js"></script>
 <script type="text/javascript" src="js/controllers/PreferencesController.js"></script>
+<script type="text/javascript" src="js/controllers/HelpController.js"></script>
 
 <!-- factories -->
 <script type="text/javascript" src="js/factories/AutocompleteFactory.js"></script>
@@ -26,6 +27,7 @@
 <script type="text/javascript" src="js/factories/AccountsFactory.js"></script>
 <script type="text/javascript" src="js/factories/FilterFactory.js"></script>
 <script type="text/javascript" src="js/factories/FeedbackFactory.js"></script>
+<script type="text/javascript" src="js/factories/UsersFactory.js"></script>
 
 <!-- directives -->
 <script type="text/javascript" src="js/directives/DropdownsDirective.js"></script>

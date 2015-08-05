@@ -1,33 +1,19 @@
-<!doctype html>
-<html lang="en" class="" ng-app="budgetApp">
-<head>
-    <meta charset="UTF-8">
-    <title>Budget App</title>
+@extends('layouts.master')
 
-    <?php
-    include(base_path().'/resources/views/templates/config.php');
-    include($head_links);
-    ?>
+{{--I don't actually use this controller,
+but it's so I have a value for the master template--}}
+@section('controller', 'HelpController')
 
-</head>
-
-<body>
-
-<div class="main">
+@section('page-content')
 
     @include('templates.header')
     @include('templates.feedback')
     @include('templates/help/help-navigation')
 
+    <h1>Help</h1>
+
     <div id="help">
         @include('templates/help/help-content')
     </div>
 
-
-
-</div>
-
-@include('templates/footer')
-@include('templates/home/footer')
-
-@include('footer')
+@stop
