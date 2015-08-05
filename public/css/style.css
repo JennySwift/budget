@@ -947,3 +947,23 @@ caption {
       padding-left: 5px; }
       #help-navigation-container .dropdown-content #help-navigation > ul li {
         list-style: none; }
+
+#login, #register {
+  padding-top: 85px; }
+  #login .flex, #register .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px; }
+  #login #login-errors, #register #login-errors {
+    background: #f2dede;
+    padding: 11px 20px;
+    border-radius: 4px;
+    color: #777;
+    font-size: 18px;
+    margin-bottom: 25px; }
+  #login #remember-me-container, #register #remember-me-container {
+    display: flex;
+    align-items: center; }
+    #login #remember-me-container label, #register #remember-me-container label {
+      margin-bottom: 0; }

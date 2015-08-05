@@ -1,0 +1,26 @@
+#login, #register {
+    padding-top: 85px;
+    .flex {
+        display: flex;
+        //    flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 40px;
+    }
+    #login-errors {
+        background: #f2dede;
+        padding: 11px 20px;
+        border-radius: 4px;
+        color: #777;
+        font-size: 18px;
+        margin-bottom: 25px;
+    }
+    #remember-me-container {
+        display: flex;
+        align-items: center;
+        label {
+            margin-bottom: 0;
+        }
+    }
+
+}
