@@ -9,9 +9,9 @@
          * scope properties
          */
 
-        $scope.feedbackFactory = FeedbackFactory;
+        //$scope.feedbackFactory = FeedbackFactory;
         $scope.transactionsFactory = TransactionsFactory;
-        $scope.feedback_messages = [];
+        //$scope.feedback_messages = [];
         $scope.page = 'home';
 
         $scope.colors = colors_response;
@@ -57,11 +57,11 @@
          * Watches
          */
 
-        $scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
-            if (newValue && newValue.message) {
-                scope.provideFeedback(newValue.message);
-            }
-        });
+        //$scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
+        //    if (newValue && newValue.message) {
+        //        scope.provideFeedback(newValue.message);
+        //    }
+        //});
 
         $scope.$watch('PreferencesFactory.date_format', function (newValue, oldValue) {
             if (!newValue) {
@@ -82,33 +82,12 @@
          * End watches
          */
 
-        $scope.provideFeedback = function ($message) {
-            $scope.feedback_messages.push($message);
-            setTimeout(function () {
-                $scope.feedback_messages = _.without($scope.feedback_messages, $message);
-                $scope.$apply();
-            }, 3000);
-        };
-
-        $scope.responseError = function (response) {
-            if (response.status === 503) {
-                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
-            }
-            else {
-                FeedbackFactory.provideFeedback('There was an error');
-            }
-        };
-
         /**
          * For trying to get the page load faster,
          * seeing the queries that are taking place
          */
         $scope.debugTotals = function () {
             return $http.get('/test');
-        };
-
-        $scope.testFeedback = function () {
-            $scope.provideFeedback('something');
         };
 
         $scope.updateColors = function () {
@@ -233,6 +212,7 @@
                 }
             });
         }
+
     }
 
 })();

@@ -8,25 +8,28 @@ use App\Totals\RB;
 use App\Totals\TotalsService;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function () {
+//Route::get('/test', function () {
     /**
      * @VP:
      * How to I inject something into my routes file?
      * So I can do return $this->totalsService->getBasicAndBudgetTotals();
      */
 
-    $data = new FixedAndFlexData();
-    dd($data->FB->tags);
+//    $budgetTable = new BudgetTable('fixed');
+//    return $budgetTable->getTagsWithFixedBudget();
 
-    $tag = Tag::find(1);
-    $tag->spentBeforeSD;
-    $tag->sum;
-    return $tag;
+//    $data = new FixedAndFlexData();
+//    dd($data->FB->tags);
+//
+//    $tag = Tag::find(1);
+//    $tag->spentBeforeSD;
+//    $tag->sum;
+//    return $tag;
 
-});
+//});
 
 
-//Route::get('/test', 'TotalsController@getFixedAndFlexData');
+Route::get('/test', 'TransactionsController@whatInTheWorldIsGoingOnHere');
 
 /**
  * Angular directive templates

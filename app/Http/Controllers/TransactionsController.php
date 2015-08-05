@@ -100,41 +100,6 @@ class TransactionsController extends Controller
     }
 
     /**
-     * Insert tags into transaction
-     * @param $transaction
-     * @param $tags
-     * @param $transaction_total
-     */
-    public function insertTags($transaction, $tags)
-    {
-        foreach ($tags as $tag) {
-            $tag_id = $tag['id'];
-
-            if (isset($tag['allocated_fixed'])) {
-                $tag_allocated_fixed = $tag['allocated_fixed'];
-
-                $transaction->tags()->attach($tag_id, [
-                    'allocated_fixed' => $tag_allocated_fixed,
-                    'calculated_allocation' => $tag_allocated_fixed
-                ]);
-
-            } elseif (isset($tag['allocated_percent'])) {
-                $tag_allocated_percent = $tag['allocated_percent'];
-
-                $transaction->tags()->attach($tag_id, [
-                    'allocated_percent' => $tag_allocated_percent,
-                    'calculated_allocation' => $transaction->total / 100 * $tag_allocated_percent,
-                ]);
-
-            } else {
-                $transaction->tags()->attach($tag_id, [
-                    'calculated_allocation' => $transaction->total,
-                ]);
-            }
-        }
-    }
-
-    /**
      *
      * For Postman:
      *
@@ -182,11 +147,11 @@ class TransactionsController extends Controller
 
         //Insert income or expense transaction
         if ($type !== "transfer") {
-            $this->reallyInsertTransaction($new_transaction, $type);
+            $this->transactionsRepository->reallyInsertTransaction($new_transaction, $type);
         } //It's a transfer, so insert two transactions, the from and the to
         else {
-            $this->reallyInsertTransaction($new_transaction, "from");
-            $this->reallyInsertTransaction($new_transaction, "to");
+            $this->transactionsRepository->reallyInsertTransaction($new_transaction, "from");
+            $this->transactionsRepository->reallyInsertTransaction($new_transaction, "to");
         }
 
         //Find the last transaction that was entered
@@ -205,46 +170,6 @@ class TransactionsController extends Controller
             'totals' => $this->totalsService->getBasicAndBudgetTotals(),
             'filter_results' => $transactionsRepository->filterTransactions($request->get('filter'))
         ];
-    }
-
-    /**
-     *
-     * @param $new_transaction
-     * @param $transaction_type
-     */
-    public function reallyInsertTransaction($new_transaction, $transaction_type)
-    {
-        $transaction = new Transaction([
-            'date' => $new_transaction['date']['sql'],
-            'description' => $new_transaction['description'],
-            'type' => $new_transaction['type'],
-            'reconciled' => convertFromBoolean($new_transaction['reconciled']),
-        ]);
-        
-        Debugbar::info('new_transaction', $new_transaction);
-
-        if ($transaction_type === "from") {
-            $transaction->account_id = $new_transaction['from_account'];
-            $transaction->total = $new_transaction['negative_total'];
-        } elseif ($transaction_type === "to") {
-            $transaction->account_id = $new_transaction['to_account'];
-            $transaction->total = $new_transaction['total'];
-        } elseif ($transaction_type === 'income' || $transaction_type === 'expense') {
-            $transaction->account_id = $new_transaction['account'];
-            $transaction->merchant = $new_transaction['merchant'];
-            $transaction->total = $new_transaction['total'];
-        }
-
-        $transaction->user()->associate(Auth::user());
-        $transaction->save();
-
-        //inserting tags
-        $this->insertTags(
-            $transaction,
-            $new_transaction['tags']
-        );
-
-        return $transaction;
     }
 
     //Todo: Combine the update methods below into one method
@@ -292,7 +217,7 @@ class TransactionsController extends Controller
 
         $transaction->save();
 
-        $this->insertTags($transaction, $js_transaction['tags']);
+        $this->transactionsRepository->insertTags($transaction, $js_transaction['tags']);
 
         return [
             'totals' => $this->totalsService->getBasicAndBudgetTotals(),
@@ -341,7 +266,8 @@ class TransactionsController extends Controller
 
         if ($type === 'percent') {
             Transaction::updateAllocatedPercent($value, $transaction, $tag_id);
-        } elseif ($type === 'fixed') {
+        }
+        elseif ($type === 'fixed') {
             Transaction::updateAllocatedFixed($value, $transaction, $tag_id);
         }
 

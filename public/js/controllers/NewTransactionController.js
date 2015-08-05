@@ -71,15 +71,6 @@
             }
         });
 
-        $scope.responseError = function (response) {
-            if (response.status === 503) {
-                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
-            }
-            else {
-                FeedbackFactory.provideFeedback('There was an error');
-            }
-        };
-
         /**
          * Clear new transaction fields
          */
@@ -104,7 +95,7 @@
             var $messages = [];
 
             if (!Date.parse($scope.new_transaction.date.entered)) {
-                FeedbackFactory.provideFeedback('Date is not valid');
+                $scope.provideFeedback('Date is not valid');
                 $errorCount++;
             }
             else {
@@ -112,11 +103,11 @@
             }
 
             if ($scope.new_transaction.total === "") {
-                FeedbackFactory.provideFeedback('Total is required');
+                $scope.provideFeedback('Total is required');
                 $errorCount++;
             }
             else if (!$.isNumeric($scope.new_transaction.total)) {
-                FeedbackFactory.provideFeedback('Total is not a valid number');
+                $scope.provideFeedback('Total is not a valid number');
                 $errorCount++;
             }
 

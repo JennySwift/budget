@@ -2,6 +2,7 @@
 
 use App\Models\Tag;
 use Auth;
+use Debugbar;
 
 /**
  * Class BudgetTable
@@ -44,11 +45,18 @@ class BudgetTable {
     /**
      * @VP:
      * This seems to be causing 3 queries, not sure why.
+     * And why won't 'checkedLoggedIn()' work in my constructor?
+     * I would make more sense to call it from my controllers but I am calling it
+     * here because calling it from my TransactionsController didn't work, I think
+     * something to do with my TotalsService being injected into my TransactionsController
+     * and therefore eventually calling getTagsWithFixedBudget.
      * @param $user_id
      * @return mixed
      */
     public function getTagsWithFixedBudget()
     {
+        checkLoggedIn();
+
         $tags = Tag::where('user_id', Auth::user()->id)
             ->where('flex_budget', null)
             ->whereNotNull('fixed_budget')

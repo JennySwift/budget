@@ -44,10 +44,13 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
         $scope.responseError = function (response) {
             if (response.status === 503) {
-                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
+                $scope.provideFeedback('Sorry, application under construction. Please try again later.');
+            }
+            else if (response.status === 401) {
+                $scope.provideFeedback('You are not logged in');
             }
             else {
-                FeedbackFactory.provideFeedback('There was an error');
+                $scope.provideFeedback('There was an error');
             }
             $scope.hideLoading();
         };

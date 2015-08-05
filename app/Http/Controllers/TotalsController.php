@@ -25,6 +25,7 @@ class TotalsController extends Controller
      */
     public function getAllocationTotals(Request $request)
     {
+        checkLoggedIn();
         return Transaction::getAllocationTotals($request->get('transaction_id'));
     }
 
@@ -34,6 +35,7 @@ class TotalsController extends Controller
      */
     public function index()
     {
+        checkLoggedIn();
         return $this->totalsService->getBasicAndBudgetTotals();
     }
 }
