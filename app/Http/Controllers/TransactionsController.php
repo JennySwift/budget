@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
+use App\Repositories\Transactions\FilterRepository;
 use App\Repositories\Transactions\TransactionsRepository;
 use App\Totals\TotalsService;
 use Auth;
@@ -22,15 +23,20 @@ class TransactionsController extends Controller
      * @var TransactionsRepository
      */
     protected $transactionsRepository;
+    /**
+     * @var FilterRepository
+     */
+    private $filterRepository;
 
     /**
      * @param TransactionsRepository $transactionsRepository
      * @param TotalsService $totalsService
      */
-    public function __construct(TransactionsRepository $transactionsRepository, TotalsService $totalsService)
+    public function __construct(TransactionsRepository $transactionsRepository, TotalsService $totalsService, FilterRepository $filterRepository)
     {
         $this->transactionsRepository = $transactionsRepository;
         $this->totalsService = $totalsService;
+        $this->filterRepository = $filterRepository;
     }
 
     /**
@@ -53,9 +59,9 @@ class TransactionsController extends Controller
      * @param TransactionsRepository $transactionsRepository
      * @return array
      */
-    public function filterTransactions(Request $request, TransactionsRepository $transactionsRepository)
+    public function filterTransactions(Request $request)
     {
-        return $transactionsRepository->filterTransactions($request->get('filter'));
+        return $this->filterRepository->filterTransactions($request->get('filter'));
     }
 
     /**
@@ -95,7 +101,7 @@ class TransactionsController extends Controller
 
         return [
             'totals' => $this->totalsService->getBasicAndBudgetTotals(),
-            'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
+            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
         ];
     }
 
@@ -140,7 +146,7 @@ class TransactionsController extends Controller
      * @param Request $request
      * @return array
      */
-    public function insertTransaction(Request $request, TransactionsRepository $transactionsRepository)
+    public function insertTransaction(Request $request)
     {
         $new_transaction = $request->get('new_transaction');
         $type = $new_transaction['type'];
@@ -168,7 +174,7 @@ class TransactionsController extends Controller
             "transaction" => $transaction,
             "multiple_budgets" => $transaction->hasMultipleBudgets(),
             'totals' => $this->totalsService->getBasicAndBudgetTotals(),
-            'filter_results' => $transactionsRepository->filterTransactions($request->get('filter'))
+            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
         ];
     }
 
@@ -221,7 +227,7 @@ class TransactionsController extends Controller
 
         return [
             'totals' => $this->totalsService->getBasicAndBudgetTotals(),
-            'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
+            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
         ];
     }
 
@@ -240,7 +246,7 @@ class TransactionsController extends Controller
      *
      * @param Request $request
      */
-    public function updateReconciliation(Request $request, TransactionsRepository $transactionsRepository)
+    public function updateReconciliation(Request $request)
     {
         $transaction = Transaction::find($request->get('id'));
         $transaction->reconciled = convertFromBoolean($request->get('reconciled'));
@@ -248,7 +254,7 @@ class TransactionsController extends Controller
 
         return [
             'totals' => $this->totalsService->getBasicAndBudgetTotals(),
-            'filter_results' => $this->transactionsRepository->filterTransactions($request->get('filter'))
+            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
         ];
     }
 
