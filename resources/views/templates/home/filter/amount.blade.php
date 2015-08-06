@@ -7,7 +7,7 @@
     <div class="content">
 
         <span>Negative sign required for negative numbers</span>
-        
+
         <div ng-show="filterTab === 'show'" class="group">
             <input
                 ng-model="filter.total.in"

@@ -63,7 +63,7 @@ class FilterRepository {
                 elseif ($type === "tags") {
                     $query = $this->filterTags($query, $value);
                 }
-                elseif ($type === "budget" && $value !== "all") {
+                elseif ($type === "budget") {
                     $query = $this->filterNumBudgets($query, $value);
                 }
                 elseif ($type === "description" || $type === "merchant") {
@@ -155,32 +155,58 @@ class FilterRepository {
      */
     private function filterNumBudgets($query, $value)
     {
-        if ($value === "none") {
-            $num = ' = 0';
+        if ($value['in'] && $value['in'] !== 'all') {
+            $query = $this->filterInBudgets($query, $value);
         }
-        elseif ($value === "single") {
-            $num = ' = 1';
-        }
-        elseif ($value === "multiple") {
-            $num = ' > 1';
+        if ($value['out'] && $value['out'] !== 'none') {
+            $query = $this->filterOutBudgets($query, $value);
         }
 
-        //first, find get all the transactions that have x number of budgets
-        $sql = "select id from transactions where transactions.user_id = " . Auth::user()->id . " and (select count(*) from tags inner join transactions_tags on tags.id = transactions_tags.tag_id
-	                where transactions_tags.transaction_id = transactions.id
-	                and tags.budget_id is not null)" . $num;
+        return $query;
+    }
 
-        $transactions_with_x_budgets = DB::select($sql);
+    private function filterOutBudgets($query, $value)
+    {
+        if ($value['out'] === "zero") {
+            $ids = Transaction::where('user_id', Auth::user()->id)
+                ->has('tagsWithBudget', 0)
+                ->lists('id');
+        }
+        elseif ($value['out'] === "single") {
+            $ids = Transaction::where('user_id', Auth::user()->id)
+                ->has('tagsWithBudget', 1)
+                ->lists('id');
+        }
+        elseif ($value['out'] === "multiple") {
+            $ids = Transaction::where('user_id', Auth::user()->id)
+                ->has('tagsWithBudget', '>', 1)
+                ->lists('id');
+        }
 
-        //format transactions_with_one_budget into a nice array
-        $ids = array();
-        foreach ($transactions_with_x_budgets as $transaction) {
-            $id = $transaction->id;
-            $ids[] = $id;
+        return $query->whereNotIn('transactions.id', $ids);
+    }
+
+    private function filterInBudgets($query, $value)
+    {
+        if ($value['in'] === "zero") {
+            $ids = Transaction::where('user_id', Auth::user()->id)
+                ->has('tagsWithBudget', 0)
+                ->lists('id');
+        }
+        elseif ($value['in'] === "single") {
+            $ids = Transaction::where('user_id', Auth::user()->id)
+                ->has('tagsWithBudget', 1)
+                ->lists('id');
+        }
+        elseif ($value['in'] === "multiple") {
+            $ids = Transaction::where('user_id', Auth::user()->id)
+                ->has('tagsWithBudget', '>', 1)
+                ->lists('id');
         }
 
         return $query->whereIn('transactions.id', $ids);
     }
+
 
     /**
      *

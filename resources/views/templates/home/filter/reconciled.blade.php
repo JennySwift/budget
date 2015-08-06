@@ -1,6 +1,7 @@
 
 
 <div filter-dropdowns-directive
+     ng-show="filterTab === 'show'"
      class="section">
 
     <h4 class="center">reconciled</h4>

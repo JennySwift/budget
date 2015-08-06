@@ -39,7 +39,7 @@ class HomeController extends Controller {
 	public function index(FilterRepository $filterRepository, TagsRepository $tagsRepository, TotalsService $totalsService)
 	{
         $filter = [
-            "budget" => "all",
+            "budget" => [],
             "total" => "",
             "types" => [],
             "accounts" => [],

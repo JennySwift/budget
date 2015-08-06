@@ -6,43 +6,83 @@
 
     <div class="content budget">
 
-        <div>
+        <div ng-show="filterTab === 'show'">
             <input
-                ng-model="filter.budget"
+                ng-model="filter.budget.in"
                 ng-change="multiSearch()"
                 type="radio"
-                name="budget"
+                name="budgetIn"
                 value="all">
             <label for="">All</label>
         </div>
 
-        <div>
+        <div ng-show="filterTab === 'show'">
             <input
-                ng-model="filter.budget"
+                ng-model="filter.budget.in"
                 ng-change="multiSearch()"
                 type="radio"
-                name="budget"
-                value="none">
-            <label for="">None</label>
+                name="budgetIn"
+                value="zero">
+            <label for="">No budgets</label>
         </div>
 
-        <div>
+        <div ng-show="filterTab === 'hide'">
             <input
-                ng-model="filter.budget"
+                    ng-model="filter.budget.out"
+                    ng-change="multiSearch()"
+                    type="radio"
+                    name="budgetOut"
+                    value="none">
+            <label for="">None (Do not filter out)</label>
+        </div>
+
+        <div ng-show="filterTab === 'hide'">
+            <input
+                    ng-model="filter.budget.out"
+                    ng-change="multiSearch()"
+                    type="radio"
+                    name="budgetOut"
+                    value="zero">
+            <label for="">No budgets</label>
+        </div>
+
+        <div ng-show="filterTab === 'show'">
+            <input
+                ng-model="filter.budget.in"
                 ng-change="multiSearch()"
                 type="radio"
-                name="budget"
+                name="budgetIn"
                 value="single">
             <label for="">Single</label>
         </div>
 
-        <div>
+        <div ng-show="filterTab === 'hide'">
             <input
-                ng-model="filter.budget"
+                    ng-model="filter.budget.out"
+                    ng-change="multiSearch()"
+                    type="radio"
+                    name="budgetOut"
+                    value="single">
+            <label for="">Single</label>
+        </div>
+
+        <div ng-show="filterTab === 'show'">
+            <input
+                ng-model="filter.budget.in"
                 ng-change="multiSearch()"
                 type="radio"
-                name="status"
+                name="budgetIn"
                 value="multiple">
+            <label for="">Multiple</label>
+        </div>
+
+        <div ng-show="filterTab === 'hide'">
+            <input
+                    ng-model="filter.budget.out"
+                    ng-change="multiSearch()"
+                    type="radio"
+                    name="budgetOut"
+                    value="multiple">
             <label for="">Multiple</label>
         </div>
 
