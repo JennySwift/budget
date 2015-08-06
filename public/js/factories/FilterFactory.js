@@ -13,9 +13,36 @@ app.factory('FilterFactory', function ($http) {
                 in: [],
                 out: []
             },
-            single_date: "",
-            from_date: "",
-            to_date: "",
+            single_date: {
+                in: {
+                    user: "",
+                    sql: ""
+                },
+                out: {
+                    user: "",
+                    sql: ""
+                }
+            },
+            from_date: {
+                in: {
+                    user: "",
+                    sql: ""
+                },
+                out: {
+                    user: "",
+                    sql: ""
+                }
+            },
+            to_date: {
+                in: {
+                    user: "",
+                    sql: ""
+                },
+                out: {
+                    user: "",
+                    sql: ""
+                }
+            },
             description: {
                 in: "",
                 out: ""
@@ -36,18 +63,49 @@ app.factory('FilterFactory', function ($http) {
 
     $object.resetFilter();
 
-    $object.multiSearch = function ($filter) {
-        $object.filter = $filter;
+    $object.formatDates = function ($filter) {
+        if ($filter.single_date.in.user) {
+            $filter.single_date.in.sql = Date.parse($filter.single_date.in.user).toString('yyyy-MM-dd');
+        }
+        else {
+            $filter.single_date.in.sql = "";
+        }
+        if ($filter.single_date.out.user) {
+            $filter.single_date.out.sql = Date.parse($filter.single_date.out.user).toString('yyyy-MM-dd');
+        }
+        else {
+            $filter.single_date.out.sql = "";
+        }
+        if ($filter.from_date.in.user) {
+            $filter.from_date.in.sql = Date.parse($filter.from_date.in.user).toString('yyyy-MM-dd');
+        }
+        else {
+            $filter.from_date.in.sql = "";
+        }
+        if ($filter.from_date.out.user) {
+            $filter.from_date.out.sql = Date.parse($filter.from_date.out.user).toString('yyyy-MM-dd');
+        }
+        else {
+            $filter.from_date.out.sql = "";
+        }
+        if ($filter.to_date.in.user) {
+            $filter.to_date.in.sql = Date.parse($filter.to_date.in.user).toString('yyyy-MM-dd');
+        }
+        else {
+            $filter.to_date.in.sql = "";
+        }
+        if ($filter.to_date.out.user) {
+            $filter.to_date.out.sql = Date.parse($filter.to_date.out.user).toString('yyyy-MM-dd');
+        }
+        else {
+            $filter.to_date.out.sql = "";
+        }
 
-        if ($filter.single_date) {
-            $filter.single_date_sql = Date.parse($filter.single_date).toString('yyyy-MM-dd');
-        }
-        if ($filter.from_date) {
-            $filter.from_date_sql = Date.parse($filter.from_date).toString('yyyy-MM-dd');
-        }
-        if ($filter.to_date) {
-            $filter.to_date_sql = Date.parse($filter.to_date).toString('yyyy-MM-dd');
-        }
+        return $filter;
+    };
+
+    $object.multiSearch = function ($filter) {
+        $object.filter = $object.formatDates($filter);
 
         var $url = 'select/filter';
         var $data = {

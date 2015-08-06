@@ -6,17 +6,17 @@
 
     <div class="content">
 
-        <div class="group">
+        <div ng-show="filterTab === 'show'" class="group">
 
             <input
-                ng-model="filter.single_date"
-                ng-keyup="filterDate($event.keyCode, filter.single_date)"
+                ng-model="filter.single_date.in.user"
+                ng-keyup="filterDate($event.keyCode)"
                 type="text"
                 placeholder="single date">
 
             <span class="input-group-btn">
                 <button
-                    ng-click="clearFilterField('single_date')"
+                    ng-click="clearDateField('single_date', 'in')"
                     class="clear-search-button">
                     clear
                 </button>
@@ -24,17 +24,35 @@
 
         </div>
 
-        <div class="group">
+        <div ng-show="filterTab === 'hide'" class="group">
 
             <input
-                ng-model="filter.from_date"
-                ng-keyup="filterDate($event.keyCode, filter.single_date)"
+                    ng-model="filter.single_date.out.user"
+                    ng-keyup="filterDate($event.keyCode)"
+                    type="text"
+                    placeholder="single date">
+
+            <span class="input-group-btn">
+                <button
+                        ng-click="clearDateField('single_date', 'out')"
+                        class="clear-search-button">
+                    clear
+                </button>
+            </span>
+
+        </div>
+
+        <div ng-show="filterTab === 'show'" class="group">
+
+            <input
+                ng-model="filter.from_date.in.user"
+                ng-keyup="filterDate($event.keyCode)"
                 type="text"
                 placeholder="from a date">
 
             <span class="input-group-btn">
                 <button
-                    ng-click="clearFilterField('from_date')"
+                    ng-click="clearDateField('from_date', 'in')"
                     class="clear-search-button"
                     type="button">
                     clear
@@ -43,17 +61,36 @@
 
         </div>
 
-        <div class="group">
+        {{--<div ng-show="filterTab === 'hide'" class="group">--}}
+
+            {{--<input--}}
+                    {{--ng-model="filter.from_date.out.user"--}}
+                    {{--ng-keyup="filterDate($event.keyCode)"--}}
+                    {{--type="text"--}}
+                    {{--placeholder="from a date">--}}
+
+            {{--<span class="input-group-btn">--}}
+                {{--<button--}}
+                        {{--ng-click="clearDateField('from_date', 'out')"--}}
+                        {{--class="clear-search-button"--}}
+                        {{--type="button">--}}
+                    {{--clear--}}
+                {{--</button>--}}
+            {{--</span>--}}
+
+        {{--</div>--}}
+
+        <div ng-show="filterTab === 'show'" class="group">
 
             <input
-                ng-model="filter.to_date"
+                ng-model="filter.to_date.in.user"
                 ng-keyup="filterDate($event.keyCode)"
                 type="text"
                 placeholder="to a date">
 
             <span class="input-group-btn">
                 <button
-                    ng-click="clearFilterField('to_date')"
+                    ng-click="clearDateField('to_date', 'in')"
                     class="clear-search-button"
                     type="button">
                     clear
@@ -61,6 +98,25 @@
             </span>
 
         </div>
+
+        {{--<div ng-show="filterTab === 'hide'" class="group">--}}
+
+            {{--<input--}}
+                    {{--ng-model="filter.to_date.out.user"--}}
+                    {{--ng-keyup="filterDate($event.keyCode)"--}}
+                    {{--type="text"--}}
+                    {{--placeholder="to a date">--}}
+
+            {{--<span class="input-group-btn">--}}
+                {{--<button--}}
+                        {{--ng-click="clearDateField('to_date', 'out')"--}}
+                        {{--class="clear-search-button"--}}
+                        {{--type="button">--}}
+                    {{--clear--}}
+                {{--</button>--}}
+            {{--</span>--}}
+
+        {{--</div>--}}
 
     </div>
 

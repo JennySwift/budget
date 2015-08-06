@@ -47,7 +47,7 @@ class FilterRepository {
             if ($value) {
 
                 $query = $this->filterDates($query, $type, $value);
-//                Debugbar::info('filter', $filter);
+                Debugbar::info('filter', $filter);
                 if ($type === "accounts") {
                     $query = $this->filterAccounts($query, $value);
                 }
@@ -243,14 +243,25 @@ class FilterRepository {
      */
     private function filterDates($query, $type, $value)
     {
-        if ($type === "single_date_sql") {
-            $query = $query->where('date', $value);
+        if ($type === "single_date") {
+            if ($value['in']['sql']) {
+                $query = $query->where('date', $value['in']['sql']);
+            }
+            if ($value['out']['sql']) {
+                $query = $query->where('date', '!=', $value['out']['sql']);
+            }
         }
-        elseif ($type === "from_date_sql") {
-            $query = $query->where('date', '>=', $value);
+
+        elseif ($type === "from_date") {
+            if ($value['in']['sql']) {
+                $query = $query->where('date', '>=', $value['in']['sql']);
+            }
         }
-        elseif ($type === "to_date_sql") {
-            $query = $query->where('date', '<=', $value);
+
+        elseif ($type === "to_date") {
+            if ($value['in']['sql']) {
+                $query = $query->where('date', '<=', $value['in']['sql']);
+            }
         }
 
         return $query;

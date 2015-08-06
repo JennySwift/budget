@@ -137,6 +137,16 @@
             }
         };
 
+        /**
+         * $type is either 'in' or 'out'
+         * @param $field
+         * @param $type
+         */
+        $scope.clearDateField = function ($field, $type) {
+            $scope.filter[$field][$type]['user'] = "";
+            $scope.multiSearch();
+        };
+
         $scope.resetOffset = function () {
             $scope.filter.offset = 0;
         };
