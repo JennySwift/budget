@@ -117,20 +117,30 @@
             if ($keycode === 13) {
                 BudgetsFactory.updateAllocation($type, $value, $scope.allocation_popup.id, $tag_id)
                     .then(function (response) {
-                        //find the tag in $scope.allocation_popup.tags
-                        var $the_tag = _.find($scope.allocation_popup.tags, function ($tag) {
-                            return $tag.id === $tag_id;
-                        });
-                        //get the index of the tag in $scope.allocation_popup_transaction.tags
-                        var $index = _.indexOf($scope.allocation_popup.tags, $the_tag);
-                        //make the tag equal the ajax response
-                        $scope.allocation_popup.tags[$index] = response.data.allocation_info;
+                        $scope.allocation_popup.tags = response.data.allocation_info;
                         $scope.allocation_popup.allocation_totals = response.data.allocation_totals;
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
                     });
             }
+        };
+
+        /**
+         * For after the response in $scope.updateAllocation, if I want to just update
+         * one tag. I switched to updating all tags so I could do the automatic allocation
+         * of the other tags to 0% when one is changed to 100%, so I am not using this function anymore.
+         * @param $tag_id
+         */
+        $scope.updateTagAllocation = function ($tag_id) {
+            //find the tag in $scope.allocation_popup.tags
+            var $the_tag = _.find($scope.allocation_popup.tags, function ($tag) {
+                return $tag.id === $tag_id;
+            });
+            //get the index of the tag in $scope.allocation_popup_transaction.tags
+            var $index = _.indexOf($scope.allocation_popup.tags, $the_tag);
+            //make the tag equal the ajax response
+            $scope.allocation_popup.tags[$index] = response.data.allocation_info;
         };
 
         $scope.updateAllocationStatus = function () {

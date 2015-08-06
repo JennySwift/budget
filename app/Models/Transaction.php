@@ -2,6 +2,7 @@
 
 use Auth;
 use DB;
+use Debugbar;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -126,18 +127,15 @@ class Transaction extends Model
 
     /**
      *
-     * @param $transaction_id
      * @return array
      */
-    public static function getAllocationTotals($transaction_id)
+    public function getAllocationTotals()
     {
-        $transaction = Transaction::find($transaction_id);
-
         $fixed_sum = '-';
         $percent_sum = 0;
         $calculated_allocation_sum = 0;
 
-        foreach ($transaction->tagsWithBudget as $tag) {
+        foreach ($this->tagsWithBudget as $tag) {
             $allocated_fixed = $tag->pivot->allocated_fixed;
 
             //so that the total displays '-' instead of $0.00 if there were no values to add up.
@@ -157,29 +155,26 @@ class Transaction extends Model
             $fixed_sum = number_format($fixed_sum, 2);
         }
 
-        $allocation_totals = [
+        return [
             "fixed_sum" => $fixed_sum,
             "percent_sum" => number_format($percent_sum, 2),
             "calculated_allocation_sum" => number_format($calculated_allocation_sum, 2)
         ];
-
-        return $allocation_totals;
     }
 
     /**
      * Change the amount that is allocated to the tag, for one transaction
      * @param $allocated_fixed
-     * @param $transaction
      * @param $tag
      */
-    public static function updateAllocatedFixed($allocated_fixed, $transaction, $tag)
+    public function updateAllocatedFixed($allocated_fixed, $tag)
     {
         //Make sure the fixed allocation is negative for an expense transaction
-        if ($transaction->type === 'expense' && $allocated_fixed > 0) {
+        if ($this->type === 'expense' && $allocated_fixed > 0) {
             $allocated_fixed*= -1;
         }
 
-        $transaction->tags()->updateExistingPivot($tag->id, [
+        $this->tags()->updateExistingPivot($tag->id, [
             'allocated_fixed' => $allocated_fixed,
             'allocated_percent' => null,
             'calculated_allocation' => $allocated_fixed
@@ -187,30 +182,71 @@ class Transaction extends Model
     }
 
     /**
-     * Change the percentage of the transaction that is allocated to the tag
-     * @param $allocated_percent
+     * Get the allocation info for all of the transaction's tags
      * @param $transaction
      * @param $tag
+     * @return mixed
      */
-    public static function updateAllocatedPercent($allocated_percent, $transaction, $tag)
+//    public function getAllocationInfo($transaction, $tag)
+//    {
+//        $tag = $transaction->tags()
+//            ->where('tag_id', $tag->id)
+//            ->first();
+//
+//        $tag->setAllocationType();
+//
+//        return $tag;
+//    }
+
+    /**
+     * Change the amount (percentage of the transaction) that is allocated to the tag
+     * @param $allocated_percent
+     * @param $tag
+     */
+    public function updateAllocatedPercent($allocated_percent, $tag)
     {
-        $transaction->tags()->updateExistingPivot($tag->id, [
+        $this->setAllocationAutomatically($tag, $allocated_percent);
+
+        $this->tags()->updateExistingPivot($tag->id, [
             'allocated_percent' => $allocated_percent,
-            'allocated_fixed' => null
+            'allocated_fixed' => null,
         ]);
 
-        static::updateAllocatedPercentCalculatedAllocation($transaction->id, $tag->id);
+        $this->updateAllocatedPercentCalculatedAllocation($tag->id);
+
+//        return $this->tags;
+    }
+
+    /**
+     * For when the user gives a tag an allocation of 100%, to automatically give the transaction's
+     * other tags an allocation of 0%.
+     * $edited_tag is the tag the user gave the allocation to.
+     * @param $edited_tag
+     * @param $percent
+     */
+    private function setAllocationAutomatically($edited_tag, $percent)
+    {
+        if ($percent == 100) {
+            $tag_ids = $this->tags()->lists('transactions_tags.tag_id');
+            foreach ($tag_ids as $tag_id) {
+                $this->tags()->updateExistingPivot($tag_id, [
+                    'allocated_percent' => 0,
+                    'allocated_fixed' => null
+                ]);
+
+                $this->updateAllocatedPercentCalculatedAllocation($tag_id);
+            }
+        }
     }
 
     /**
      * Updates calculated_allocation column for one row in transactions_tags,
      * where the tag has been given an allocated percent
-     * @param $transaction_id
      * @param $tag_id
      */
-    public static function updateAllocatedPercentCalculatedAllocation($transaction_id, $tag_id)
+    public function updateAllocatedPercentCalculatedAllocation($tag_id)
     {
-        $sql = "UPDATE transactions_tags calculated_allocation JOIN transactions ON transactions.id = transaction_id SET calculated_allocation = transactions.total / 100 * allocated_percent WHERE transaction_id = $transaction_id AND tag_id = $tag_id;";
+        $sql = "UPDATE transactions_tags calculated_allocation JOIN transactions ON transactions.id = transaction_id SET calculated_allocation = transactions.total / 100 * allocated_percent WHERE transaction_id = $this->id AND tag_id = $tag_id;";
         DB::update($sql);
     }
 }

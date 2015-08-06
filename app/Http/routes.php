@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Tag;
+use App\Models\Transaction;
 use App\Repositories\Transactions\TransactionsRepository;
 use App\Totals\BudgetTable;
 use App\Totals\FixedAndFlexData;
@@ -28,8 +29,15 @@ use Illuminate\Support\Facades\Route;
 
 //});
 
+Route::get('/test', function()
+{
+    $transaction = Transaction::find(45);
+    $tag = Tag::find(8);
+    return $transaction->updateAllocatedPercent(100, $tag);
+});
 
-Route::get('/test', 'TransactionsController@whatInTheWorldIsGoingOnHere');
+
+//Route::get('/test', 'TransactionsController@whatInTheWorldIsGoingOnHere');
 
 /**
  * Angular directive templates

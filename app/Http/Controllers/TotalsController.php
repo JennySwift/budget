@@ -26,7 +26,8 @@ class TotalsController extends Controller
     public function getAllocationTotals(Request $request)
     {
         checkLoggedIn();
-        return Transaction::getAllocationTotals($request->get('transaction_id'));
+        $transaction = Transaction::find($request->get('transaction_id'));
+        return $transaction->getAllocationTotals();
     }
 
     /**
