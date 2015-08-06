@@ -41,7 +41,14 @@
             }
         });
 
-        $scope.$watchCollection('filter.tags.in', function (newValue, oldValue) {
+        $scope.$watchCollection('filter.tags.in.and', function (newValue, oldValue) {
+            if (newValue === oldValue) {
+                return;
+            }
+            $scope.multiSearch(true);
+        });
+
+        $scope.$watchCollection('filter.tags.in.or', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
@@ -135,12 +142,22 @@
          * @param $type
          */
         $scope.clearFilterField = function ($field, $type) {
-            if ($field === 'tags') {
-                $scope.filter.tags[$type] = [];
+            $scope.filter[$field][$type] = "";
+            $scope.multiSearch();
+        };
+
+        /**
+         * $type1 is 'in' or 'out'.
+         * $type2 is 'and' or 'or'.
+         * @param $type1
+         * @param $type2
+         */
+        $scope.clearTagField = function ($type1, $type2) {
+            if ($type2) {
+                $scope.filter.tags[$type1][$type2] = [];
             }
             else {
-                $scope.filter[$field][$type] = "";
-                $scope.multiSearch();
+                $scope.filter.tags[$type1] = [];
             }
         };
 

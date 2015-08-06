@@ -234,20 +234,14 @@ class FilterRepository {
      */
     private function filterTags($query, $tags)
     {
-        if ($tags['in']) {
-            //Make an array of the tag ids searched for
-            $tag_ids = array();
-            foreach ($tags['in'] as $tag) {
-                $tag_ids[] = $tag['id'];
-            }
+        $query = $this->filterInTags($query, $tags);
+        $query = $this->filterOutTags($query, $tags);
 
-            //Add to the $query
-            foreach ($tag_ids as $tag_id) {
-                $query = $query->whereHas('tags', function ($q) use ($tag_id) {
-                    $q->where('tags.id', $tag_id);
-                });
-            }
-        }
+        return $query;
+    }
+
+    private function filterOutTags($query, $tags)
+    {
         if ($tags['out']) {
             //Make an array of the tag ids searched for
             $tag_ids = array();
@@ -263,6 +257,38 @@ class FilterRepository {
             }
         }
 
+        return $query;
+    }
+
+    private function filterInTags($query, $tags)
+    {
+        if ($tags['in']['and']) {
+            //Make an array of the tag ids searched for
+            $tag_ids = array();
+            foreach ($tags['in']['and'] as $tag) {
+                $tag_ids[] = $tag['id'];
+            }
+
+            //Add to the $query
+            foreach ($tag_ids as $tag_id) {
+                $query = $query->whereHas('tags', function ($q) use ($tag_id) {
+                    $q->where('tags.id', $tag_id);
+                });
+            }
+        }
+
+        if ($tags['in']['or']) {
+            //Make an array of the tag ids searched for
+            $tag_ids = array();
+            foreach ($tags['in']['or'] as $tag) {
+                $tag_ids[] = $tag['id'];
+            }
+
+            //Add to the $query
+            $query = $query->whereHas('tags', function ($q) use ($tag_ids) {
+                $q->whereIn('tags.id', $tag_ids);
+            });
+        }
 
         return $query;
     }

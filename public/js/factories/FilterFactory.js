@@ -58,7 +58,10 @@ app.factory('FilterFactory', function ($http) {
                 out: ""
             },
             tags: {
-                in: [],
+                in: {
+                    and: [],
+                    or: []
+                },
                 out: []
             },
             reconciled: "any",
