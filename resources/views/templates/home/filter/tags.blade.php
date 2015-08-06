@@ -17,7 +17,7 @@
             </tag-autocomplete-directive>
 
             <span class="input-group-btn">
-                <button ng-click="clearFilterField('tags')" class="clear-search-button">clear</button>
+                <button ng-click="clearFilterField('tags', 'in')" class="clear-search-button">clear</button>
             </span>
 
         </div>
@@ -33,7 +33,7 @@
             </tag-autocomplete-directive>
 
             <span class="input-group-btn">
-                <button ng-click="clearFilterField('tags')" class="clear-search-button">clear</button>
+                <button ng-click="clearFilterField('tags', 'out')" class="clear-search-button">clear</button>
             </span>
 
         </div>

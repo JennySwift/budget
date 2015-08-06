@@ -136,7 +136,7 @@
          */
         $scope.clearFilterField = function ($field, $type) {
             if ($field === 'tags') {
-                $scope.filter.tags = [];
+                $scope.filter.tags[$type] = [];
             }
             else {
                 $scope.filter[$field][$type] = "";
