@@ -41,7 +41,14 @@
             }
         });
 
-        $scope.$watchCollection('filter.tags', function (newValue, oldValue) {
+        $scope.$watchCollection('filter.tags.in', function (newValue, oldValue) {
+            if (newValue === oldValue) {
+                return;
+            }
+            $scope.multiSearch(true);
+        });
+
+        $scope.$watchCollection('filter.tags.out', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
