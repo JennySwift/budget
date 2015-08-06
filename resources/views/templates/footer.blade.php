@@ -36,6 +36,7 @@
 <script type="text/javascript" src="js/directives/FilterDirective.js"></script>
 <script type="text/javascript" src="js/directives/TagAutocompleteDirective.js"></script>
 <script type="text/javascript" src="js/directives/FilterDropdownsDirective.js"></script>
+<script type="text/javascript" src="js/directives/TransactionAutocompleteDirective.js"></script>
 
 </body>
 </html>
