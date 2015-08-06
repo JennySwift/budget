@@ -31,9 +31,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function()
 {
-    $transaction = Transaction::find(45);
-    $tag = Tag::find(8);
-    return $transaction->updateAllocatedPercent(100, $tag);
+    $transaction = Transaction::find(4);
+    $tag = Tag::find(3);
+    return $transaction->updateAllocatedPercent(20, $tag);
 });
 
 

@@ -214,7 +214,7 @@ class Transaction extends Model
 
         $this->updateAllocatedPercentCalculatedAllocation($tag->id);
 
-//        return $this->tags;
+        return $this->tags;
     }
 
     /**
@@ -226,8 +226,12 @@ class Transaction extends Model
      */
     private function setAllocationAutomatically($edited_tag, $percent)
     {
+        //Get the other tags for the transaction (not the edited tag)
+        $tag_ids = $this->tagsWithBudget()
+            ->where('transactions_tags.tag_id', '!=', $edited_tag->id)
+            ->lists('transactions_tags.tag_id');
+
         if ($percent == 100) {
-            $tag_ids = $this->tags()->lists('transactions_tags.tag_id');
             foreach ($tag_ids as $tag_id) {
                 $this->tags()->updateExistingPivot($tag_id, [
                     'allocated_percent' => 0,
@@ -237,6 +241,18 @@ class Transaction extends Model
                 $this->updateAllocatedPercentCalculatedAllocation($tag_id);
             }
         }
+
+        //If the transaction has only one other tag apart from the edited tag, automatically set
+        //the allocation for that tag to the value that makes the total allocation = 100%.
+        elseif (count($tag_ids) === 1) {
+            $this->tags()->updateExistingPivot($tag_ids[0], [
+                'allocated_percent' => 100 - $percent,
+                'allocated_fixed' => null
+            ]);
+
+            $this->updateAllocatedPercentCalculatedAllocation($tag_ids[0]);
+        }
+
     }
 
     /**
