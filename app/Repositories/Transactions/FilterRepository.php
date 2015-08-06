@@ -123,7 +123,13 @@ class FilterRepository {
      */
     private function filterTotal($query, $total)
     {
-        return $query->where('total', $total);
+        if ($total['in']) {
+            $query = $query->where('total', $total['in']);
+        }
+        if ($total['out']) {
+            $query = $query->where('total', '!=', $total['out']);
+        }
+        return $query;
     }
 
     /**

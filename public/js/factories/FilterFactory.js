@@ -4,7 +4,10 @@ app.factory('FilterFactory', function ($http) {
     $object.resetFilter = function () {
         $object.filter = {
             budget: "all",
-            total: "",
+            total: {
+                in: "",
+                out: ""
+            },
             types: {
                 in: [],
                 out: []
