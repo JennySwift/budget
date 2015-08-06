@@ -170,11 +170,16 @@ class Transaction extends Model
      * Change the amount that is allocated to the tag, for one transaction
      * @param $allocated_fixed
      * @param $transaction
-     * @param $tag_id
+     * @param $tag
      */
-    public static function updateAllocatedFixed($allocated_fixed, $transaction, $tag_id)
+    public static function updateAllocatedFixed($allocated_fixed, $transaction, $tag)
     {
-        $transaction->tags()->updateExistingPivot($tag_id, [
+        //Make sure the fixed allocation is negative for an expense transaction
+        if ($transaction->type === 'expense' && $allocated_fixed > 0) {
+            $allocated_fixed*= -1;
+        }
+
+        $transaction->tags()->updateExistingPivot($tag->id, [
             'allocated_fixed' => $allocated_fixed,
             'allocated_percent' => null,
             'calculated_allocation' => $allocated_fixed
@@ -185,16 +190,16 @@ class Transaction extends Model
      * Change the percentage of the transaction that is allocated to the tag
      * @param $allocated_percent
      * @param $transaction
-     * @param $tag_id
+     * @param $tag
      */
-    public static function updateAllocatedPercent($allocated_percent, $transaction, $tag_id)
+    public static function updateAllocatedPercent($allocated_percent, $transaction, $tag)
     {
-        $transaction->tags()->updateExistingPivot($tag_id, [
+        $transaction->tags()->updateExistingPivot($tag->id, [
             'allocated_percent' => $allocated_percent,
             'allocated_fixed' => null
         ]);
 
-        static::updateAllocatedPercentCalculatedAllocation($transaction->id, $tag_id);
+        static::updateAllocatedPercentCalculatedAllocation($transaction->id, $tag->id);
     }
 
     /**
