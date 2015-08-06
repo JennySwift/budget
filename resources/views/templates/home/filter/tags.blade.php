@@ -5,21 +5,39 @@
     <h4 class="center">tags</h4>
 
     <div class="content">
-        <div class="group">
+
+        <div ng-show="filterTab === 'show'" class="group">
 
             <tag-autocomplete-directive
-                    chosenTags="filter.tags"
+                    chosenTags="filter.tags.in"
                     dropdown="filter.dropdown"
                     tags="tags"
-                    fnOnEnter="insertTransaction(13)"
+                    fnOnEnter="multiSearch()"
                     multipleTags="true">
             </tag-autocomplete-directive>
 
-        <span class="input-group-btn">
-            <button ng-click="clearFilterField('tags')" class="clear-search-button">clear</button>
-        </span>
+            <span class="input-group-btn">
+                <button ng-click="clearFilterField('tags')" class="clear-search-button">clear</button>
+            </span>
 
         </div>
+
+        <div ng-show="filterTab === 'hide'" class="group">
+
+            <tag-autocomplete-directive
+                    chosenTags="filter.tags.out"
+                    dropdown="filter.dropdown"
+                    tags="tags"
+                    fnOnEnter="multiSearch()"
+                    multipleTags="true">
+            </tag-autocomplete-directive>
+
+            <span class="input-group-btn">
+                <button ng-click="clearFilterField('tags')" class="clear-search-button">clear</button>
+            </span>
+
+        </div>
+
     </div>
 
 </div>

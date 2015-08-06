@@ -24,7 +24,10 @@ app.factory('FilterFactory', function ($http) {
                 in: "",
                 out: ""
             },
-            tags: [],
+            tags: {
+                in: [],
+                out: []
+            },
             reconciled: "any",
             offset: 0,
             num_to_fetch: 20

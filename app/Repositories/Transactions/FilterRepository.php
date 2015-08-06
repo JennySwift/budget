@@ -202,18 +202,35 @@ class FilterRepository {
      */
     private function filterTags($query, $tags)
     {
-        //Make an array of the tag ids searched for
-        $tag_ids = array();
-        foreach ($tags as $tag) {
-            $tag_ids[] = $tag['id'];
+        if ($tags['in']) {
+            //Make an array of the tag ids searched for
+            $tag_ids = array();
+            foreach ($tags['in'] as $tag) {
+                $tag_ids[] = $tag['id'];
+            }
+
+            //Add to the $query
+            foreach ($tag_ids as $tag_id) {
+                $query = $query->whereHas('tags', function ($q) use ($tag_id) {
+                    $q->where('tags.id', $tag_id);
+                });
+            }
+        }
+        if ($tags['out']) {
+            //Make an array of the tag ids searched for
+            $tag_ids = array();
+            foreach ($tags['out'] as $tag) {
+                $tag_ids[] = $tag['id'];
+            }
+
+            //Add to the $query
+            foreach ($tag_ids as $tag_id) {
+                $query = $query->whereDoesntHave('tags', function ($q) use ($tag_id) {
+                    $q->where('tags.id', $tag_id);
+                });
+            }
         }
 
-        //Add to the $query
-        foreach ($tag_ids as $tag_id) {
-            $query = $query->whereHas('tags', function ($q) use ($tag_id) {
-                $q->where('tags.id', $tag_id);
-            });
-        }
 
         return $query;
     }

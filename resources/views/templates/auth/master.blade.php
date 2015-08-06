@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <style>
         #navbar {display: flex;}
+        body footer {display: flex;}
         body .main {display: block;}
     </style>
 </head>
@@ -20,4 +21,7 @@
         @show
     </div>
 
+    @include('templates/real-footer')
+
 </body>
+
