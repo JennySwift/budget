@@ -22,6 +22,7 @@ class UsersController extends Controller
         if ($id == Auth::user()->id) {
             $user = User::findOrFail($id);
             $user->delete();
+            Auth::logout();
         }
         else {
             //They could actually be logged in, but trying to delete another account mischievously
