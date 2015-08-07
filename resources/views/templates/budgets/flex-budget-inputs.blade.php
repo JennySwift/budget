@@ -11,14 +11,28 @@
             multipleTags="false"
             model="new_FLB"
             id="new-flex-budget-name"
-            focusOnEnter="budget-flex-budget-input">
+            focusOnEnter="new-flex-budget-amount">
     </tag-autocomplete-directive>
 
     <label>Enter an an amount for your tag</label>
 
     <input ng-model="new_FLB.budget"
            ng-keyup="updateBudget($event.keyCode, new_FLB, 'flex')"
-           id="budget-flex-budget-input"
+           id="new-flex-budget-amount"
            type="text">
+
+    <label>Enter a starting date (optional)</label>
+
+    <input ng-model="new_FLB.starting_date"
+           ng-keyup="updateBudget($event.keyCode, new_FLB, 'flex')"
+           id="new-flex-budget-SD"
+           type="text">
+
+    <button
+            ng-click="updateBudget(13, new_FB, 'flex')"
+            class="btn btn-success">
+        Create Budget
+    </button>
+
 </div>
 

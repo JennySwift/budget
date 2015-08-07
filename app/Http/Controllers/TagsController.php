@@ -3,12 +3,12 @@
 use App\Http\Requests;
 use App\Models\Tag;
 use App\Repositories\Tags\TagsRepository;
-use App\Totals\FixedAndFlexData;
 use App\Totals\TotalsService;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
 use JavaScript;
+use Debugbar;
 
 /**
  * Class TagsController
@@ -117,41 +117,55 @@ class TagsController extends Controller
     }
 
     /**
-     * This either adds or deletes a budget, both using an update query.
      * Todo: Combine this method into the update method
      * @param Request $request
      */
     public function updateBudget(Request $request)
     {
         $tag = Tag::find($request->get('tag_id'));
-        $fixedAndFlexData = new FixedAndFlexData();
-        $totalsService = new TotalsService($fixedAndFlexData);
-
         $budget = $request->get('budget');
-        $column = $request->get('column');
 
-        if (!$budget || $budget === "NULL") {
-            $budget = null;
-            $budget_id = null;
+        if ($request->get('column') === "fixed_budget") {
+            $tag->fixed_budget = $budget;
+            $tag->budget_id = 1;
         }
         else {
-            if ($column === "fixed_budget") {
-                $budget_id = 1;
-            } else {
-                $budget_id = 2;
-            }
+            $tag->flex_budget = $budget;
+            $tag->budget_id = 2;
         }
 
-        $tag->update([
-            $column => $budget,
-            'budget_id' => $budget_id
-        ]);
+        Debugbar::info('date): ' . $request->get('starting_date'));
+        if ($request->get('starting_date')) {
+            $tag->starting_date = $request->get('starting_date');
+        }
+
+
+        $tag->save();
 
         return [
-            'totals' => $totalsService->getBasicAndBudgetTotals(),
+            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
             'tag' => $tag
         ];
     }
+
+    /**
+     * This is done with an update not a delete
+     */
+    public function removeBudget(Request $request)
+    {
+        $tag = Tag::find($request->get('tag_id'));
+        $tag->fixed_budget = null;
+        $tag->flex_budget = null;
+        $tag->budget_id = null;
+        $tag->starting_date = null;
+        $tag->save();
+
+        return [
+            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
+            'tag' => $tag
+        ];
+    }
+
 
     /**
      *

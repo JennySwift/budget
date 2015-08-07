@@ -80,7 +80,20 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
                         });
                 }
             }
-        }
+        };
+
+        $scope.formatDate = function ($date) {
+            if ($date) {
+                if (!Date.parse($date)) {
+                    $scope.provideFeedback('Date is invalid');
+                    return false;
+                }
+                else {
+                    return Date.parse($date).toString('yyyy-MM-dd');
+                }
+            }
+            return false;
+        };
     }
 
 })();

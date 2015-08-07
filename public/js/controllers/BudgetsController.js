@@ -37,26 +37,6 @@
                 });
         };
 
-        $scope.updateBudget = function ($keycode, $new, $type) {
-            if ($keycode !== 13 || $scope.tagHasBudget($new)) {
-                return;
-            }
-
-            $scope.showLoading();
-            BudgetsFactory.updateBudget($new, $type + '_budget', $new.budget)
-                .then(function (response) {
-                    FilterFactory.updateDataForControllers(response.data);
-                    $scope.totals.budget = response.data.totals.budget;
-                    $scope.updateTag($new, response);
-                    $scope.clearAndFocus($type);
-                    $scope.provideFeedback('Budget created/updated');
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
         $scope.updateTag = function ($tag, response) {
             var $index = _.indexOf($scope.tags, _.findWhere($scope.tags, {id: $tag.id}));
             $scope.tags[$index] = response.data.tag;
@@ -90,16 +70,41 @@
                 //$scope.new_fixed_budget.tag.name = '';
 
                 $("#new-fixed-budget-name-input").val("").focus();
+                $("#new-fixed-budget-SD").val("");
+                $("#new-fixed-budget-amount").val("");
             }
             else {
                 $("#new-flex-budget-name-input").val("").focus();
+                $("#new-flex-budget-SD").val("");
+                $("#new-flex-budget-amount").val("");
             }
+        };
+
+        $scope.updateBudget = function ($keycode, $new, $type) {
+            if ($keycode !== 13 || $scope.tagHasBudget($new)) {
+                return;
+            }
+
+            $scope.showLoading();
+            $new.sql_starting_date = $scope.formatDate($new.starting_date);
+            BudgetsFactory.updateBudget($new, $type + '_budget')
+                .then(function (response) {
+                    FilterFactory.updateDataForControllers(response.data);
+                    $scope.totals.budget = response.data.totals.budget;
+                    $scope.updateTag($new, response);
+                    $scope.clearAndFocus($type);
+                    $scope.provideFeedback('Budget created/updated');
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
         };
 
         $scope.removeBudget = function ($tag) {
             if (confirm("Remove " + $tag.budget_type + " budget for " + $tag.name + "?")) {
                 $scope.showLoading();
-                BudgetsFactory.updateBudget($tag, $tag.budget_type + '_budget', 'NULL')
+                BudgetsFactory.removeBudget($tag)
                     .then(function (response) {
                         FilterFactory.updateDataForControllers(response.data);
                         $scope.totals.budget = response.data.totals.budget;

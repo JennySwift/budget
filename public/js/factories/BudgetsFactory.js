@@ -9,16 +9,26 @@ app.factory('BudgetsFactory', function ($http) {
 			return $http.post($url, $data);
 		},
 		
-		updateBudget: function ($tag, $column, $budget) {
+		updateBudget: function ($tag, $column) {
 			var $url = 'update/budget';
 			var $data = {
 				tag_id: $tag.id,
 				column: $column,
-				budget: $budget
+				budget: $tag.budget,
+                starting_date: $tag.sql_starting_date
 			};
 			
 			return $http.post($url, $data);
 		},
+
+        removeBudget: function ($tag) {
+            var $url = 'remove/budget';
+            var $data = {
+                tag_id: $tag.id,
+            };
+
+            return $http.post($url, $data);
+        },
 
 		updateAllocation: function ($type, $value, $transaction_id, $tag_id) {
 			var $url = 'update/allocation';

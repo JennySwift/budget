@@ -98,7 +98,7 @@ function convertDate($date, $for)
         $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/y');
     }
     elseif ($for === 'sql') {
-        $date = Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d');
+        $date = Carbon::createFromFormat('d/m/y', $date)->format('Y-m-d');
 
     }
 
