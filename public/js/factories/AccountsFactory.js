@@ -10,12 +10,9 @@ app.factory('AccountsFactory', function ($http) {
             return $http.post($url, $data);
         },
         insertAccount: function () {
-            var $url = 'insert/account';
-            var $description = 'account';
-            var $name = $(".new_account_input").val();
+            var $url = '/accounts';
             var $data = {
-                description: $description,
-                name: $name
+                name: $(".new_account_input").val()
             };
 
             return $http.post($url, $data);

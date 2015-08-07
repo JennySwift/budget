@@ -1,4 +1,5 @@
 <?php
+use App\Exceptions\ModelAlreadyExistsException;
 use App\Exceptions\NotLoggedInException;
 use Carbon\Carbon;
 
@@ -102,5 +103,20 @@ function convertDate($date, $for)
     }
 
     return $date;
+}
+
+/**
+ * Check the user doesn't have the model already with the same name
+ * @param $model
+ */
+function checkForDuplicates($model)
+{
+    $duplicate_count = $model::where('user_id', Auth::user()->id)
+        ->where('name', $model->name)
+        ->count();
+
+    if ($duplicate_count) {
+        throw new ModelAlreadyExistsException(class_basename(get_class($model)));
+    }
 }
 

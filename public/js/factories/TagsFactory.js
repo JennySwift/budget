@@ -9,17 +9,17 @@ app.factory('TagsFactory', function ($http) {
 
             return $http.post($url, $data);
         },
-        duplicateTagCheck: function () {
-            var $url = 'select/duplicate-tag-check';
-            var $description = 'duplicate tag check';
-            var $new_tag_name = $("#new-tag-input").val();
-            var $data = {
-                description: $description,
-                new_tag_name: $new_tag_name
-            };
-
-            return $http.post($url, $data);
-        },
+        //duplicateTagCheck: function () {
+        //    var $url = 'select/duplicate-tag-check';
+        //    var $description = 'duplicate tag check';
+        //    var $new_tag_name = $("#new-tag-input").val();
+        //    var $data = {
+        //        description: $description,
+        //        new_tag_name: $new_tag_name
+        //    };
+        //
+        //    return $http.post($url, $data);
+        //},
         countTransactionsWithTag: function ($tag_id) {
             var $url = 'select/countTransactionsWithTag';
             var $description = 'count transactions with tag';
@@ -36,12 +36,9 @@ app.factory('TagsFactory', function ($http) {
          * @returns {*}
          */
         insertTag: function () {
-            var $url = 'insert/tag';
-            var $description = 'tag';
-            var $new_tag_name = $("#new-tag-input").val();
+            var $url = '/tags';
             var $data = {
-                description: $description,
-                new_tag_name: $new_tag_name
+                new_tag_name: $("#new-tag-input").val()
             };
             $("#tag-already-created").hide();
 

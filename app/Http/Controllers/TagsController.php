@@ -61,23 +61,26 @@ class TagsController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function duplicateTagCheck(Request $request)
-    {
-        $count = Tag::where('name', $request->get('new_tag_name'))
-            ->where('user_id', Auth::user()->id)
-            ->count();
-
-        return $count;
-    }
+//    public function duplicateTagCheck(Request $request)
+//    {
+//        $count = Tag::where('name', $request->get('new_tag_name'))
+//            ->where('user_id', Auth::user()->id)
+//            ->count();
+//
+//        return $count;
+//    }
 
     /**
      *
      * @param Request $request
      */
-    public function insertTag(Request $request)
+    public function store(Request $request)
     {
         $tag = new Tag(['name' => $request->get('new_tag_name')]);
         $tag->user()->associate(Auth::user());
+
+        checkForDuplicates($tag);
+
         $tag->save();
     }
 

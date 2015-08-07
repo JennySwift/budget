@@ -121,11 +121,12 @@ Route::controllers([
  * Resources
  */
 
-Route::resource('tags', 'TagsController', ['only' => ['show', 'update']]);
+Route::resource('tags', 'TagsController', ['only' => ['show', 'store', 'update']]);
 Route::resource('transactions', 'TransactionsController', ['only' => ['show', 'update']]);
 Route::resource('totals', 'TotalsController', ['only' => ['index']]);
 Route::resource('help', 'HelpController', ['only' => ['index']]);
 Route::resource('user', 'UsersController', ['only' => ['show', 'destroy']]);
+Route::resource('accounts', 'AccountsController', ['only' => ['store']]);
 
 /**
  * Ajax
@@ -169,8 +170,6 @@ Route::post('insert/budgetInfo', 'BudgetsController@insertBudgetInfo');
 
 Route::post('select/accounts', 'AccountsController@getAccounts');
 
-Route::post('insert/account', 'AccountsController@insertAccount');
-
 Route::post('update/accountName', 'AccountsController@updateAccountName');
 
 Route::post('delete/account', 'AccountsController@deleteAccount');
@@ -180,9 +179,6 @@ Route::post('delete/account', 'AccountsController@deleteAccount');
  */
 
 Route::post('select/tags', 'TagsController@getTags');
-Route::post('select/duplicate-tag-check', 'TagsController@duplicateTagCheck');
-
-Route::post('insert/tag', 'TagsController@insertTag');
 
 Route::post('update/budget', 'TagsController@updateBudget');
 Route::post('update/tagName', 'TagsController@updateTagName');

@@ -50,26 +50,12 @@ var app = angular.module('budgetApp');
             }
 
             $scope.showLoading();
-            TagsFactory.duplicateTagCheck()
+            TagsFactory.insertTag()
                 .then(function (response) {
-                    var $duplicate = response.data;
-                    if ($duplicate > 0) {
-                        FeedbackFactory.provideFeedback('You already have a tag with that name');
-                        $scope.hideLoading();
-                    }
-                    else {
-                        $scope.showLoading();
-                        TagsFactory.insertTag()
-                            .then(function (response) {
-                                $scope.getTags();
-                                $("#new-tag-input").val("");
-                                $scope.hideLoading();
-                                $scope.provideFeedback('Tag created');
-                            })
-                            .catch(function (response) {
-                                $scope.responseError(response);
-                            })
-                    }
+                    $scope.getTags();
+                    $("#new-tag-input").val("");
+                    $scope.hideLoading();
+                    $scope.provideFeedback('Tag created');
                 })
                 .catch(function (response) {
                     $scope.responseError(response);

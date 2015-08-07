@@ -49,6 +49,9 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             else if (response.status === 401) {
                 $scope.provideFeedback('You are not logged in');
             }
+            else if (response.data.error) {
+                $scope.provideFeedback(response.data.error);
+            }
             else {
                 $scope.provideFeedback('There was an error');
             }

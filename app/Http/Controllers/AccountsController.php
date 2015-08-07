@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Exceptions\ModelAlreadyExistsException;
 use App\Http\Requests;
 use App\Models\Account;
 use Auth;
@@ -53,10 +54,13 @@ class AccountsController extends Controller
      *
      * @param Request $request
      */
-    public function insertAccount(Request $request)
+    public function store(Request $request)
     {
         $account = new Account(['name' => $request->get('name')]);
         $account->user()->associate(Auth::user());
+
+        checkForDuplicates($account);
+
         $account->save();
     }
 
