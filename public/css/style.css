@@ -903,7 +903,12 @@ caption {
   position: relative; }
   #budget #budget-content .new-entry {
     max-width: 280px;
-    margin: auto; }
+    margin: auto;
+    border-radius: 4px;
+    box-shadow: 3px 3px 5px #777;
+    margin-bottom: 34px;
+    padding: 10px 15px;
+    border: 1px solid #777; }
     #budget #budget-content .new-entry input {
       margin-bottom: 10px; }
   #budget #budget-content tr {

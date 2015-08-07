@@ -1,6 +1,7 @@
 
 <div class="new-entry">
-    <label>Add a fixed budget to one of your tags</label>
+    <h3>Add a new fixed budget</h3>
+    <label>Select a tag</label>
 
     {{--I'm baffled as to why, if I use model=new_fixed_budget it is buggy.--}}
     {{--After a tag is chosen, if the user then hits backspace it edits the tag in the dropdown to that new name in the input field.--}}
@@ -15,6 +16,8 @@
             id="new-fixed-budget-name"
             focusOnEnter="budget-fixed-budget-input">
     </tag-autocomplete-directive>
+
+    <label>Enter an an amount for your tag</label>
 
     <input ng-model="new_FB.budget"
            ng-keyup="updateBudget($event.keyCode, new_FB, 'fixed')"
