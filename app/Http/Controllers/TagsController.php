@@ -20,16 +20,21 @@ class TagsController extends Controller
      * @var TagsRepository
      */
     protected $tagsRepository;
+    /**
+     * @var TotalsService
+     */
+    private $totalsService;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(TagsRepository $tagsRepository)
+    public function __construct(TagsRepository $tagsRepository, TotalsService $totalsService)
     {
         $this->middleware('auth');
         $this->tagsRepository = $tagsRepository;
+        $this->totalsService = $totalsService;
     }
 
     /**
@@ -104,12 +109,11 @@ class TagsController extends Controller
      */
     public function update(Request $request)
     {
-        $total = new Total();
         $tag = Tag::find($request->get('tag')['id']);
         $tag->starting_date = $request->get('CSD');
         $tag->save();
 
-        return $total->getBasicAndBudgetTotals();
+        return $this->totalsService->getBasicAndBudgetTotals();
     }
 
     /**

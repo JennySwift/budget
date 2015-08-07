@@ -47,7 +47,7 @@ app.factory('BudgetsFactory', function ($http) {
 
             var $data = {
                 tag: $tag,
-                CSD: Date.parse($tag.CSD).toString('yyyy-MM-dd')
+                CSD: Date.parse($tag.formatted_starting_date).toString('yyyy-MM-dd')
             };
             
             return $http.put($url, $data);

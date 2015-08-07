@@ -13,11 +13,8 @@
         $scope.tags = tags_response;
         $scope.feedbackFactory = FeedbackFactory;
 
-        $scope.show = {
-            basic_totals: true,
-            budget_totals: true,
-            popups: {}
-        };
+        $scope.show.basic_totals = true;
+        $scope.show.budget_totals = true;
 
         /**
          * Watches
@@ -116,13 +113,13 @@
         };
 
         $scope.updateCSDSetup = function ($tag) {
-            $scope.edit_CSD = $tag;
+            $scope.edit_CSD_popup = $tag;
             $scope.show.popups.edit_CSD = true;
         };
 
         $scope.updateCSD = function () {
             $scope.showLoading();
-            BudgetsFactory.updateCSD($scope.edit_CSD)
+            BudgetsFactory.updateCSD($scope.edit_CSD_popup)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
                     $scope.totals.budget = response.data.budget;

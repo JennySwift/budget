@@ -879,7 +879,7 @@ caption {
   #tags > *, #accounts > * {
     max-width: 500px; }
 
-#edit-account-name .popup-inner, #edit-tag-name .popup-inner {
+#edit-account-name .popup-inner, #edit-tag-name .popup-inner, #edit-CSD .popup-inner {
   display: flex;
   flex-direction: column;
   align-items: center;

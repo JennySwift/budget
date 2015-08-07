@@ -148,15 +148,6 @@
             $scope.show.filter = !$scope.show.filter;
         };
 
-        $scope.closePopup = function ($event, $popup) {
-            var $target = $event.target;
-            if ($target.className === 'popup-outer') {
-                $scope.show.popups[$popup] = false;
-            }
-        };
-
-
-
 
 
 
