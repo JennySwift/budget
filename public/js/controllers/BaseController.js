@@ -21,7 +21,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
         $(window).load(function () {
             $(".main").css('display', 'block');
-            $("#budget").css('display', 'flex');
+            //$("#budget").css('display', 'flex');
             $("footer, #navbar").css('display', 'flex');
             $("#page-loading").hide();
         });

@@ -44,9 +44,6 @@ button {
   button:not([disabled]):active {
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
     border: 1px solid black; }
-  button:not([disabled]):focus {
-    outline: thin dotted;
-    outline-offset: -2px; }
   button:not([disabled]):hover, button:not([disabled]):focus, button:not([disabled]):active {
     background-color: #e6e6e6;
     border-color: #adadad;
@@ -887,31 +884,47 @@ caption {
   width: 300px;
   height: 200px; }
 
-#budget {
+#budget #budget-toolbar {
+  display: flex;
+  justify-content: center;
+  margin-top: 7px; }
+  #budget #budget-toolbar .btn-group button {
+    background: white;
+    color: #5cb85c; }
+    #budget #budget-toolbar .btn-group button.selected {
+      background: #5cb85c;
+      color: white; }
+#budget #budget-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 30px;
-  font-size: 15px; }
-  #budget tr {
+  font-size: 15px;
+  position: relative; }
+  #budget #budget-content .new-entry {
+    max-width: 280px;
+    margin: auto; }
+    #budget #budget-content .new-entry input {
+      margin-bottom: 10px; }
+  #budget #budget-content tr {
     background: #fff; }
-  #budget th {
+  #budget #budget-content th {
     cursor: help; }
-    #budget th .fa-plus {
+    #budget #budget-content th .fa-plus {
       color: #5cb85c; }
-    #budget th .fa-minus {
+    #budget #budget-content th .fa-minus {
       color: #d9534f; }
-  #budget td {
+  #budget #budget-content td {
     text-align: right; }
-  #budget input, #budget select {
+  #budget #budget-content input, #budget #budget-content select {
     width: 100%; }
-  #budget .CSD {
+  #budget #budget-content .CSD {
     width: 140px; }
-  #budget .totals {
+  #budget #budget-content .totals {
     background: #777;
     color: white;
     font-weight: bold; }
-  #budget .edit {
+  #budget #budget-content .edit {
     width: 20px;
     font-size: 6px; }
 
