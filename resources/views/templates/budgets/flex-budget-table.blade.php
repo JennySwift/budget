@@ -8,10 +8,20 @@
         <th class="tooltipster" title="amount (% column % of F/I)">A</th>
         <th class="tooltipster" title="cumulative starting date">SD</th>
         <th class="tooltipster" title="cumulative month number">CMN</th>
-        <th class="tooltipster" title="spent after starting date">-</th>
-        <th class="tooltipster" title="received">+</th>
+
+        <th class="tooltipster" title="spent after starting date">
+            <i class="fa fa-minus"></i>
+        </th>
+
+        <th class="tooltipster" title="received">
+            <i class="fa fa-plus"></i>
+        </th>
+
         <th class="tooltipster" title="remaining">R</th>
-        <th>x</th>
+
+        <th>
+            <i class="fa fa-times"></i>
+        </th>
     </tr>
     <!-- table content -->
     <tr ng-repeat="tag in totals.budget.FLB.tags" class="budget_info_ul">
@@ -26,7 +36,9 @@
         <td class="spent">[[tag.spentAfterSD]]</td>
         <td class="received">[[tag.receivedAfterSD]]</td>
         <td class="remaining">[[tag.remaining]]</td>
-        <td ng-click="removeBudget(tag)" class="pointer">x</td>
+        <td>
+            <button ng-click="removeBudget(tag)" class="btn btn-xs btn-danger">delete</button>
+        </td>
     </tr>
     {{--unallocated--}}
     <tr id="flex-budget-unallocated" class="budget_info_ul">

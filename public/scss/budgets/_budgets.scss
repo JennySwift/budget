@@ -3,11 +3,18 @@
 	flex-wrap: wrap;
 	justify-content: space-between;
 	margin: 30px;
+    font-size: 15px;
 	tr {
 		background: #fff;
 	}
 	th {
 		cursor: help;
+        .fa-plus {
+            color: #5cb85c;
+        }
+        .fa-minus {
+            color: #d9534f;
+        }
 	}
 	td {
 	    text-align: right;
