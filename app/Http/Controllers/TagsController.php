@@ -92,6 +92,9 @@ class TagsController extends Controller
     {
         $tag = Tag::find($request->get('tag_id'));
         $tag->name = $request->get('tag_name');
+
+        checkForDuplicates($tag);
+
         $tag->save();
     }
 

@@ -72,6 +72,9 @@ class AccountsController extends Controller
     {
         $account = Account::find($request->get('account_id'));
         $account->name = $request->get('account_name');
+
+        checkForDuplicates($account);
+        
         $account->save();
     }
 
