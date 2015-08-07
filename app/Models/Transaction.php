@@ -36,7 +36,8 @@ class Transaction extends Model
     public function tags()
     {
         return $this->belongsToMany('App\Models\Tag', 'transactions_tags')
-            ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation');
+            ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation')
+            ->orderBy('name', 'asc');
     }
 
     /**

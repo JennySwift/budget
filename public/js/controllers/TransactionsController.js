@@ -31,20 +31,13 @@
             }
         });
 
-        $scope.responseError = function (response) {
-            if (response.status === 503) {
-                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
-            }
-            else {
-                FeedbackFactory.provideFeedback('There was an error');
-            }
-        };
-
         $scope.updateReconciliation = function ($transaction_id, $reconciliation) {
+            $scope.showLoading();
             TransactionsFactory.updateReconciliation($transaction_id, $reconciliation, $scope.filter)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
                     $scope.totals = response.data;
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -64,6 +57,7 @@
             var $date_entry = $("#edit-transaction-date").val();
             $scope.edit_transaction.date.user = $date_entry;
             $scope.edit_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
+            $scope.showLoading();
             TransactionsFactory.updateTransaction($scope.edit_transaction, $scope.filter)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
@@ -72,6 +66,7 @@
                     $scope.show.edit_transaction = false;
 
                     $scope.totals = response.data;
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -92,11 +87,13 @@
         };
 
         $scope.massEditTags = function () {
+            $scope.showLoading();
             TransactionsFactory.updateMassTags()
                 .then(function (response) {
                     multiSearch();
                     $tag_array.length = 0;
                     $tag_location.html($tag_array);
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -104,9 +101,11 @@
         };
 
         $scope.massEditDescription = function () {
+            $scope.showLoading();
             TransactionsFactory.updateMassDescription()
                 .then(function (response) {
                     multiSearch();
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -115,10 +114,12 @@
 
         $scope.updateAllocation = function ($keycode, $type, $value, $tag_id) {
             if ($keycode === 13) {
+                $scope.showLoading();
                 BudgetsFactory.updateAllocation($type, $value, $scope.allocation_popup.id, $tag_id)
                     .then(function (response) {
                         $scope.allocation_popup.tags = response.data.allocation_info;
                         $scope.allocation_popup.allocation_totals = response.data.allocation_totals;
+                        $scope.hideLoading();
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
@@ -144,9 +145,10 @@
         };
 
         $scope.updateAllocationStatus = function () {
+            $scope.showLoading();
             BudgetsFactory.updateAllocationStatus($scope.allocation_popup.id, $scope.allocation_popup.allocated)
                 .then(function (response) {
-                    console.log("something");
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -155,6 +157,7 @@
 
         $scope.deleteTransaction = function ($transaction) {
             if (confirm("Are you sure?")) {
+                $scope.showLoading();
                 TransactionsFactory.deleteTransaction($transaction, $scope.filter)
                     .then(function (response) {
                         $scope.totals = response.data.totals;
@@ -163,6 +166,7 @@
                         FilterFactory.updateDataForControllers(response.data);
 
                         $scope.provideFeedback('Transaction deleted');
+                        $scope.hideLoading();
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
