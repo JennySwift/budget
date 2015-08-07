@@ -4,10 +4,9 @@
 @section('controller', 'AccountsController')
 
 @section('page-content')
+    @include('templates.popups.settings.index')
 
     <div id="accounts">
-
-        @include('templates.popups.settings.index')
 
         <input
             ng-keyup="insertAccount($event.keyCode)"

@@ -74,7 +74,7 @@ class AccountsController extends Controller
         $account->name = $request->get('account_name');
 
         checkForDuplicates($account);
-        
+
         $account->save();
     }
 
