@@ -4,6 +4,17 @@
 	background: white;
     border: 2px solid #ddd;
     box-shadow: 3px 3px 10px #777;
+    thead {
+        tr {
+//            background: #777;
+//            color: white;
+            background: white;
+            color: $info;
+        }
+    }
+    tbody {
+//        position: relative;
+    }
 	td {
 		height: 39px;
         position: relative;
@@ -42,6 +53,11 @@
 			padding: 0;
 			height: 24px;
 		}
+//        position: absolute;
+//        bottom: 0;
+//        .label {
+//
+//        }
 	}
 }
 

@@ -3,7 +3,7 @@
 }
 
 .tag-with-fixed-budget {
-	background: #3938b0;
+	background: $primary;
 	&:after {
 		content: ' fixed';
 		font-size: 6px;
@@ -11,7 +11,7 @@
 }
 
 .tag-with-flex-budget {
-	background: #9a9a1e;
+	background: $warning;
 	&:after {
 		content: ' flex';
 		font-size: 6px;

@@ -124,13 +124,13 @@ caption {
   background: green; }
 
 .tag-with-fixed-budget {
-  background: #3938b0; }
+  background: #337ab7; }
   .tag-with-fixed-budget:after {
     content: ' fixed';
     font-size: 6px; }
 
 .tag-with-flex-budget {
-  background: #9a9a1e; }
+  background: #fca700; }
   .tag-with-flex-budget:after {
     content: ' flex';
     font-size: 6px; }
@@ -499,6 +499,33 @@ caption {
 .hover-parent > *:hover {
   background: #b5b5b5; }
 
+.list-group {
+  border-radius: 5px; }
+
+.list-group-item-success {
+  background: white;
+  color: #5cb85c; }
+  .list-group-item-success span {
+    background: #5cb85c; }
+
+.list-group-item-warning {
+  background: white;
+  color: #fca700; }
+  .list-group-item-warning span {
+    background: #fca700; }
+
+.list-group-item-info {
+  background: white;
+  color: #5bc0de; }
+  .list-group-item-info span {
+    background: #5bc0de; }
+
+.list-group-item-danger {
+  background: white;
+  color: #d9534f; }
+  .list-group-item-danger span {
+    background: #d9534f; }
+
 .btn-group .btn {
   margin: 0 -2px;
   border-radius: 0px; }
@@ -650,8 +677,7 @@ caption {
         border: none; }
     #allocation-popup #allocation-table-container .totals {
       background: #777;
-      color: white;
-      font-weight: bold; }
+      color: white; }
   #allocation-popup p {
     font-size: 11px; }
     @media (min-width: 400px) {
@@ -736,12 +762,6 @@ caption {
 
 .select, #description_autocomplete tbody.select {
   background: #6d84b4; }
-
-.allocated {
-  background: green; }
-
-.not-allocated {
-  background: #ff6666; }
 
 #new-transaction-container {
   display: flex;
@@ -854,6 +874,9 @@ caption {
   background: white;
   border: 2px solid #ddd;
   box-shadow: 3px 3px 10px #777; }
+  #transactions thead tr {
+    background: white;
+    color: #5bc0de; }
   #transactions td {
     height: 39px;
     position: relative;
@@ -952,8 +975,7 @@ caption {
     width: 100%; }
   #budget #budget-content .totals {
     background: #777;
-    color: white;
-    font-weight: bold; }
+    color: white; }
   #budget #budget-content .edit {
     width: 20px;
     font-size: 6px; }

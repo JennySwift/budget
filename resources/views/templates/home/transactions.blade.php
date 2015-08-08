@@ -1,7 +1,7 @@
 
 <table id="transactions" class="table">
     <thead>
-    <tr class="bg-dark">
+    <tr>
         <th ng-show="show.date">Date</th>
         <th ng-show="show.description">Description</th>
         <th ng-show="show.merchant">Merchant</th>
@@ -49,7 +49,12 @@
             <button ng-click="updateTransactionSetup(transaction)" class="fa fa-pencil-square-o"></button>
         </td>
         <td>
-            <button ng-if="transaction.multiple_budgets" ng-class="{'allocated': transaction.allocated, 'not-allocated': !transaction.allocated}" ng-click="showAllocationPopup(transaction)">allocate</button>
+            <button
+                ng-if="transaction.multiple_budgets"
+                ng-class="{'allocated, btn-success': transaction.allocated, 'not-allocated, btn-danger': !transaction.allocated}"
+                ng-click="showAllocationPopup(transaction)">
+                allocate
+            </button>
         </td>
     </tr>
 
