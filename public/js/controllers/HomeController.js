@@ -40,7 +40,7 @@
             edit_transaction: false,
             edit_tag: false,
             budget: false,
-            filter: true,
+            filter: false,
             autocomplete: {
                 description: false,
                 merchant: false

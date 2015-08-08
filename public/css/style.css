@@ -80,8 +80,20 @@ input[type="checkbox"] {
   width: 34px;
   margin: 0; }
 
-th, table {
+table {
+  border-collapse: separate;
+  border-radius: 18px;
   text-align: center; }
+  table th {
+    border-radius: 18px;
+    padding: 10px 10px;
+    text-align: center; }
+  table td {
+    vertical-align: middle;
+    padding: 0px 9px; }
+    table td > div {
+      display: flex;
+      align-items: center; }
 
 caption {
   padding: 8px;
@@ -886,8 +898,7 @@ caption {
     #transactions td div:not(.tooltip) {
       text-overflow: ellipsis;
       overflow: hidden;
-      white-space: nowrap;
-      height: 39px; }
+      white-space: nowrap; }
     #transactions td .tooltip-container {
       visibility: hidden;
       background: #777;
@@ -903,8 +914,10 @@ caption {
   #transactions .tag-location-container {
     height: 24px; }
     #transactions .tag-location-container td {
-      padding: 0;
+      padding: 9px 0px 2px 0px;
       height: 24px; }
+  #transactions .results_inner_div td {
+    border-top: 1px solid #777; }
 
 @media all and (max-width: 575px) {
   #transactions td, #transactions th {

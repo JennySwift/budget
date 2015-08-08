@@ -107,8 +107,26 @@ input[type="checkbox"] {
 	margin: 0;
 }
 
-th, table {
-	text-align: center;
+table {
+    border-collapse: separate;
+    border-radius: 18px;
+    text-align: center;
+    th {
+        border-radius: 18px;
+        padding: 10px 10px;
+        text-align: center;
+    }
+    td {
+        vertical-align: middle;
+        padding: 0px 9px;
+        > div {
+            display: flex;
+            align-items: center;
+        }
+    }
+    tbody {
+//        border-bottom: 1px solid #777;
+    }
 }
 
 caption {
