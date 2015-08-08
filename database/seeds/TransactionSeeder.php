@@ -32,6 +32,7 @@ class TransactionSeeder extends Seeder {
 	private function insertTransactions($user)
 	{
 		$faker = Faker::create();
+
 		$account_ids = Account::where('user_id', $user->id)->lists('id');
         $tag_ids = Tag::where('user_id', $user->id)->lists('id');
 
@@ -166,7 +167,7 @@ class TransactionSeeder extends Seeder {
         $transaction = new Transaction([
             'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
             'type' => $type,
-            'description' => $faker->sentence(),
+            'description' => $faker->sentence(1),
             'merchant' => $faker->name(),
             'total' => $total,
             'account_id' => $account_id,

@@ -104,6 +104,7 @@
                  * Query the database
                  */
                 $scope.searchDatabase = function () {
+                    console.log("searching database");
                     var $data = {
                         typing: $scope.typing,
                         column: $scope.placeholder

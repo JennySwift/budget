@@ -22,21 +22,29 @@
     > input {
         width: 100%;
     }
-    #autocomplete-transactions {
+    .transactions-autocomplete {
         max-height: 200px;
         overflow: scroll;
         z-index: 9;
         background: white;
+        width: 508px;
+        position: absolute;
+        &#merchant-autocomplete {
+            left: 0;
+        }
+        &#description-autocomplete {
+            right: 0;
+        }
         td, th {
             max-width: 57px;
-            font-size: 9px;
+            font-size: 13px;
             padding: 0;
             overflow: scroll;
         }
-//        .selected {
+        .selected {
 //            background-color: lightblue;
-//            color: #ffffff;
-//        }
+            color: #ffffff;
+        }
     }
 }
 

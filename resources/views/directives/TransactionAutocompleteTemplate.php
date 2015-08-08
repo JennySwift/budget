@@ -7,7 +7,7 @@
     class="form-control"
     type='text'>
 
-<div ng-show="dropdown" id="autocomplete-transactions">
+<div ng-show="dropdown" id="[[placeholder]]-autocomplete" class="transactions-autocomplete">
 
     <table class="table table-bordered">
         <tbody ng-repeat="transaction in results"

@@ -768,16 +768,24 @@ caption {
       position: relative; }
       #new-transaction-container #new-transaction .autocomplete-container > input {
         width: 100%; }
-      #new-transaction-container #new-transaction .autocomplete-container #autocomplete-transactions {
+      #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete {
         max-height: 200px;
         overflow: scroll;
         z-index: 9;
-        background: white; }
-        #new-transaction-container #new-transaction .autocomplete-container #autocomplete-transactions td, #new-transaction-container #new-transaction .autocomplete-container #autocomplete-transactions th {
+        background: white;
+        width: 508px;
+        position: absolute; }
+        #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete#merchant-autocomplete {
+          left: 0; }
+        #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete#description-autocomplete {
+          right: 0; }
+        #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete td, #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete th {
           max-width: 57px;
-          font-size: 9px;
+          font-size: 13px;
           padding: 0;
           overflow: scroll; }
+        #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete .selected {
+          color: #ffffff; }
     #new-transaction-container #new-transaction .btn-wrapper {
       width: 100%;
       display: flex;
@@ -817,16 +825,24 @@ caption {
     position: relative; }
     #edit-transaction .autocomplete-container > input {
       width: 100%; }
-    #edit-transaction .autocomplete-container #autocomplete-transactions {
+    #edit-transaction .autocomplete-container .transactions-autocomplete {
       max-height: 200px;
       overflow: scroll;
       z-index: 9;
-      background: white; }
-      #edit-transaction .autocomplete-container #autocomplete-transactions td, #edit-transaction .autocomplete-container #autocomplete-transactions th {
+      background: white;
+      width: 508px;
+      position: absolute; }
+      #edit-transaction .autocomplete-container .transactions-autocomplete#merchant-autocomplete {
+        left: 0; }
+      #edit-transaction .autocomplete-container .transactions-autocomplete#description-autocomplete {
+        right: 0; }
+      #edit-transaction .autocomplete-container .transactions-autocomplete td, #edit-transaction .autocomplete-container .transactions-autocomplete th {
         max-width: 57px;
-        font-size: 9px;
+        font-size: 13px;
         padding: 0;
         overflow: scroll; }
+      #edit-transaction .autocomplete-container .transactions-autocomplete .selected {
+        color: #ffffff; }
   #edit-transaction .btn-wrapper {
     width: 100%;
     display: flex;
