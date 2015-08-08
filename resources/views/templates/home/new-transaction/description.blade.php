@@ -28,7 +28,10 @@
         placeholder="description"
         typing="new_transaction.description"
         newTransaction="new_transaction"
-        fnOnEnter="insertTransaction(13)">
+        fnOnEnter="insertTransaction(13)"
+        showLoading="showLoading()"
+        hideLoading="hideLoading()"
+        loading="loading">
     </transaction-autocomplete-directive>
 
 </div>

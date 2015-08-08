@@ -5,7 +5,7 @@
         .directive('transactionAutocompleteDirective', transactionAutocomplete);
 
     /* @inject */
-    function transactionAutocomplete(FeedbackFactory, AutocompleteFactory, $sce, $http) {
+    function transactionAutocomplete(FeedbackFactory, AutocompleteFactory, $sce, $http, $timeout, $interval) {
         return {
             restrict: 'EA',
             scope: {
@@ -13,7 +13,10 @@
                 "placeholder": "@placeholder",
                 "typing": "=typing",
                 "new_transaction": "=newtransaction",
-                "fnOnEnter": "&fnonenter"
+                "fnOnEnter": "&fnonenter",
+                "showLoading": "&showloading",
+                "hideLoading": "&hideloading",
+                "loading": "=loading"
             },
             templateUrl: 'transaction-autocomplete',
             link: function($scope, elem, attrs) {
@@ -55,6 +58,8 @@
                  * @returns {boolean}
                  */
                 $scope.filter = function ($keycode) {
+                    $scope.startCounting();
+
                     if ($keycode === 13) {
                         //enter is pressed
                         if (!$scope.results[$scope.currentIndex]) {
@@ -87,9 +92,22 @@
                     }
                 };
 
+                $scope.startCounting = function () {
+                    $interval.cancel($scope.interval);
+                    $scope.timeSinceKeyPress = 0;
+                    $scope.interval = $interval(function () {
+                        $scope.timeSinceKeyPress++;
+                        $scope.showDropdown();
+                    }, 500);
+                };
+
                 $scope.showDropdown = function () {
                     $scope.dropdown = true;
-                    $scope.results = $scope.highlightLetters($scope.searchDatabase(), $scope.typing);
+
+                    if ($scope.timeSinceKeyPress > 1) {
+                        $scope.results = $scope.highlightLetters($scope.searchDatabase(), $scope.typing);
+                        $interval.cancel($scope.interval);
+                    }
                 };
 
                 $scope.searchLocal = function () {
@@ -100,11 +118,13 @@
                     return $results;
                 };
 
+                //var $responseNum = 0;
+
                 /**
                  * Query the database
                  */
                 $scope.searchDatabase = function () {
-                    console.log("searching database");
+                    $scope.showLoading();
                     var $data = {
                         typing: $scope.typing,
                         column: $scope.placeholder
@@ -112,10 +132,9 @@
 
                     return $http.post('select/autocompleteTransaction', $data).
                         success(function(response, status, headers, config) {
-                            //$scope.dealWithResults(response);
-                            $scope.results = response;
-                            $scope.results = AutocompleteFactory.transferTransactions($scope.results);
+                            $scope.results = AutocompleteFactory.transferTransactions(response);
                             $scope.results = AutocompleteFactory.removeDuplicates($scope.results);
+                            $scope.hideLoading();
                         }).
                         error(function(data, status, headers, config) {
                             console.log("There was an error");

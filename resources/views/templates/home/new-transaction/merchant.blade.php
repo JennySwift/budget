@@ -28,7 +28,10 @@
         placeholder="merchant"
         typing="new_transaction.merchant"
         newTransaction="new_transaction"
-        fnOnEnter="insertTransaction(13)">
+        fnOnEnter="insertTransaction(13)"
+        showLoading="showLoading()"
+        hideLoading="hideLoading()"
+        loading="loading">
     </transaction-autocomplete-directive>
 
 </div>
