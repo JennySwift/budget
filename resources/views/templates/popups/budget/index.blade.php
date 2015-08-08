@@ -1,2 +1,2 @@
 
-@include('templates.popups.budget.edit-CSD')
+@include('templates.popups.budget.edit-budget')

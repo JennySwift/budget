@@ -109,20 +109,11 @@ class TagsController extends Controller
      */
     public function update(Request $request)
     {
-        $tag = Tag::find($request->get('tag')['id']);
-        $tag->starting_date = $request->get('CSD');
-        $tag->save();
+//        $data = array_compare($exercise->toArray(), $request->get('exercise'));
+//        $exercise->update($data);
 
-        return $this->totalsService->getBasicAndBudgetTotals();
-    }
-
-    /**
-     * Todo: Combine this method into the update method
-     * @param Request $request
-     */
-    public function updateBudget(Request $request)
-    {
         $tag = Tag::find($request->get('tag_id'));
+
         $budget = $request->get('budget');
 
         if ($request->get('column') === "fixed_budget") {
@@ -134,11 +125,9 @@ class TagsController extends Controller
             $tag->budget_id = 2;
         }
 
-        Debugbar::info('date): ' . $request->get('starting_date'));
         if ($request->get('starting_date')) {
             $tag->starting_date = $request->get('starting_date');
         }
-
 
         $tag->save();
 

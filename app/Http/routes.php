@@ -180,7 +180,7 @@ Route::post('delete/account', 'AccountsController@deleteAccount');
 
 Route::post('select/tags', 'TagsController@getTags');
 
-Route::post('update/budget', 'TagsController@updateBudget');
+//Route::post('update/budget', 'TagsController@createBudget');
 Route::post('remove/budget', 'TagsController@removeBudget');
 Route::post('update/tagName', 'TagsController@updateTagName');
 Route::post('update/massTags', 'TagsController@updateMassTags');

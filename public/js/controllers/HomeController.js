@@ -39,7 +39,7 @@
             filter_totals: true,
             edit_transaction: false,
             edit_tag: false,
-            edit_CSD: false,
+            budget: false,
             filter: true,
             autocomplete: {
                 description: false,

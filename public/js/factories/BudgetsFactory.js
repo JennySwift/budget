@@ -8,18 +8,6 @@ app.factory('BudgetsFactory', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-		
-		updateBudget: function ($tag, $column) {
-			var $url = 'update/budget';
-			var $data = {
-				tag_id: $tag.id,
-				column: $column,
-				budget: $tag.budget,
-                starting_date: $tag.sql_starting_date
-			};
-			
-			return $http.post($url, $data);
-		},
 
         removeBudget: function ($tag) {
             var $url = 'remove/budget';
@@ -52,15 +40,30 @@ app.factory('BudgetsFactory', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-		updateCSD: function ($tag) {
+		update: function ($tag, $type) {
             var $url = $tag.path;
 
             var $data = {
-                tag: $tag,
-                CSD: Date.parse($tag.formatted_starting_date).toString('yyyy-MM-dd')
+                tag_id: $tag.id,
+                column: $type + '_budget',
+                budget: $tag[$type + '_budget'],
+                starting_date: $tag.sql_starting_date
             };
             
             return $http.put($url, $data);
-		}
+		},
+        create: function ($tag, $type) {
+            var $url = $tag.path;
+
+            var $data = {
+                tag_id: $tag.id,
+                column: $type + '_budget',
+                budget: $tag.budget,
+                starting_date: $tag.sql_starting_date
+            };
+
+            return $http.put($url, $data);
+        },
+
 	};
 });

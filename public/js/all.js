@@ -138,7 +138,7 @@ function newMonth () {
             filter_totals: true,
             edit_transaction: false,
             edit_tag: false,
-            edit_CSD: false,
+            budget: false,
             filter: true,
             autocomplete: {
                 description: false,
@@ -503,11 +503,11 @@ var app = angular.module('budgetApp');
                 });
         };
 
-        $scope.updateBudget = function ($keycode, $new, $type) {
+        $scope.createBudget = function ($keycode, $new, $type) {
             if ($keycode !== 13 || $scope.tagHasBudget($new)) {
                 return;
             }
-            BudgetsFactory.updateBudget($new, $type + '_budget', $new.budget)
+            BudgetsFactory.createBudget($new, $type + '_budget', $new.budget)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
                     $scope.totals.budget = response.data.totals.budget;
@@ -560,7 +560,7 @@ var app = angular.module('budgetApp');
 
         $scope.removeBudget = function ($tag) {
             if (confirm("Remove " + $tag.budget_type + " budget for " + $tag.name + "?")) {
-                BudgetsFactory.updateBudget($tag, $tag.budget_type + '_budget', 'NULL')
+                BudgetsFactory.createBudget($tag, $tag.budget_type + '_budget', 'NULL')
                     .then(function (response) {
                         FilterFactory.updateDataForControllers(response.data);
                         $scope.totals.budget = response.data.totals.budget;
@@ -572,17 +572,17 @@ var app = angular.module('budgetApp');
             }
         };
 
-        $scope.updateCSDSetup = function ($tag) {
-            $scope.edit_CSD = $tag;
-            $scope.show.popups.edit_CSD = true;
+        $scope.showBudgetPopup = function ($tag) {
+            $scope.budget = $tag;
+            $scope.show.popups.budget = true;
         };
 
-        $scope.updateCSD = function () {
-            BudgetsFactory.updateCSD($scope.edit_CSD)
+        $scope.updateBudget = function () {
+            BudgetsFactory.updateBudget($scope.budget)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
                     $scope.totals.budget = response.data.budget;
-                    $scope.show.popups.edit_CSD = false;
+                    $scope.show.popups.budget = false;
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -1350,7 +1350,7 @@ app.factory('BudgetsFactory', function ($http) {
 			return $http.post($url, $data);
 		},
 		
-		updateBudget: function ($tag, $column, $budget) {
+		createBudget: function ($tag, $column, $budget) {
 			var $url = 'update/budget';
 			var $data = {
 				tag_id: $tag.id,
@@ -1383,7 +1383,7 @@ app.factory('BudgetsFactory', function ($http) {
 			
 			return $http.post($url, $data);
 		},
-		updateCSD: function ($tag) {
+		updateBudget: function ($tag) {
             var $url = $tag.path;
 
             var $data = {

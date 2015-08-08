@@ -877,12 +877,17 @@ caption {
   #tags > *, #accounts > * {
     max-width: 500px; }
 
-#edit-account-name .popup-inner, #edit-tag-name .popup-inner, #edit-CSD .popup-inner {
+#edit-account-name .popup-inner, #edit-tag-name .popup-inner, #edit-budget .popup-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 300px;
   height: 200px; }
+
+#edit-budget .popup-inner {
+  height: 240px; }
+  #edit-budget .popup-inner input {
+    margin-bottom: 15px; }
 
 #budget #budget-toolbar {
   display: flex;
@@ -923,8 +928,6 @@ caption {
     text-align: right; }
   #budget #budget-content input, #budget #budget-content select {
     width: 100%; }
-  #budget #budget-content .CSD {
-    width: 140px; }
   #budget #budget-content .totals {
     background: #777;
     color: white;

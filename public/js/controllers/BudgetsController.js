@@ -80,21 +80,47 @@
             }
         };
 
-        $scope.updateBudget = function ($keycode, $new, $type) {
+        /**
+         * For updating budget (amount, starting date) for an existing budget
+         */
+        $scope.updateBudget = function () {
+            $scope.showLoading();
+            $scope.budget_popup.sql_starting_date = $scope.formatDate($scope.budget_popup.formatted_starting_date);
+            BudgetsFactory.update($scope.budget_popup, $scope.budget_popup.type)
+                .then(function (response) {
+                    $scope.handleUpdateResponse(response, 'Budget updated');
+                    $scope.show.popups.budget = false;
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.handleUpdateResponse = function (response, $message) {
+            FilterFactory.updateDataForControllers(response.data);
+            $scope.totals.budget = response.data.totals.budget;
+            $scope.hideLoading();
+            $scope.provideFeedback($message);
+        };
+
+        /**
+         * For creating a new budget for an existing tag
+         * @param $keycode
+         * @param $new
+         * @param $type
+         */
+        $scope.createBudget = function ($keycode, $new, $type) {
             if ($keycode !== 13 || $scope.tagHasBudget($new)) {
                 return;
             }
 
             $scope.showLoading();
             $new.sql_starting_date = $scope.formatDate($new.starting_date);
-            BudgetsFactory.updateBudget($new, $type + '_budget')
+            BudgetsFactory.create($new, $type)
                 .then(function (response) {
-                    FilterFactory.updateDataForControllers(response.data);
-                    $scope.totals.budget = response.data.totals.budget;
+                    $scope.handleUpdateResponse(response, 'Budget created');
                     $scope.updateTag($new, response);
                     $scope.clearAndFocus($type);
-                    $scope.provideFeedback('Budget created/updated');
-                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -118,24 +144,10 @@
             }
         };
 
-        $scope.updateCSDSetup = function ($tag) {
-            $scope.edit_CSD_popup = $tag;
-            $scope.show.popups.edit_CSD = true;
-        };
-
-        $scope.updateCSD = function () {
-            $scope.showLoading();
-            BudgetsFactory.updateCSD($scope.edit_CSD_popup)
-                .then(function (response) {
-                    FilterFactory.updateDataForControllers(response.data);
-                    $scope.totals.budget = response.data.budget;
-                    $scope.show.popups.edit_CSD = false;
-                    $scope.provideFeedback('Date updated');
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
+        $scope.showBudgetPopup = function ($tag, $type) {
+            $scope.budget_popup = $tag;
+            $scope.budget_popup.type = $type;
+            $scope.show.popups.budget = true;
         };
 
         //$scope.updateSavingsTotal = function ($keycode) {

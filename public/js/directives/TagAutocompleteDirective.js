@@ -23,6 +23,7 @@
             link: function($scope, elem, attrs) {
                 $scope.results = {};
                 $scope.messages = {};
+                //$scope.dropdown = true;
 
                 /**
                  * Check for duplicate tags when adding a new tag to an array

@@ -25,17 +25,16 @@
     </tr>
     <!-- table content -->
     <tr ng-repeat="tag in totals.budget.FLB.tags" class="budget_info_ul">
-        <td class="budget-tag">[[tag.name]]</td>
-        <td class="percent">[[tag.flex_budget]]</td>
-        <td class="amount">[[tag.calculated_budget]]</td>
-        <td class="CSD">
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="budget-tag pointer">[[tag.name]]</td>
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="percent pointer">[[tag.flex_budget]]</td>
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="amount pointer">[[tag.calculated_budget]]</td>
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="CSD pointer">
             <span>[[tag.formatted_starting_date]]</span>
-            <button ng-click="updateCSDSetup(tag)" class="edit">edit</button>
         </td>
-        <td class="month-number">[[tag.CMN]]</td>
-        <td class="spent">[[tag.spentAfterSD]]</td>
-        <td class="received">[[tag.receivedAfterSD]]</td>
-        <td class="remaining">[[tag.remaining]]</td>
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="month-number pointer">[[tag.CMN]]</td>
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="spent pointer">[[tag.spentAfterSD]]</td>
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="received pointer">[[tag.receivedAfterSD]]</td>
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="remaining pointer">[[tag.remaining]]</td>
         <td>
             <button ng-click="removeBudget(tag)" class="btn btn-xs btn-danger">delete</button>
         </td>

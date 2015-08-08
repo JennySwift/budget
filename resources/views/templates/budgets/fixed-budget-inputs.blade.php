@@ -20,19 +20,19 @@
     <label>Enter an an amount for your tag</label>
 
     <input ng-model="new_FB.budget"
-           ng-keyup="updateBudget($event.keyCode, new_FB, 'fixed')"
+           ng-keyup="createBudget($event.keyCode, new_FB, 'fixed')"
            id="new-fixed-budget-amount"
            type="text">
 
     <label>Enter a starting date (optional)</label>
 
     <input ng-model="new_FB.starting_date"
-           ng-keyup="updateBudget($event.keyCode, new_FB, 'fixed')"
+           ng-keyup="createBudget($event.keyCode, new_FB, 'fixed')"
            id="new-fixed-budget-SD"
            type="text">
 
     <button
-        ng-click="updateBudget(13, new_FB, 'fixed')"
+        ng-click="createBudget(13, new_FB, 'fixed')"
         class="btn btn-success">
         Create Budget
     </button>
