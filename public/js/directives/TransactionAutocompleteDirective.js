@@ -58,8 +58,6 @@
                  * @returns {boolean}
                  */
                 $scope.filter = function ($keycode) {
-                    $scope.startCounting();
-
                     if ($keycode === 13) {
                         //enter is pressed
                         if (!$scope.results[$scope.currentIndex]) {
@@ -87,6 +85,7 @@
                     }
                     else {
                         //Not enter, up or down arrow
+                        $scope.startCounting();
                         $scope.currentIndex = 0;
                         $scope.showDropdown();
                     }
