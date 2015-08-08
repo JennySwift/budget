@@ -95,7 +95,7 @@
             var $messages = [];
 
             if (!Date.parse($scope.new_transaction.date.entered)) {
-                $scope.provideFeedback('Date is not valid');
+                $scope.provideFeedback('Date is not valid', 'error');
                 $errorCount++;
             }
             else {
@@ -103,11 +103,11 @@
             }
 
             if ($scope.new_transaction.total === "") {
-                $scope.provideFeedback('Total is required');
+                $scope.provideFeedback('Total is required', 'error');
                 $errorCount++;
             }
             else if (!$.isNumeric($scope.new_transaction.total)) {
-                $scope.provideFeedback('Total is not a valid number');
+                $scope.provideFeedback('Total is not a valid number', 'error');
                 $errorCount++;
             }
 

@@ -48,11 +48,11 @@
          */
         $scope.tagHasBudget = function ($new) {
             if ($new.flex_budget) {
-                FeedbackFactory.provideFeedback("You've got a flex budget for that tag.");
+                $scope.provideFeedback("You've got a flex budget for that tag.", 'error');
                 return true;
             }
             else if ($new.fixed_budget) {
-                FeedbackFactory.provideFeedback("You've got a fixed budget for that tag.");
+                $scope.provideFeedback("You've got a fixed budget for that tag.", 'error');
                 return true;
             }
             return false;

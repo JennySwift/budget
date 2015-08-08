@@ -1,5 +1,8 @@
 <div id="feedback">
-    <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
-        [[message]]
+    <div
+        ng-repeat="feedback in feedback_messages track by $index"
+        ng-class="feedback.type"
+        class="feedback-message">
+        [[feedback.message]]
     </div>
 </div>

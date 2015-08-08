@@ -192,6 +192,12 @@ caption {
     position: relative;
     border: 1px solid #777;
     box-shadow: 3px 3px 5px #777, inset 0 0 5px #777; }
+    #feedback .feedback-message.error {
+      background: #d9534f;
+      color: white; }
+    #feedback .feedback-message.success {
+      background: #5cb85c;
+      color: white; }
   #feedback .feedback-message.ng-move,
   #feedback .feedback-message.ng-enter,
   #feedback .feedback-message.ng-leave {

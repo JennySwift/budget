@@ -34,26 +34,34 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.loading = false;
         };
 
-        $scope.provideFeedback = function ($message) {
-            $scope.feedback_messages.push($message);
+        $scope.provideFeedback = function ($message, $type) {
+            var $new = {
+                message: $message,
+                type: $type
+            };
+
+            $scope.feedback_messages.push($new);
+
+            //$scope.feedback_messages.push($message);
+
             setTimeout(function () {
-                $scope.feedback_messages = _.without($scope.feedback_messages, $message);
+                $scope.feedback_messages = _.without($scope.feedback_messages, $new);
                 $scope.$apply();
             }, 3000);
         };
 
         $scope.responseError = function (response) {
             if (response.status === 503) {
-                $scope.provideFeedback('Sorry, application under construction. Please try again later.');
+                $scope.provideFeedback('Sorry, application under construction. Please try again later.', 'error');
             }
             else if (response.status === 401) {
-                $scope.provideFeedback('You are not logged in');
+                $scope.provideFeedback('You are not logged in', 'error');
             }
             else if (response.data.error) {
-                $scope.provideFeedback(response.data.error);
+                $scope.provideFeedback(response.data.error, 'error');
             }
             else {
-                $scope.provideFeedback('There was an error');
+                $scope.provideFeedback('There was an error', 'error');
             }
             $scope.hideLoading();
         };
@@ -85,7 +93,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         $scope.formatDate = function ($date) {
             if ($date) {
                 if (!Date.parse($date)) {
-                    $scope.provideFeedback('Date is invalid');
+                    $scope.provideFeedback('Date is invalid', 'error');
                     return false;
                 }
                 else {
