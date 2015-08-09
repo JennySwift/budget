@@ -927,26 +927,6 @@ caption {
     overflow: scroll; }
     #transactions td .fa, #transactions th .fa {
       font-size: 9px; } }
-#tags, #accounts {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 50px; }
-  #tags > *, #accounts > * {
-    max-width: 500px; }
-
-#edit-account-name .popup-inner, #edit-tag-name .popup-inner, #edit-budget .popup-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 300px;
-  height: 200px; }
-
-#edit-budget .popup-inner {
-  height: 240px; }
-  #edit-budget .popup-inner input {
-    margin-bottom: 15px; }
-
 #budget #budget-toolbar {
   display: flex;
   justify-content: center;
@@ -1065,3 +1045,46 @@ caption {
     align-items: center; }
     #login #remember-me-container label, #register #remember-me-container label {
       margin-bottom: 0; }
+
+#tags {
+  margin-bottom: 20px; }
+  #tags .create-new-tag {
+    box-shadow: 3px 3px 5px #777;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    padding: 14px;
+    width: 293px; }
+    #tags .create-new-tag .flex {
+      display: flex;
+      justify-content: space-between; }
+  #tags table {
+    padding: 20px 0 20px 20px; }
+    #tags table tr td {
+      text-align: left;
+      height: 50px; }
+      #tags table tr td .label {
+        font-size: 18px; }
+    #tags table tr .btn-danger {
+      visibility: hidden; }
+    #tags table tr:hover .btn-danger {
+      visibility: visible; }
+
+#tags, #accounts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px; }
+  #tags > *, #accounts > * {
+    max-width: 500px; }
+
+#edit-account-name .popup-inner, #edit-tag-name .popup-inner, #edit-budget .popup-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: 200px; }
+
+#edit-budget .popup-inner {
+  height: 240px; }
+  #edit-budget .popup-inner input {
+    margin-bottom: 15px; }

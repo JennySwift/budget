@@ -7,17 +7,46 @@
 
     <div id="tags">
 
-        <input ng-keyup="insertTag($event.keyCode)" type="text" class="font-size-sm center margin-bottom" id="new-tag-input" placeholder="new tag">
+        <div class="create-new-tag">
+            <label>Create a new tag</label>
 
-        <table class="table table-bordered">
+            <div class="flex">
+
+                <input
+                    ng-keyup="insertTag($event.keyCode)"
+                    type="text"
+                    class="font-size-sm center margin-bottom"
+                    id="new-tag-input"
+                    placeholder="new tag">
+
+                <div>
+                    <button class="btn btn-success">Create</button>
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
+        <table class="">
             <tr ng-repeat="tag in tags">
-                <td>[[tag.name]]</td>
+
                 <td>
-                    <button ng-click="showEditTagPopup(tag.id, tag.name)">edit</button>
+                    <span
+                        ng-click="showEditTagPopup(tag.id, tag.name)"
+                        ng-class="{'tag-with-fixed-budget': tag.fixed_budget !== null, 'tag-with-flex-budget': tag.flex_budget !== null, 'tag-without-budget': tag.fixed_budget === null || tag.flex_budget === null}"
+                        class="label label-default pointer">
+                        [[tag.name]]
+                    </span>
                 </td>
+
                 <td>
-                    <button ng-click="deleteTag(tag.id)" class="btn btn-default">delete</button>
+                    <button ng-click="deleteTag(tag.id)" class="btn btn-danger btn-sm">delete</button>
                 </td>
+
             </tr>
         </table>
     </div>

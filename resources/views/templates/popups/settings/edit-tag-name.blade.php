@@ -6,6 +6,8 @@
 
     <div class="popup-inner">
 
+        <label>Enter a new name for your tag</label>
+
         <input ng-model="edit_tag_popup.name" type="text">
 
         <div class="popup-buttons">
