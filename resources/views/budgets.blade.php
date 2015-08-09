@@ -28,7 +28,8 @@
     <div id="budget-content">
         <totals-directive
                 totals="totals"
-                getTotals="getTotals()">
+                getTotals="getTotals()"
+                show="show">
         </totals-directive>
 
         @include('templates.feedback')

@@ -38,6 +38,7 @@
         $scope.$watch('filterFactory.filter_results.totals', function (newValue, oldValue, scope) {
             if (newValue) {
                 scope.totals = newValue;
+                $scope.calculateGraphFigures();
             }
         });
 
@@ -74,6 +75,19 @@
         /**
          * End watches
          */
+
+        $scope.calculateGraphFigures = function () {
+            var $income = $scope.totals.income.replace(',', '');
+            var $expenses = $scope.totals.expenses.replace(',', '') * -1;
+
+            var $max = Math.max($income, $expenses);
+            var $num = 500 / $max;
+
+            $scope.graphFigures = {
+                income: $income * $num,
+                expenses: $expenses * $num
+            };
+        };
 
         $scope.multiSearch = function () {
             $scope.showLoading();

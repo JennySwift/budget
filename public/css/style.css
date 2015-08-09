@@ -392,6 +392,13 @@ caption {
     align-items: center; }
   #toolbar .flex {
     justify-content: flex-start; }
+  #toolbar .btn-group button {
+    background: white;
+    color: #5cb85c;
+    margin: 0; }
+    #toolbar .btn-group button.selected {
+      background: #5cb85c;
+      color: white; }
 
 .dropdown {
   display: inline-block; }
@@ -702,7 +709,7 @@ caption {
 #filter {
   animation: slideInRight .5s;
   position: fixed;
-  top: 41px;
+  top: 110px;
   right: 0px;
   opacity: .8;
   width: 275px;
@@ -974,25 +981,15 @@ caption {
     width: 20px;
     font-size: 6px; }
 
-.bar_chart_div {
+#graphs {
+  background: pink;
   display: flex;
   align-items: flex-end;
-  justify-content: space-around;
-  position: absolute;
-  height: 370px;
-  width: 100%;
-  bottom: 0;
-  border-radius: 5px; }
-  .bar_chart_div .bar_chart_li {
-    position: relative;
-    background: lightgray;
-    height: 50%;
-    width: 10px;
-    text-align: center; }
-    .bar_chart_div .bar_chart_li p {
-      position: absolute;
-      width: 5px;
-      bottom: 0; }
+  max-height: 570px; }
+  #graphs #credit {
+    background: #5cb85c; }
+  #graphs #debit {
+    background: #d9534f; }
 
 #help {
   display: flex;

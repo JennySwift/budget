@@ -10,16 +10,17 @@
             restrict: 'EA',
             scope: {
                 "totals": "=totals",
-                "provideFeedback" : "&providefeedback"
+                "provideFeedback" : "&providefeedback",
+                "show": "=show"
             },
             templateUrl: 'totals-directive',
             //scope: true,
             link: function($scope, elem, attrs) {
                 $scope.filterFactory = FilterFactory;
-                $scope.show = {
-                    basic_totals: true,
-                    budget_totals: true
-                };
+                //$scope.show = {
+                //    basic_totals: true,
+                //    budget_totals: true
+                //};
 
                 $scope.totals.changes = {
                     RB: [],

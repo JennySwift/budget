@@ -20,4 +20,15 @@
     .flex {
         justify-content: flex-start;
     }
+    .btn-group {
+        button {
+            background: white;
+            color: #5cb85c;
+            margin: 0;
+            &.selected {
+                background: #5cb85c;
+                color: white;
+            }
+        }
+    }
 }

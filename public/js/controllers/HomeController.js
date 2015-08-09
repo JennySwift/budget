@@ -16,6 +16,7 @@
 
         $scope.colors = colors_response;
         $scope.totals = totals_response;
+        $scope.tab = 'graphs';
 
         /*=========show=========*/
         $scope.show = {
@@ -33,7 +34,7 @@
             // modals
             color_picker: false,
             //components
-            new_transaction: true,
+            new_transaction: false,
             basic_totals: true,
             budget_totals: true,
             filter_totals: true,
@@ -147,6 +148,24 @@
         $scope.toggleFilter = function () {
             $scope.show.filter = !$scope.show.filter;
         };
+
+        $scope.transactionsTab = function () {
+            $scope.tab = 'transactions';
+            $scope.show.basic_totals = true;
+            $scope.show.budget_totals = true;
+            $scope.show.filter = false;
+        };
+
+        $scope.graphsTab = function () {
+            $scope.tab = 'graphs';
+            $scope.show.basic_totals = false;
+            $scope.show.budget_totals = false;
+            $scope.show.filter = true;
+        };
+
+        if ($scope.tab === 'graphs') {
+            $scope.graphsTab();
+        }
 
 
 

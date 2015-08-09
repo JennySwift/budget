@@ -16,9 +16,9 @@
 
         @include('templates.header.menu')
 
-        <li>
-            <a href="/charts" class="fa fa-bar-chart-o"></a>
-        </li>
+        {{--<li>--}}
+            {{--<a href="/charts" class="fa fa-bar-chart-o"></a>--}}
+        {{--</li>--}}
 
         @include('templates.header.user')
 
