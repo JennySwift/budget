@@ -1,7 +1,8 @@
 
+<h1>Flex Budget Table</h1>
+
 <table id ="flex-budget-info-table" class="table table-bordered">
-    <caption class="bg-dark">Flex Budget Info</caption>
-    <!-- table header -->
+
     <tr>
         <th class="tag">Tag</th>
         <th class="tooltipster" title="# percent of F/I">%</th>

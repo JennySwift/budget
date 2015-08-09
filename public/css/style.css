@@ -957,7 +957,8 @@ caption {
   #budget #budget-content tr {
     background: #fff; }
   #budget #budget-content th {
-    cursor: help; }
+    cursor: help;
+    border-radius: 15px; }
     #budget #budget-content th .fa-plus {
       color: #5cb85c; }
     #budget #budget-content th .fa-minus {

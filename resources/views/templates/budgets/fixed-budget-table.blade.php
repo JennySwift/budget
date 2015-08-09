@@ -1,6 +1,8 @@
+
+<h1>Fixed Budget Table</h1>
+
 <table id="fixed-budget-info-table" class="table table-bordered">
-    <caption class="bg-dark">Fixed Budget Info</caption>
-    <!-- table header -->
+
     <tr>
         <th class="tag">Tag</th>
         <th class="tooltipster" title="amount">A</th>
