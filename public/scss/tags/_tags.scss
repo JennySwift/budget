@@ -1,17 +1,7 @@
 #tags {
     margin-bottom: 20px;
     .create-new-tag {
-        box-shadow: 3px 3px 5px #777;
-        margin-bottom: 30px;
-        border-radius: 4px;
-        padding: 14px;
-        width: 293px;
-        .flex {
-
-            display: flex;
-            justify-content: space-between;
-
-        }
+        @include createNew;
     }
 
     table {

@@ -20,13 +20,10 @@
                     placeholder="new tag">
 
                 <div>
-                    <button class="btn btn-success">Create</button>
+                    <button ng-click="insertTag(13)" class="btn btn-success">Create</button>
                 </div>
 
             </div>
-
-
-
 
         </div>
 

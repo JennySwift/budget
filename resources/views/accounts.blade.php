@@ -8,26 +8,38 @@
 
     <div id="accounts">
 
-        <input
-            ng-keyup="insertAccount($event.keyCode)"
-            type="text"
-            class="new_account_input font-size-sm center margin-bottom"
-            id="new_account_input"
-            placeholder="new account">
+        <div class="create-new-account">
+            <label>Create a new account</label>
 
-        <table class="table table-bordered">
+            <div class="flex">
+
+                <input
+                    ng-keyup="insertAccount($event.keyCode)"
+                    type="text"
+                    class="new_account_input font-size-sm center margin-bottom"
+                    id="new_account_input"
+                    placeholder="new account">
+
+                <div>
+                    <button ng-click="insertAccount(13)" class="btn btn-success">Create</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <table class="">
             <tr ng-repeat="account in accounts">
-                <td>[[account.name]]</td>
-                <td>
-                    <button
-                        ng-click="showEditAccountPopup(account.id, account.name)">
-                        edit
-                    </button>
+                <td
+                    ng-click="showEditAccountPopup(account.id, account.name)"
+                    class="pointer">
+                    [[account.name]]
                 </td>
+
                 <td>
                     <button
                         ng-click="deleteAccount(account.id)"
-                        class="btn btn-default">
+                        class="btn btn-default btn-danger btn-sm">
                         delete
                     </button>
                 </td>

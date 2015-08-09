@@ -1,0 +1,19 @@
+#accounts {
+    .create-new-account {
+        @include createNew;
+    }
+    tr {
+        .btn-danger {
+            visibility: hidden;
+        }
+        &:hover {
+            .btn-danger {
+                visibility: visible;
+            }
+        }
+        td {
+            font-size: 17px;
+            height: 32px;
+        }
+    }
+}

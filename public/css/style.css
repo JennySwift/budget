@@ -106,7 +106,7 @@ caption {
   top: 0;
   width: 100%;
   color: #888;
-  background: #000000;
+  background: black;
   padding: 0;
   margin: 0; }
   #navbar > li {
@@ -1088,3 +1088,20 @@ caption {
   height: 240px; }
   #edit-budget .popup-inner input {
     margin-bottom: 15px; }
+
+#accounts .create-new-account {
+  box-shadow: 3px 3px 5px #777;
+  margin-bottom: 30px;
+  border-radius: 4px;
+  padding: 14px;
+  width: 293px; }
+  #accounts .create-new-account .flex {
+    display: flex;
+    justify-content: space-between; }
+#accounts tr .btn-danger {
+  visibility: hidden; }
+#accounts tr:hover .btn-danger {
+  visibility: visible; }
+#accounts tr td {
+  font-size: 17px;
+  height: 32px; }
