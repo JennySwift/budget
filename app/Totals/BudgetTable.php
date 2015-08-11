@@ -32,6 +32,9 @@ class BudgetTable {
     {
         $this->type = $type;
 
+        //Conditions aren't supposed to be in a constructor.
+        //Constructors are only supposed to be for building properties-assigning parameters into properties.
+
         if ($type === 'fixed') {
             $this->tags = $this->getTagsWithFixedBudget();
         }
@@ -39,22 +42,28 @@ class BudgetTable {
             $this->tags = $this->getTagsWithFlexBudget();
         }
 
+        //Maybe fine but not a good idea to call a method in a constructor.
         $this->totals = $this->getTotalsForSpecifiedBudget();
     }
 
     /**
      * @VP:
      * This seems to be causing 3 queries, not sure why.
-     * And why won't 'checkedLoggedIn()' work in my constructor?
+     *
+     * And why won't 'checkedLoggedIn()' work in my constructor? Answer: It's too soon.
+     *
      * I would make more sense to call it from my controllers but I am calling it
      * here because calling it from my TransactionsController didn't work, I think
      * something to do with my TotalsService being injected into my TransactionsController
      * and therefore eventually calling getTagsWithFixedBudget.
+     * Answer: middleware
      * @param $user_id
      * @return mixed
      */
     public function getTagsWithFixedBudget()
     {
+        //Middleware. Create my own middleware. But it won't work for GET requests.
+        //Not checking logged in, checking session.
         checkLoggedIn();
 
         $tags = Tag::where('user_id', Auth::user()->id)
@@ -73,6 +82,7 @@ class BudgetTable {
      */
     public function getTagsWithFlexBudget()
     {
+        //Can use Auth::id() instead of Auth::user()->id
         $tags = Tag::where('user_id', Auth::user()->id)
             ->whereNotNull('flex_budget')
             ->orderBy('name', 'asc')
@@ -88,6 +98,7 @@ class BudgetTable {
      */
     public function getTotalsForSpecifiedBudget()
     {
+        //Budget factory would help a lot
         $totals = new BudgetTotalsRow(
             $this->getBudget(),
             $this->getSpentBeforeSD(),
@@ -114,6 +125,8 @@ class BudgetTable {
         $total = 0;
 
         //I could do this in my tag model
+        //This could be a constant in FixedBudget and FlexBudget class.
+        //This method should (must?) be on my abstract budget class (FixedBudget or FlexBudget).
         $string = $this->type . '_budget';
 
         //This could be in TagsRepository
@@ -122,6 +135,9 @@ class BudgetTable {
         foreach ($this->tags as $tag) {
             $total += $tag->$string;
         }
+
+        //Could create a budget interface (See codementor file 2)
+        //Actually, file 3, abstract thing, since if you have methods with exactly the same code you don't want an interface.
 
         if ($this->type === 'fixed') {
             $this->fixedBudget = $total;

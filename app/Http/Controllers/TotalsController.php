@@ -36,6 +36,7 @@ class TotalsController extends Controller
      */
     public function index()
     {
+        //Better way. Middleware? Compare session token with token sent with form?
         checkLoggedIn();
         return $this->totalsService->getBasicAndBudgetTotals();
     }

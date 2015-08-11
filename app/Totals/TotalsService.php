@@ -44,9 +44,13 @@ class TotalsService
      */
     public function getBasicTotals()
     {
+        //Could change 'get' to 'calculate' in the method names
         $basicTotals = new BasicTotals();
         $credit = $basicTotals->getCredit();
         $debit = $basicTotals->getDebit();
+
+        //$totals could be an object
+        //Learn about presenters? Lesson on Laracasts.
 
         $totals = array(
             "credit" => number_format($credit, 2),

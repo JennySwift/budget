@@ -39,6 +39,9 @@ class FixedAndFlexData
      */
     public function __construct()
     {
+        //Not good practice to new up and object within a constructor. Instead use dependancy injection.
+        //Number format shouldn't be used in constructor.
+        //Learn about factories?
         $this->FB = new BudgetTable('fixed');
         $this->FLB = new BudgetTable('flex');
 
@@ -70,9 +73,17 @@ class FixedAndFlexData
      */
     private function formatFBTags()
     {
+        //Use map method on collection instead of loop.
+        //I could get rid of these format methods by having a tag presenter.
+        //If I don't use tag presenter the formatted methods could be on the tag model.
+        //But actually this should be the job of the JS.
+        //Accounting.js to put comma between thousands.
+        //Number formatting can be done in PHP if using Blade rendering.
+        //Or if returning object with both raw and formatted values (with Transfomer, see Codementor example)
+        //Both methods acceptable, perhaps the latter is preferable.
         foreach ($this->FB->tags as $tag) {
             $tag->fixed_budget = number_format($tag->fixed_budget, 2);
-            //This isn't working
+            //This isn't working. Check if it's a string or integer.
 //            dd(number_format($tag->cumulative, 2));
             $tag->cumulative = number_format($tag->cumulative, 2);
 //            dd($tag->cumulative);
