@@ -17,7 +17,7 @@ Route::get('/test', function () {
      */
 
     $data = new FixedAndFlexData();
-    dd($data->FB->totals);
+    dd($data->FLB->totals);
     return $data->FB;
 });
 
