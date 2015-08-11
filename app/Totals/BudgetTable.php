@@ -27,18 +27,18 @@ class BudgetTable {
     /**
      * @param $type
      */
-    public function __construct($type)
+    public function __construct()
     {
-        $this->type = $type;
+//        $this->type = $type;
+//
+//        if ($type === 'fixed') {
+//            $this->tags = $this->getTagsWithFixedBudget();
+//        }
+//        elseif ($type === 'flex') {
+//            $this->tags = $this->getTagsWithFlexBudget();
+//        }
 
-        if ($type === 'fixed') {
-            $this->tags = $this->getTagsWithFixedBudget();
-        }
-        elseif ($type === 'flex') {
-            $this->tags = $this->getTagsWithFlexBudget();
-        }
-
-        $this->totals = $this->getTotalsForSpecifiedBudget();
+//        $this->totals = $this->getTotalsForSpecifiedBudget();
     }
 
     /**
@@ -86,11 +86,11 @@ class BudgetTable {
             $this->getSpentAfterSD(),
             $this->getReceivedAfterSD()
         );
-
-        if ($this->type === 'fixed') {
-            $totals->remaining = $this->getRemainingBudget();
-            $totals->cumulative = $this->getCumulativeBudget();
-        }
+//
+//        if ($this->type === 'fixed') {
+//            $totals->remaining = $this->getRemainingBudget();
+//            $totals->cumulative = $this->getCumulativeBudget();
+//        }
 
         return $totals;
     }
@@ -115,9 +115,9 @@ class BudgetTable {
             $total += $tag->$string;
         }
 
-        if ($this->type === 'fixed') {
-            $this->fixedBudget = $total;
-        }
+//        if ($this->type === 'fixed') {
+//            $this->fixedBudget = $total;
+//        }
 
         return $total;
     }
@@ -132,7 +132,6 @@ class BudgetTable {
 
         foreach ($this->tags as $tag) {
             $total += $tag->remaining;
-//            dd($tag);
         }
 
         return $total;

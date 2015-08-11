@@ -39,8 +39,10 @@ class FixedAndFlexData
      */
     public function __construct()
     {
-        $this->FB = new BudgetTable('fixed');
-        $this->FLB = new BudgetTable('flex');
+//        $this->FB = new BudgetTable('fixed');
+        $this->FB = new FixedBudgetTable();
+//        $this->FLB = new BudgetTable('flex');
+        $this->FLB = new FlexBudgetTable();
 
         $RB = new RB($this->FB, $this->FLB);
         $this->RB = number_format($RB->withEFLB, 2);
