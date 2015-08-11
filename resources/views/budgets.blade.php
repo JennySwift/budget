@@ -1,57 +1,59 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="budgetApp">
-<head>
-    <meta charset="UTF-8">
-    <title>Budget App</title>
 
-    <?php
-        include(base_path().'/resources/views/templates/config.php');
-        include($head_links);
-    ?>
+@extends('layouts.master')
 
-</head>
-<body ng-controller="BudgetsController">
+@section('controller', 'BudgetsController')
+@section('id', 'budget')
 
-    <?php
-        include($header);
-        include($templates . '/popups/budget/index.php');
-    ?>
-    
-    <!-- if I used ng-if here, tooltipster didn't work. -->
-    <div id="budget" class="main">
+@section('page-content')
 
+    @include('templates.popups.budget/index')
+
+    <div id="budget-toolbar">
+        <div class="btn-group">
+            <button
+                ng-click="tab = 'fixed'"
+                ng-class="{'selected': tab === 'fixed'}"
+                class="btn">Fixed Budgets
+            </button>
+            <button
+                ng-click="tab = 'flex'"
+                ng-class="{'selected': tab === 'flex'}"
+                class="btn">
+                Flex Budgets
+            </button>
+        </div>
+        @include('templates.budgets.help')
+    </div>
+
+    <div id="budget-content">
         <totals-directive
                 totals="totals"
-                getTotals="getTotals()">
+                getTotals="getTotals()"
+                show="show">
         </totals-directive>
 
-        <div id="feedback">
-            <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
-                [[message]]
-            </div>
-        </div>
+        @include('templates.feedback')
 
         <div>
 
             {{--<div class="margin-bottom">--}}
-                {{--<input ng-keyup="addFixedToSavings($event.keyCode)" type="text" placeholder="add fixed amount to savings" id="add-fixed-to-savings">--}}
-                {{--<input ng-keyup="addPercentageToSavings($event.keyCode)" type="text" placeholder="add percentage of RB to savings" id="add-percentage-to-savings">--}}
+            {{--<input ng-keyup="addFixedToSavings($event.keyCode)" type="text" placeholder="add fixed amount to savings" id="add-fixed-to-savings">--}}
+            {{--<input ng-keyup="addPercentageToSavings($event.keyCode)" type="text" placeholder="add percentage of RB to savings" id="add-percentage-to-savings">--}}
             {{--</div>--}}
 
-            @include('templates.budgets.help')
-            @include('templates.budgets.fixed-budget-inputs')
-            @include('templates.budgets.fixed-budget-table')
-            @include('templates.budgets.flex-budget-inputs')
-            @include('templates.budgets.flex-budget-table')
+            <div ng-show="tab === 'fixed'">
+                @include('templates.budgets.fixed-budget-inputs')
+                @include('templates.budgets.fixed-budget-table')
+            </div>
+
+            <div ng-show="tab === 'flex'">
+                @include('templates.budgets.flex-budget-inputs')
+                @include('templates.budgets.flex-budget-table')
+            </div>
 
         </div>
 
         <span id="budget_hover_span" class="tooltipster" title=""></span>
     </div>
 
-@include('templates/footer')
-@include('footer')
-@include('templates/budgets/footer')
-
-</body>
-</html>
+@stop

@@ -164,22 +164,21 @@ class Tag extends Model
     /**
      * For one tag.
      * For getting the updated info after updating the allocation for that tag.
-     * @param $transaction_id
-     * @param $tag_id
+     * I'm now getting the info for all the transaction's tags (in the transaction model)
+     * @param $transaction
+     * @param $tag
      * @return mixed|null
      */
-    public static function getAllocationInfo($transaction_id, $tag_id)
-    {
-        $transaction = Transaction::find($transaction_id);
-
-        $tag = $transaction->tags()
-            ->where('tag_id', $tag_id)
-            ->first();
-
-        $tag->setAllocationType();
-
-        return $tag;
-    }
+//    public function getAllocationInfo($transaction, $tag)
+//    {
+//        $tag = $transaction->tags()
+//            ->where('tag_id', $tag->id)
+//            ->first();
+//
+//        $tag->setAllocationType();
+//
+//        return $tag;
+//    }
 
 //    public function spentAfterSD()
 //    {

@@ -1,70 +1,37 @@
 
 <ul id="navbar" style="z-index:1000">
 
-    <li>
-        <a href="/" class="fa fa-home"></a>
-    </li>
+    @if (Auth::guest())
+        <li>
+            <a href="/auth/login">Login</a>
+        </li>
+        <li>
+            <a href="/auth/register">Register</a>
+        </li>
 
-    <li id="menu-dropdown" class="dropdown">
-        <a href="#" class="dropdown-toggle fa fa-bars" data-toggle="dropdown">
-            <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu" role="menu">
-            <li>
-                <a href="/tags">Tags</a>
-            </li>
+    @else
+        <li>
+            <a href="/" class="fa fa-home"></a>
+        </li>
 
-            <li>
-                <a href="/accounts">Accounts</a>
-            </li>
+        @include('templates.header.menu')
 
-            <li ng-click="show.color_picker = true">
-                <a href="">Colours</a>
-            </li>
+        {{--<li>--}}
+            {{--<a href="/charts" class="fa fa-bar-chart-o"></a>--}}
+        {{--</li>--}}
 
-            <li ng-click="show.popups.preferences = true">
-                <a href="">Preferences</a>
-            </li>
+        @include('templates.header.user')
 
-        </ul>
-    </li>
+        <li>
+            <a href="/budgets" class="fa fa-usd"></a>
+        </li>
 
-    <li>
-        <a href="/charts" class="fa fa-bar-chart-o"></a>
-    </li>
+        @include('templates.header.help')
 
-    <li id="menu-dropdown" class="dropdown gravatar-li">
-        <a href="#" data-toggle="dropdown">
-            <?php echo Auth::user()->name; ?>
-        </a>
-        <a href="#" data-toggle="dropdown" class="gravatar-container">
-            <img ng-src="[[me.gravatar]]" class="gravatar"/>
-            <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu" role="menu">
-            <!-- if they are a guest they shouldn't see this page anyway, but so that my code will work... -->
-            <li><a href="/auth/logout">Logout</a></li>
-        </ul>
-    </li>
+        <li ng-if="page === 'home'">
+            <a ng-click="toggleFilter()" href="#" class="fa fa-search"></a>
+        </li>
 
-    <li>
-        <a href="/budgets" class="fa fa-usd"></a>
-    </li>
-
-    <li id="menu-dropdown" class="dropdown">
-        <a href="#" data-toggle="dropdown">
-            Help
-            <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu" role="menu">
-            <li>
-                <a href="/help">Start here :)</a>
-            </li>
-        </ul>
-    </li>
-
-    <li ng-if="page === 'home'">
-        <a ng-click="toggleFilter()" href="#" class="fa fa-search"></a>
-    </li>
+    @endif
 
 </ul>

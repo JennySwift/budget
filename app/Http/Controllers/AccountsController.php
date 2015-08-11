@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Exceptions\ModelAlreadyExistsException;
 use App\Http\Requests;
 use App\Models\Account;
 use Auth;
@@ -21,6 +22,7 @@ class AccountsController extends Controller
      */
     public function __construct()
     {
+        checkLoggedIn();
         $this->middleware('auth');
     }
 
@@ -52,10 +54,13 @@ class AccountsController extends Controller
      *
      * @param Request $request
      */
-    public function insertAccount(Request $request)
+    public function store(Request $request)
     {
         $account = new Account(['name' => $request->get('name')]);
         $account->user()->associate(Auth::user());
+
+        checkForDuplicates($account);
+
         $account->save();
     }
 
@@ -67,6 +72,9 @@ class AccountsController extends Controller
     {
         $account = Account::find($request->get('account_id'));
         $account->name = $request->get('account_name');
+
+        checkForDuplicates($account);
+
         $account->save();
     }
 

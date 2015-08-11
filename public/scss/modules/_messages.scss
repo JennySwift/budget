@@ -24,6 +24,14 @@
         position: relative;
         border: 1px solid #777;
         box-shadow: 3px 3px 5px #777, inset 0 0 5px #777;
+        &.error {
+            background: #d9534f;
+            color: white;
+        }
+        &.success {
+            background: #5cb85c;
+            color: white;
+        }
     }
 
     .feedback-message.ng-move,

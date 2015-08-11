@@ -34,6 +34,7 @@ class BasicTotals {
      */
     public function getCredit()
     {
+        //Split into two methods-getCredit and calculateCredit
         $totals = Transaction::where('user_id', Auth::user()->id)
             ->where('type', 'income')
             ->lists('total');

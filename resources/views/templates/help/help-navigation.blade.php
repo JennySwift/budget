@@ -1,5 +1,5 @@
 <div dropdowns-directive id="help-navigation-container" class="dropdown-directive">
-    <button ng-click="showDropdown()" tabindex="-1" class="btn btn-info">
+    <button ng-click="toggleDropdown()" tabindex="-1" class="btn btn-info">
         Navigation
         <span class="caret"></span>
     </button>

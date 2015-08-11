@@ -1,8 +1,20 @@
 
+
 #transactions {
 	background: white;
     border: 2px solid #ddd;
     box-shadow: 3px 3px 10px #777;
+    thead {
+        tr {
+//            background: #777;
+//            color: white;
+            background: white;
+            color: $info;
+        }
+    }
+    tbody {
+//        position: relative;
+    }
 	td {
 		height: 39px;
         position: relative;
@@ -16,7 +28,7 @@
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
-			height: 39px;
+//			height: 39px;
 		}
         .tooltip-container {
             visibility: hidden;
@@ -38,10 +50,20 @@
 	.tag-location-container {
 		height: 24px;
 		td {
-			padding: 0;
+			padding: 9px 0px 2px 0px;
 			height: 24px;
 		}
+//        position: absolute;
+//        bottom: 0;
+//        .label {
+//
+//        }
 	}
+    .results_inner_div {
+        td {
+            border-top: 1px solid #777;
+        }
+    }
 }
 
 @media all and (max-width: 575px) {

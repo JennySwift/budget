@@ -19,7 +19,7 @@ class Registrar implements RegistrarContract {
 		return Validator::make($data, [
 			'name' => 'required|max:255',
 			'email' => 'required|email|max:255|unique:users|accepted_email',
-			'password' => 'required|confirmed|min:6',
+			'password' => 'required|confirmed|min:10',
 		]);
 	}
 
@@ -46,6 +46,7 @@ Validator::extend('accepted_email', function ($attribute, $value, $parameters) {
 	$accepted_emails = [
 		//enter emails here
 		'cheezyspaghetti@gmail.com',
+        'cheezyspaghetti@optusnet.com.au',
         'nihantanu@gmail.com'
 	];
 	$is_accepted = in_array($value, $accepted_emails);

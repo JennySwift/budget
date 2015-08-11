@@ -9,6 +9,7 @@ html, body {
 
 body {
 	padding-top: 40px;
+    color: #777;
 }
 
 //for flexbox sticky footer
@@ -18,15 +19,18 @@ html, body {
 
 h1,h2,h3,h4,h5 {
     text-align: center;
+    color: #777;
 }
 
 body {
     .main {
         padding-bottom: 60px;
         min-height: 100%;
+        display: none;
     }
     footer {
-        display: flex;
+        display: none;
+//        display: flex;
         justify-content: space-around;
         padding: 11px;
         background: #000000;
@@ -55,8 +59,8 @@ button {
             border: 1px solid black;
         }
         &:focus {
-            outline: thin dotted;
-            outline-offset: -2px;
+//            outline: thin dotted;
+//            outline-offset: -2px;
         }
         &:hover, &:focus, &:active {
             background-color: #e6e6e6;
@@ -103,8 +107,23 @@ input[type="checkbox"] {
 	margin: 0;
 }
 
-th, table {
-	text-align: center;
+table {
+    border-collapse: separate;
+    border-radius: 18px;
+    text-align: center;
+    th {
+        border-radius: 18px;
+        padding: 10px 10px;
+        text-align: center;
+    }
+    td {
+        vertical-align: middle;
+        padding: 0px 9px;
+        > div {
+            display: flex;
+            align-items: center;
+        }
+    }
 }
 
 caption {

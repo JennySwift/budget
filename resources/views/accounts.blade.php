@@ -1,52 +1,50 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="budgetApp">
-<head>
-    <meta charset="UTF-8">
-    <title>Budget App</title>
 
-    <?php
-        include(base_path().'/resources/views/templates/config.php');
-        include($head_links);
-    ?>
+@extends('layouts.master')
 
-</head>
-<body ng-controller="AccountsController">
+@section('controller', 'AccountsController')
 
-    <?php
-        include($header);
-        include($templates . '/popups/settings/index.php');
-    ?>
-         
-    <div class="main">
+@section('page-content')
+    @include('templates.popups.settings.index')
 
-        <div id="feedback">
-            <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
-                [[message]]
+    <div id="accounts">
+
+        <div class="create-new-account">
+            <label>Create a new account</label>
+
+            <div class="flex">
+
+                <input
+                    ng-keyup="insertAccount($event.keyCode)"
+                    type="text"
+                    class="new_account_input font-size-sm center margin-bottom"
+                    id="new_account_input"
+                    placeholder="new account">
+
+                <div>
+                    <button ng-click="insertAccount(13)" class="btn btn-success">Create</button>
+                </div>
+
             </div>
+
         </div>
 
-        <div id="accounts">
+        <table class="">
+            <tr ng-repeat="account in accounts">
+                <td
+                    ng-click="showEditAccountPopup(account.id, account.name)"
+                    class="pointer">
+                    [[account.name]]
+                </td>
 
-            <input ng-keyup="insertAccount($event.keyCode)" type="text" class="new_account_input font-size-sm center margin-bottom" id="new_account_input" placeholder="new account">
-            
-            <table class="table table-bordered">
-                <tr ng-repeat="account in accounts">
-                    <td>[[account.name]]</td>
-                    <td>
-                        <button ng-click="showEditAccountPopup(account.id, account.name)">edit</button>
-                    </td>
-                    <td>
-                        <button ng-click="deleteAccount(account.id)" class="btn btn-default">delete</button>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
+                <td>
+                    <button
+                        ng-click="deleteAccount(account.id)"
+                        class="btn btn-default btn-danger btn-sm">
+                        delete
+                    </button>
+                </td>
+            </tr>
+        </table>
     </div>
 
-@include('templates/footer')
-@include('footer')
-@include('templates/accounts/footer')
-
-</body>
-</html>
+@stop

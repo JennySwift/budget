@@ -8,6 +8,7 @@ use Auth;
 use DB;
 use Illuminate\Http\Request;
 use JavaScript;
+use Debugbar;
 
 /**
  * Class TagsController
@@ -19,16 +20,21 @@ class TagsController extends Controller
      * @var TagsRepository
      */
     protected $tagsRepository;
+    /**
+     * @var TotalsService
+     */
+    private $totalsService;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(TagsRepository $tagsRepository)
+    public function __construct(TagsRepository $tagsRepository, TotalsService $totalsService)
     {
         $this->middleware('auth');
         $this->tagsRepository = $tagsRepository;
+        $this->totalsService = $totalsService;
     }
 
     /**
@@ -60,23 +66,26 @@ class TagsController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function duplicateTagCheck(Request $request)
-    {
-        $count = Tag::where('name', $request->get('new_tag_name'))
-            ->where('user_id', Auth::user()->id)
-            ->count();
-
-        return $count;
-    }
+//    public function duplicateTagCheck(Request $request)
+//    {
+//        $count = Tag::where('name', $request->get('new_tag_name'))
+//            ->where('user_id', Auth::user()->id)
+//            ->count();
+//
+//        return $count;
+//    }
 
     /**
      *
      * @param Request $request
      */
-    public function insertTag(Request $request)
+    public function store(Request $request)
     {
         $tag = new Tag(['name' => $request->get('new_tag_name')]);
         $tag->user()->associate(Auth::user());
+
+        checkForDuplicates($tag);
+
         $tag->save();
     }
 
@@ -88,6 +97,9 @@ class TagsController extends Controller
     {
         $tag = Tag::find($request->get('tag_id'));
         $tag->name = $request->get('tag_name');
+
+        checkForDuplicates($tag);
+
         $tag->save();
     }
 
@@ -97,49 +109,52 @@ class TagsController extends Controller
      */
     public function update(Request $request)
     {
-        $total = new Total();
-        $tag = Tag::find($request->get('tag')['id']);
-        $tag->starting_date = $request->get('CSD');
-        $tag->save();
+//        $data = array_compare($exercise->toArray(), $request->get('exercise'));
+//        $exercise->update($data);
 
-        return $total->getBasicAndBudgetTotals();
-    }
-
-    /**
-     * This either adds or deletes a budget, both using an update query.
-     * Todo: Combine this method into the update method
-     * @param Request $request
-     */
-    public function updateBudget(Request $request)
-    {
         $tag = Tag::find($request->get('tag_id'));
-        $totalsService = new TotalsService();
 
         $budget = $request->get('budget');
-        $column = $request->get('column');
 
-        if (!$budget || $budget === "NULL") {
-            $budget = null;
-            $budget_id = null;
+        if ($request->get('column') === "fixed_budget") {
+            $tag->fixed_budget = $budget;
+            $tag->budget_id = 1;
         }
         else {
-            if ($column === "fixed_budget") {
-                $budget_id = 1;
-            } else {
-                $budget_id = 2;
-            }
+            $tag->flex_budget = $budget;
+            $tag->budget_id = 2;
         }
 
-        $tag->update([
-            $column => $budget,
-            'budget_id' => $budget_id
-        ]);
+        if ($request->get('starting_date')) {
+            $tag->starting_date = $request->get('starting_date');
+        }
+
+        $tag->save();
 
         return [
-            'totals' => $totalsService->getBasicAndBudgetTotals(),
+            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
             'tag' => $tag
         ];
     }
+
+    /**
+     * This is done with an update not a delete
+     */
+    public function removeBudget(Request $request)
+    {
+        $tag = Tag::find($request->get('tag_id'));
+        $tag->fixed_budget = null;
+        $tag->flex_budget = null;
+        $tag->budget_id = null;
+        $tag->starting_date = null;
+        $tag->save();
+
+        return [
+            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
+            'tag' => $tag
+        ];
+    }
+
 
     /**
      *

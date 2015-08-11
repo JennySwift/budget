@@ -7,19 +7,22 @@ html, body {
   margin: 0; }
 
 body {
-  padding-top: 40px; }
+  padding-top: 40px;
+  color: #777; }
 
 html, body {
   height: 100%; }
 
 h1, h2, h3, h4, h5 {
-  text-align: center; }
+  text-align: center;
+  color: #777; }
 
 body .main {
   padding-bottom: 60px;
-  min-height: 100%; }
+  min-height: 100%;
+  display: none; }
 body footer {
-  display: flex;
+  display: none;
   justify-content: space-around;
   padding: 11px;
   background: #000000;
@@ -41,9 +44,6 @@ button {
   button:not([disabled]):active {
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
     border: 1px solid black; }
-  button:not([disabled]):focus {
-    outline: thin dotted;
-    outline-offset: -2px; }
   button:not([disabled]):hover, button:not([disabled]):focus, button:not([disabled]):active {
     background-color: #e6e6e6;
     border-color: #adadad;
@@ -80,21 +80,33 @@ input[type="checkbox"] {
   width: 34px;
   margin: 0; }
 
-th, table {
+table {
+  border-collapse: separate;
+  border-radius: 18px;
   text-align: center; }
+  table th {
+    border-radius: 18px;
+    padding: 10px 10px;
+    text-align: center; }
+  table td {
+    vertical-align: middle;
+    padding: 0px 9px; }
+    table td > div {
+      display: flex;
+      align-items: center; }
 
 caption {
   padding: 8px;
   font-weight: bold; }
 
 #navbar {
-  display: flex;
+  display: none;
   justify-content: space-around;
   position: fixed;
   top: 0;
   width: 100%;
   color: #888;
-  background: #000000;
+  background: black;
   padding: 0;
   margin: 0; }
   #navbar > li {
@@ -124,13 +136,13 @@ caption {
   background: green; }
 
 .tag-with-fixed-budget {
-  background: #3938b0; }
+  background: #337ab7; }
   .tag-with-fixed-budget:after {
     content: ' fixed';
     font-size: 6px; }
 
 .tag-with-flex-budget {
-  background: #9a9a1e; }
+  background: #fca700; }
   .tag-with-flex-budget:after {
     content: ' flex';
     font-size: 6px; }
@@ -192,6 +204,12 @@ caption {
     position: relative;
     border: 1px solid #777;
     box-shadow: 3px 3px 5px #777, inset 0 0 5px #777; }
+    #feedback .feedback-message.error {
+      background: #d9534f;
+      color: white; }
+    #feedback .feedback-message.success {
+      background: #5cb85c;
+      color: white; }
   #feedback .feedback-message.ng-move,
   #feedback .feedback-message.ng-enter,
   #feedback .feedback-message.ng-leave {
@@ -255,6 +273,11 @@ caption {
     overflow: scroll;
     height: 500px;
     padding: 25px; }
+    .popup-outer .popup-inner .popup-buttons {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      margin: 0px 3px; }
 
 #recipe-method, #edit-recipe-method {
   background: lightgrey; }
@@ -369,6 +392,13 @@ caption {
     align-items: center; }
   #toolbar .flex {
     justify-content: flex-start; }
+  #toolbar .btn-group button {
+    background: white;
+    color: #5cb85c;
+    margin: 0; }
+    #toolbar .btn-group button.selected {
+      background: #5cb85c;
+      color: white; }
 
 .dropdown {
   display: inline-block; }
@@ -391,12 +421,15 @@ caption {
       justify-content: space-between;
       align-items: center; }
 
-.dropdown-directive {
+.dropdown-directive.no-dropdown-style .dropdown-content {
+  display: none; }
+
+.dropdown-directive:not(.no-dropdown-style) {
   display: inline-block;
   position: relative; }
-  .dropdown-directive .btn {
+  .dropdown-directive:not(.no-dropdown-style) .btn {
     margin-left: 10px; }
-  .dropdown-directive .dropdown-content {
+  .dropdown-directive:not(.no-dropdown-style) .dropdown-content {
     flex-wrap: wrap;
     justify-content: space-around;
     display: none;
@@ -410,7 +443,7 @@ caption {
     padding: 10px 20px;
     border: .5px solid #777;
     margin-top: 9px; }
-    .dropdown-directive .dropdown-content label {
+    .dropdown-directive:not(.no-dropdown-style) .dropdown-content label {
       display: flex;
       justify-content: space-between;
       align-items: center; }
@@ -452,11 +485,75 @@ caption {
     border: 1px solid #777;
     z-index: 99999; }
 
+#loading {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  font-size: 40px;
+  color: #5bc0de;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  z-index: 9999; }
+
+#page-loading {
+  background: white;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 99;
+  font-size: 40px;
+  color: #5bc0de;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
 .pointer {
   cursor: pointer; }
 
 .hover-parent > *:hover {
   background: #b5b5b5; }
+
+.list-group {
+  border-radius: 5px; }
+
+.list-group-item-success {
+  background: white;
+  color: #5cb85c; }
+  .list-group-item-success span {
+    background: #5cb85c; }
+
+.list-group-item-warning {
+  background: white;
+  color: #fca700; }
+  .list-group-item-warning span {
+    background: #fca700; }
+
+.list-group-item-info {
+  background: white;
+  color: #5bc0de; }
+  .list-group-item-info span {
+    background: #5bc0de; }
+
+.list-group-item-danger {
+  background: white;
+  color: #d9534f; }
+  .list-group-item-danger span {
+    background: #d9534f; }
+
+.btn-group .btn {
+  margin: 0 -2px;
+  border-radius: 0px; }
+  .btn-group .btn:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px; }
+  .btn-group .btn:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px; }
 
 .hover:hover {
   background: #b5b5b5; }
@@ -599,8 +696,7 @@ caption {
         border: none; }
     #allocation-popup #allocation-table-container .totals {
       background: #777;
-      color: white;
-      font-weight: bold; }
+      color: white; }
   #allocation-popup p {
     font-size: 11px; }
     @media (min-width: 400px) {
@@ -613,17 +709,40 @@ caption {
 #filter {
   animation: slideInRight .5s;
   position: fixed;
-  top: 41px;
+  top: 110px;
   right: 0px;
   opacity: .8;
-  height: 732px;
   width: 275px;
   overflow: scroll;
   padding: 8px;
   z-index: 9;
-  box-shadow: -4px 4px 6px #777; }
+  box-shadow: -4px 4px 6px #777;
+  background: white; }
   #filter.ng-hide {
     animation: bounceOutRight 2s; }
+  #filter .btn-group {
+    display: flex; }
+    #filter .btn-group button {
+      flex-grow: 1; }
+  #filter .section {
+    margin: 8px; }
+    #filter .section h4 {
+      margin: 0;
+      padding: 10px 0;
+      background: black;
+      color: #CFCFCF;
+      cursor: pointer; }
+    #filter .section .content {
+      display: none; }
+      #filter .section .content label.disabled {
+        position: relative; }
+        #filter .section .content label.disabled:after {
+          content: '';
+          border-bottom: 2px solid red;
+          position: absolute;
+          left: 0;
+          top: 50%;
+          width: 100%; }
   #filter .group {
     display: flex; }
   #filter .tag-input-wrapper input {
@@ -634,8 +753,6 @@ caption {
   #filter input[type="radio"] {
     width: 27px;
     margin-right: 7px; }
-  #filter > * {
-    margin: 8px; }
 
 .main-content {
   display: flex;
@@ -665,12 +782,6 @@ caption {
 .select, #description_autocomplete tbody.select {
   background: #6d84b4; }
 
-.allocated {
-  background: green; }
-
-.not-allocated {
-  background: #ff6666; }
-
 #new-transaction-container {
   display: flex;
   justify-content: center; }
@@ -696,29 +807,28 @@ caption {
       position: relative; }
       #new-transaction-container #new-transaction .autocomplete-container > input {
         width: 100%; }
-      #new-transaction-container #new-transaction .autocomplete-container #autocomplete-transactions {
+      #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete {
         max-height: 200px;
         overflow: scroll;
         z-index: 9;
-        background: white; }
-        #new-transaction-container #new-transaction .autocomplete-container #autocomplete-transactions td, #new-transaction-container #new-transaction .autocomplete-container #autocomplete-transactions th {
+        background: white;
+        width: 508px;
+        position: absolute; }
+        #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete#merchant-autocomplete {
+          left: 0; }
+        #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete#description-autocomplete {
+          right: 0; }
+        #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete td, #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete th {
           max-width: 57px;
-          font-size: 9px;
+          font-size: 13px;
           padding: 0;
           overflow: scroll; }
+        #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete .selected {
+          color: #ffffff; }
     #new-transaction-container #new-transaction .btn-wrapper {
       width: 100%;
       display: flex;
       justify-content: space-between; }
-    #new-transaction-container #new-transaction .btn-group .btn {
-      margin: 0 -2px;
-      border-radius: 0px; }
-      #new-transaction-container #new-transaction .btn-group .btn:first-child {
-        border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px; }
-      #new-transaction-container #new-transaction .btn-group .btn:last-child {
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px; }
     #new-transaction-container #new-transaction.ng-hide {
       animation: slideOutUp .5s; }
     #new-transaction-container #new-transaction .help-row {
@@ -754,29 +864,28 @@ caption {
     position: relative; }
     #edit-transaction .autocomplete-container > input {
       width: 100%; }
-    #edit-transaction .autocomplete-container #autocomplete-transactions {
+    #edit-transaction .autocomplete-container .transactions-autocomplete {
       max-height: 200px;
       overflow: scroll;
       z-index: 9;
-      background: white; }
-      #edit-transaction .autocomplete-container #autocomplete-transactions td, #edit-transaction .autocomplete-container #autocomplete-transactions th {
+      background: white;
+      width: 508px;
+      position: absolute; }
+      #edit-transaction .autocomplete-container .transactions-autocomplete#merchant-autocomplete {
+        left: 0; }
+      #edit-transaction .autocomplete-container .transactions-autocomplete#description-autocomplete {
+        right: 0; }
+      #edit-transaction .autocomplete-container .transactions-autocomplete td, #edit-transaction .autocomplete-container .transactions-autocomplete th {
         max-width: 57px;
-        font-size: 9px;
+        font-size: 13px;
         padding: 0;
         overflow: scroll; }
+      #edit-transaction .autocomplete-container .transactions-autocomplete .selected {
+        color: #ffffff; }
   #edit-transaction .btn-wrapper {
     width: 100%;
     display: flex;
     justify-content: space-between; }
-  #edit-transaction .btn-group .btn {
-    margin: 0 -2px;
-    border-radius: 0px; }
-    #edit-transaction .btn-group .btn:first-child {
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px; }
-    #edit-transaction .btn-group .btn:last-child {
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px; }
   #edit-transaction input {
     margin-bottom: 4px; }
 
@@ -784,6 +893,9 @@ caption {
   background: white;
   border: 2px solid #ddd;
   box-shadow: 3px 3px 10px #777; }
+  #transactions thead tr {
+    background: white;
+    color: #5bc0de; }
   #transactions td {
     height: 39px;
     position: relative;
@@ -793,8 +905,7 @@ caption {
     #transactions td div:not(.tooltip) {
       text-overflow: ellipsis;
       overflow: hidden;
-      white-space: nowrap;
-      height: 39px; }
+      white-space: nowrap; }
     #transactions td .tooltip-container {
       visibility: hidden;
       background: #777;
@@ -810,8 +921,10 @@ caption {
   #transactions .tag-location-container {
     height: 24px; }
     #transactions .tag-location-container td {
-      padding: 0;
+      padding: 9px 0px 2px 0px;
       height: 24px; }
+  #transactions .results_inner_div td {
+    border-top: 1px solid #777; }
 
 @media all and (max-width: 575px) {
   #transactions td, #transactions th {
@@ -821,56 +934,62 @@ caption {
     overflow: scroll; }
     #transactions td .fa, #transactions th .fa {
       font-size: 9px; } }
-#tags, #accounts {
+#budget #budget-toolbar {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 50px; }
-  #tags > *, #accounts > * {
-    max-width: 500px; }
-
-#budget {
+  justify-content: center;
+  margin-top: 7px; }
+  #budget #budget-toolbar .btn-group button {
+    background: white;
+    color: #5cb85c; }
+    #budget #budget-toolbar .btn-group button.selected {
+      background: #5cb85c;
+      color: white; }
+#budget #budget-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 30px; }
-  #budget tr {
+  margin: 30px;
+  font-size: 15px;
+  position: relative; }
+  #budget #budget-content .new-entry {
+    max-width: 280px;
+    margin: auto;
+    border-radius: 4px;
+    box-shadow: 3px 3px 5px #777;
+    margin-bottom: 34px;
+    padding: 10px 15px;
+    border: 1px solid #777; }
+    #budget #budget-content .new-entry input {
+      margin-bottom: 10px; }
+  #budget #budget-content tr {
     background: #fff; }
-  #budget th {
-    cursor: help; }
-  #budget td {
+  #budget #budget-content th {
+    cursor: help;
+    border-radius: 15px; }
+    #budget #budget-content th .fa-plus {
+      color: #5cb85c; }
+    #budget #budget-content th .fa-minus {
+      color: #d9534f; }
+  #budget #budget-content td {
     text-align: right; }
-  #budget input, #budget select {
+  #budget #budget-content input, #budget #budget-content select {
     width: 100%; }
-  #budget .CSD {
-    width: 140px; }
-  #budget .totals {
+  #budget #budget-content .totals {
     background: #777;
-    color: white;
-    font-weight: bold; }
-  #budget .edit {
+    color: white; }
+  #budget #budget-content .edit {
     width: 20px;
     font-size: 6px; }
 
-.bar_chart_div {
+#graphs {
+  background: pink;
   display: flex;
   align-items: flex-end;
-  justify-content: space-around;
-  position: absolute;
-  height: 370px;
-  width: 100%;
-  bottom: 0;
-  border-radius: 5px; }
-  .bar_chart_div .bar_chart_li {
-    position: relative;
-    background: lightgray;
-    height: 50%;
-    width: 10px;
-    text-align: center; }
-    .bar_chart_div .bar_chart_li p {
-      position: absolute;
-      width: 5px;
-      bottom: 0; }
+  max-height: 570px; }
+  #graphs #credit {
+    background: #5cb85c; }
+  #graphs #debit {
+    background: #d9534f; }
 
 #help {
   display: flex;
@@ -903,3 +1022,84 @@ caption {
       padding-left: 5px; }
       #help-navigation-container .dropdown-content #help-navigation > ul li {
         list-style: none; }
+
+#login, #register {
+  padding-top: 85px; }
+  #login .flex, #register .flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px; }
+  #login #login-errors, #register #login-errors {
+    background: #f2dede;
+    padding: 11px 20px;
+    border-radius: 4px;
+    color: #777;
+    font-size: 18px;
+    margin-bottom: 25px; }
+  #login #remember-me-container, #register #remember-me-container {
+    display: flex;
+    align-items: center; }
+    #login #remember-me-container label, #register #remember-me-container label {
+      margin-bottom: 0; }
+
+#tags {
+  margin-bottom: 20px; }
+  #tags .create-new-tag {
+    box-shadow: 3px 3px 5px #777;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    padding: 14px;
+    width: 293px; }
+    #tags .create-new-tag .flex {
+      display: flex;
+      justify-content: space-between; }
+  #tags table {
+    padding: 20px 0 20px 20px; }
+    #tags table tr td {
+      text-align: left;
+      height: 50px; }
+      #tags table tr td .label {
+        font-size: 18px; }
+    #tags table tr .btn-danger {
+      visibility: hidden; }
+    #tags table tr:hover .btn-danger {
+      visibility: visible; }
+
+#tags, #accounts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px; }
+  #tags > *, #accounts > * {
+    max-width: 500px; }
+
+#edit-account-name .popup-inner, #edit-tag-name .popup-inner, #edit-budget .popup-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: 200px; }
+
+#edit-budget .popup-inner {
+  height: 240px; }
+  #edit-budget .popup-inner input {
+    margin-bottom: 15px; }
+
+#accounts .create-new-account {
+  box-shadow: 3px 3px 5px #777;
+  margin-bottom: 30px;
+  border-radius: 4px;
+  padding: 14px;
+  width: 293px; }
+  #accounts .create-new-account .flex {
+    display: flex;
+    justify-content: space-between; }
+#accounts tr .btn-danger {
+  visibility: hidden; }
+#accounts tr:hover .btn-danger {
+  visibility: visible; }
+#accounts tr td {
+  font-size: 17px;
+  height: 32px; }

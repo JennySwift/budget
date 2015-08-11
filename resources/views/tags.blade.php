@@ -1,52 +1,51 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="budgetApp">
-<head>
-    <meta charset="UTF-8">
-    <title>Budget App</title>
+@extends('layouts.master')
 
-    <?php
-        include(base_path().'/resources/views/templates/config.php');
-        include($head_links);
-    ?>
+@section('controller', 'TagsController')
 
-</head>
-<body ng-controller="TagsController">
+@section('page-content')
+    @include('templates.popups.settings.index')
 
-    <?php
-        include($header);
-        include($templates . '/popups/settings/index.php');
-    ?>
-    
-    <div class="main">
+    <div id="tags">
 
-        <div id="feedback">
-            <div ng-repeat="message in feedback_messages track by $index" class="feedback-message">
-                [[message]]
+        <div class="create-new-tag">
+            <label>Create a new tag</label>
+
+            <div class="flex">
+
+                <input
+                    ng-keyup="insertTag($event.keyCode)"
+                    type="text"
+                    class="font-size-sm center margin-bottom"
+                    id="new-tag-input"
+                    placeholder="new tag">
+
+                <div>
+                    <button ng-click="insertTag(13)" class="btn btn-success">Create</button>
+                </div>
+
             </div>
+
         </div>
 
-        <div id="tags">
 
-            <input ng-keyup="insertTag($event.keyCode)" type="text" class="font-size-sm center margin-bottom" id="new-tag-input" placeholder="new tag">
-            
-            <table class="table table-bordered">
-                <tr ng-repeat="tag in tags">
-                    <td>[[tag.name]]</td>
-                    <td>
-                        <button ng-click="showEditTagPopup(tag.id, tag.name)">edit</button>
-                    </td>
-                    <td>
-                        <button ng-click="deleteTag(tag.id)" class="btn btn-default">delete</button>
-                    </td>
-                </tr>
-            </table>
-        </div>
+        <table class="">
+            <tr ng-repeat="tag in tags">
 
+                <td>
+                    <span
+                        ng-click="showEditTagPopup(tag.id, tag.name)"
+                        ng-class="{'tag-with-fixed-budget': tag.fixed_budget !== null, 'tag-with-flex-budget': tag.flex_budget !== null, 'tag-without-budget': tag.fixed_budget === null || tag.flex_budget === null}"
+                        class="label label-default pointer">
+                        [[tag.name]]
+                    </span>
+                </td>
+
+                <td>
+                    <button ng-click="deleteTag(tag.id)" class="btn btn-danger btn-sm">delete</button>
+                </td>
+
+            </tr>
+        </table>
     </div>
 
-    @include('templates/footer')
-    @include('footer')
-    @include('templates/tags/footer')
-
-</body>
-</html>
+@stop

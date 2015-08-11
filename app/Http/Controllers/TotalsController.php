@@ -25,7 +25,9 @@ class TotalsController extends Controller
      */
     public function getAllocationTotals(Request $request)
     {
-        return Transaction::getAllocationTotals($request->get('transaction_id'));
+        checkLoggedIn();
+        $transaction = Transaction::find($request->get('transaction_id'));
+        return $transaction->getAllocationTotals();
     }
 
     /**
@@ -34,6 +36,8 @@ class TotalsController extends Controller
      */
     public function index()
     {
+        //Better way. Middleware? Compare session token with token sent with form?
+        checkLoggedIn();
         return $this->totalsService->getBasicAndBudgetTotals();
     }
 }

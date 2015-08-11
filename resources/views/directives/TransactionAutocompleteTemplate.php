@@ -1,3 +1,4 @@
+
 <input
     ng-model="typing"
     ng-blur="hideAndClear()"
@@ -6,8 +7,8 @@
     class="form-control"
     type='text'>
 
-<div ng-show="dropdown" id="autocomplete-transactions">
-
+<div ng-show="dropdown && !loading" id="[[placeholder]]-autocomplete" class="transactions-autocomplete">
+<!--    <div ng-show="searching">Searching...</div>-->
     <table class="table table-bordered">
         <tbody ng-repeat="transaction in results"
                ng-style="{color: colors[transaction.type]}"

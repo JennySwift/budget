@@ -1,5 +1,17 @@
 <?php
+use App\Exceptions\ModelAlreadyExistsException;
+use App\Exceptions\NotLoggedInException;
 use Carbon\Carbon;
+
+/**
+ * Throw an exception with a helpful error when the user is not logged in
+ */
+function checkLoggedIn ()
+{
+    if (!Auth::check()) {
+        throw new NotLoggedInException;
+    }
+}
 
 /**
  * Merge two array together, passing the second array through array filter to remove null values
@@ -86,10 +98,25 @@ function convertDate($date, $for)
         $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/y');
     }
     elseif ($for === 'sql') {
-        $date = Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d');
+        $date = Carbon::createFromFormat('d/m/y', $date)->format('Y-m-d');
 
     }
 
     return $date;
+}
+
+/**
+ * Check the user doesn't have the model already with the same name
+ * @param $model
+ */
+function checkForDuplicates($model)
+{
+    $duplicate_count = $model::where('user_id', Auth::user()->id)
+        ->where('name', $model->name)
+        ->count();
+
+    if ($duplicate_count) {
+        throw new ModelAlreadyExistsException(class_basename(get_class($model)));
+    }
 }
 

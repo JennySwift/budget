@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Tag;
+use App\Models\Transaction;
 use App\Repositories\Transactions\TransactionsRepository;
 use App\Totals\BudgetTable;
 use App\Totals\FixedAndFlexData;
@@ -17,12 +18,11 @@ Route::get('/test', function () {
 
     $data = new FixedAndFlexData();
     dd($data->FB->totals);
-//    return $data->FB;
-
+    return $data->FB;
 });
 
 
-//Route::get('/test', 'TotalsController@getFixedAndFlexData');
+//Route::get('/test', 'TransactionsController@whatInTheWorldIsGoingOnHere');
 
 /**
  * Angular directive templates
@@ -47,6 +47,14 @@ Route::get('totals-directive', function () {
 Route::get('transaction-autocomplete', function () {
     return view('directives/TransactionAutocompleteTemplate');
 });
+
+Route::get('filter-dropdowns', function () {
+    return view('directives/FilterDropdownsTemplate');
+});
+
+//Route::get('filter/types', function () {
+//    return view('templates/home/filter/types');
+//});
 
 
 /**
@@ -98,11 +106,12 @@ Route::controllers([
  * Resources
  */
 
-Route::resource('tags', 'TagsController', ['only' => ['show', 'update']]);
+Route::resource('tags', 'TagsController', ['only' => ['show', 'store', 'update']]);
 Route::resource('transactions', 'TransactionsController', ['only' => ['show', 'update']]);
-Route::resource('users', 'UsersController', ['only' => ['destroy']]);
 Route::resource('totals', 'TotalsController', ['only' => ['index']]);
 Route::resource('help', 'HelpController', ['only' => ['index']]);
+Route::resource('user', 'UsersController', ['only' => ['show', 'destroy']]);
+Route::resource('accounts', 'AccountsController', ['only' => ['store']]);
 
 /**
  * Ajax
@@ -146,8 +155,6 @@ Route::post('insert/budgetInfo', 'BudgetsController@insertBudgetInfo');
 
 Route::post('select/accounts', 'AccountsController@getAccounts');
 
-Route::post('insert/account', 'AccountsController@insertAccount');
-
 Route::post('update/accountName', 'AccountsController@updateAccountName');
 
 Route::post('delete/account', 'AccountsController@deleteAccount');
@@ -157,11 +164,9 @@ Route::post('delete/account', 'AccountsController@deleteAccount');
  */
 
 Route::post('select/tags', 'TagsController@getTags');
-Route::post('select/duplicate-tag-check', 'TagsController@duplicateTagCheck');
 
-Route::post('insert/tag', 'TagsController@insertTag');
-
-Route::post('update/budget', 'TagsController@updateBudget');
+//Route::post('update/budget', 'TagsController@createBudget');
+Route::post('remove/budget', 'TagsController@removeBudget');
 Route::post('update/tagName', 'TagsController@updateTagName');
 Route::post('update/massTags', 'TagsController@updateMassTags');
 Route::post('delete/tag', 'TagsController@deleteTag');

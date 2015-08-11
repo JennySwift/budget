@@ -2,7 +2,9 @@
 
 use Exception, Redirect;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Debugbar;
 
 class Handler extends ExceptionHandler {
 
@@ -52,6 +54,20 @@ class Handler extends ExceptionHandler {
 					'email' => 'Too many failed login attempts!',
 				]);
 		   }
+
+        if ($e instanceof NotLoggedInException) {
+            return response([
+                'error' => "Not logged in.",
+                'status' => Response::HTTP_UNAUTHORIZED
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        if ($e instanceof ModelAlreadyExistsException) {
+            return response([
+                'error' => "{$e->model} already exists.",
+                'status' => Response::HTTP_BAD_REQUEST
+            ], Response::HTTP_BAD_REQUEST);
+        }
 
 		   return parent::render($request, $e);
 	}

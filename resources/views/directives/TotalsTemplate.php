@@ -63,7 +63,9 @@
 
         </ul>
 
+    </div>
 
+    <div ng-show="show.budget_totals">
 
         <ul class="list-group totals">
 
@@ -105,6 +107,7 @@
             </li>
 
         </ul>
+
     </div>
 
 </div>

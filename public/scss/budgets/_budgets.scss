@@ -1,28 +1,71 @@
 #budget {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	margin: 30px;
-	tr {
-		background: #fff;
-	}
-	th {
-		cursor: help;
-	}
-	td {
-	    text-align: right;
-	}
-	input, select {
-		width: 100%;
-	}
-	.CSD {
-		width: 140px;
-	}
-	.totals {
-		@include totals;
-	}
-	.edit {
-		width: 20px;
-		font-size: 6px;
-	}
+    #budget-toolbar {
+//        position: absolute;
+//        top: -24px;
+        //        background: #000000;
+//        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 7px;
+        .btn-group {
+            button {
+                background: white;
+                color: #5cb85c;
+                &.selected {
+                    background: #5cb85c;
+                    color: white;
+                }
+            }
+        }
+    }
+
+    #budget-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 30px;
+        font-size: 15px;
+        position: relative;
+        .new-entry {
+            max-width: 280px;
+            margin: auto;
+            border-radius: 4px;
+            box-shadow: 3px 3px 5px #777;
+            margin-bottom: 34px;
+            padding: 10px 15px;
+            border: 1px solid #777;
+            input {
+                margin-bottom: 10px;
+            }
+        }
+        tr {
+            background: #fff;
+        }
+        th {
+            cursor: help;
+            border-radius: 15px;
+            .fa-plus {
+                color: #5cb85c;
+            }
+            .fa-minus {
+                color: #d9534f;
+            }
+        }
+        td {
+            text-align: right;
+        }
+        input, select {
+            width: 100%;
+        }
+        .CSD {
+//            width: 140px;
+        }
+        .totals {
+            @include totals;
+        }
+        .edit {
+            width: 20px;
+            font-size: 6px;
+        }
+    }
 }
