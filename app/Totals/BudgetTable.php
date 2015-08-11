@@ -26,34 +26,17 @@ class BudgetTable {
     public $type;
 
     /**
-     * @param $type
+     *
      */
     public function __construct()
     {
-//        $this->type = $type;
 
-//        if ($type === 'fixed') {
-//            $this->tags = $this->getTagsWithFixedBudget();
-//        }
-//        elseif ($type === 'flex') {
-//            $this->tags = $this->getTagsWithFlexBudget();
-//        }
-
-//        Maybe fine but not a good idea to call a method in a constructor.
-//        $this->totals = $this->getTotalsForSpecifiedBudget();
     }
 
     /**
      * @VP:
      * This seems to be causing 3 queries, not sure why.
      *
-     * And why won't 'checkedLoggedIn()' work in my constructor? Answer: It's too soon.
-     *
-     * I would make more sense to call it from my controllers but I am calling it
-     * here because calling it from my TransactionsController didn't work, I think
-     * something to do with my TotalsService being injected into my TransactionsController
-     * and therefore eventually calling getTagsWithFixedBudget.
-     * Answer: middleware
      * @param $user_id
      * @return mixed
      */
@@ -102,11 +85,6 @@ class BudgetTable {
             $this->getSpentAfterSD(),
             $this->getReceivedAfterSD()
         );
-//
-//        if ($this->type === 'fixed') {
-//            $totals->remaining = $this->getRemainingBudget();
-//            $totals->cumulative = $this->getCumulativeBudget();
-//        }
 
         return $totals;
     }
@@ -132,10 +110,6 @@ class BudgetTable {
         foreach ($this->tags as $tag) {
             $total += $tag->$string;
         }
-
-//        if ($this->type === 'fixed') {
-//            $this->fixedBudget = $total;
-//        }
 
         return $total;
     }
@@ -168,24 +142,6 @@ class BudgetTable {
         foreach ($this->tags as $tag) {
 
             $total += $tag->spentAfterSD;
-//            dd($tag);
-
-            /**
-             * @VP:
-             * Question 1:
-             * Can I get the 'spentAfterSD' property here without running the query again?
-             * (The query in the getSpentAfterSDAttribute method on the tag model.)
-             * It is an appended attribute (at the time of writing),
-             * and I thought maybe it could just get it the first time and then remember it
-             * when I need to access the property like this, without running the query again.
-             *
-             * $total += $tag->spentAfterSD;
-             *
-             * Question 2:
-             * I have now removed the 'spentAfterSD' attribute from $appends on my tag model,
-             * because my appended attributes were running a lot of queries.
-             * But why is the above line not adding the property to the tag?
-             */
         }
 
         return $total;

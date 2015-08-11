@@ -41,8 +41,6 @@ class RB {
         $total+= $this->FLB->unallocated['calculated_budget'];
         $this->FLB->totals->calculated_budget = $total;
 
-//        dd($total);
-
         $this->FLB->totals->budget = '100.00';
 
         $this->calculateRemainingFLB();
