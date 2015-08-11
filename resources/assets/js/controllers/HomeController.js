@@ -9,6 +9,8 @@
          * scope properties
          */
 
+        $scope.something = 'abcd12345';
+
         //$scope.feedbackFactory = FeedbackFactory;
         $scope.transactionsFactory = TransactionsFactory;
         //$scope.feedback_messages = [];
