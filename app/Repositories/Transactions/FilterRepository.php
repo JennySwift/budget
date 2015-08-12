@@ -125,7 +125,7 @@ class FilterRepository {
 //        $maxExpenses = min(collect($monthsTotals)->lists('expenses')) * -1;
 
         $maxIncome = max($this->getRawValues($monthsTotals, 'income'));
-        $maxExpenses = max($this->getRawValues($monthsTotals, 'expenses'));
+        $maxExpenses = min($this->getRawValues($monthsTotals, 'expenses')) * -1;
 
         return max($maxIncome, $maxExpenses);
     }
