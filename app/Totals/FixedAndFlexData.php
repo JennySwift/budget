@@ -39,11 +39,8 @@ class FixedAndFlexData
      */
     public function __construct()
     {
-        //Not good practice to new up and object within a constructor. Instead use dependancy injection.
-        //Number format shouldn't be used in constructor.
-        //Learn about factories?
-        $this->FB = new BudgetTable('fixed');
-        $this->FLB = new BudgetTable('flex');
+        $this->FB = new FixedBudgetTable();
+        $this->FLB = new FlexBudgetTable();
 
         $RB = new RB($this->FB, $this->FLB);
         $this->RB = number_format($RB->withEFLB, 2);
@@ -55,14 +52,10 @@ class FixedAndFlexData
     private function formatTotals()
     {
         $this->formatFBTags();
-
         $this->formatFLBTags();
-//        var_dump($this->FB->totals);
 
         $this->FB->totals = numberFormatObject($this->FB->totals);
         $this->FLB->totals = numberFormatObject($this->FLB->totals);
-
-
 
         $this->FLB->unallocated = numberFormat($this->FLB->unallocated);
     }

@@ -10,13 +10,13 @@ use App\Totals\RB;
 use App\Totals\TotalsService;
 use Illuminate\Support\Facades\Route;
 
-//Route::get('/test', function () {
+Route::get('/test', function () {
     /**
      * @VP:
      * How to I inject something into my routes file?
      * So I can do return $this->totalsService->getBasicAndBudgetTotals();
      */
-
+    
 //    $budgetTable = new BudgetTable('fixed');
 //    return $budgetTable->getTagsWithFixedBudget();
 
@@ -50,6 +50,11 @@ use Illuminate\Support\Facades\Route;
 //
 //    return $transactionsController->filterTransactions($filter);
 //});
+
+    $data = new FixedAndFlexData();
+    dd($data);
+    return $data->FB;
+});
 
 
 

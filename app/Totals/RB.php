@@ -39,6 +39,7 @@ class RB {
         $this->calculateUnallocatedRow();
 
         $total+= $this->FLB->unallocated['calculated_budget'];
+        $this->FLB->totals->calculated_budget = $total;
 
         $this->FLB->totals->budget = '100.00';
 
@@ -64,7 +65,9 @@ class RB {
         foreach ($this->FLB->tags as $tag) {
             $remaining+= $tag->remaining;
         }
+
         $remaining+= $this->FLB->unallocated['remaining'];
+        $this->FLB->totals->remaining = $remaining;
     }
 
     /**
