@@ -89,7 +89,7 @@
             $scope.graphFigures = {
                 months: []
             };
-            console.log($scope.graph_totals);
+            //console.log($scope.graph_totals);
 
             $($scope.graph_totals.monthsTotals).each(function () {
                 var $income = this.income;

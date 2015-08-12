@@ -20,9 +20,13 @@
             #credit, #debit {
                 width: 30px;
                 position: relative;
-                span {
-                    position: absolute;
-                    bottom: 4px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .span-container {
+//                    position: absolute;
+//                    bottom: 4px;
+                    transform: rotate(90deg);
                 }
             }
         }

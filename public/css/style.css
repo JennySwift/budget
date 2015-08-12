@@ -998,10 +998,12 @@ caption {
         background: #d9534f; }
       #graphs .month-container #months #credit, #graphs .month-container #months #debit {
         width: 30px;
-        position: relative; }
-        #graphs .month-container #months #credit span, #graphs .month-container #months #debit span {
-          position: absolute;
-          bottom: 4px; }
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; }
+        #graphs .month-container #months #credit .span-container, #graphs .month-container #months #debit .span-container {
+          transform: rotate(90deg); }
 
 #help {
   display: flex;

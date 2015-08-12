@@ -6,13 +6,21 @@
             <div
                 ng-style="{height: month.expensesHeight + 'px'}"
                 id="debit">
-                <span class="badge">[[month.expenses]]</span>
+
+                <div class="span-container">
+                    <span class="badge">[[month.expenses]]</span>
+                </div>
+
             </div>
 
             <div
                 ng-style="{height: month.incomeHeight + 'px'}"
                 id="credit">
-                <span class="badge">[[month.income]]</span>
+
+                <div class="span-container">
+                    <span class="badge">[[month.income]]</span>
+                </div>
+
             </div>
         </div>
 
