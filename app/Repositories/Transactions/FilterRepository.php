@@ -4,6 +4,7 @@ use App\Models\Transaction;
 use Auth;
 use DB;
 use Debugbar;
+use Carbon\Carbon;
 
 /**
  * Class FilterRepository
@@ -74,11 +75,110 @@ class FilterRepository {
 
         $this->num_transactions = $query->count();
 
+        //If I didn't clone here, I couldn't reuse the original query because it would get modified
+        $transactionsQuery = clone $query;
+        $totalsQuery = clone $query;
+        $graphTotalsQuery = clone $query;
+
+//        return $this->getGraphTotals($graphTotalsQuery);
+
         return [
-            "transactions" => $this->getFilteredTransactions($this->finishTransactionsQuery($query, $filter)),
-            "totals" => $this->getFilterTotals($this->finishTotalsQuery($query))
+            "transactions" => $this->getFilteredTransactions($this->finishTransactionsQuery($transactionsQuery, $filter)),
+            "totals" => $this->getFilterTotals($this->finishTotalsQuery($totalsQuery)),
+            "graph_totals" => $this->getGraphTotals($graphTotalsQuery)
         ];
     }
+
+    private function getGraphTotals($query)
+    {
+//        $transactions = $query->select('date', 'type', 'reconciled', 'total')
+//        ->orderBy('date', 'desc')
+//        ->get();
+
+        $minDate = $query->min('date');
+        $maxDate = $query->max('date');
+        $maxDate = Carbon::createFromFormat('Y-m-d', $maxDate);
+
+        $lastMonthTransactions = $query
+            ->whereMonth('date', '=', $maxDate->month)
+            ->whereYear('date', '=', $maxDate->year)
+            ->get();
+
+        $months = [];
+        $month = $this->getFilterTotals($lastMonthTransactions);
+        $month['month'] = $maxDate->format('m/y');
+        $months[] = $month;
+
+//        $months = [
+//            $month => $this->getFilterTotals($lastMonthTransactions),
+//            $month => $this->getFilterTotals($lastMonthTransactions)
+//        ];
+//
+        return $months;
+
+        //Get the totals for the latest month
+    }
+
+    /**
+     * Get the totals after putting together the query
+     * @param $query
+     * @return mixed
+     */
+    private function finishTotalsQuery($query)
+    {
+//        dd($query->toSql());
+        return $query
+            ->select('date', 'type', 'reconciled', 'total')
+            ->orderBy('date', 'desc')
+            ->get();
+    }
+
+    /**
+     *
+     * @param $totals
+     * @return array
+     */
+    private function getFilterTotals($totals)
+    {
+        $income = 0;
+        $expenses = 0;
+        $total_reconciled = 0;
+
+        foreach ($totals as $transaction) {
+            $total = $transaction->total;
+            $type = $transaction->type;
+            $reconciled = $transaction->reconciled;
+
+            if ($type === 'income') {
+                $income += $total;
+            }
+            elseif ($type === 'expense') {
+                $expenses += $total;
+            }
+            elseif ($type === 'transfer') {
+                if ($total > 0) {
+                    $income += $total;
+                }
+                elseif ($total < 0) {
+                    $expenses += $total;
+                }
+            }
+            if ($reconciled == 1) {
+                $total_reconciled += $total;
+            }
+        }
+
+        $balance = $income + $expenses;
+
+        return [
+            'income' => number_format($income, 2),
+            'expenses' => number_format($expenses, 2),
+            'balance' => number_format($balance, 2),
+            'reconciled' => number_format($total_reconciled, 2),
+            'num_transactions' => $this->num_transactions
+        ];
+    }
+
 
 
     /**
@@ -333,6 +433,7 @@ class FilterRepository {
      */
     private function finishTransactionsQuery($query, $filter)
     {
+//        dd($query->toSql());
         return $query
             ->orderBy('date', 'desc')
             ->orderBy('id', 'desc')
@@ -340,18 +441,6 @@ class FilterRepository {
             ->take($filter['num_to_fetch'])
             ->with('tags')
             ->with('account')
-            ->get();
-    }
-
-    /**
-     * Get the totals after putting together the query
-     * @param $query
-     * @return mixed
-     */
-    private function finishTotalsQuery($query)
-    {
-        return $query
-            ->select('type', 'reconciled', 'total')
             ->get();
     }
 
@@ -374,52 +463,6 @@ class FilterRepository {
         }
 
         return $transactions;
-    }
-
-    /**
-     *
-     * @param $totals
-     * @return array
-     */
-    private function getFilterTotals($totals)
-    {
-        $income = 0;
-        $expenses = 0;
-        $total_reconciled = 0;
-
-        foreach ($totals as $transaction) {
-            $total = $transaction->total;
-            $type = $transaction->type;
-            $reconciled = $transaction->reconciled;
-
-            if ($type === 'income') {
-                $income += $total;
-            }
-            elseif ($type === 'expense') {
-                $expenses += $total;
-            }
-            elseif ($type === 'transfer') {
-                if ($total > 0) {
-                    $income += $total;
-                }
-                elseif ($total < 0) {
-                    $expenses += $total;
-                }
-            }
-            if ($reconciled == 1) {
-                $total_reconciled += $total;
-            }
-        }
-
-        $balance = $income + $expenses;
-
-        return [
-            'income' => number_format($income, 2),
-            'expenses' => number_format($expenses, 2),
-            'balance' => number_format($balance, 2),
-            'reconciled' => number_format($total_reconciled, 2),
-            'num_transactions' => $this->num_transactions
-        ];
     }
 
 }

@@ -981,15 +981,21 @@ caption {
     width: 20px;
     font-size: 6px; }
 
-#graphs {
-  background: pink;
+#graphs #months {
   display: flex;
   align-items: flex-end;
-  max-height: 570px; }
-  #graphs #credit {
+  border: 1px solid #777;
+  max-height: 500px; }
+  #graphs #months #credit {
     background: #5cb85c; }
-  #graphs #debit {
+  #graphs #months #debit {
     background: #d9534f; }
+  #graphs #months #credit, #graphs #months #debit {
+    width: 50px;
+    position: relative; }
+    #graphs #months #credit span, #graphs #months #debit span {
+      position: absolute;
+      bottom: 4px; }
 
 #help {
   display: flex;

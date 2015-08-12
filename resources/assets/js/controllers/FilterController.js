@@ -6,6 +6,7 @@
 
     function filter ($scope, $http, FilterFactory, FeedbackFactory) {
 
+        $scope.something = 'abcdefghijklmn';
         /**
          * scope properties
          */
@@ -38,6 +39,14 @@
         $scope.$watch('filterFactory.filter_results.totals', function (newValue, oldValue, scope) {
             if (newValue) {
                 scope.totals = newValue;
+                //$scope.calculateGraphFigures();
+            }
+        });
+
+        $scope.$watch('filterFactory.filter_results.graph_totals', function (newValue, oldValue, scope) {
+            if (newValue) {
+                //This is running many times when it shouldn't
+                scope.graph_totals = newValue;
                 $scope.calculateGraphFigures();
             }
         });
@@ -77,16 +86,26 @@
          */
 
         $scope.calculateGraphFigures = function () {
-            var $income = $scope.totals.income.replace(',', '');
-            var $expenses = $scope.totals.expenses.replace(',', '') * -1;
-
-            var $max = Math.max($income, $expenses);
-            var $num = 500 / $max;
-
             $scope.graphFigures = {
-                income: $income * $num,
-                expenses: $expenses * $num
+                months: []
             };
+            console.log($scope.graph_totals);
+
+            $($scope.graph_totals).each(function () {
+                var $income = this.income.replace(',', '');
+                var $expenses = this.expenses.replace(',', '') * -1;
+
+                var $max = Math.max($income, $expenses);
+                var $num = 500 / $max;
+
+                $scope.graphFigures.months.push({
+                    incomeHeight: $income * $num,
+                    expensesHeight: $expenses * $num,
+                    income: this.income,
+                    expenses: this.expenses,
+                    month: this.month
+                });
+            });
         };
 
         $scope.multiSearch = function () {

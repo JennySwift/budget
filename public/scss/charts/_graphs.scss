@@ -1,15 +1,26 @@
 
 #graphs {
-    background: pink;
-    display: flex;
-    align-items: flex-end;
-    max-height: 570px;
-    #credit {
-        background: $success;
+    #months {
+        display: flex;
+        align-items: flex-end;
+        border: 1px solid #777;
+        max-height: 500px;
+        #credit {
+            background: $success;
+        }
+        #debit {
+            background: $danger;
+        }
+        #credit, #debit {
+            width: 50px;
+            position: relative;
+            span {
+                position: absolute;
+                bottom: 4px;
+            }
+        }
     }
-    #debit {
-        background: $danger;
-    }
+
 }
 
 
