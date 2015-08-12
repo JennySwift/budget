@@ -91,32 +91,55 @@ class FilterRepository {
 
     private function getGraphTotals($query)
     {
-//        $transactions = $query->select('date', 'type', 'reconciled', 'total')
-//        ->orderBy('date', 'desc')
-//        ->get();
-
         $minDate = $query->min('date');
         $maxDate = $query->max('date');
-        $maxDate = Carbon::createFromFormat('Y-m-d', $maxDate);
+        $minDate = Carbon::createFromFormat('Y-m-d', $minDate)->startOfMonth();
+        $maxDate = Carbon::createFromFormat('Y-m-d', $maxDate)->startOfMonth();
 
-        $lastMonthTransactions = $query
-            ->whereMonth('date', '=', $maxDate->month)
-            ->whereYear('date', '=', $maxDate->year)
+        $monthsTotals = [];
+
+        $date = $maxDate;
+
+        while ($minDate <= $date) {
+            $monthsTotals[] = $this->monthTotals($query, $date);
+            $date = $date->subMonths(1);
+
+        }
+
+        return [
+            'monthsTotals' => $monthsTotals,
+            'maxTotal' => $this->getMax($monthsTotals)
+        ];
+
+//        return $this->getMax($monthsTotals);
+//
+//        return $monthsTotals;
+    }
+
+    /**
+     * For the graph for the months, getting the max value, either income or expense,
+     * from the totals of the month, in order to calculate
+     * the height of the bars
+     */
+    private function getMax($monthsTotals)
+    {
+        $maxIncome = max(collect($monthsTotals)->lists('income'));
+        $maxExpenses = min(collect($monthsTotals)->lists('expenses')) * -1;
+        return max($maxIncome, $maxExpenses);
+    }
+
+    private function monthTotals($query, $date)
+    {
+        $queryClone = clone $query;
+        $lastMonthTransactions = $queryClone
+            ->whereMonth('date', '=', $date->month)
+            ->whereYear('date', '=', $date->year)
             ->get();
 
-        $months = [];
-        $month = $this->getFilterTotals($lastMonthTransactions);
-        $month['month'] = $maxDate->format('m/y');
-        $months[] = $month;
+        $monthTotals = $this->getFilterTotals($lastMonthTransactions);
+        $monthTotals['month'] = $date->format("M Y");
 
-//        $months = [
-//            $month => $this->getFilterTotals($lastMonthTransactions),
-//            $month => $this->getFilterTotals($lastMonthTransactions)
-//        ];
-//
-        return $months;
-
-        //Get the totals for the latest month
+        return $monthTotals;
     }
 
     /**
@@ -170,9 +193,11 @@ class FilterRepository {
 
         $balance = $income + $expenses;
 
+        //todo: format these values again elsewhere. I need them unformatted here.
+
         return [
-            'income' => number_format($income, 2),
-            'expenses' => number_format($expenses, 2),
+            'income' => $income,
+            'expenses' => $expenses,
             'balance' => number_format($balance, 2),
             'reconciled' => number_format($total_reconciled, 2),
             'num_transactions' => $this->num_transactions

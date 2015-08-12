@@ -1,6 +1,6 @@
 <div id="graphs">
 
-    <div ng-repeat="month in graphFigures.months">
+    <div ng-repeat="month in graphFigures.months" class="month-container">
 
         <div id="months">
             <div

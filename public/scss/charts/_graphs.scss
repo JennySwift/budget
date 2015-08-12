@@ -1,25 +1,33 @@
 
 #graphs {
-    #months {
-        display: flex;
-        align-items: flex-end;
-        border: 1px solid #777;
-        max-height: 500px;
-        #credit {
-            background: $success;
-        }
-        #debit {
-            background: $danger;
-        }
-        #credit, #debit {
-            width: 50px;
-            position: relative;
-            span {
-                position: absolute;
-                bottom: 4px;
+    display: flex;
+//    flex-wrap: wrap;
+    overflow: scroll;
+    max-width: 800px;
+    .month-container {
+        margin: 0px 10px;
+        #months {
+            display: flex;
+            align-items: flex-end;
+            border: 1px solid #777;
+            height: 500px;
+            #credit {
+                background: $success;
+            }
+            #debit {
+                background: $danger;
+            }
+            #credit, #debit {
+                width: 30px;
+                position: relative;
+                span {
+                    position: absolute;
+                    bottom: 4px;
+                }
             }
         }
     }
+
 
 }
 

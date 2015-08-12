@@ -534,11 +534,12 @@ var app = angular.module('budgetApp');
             };
             console.log($scope.graph_totals);
 
-            $($scope.graph_totals).each(function () {
-                var $income = this.income.replace(',', '');
-                var $expenses = this.expenses.replace(',', '') * -1;
+            $($scope.graph_totals.monthsTotals).each(function () {
+                var $income = this.income;
+                var $expenses = this.expenses * -1;
 
-                var $max = Math.max($income, $expenses);
+                //var $max = Math.max($income, $expenses);
+                var $max = $scope.graph_totals.maxTotal;
                 var $num = 500 / $max;
 
                 $scope.graphFigures.months.push({
