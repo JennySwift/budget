@@ -1,14 +1,23 @@
 <div id="graphs">
 
-    <div
-        ng-style="{height: graphFigures.expenses + 'px'}"
-        id="debit">
-        Debit
+    <div ng-repeat="month in graphFigures.months" class="month-container">
+
+        <div id="months">
+            <div
+                ng-style="{height: month.expensesHeight + 'px'}"
+                id="debit">
+                <span class="badge">[[month.expenses]]</span>
+            </div>
+
+            <div
+                ng-style="{height: month.incomeHeight + 'px'}"
+                id="credit">
+                <span class="badge">[[month.income]]</span>
+            </div>
+        </div>
+
+        <div>[[month.month]]</div>
+
     </div>
 
-    <div
-        ng-style="{height: graphFigures.income + 'px'}"
-        id="credit">
-        Credit
-    </div>
 </div>

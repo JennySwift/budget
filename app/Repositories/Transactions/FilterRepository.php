@@ -4,6 +4,7 @@ use App\Models\Transaction;
 use Auth;
 use DB;
 use Debugbar;
+use Carbon\Carbon;
 
 /**
  * Class FilterRepository
@@ -74,11 +75,135 @@ class FilterRepository {
 
         $this->num_transactions = $query->count();
 
+        //If I didn't clone here, I couldn't reuse the original query because it would get modified
+        $transactionsQuery = clone $query;
+        $totalsQuery = clone $query;
+        $graphTotalsQuery = clone $query;
+
+//        return $this->getGraphTotals($graphTotalsQuery);
+
         return [
-            "transactions" => $this->getFilteredTransactions($this->finishTransactionsQuery($query, $filter)),
-            "totals" => $this->getFilterTotals($this->finishTotalsQuery($query))
+            "transactions" => $this->getFilteredTransactions($this->finishTransactionsQuery($transactionsQuery, $filter)),
+            "totals" => $this->getFilterTotals($this->finishTotalsQuery($totalsQuery)),
+            "graph_totals" => $this->getGraphTotals($graphTotalsQuery)
         ];
     }
+
+    private function getGraphTotals($query)
+    {
+        $minDate = $query->min('date');
+        $maxDate = $query->max('date');
+        $minDate = Carbon::createFromFormat('Y-m-d', $minDate)->startOfMonth();
+        $maxDate = Carbon::createFromFormat('Y-m-d', $maxDate)->startOfMonth();
+
+        $monthsTotals = [];
+
+        $date = $maxDate;
+
+        while ($minDate <= $date) {
+            $monthsTotals[] = $this->monthTotals($query, $date);
+            $date = $date->subMonths(1);
+
+        }
+
+        return [
+            'monthsTotals' => $monthsTotals,
+            'maxTotal' => $this->getMax($monthsTotals)
+        ];
+
+//        return $this->getMax($monthsTotals);
+//
+//        return $monthsTotals;
+    }
+
+    /**
+     * For the graph for the months, getting the max value, either income or expense,
+     * from the totals of the month, in order to calculate
+     * the height of the bars
+     */
+    private function getMax($monthsTotals)
+    {
+        $maxIncome = max(collect($monthsTotals)->lists('income'));
+        $maxExpenses = min(collect($monthsTotals)->lists('expenses')) * -1;
+        return max($maxIncome, $maxExpenses);
+    }
+
+    private function monthTotals($query, $date)
+    {
+        $queryClone = clone $query;
+        $lastMonthTransactions = $queryClone
+            ->whereMonth('date', '=', $date->month)
+            ->whereYear('date', '=', $date->year)
+            ->get();
+
+        $monthTotals = $this->getFilterTotals($lastMonthTransactions);
+        $monthTotals['month'] = $date->format("M Y");
+
+        return $monthTotals;
+    }
+
+    /**
+     * Get the totals after putting together the query
+     * @param $query
+     * @return mixed
+     */
+    private function finishTotalsQuery($query)
+    {
+//        dd($query->toSql());
+        return $query
+            ->select('date', 'type', 'reconciled', 'total')
+            ->orderBy('date', 'desc')
+            ->get();
+    }
+
+    /**
+     *
+     * @param $totals
+     * @return array
+     */
+    private function getFilterTotals($totals)
+    {
+        $income = 0;
+        $expenses = 0;
+        $total_reconciled = 0;
+
+        foreach ($totals as $transaction) {
+            $total = $transaction->total;
+            $type = $transaction->type;
+            $reconciled = $transaction->reconciled;
+
+            if ($type === 'income') {
+                $income += $total;
+            }
+            elseif ($type === 'expense') {
+                $expenses += $total;
+            }
+            elseif ($type === 'transfer') {
+                if ($total > 0) {
+                    $income += $total;
+                }
+                elseif ($total < 0) {
+                    $expenses += $total;
+                }
+            }
+            if ($reconciled == 1) {
+                $total_reconciled += $total;
+            }
+        }
+
+        $balance = $income + $expenses;
+
+        //todo: format these values again elsewhere. I need them unformatted here.
+
+        return [
+            'income' => $income,
+            'expenses' => $expenses,
+            'balance' => number_format($balance, 2),
+            'reconciled' => number_format($total_reconciled, 2),
+            'num_transactions' => $this->num_transactions
+        ];
+    }
+
 
 
     /**
@@ -333,6 +458,7 @@ class FilterRepository {
      */
     private function finishTransactionsQuery($query, $filter)
     {
+//        dd($query->toSql());
         return $query
             ->orderBy('date', 'desc')
             ->orderBy('id', 'desc')
@@ -340,18 +466,6 @@ class FilterRepository {
             ->take($filter['num_to_fetch'])
             ->with('tags')
             ->with('account')
-            ->get();
-    }
-
-    /**
-     * Get the totals after putting together the query
-     * @param $query
-     * @return mixed
-     */
-    private function finishTotalsQuery($query)
-    {
-        return $query
-            ->select('type', 'reconciled', 'total')
             ->get();
     }
 
@@ -374,52 +488,6 @@ class FilterRepository {
         }
 
         return $transactions;
-    }
-
-    /**
-     *
-     * @param $totals
-     * @return array
-     */
-    private function getFilterTotals($totals)
-    {
-        $income = 0;
-        $expenses = 0;
-        $total_reconciled = 0;
-
-        foreach ($totals as $transaction) {
-            $total = $transaction->total;
-            $type = $transaction->type;
-            $reconciled = $transaction->reconciled;
-
-            if ($type === 'income') {
-                $income += $total;
-            }
-            elseif ($type === 'expense') {
-                $expenses += $total;
-            }
-            elseif ($type === 'transfer') {
-                if ($total > 0) {
-                    $income += $total;
-                }
-                elseif ($total < 0) {
-                    $expenses += $total;
-                }
-            }
-            if ($reconciled == 1) {
-                $total_reconciled += $total;
-            }
-        }
-
-        $balance = $income + $expenses;
-
-        return [
-            'income' => number_format($income, 2),
-            'expenses' => number_format($expenses, 2),
-            'balance' => number_format($balance, 2),
-            'reconciled' => number_format($total_reconciled, 2),
-            'num_transactions' => $this->num_transactions
-        ];
     }
 
 }

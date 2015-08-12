@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TransactionsController;
 use App\Models\Tag;
 use App\Models\Transaction;
 use App\Repositories\Transactions\TransactionsRepository;
@@ -29,15 +30,30 @@ use Illuminate\Support\Facades\Route;
 
 //});
 
-Route::get('/test', function()
-{
-    $transaction = Transaction::find(4);
-    $tag = Tag::find(3);
-    return $transaction->updateAllocatedPercent(20, $tag);
-});
+//Route::post('/test', function(TransactionsController $transactionsController)
+//{
+//    $filter = [
+//        "budget" => [],
+//        "total" => "",
+//        "types" => [],
+//        "accounts" => [],
+//        "single_date" => "",
+//        "from_date" => "",
+//        "to_date" => "",
+//        "description" => "",
+//        "merchant" => "",
+//        "tags" => [],
+//        "reconciled" => "any",
+//        "offset" => 0,
+//        "num_to_fetch" => 20
+//    ];
+//
+//    return $transactionsController->filterTransactions($filter);
+//});
 
 
-//Route::get('/test', 'TransactionsController@whatInTheWorldIsGoingOnHere');
+
+//Route::get('/test', 'TransactionsController@filterTransactions');
 
 /**
  * Angular directive templates

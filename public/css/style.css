@@ -982,14 +982,26 @@ caption {
     font-size: 6px; }
 
 #graphs {
-  background: pink;
   display: flex;
-  align-items: flex-end;
-  max-height: 570px; }
-  #graphs #credit {
-    background: #5cb85c; }
-  #graphs #debit {
-    background: #d9534f; }
+  overflow: scroll;
+  max-width: 800px; }
+  #graphs .month-container {
+    margin: 0px 10px; }
+    #graphs .month-container #months {
+      display: flex;
+      align-items: flex-end;
+      border: 1px solid #777;
+      height: 500px; }
+      #graphs .month-container #months #credit {
+        background: #5cb85c; }
+      #graphs .month-container #months #debit {
+        background: #d9534f; }
+      #graphs .month-container #months #credit, #graphs .month-container #months #debit {
+        width: 30px;
+        position: relative; }
+        #graphs .month-container #months #credit span, #graphs .month-container #months #debit span {
+          position: absolute;
+          bottom: 4px; }
 
 #help {
   display: flex;

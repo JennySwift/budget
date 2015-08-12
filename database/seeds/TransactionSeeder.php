@@ -125,7 +125,8 @@ class TransactionSeeder extends Seeder {
             $to_account_id = $faker->randomElement($account_ids);
         }
 
-        $date = $faker->date($format = 'Y-m-d', $max = 'now');
+//        $date = $faker->date($format = 'Y-m-d', $max = 'now');
+        $date = $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d');
         // $description = $faker->word();
         $description = 'transfer';
         // $total = $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 200);
@@ -165,7 +166,7 @@ class TransactionSeeder extends Seeder {
         $faker = Faker::create();
 
         $transaction = new Transaction([
-            'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
+            'date' => $faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d'),
             'type' => $type,
             'description' => $faker->sentence(1),
             'merchant' => $faker->name(),
