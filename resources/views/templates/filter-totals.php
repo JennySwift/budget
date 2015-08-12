@@ -5,27 +5,27 @@
         </li>
     
         <li class="tooltipster list-group-item list-group-item-success" title="credit">
-            <span id="search_income_span" class="badge">[[totals.income]]</span>
+            <span id="search_income_span" class="badge">[[totals.income.formatted]]</span>
             C:  
         </li>
     
         <li class="tooltipster list-group-item list-group-item-danger" title="debit">
-            <span id="search_expenses_span" class="badge">[[totals.expenses]]</span>
+            <span id="search_expenses_span" class="badge">[[totals.expenses.formatted]]</span>
             D:
         </li>
     
         <li class="tooltipster list-group-item list-group-item-warning" title="balance">
-            <span id="search_total_span" class="badge">[[totals.balance]]</span>
+            <span id="search_total_span" class="badge">[[totals.balance.formatted]]</span>
             B:
         </li>
     
         <li class="tooltipster list-group-item list-group-item-info" title="reconciled">
-            <span id="asr_span" class="badge">[[totals.reconciled]]</span>
+            <span id="asr_span" class="badge">[[totals.reconciled.formatted]]</span>
             R:
         </li>
         
         <li class="tooltipster list-group-item list-group-item-info" title="# of search results">
-            <span id="search_results_span" class="badge">[[filter.display_from]] to [[filter.display_to]] of [[totals.num_transactions]]</span>
+            <span id="search_results_span" class="badge">[[filter.display_from]] to [[filter.display_to]] of [[totals.numTransactions]]</span>
             #:
         </li>
     </ul>

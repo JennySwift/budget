@@ -8,7 +8,7 @@
                 id="debit">
 
                 <div class="span-container">
-                    <span class="badge">[[month.expenses]]</span>
+                    <span class="badge">[[month.expenses.formatted]]</span>
                 </div>
 
             </div>
@@ -18,7 +18,7 @@
                 id="credit">
 
                 <div class="span-container">
-                    <span class="badge">[[month.income]]</span>
+                    <span class="badge">[[month.income.formatted]]</span>
                 </div>
 
             </div>

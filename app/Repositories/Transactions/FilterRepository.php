@@ -1,6 +1,7 @@
 <?php namespace App\Repositories\Transactions;
 
 use App\Models\Transaction;
+use App\Totals\FilterTotals;
 use Auth;
 use DB;
 use Debugbar;
@@ -110,10 +111,6 @@ class FilterRepository {
             'monthsTotals' => $monthsTotals,
             'maxTotal' => $this->getMax($monthsTotals)
         ];
-
-//        return $this->getMax($monthsTotals);
-//
-//        return $monthsTotals;
     }
 
     /**
@@ -123,9 +120,28 @@ class FilterRepository {
      */
     private function getMax($monthsTotals)
     {
-        $maxIncome = max(collect($monthsTotals)->lists('income'));
-        $maxExpenses = min(collect($monthsTotals)->lists('expenses')) * -1;
+        //These worked before I did the formatting in FilterTotals.php
+//        $maxIncome = max(collect($monthsTotals)->lists('income'));
+//        $maxExpenses = min(collect($monthsTotals)->lists('expenses')) * -1;
+
+        $maxIncome = max($this->getRawValues($monthsTotals, 'income'));
+        $maxExpenses = max($this->getRawValues($monthsTotals, 'expenses'));
+
         return max($maxIncome, $maxExpenses);
+    }
+
+    /**
+     *
+     */
+    private function getRawValues($array, $property)
+    {
+        $rawValues = [];
+
+        foreach ($array as $item) {
+            $rawValues[] = $item->{$property}->raw;
+        }
+
+        return $rawValues;
     }
 
     private function monthTotals($query, $date)
@@ -137,7 +153,7 @@ class FilterRepository {
             ->get();
 
         $monthTotals = $this->getFilterTotals($lastMonthTransactions);
-        $monthTotals['month'] = $date->format("M Y");
+        $monthTotals->month = $date->format("M Y");
 
         return $monthTotals;
     }
@@ -195,13 +211,21 @@ class FilterRepository {
 
         //todo: format these values again elsewhere. I need them unformatted here.
 
-        return [
-            'income' => $income,
-            'expenses' => $expenses,
-            'balance' => number_format($balance, 2),
-            'reconciled' => number_format($total_reconciled, 2),
-            'num_transactions' => $this->num_transactions
-        ];
+        return new FilterTotals(
+            $income,
+            $expenses,
+            $balance,
+            $total_reconciled,
+            $this->num_transactions
+        );
+
+//        return [
+//            'income' => $income,
+//            'expenses' => $expenses,
+//            'balance' => number_format($balance, 2),
+//            'reconciled' => number_format($total_reconciled, 2),
+//            'num_transactions' => $this->num_transactions
+//        ];
     }
 
 

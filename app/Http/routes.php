@@ -16,7 +16,7 @@ Route::get('/test', function () {
      * How to I inject something into my routes file?
      * So I can do return $this->totalsService->getBasicAndBudgetTotals();
      */
-    
+
 //    $budgetTable = new BudgetTable('fixed');
 //    return $budgetTable->getTagsWithFixedBudget();
 

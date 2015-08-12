@@ -92,8 +92,8 @@
             //console.log($scope.graph_totals);
 
             $($scope.graph_totals.monthsTotals).each(function () {
-                var $income = this.income;
-                var $expenses = this.expenses * -1;
+                var $income = this.income.raw;
+                var $expenses = this.expenses.raw * -1;
 
                 //var $max = Math.max($income, $expenses);
                 var $max = $scope.graph_totals.maxTotal;
@@ -134,7 +134,7 @@
         };
 
         $scope.nextResults = function () {
-            if ($scope.filter.offset + ($scope.filter.num_to_fetch * 1) > $scope.totals.num_transactions) {
+            if ($scope.filter.offset + ($scope.filter.num_to_fetch * 1) > $scope.totals.numTransactions) {
                 //stop it going past the end.
                 return;
             }
