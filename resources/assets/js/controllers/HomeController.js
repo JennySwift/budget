@@ -18,7 +18,15 @@
 
         $scope.colors = colors_response;
         $scope.totals = totals_response;
-        $scope.tab = 'graphs';
+
+        if ($scope.env === 'local') {
+            $scope.tab = 'graphs';
+        }
+        else {
+            $scope.tab = 'transactions';
+        }
+
+
 
         /*=========show=========*/
         $scope.show = {

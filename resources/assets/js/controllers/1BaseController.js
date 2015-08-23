@@ -18,6 +18,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             popups: {}
         };
         $scope.me = me;
+        $scope.env = env;
 
         $(window).load(function () {
             $(".main").css('display', 'block');

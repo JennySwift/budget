@@ -12,7 +12,7 @@
         $scope.filterFactory = FilterFactory;
         $scope.dropdown = {};
         //$scope.me = me;
-        $scope.env = env;
+        //$scope.env = env;
         $scope.tags = tags_response;
         $scope.types = ["income", "expense", "transfer"];
 
