@@ -18,7 +18,11 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             popups: {}
         };
         $scope.me = me;
-        $scope.env = env;
+
+        if (typeof env !== 'undefined') {
+            $scope.env = env;
+        }
+
 
         $(window).load(function () {
             $(".main").css('display', 'block');
@@ -686,7 +690,7 @@ var app = angular.module('budgetApp');
          * scope properties
          */
 
-        $scope.something = 'abcd123';
+        $scope.something = 'abcd1234';
 
         //$scope.feedbackFactory = FeedbackFactory;
         $scope.transactionsFactory = TransactionsFactory;
@@ -939,7 +943,6 @@ var app = angular.module('budgetApp');
         //$scope.env = env;
         $scope.tags = tags_response;
         $scope.types = ["income", "expense", "transfer"];
-        console.log('env from newtransaction: ' + $scope.env);
 
         $scope.new_transaction = {
             type: 'income',

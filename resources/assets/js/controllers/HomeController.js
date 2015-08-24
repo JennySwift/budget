@@ -9,7 +9,7 @@
          * scope properties
          */
 
-        $scope.something = 'abcd123';
+        $scope.something = 'abcd1234';
 
         //$scope.feedbackFactory = FeedbackFactory;
         $scope.transactionsFactory = TransactionsFactory;
