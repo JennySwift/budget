@@ -52,9 +52,18 @@ Route::get('/test', function () {
 //});
 
     $data = new FixedAndFlexData();
-    dd($data);
+    dd($data->FLB);
     return $data->FB;
+    
+   
 });
+
+//Route::get('/test', function()
+//{
+//    $tag = Tag::first();
+//    //dd($tag);
+//    return $tag->remaining;
+//});
 
 
 

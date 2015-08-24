@@ -286,6 +286,7 @@ class Tag extends Model
             return $this->remaining = $this->cumulative + $this->spentAfterSD + $this->receivedAfterSD;
         }
         elseif ($this->budget_type === 'flex') {
+//            dd($this->spentAfterSD);
             return $this->remaining = $this->calculated_budget + $this->spentAfterSD + $this->receivedAfterSD;
         }
     }
