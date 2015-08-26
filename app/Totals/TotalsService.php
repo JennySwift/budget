@@ -32,6 +32,8 @@ class TotalsService
      */
     public function getBasicAndBudgetTotals()
     {
+        // If in the future you feel like you need to update this response, I'd suggest to create a
+        // BasicAndBudgetTotal object, easier to maintain on the long run.
         return [
             'basic' => $this->getBasicTotals(),
             'budget' => $this->getFixedAndFlexData()
