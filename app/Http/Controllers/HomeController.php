@@ -28,6 +28,9 @@ class HomeController extends Controller
     /**
      * Show the application dashboard to the user.
      * GET /
+     * @param FilterRepository $filterRepository
+     * @param TagsRepository $tagsRepository
+     * @param TotalsService $totalsService
      * @return Response
      */
     public function index(FilterRepository $filterRepository, TagsRepository $tagsRepository, TotalsService $totalsService)
