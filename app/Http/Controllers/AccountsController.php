@@ -17,8 +17,6 @@ class AccountsController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -26,32 +24,9 @@ class AccountsController extends Controller
     }
 
     /**
-     * Show the application dashboard to the user.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        JavaScript::put([
-            'me' => Auth::user(),
-            'accounts' => $this->getAccounts()
-        ]);
-
-        return view('accounts');
-    }
-
-    /**
-     *
-     * @return mixed
-     */
-    public function getAccounts()
-    {
-        return Account::getAccounts();
-    }
-
-    /**
      *
      * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function store(Request $request)
     {
@@ -61,6 +36,8 @@ class AccountsController extends Controller
         checkForDuplicates($account);
 
         $account->save();
+
+        return response([], 201);
     }
 
     /**

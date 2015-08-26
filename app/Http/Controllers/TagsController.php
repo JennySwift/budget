@@ -38,20 +38,6 @@ class TagsController extends Controller
     }
 
     /**
-     * Show the application dashboard to the user.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        JavaScript::put([
-            'me' => Auth::user()
-        ]);
-
-        return view('tags');
-    }
-
-    /**
      * Get all the tags that belong to the user
      * @return mixed
      */

@@ -4,9 +4,9 @@
  * Pages
  * @TODO Regroup these methods in a single PagesController
  */
-Route::get('/', 'HomeController@index');
-Route::get('budgets', 'BudgetsController@index');
-Route::get('tags', 'TagsController@index');
-Route::get('accounts', 'AccountsController@index');
-Route::get('charts', 'ChartsController@index');
-Route::get('help', 'HelpController@index');
+Route::get('/', 'PagesController@home');
+Route::get('accounts', 'PagesController@accounts');
+Route::get('budgets', 'PagesController@budgets');
+Route::get('charts', 'PagesController@charts');
+Route::get('help', 'PagesController@help');
+Route::get('tags', 'PagesController@tags');
