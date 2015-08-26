@@ -1,5 +1,8 @@
-<?php namespace App\Totals;
+<?php
 
+namespace App\Models\Totals;
+
+use App\Models\Savings;
 use App\Models\Transaction;
 use Auth;
 
@@ -26,6 +29,8 @@ class BasicTotals {
         $object->setReconciledSum();
         $object->setEWB();
         $object->setSavings();
+
+        return $object;
     }
 
     /**

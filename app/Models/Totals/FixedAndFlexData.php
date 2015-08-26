@@ -1,4 +1,6 @@
-<?php namespace App\Totals;
+<?php
+
+namespace App\Models\Totals;
 
 /**
  * Class FixedAndFlexData

@@ -1,6 +1,10 @@
-<?php namespace App\Totals;
+<?php
+
+namespace App\Services;
 
 use App\Models\Savings;
+use App\Models\Totals\BasicTotals;
+use App\Models\Totals\FixedAndFlexData;
 use Auth;
 use DB;
 

@@ -1,7 +1,7 @@
 <?php namespace App\Repositories\Transactions;
 
 use App\Models\Transaction;
-use App\Totals\FilterTotals;
+use App\Models\Totals\FilterTotals;
 use Auth;
 use DB;
 use Debugbar;

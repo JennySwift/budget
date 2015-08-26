@@ -4,7 +4,7 @@ use App\Models\Account;
 use App\Models\Color;
 use App\Repositories\Tags\TagsRepository;
 use App\Repositories\Transactions\FilterRepository;
-use App\Totals\TotalsService;
+use App\Services\TotalsService;
 use Illuminate\Support\Facades\Auth;
 use JavaScript;
 
@@ -57,11 +57,11 @@ class HomeController extends Controller {
         JavaScript::put([
             //It wouldn't work if I named it 'transactions', or 'totals'
             'filter_response' => $filterRepository->filterTransactions($filter),
-            'totals_response' => $totalsService->getBasicAndBudgetTotals(),
-            'accounts_response' => Account::getAccounts(),
-            'tags_response' => $tagsRepository->getTags(),
-            'colors_response' => Color::getColors(),
-            'me' => Auth::user(),
+//            'totals_response' => $totalsService->getBasicAndBudgetTotals(),
+//            'accounts_response' => Account::getAccounts(),
+//            'tags_response' => $tagsRepository->getTags(),
+//            'colors_response' => Color::getColors(),
+//            'me' => Auth::user(),
             'env' => app()->env
         ]);
 

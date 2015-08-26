@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Models\Transaction;
-use App\Totals\TotalsService;
+use App\Services\TotalsService;
 use Illuminate\Http\Request;
 
 /**
@@ -25,13 +25,13 @@ class TotalsController extends Controller
     }
 
     /**
-     *
+     * Get allocation totals
+     * POST /select/allocationTotals
      * @param Request $request
      * @return array
      */
     public function getAllocationTotals(Request $request)
     {
-        checkLoggedIn();
         $transaction = Transaction::find($request->get('transaction_id'));
 
         // It is good, but not ideal. Returning an AllocationTotal object that you could eventually use
@@ -41,12 +41,14 @@ class TotalsController extends Controller
 
     /**
      * Get basic and budget totals
+     * GET /totals
      * @return array
      */
     public function index()
     {
         // Better way. Middleware? Compare session token with token sent with form?
         checkLoggedIn();
+
         return $this->totalsService->getBasicAndBudgetTotals();
     }
 

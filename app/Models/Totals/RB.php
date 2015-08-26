@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Totals;
+namespace App\Models\Totals;
 
 use App\Models\Savings;
 

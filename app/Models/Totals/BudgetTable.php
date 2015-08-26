@@ -1,4 +1,6 @@
-<?php namespace App\Totals;
+<?php
+
+namespace App\Models\Totals;
 
 use App\Models\Tag;
 use Auth;
@@ -8,7 +10,8 @@ use Debugbar;
  * Class BudgetTable
  * @package App\Tags
  */
-class BudgetTable {
+class BudgetTable
+{
 
     const TYPE_FLEX = "flex";
     const TYPE_FIXED = "fixed";
