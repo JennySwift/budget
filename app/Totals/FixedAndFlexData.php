@@ -63,6 +63,20 @@ class FixedAndFlexData
         return $object;
     }
 
+    /**
+     * Cast the object into an array
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'FB' => $this->FB,
+            'FLB' => $this->FLB,
+            'RB' => $this->RB,
+            'RBWEFLB' => $this->RBWEFLB
+        ];
+    }
+
     private function formatTotals()
     {
 //        $this->formatFBTags();

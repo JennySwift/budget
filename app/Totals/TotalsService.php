@@ -36,7 +36,7 @@ class TotalsService
         // BasicAndBudgetTotal object, easier to maintain on the long run.
         return [
             'basic' => BasicTotals::createFromDatabase()->toArray(),
-            'budget' => FixedAndFlexData::createFromDatabase()
+            'budget' => FixedAndFlexData::createFromDatabase()->toArray()
         ];
     }
 
