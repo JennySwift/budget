@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Requests\Accounts\InsertAccountRequest;
 use App\Http\Requests\Accounts\UpdateAccountRequest;
 use App\Models\Account;
 use Auth;
@@ -27,20 +28,26 @@ class AccountsController extends Controller
     }
 
     /**
-     *
-     * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function store(Request $request)
+    public function index()
     {
-        $account = new Account(['name' => $request->get('name')]);
-        $account->user()->associate(Auth::user());
+        return response(Account::forCurrentUser()->get(), 200);
+    }
 
-        checkForDuplicates($account);
+    /**
+     *
+     * @param InsertAccountRequest $insertAccountRequest
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function store(InsertAccountRequest $insertAccountRequest)
+    {
+        $account = new Account(['name' => $insertAccountRequest->get('name')]);
+        $account->user()->associate(Auth::user());
 
         $account->save();
 
-        return response([], 201);
+        return response($account, 201);
     }
 
     /**

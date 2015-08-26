@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Traits\ForCurrentUserTrait;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
@@ -9,6 +10,8 @@ use DB;
  * @package App\Models
  */
 class Account extends Model {
+
+    use ForCurrentUserTrait;
 
     /**
      * @var array

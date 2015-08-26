@@ -1,16 +1,12 @@
 app.factory('AccountsFactory', function ($http) {
     return {
         getAccounts: function () {
-            var $url = 'select/accounts';
-            var $description = 'accounts';
-            var $data = {
-                description: $description
-            };
+            var $url = '/api/accounts';
 
-            return $http.post($url, $data);
+            return $http.get($url);
         },
         insertAccount: function () {
-            var $url = '/accounts';
+            var $url = '/api/accounts';
             var $data = {
                 name: $(".new_account_input").val()
             };
@@ -18,7 +14,7 @@ app.factory('AccountsFactory', function ($http) {
             return $http.post($url, $data);
         },
         updateAccountName: function ($account_id, $account_name) {
-            var $url = '/accounts/' + $account_id;
+            var $url = '/api/accounts/' + $account_id;
             var $data = { name: $account_name };
 
             return $http.put($url, $data);

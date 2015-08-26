@@ -8,4 +8,4 @@
 Route::post('delete/account', 'AccountsController@deleteAccount');
 
 // Resource
-Route::resource('accounts', 'AccountsController', ['only' => ['show', 'store', 'update']]);
+Route::resource('accounts', 'AccountsController', ['only' => ['index', 'show', 'store', 'update']]);

@@ -109,7 +109,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function getPathAttribute()
     {
-        return route('user.show', $this->id);
+        return route('api.user.show', $this->id);
     }
 
 	/**
