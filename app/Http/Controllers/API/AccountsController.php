@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Requests\Accounts\UpdateAccountRequest;
 use App\Models\Account;
 use Auth;
 use DB;
@@ -43,17 +44,29 @@ class AccountsController extends Controller
     }
 
     /**
-     *
-     * @param Request $request
+     * Demonstration of Model Binding :)
+     * GET /accounts/{accounts} => ID of the object, but this is the name of the parameter itself
+     * @param $account
      */
-    public function updateAccountName(Request $request)
+    public function show(Account $account)
     {
-        $account = Account::find($request->get('account_id'));
-        $account->name = $request->get('account_name');
+        dd($account->toArray());
+    }
 
-        checkForDuplicates($account);
-
+    /**
+     * POST /update/accountName (current)
+     * PUT /accounts/{accounts} (ideal)
+     * @param UpdateAccountRequest $updateAccountRequest
+     * @param Account $account
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function update(UpdateAccountRequest $updateAccountRequest, Account $account)
+    {
+        $account->name = $updateAccountRequest->get('name');
         $account->save();
+        //checkForDuplicates($account);
+
+        return response($account, 200);
     }
 
     /**

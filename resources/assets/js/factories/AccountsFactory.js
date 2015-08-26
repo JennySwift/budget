@@ -18,16 +18,10 @@ app.factory('AccountsFactory', function ($http) {
             return $http.post($url, $data);
         },
         updateAccountName: function ($account_id, $account_name) {
-            var $url = 'update/accountName';
-            var $description = 'account name';
-            var $data = {
-                description: $description,
-                account_id: $account_id,
-                account_name: $account_name
-            };
+            var $url = '/accounts/' + $account_id;
+            var $data = { name: $account_name };
 
-            return $http.post($url, $data);
-
+            return $http.put($url, $data);
         },
         deleteAccount: function ($account_id) {
             var $url = 'delete/account';

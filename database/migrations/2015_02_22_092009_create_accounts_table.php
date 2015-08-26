@@ -14,12 +14,14 @@ class CreateAccountsTable extends Migration {
 	{
 		Schema::create('accounts', function(Blueprint $table)
 		{
-			$table->increments('id')->index();
-			$table->timestamps();
-			$table->string('name');
+			$table->increments('id');
 			$table->integer('user_id')->unsigned()->index();
+			$table->string('name');
+			$table->timestamps();
 
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+			$table->unique(['user_id', 'name']);
 		});
 	}
 
