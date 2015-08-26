@@ -9,11 +9,30 @@ use Auth;
  */
 class BasicTotals {
 
+    public $debit;
+    public $credit;
+    public $reconciledSum;
+    public $EWB;
+    public $savings;
+
+    /**
+     * Build this object from the database
+     */
+    static public function createFromDatabase()
+    {
+        $object = new static;
+        $object->setDebit();
+        $object->setCredit();
+        $object->setReconciledSum();
+        $object->setEWB();
+        $object->setSavings();
+    }
+
     /**
      * Get the sum of all the user's expense transactions
      * @return int
      */
-    public function getDebit()
+    public function setDebit()
     {
         $totals = Transaction::where('user_id', Auth::user()->id)
             ->where('type', 'expense')
@@ -25,14 +44,14 @@ class BasicTotals {
             $total_expense += $total;
         }
 
-        return $total_expense;
+        $this->debit = $total_expense;
     }
 
     /**
      * Get the sum of all the user's income transactions
      * @return int
      */
-    public function getCredit()
+    public function setCredit()
     {
         //Split into two methods-getCredit and calculateCredit
         $totals = Transaction::where('user_id', Auth::user()->id)
@@ -45,20 +64,20 @@ class BasicTotals {
             $total_income += $total;
         }
 
-        return $total_income;
+        $this->credit = $total_income;
     }
 
     /**
      * Get the sum of all the user's transactions that are reconciled
      * @return mixed
      */
-    public function getReconciledSum()
+    public function setReconciledSum()
     {
         $reconciled_sum = Transaction::where('user_id', Auth::user()->id)
             ->where('reconciled', 1)
             ->sum('total');
 
-        return $reconciled_sum;
+        $this->reconciledSum = $reconciled_sum;
     }
 
     /**
@@ -66,7 +85,7 @@ class BasicTotals {
      * and return the total of those transactions.
      * @return mixed
      */
-    public function getEWB()
+    public function setEWB()
     {
         //Get all the ids of transactions that don't have a budget
         $ids = Transaction::where('user_id', Auth::user()->id)
@@ -77,6 +96,31 @@ class BasicTotals {
         $total = Transaction::whereIn('transactions.id', $ids)
             ->sum('total');
 
-        return $total;
+        $this->EWB = $total;
     }
+
+    /**
+     * Find savings total
+     */
+    public function setSavings()
+    {
+        $this->savings = Savings::getSavingsTotal();
+    }
+
+    /**
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array(
+            "credit" => number_format($this->credit, 2),
+            "debit" => number_format($this->debit, 2),
+            "balance" => number_format($this->credit + $this->debit, 2),
+            "reconciled_sum" => number_format($this->reconciledSum, 2),
+            "savings" => number_format($this->savings, 2),
+            "EWB" => number_format($this->EWB, 2)
+        );
+    }
+
 }

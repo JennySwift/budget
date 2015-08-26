@@ -35,7 +35,7 @@ class TotalsService
         // If in the future you feel like you need to update this response, I'd suggest to create a
         // BasicAndBudgetTotal object, easier to maintain on the long run.
         return [
-            'basic' => $this->getBasicTotals(),
+            'basic' => BasicTotals::createFromDatabase()->toArray(),
             'budget' => FixedAndFlexData::createFromDatabase()
         ];
     }
@@ -44,27 +44,31 @@ class TotalsService
      *
      * @return array
      */
-    public function getBasicTotals()
-    {
+//    public function getBasicTotals()
+//    {
         //Could change 'get' to 'calculate' in the method names
-        $basicTotals = new BasicTotals();
-        $credit = $basicTotals->getCredit();
-        $debit = $basicTotals->getDebit();
+//        $basicTotals = new BasicTotals();
+//        $credit = $basicTotals->getCredit();
+//        $debit = $basicTotals->getDebit();
+
+//        return BasicTotals::createFromDatabase()->toArray();
 
         //$totals could be an object
         //Learn about presenters? Lesson on Laracasts.
 
-        $totals = array(
-            "credit" => number_format($credit, 2),
-            "debit" => number_format($debit, 2),
-            "balance" => number_format($credit + $debit, 2),
-            "reconciled_sum" => number_format($basicTotals->getReconciledSum(), 2),
-            "savings" => number_format(Savings::getSavingsTotal(), 2),
-            "EWB" => number_format($basicTotals->getEWB(), 2)
-        );
 
-        return $totals;
-    }
+        // This could be an object and/or a transformer item :)
+//        $totals = array(
+//            "credit" => number_format($basicTotals->credit, 2),
+//            "debit" => number_format($basicTotals->debit, 2),
+//            "balance" => number_format($basicTotals->credit + $basicTotals->debit, 2),
+//            "reconciled_sum" => number_format($basicTotals->reconciledSum, 2),
+//            "savings" => number_format($basicTotals->savings, 2),
+//            "EWB" => number_format($basicTotals->EWB, 2)
+//        );
+
+//        return $basicTotals->toArray();
+//    }
 //
 //    /**
 //     *
