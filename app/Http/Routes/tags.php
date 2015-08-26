@@ -16,3 +16,6 @@ Route::post('update/massTags', 'TagsController@updateMassTags');
 
 // Delete
 Route::post('delete/tag', 'TagsController@deleteTag');
+
+// Resources
+Route::resource('tags', 'TagsController', ['only' => ['show', 'store', 'update']]);

@@ -1,16 +1,17 @@
 <?php
 
-// External route files
+// Important application routes
+require app_path('Http/Routes/auth.php');
+require app_path('Http/Routes/pages.php');
+require app_path('Http/Routes/accounts.php');
+require app_path('Http/Routes/budgets.php');
+require app_path('Http/Routes/savings.php');
+require app_path('Http/Routes/totals.php');
+require app_path('Http/Routes/transactions.php');
+
+// Not so important routes
 require app_path('Http/Routes/tests.php');
 require app_path('Http/Routes/angular-directives.php');
-require app_path('Http/Routes/pages.php');
-require app_path('Http/Routes/auth.php');
-require app_path('Http/Routes/resources.php');
-require app_path('Http/Routes/transactions.php');
-require app_path('Http/Routes/budgets.php');
-require app_path('Http/Routes/accounts.php');
-require app_path('Http/Routes/savings.php');
-
 
 // Settings
 Route::post('update/settings', 'SettingsController@updateSettings');

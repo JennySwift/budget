@@ -21,3 +21,6 @@ Route::post('update/allocation', 'TransactionsController@updateAllocation');
 
 // Delete
 Route::post('delete/transaction', 'TransactionsController@deleteTransaction');
+
+// Resources
+Route::resource('transactions', 'TransactionsController', ['only' => ['show', 'update']]);
