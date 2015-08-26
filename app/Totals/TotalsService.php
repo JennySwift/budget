@@ -12,19 +12,19 @@ use DB;
 class TotalsService
 {
 
-    /**
-     * @var FixedAndFlexData
-     */
-    private $fixedAndFlexData;
-
-    /**
-     * @param Total $total
-     * @param FixedAndFlexData $fixedAndFlexData
-     */
-    public function __construct(FixedAndFlexData $fixedAndFlexData)
-    {
-        $this->fixedAndFlexData = $fixedAndFlexData;
-    }
+//    /**
+//     * @var FixedAndFlexData
+//     */
+//    private $fixedAndFlexData;
+//
+//    /**
+//     * @param Total $total
+//     * @param FixedAndFlexData $fixedAndFlexData
+//     */
+//    public function __construct(FixedAndFlexData $fixedAndFlexData)
+//    {
+//        $this->fixedAndFlexData = $fixedAndFlexData;
+//    }
 
     /**
      *
@@ -36,7 +36,7 @@ class TotalsService
         // BasicAndBudgetTotal object, easier to maintain on the long run.
         return [
             'basic' => $this->getBasicTotals(),
-            'budget' => $this->getFixedAndFlexData()
+            'budget' => FixedAndFlexData::createFromDatabase()
         ];
     }
 
@@ -65,13 +65,13 @@ class TotalsService
 
         return $totals;
     }
-
-    /**
-     *
-     * @return array
-     */
-    public function getFixedAndFlexData()
-    {
-        return new FixedAndFlexData();
-    }
+//
+//    /**
+//     *
+//     * @return array
+//     */
+//    public function getFixedAndFlexData()
+//    {
+//        return new FixedAndFlexData();
+//    }
 }

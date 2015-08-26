@@ -4,10 +4,6 @@
  * Class FixedAndFlexData
  * @package App\Totals
  */
-/**
- * Class FixedAndFlexData
- * @package App\Totals
- */
 class FixedAndFlexData
 {
 
@@ -37,16 +33,34 @@ class FixedAndFlexData
      * Todo: In the future I could also create interfaces.
      * @return array
      */
-    public function __construct()
+//    public function __construct()
+//    {
+//        $this->FB = new FixedBudgetTable();
+//        $this->FLB = new FlexBudgetTable();
+//
+//        $RB = new RB($this->FB, $this->FLB);
+//        $this->RB = number_format($RB->withEFLB, 2);
+//        $this->RBWEFLB = number_format($RB->withoutEFLB, 2);
+//
+////        $this->formatTotals();
+//    }
+
+    /**
+     *
+     * @return static
+     */
+    static public function createFromDatabase()
     {
-        $this->FB = new FixedBudgetTable();
-        $this->FLB = new FlexBudgetTable();
+        $object = new static;
+        $object->FB = new FixedBudgetTable();
+        $object->FLB = new FlexBudgetTable();
 
-        $RB = new RB($this->FB, $this->FLB);
-        $this->RB = number_format($RB->withEFLB, 2);
-        $this->RBWEFLB = number_format($RB->withoutEFLB, 2);
+        $RB = new RB($object->FB, $object->FLB);
+        $object->RB = number_format($RB->withEFLB, 2);
+        $object->RBWEFLB = number_format($RB->withoutEFLB, 2);
 
-//        $this->formatTotals();
+        // return new FixedAndFlexData();
+        return $object;
     }
 
     private function formatTotals()
