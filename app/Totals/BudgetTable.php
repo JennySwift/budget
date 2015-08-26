@@ -10,6 +10,14 @@ use Debugbar;
  */
 class BudgetTable {
 
+    const TYPE_FLEX = "flex";
+    const TYPE_FIXED = "fixed";
+
+    /**
+     * @var
+     */
+    public $type;
+
     /**
      * @var
      */
@@ -21,16 +29,11 @@ class BudgetTable {
     public $totals;
 
     /**
-     * @var
-     */
-    public $type;
-
-    /**
      *
      */
-    public function __construct()
+    public function __construct($type)
     {
-
+        $this->type = $type;
     }
 
     /**
