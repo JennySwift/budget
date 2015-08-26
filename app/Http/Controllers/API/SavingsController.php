@@ -1,5 +1,8 @@
-<?php namespace App\Http\Controllers;
+<?php
 
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\Savings;
 use App\Services\TotalsService;

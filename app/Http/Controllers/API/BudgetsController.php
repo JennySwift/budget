@@ -1,8 +1,9 @@
-<?php namespace App\Http\Controllers;
+<?php
 
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use App\Repositories\Tags\TagsRepository;
-use App\Services\TotalsService;
 use Auth;
 use DB;
 use JavaScript;

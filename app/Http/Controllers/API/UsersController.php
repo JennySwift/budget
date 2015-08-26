@@ -1,6 +1,9 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers\API;
 
 use App\Exceptions\NotLoggedInException;
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\User;
 use Auth;

@@ -1,9 +1,12 @@
-<?php namespace App\Http\Controllers;
+<?php
 
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use Illuminate\Http\Request;
 use Auth;
 use Debugbar;
+use Illuminate\Http\Request;
 
 /**
  * Class SettingsController
@@ -20,6 +23,7 @@ class SettingsController extends Controller
 //        Debugbar::info('request', $request);
         $user = Auth::user();
         $user->settings()->merge($request->all());
+
         return $user->settings;
     }
 

@@ -1,6 +1,8 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use App\Exceptions\ModelAlreadyExistsException;
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\Account;
 use Auth;
