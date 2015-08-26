@@ -4,6 +4,14 @@ namespace App\Totals;
 
 use App\Models\Savings;
 
+/**
+ * Class RB
+ * @package App\Totals
+ * @TODO Take a look at the calculate... methods and think about the responsability of the RB object
+ * Does this line of code belongs on the RB object? Are you setting a property on a property of a property of an object?
+ * See @complex
+ * And try to use proper naming (trust me, it is worth it!!!!! :))
+ */
 class RB {
 
     public $withEFLB;
@@ -11,13 +19,17 @@ class RB {
     public $FB;
     public $FLB;
 
+    /**
+     * @param BudgetTable $FB
+     * @param BudgetTable $FLB
+     */
     public function __construct(BudgetTable $FB, BudgetTable $FLB)
     {
         $this->FB = $FB;
         $this->FLB = $FLB;
         $this->withEFLB = 5;
         $this->withEFLB = $this->getRBWithEFLB();
-        $this->withoutEFLB = $this->getRBWEFLB();
+        $this->withoutEFLB = $this->getRBWithoutEFLB();
 
         //Now that we have RB, get the calculated budgets for tags with FLB
         $this->calculateBudgets();
@@ -39,8 +51,11 @@ class RB {
         $this->calculateUnallocatedRow();
 
         $total+= $this->FLB->unallocated['calculated_budget'];
+        // @complex
         $this->FLB->totals->calculated_budget = $total;
+        // $this->FLB->getTotal()->getCalculatedBudget()
 
+        // @complex
         $this->FLB->totals->budget = '100.00';
 
         $this->calculateRemainingFLB();
@@ -48,6 +63,7 @@ class RB {
 
     public function calculateUnallocatedRow()
     {
+        // This one is okay because you are using the value but not changing it ($this->FB->totals->budget)
         $unallocated_budget = 100 - $this->FLB->totals->budget;
 
         $unallocated_row = [
@@ -56,6 +72,7 @@ class RB {
             'remaining' => $this->withoutEFLB / 100 * $unallocated_budget
         ];
 
+        // @complex
         $this->FLB->unallocated = $unallocated_row;
     }
 
@@ -67,6 +84,8 @@ class RB {
         }
 
         $remaining+= $this->FLB->unallocated['remaining'];
+
+        // @complex
         $this->FLB->totals->remaining = $remaining;
     }
 
@@ -75,7 +94,7 @@ class RB {
      * Still figuring out the formula and if this is the figure we want.
      * @return int
      */
-    public function getRBWithEFLB()
+    private function getRBWithEFLB()
     {
 //        $budgetTableTotalsService = new BudgetTableTotalsService($this);
 //        $tagsRepository = new TagsRepository();
@@ -84,19 +103,9 @@ class RB {
         //maybe interface if two repositories have similar methods?
         //flex budget repository and fixed budget repository and they would share same methods, interface budget
         //or extend budgetrepository
-        $basicTotals = new BasicTotals();
+        $basicTotals = BasicTotals::createFromDatabase();
 
-        $RB =
-            $basicTotals->getCredit()
-            - $this->FB->totals->remaining
-            + $basicTotals->getEWB()
-            + $this->FLB->totals->spentBeforeSD
-            + $this->FLB->totals->spentAfterSD
-            + $this->FB->totals->spentBeforeSD
-            + $this->FB->totals->spentAfterSD
-            - Savings::getSavingsTotal();
-
-        return $RB;
+        return $this->calculateRemainingBalance($basicTotals, $this->FB, $this->FLB);
     }
 
     /**
@@ -104,8 +113,30 @@ class RB {
      * Still figuring out the formula and if this is the figure we want.
      * @return int
      */
-    public function getRBWEFLB()
+    private function getRBWithoutEFLB()
     {
         return $this->getRBWithEFLB() - $this->FLB->totals->spentAfterSD;
+    }
+
+    /**
+     * Calculate remaining balance
+     * @param BasicTotals $basicTotals
+     * @param FixedBudgetTable $fixedBudget
+     * @param FlexBudgetTable $flexBudget
+     * @return mixed
+     */
+    public function calculateRemainingBalance(BasicTotals $basicTotals, FixedBudgetTable $fixedBudget, FlexBudgetTable $flexBudget)
+    {
+        $RB =
+            $basicTotals->credit
+            - $fixedBudget->totals->remaining
+            + $basicTotals->EWB
+            + $flexBudget->totals->spentBeforeSD
+            + $flexBudget->totals->spentAfterSD
+            + $fixedBudget->totals->spentBeforeSD
+            + $fixedBudget->totals->spentAfterSD
+            - $basicTotals->savings;
+
+        return $RB;
     }
 }
