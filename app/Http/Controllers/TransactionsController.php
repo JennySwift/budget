@@ -6,12 +6,11 @@ use App\Models\Tag;
 use App\Models\Transaction;
 use App\Repositories\Transactions\FilterRepository;
 use App\Repositories\Transactions\TransactionsRepository;
-use App\Totals\TotalsService;
+use App\Services\TotalsService;
 use Auth;
 use DB;
 use Debugbar;
 use Illuminate\Http\Request;
-
 
 /**
  * Class TransactionsController

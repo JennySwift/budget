@@ -3,7 +3,7 @@
 use App\Http\Requests;
 use App\Models\Tag;
 use App\Repositories\Tags\TagsRepository;
-use App\Totals\TotalsService;
+use App\Services\TotalsService;
 use Auth;
 use DB;
 use Illuminate\Http\Request;

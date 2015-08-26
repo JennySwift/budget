@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Repositories\Tags\TagsRepository;
-use App\Totals\TotalsService;
+use App\Services\TotalsService;
 use Auth;
 use DB;
 use JavaScript;

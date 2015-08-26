@@ -6,6 +6,7 @@ use Auth;
 use DB;
 use Debugbar;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class FilterRepository
@@ -19,10 +20,14 @@ class FilterRepository {
     private $num_transactions;
 
     /**
+     * @var
+     */
+    private $filters;
+
+    /**
      * For Postman:
      *
      * {"filter": {
-     *
      * "types": [],
      * "offset":0,
      * "num_to_fetch":20,
@@ -38,55 +43,139 @@ class FilterRepository {
      * "reconciled":"any"
      * }}
      *
-     * @param Request $request
+     * @var array
+     *
+     */
+    protected $defaults = [
+        "budget" => [
+            "in" => "all",
+            "out" => ""
+        ],
+        "total" => [
+            "in" => "",
+            "out" => ""
+        ],
+        "types" => [
+            "in" => [],
+            "out" => []
+        ],
+        "accounts" => [
+            "in" => [],
+            "out" => []
+        ],
+        "single_date" => [
+            "in" => [
+                "user" => "",
+                "sql" => ""
+            ],
+            "out" => [
+                "user" => "",
+                "sql" => ""
+            ],
+        ],
+        "from_date" => [
+            "in" => [
+                "user" => "",
+                "sql" => ""
+            ],
+            "out" => [
+                "user" => "",
+                "sql" => ""
+            ],
+        ],
+        "to_date" => [
+            "in" => [
+                "user" => "",
+                "sql" => ""
+            ],
+            "out" => [
+                "user" => "",
+                "sql" => ""
+            ],
+        ],
+        "description" => [
+              "in" => "",
+              "out" => ""
+        ],
+        "merchant" => [
+              "in" => "",
+              "out" => ""
+        ],
+        "tags" => [
+            "in" => [
+                "and" => [],
+                "or" => []
+            ],
+            "out" => []
+        ],
+        "reconciled" => "any",
+        "offset" => 0,
+        "num_to_fetch" => 20
+    ];
+
+    /**
+     * Filter the transactions
+     * @param array $filters
      * @return array
      */
-    public function filterTransactions($filter)
+    public function filterTransactions(array $filters = [])
     {
+        // Merge the argument with the defaults
+        $this->filters = array_merge($this->defaults, $filters);
+
+        // Prepare the query
         $query = Transaction::where('transactions.user_id', Auth::user()->id);
 
-        foreach ($filter as $type => $value) {
-            if ($value) {
+        // Apply filters to the transaction query
+        foreach ($this->filters as $type => $value) {
+            Debugbar::info('filter', $filters);
 
-                $query = $this->filterDates($query, $type, $value);
-                Debugbar::info('filter', $filter);
-                if ($type === "accounts") {
+            switch($type) {
+                case "single_date":
+                case "from_date":
+                case "to_date":
+                    $query = $this->filterDates($query, $type, $value);
+                    break;
+                case "accounts":
                     $query = $this->filterAccounts($query, $value);
-                }
-                elseif ($type === "types") {
+                    break;
+                case "types":
                     $query = $this->filterTypes($query, $value);
-                }
-                elseif ($type === "total") {
+                    break;
+                case "total":
                     $query = $this->filterTotal($query, $value);
-                }
-                elseif ($type === "reconciled") {
+                    break;
+                case "reconciled":
                     $query = $this->filterReconciled($query, $value);
-                }
-                elseif ($type === "tags") {
+                    break;
+                case "tags":
                     $query = $this->filterTags($query, $value);
-                }
-                elseif ($type === "budget") {
+                    break;
+                case "budget":
                     $query = $this->filterNumBudgets($query, $value);
-                }
-                elseif ($type === "description" || $type === "merchant") {
+                    break;
+                case "description":
+                case "merchant":
                     $query = $this->filterDescriptionOrMerchant($query, $type, $value);
-                }
+                    break;
+                default:
+                    // @TODO If nothing matches, throw an exception!!
             }
         }
 
-        $this->num_transactions = $query->count();
+        $this->num_transactions = $this->countTransactions($query);
 
-        //If I didn't clone here, I couldn't reuse the original query because it would get modified
-        $transactionsQuery = clone $query;
-        $totalsQuery = clone $query;
-        $graphTotalsQuery = clone $query;
+        // If I didn't clone here, I couldn't reuse the original query because it would get modified
+//        $transactionsQuery = clone $query;
+//        $totalsQuery = clone $query;
+//        $graphTotalsQuery = clone $query;
 
 //        return $this->getGraphTotals($graphTotalsQuery);
 
         return [
-            "transactions" => $this->getFilteredTransactions($this->finishTransactionsQuery($transactionsQuery, $filter)),
-            "totals" => $this->getFilterTotals($this->finishTotalsQuery($totalsQuery)),
-            "graph_totals" => $this->getGraphTotals($graphTotalsQuery)
+            "transactions" => $this->getFilteredTransactions($this->finishTransactionsQuery($query, $this->filters)),
+            "totals" => $this->getFilterTotals($this->finishTotalsQuery($query)),
+            "graph_totals" => $this->getGraphTotals($query)
         ];
     }
 
@@ -477,20 +566,18 @@ class FilterRepository {
     /**
      * Get the transactions after putting together the query
      * @param $query
-     * @param $filter
+     * @param $filters
      * @return mixed
      */
-    private function finishTransactionsQuery($query, $filter)
+    private function finishTransactionsQuery($query, $filters)
     {
-//        dd($query->toSql());
-        return $query
-            ->orderBy('date', 'desc')
-            ->orderBy('id', 'desc')
-            ->skip($filter['offset'])
-            ->take($filter['num_to_fetch'])
-            ->with('tags')
-            ->with('account')
-            ->get();
+        return $query->orderBy('date', 'desc')
+                     ->orderBy('id', 'desc')
+                     ->skip($filters['offset'])
+                     ->take($filters['num_to_fetch'])
+                     ->with('tags')
+                     ->with('account')
+                     ->get();
     }
 
     /**
@@ -498,20 +585,31 @@ class FilterRepository {
      * @param $transactions
      * @return mixed
      */
-    private function getFilteredTransactions($transactions)
+    private function getFilteredTransactions(Collection $transactions)
     {
-        foreach ($transactions as $transaction) {
-            $date = [
-                'user' => convertDate($transaction->date, 'user')
-            ];
-
-            $transaction->date = $date;
-            $transaction->reconciled = convertToBoolean($transaction->reconciled);
-            $transaction->allocated = convertToBoolean($transaction->allocated);
-            $transaction->multiple_budgets = $transaction->hasMultipleBudgets();
-        }
+//        foreach ($transactions as $transaction) {
+//            $date = [
+//                'user' => convertDate($transaction->date, 'user')
+//            ];
+//
+//            $transaction->date = $date;
+//            $transaction->reconciled = convertToBoolean($transaction->reconciled);
+//            $transaction->allocated = convertToBoolean($transaction->allocated);
+//            $transaction->multiple_budgets = $transaction->hasMultipleBudgets();
+//        }
 
         return $transactions;
+    }
+
+    /**
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function countTransactions($query)
+    {
+        $query = clone $query;
+        return $query->count();
     }
 
 }

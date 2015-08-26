@@ -8,6 +8,8 @@ require app_path('Http/Routes/budgets.php');
 require app_path('Http/Routes/savings.php');
 require app_path('Http/Routes/totals.php');
 require app_path('Http/Routes/transactions.php');
+require app_path('Http/Routes/tags.php');
+require app_path('Http/Routes/users.php');
 
 // Not so important routes
 require app_path('Http/Routes/tests.php');

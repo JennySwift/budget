@@ -22,7 +22,6 @@ class AccountsController extends Controller
      */
     public function __construct()
     {
-        checkLoggedIn();
         $this->middleware('auth');
     }
 
