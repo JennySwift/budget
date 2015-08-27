@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\Savings\UpdateSavingsTotalRequest;
+use App\Http\Requests\Savings\UpdateSavingsTotalWithFixedAmountRequest;
 use App\Models\Savings;
 use App\Services\TotalsService;
 use Auth;
@@ -18,18 +19,54 @@ use Illuminate\Http\Request;
 class SavingsController extends Controller
 {
     /**
-     *
+     * Set the amount..
      * @param UpdateSavingsTotalRequest $updateSavingsTotalRequest
-     * @return mixed
+     * @return string
      */
-    public function updateSavingsTotal(UpdateSavingsTotalRequest $updateSavingsTotalRequest)
+    public function set(UpdateSavingsTotalRequest $updateSavingsTotalRequest)
     {
         $amount = $updateSavingsTotalRequest->get('amount');
 
-        Savings::forCurrentUser()->update(compact('amount', 'other'));
+        $account = Savings::forCurrentUser()->first();
+        $account->update(compact('amount'));
 
-        return number_format($amount, 2);
+        return number_format($account->amount, 2);
     }
+
+    /**
+     * Increase it..
+     * @param UpdateSavingsTotalRequest $updateSavingsTotalRequest
+     * @return mixed
+     */
+    public function increase(UpdateSavingsTotalRequest $updateSavingsTotalRequest)
+    {
+        $amount = $updateSavingsTotalRequest->get('amount');
+
+        $account = Savings::forCurrentUser()->first();
+        $account->increase($amount);
+        $account->save();
+
+//        Savings::forCurrentUser()->update(compact('amount'));
+
+        return number_format($account->amount, 2);
+    }
+
+    /**
+     * Decrease it!
+     * @param UpdateSavingsTotalRequest $updateSavingsTotalRequest
+     * @return string
+     */
+    public function decrease(UpdateSavingsTotalRequest $updateSavingsTotalRequest)
+    {
+        $amount = $updateSavingsTotalRequest->get('amount');
+
+        $account = Savings::forCurrentUser()->first();
+        $account->decrease($amount);
+        $account->save();
+
+        return number_format($account->amount, 2);
+    }
+
 
     /**
      * Whereas updateSavingsTotal just changes the total,
@@ -37,49 +74,13 @@ class SavingsController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function addFixedToSavings(Request $request)
-    {
-        $amount_to_add = $request->get('amount_to_add');
-        Savings::addFixedToSavings($amount_to_add);
-
-        return Savings::getSavingsTotal();
-    }
-
-    /**
-     * Whereas updateSavingsTotal just changes the total,
-     * this function adds or subtracts from the current total.
-     * @param Request $request
-     * @return mixed
-     */
-    public function addPercentageToSavings(Request $request)
-    {
-        Savings::addPercentageToSavings($request->get('percentage_of_RB'));
-
-        return Savings::getSavingsTotal();
-    }
-
-    /**
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function addPercentageToSavingsAutomatically(Request $request)
-    {
-        $totalsService = new TotalsService();
-        Savings::addPercentageToSavingsAutomatically($request->get('amount_to_add'));
-
-        return $totalsService->getBasicAndBudgetTotals();
-    }
-
-    /**
-     *
-     * @param Request $request
-     * @return mixed
-     */
-//    public function reverseAutomaticInsertIntoSavings(Request $request)
+//    public function updateSavingsTotalWithPercentage(Request $request)
 //    {
-//        Savings::reverseAutomaticInsertIntoSavings($request->get('amount_to_subtract'));
+//        Savings::addPercentageToSavings($request->get('percentage_of_RB'));
 //
-//        return $this->budgetService->getBasicAndBudgetTotals();
+//        return Savings::getSavingsTotal();
 //    }
+
+
+
 }
