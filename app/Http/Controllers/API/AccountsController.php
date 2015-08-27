@@ -86,7 +86,6 @@ class AccountsController extends Controller
      */
     public function destroy(DeleteAccountRequest $deleteAccountRequest, $account)
     {
-        dd('Blocker');
         /**
          * @VP:
          * I changed the model binding for accounts to use forCurrentUser (Routes/accounts.php)
