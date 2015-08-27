@@ -13,9 +13,21 @@
     border-radius: 5px;
 }
 
-//.badge-expense {
-//    background: $danger;
-//}
+.badge-success {
+    background: $success;
+}
+
+.badge-danger {
+    background: $danger;
+}
+
+.badge-warning {
+    background: $warning;
+}
+
+.badge-info {
+    background: $info;
+}
 
 .list-group-item-success {
     background: white;
@@ -24,6 +36,7 @@
         background: $success;
     }
 }
+
 .list-group-item-warning {
     background: white;
     color: $warning;

@@ -477,13 +477,11 @@ caption {
       align-items: center; }
 
 .totals {
-  box-shadow: 3px 3px 10px #777; }
-  .totals .changed {
-    position: absolute;
-    right: -100px;
-    top: 13px;
-    border: 1px solid #777;
-    z-index: 99999; }
+  box-shadow: 3px 3px 10px #777;
+  margin-bottom: 20px;
+  padding-bottom: 10px; }
+  .totals td {
+    text-align: right; }
 
 #loading {
   position: absolute;
@@ -520,6 +518,18 @@ caption {
 
 .list-group {
   border-radius: 5px; }
+
+.badge-success {
+  background: #5cb85c; }
+
+.badge-danger {
+  background: #d9534f; }
+
+.badge-warning {
+  background: #fca700; }
+
+.badge-info {
+  background: #5bc0de; }
 
 .list-group-item-success {
   background: white;

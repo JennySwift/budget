@@ -701,7 +701,7 @@ var app = angular.module('budgetApp');
         $scope.totals = totals_response;
 
         if ($scope.env === 'local') {
-            $scope.tab = 'graphs';
+            $scope.tab = 'transactions';
         }
         else {
             $scope.tab = 'transactions';

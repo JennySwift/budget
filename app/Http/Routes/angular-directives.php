@@ -16,7 +16,7 @@ Route::get('tag-autocomplete', function () {
 });
 
 Route::get('totals-directive', function () {
-    return view('directives/TotalsTemplate');
+    return view('directives/totals');
 });
 
 Route::get('transaction-autocomplete', function () {

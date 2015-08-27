@@ -23,14 +23,14 @@
                 //};
 
                 $scope.totals.changes = {
-                    RB: [],
-                    RBWEFLB: []
+                    //RB: [],
+                    //RBWEFLB: []
                 };
 
                 $scope.clearChanges = function () {
                     $scope.totals.changes = {
-                        RB: [],
-                        RBWEFLB: []
+                        //RB: [],
+                        //RBWEFLB: []
                     };
                 };
 
@@ -107,7 +107,8 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.RB.push($scope.format(newValue, oldValue));
+                    //$scope.totals.changes.RB.push($scope.format(newValue, oldValue));
+                    $scope.totals.changes.RB = $scope.format(newValue, oldValue);
                 });
 
                 //RBWEFLB
@@ -115,7 +116,8 @@
                     if (!oldValue || newValue === oldValue) {
                         return;
                     }
-                    $scope.totals.changes.RBWEFLB.push($scope.format(newValue, oldValue));
+                    //$scope.totals.changes.RBWEFLB.push($scope.format(newValue, oldValue));
+                    $scope.totals.changes.RBWEFLB = $scope.format(newValue, oldValue);
                 });
 
                 //Debit

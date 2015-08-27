@@ -1,10 +1,15 @@
 .totals {
     box-shadow: 3px 3px 10px #777;
-    .changed {
-        position: absolute;
-        right: -100px;
-        top: 13px;
-        border: 1px solid #777;
-        z-index: 99999;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    td {
+        text-align: right;
     }
+//    .changed {
+//        position: absolute;
+//        right: -100px;
+//        top: 13px;
+//        border: 1px solid #777;
+//        z-index: 99999;
+//    }
 }
