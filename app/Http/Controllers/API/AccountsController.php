@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Requests\Accounts\DeleteAccountRequest;
 use App\Http\Requests\Accounts\InsertAccountRequest;
 use App\Http\Requests\Accounts\UpdateAccountRequest;
 use App\Models\Account;
@@ -75,14 +76,17 @@ class AccountsController extends Controller
 
         return response($account, 200);
     }
-    
+
     /**
      * Delete an account, only if it belongs to the user
-     * @param $id
+     * @param DeleteAccountRequest $deleteAccountRequest
+     * @param $account
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @internal param $id
      */
-    public function destroy($account)
+    public function destroy(DeleteAccountRequest $deleteAccountRequest, $account)
     {
+        dd('Blocker');
         /**
          * @VP:
          * I changed the model binding for accounts to use forCurrentUser (Routes/accounts.php)

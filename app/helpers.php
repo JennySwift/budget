@@ -6,12 +6,12 @@ use Carbon\Carbon;
 /**
  * Throw an exception with a helpful error when the user is not logged in
  */
-function checkLoggedIn ()
-{
-    if (!Auth::check()) {
-        throw new NotLoggedInException;
-    }
-}
+//function checkLoggedIn ()
+//{
+//    if (!Auth::check()) {
+//        throw new NotLoggedInException;
+//    }
+//}
 
 /**
  * Merge two array together, passing the second array through array filter to remove null values

@@ -1,7 +1,9 @@
 <?php namespace App\Http\Middleware;
 
+use App\Exceptions\NotLoggedInException;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\Response;
 
 class Authenticate {
 
@@ -34,14 +36,12 @@ class Authenticate {
 	{
 		if ($this->auth->guest())
 		{
-			if ($request->ajax())
-			{
-				return response('Unauthorized.', 401);
-			}
-			else
+			if (!($request->ajax() || $request->json()))
 			{
 				return redirect()->guest('auth/login');
+
 			}
+			throw new NotLoggedInException;
 		}
 
 		return $next($request);

@@ -2,6 +2,7 @@
 
 use Exception, Redirect;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Debugbar;
@@ -69,7 +70,7 @@ class Handler extends ExceptionHandler {
             ], Response::HTTP_BAD_REQUEST);
         }
 
-		   return parent::render($request, $e);
+	    return parent::render($request, $e);
 	}
 
 }
