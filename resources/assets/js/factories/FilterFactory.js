@@ -116,7 +116,7 @@ app.factory('FilterFactory', function ($http) {
     $object.multiSearch = function ($filter) {
         $object.filter = $object.formatDates($filter);
 
-        var $url = 'select/filter';
+        var $url = 'api/select/filter';
         var $data = {
             description: 'filter',
             filter: $filter

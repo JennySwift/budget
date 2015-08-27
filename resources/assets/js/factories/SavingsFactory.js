@@ -2,7 +2,7 @@ app.factory('SavingsFactory', function ($http) {
 	return {
 		updateSavingsTotal: function () {
 			var $amount = $("#edited-savings-total").val().replace(',', '');
-			var $url = 'update/savingsTotal';
+			var $url = 'api/update/savingsTotal';
 			var $data = {
 				amount: $amount
 			};
@@ -11,7 +11,7 @@ app.factory('SavingsFactory', function ($http) {
 		},
 		addFixedToSavings: function () {
 			var $amount_to_add = $("#add-fixed-to-savings").val();
-			var $url = 'update/addFixedToSavings';
+			var $url = 'api/update/addFixedToSavings';
 			var $data = {
 				amount_to_add: $amount_to_add
 			};
@@ -21,7 +21,7 @@ app.factory('SavingsFactory', function ($http) {
 		},
 		addPercentageToSavings: function () {
 			var $percentage_of_RB = $("#add-percentage-to-savings").val();
-			var $url = 'update/addPercentageToSavings';
+			var $url = 'api/update/addPercentageToSavings';
 			var $data = {
 				percentage_of_RB: $percentage_of_RB,
 			};
@@ -30,7 +30,7 @@ app.factory('SavingsFactory', function ($http) {
 			return $http.post($url, $data);
 		},
 		addPercentageToSavingsAutomatically: function ($amount_to_add) {
-			var $url = 'update/addPercentageToSavingsAutomatically';
+			var $url = 'api/update/addPercentageToSavingsAutomatically';
 			var $data = {
 				amount_to_add: $amount_to_add
 			};
@@ -38,7 +38,7 @@ app.factory('SavingsFactory', function ($http) {
 			return $http.post($url, $data);
 		},
 		reverseAutomaticInsertIntoSavings: function ($amount_to_subtract) {
-			var $url = 'update/reverseAutomaticInsertIntoSavings';
+			var $url = 'api/update/reverseAutomaticInsertIntoSavings';
 			var $data = {
 				amount_to_subtract: $amount_to_subtract
 			};

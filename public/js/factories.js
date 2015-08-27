@@ -19,15 +19,10 @@ app.factory('AccountsFactory', function ($http) {
 
             return $http.put($url, $data);
         },
-        deleteAccount: function ($account_id) {
-            var $url = 'delete/account';
-            var $description = 'account';
-            var $data = {
-                description: $description,
-                account_id: $account_id
-            };
+        deleteAccount: function ($account) {
+            var $url = $account.path;
 
-            return $http.post($url, $data);
+            return $http.delete($url);
         },
 
     };
@@ -171,7 +166,7 @@ app.factory('AutocompleteFactory', function ($http) {
 app.factory('BudgetsFactory', function ($http) {
 	return {
 		getAllocationTotals: function ($transaction_id) {
-			var $url = 'select/allocationTotals';
+			var $url = 'api/select/allocationTotals';
 			var $data = {
 				transaction_id: $transaction_id
 			};
@@ -180,7 +175,7 @@ app.factory('BudgetsFactory', function ($http) {
 		},
 
         removeBudget: function ($tag) {
-            var $url = 'remove/budget';
+            var $url = 'api/remove/budget';
             var $data = {
                 tag_id: $tag.id,
             };
@@ -189,7 +184,7 @@ app.factory('BudgetsFactory', function ($http) {
         },
 
 		updateAllocation: function ($type, $value, $transaction_id, $tag_id) {
-			var $url = 'update/allocation';
+			var $url = 'api/update/allocation';
 			var $description = 'allocation';
 			var $data = {
 				description: $description,
@@ -202,7 +197,7 @@ app.factory('BudgetsFactory', function ($http) {
 			return $http.post($url, $data);
 		},
 		updateAllocationStatus: function ($transaction_id, $status) {
-			var $url = 'update/allocationStatus';
+			var $url = 'api/update/allocationStatus';
 			var $data = {
 				transaction_id: $transaction_id,
 				status: $status
@@ -240,7 +235,7 @@ app.factory('BudgetsFactory', function ($http) {
 app.factory('ColorsFactory', function ($http) {
 	return {
 		updateColors: function ($colors) {
-			var $url = 'update/colors';
+			var $url = 'api/update/colors';
 			var $description = 'colors';
 			var $data = {
 				description: $description,
@@ -386,7 +381,7 @@ app.factory('FilterFactory', function ($http) {
     $object.multiSearch = function ($filter) {
         $object.filter = $object.formatDates($filter);
 
-        var $url = 'select/filter';
+        var $url = 'api/select/filter';
         var $data = {
             description: 'filter',
             filter: $filter
@@ -424,13 +419,13 @@ app.factory('FilterFactory', function ($http) {
 app.factory('PreferencesFactory', function ($http) {
     return {
         savePreferences: function ($preferences) {
-            var $url = 'update/settings';
+            var $url = 'api/update/settings';
             var $data = $preferences;
 
             return $http.post($url, $data);
         },
         insertOrUpdateDateFormat: function ($new_format) {
-            var $url = 'insert/insertOrUpdateDateFormat';
+            var $url = 'api/insert/insertOrUpdateDateFormat';
             var $data = {
                 new_format: $new_format
             };
@@ -443,7 +438,7 @@ app.factory('SavingsFactory', function ($http) {
 	return {
 		updateSavingsTotal: function () {
 			var $amount = $("#edited-savings-total").val().replace(',', '');
-			var $url = 'update/savingsTotal';
+			var $url = 'api/update/savingsTotal';
 			var $data = {
 				amount: $amount
 			};
@@ -452,7 +447,7 @@ app.factory('SavingsFactory', function ($http) {
 		},
 		addFixedToSavings: function () {
 			var $amount_to_add = $("#add-fixed-to-savings").val();
-			var $url = 'update/addFixedToSavings';
+			var $url = 'api/update/addFixedToSavings';
 			var $data = {
 				amount_to_add: $amount_to_add
 			};
@@ -462,7 +457,7 @@ app.factory('SavingsFactory', function ($http) {
 		},
 		addPercentageToSavings: function () {
 			var $percentage_of_RB = $("#add-percentage-to-savings").val();
-			var $url = 'update/addPercentageToSavings';
+			var $url = 'api/update/addPercentageToSavings';
 			var $data = {
 				percentage_of_RB: $percentage_of_RB,
 			};
@@ -471,7 +466,7 @@ app.factory('SavingsFactory', function ($http) {
 			return $http.post($url, $data);
 		},
 		addPercentageToSavingsAutomatically: function ($amount_to_add) {
-			var $url = 'update/addPercentageToSavingsAutomatically';
+			var $url = 'api/update/addPercentageToSavingsAutomatically';
 			var $data = {
 				amount_to_add: $amount_to_add
 			};
@@ -479,7 +474,7 @@ app.factory('SavingsFactory', function ($http) {
 			return $http.post($url, $data);
 		},
 		reverseAutomaticInsertIntoSavings: function ($amount_to_subtract) {
-			var $url = 'update/reverseAutomaticInsertIntoSavings';
+			var $url = 'api/update/reverseAutomaticInsertIntoSavings';
 			var $data = {
 				amount_to_subtract: $amount_to_subtract
 			};
@@ -491,7 +486,7 @@ app.factory('SavingsFactory', function ($http) {
 app.factory('TagsFactory', function ($http) {
     return {
         getTags: function () {
-            var $url = 'select/tags';
+            var $url = 'api/select/tags';
             var $description = 'tags';
             var $data = {
                 description: $description
@@ -511,7 +506,7 @@ app.factory('TagsFactory', function ($http) {
         //    return $http.post($url, $data);
         //},
         countTransactionsWithTag: function ($tag_id) {
-            var $url = 'select/countTransactionsWithTag';
+            var $url = 'api/select/countTransactionsWithTag';
             var $description = 'count transactions with tag';
             var $data = {
                 description: $description,
@@ -526,7 +521,7 @@ app.factory('TagsFactory', function ($http) {
          * @returns {*}
          */
         insertTag: function () {
-            var $url = '/tags';
+            var $url = 'api//tags';
             var $data = {
                 new_tag_name: $("#new-tag-input").val()
             };
@@ -536,7 +531,7 @@ app.factory('TagsFactory', function ($http) {
         },
 
         updateTagName: function ($tag_id, $tag_name) {
-            var $url = 'update/tagName';
+            var $url = 'api/update/tagName';
             var $description = 'tag name';
             var $data = {
                 description: $description,
@@ -549,7 +544,7 @@ app.factory('TagsFactory', function ($http) {
         },
 
         deleteTag: function ($tag_id) {
-            var $url = 'delete/tag';
+            var $url = 'api/delete/tag';
             var $description = 'tag';
             var $data = {
                 description: $description,
@@ -566,7 +561,7 @@ app.factory('TransactionsFactory', function ($http) {
     $object.totals = {};
 
     $object.insertTransaction = function ($new_transaction, $filter) {
-        var $url = 'insert/transaction';
+        var $url = 'api/insert/transaction';
         var $description = 'new transaction';
 
         if ($new_transaction.type === "expense" && $new_transaction.total > 0) {
@@ -598,7 +593,7 @@ app.factory('TransactionsFactory', function ($http) {
 
         $(".checked").each(function () {
             $transaction_id = $(this).closest("tbody").attr('id');
-            var $url = 'update/massTags';
+            var $url = 'api/update/massTags';
             var $description = 'mass edit tags';
             var $data = {
                 description: $description,
@@ -621,10 +616,8 @@ app.factory('TransactionsFactory', function ($http) {
         $(".checked").each(function () {
             $transaction_id = $(this).closest("tbody").attr('id');
 
-            var $url = 'update/massDescription';
-            var $description = 'mass edit description';
+            var $url = 'api/update/massDescription';
             var $data = {
-                description: $description,
                 info: $info
             };
 
@@ -649,7 +642,7 @@ app.factory('TransactionsFactory', function ($http) {
     };
 
     $object.updateReconciliation = function ($transaction_id, $reconciled, $filter) {
-        var $url = 'update/reconciliation';
+        var $url = 'api/update/reconciliation';
 
         if ($reconciled === true) {
             $reconciled = 'true';
@@ -668,7 +661,7 @@ app.factory('TransactionsFactory', function ($http) {
     };
 
     $object.deleteTransaction = function ($transaction, $filter) {
-        var $url = 'delete/transaction';
+        var $url = 'api/delete/transaction';
         var $data = {
             transaction: $transaction,
             filter: $filter

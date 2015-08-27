@@ -3,7 +3,7 @@ app.factory('TransactionsFactory', function ($http) {
     $object.totals = {};
 
     $object.insertTransaction = function ($new_transaction, $filter) {
-        var $url = 'insert/transaction';
+        var $url = 'api/insert/transaction';
         var $description = 'new transaction';
 
         if ($new_transaction.type === "expense" && $new_transaction.total > 0) {
@@ -35,7 +35,7 @@ app.factory('TransactionsFactory', function ($http) {
 
         $(".checked").each(function () {
             $transaction_id = $(this).closest("tbody").attr('id');
-            var $url = 'update/massTags';
+            var $url = 'api/update/massTags';
             var $description = 'mass edit tags';
             var $data = {
                 description: $description,
@@ -58,10 +58,8 @@ app.factory('TransactionsFactory', function ($http) {
         $(".checked").each(function () {
             $transaction_id = $(this).closest("tbody").attr('id');
 
-            var $url = 'update/massDescription';
-            var $description = 'mass edit description';
+            var $url = 'api/update/massDescription';
             var $data = {
-                description: $description,
                 info: $info
             };
 
@@ -86,7 +84,7 @@ app.factory('TransactionsFactory', function ($http) {
     };
 
     $object.updateReconciliation = function ($transaction_id, $reconciled, $filter) {
-        var $url = 'update/reconciliation';
+        var $url = 'api/update/reconciliation';
 
         if ($reconciled === true) {
             $reconciled = 'true';
@@ -105,7 +103,7 @@ app.factory('TransactionsFactory', function ($http) {
     };
 
     $object.deleteTransaction = function ($transaction, $filter) {
-        var $url = 'delete/transaction';
+        var $url = 'api/delete/transaction';
         var $data = {
             transaction: $transaction,
             filter: $filter

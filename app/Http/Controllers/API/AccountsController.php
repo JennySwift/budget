@@ -75,15 +75,17 @@ class AccountsController extends Controller
 
         return response($account, 200);
     }
-
+    
     /**
-     *
-     * @param Request $request
+     * Delete an account, only if it belongs to the user
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function deleteAccount(Request $request)
+    public function destroy($id)
     {
-        $account = Account::find($request->get('account_id'));
+        $account = Account::forCurrentUser()->findOrFail($id);
         $account->delete();
-    }
 
+        return $this->responseNoContent();
+    }
 }

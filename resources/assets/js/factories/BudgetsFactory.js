@@ -1,7 +1,7 @@
 app.factory('BudgetsFactory', function ($http) {
 	return {
 		getAllocationTotals: function ($transaction_id) {
-			var $url = 'select/allocationTotals';
+			var $url = 'api/select/allocationTotals';
 			var $data = {
 				transaction_id: $transaction_id
 			};
@@ -10,7 +10,7 @@ app.factory('BudgetsFactory', function ($http) {
 		},
 
         removeBudget: function ($tag) {
-            var $url = 'remove/budget';
+            var $url = 'api/remove/budget';
             var $data = {
                 tag_id: $tag.id,
             };
@@ -19,7 +19,7 @@ app.factory('BudgetsFactory', function ($http) {
         },
 
 		updateAllocation: function ($type, $value, $transaction_id, $tag_id) {
-			var $url = 'update/allocation';
+			var $url = 'api/update/allocation';
 			var $description = 'allocation';
 			var $data = {
 				description: $description,
@@ -32,7 +32,7 @@ app.factory('BudgetsFactory', function ($http) {
 			return $http.post($url, $data);
 		},
 		updateAllocationStatus: function ($transaction_id, $status) {
-			var $url = 'update/allocationStatus';
+			var $url = 'api/update/allocationStatus';
 			var $data = {
 				transaction_id: $transaction_id,
 				status: $status

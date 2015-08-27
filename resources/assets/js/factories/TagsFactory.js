@@ -1,7 +1,7 @@
 app.factory('TagsFactory', function ($http) {
     return {
         getTags: function () {
-            var $url = 'select/tags';
+            var $url = 'api/select/tags';
             var $description = 'tags';
             var $data = {
                 description: $description
@@ -21,7 +21,7 @@ app.factory('TagsFactory', function ($http) {
         //    return $http.post($url, $data);
         //},
         countTransactionsWithTag: function ($tag_id) {
-            var $url = 'select/countTransactionsWithTag';
+            var $url = 'api/select/countTransactionsWithTag';
             var $description = 'count transactions with tag';
             var $data = {
                 description: $description,
@@ -36,7 +36,7 @@ app.factory('TagsFactory', function ($http) {
          * @returns {*}
          */
         insertTag: function () {
-            var $url = '/tags';
+            var $url = 'api//tags';
             var $data = {
                 new_tag_name: $("#new-tag-input").val()
             };
@@ -46,7 +46,7 @@ app.factory('TagsFactory', function ($http) {
         },
 
         updateTagName: function ($tag_id, $tag_name) {
-            var $url = 'update/tagName';
+            var $url = 'api/update/tagName';
             var $description = 'tag name';
             var $data = {
                 description: $description,
@@ -59,7 +59,7 @@ app.factory('TagsFactory', function ($http) {
         },
 
         deleteTag: function ($tag_id) {
-            var $url = 'delete/tag';
+            var $url = 'api/delete/tag';
             var $description = 'tag';
             var $data = {
                 description: $description,

@@ -1,7 +1,7 @@
 app.factory('ColorsFactory', function ($http) {
 	return {
 		updateColors: function ($colors) {
-			var $url = 'update/colors';
+			var $url = 'api/update/colors';
 			var $description = 'colors';
 			var $data = {
 				description: $description,

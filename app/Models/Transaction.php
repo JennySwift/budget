@@ -77,7 +77,7 @@ class Transaction extends Model
      */
     public function getPathAttribute()
     {
-        return route('transactions.show', $this->id);
+        return route('api.transactions.show', $this->id);
     }
 
     /**

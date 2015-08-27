@@ -71,7 +71,7 @@ class Tag extends Model
      */
     public function getPathAttribute()
     {
-        return route('tags.show', $this->id);
+        return route('api.tags.show', $this->id);
     }
 
     /**

@@ -19,15 +19,10 @@ app.factory('AccountsFactory', function ($http) {
 
             return $http.put($url, $data);
         },
-        deleteAccount: function ($account_id) {
-            var $url = 'delete/account';
-            var $description = 'account';
-            var $data = {
-                description: $description,
-                account_id: $account_id
-            };
+        deleteAccount: function ($account) {
+            var $url = $account.path;
 
-            return $http.post($url, $data);
+            return $http.delete($url);
         },
 
     };
