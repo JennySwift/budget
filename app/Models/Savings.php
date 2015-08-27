@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Traits\ForCurrentUserTrait;
 use Auth;
 use DB;
 use Debugbar;
@@ -11,6 +12,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Savings extends Model
 {
+
+    use ForCurrentUserTrait;
+
     /**
      * @var array
      */
@@ -36,8 +40,7 @@ class Savings extends Model
      */
     public static function getSavingsTotal()
     {
-        $savings = Savings::where('user_id', Auth::user()->id)
-            ->pluck('amount');
+        $savings = self::forCurrentUser()->pluck('amount');
 
         return $savings;
     }

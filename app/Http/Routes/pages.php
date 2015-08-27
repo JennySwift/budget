@@ -7,6 +7,6 @@
 Route::get('/', 'PagesController@home');
 Route::get('accounts', 'PagesController@accounts');
 Route::get('budgets', 'PagesController@budgets');
-Route::get('charts', 'PagesController@charts');
-Route::get('help', 'PagesController@help');
+Route::get('charts', 'PagesController@charts'); // Skipped in code review
+Route::get('help', 'PagesController@help'); // Skipped in code review
 Route::get('tags', 'PagesController@tags');

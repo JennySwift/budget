@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Requests\Savings\UpdateSavingsTotalRequest;
 use App\Models\Savings;
 use App\Services\TotalsService;
 use Auth;
@@ -16,20 +17,18 @@ use Illuminate\Http\Request;
  */
 class SavingsController extends Controller
 {
-
     /**
      *
-     * @param Request $request
+     * @param UpdateSavingsTotalRequest $updateSavingsTotalRequest
      * @return mixed
      */
-    public function updateSavingsTotal(Request $request)
+    public function updateSavingsTotal(UpdateSavingsTotalRequest $updateSavingsTotalRequest)
     {
-        Savings::where('user_id', Auth::user()->id)
-            ->update([
-                'amount' => $request->get('amount')
-            ]);
+        $amount = $updateSavingsTotalRequest->get('amount');
 
-        return Savings::getSavingsTotal();
+        Savings::forCurrentUser()->update(compact('amount', 'other'));
+
+        return number_format($amount, 2);
     }
 
     /**

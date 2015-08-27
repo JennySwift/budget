@@ -5,8 +5,13 @@
  */
 
 // Update
-Route::post('update/savingsTotal', 'SavingsController@updateSavingsTotal');
-Route::post('update/addFixedToSavings', 'SavingsController@addFixedToSavings');
-Route::post('update/addPercentageToSavings', 'SavingsController@addPercentageToSavings');
-Route::post('update/addPercentageToSavingsAutomatically', 'SavingsController@addPercentageToSavingsAutomatically');
-Route::post('update/reverseAutomaticInsertIntoSavings', 'SavingsController@reverseAutomaticInsertIntoSavings');
+Route::group(['prefix' => 'savings'], function(){
+
+    // This right here is restful-ish :)
+    Route::put('updateSavingsTotal', 'SavingsController@updateSavingsTotal');
+    Route::post('addFixedToSavings', 'SavingsController@addFixedToSavings');
+    Route::post('addPercentageToSavings', 'SavingsController@addPercentageToSavings');
+    Route::post('addPercentageToSavingsAutomatically', 'SavingsController@addPercentageToSavingsAutomatically');
+    Route::post('reverseAutomaticInsertIntoSavings', 'SavingsController@reverseAutomaticInsertIntoSavings');
+
+});
