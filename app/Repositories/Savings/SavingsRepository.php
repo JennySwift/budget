@@ -1,6 +1,7 @@
 <?php namespace App\Repositories\Savings;
 
 use App\Models\Savings;
+use App\Models\Transaction;
 
 /**
  * Class SavingsRepository

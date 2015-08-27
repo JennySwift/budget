@@ -94,7 +94,10 @@ class TransactionsController extends Controller
     }
 
     /**
-     *
+     * @VP:
+     * I tried using the destroy method instead of this (see method below),
+     * but I need to send the filter in the request (for the response), not just the id.
+     * ??
      * @param Request $request
      */
     public function deleteTransaction(Request $request)
@@ -104,7 +107,8 @@ class TransactionsController extends Controller
 
         //Reverse the automatic insertion into savings if it is an income expense
         if ($transaction->type === 'income') {
-            $this->savingsRepository->calculateAmountToSubtract($transaction);
+            $savings = Savings::forCurrentUser()->first();
+            $savings->decrease($this->savingsRepository->calculateAmountToSubtract($transaction));
         }
 
         return [
@@ -112,6 +116,28 @@ class TransactionsController extends Controller
             'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
         ];
     }
+
+    /**
+     * Delete a transaction, only if it belongs to the user
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+//    public function destroy($id)
+//    {
+//        $transaction = Transaction::forCurrentUser()->findOrFail($id);
+//        $transaction->delete();
+//
+//        //Reverse the automatic insertion into savings if it is an income expense
+//        if ($transaction->type === 'income') {
+//            $this->savingsRepository->calculateAmountToSubtract($transaction);
+//        }
+//
+//        //Todo: return response code
+//        return [
+//            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
+//            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
+//        ];
+//    }
 
     /**
      *

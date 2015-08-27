@@ -587,16 +587,16 @@ class FilterRepository {
      */
     private function getFilteredTransactions(Collection $transactions)
     {
-//        foreach ($transactions as $transaction) {
-//            $date = [
-//                'user' => convertDate($transaction->date, 'user')
-//            ];
-//
-//            $transaction->date = $date;
-//            $transaction->reconciled = convertToBoolean($transaction->reconciled);
-//            $transaction->allocated = convertToBoolean($transaction->allocated);
-//            $transaction->multiple_budgets = $transaction->hasMultipleBudgets();
-//        }
+        foreach ($transactions as $transaction) {
+            $date = [
+                'user' => convertDate($transaction->date, 'user')
+            ];
+
+            $transaction->date = $date;
+            $transaction->reconciled = convertToBoolean($transaction->reconciled);
+            $transaction->allocated = convertToBoolean($transaction->allocated);
+            $transaction->multiple_budgets = $transaction->hasMultipleBudgets();
+        }
 
         return $transactions;
     }

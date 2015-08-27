@@ -1,12 +1,6 @@
 <?php
-//use App\Http\Controllers\TransactionsController;
-//use App\Models\Tag;
-//use App\Models\Transaction;
-//use App\Repositories\Transactions\TransactionsRepository;
-//use App\Totals\BudgetTable;
-//use App\Totals\FixedAndFlexData;
-//use App\Totals\RB;
-//use App\Totals\TotalsService;
+
+use App\Models\Transaction;
 
 Route::get('/test', function () {
     $json = <<<EOF
@@ -127,12 +121,12 @@ EOF;
 
 });
 
-//Route::get('/test', function()
-//{
-//    $tag = Tag::first();
-//    //dd($tag);
-//    return $tag->remaining;
-//});
+Route::get('/test', function()
+{
+    $transaction = Transaction::first();
+    //dd($transaction);
+    return $transaction;
+});
 
 
 
