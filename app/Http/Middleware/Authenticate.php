@@ -34,14 +34,13 @@ class Authenticate {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($this->auth->guest())
-		{
-			if (!($request->ajax() || $request->json()))
-			{
-				return redirect()->guest('auth/login');
-
+		if ($this->auth->guest()) {
+			if ($request->ajax() || $request->wantsJson()) {
+				throw new NotLoggedInException;
 			}
-			throw new NotLoggedInException;
+			else {
+				return redirect()->guest('auth/login');
+			}
 		}
 
 		return $next($request);
