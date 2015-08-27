@@ -81,9 +81,14 @@ class AccountsController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function destroy($id)
+    public function destroy($account)
     {
-        $account = Account::forCurrentUser()->findOrFail($id);
+        /**
+         * @VP:
+         * I changed the model binding for accounts to use forCurrentUser (Routes/accounts.php)
+         * But what if there are times when I don't want to use forCurrentUser and I'm stuck with it
+         * because of the model binding? Can model binding be flexible to solve that?
+         */
         $account->delete();
 
         return $this->responseNoContent();

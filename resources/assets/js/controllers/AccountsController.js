@@ -87,10 +87,10 @@ var app = angular.module('budgetApp');
          * delete
          */
 
-        $scope.deleteAccount = function ($account_id) {
+        $scope.deleteAccount = function ($account) {
             if (confirm("Are you sure you want to delete this account?")) {
                 $scope.showLoading();
-                AccountsFactory.deleteAccount($account_id)
+                AccountsFactory.deleteAccount($account)
                     .then(function (response) {
                         $scope.getAccounts();
                         $scope.provideFeedback('Account deleted');

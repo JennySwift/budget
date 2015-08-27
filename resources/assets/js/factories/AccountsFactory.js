@@ -20,6 +20,7 @@ app.factory('AccountsFactory', function ($http) {
             return $http.put($url, $data);
         },
         deleteAccount: function ($account) {
+            console.log($account.path);
             var $url = $account.path;
 
             return $http.delete($url);

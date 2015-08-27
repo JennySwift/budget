@@ -38,7 +38,7 @@
 
                 <td>
                     <button
-                        ng-click="deleteAccount(account.id)"
+                        ng-click="deleteAccount(account)"
                         class="btn btn-default btn-danger btn-sm">
                         delete
                     </button>
