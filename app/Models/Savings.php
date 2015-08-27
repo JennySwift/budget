@@ -35,7 +35,7 @@ class Savings extends Model
     }
 
     /**
-     * Increase
+     * Increase the user's savings by $amount
      * @param $amount
      * @return int
      */
@@ -45,7 +45,7 @@ class Savings extends Model
     }
 
     /**
-     * Decrease
+     * Decrease the user's savings by $amount
      * @param $amount
      * @return int
      */
@@ -59,92 +59,13 @@ class Savings extends Model
     }
 
     /**
-     * Before reversing the automatic insert into savings,
-     * calculate the amount to subtract from savings.
-     * This is for after an income transaction is deleted.
-     * @param Transaction $transaction
-     * @return float
+     * Get the user's savings total
+     * @return mixed
      */
-    public function calculateAmountToSubtract(Transaction $transaction)
+    public static function getSavingsTotal()
     {
-        // This value will change. Just for developing purposes.
-        $percent = 10;
-        return (float) $transaction->total / 100 * $percent;
+        $savings = self::forCurrentUser()->pluck('amount');
+
+        return $savings;
     }
-
-    /**
-     * For when an income transaction total has been edited and decreased,
-     * updating the savings accordingly (subtract percentage from savings)
-     * @param $previous_total
-     * @param $new_total
-     * @return float
-     */
-    public static function calculateAfterDecrease($previous_total, $new_total)
-    {
-        $diff = $previous_total - $new_total;
-        $percent = 10;
-        return (float) $diff / 100 * $percent;
-    }
-
-    /**
-     * For when an income transaction total has been edited and increased,
-     * updating the savings accordingly (add percentage to savings)
-     * @param $previous_total
-     * @param $new_total
-     * @return float
-     */
-    public static function calculateAfterIncrease($previous_total, $new_total)
-    {
-        $diff = $new_total - $previous_total;
-        $percent = 10;
-        return $diff / 100 * $percent;
-    }
-
-//    /**
-//     *
-//     * @return mixed
-//     */
-//    public static function getSavingsTotal()
-//    {
-//        $savings = self::forCurrentUser()->pluck('amount');
-//
-//        return $savings;
-//    }
-
-//    /**
-//     * Add an amount into savings.
-//     * For when an income transaction is added.
-//     * @param $transaction
-//     */
-//    public static function add($transaction)
-//    {
-//        $percent = 10;
-//        static::addPercentageToSavingsAutomatically($transaction->total / 100 * $percent);
-//    }
-
-
-
-//    /**
-//     * @deprecated
-//     * @param $percentage_of_RB
-//     */
-//    public static function addPercentageToSavings($percentage_of_RB)
-//    {
-//        $RB = getRB();
-//        $amount_to_add = $RB / 100 * $percentage_of_RB;
-//
-//        Savings::where('user_id', Auth::user()->id)
-//            ->increment('amount', $amount_to_add);
-//    }
-
-//    /**
-//     *
-//     * @param $amount_to_add
-//     */
-//    public static function addPercentageToSavingsAutomatically($amount_to_add)
-//    {
-//        Savings::where('user_id', Auth::user()->id)
-//               ->increment('amount', $amount_to_add);
-//    }
-
 }

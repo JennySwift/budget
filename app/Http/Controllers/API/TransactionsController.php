@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
+use App\Repositories\Savings\SavingsRepository;
 use App\Repositories\Transactions\FilterRepository;
 use App\Repositories\Transactions\TransactionsRepository;
 use App\Services\TotalsService;
@@ -29,16 +30,21 @@ class TransactionsController extends Controller
      * @var FilterRepository
      */
     private $filterRepository;
+    /**
+     * @var SavingsRepository
+     */
+    private $savingsRepository;
 
     /**
      * @param TransactionsRepository $transactionsRepository
      * @param TotalsService $totalsService
      */
-    public function __construct(TransactionsRepository $transactionsRepository, TotalsService $totalsService, FilterRepository $filterRepository)
+    public function __construct(TransactionsRepository $transactionsRepository, TotalsService $totalsService, FilterRepository $filterRepository, SavingsRepository $savingsRepository)
     {
         $this->transactionsRepository = $transactionsRepository;
         $this->totalsService = $totalsService;
         $this->filterRepository = $filterRepository;
+        $this->savingsRepository = $savingsRepository;
     }
 
     /**
@@ -98,7 +104,7 @@ class TransactionsController extends Controller
 
         //Reverse the automatic insertion into savings if it is an income expense
         if ($transaction->type === 'income') {
-            Savings::calculateAmountToSubtract($transaction);
+            $this->savingsRepository->calculateAmountToSubtract($transaction);
         }
 
         return [
@@ -167,7 +173,8 @@ class TransactionsController extends Controller
 
         // Put an amount into savings if it is an income expense
         if ($transaction->type === 'income') {
-            Savings::add($transaction);
+            $savings = Savings::forCurrentUser()->first();
+            $savings->increase($this->savingsRepository->calculateAfterIncomeAdded($transaction));
         }
 
         // Todo: Check both transactions for multiple budgets, not just the last one?
@@ -197,17 +204,18 @@ class TransactionsController extends Controller
         $transaction = Transaction::find($js_transaction['id']);
         $previous_total = $transaction->total;
         $new_total = $js_transaction['total'];
+        $savings = Savings::forCurrentUser()->first();
 
         // If it is an income transaction, and if the total has decreased,
         // remove a percentage from savings
         if ($transaction->type === 'income' && $new_total < $previous_total) {
-            Savings::calculateAfterDecrease($previous_total, $new_total);
+            $savings->decrease($this->savingsRepository->calculateAfterDecrease($previous_total, $new_total));
         }
 
         // If it is an income transaction, and if the total has increased,
         // add a percentage to savings
         if ($transaction->type === 'income' && $new_total > $previous_total) {
-            Savings::calculateAfterIncrease($previous_total, $new_total);
+            $savings->increase($this->savingsRepository->calculateAfterIncrease($previous_total, $new_total));
         }
 
         $transaction->update([

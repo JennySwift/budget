@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 class SavingsController extends Controller
 {
     /**
-     * Set the amount..
+     * Set the savings amount for the user
      * @param UpdateSavingsTotalRequest $updateSavingsTotalRequest
      * @return string
      */
@@ -27,14 +27,14 @@ class SavingsController extends Controller
     {
         $amount = $updateSavingsTotalRequest->get('amount');
 
-        $account = Savings::forCurrentUser()->first();
-        $account->update(compact('amount'));
+        $savings = Savings::forCurrentUser()->first();
+        $savings->update(compact('amount'));
 
-        return number_format($account->amount, 2);
+        return number_format($savings->amount, 2);
     }
 
     /**
-     * Increase it..
+     * Increase the savings amount for the user
      * @param UpdateSavingsTotalRequest $updateSavingsTotalRequest
      * @return mixed
      */
@@ -42,17 +42,15 @@ class SavingsController extends Controller
     {
         $amount = $updateSavingsTotalRequest->get('amount');
 
-        $account = Savings::forCurrentUser()->first();
-        $account->increase($amount);
-        $account->save();
+        $savings = Savings::forCurrentUser()->first();
+        $savings->increase($amount);
+        $savings->save();
 
-//        Savings::forCurrentUser()->update(compact('amount'));
-
-        return number_format($account->amount, 2);
+        return number_format($savings->amount, 2);
     }
 
     /**
-     * Decrease it!
+     * Decrease the savings amount for the user
      * @param UpdateSavingsTotalRequest $updateSavingsTotalRequest
      * @return string
      */
@@ -60,27 +58,10 @@ class SavingsController extends Controller
     {
         $amount = $updateSavingsTotalRequest->get('amount');
 
-        $account = Savings::forCurrentUser()->first();
-        $account->decrease($amount);
-        $account->save();
+        $savings = Savings::forCurrentUser()->first();
+        $savings->decrease($amount);
+        $savings->save();
 
-        return number_format($account->amount, 2);
+        return number_format($savings->amount, 2);
     }
-
-
-    /**
-     * Whereas updateSavingsTotal just changes the total,
-     * this function adds or subtracts from the current total.
-     * @param Request $request
-     * @return mixed
-     */
-//    public function updateSavingsTotalWithPercentage(Request $request)
-//    {
-//        Savings::addPercentageToSavings($request->get('percentage_of_RB'));
-//
-//        return Savings::getSavingsTotal();
-//    }
-
-
-
 }
