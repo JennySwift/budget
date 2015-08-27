@@ -10,7 +10,6 @@ use App\Http\Requests\Accounts\UpdateAccountRequest;
 use App\Models\Account;
 use Auth;
 use DB;
-use Illuminate\Http\Request;
 use JavaScript;
 
 /**
@@ -72,6 +71,7 @@ class AccountsController extends Controller
     {
         $account->name = $updateAccountRequest->get('name');
         $account->save();
+
         //checkForDuplicates($account);
 
         return response($account, 200);
