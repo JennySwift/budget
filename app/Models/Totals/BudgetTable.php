@@ -50,7 +50,7 @@ class BudgetTable
     {
         //Middleware. Create my own middleware. But it won't work for GET requests.
         //Not checking logged in, checking session.
-        checkLoggedIn();
+//        checkLoggedIn();
 
         $tags = Tag::where('user_id', Auth::user()->id)
             ->where('flex_budget', null)
