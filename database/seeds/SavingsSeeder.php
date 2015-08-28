@@ -11,21 +11,15 @@ class SavingsSeeder extends Seeder {
 
 	public function run()
 	{
-        if (app()->env === 'local') {
-            Savings::truncate();
-            $this->createSavingsForUser(User::whereEmail('cheezyspaghetti@gmail.com')->first());
-        }
-        else {
-            $this->createSavingsForUser(User::whereEmail('cheezyspaghetti@optusnet.com.au')->first());
-        }
+        Savings::truncate();
 
+        $users = User::all();
+
+        foreach($users as $user) {
+            $savings = new Savings(['amount' => 50]);
+            $savings->user()->associate($user);
+            $savings->save();
+        }
 	}
-
-    private function createSavingsForUser($user)
-    {
-        $savings = new Savings(['amount' => 50]);
-        $savings->user()->associate($user);
-        $savings->save();
-    }
 
 }
