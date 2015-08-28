@@ -1,13 +1,13 @@
-<?php namespace App\Http\Requests\Accounts;
+<?php namespace App\Http\Requests\Tags;
 
-use App\Http\Requests\Request;
 use Auth;
+use App\Http\Requests\Request;
 
 /**
- * Class UpdateAccountRequest
- * @package App\Http\Requests\Accounts
+ * Class InsertTagRequest
+ * @package App\Http\Requests\Tags
  */
-class UpdateAccountRequest extends Request
+class InsertTagRequest extends Request
 {
 
     /**
@@ -27,11 +27,10 @@ class UpdateAccountRequest extends Request
      */
     public function rules()
     {
-        $account = $this->route()->parameter('accounts');
         $user_id = Auth::id();
 
-        return  [
-            'name' => 'required|unique:accounts,name,'.$account->id.',id,user_id,'.$user_id
+        return [
+            'name' => 'required|unique:tags,name,NULL,id,user_id,'.$user_id
         ];
     }
 

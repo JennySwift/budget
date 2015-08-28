@@ -3,8 +3,10 @@
 use App\Repositories\Tags\TagsRepository;
 use App\Totals\RB;
 use App\Totals\TotalsRepository;
+use App\Traits\ForCurrentUserTrait;
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -12,8 +14,11 @@ use Illuminate\Support\Facades\DB;
  * Class Tag
  * @package App\Models
  */
-class Tag extends Model
+class Tag extends Model implements Arrayable
 {
+
+    use ForCurrentUserTrait;
+
     /**
      * @var array
      */
@@ -71,7 +76,7 @@ class Tag extends Model
      */
     public function getPathAttribute()
     {
-        return route('api.tags.show', $this->id);
+        return route('api.tags.show', $this);
     }
 
     /**

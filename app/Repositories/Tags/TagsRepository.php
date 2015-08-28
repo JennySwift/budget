@@ -16,9 +16,9 @@ class TagsRepository
      */
     public function getTags()
     {
-        return Tag::where('user_id', Auth::user()->id)
-            ->orderBy('name', 'asc')
-            ->get();
+        return Tag::forCurrentUser()
+                  ->orderBy('name', 'asc')
+                  ->get();
     }
 
 }

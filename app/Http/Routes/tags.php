@@ -3,19 +3,13 @@
 /**
  * Tags
  */
-
-// Select
-Route::post('select/tags', 'TagsController@getTags');
-
-// Update
-//Route::post('update/budget', 'TagsController@createBudget');
-// @TODO What is this one? Remove? Not Restful :/
-Route::post('remove/budget', 'TagsController@removeBudget');
-Route::post('update/tagName', 'TagsController@updateTagName');
-Route::post('update/massTags', 'TagsController@updateMassTags');
+// @TODO Temporary route!!
+Route::put('tags/{tags}/update', 'TagsController@updateTagName');
 
 // Delete
-Route::post('delete/tag', 'TagsController@deleteTag');
+// @TODO Gonna have to move away too :(
+Route::post('remove/budget', 'TagsController@removeBudget');
 
 // Resources
-Route::resource('tags', 'TagsController', ['only' => ['show', 'store', 'update']]);
+// @TODO Take care of the update method also!
+Route::resource('tags', 'TagsController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);

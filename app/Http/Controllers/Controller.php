@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;

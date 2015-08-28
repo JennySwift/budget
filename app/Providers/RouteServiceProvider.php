@@ -1,6 +1,7 @@
 <?php namespace App\Providers;
 
 use App\Models\Account;
+use App\Models\Tag;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -26,6 +27,7 @@ class RouteServiceProvider extends ServiceProvider {
 		parent::boot($router);
 
 		$router->model('accounts', Account::class);
+		$router->model('tags', Tag::class);
 	}
 
 	/**
