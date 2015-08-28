@@ -7,10 +7,10 @@ use App\Models\Transaction;
 use Auth;
 
 /**
- * Class BasicTotals
+ * Class BasicTotal
  * @package App\Totals
  */
-class BasicTotals {
+class BasicTotal {
 
     public $debit;
     public $credit;
@@ -39,17 +39,9 @@ class BasicTotals {
      */
     public function setDebit()
     {
-        $totals = Transaction::where('user_id', Auth::user()->id)
-            ->where('type', 'expense')
-            ->lists('total');
-
-        $total_expense = 0;
-
-        foreach ($totals as $total) {
-            $total_expense += $total;
-        }
-
-        $this->debit = $total_expense;
+        return Transaction::forCurrentUser()
+                          ->where('type', 'expense')
+                          ->sum('total');
     }
 
     /**
@@ -58,18 +50,9 @@ class BasicTotals {
      */
     public function setCredit()
     {
-        //Split into two methods-getCredit and calculateCredit
-        $totals = Transaction::where('user_id', Auth::user()->id)
-            ->where('type', 'income')
-            ->lists('total');
-
-        $total_income = 0;
-
-        foreach ($totals as $total) {
-            $total_income += $total;
-        }
-
-        $this->credit = $total_income;
+        return Transaction::forCurrentUser()
+                          ->where('type', 'income')
+                          ->sum('total');
     }
 
     /**

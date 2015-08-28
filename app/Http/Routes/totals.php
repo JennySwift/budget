@@ -3,7 +3,6 @@
 /**
  * Totals
  */
-
 // Select
 Route::post('select/allocationTotals', 'TotalsController@getAllocationTotals');
 

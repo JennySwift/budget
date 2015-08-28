@@ -28,6 +28,16 @@ class TotalsController extends Controller
     }
 
     /**
+     * Get basic and budget totals
+     * GET /totals
+     * @return array
+     */
+    public function index()
+    {
+        return $this->responseOk($this->totalsService->getBasicAndBudgetTotals());
+    }
+
+    /**
      * Get allocation totals
      * POST /select/allocationTotals
      * @param Request $request
@@ -42,17 +52,5 @@ class TotalsController extends Controller
         return $transaction->getAllocationTotals();
     }
 
-    /**
-     * Get basic and budget totals
-     * GET /totals
-     * @return array
-     */
-    public function index()
-    {
-        // Better way. Middleware? Compare session token with token sent with form?
-//        checkLoggedIn();
-
-        return $this->totalsService->getBasicAndBudgetTotals();
-    }
 
 }

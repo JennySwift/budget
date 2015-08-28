@@ -11,6 +11,8 @@ use Debugbar;
  */
 class TransactionsRepository
 {
+
+
     /**
      * Insert tags into transaction
      * @param $transaction

@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\Savings;
-use App\Models\Totals\BasicTotals;
+use App\Models\Totals\BasicTotal;
 use App\Models\Totals\FixedAndFlexData;
+use App\Models\Totals\Total;
 use Auth;
 use DB;
 
@@ -16,7 +16,19 @@ use DB;
 class TotalsService
 {
 
-//    /**
+    /**
+     * Fetch the basic and budget totals
+     * @return array
+     */
+    public function getBasicAndBudgetTotals()
+    {
+        return new Total(
+            BasicTotal::createFromDatabase(),
+            FixedAndFlexData::createFromDatabase()
+        );
+    }
+
+    //    /**
 //     * @var FixedAndFlexData
 //     */
 //    private $fixedAndFlexData;
@@ -34,28 +46,14 @@ class TotalsService
      *
      * @return array
      */
-    public function getBasicAndBudgetTotals()
-    {
-        // If in the future you feel like you need to update this response, I'd suggest to create a
-        // BasicAndBudgetTotal object, easier to maintain on the long run.
-        return [
-            'basic' => BasicTotals::createFromDatabase()->toArray(),
-            'budget' => FixedAndFlexData::createFromDatabase()->toArray()
-        ];
-    }
-
-    /**
-     *
-     * @return array
-     */
-//    public function getBasicTotals()
+//    public function getBasicTotal()
 //    {
         //Could change 'get' to 'calculate' in the method names
-//        $basicTotals = new BasicTotals();
+//        $basicTotals = new BasicTotal();
 //        $credit = $basicTotals->getCredit();
 //        $debit = $basicTotals->getDebit();
 
-//        return BasicTotals::createFromDatabase()->toArray();
+//        return BasicTotal::createFromDatabase()->toArray();
 
         //$totals could be an object
         //Learn about presenters? Lesson on Laracasts.

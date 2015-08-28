@@ -2,8 +2,6 @@
 
 namespace App\Models\Totals;
 
-use App\Models\Savings;
-
 /**
  * Class RB
  * @package App\Totals
@@ -103,7 +101,7 @@ class RB {
         //maybe interface if two repositories have similar methods?
         //flex budget repository and fixed budget repository and they would share same methods, interface budget
         //or extend budgetrepository
-        $basicTotals = BasicTotals::createFromDatabase();
+        $basicTotals = BasicTotal::createFromDatabase();
 
         return $this->calculateRemainingBalance($basicTotals, $this->FB, $this->FLB);
     }
@@ -120,12 +118,12 @@ class RB {
 
     /**
      * Calculate remaining balance
-     * @param BasicTotals $basicTotals
+     * @param BasicTotal $basicTotals
      * @param FixedBudgetTable $fixedBudget
      * @param FlexBudgetTable $flexBudget
      * @return mixed
      */
-    public function calculateRemainingBalance(BasicTotals $basicTotals, FixedBudgetTable $fixedBudget, FlexBudgetTable $flexBudget)
+    public function calculateRemainingBalance(BasicTotal $basicTotals, FixedBudgetTable $fixedBudget, FlexBudgetTable $flexBudget)
     {
         $RB =
             $basicTotals->credit

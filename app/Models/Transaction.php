@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Traits\ForCurrentUserTrait;
 use Auth;
 use DB;
 use Debugbar;
@@ -12,11 +13,16 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
 
+    use ForCurrentUserTrait;
+
     /**
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at', 'user_id'];
 
+    /**
+     * @var array
+     */
     protected $appends = ['path'];
 
     /**
