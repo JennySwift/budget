@@ -14,9 +14,16 @@ class CreateBudgetsTable extends Migration {
 	{
 		Schema::create('budgets', function(Blueprint $table)
 		{
-			$table->increments('id')->index();
+			$table->increments('id');
+			$table->integer('user_id')->unsigned()->index();
+			$table->enum('type', Config::get('budgets.types'))->index();
+			$table->string('name')->index();
+			$table->decimal('amount', 10, 2)->index();
+			$table->date('starting_date');
 			$table->timestamps();
-			$table->string('type');
+
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+			$table->unique(['user_id', 'name']);
 		});
 	}
 

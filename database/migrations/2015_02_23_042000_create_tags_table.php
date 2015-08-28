@@ -12,24 +12,16 @@ class CreateTagsTable extends Migration {
 	 */
 	public function up()
 	{
-		DB::statement('SET FOREIGN_KEY_CHECKS=0');
-
 		Schema::create('tags', function(Blueprint $table)
 		{
-			$table->increments('id')->index();
-			$table->timestamps();
-			$table->string('name');
-			$table->decimal('fixed_budget', 10, 2)->nullable()->index();
-			$table->decimal('flex_budget', 10, 2)->nullable()->index();
-			$table->date('starting_date')->nullable()->index();
-			$table->integer('budget_id')->nullable()->unsigned()->index();
+			$table->increments('id');
 			$table->integer('user_id')->unsigned()->index();
+			$table->string('name')->index();
+			$table->timestamps();
 
-			$table->foreign('budget_id')->references('id')->on('budgets');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+			$table->unique(['user_id', 'name']);
 		});
-
-		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 	/**
@@ -39,11 +31,7 @@ class CreateTagsTable extends Migration {
 	 */
 	public function down()
 	{
-		DB::statement('SET FOREIGN_KEY_CHECKS=0');
-
 		Schema::drop('tags');
-
-		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 }

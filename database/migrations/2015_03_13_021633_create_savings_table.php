@@ -12,19 +12,15 @@ class CreateSavingsTable extends Migration {
 	 */
 	public function up()
 	{
-		DB::statement('SET FOREIGN_KEY_CHECKS=0');
-
 		Schema::create('savings', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->timestamps();
-			$table->decimal('amount', 10, 2);
 			$table->integer('user_id')->unsigned()->index();
+			$table->decimal('amount', 10, 2);
+			$table->timestamps();
 
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 		});
-
-		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 	/**
@@ -34,11 +30,7 @@ class CreateSavingsTable extends Migration {
 	 */
 	public function down()
 	{
-		DB::statement('SET FOREIGN_KEY_CHECKS=0');
-
 		Schema::drop('savings');
-
-		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 }

@@ -16,11 +16,10 @@ class CreateAccountsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('user_id')->unsigned()->index();
-			$table->string('name');
+			$table->string('name')->index();
 			$table->timestamps();
 
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
 			$table->unique(['user_id', 'name']);
 		});
 	}
