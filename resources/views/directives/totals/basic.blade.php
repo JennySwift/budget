@@ -9,43 +9,43 @@
         </tr>
 
         <tr class="tooltipster" title="credit">
-            <td>C:</td>
+            <td>Credit:</td>
             <td><span class="badge badge-success">[[basicTotals.credit]]</span></td>
             <td><span ng-if="totals.changes.credit">[[totals.changes.credit]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="remaining fixed budget (total of fixed budget info column R)">
-            <td>RFB:</td>
+            <td>Remaining fixed budget:</td>
             <td><span class="badge badge-danger">[[totals.budget.FB.totals.remaining]]</span></td>
             <td><span ng-if="totals.changes.RFB">[[totals.changes.RFB]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of expense transactions that have no budget">
-            <td>EWB:</td>
+            <td>Expenses with no budget:</td>
             <td><span class="badge badge-danger">[[basicTotals.EWB]]</span></td>
             <td><span ng-if="totals.changes.EWB">[[totals.changes.EWB]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a fixed budget before its starting date">
-            <td>EFBBSD:</td>
+            <td>Expenses with <b>fixed</b> budget before starting date:</td>
             <td><span class="badge badge-danger">[[totals.budget.FB.totals.spentBeforeSD]]</span></td>
             <td><span ng-if="totals.changes.EFBBSD">[[totals.changes.EFBBSD]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget before its starting date">
-            <td>EFLBBSD:</td>
+            <td>Expenses with <b>flex</b> budget before starting date:</td>
             <td><span class="badge badge-danger">[[totals.budget.FLB.totals.spentBeforeSD]]</span></td>
             <td><span ng-if="totals.changes.EFLBBSD">[[totals.changes.EFLBBSD]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="savings">
-            <td>S:</td>
+            <td>Savings:</td>
             <td><span class="badge badge-danger">[[basicTotals.savings]]</span></td>
             <td><span ng-if="totals.changes.savings">[[totals.changes.savings]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="remaining balance without EFLB">
-            <td>RB:</td>
+            <td>Remaining balance:</td>
             <td><span class="badge badge-danger">[[totals.budget.RBWEFLB]]</span></td>
             <td>
                 <span ng-if="totals.changes.RBWEFLB">[[totals.changes.RBWEFLB]]</span>

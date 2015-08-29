@@ -9,37 +9,37 @@
         </tr>
 
         <tr class="tooltipster" title="debit">
-            <td>D:</td>
+            <td>Debit:</td>
             <td><span id="total_income_span" class="badge badge-danger">[[basicTotals.debit]]</span></td>
             <td><span ng-if="totals.changes.debit">[[totals.changes.debit]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="balance (C - D)">
-            <td>B:</td>
+            <td>Balance:</td>
             <td><span id="total_income_span" class="badge badge-warning">[[basicTotals.balance]]</span></td>
             <td><span ng-if="totals.changes.balance">[[totals.changes.balance]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="reconciled">
-            <td>R:</td>
+            <td>Reconciled:</td>
             <td><span id="total_income_span" class="badge badge-info">[[basicTotals.reconciled_sum]]</span></td>
             <td><span ng-if="totals.changes.reconciled">[[totals.changes.reconciled]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="fixed budget (total of fixed budget info column C)">
-            <td>CFB:</td>
+            <td>Cumulative fixed budget:</td>
             <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FB.totals.cumulative]]</span></td>
             <td><span ng-if="totals.changes.CFB">[[totals.changes.CFB]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget">
-            <td>EFLBASD:</td>
+            <td>Expenses with <b>flex</b> budget after starting date:</td>
             <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FLB.totals.spentAfterSD]]</span></td>
             <td><span ng-if="totals.changes.EFLB">[[totals.changes.EFLB]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a fixed budget after its starting date">
-            <td>EFBASD:</td>
+            <td>Expenses with <b>fixed</b> budget after starting date:</td>
             <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FB.totals.spentAfterSD]]</span></td>
             <td><span ng-if="totals.changes.EFBASD">[[totals.changes.EFBASD]]</span></td>
         </tr>
