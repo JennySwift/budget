@@ -44,7 +44,7 @@ class TotalsController extends Controller
 
     /**
      * Get basic and budget totals
-     * GET /totals
+     * GET api/totals
      * @return array
      */
     public function index()

@@ -177,10 +177,11 @@ class TransactionsController extends Controller
      * }
      * }
      *
+     * POST api/transactions/{transactions}
      * @param Request $request
      * @return array
      */
-    public function insertTransaction(Request $request)
+    public function store(Request $request)
     {
         $new_transaction = $request->get('new_transaction');
         $type = $new_transaction['type'];
@@ -222,6 +223,7 @@ class TransactionsController extends Controller
 
     /**
      * Update the transaction
+     * PUT api/transactions/{transactions}
      * @param Request $request
      */
     public function update(Request $request)

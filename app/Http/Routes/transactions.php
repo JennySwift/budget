@@ -10,7 +10,7 @@ Route::post('select/autocompleteTransaction', 'TransactionsController@autocomple
 Route::post('select/countTransactionsWithTag', 'TransactionsController@countTransactionsWithTag');
 
 // Insert
-Route::post('insert/transaction', 'TransactionsController@insertTransaction');
+//Route::post('insert/transaction', 'TransactionsController@insertTransaction');
 
 // Update
 Route::post('update/massDescription', 'TransactionsController@updateMassDescription');
@@ -23,4 +23,4 @@ Route::post('update/allocation', 'TransactionsController@updateAllocation');
 Route::post('delete/transaction', 'TransactionsController@deleteTransaction');
 
 // Resources
-Route::resource('transactions', 'TransactionsController', ['only' => ['show', 'update']]);
+Route::resource('transactions', 'TransactionsController', ['only' => ['show', 'store', 'update']]);

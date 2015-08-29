@@ -28,6 +28,7 @@ class AccountsController extends Controller
     }
 
     /**
+     * GET api/accounts
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function index()
@@ -36,7 +37,7 @@ class AccountsController extends Controller
     }
 
     /**
-     *
+     * POST api/accounts
      * @param InsertAccountRequest $insertAccountRequest
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
@@ -52,7 +53,7 @@ class AccountsController extends Controller
 
     /**
      * Demonstration of Model Binding :)
-     * GET /accounts/{accounts} => ID of the object, but this is the name of the parameter itself
+     * GET api/accounts/{accounts}
      * @param $account
      */
     public function show(Account $account)
@@ -61,8 +62,7 @@ class AccountsController extends Controller
     }
 
     /**
-     * POST /update/accountName (current)
-     * PUT /accounts/{accounts} (ideal)
+     * PUT api/accounts/{accounts}
      * @param UpdateAccountRequest $updateAccountRequest
      * @param Account $account
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
@@ -72,26 +72,18 @@ class AccountsController extends Controller
         $account->name = $updateAccountRequest->get('name');
         $account->save();
 
-        //checkForDuplicates($account);
-
         return response($account, 200);
     }
 
     /**
      * Delete an account, only if it belongs to the user
+     * DELETE api/accounts/{accounts}
      * @param DeleteAccountRequest $deleteAccountRequest
      * @param $account
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     * @internal param $id
+     * @return \Illuminate\Http\Response
      */
     public function destroy(DeleteAccountRequest $deleteAccountRequest, $account)
     {
-        /**
-         * @VP:
-         * I changed the model binding for accounts to use forCurrentUser (Routes/accounts.php)
-         * But what if there are times when I don't want to use forCurrentUser and I'm stuck with it
-         * because of the model binding? Can model binding be flexible to solve that?
-         */
         $account->delete();
 
         return $this->responseNoContent();

@@ -543,8 +543,7 @@ app.factory('TransactionsFactory', function ($http) {
     $object.totals = {};
 
     $object.insertTransaction = function ($new_transaction, $filter) {
-        var $url = 'api/insert/transaction';
-        var $description = 'new transaction';
+        var $url = '/api/transactions';
 
         if ($new_transaction.type === "expense" && $new_transaction.total > 0) {
             //transaction is an expense without the negative sign
@@ -556,7 +555,6 @@ app.factory('TransactionsFactory', function ($http) {
         }
 
         var $data = {
-            description: $description,
             new_transaction: $new_transaction,
             filter: $filter
         };

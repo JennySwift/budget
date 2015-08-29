@@ -20,7 +20,6 @@ class SettingsController extends Controller
      */
     public function updateSettings(Request $request)
     {
-//        Debugbar::info('request', $request);
         $user = Auth::user();
         $user->settings()->merge($request->all());
 
