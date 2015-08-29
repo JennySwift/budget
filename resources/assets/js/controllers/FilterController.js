@@ -13,7 +13,7 @@
 
         $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
-        $scope.tags = tags_response;
+        //$scope.tags = tags_response;
         $scope.types = ["income", "expense", "transfer"];
         $scope.totals = filter_response.totals;
         $scope.filterTab = 'show';

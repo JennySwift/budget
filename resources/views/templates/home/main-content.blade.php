@@ -2,7 +2,8 @@
 
     <totals-directive
             ng-show="show.basic_totals || show.budget_totals"
-            totals="totals"
+            {{--totals="totals"--}}
+            basicTotals="basicTotals"
             getTotals="getTotals()"
             provideFeedback="provideFeedback()"
             show="show">

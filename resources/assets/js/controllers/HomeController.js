@@ -12,7 +12,8 @@
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
 
-        $scope.totals = totals_response;
+        //$scope.totals = totals_response;
+        $scope.basicTotals = basicTotals;
         $scope.colors = me.preferences.colors;
 
         if ($scope.env === 'local') {

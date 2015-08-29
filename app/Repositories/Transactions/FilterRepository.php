@@ -589,7 +589,7 @@ class FilterRepository {
     {
         foreach ($transactions as $transaction) {
             $date = [
-                'user' => convertDate($transaction->date, 'user')
+                'user' => convertDate(Carbon::createFromFormat('Y-m-d', $transaction->date))
             ];
 
             $transaction->date = $date;

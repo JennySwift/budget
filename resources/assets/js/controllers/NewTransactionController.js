@@ -11,7 +11,7 @@
 
         $scope.filterFactory = FilterFactory;
         $scope.dropdown = {};
-        $scope.tags = tags_response;
+        //$scope.tags = tags_response;
         $scope.types = ["income", "expense", "transfer"];
 
         $scope.new_transaction = {

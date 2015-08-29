@@ -27,15 +27,27 @@
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a fixed budget before its starting date">
-            <td>Expenses with <b>fixed</b> budget before starting date:</td>
+            <td>Expenses with <b>fixed</b> budget <b>before</b> starting date:</td>
             <td><span class="badge badge-danger">[[totals.budget.FB.totals.spentBeforeSD]]</span></td>
             <td><span ng-if="totals.changes.EFBBSD">[[totals.changes.EFBBSD]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget before its starting date">
-            <td>Expenses with <b>flex</b> budget before starting date:</td>
+            <td>Expenses with <b>flex</b> budget <b>before</b> starting date:</td>
             <td><span class="badge badge-danger">[[totals.budget.FLB.totals.spentBeforeSD]]</span></td>
             <td><span ng-if="totals.changes.EFLBBSD">[[totals.changes.EFLBBSD]]</span></td>
+        </tr>
+
+        <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget">
+            <td>Expenses with <b>flex</b> budget <b>after</b> starting date:</td>
+            <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FLB.totals.spentAfterSD]]</span></td>
+            <td><span ng-if="totals.changes.EFLB">[[totals.changes.EFLB]]</span></td>
+        </tr>
+
+        <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a fixed budget after its starting date">
+            <td>Expenses with <b>fixed</b> budget <b>after</b> starting date:</td>
+            <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FB.totals.spentAfterSD]]</span></td>
+            <td><span ng-if="totals.changes.EFBASD">[[totals.changes.EFBASD]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="savings">

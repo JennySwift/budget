@@ -12,7 +12,7 @@
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
         $scope.transactions = filter_response.transactions;
-        $scope.tags = tags_response;
+        //$scope.tags = tags_response;
         $scope.accounts = accounts_response;
 
         /**

@@ -39,8 +39,9 @@ class PagesController extends Controller {
         JavaScript::put([
             //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),
-            'tags_response' => Tag::all(),//$tagsRepository->getTags(),
-            'totals_response' => [],//$totalsService->getBasicAndBudgetTotals(),
+//            'tags_response' => Tag::all(),//$tagsRepository->getTags(),
+//            'totals_response' => [],//$totalsService->getBasicAndBudgetTotals(),
+            'basicTotals' => BasicTotal::createFromDatabase()->toArray(),
             'filter_response' => [],//$filterRepository->filterTransactions(),
             'me' => Auth::user(),
             'env' => app()->env

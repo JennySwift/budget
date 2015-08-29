@@ -466,7 +466,7 @@ var app = angular.module('budgetApp');
 
         $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
-        $scope.tags = tags_response;
+        //$scope.tags = tags_response;
         $scope.types = ["income", "expense", "transfer"];
         $scope.totals = filter_response.totals;
         $scope.filterTab = 'show';
@@ -698,7 +698,8 @@ var app = angular.module('budgetApp');
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
 
-        $scope.totals = totals_response;
+        //$scope.totals = totals_response;
+        $scope.basicTotals = basicTotals;
         $scope.colors = me.preferences.colors;
 
         if ($scope.env === 'local') {
@@ -890,7 +891,7 @@ var app = angular.module('budgetApp');
 
         $scope.filterFactory = FilterFactory;
         $scope.dropdown = {};
-        $scope.tags = tags_response;
+        //$scope.tags = tags_response;
         $scope.types = ["income", "expense", "transfer"];
 
         $scope.new_transaction = {
@@ -1248,7 +1249,7 @@ var app = angular.module('budgetApp');
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
         $scope.transactions = filter_response.transactions;
-        $scope.tags = tags_response;
+        //$scope.tags = tags_response;
         $scope.accounts = accounts_response;
 
         /**
