@@ -1,15 +1,16 @@
 <?php namespace App\Models;
 
 use App\Traits\ForCurrentUserTrait;
-use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Account
  * @package App\Models
  */
-class Account extends Model {
+class Account extends Model
+{
 
     use ForCurrentUserTrait;
 
@@ -40,7 +41,7 @@ class Account extends Model {
     {
         return $this->hasMany('App\Models\Transaction');
     }
-    
+
     /**
      * Return the URL of the resource
      * @return string

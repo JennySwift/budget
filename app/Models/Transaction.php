@@ -39,9 +39,9 @@ class Transaction extends Model
      * Todo: set the allocation type?
      * @return $this
      */
-    public function tags()
+    public function budgets()
     {
-        return $this->belongsToMany('App\Models\Tag', 'transactions_tags')
+        return $this->belongsToMany('App\Models\Budget', 'budgets_transactions')
             ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation')
             ->orderBy('name', 'asc');
     }

@@ -19,10 +19,12 @@ class Budget extends Model
 
     /**
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return mixed
      */
-    public function tags()
+    public function transactions()
     {
-        return $this->hasMany('App\Models\Tag');
+        return $this->belongsToMany('App\Models\Transaction', 'budgets_transactions')
+            ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation')
+            ->orderBy('name', 'asc');
     }
 }
