@@ -132,25 +132,25 @@ class Tag extends Model implements Arrayable
         return;
     }
 
-    /**
-     * Get the cumulative month number for a tag (CMN).
-     * CMN is based on the starting date (CSD) for a tag.
-     * @param $CSD
-     * @return string
-     */
-    public function getCMNAttribute()
-    {
-        if ($this->starting_date) {
-            $diff = Carbon::now()->diff(Carbon::createFromFormat('Y-m-d', $this->starting_date));
-
-            $CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
-        }
-        else {
-            $CMN = 1;
-        }
-
-        return $CMN;
-    }
+//    /**
+//     * Get the cumulative month number for a tag (CMN).
+//     * CMN is based on the starting date (CSD) for a tag.
+//     * @param $CSD
+//     * @return string
+//     */
+//    public function getCMNAttribute()
+//    {
+//        if ($this->starting_date) {
+//            $diff = Carbon::now()->diff(Carbon::createFromFormat('Y-m-d', $this->starting_date));
+//
+//            $CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
+//        }
+//        else {
+//            $CMN = 1;
+//        }
+//
+//        return $CMN;
+//    }
 
     /**
      *
@@ -193,29 +193,29 @@ class Tag extends Model implements Arrayable
 
     //Todo: The four methods below are causing a lot of queries to run.
 
-    /**
-     * Get total spent on a given tag on or after starting date
-     * @param $tag_id
-     * @param $starting_date
-     * @return mixed
-     */
-    public function getSpentAfterSDAttribute()
-    {
-        $total = DB::table('transactions_tags')
-            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-            ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
-            ->where('transactions_tags.tag_id', $this->id);
-
-        if ($this->starting_date) {
-            $total = $total->where('transactions.date', '>=', $this->starting_date);
-        }
-
-        $total = $total
-            ->where('transactions.type', 'expense')
-            ->sum('calculated_allocation');
-
-        return $this->spentAfterSD = $total;
-    }
+//    /**
+//     * Get total spent on a given tag on or after starting date
+//     * @param $tag_id
+//     * @param $starting_date
+//     * @return mixed
+//     */
+//    public function getSpentAfterSDAttribute()
+//    {
+//        $total = DB::table('transactions_tags')
+//            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
+//            ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
+//            ->where('transactions_tags.tag_id', $this->id);
+//
+//        if ($this->starting_date) {
+//            $total = $total->where('transactions.date', '>=', $this->starting_date);
+//        }
+//
+//        $total = $total
+//            ->where('transactions.type', 'expense')
+//            ->sum('calculated_allocation');
+//
+//        return $this->spentAfterSD = $total;
+//    }
 
     /**
      * Get total received on a given tag on or after starting date

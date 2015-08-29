@@ -126,14 +126,14 @@ class RB {
     public function calculateRemainingBalance(BasicTotal $basicTotals, FixedBudgetTable $fixedBudget, FlexBudgetTable $flexBudget)
     {
         $RB =
-            $basicTotals->credit
-            - $fixedBudget->totals->remaining
-            + $basicTotals->EWB
-            + $flexBudget->totals->spentBeforeSD
-            + $flexBudget->totals->spentAfterSD
-            + $fixedBudget->totals->spentBeforeSD
-            + $fixedBudget->totals->spentAfterSD
-            - $basicTotals->savings;
+            $basicTotals->credit // Total of income from the user regardless of budgets
+            - $fixedBudget->totals->remaining // Total remainings on the fixed budget table
+            + $basicTotals->EWB // Total of all the expenses without budget
+            + $flexBudget->totals->spentBeforeSD // Total of spent before starting date for flex budgets
+            + $flexBudget->totals->spentAfterSD // Total of spent after starting date for flex budgets
+            + $fixedBudget->totals->spentBeforeSD // Total of spent before starting date for fixed budgets
+            + $fixedBudget->totals->spentAfterSD // Total of spent after starting date for fixed budgets
+            - $basicTotals->savings; // Savings
 
         return $RB;
     }

@@ -92,17 +92,23 @@ function convertToBoolean($variable)
  * @param $for
  * @return string
  */
-function convertDate($date, $for)
+function convertDate( Carbon $date, $for = NULL)
 {
-    if ($for === 'user') {
-        $date = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/y');
+    switch($for) {
+        case "sql":
+            return $date->format('Y-m-d');
+            break;
+        default:
+            return $date->format('d/m/y');
+            break;
     }
-    elseif ($for === 'sql') {
-        $date = Carbon::createFromFormat('d/m/y', $date)->format('Y-m-d');
-
-    }
-
-    return $date;
+//    if ($for === 'user') {
+//        return $date->format('d/m/y');
+//    }
+//    elseif ($for === 'sql') {
+//        return $date->format('Y-m-d');
+//
+//    }
 }
 
 /**

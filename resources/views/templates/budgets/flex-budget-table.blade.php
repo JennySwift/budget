@@ -32,9 +32,9 @@
         <td ng-click="showBudgetPopup(tag, 'flex')" class="CSD pointer">
             <span>[[budget.formattedStartingDate]]</span>
         </td>
-        <td ng-click="showBudgetPopup(tag, 'flex')" class="month-number pointer">[[budget.CMN]]</td>
-        <td ng-click="showBudgetPopup(tag, 'flex')" class="spent pointer">[[budget.spentAfterSD]]</td>
-        <td ng-click="showBudgetPopup(tag, 'flex')" class="received pointer">[[budget.receivedAfterSD]]</td>
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="month-number pointer">[[budget.cumulativeMonthNumber]]</td>
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="spent pointer">[[budget.spentAfterStartingDate]]</td>
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="received pointer">[[budget.receivedAfterStartingDate]]</td>
         <td ng-click="showBudgetPopup(tag, 'flex')" class="remaining pointer">[[budget.remaining]]</td>
         <td>
             <button ng-click="removeBudget(tag)" class="btn btn-xs btn-danger">delete</button>

@@ -40,19 +40,19 @@
             <span>[[budget.formattedStartingDate]]</span>
         </td>
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="month-number pointer">[[budget.CMN]]</td>
+        <td ng-click="showBudgetPopup(tag, 'fixed')" class="month-number pointer">[[budget.cumulativeMonthNumber]]</td>
 
         <td ng-click="showBudgetPopup(tag, 'fixed')" class="cumulative pointer">[[budget.cumulative]]</td>
 
         <td ng-click="showBudgetPopup(tag, 'fixed')" class="spent pointer">
-            <div>[[budget.spentBeforeSD]]</div>
+            <div>[[budget.spentBeforeStartingDate]]</div>
         </td>
 
         <td ng-click="showBudgetPopup(tag, 'fixed')" class="spent pointer">
-            <div>[[budget.spentAfterSD]]</div>
+            <div>[[budget.spentAfterStartingDate]]</div>
         </td>
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="received pointer">[[budget.receivedAfterSD]]</td>
+        <td ng-click="showBudgetPopup(tag, 'fixed')" class="received pointer">[[budget.receivedAfterStartingDate]]</td>
 
         <td ng-click="showBudgetPopup(tag, 'fixed')" class="remaining pointer">[[budget.remaining]]</td>
 
