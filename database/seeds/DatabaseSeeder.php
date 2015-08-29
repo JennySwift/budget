@@ -36,7 +36,6 @@ class DatabaseSeeder extends Seeder {
 	{
 		User::truncate();
 		Savings::truncate();
-		Color::truncate();
 		Budget::truncate();
 		Account::truncate();
 		Tag::truncate();
