@@ -65,6 +65,9 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             else if (response.data.error) {
                 $scope.provideFeedback(response.data.error, 'error');
             }
+            else if (response.data) {
+                //Todo (response.data is in a complicated format)
+            }
             else {
                 $scope.provideFeedback('There was an error', 'error');
             }

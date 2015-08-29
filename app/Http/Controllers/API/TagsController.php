@@ -66,6 +66,7 @@ class TagsController extends Controller
 
     /**
      * Insert a tag
+     * POST /api/tags
      * @param InsertTagRequest $request
      * @return \Illuminate\Http\Response
      */
