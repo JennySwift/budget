@@ -45,12 +45,12 @@ class TransactionSeeder extends Seeder {
     private function createExpense($user)
     {
         $transaction = new Transaction([
-            'type' => 'income',
+            'type' => 'expense',
             'date' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d'),
             'account_id' => Account::whereUserId($user->id)->get()->random(1)->id,
             'description' => $this->faker->sentence(1),
             'merchant' => $this->faker->name(),
-            'total' => $this->faker->randomElement([5, 10, 15, 20]),
+            'total' => $this->faker->randomElement([5, 10, 15, 20]) * -1,
             'reconciled' => $this->faker->numberBetween($min = 0, $max = 1),
             'allocated' => 0,
             'created_at' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s')

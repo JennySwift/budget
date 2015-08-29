@@ -10,19 +10,19 @@
 
         <tr class="tooltipster" title="debit">
             <td>D:</td>
-            <td><span id="total_income_span" class="badge badge-danger">[[totals.basic.debit]]</span></td>
+            <td><span id="total_income_span" class="badge badge-danger">[[basicTotals.debit]]</span></td>
             <td><span ng-if="totals.changes.debit">[[totals.changes.debit]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="balance (C - D)">
             <td>B:</td>
-            <td><span id="total_income_span" class="badge badge-warning">[[totals.basic.balance]]</span></td>
+            <td><span id="total_income_span" class="badge badge-warning">[[basicTotals.balance]]</span></td>
             <td><span ng-if="totals.changes.balance">[[totals.changes.balance]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="reconciled">
             <td>R:</td>
-            <td><span id="total_income_span" class="badge badge-info">[[totals.basic.reconciled_sum]]</span></td>
+            <td><span id="total_income_span" class="badge badge-info">[[basicTotals.reconciled_sum]]</span></td>
             <td><span ng-if="totals.changes.reconciled">[[totals.changes.reconciled]]</span></td>
         </tr>
 
@@ -49,20 +49,20 @@
     {{--<ul class="list-group totals">--}}
 
         {{--<li id="total" class="tooltipster list-group-item list-group-item-danger" title="debit">--}}
-            {{--<span class="badge">[[totals.basic.debit]]</span>--}}
+            {{--<span class="badge">[[basicTotals.debit]]</span>--}}
             {{--<span ng-if="totals.changes.debit" class="changed">Changed: [[totals.changes.debit]]</span>--}}
             {{--D:--}}
         {{--</li>--}}
 
         {{--<li id="balance" class="tooltipster list-group-item list-group-item-warning" title="balance (C - D)">--}}
             {{--B:--}}
-            {{--<span class="badge">[[totals.basic.balance]]</span>--}}
+            {{--<span class="badge">[[basicTotals.balance]]</span>--}}
             {{--<span ng-if="totals.changes.balance" class="changed">Changed: [[totals.changes.balance]]</span>--}}
         {{--</li>--}}
 
         {{--<li class="tooltipster list-group-item list-group-item-info" title="reconciled">--}}
             {{--R:--}}
-            {{--<span class="badge">[[totals.basic.reconciled_sum]]</span>--}}
+            {{--<span class="badge">[[basicTotals.reconciled_sum]]</span>--}}
             {{--<span ng-if="totals.changes.reconciled" class="changed">Changed: [[totals.changes.reconciled]]</span>--}}
         {{--</li>--}}
 

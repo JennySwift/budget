@@ -27,7 +27,8 @@
 
     <div id="budget-content">
         <totals-directive
-                totals="totals"
+                {{--totals="totals"--}}
+                basictotals="basicTotals"
                 getTotals="getTotals()"
                 show="show">
         </totals-directive>

@@ -62,6 +62,9 @@
         }
         .totals {
             @include totals;
+            th {
+                border-radius: 0;
+            }
         }
         .edit {
             width: 20px;

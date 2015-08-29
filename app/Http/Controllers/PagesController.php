@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Models\Account;
 use App\Models\Budget;
 use App\Models\Tag;
+use App\Models\Totals\BasicTotal;
 use App\Repositories\Tags\TagsRepository;
 use App\Repositories\Transactions\FilterRepository;
 use App\Services\TotalsService;
@@ -85,7 +86,8 @@ class PagesController extends Controller {
             'me' => Auth::user(),
             'fixedBudgets' => Budget::forCurrentUser()->whereType('fixed')->get(),
             'flexBudgets' => Budget::forCurrentUser()->whereType('flex')->get(),
-            'totals_response' => []//$totalsService->getBasicAndBudgetTotals()
+            'basicTotals' => BasicTotal::createFromDatabase()->toArray()
+//            'totals_response' => []//$totalsService->getBasicAndBudgetTotals()
         ]);
 
         return view('budgets');

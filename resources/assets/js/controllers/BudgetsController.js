@@ -9,7 +9,8 @@
          * scope properties
          */
 
-        $scope.totals = totals_response;
+        //$scope.totals = totals_response;
+        $scope.basicTotals = basicTotals;
         $scope.fixedBudgets = fixedBudgets;
         $scope.flexBudgets = flexBudgets;
         $scope.feedbackFactory = FeedbackFactory;

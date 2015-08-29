@@ -10,43 +10,43 @@
 
         <tr class="tooltipster" title="credit">
             <td>C:</td>
-            <td><span id="total_income_span" class="badge badge-success">[[totals.basic.credit]]</span></td>
+            <td><span class="badge badge-success">[[basicTotals.credit]]</span></td>
             <td><span ng-if="totals.changes.credit">[[totals.changes.credit]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="remaining fixed budget (total of fixed budget info column R)">
             <td>RFB:</td>
-            <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FB.totals.remaining]]</span></td>
+            <td><span class="badge badge-danger">[[totals.budget.FB.totals.remaining]]</span></td>
             <td><span ng-if="totals.changes.RFB">[[totals.changes.RFB]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of expense transactions that have no budget">
             <td>EWB:</td>
-            <td><span id="total_income_span" class="badge badge-danger">[[totals.basic.EWB]]</span></td>
+            <td><span class="badge badge-danger">[[basicTotals.EWB]]</span></td>
             <td><span ng-if="totals.changes.EWB">[[totals.changes.EWB]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a fixed budget before its starting date">
             <td>EFBBSD:</td>
-            <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FB.totals.spentBeforeSD]]</span></td>
+            <td><span class="badge badge-danger">[[totals.budget.FB.totals.spentBeforeSD]]</span></td>
             <td><span ng-if="totals.changes.EFBBSD">[[totals.changes.EFBBSD]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget before its starting date">
             <td>EFLBBSD:</td>
-            <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FLB.totals.spentBeforeSD]]</span></td>
+            <td><span class="badge badge-danger">[[totals.budget.FLB.totals.spentBeforeSD]]</span></td>
             <td><span ng-if="totals.changes.EFLBBSD">[[totals.changes.EFLBBSD]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="savings">
             <td>S:</td>
-            <td><span id="total_income_span" class="badge badge-danger">[[totals.basic.savings]]</span></td>
+            <td><span class="badge badge-danger">[[basicTotals.savings]]</span></td>
             <td><span ng-if="totals.changes.savings">[[totals.changes.savings]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="remaining balance without EFLB">
             <td>RB:</td>
-            <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.RBWEFLB]]</span></td>
+            <td><span class="badge badge-danger">[[totals.budget.RBWEFLB]]</span></td>
             <td>
                 <span ng-if="totals.changes.RBWEFLB">[[totals.changes.RBWEFLB]]</span>
             </td>
@@ -64,7 +64,7 @@
 
         {{--<li class="tooltipster list-group-item list-group-item-danger" title="total of expense transactions that have no budget">--}}
             {{--EWB:--}}
-            {{--<span class="badge">[[totals.basic.EWB]]</span>--}}
+            {{--<span class="badge">[[basicTotals.EWB]]</span>--}}
             {{--<span ng-if="totals.changes.EWB" class="changed">Changed: [[totals.changes.EWB]]</span>--}}
         {{--</li>--}}
 
@@ -82,9 +82,9 @@
 
         {{--<li class="tooltipster list-group-item list-group-item-danger" title="savings">--}}
             {{--S:--}}
-            {{--<span class="badge">[[totals.basic.savings]]</span>--}}
+            {{--<span class="badge">[[basicTotals.savings]]</span>--}}
             {{--<button ng-show="show.savings_total.edit_btn" ng-click="showSavingsTotalInput()" class="btn-xs">edit</button>--}}
-            {{--<input ng-show="show.savings_total.input" ng-model="totals.basic.savings_total" ng-keyup="updateSavingsTotal($event.keyCode)" type="text" placeholder="new savings total" id="edited-savings-total">--}}
+            {{--<input ng-show="show.savings_total.input" ng-model="basicTotals.savings_total" ng-keyup="updateSavingsTotal($event.keyCode)" type="text" placeholder="new savings total" id="edited-savings-total">--}}
             {{--<span ng-if="totals.changes.savings" class="changed">Changed: [[totals.changes.savings]]</span>--}}
         {{--</li>--}}
 

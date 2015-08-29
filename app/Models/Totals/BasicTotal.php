@@ -39,9 +39,11 @@ class BasicTotal {
      */
     public function setDebit()
     {
-        return Transaction::forCurrentUser()
+        $debit = Transaction::forCurrentUser()
                           ->where('type', 'expense')
                           ->sum('total');
+
+        $this->debit = $debit;
     }
 
     /**
@@ -50,9 +52,11 @@ class BasicTotal {
      */
     public function setCredit()
     {
-        return Transaction::forCurrentUser()
+        $credit = Transaction::forCurrentUser()
                           ->where('type', 'income')
                           ->sum('total');
+
+        $this->credit = $credit;
     }
 
     /**
