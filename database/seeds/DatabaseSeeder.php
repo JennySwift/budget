@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder {
 		$this->truncate();
         $this->call('UserSeeder');
 		$this->call('SavingsSeeder');
-		$this->call('ColorSeeder');
 		$this->call('BudgetSeeder');
 		$this->call('AccountSeeder');
 		$this->call('TagSeeder');

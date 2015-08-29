@@ -52,5 +52,4 @@ class TotalsController extends Controller
         return $transaction->getAllocationTotals();
     }
 
-
 }

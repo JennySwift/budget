@@ -20,16 +20,61 @@ class UserSeeder extends Seeder {
         }
 	}
 
+    private function seedLocalUser()
+    {
+        User::truncate();
+        $this->createUser('Dummy', 'cheezyspaghetti@gmail.com');
+    }
+
+    /**
+     * Seeding production site.
+     * So that I don't delete all my users, but just the seeded user.
+     * Doing the if local check here to make sure I don't delete my real account
+     * if I was to forget to change the email address of $dummy.
+     */
+    private function seedProductionUser()
+    {
+        if (app()->env === 'local') {
+            $dummy = User::whereEmail('cheezyspaghetti@gmail.com')->first();
+        }
+        else {
+            $dummy = User::whereEmail('cheezyspaghetti@optusnet.com.au')->first();
+        }
+
+        if ($dummy) {
+            $this->deleteProductionDummyUser($dummy);
+        }
+
+        if (app()->env === 'local') {
+            $this->createUser('Dummy', 'cheezyspaghetti@gmail.com');
+        }
+        else {
+            $this->createUser('Dummy', 'cheezyspaghetti@optusnet.com.au', 's2fkxo6jkx%c{AnNUYqfLx6(TWhBni');
+        }
+    }
+
+    private function deleteProductionDummyUser($dummy)
+    {
+        $dummy->transactions()->delete();
+        $dummy->accounts()->delete();
+        $dummy->savings()->delete();
+        $dummy->tags()->delete();
+        $dummy->delete();
+    }
+
     private function createUser($name, $email, $password = 'abcdefg')
     {
         User::create([
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password),
-            'settings' => [
-                'income' => 'green',
-                'expense' => 'red',
-                'transfer' => 'orange'
+            'preferences' => [
+                'colors' => [
+                    'income' => Config::get('colors.income'),
+                    'expense' => Config::get('colors.expense'),
+                    'transfer' => Config::get('colors.transfer'),
+                ],
+                'clearFields' => false
             ]
         ]);
     }

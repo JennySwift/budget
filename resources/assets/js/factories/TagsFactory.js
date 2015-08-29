@@ -48,30 +48,6 @@ app.factory('TagsFactory', function ($http) {
             var $url = '/api/tags/'+$tag_id;
 
             return $http.delete($url);
-        },
-
-        // @TODO Should be related to transactions, even though they look like they belongs with tags
-        countTransactionsWithTag: function ($tag_id) {
-            var $url = 'api/select/countTransactionsWithTag';
-            var $description = 'count transactions with tag';
-            var $data = {
-                description: $description,
-                tag_id: $tag_id
-            };
-
-            return $http.post($url, $data);
-        },
-
-        //duplicateTagCheck: function () {
-        //    var $url = 'select/duplicate-tag-check';
-        //    var $description = 'duplicate tag check';
-        //    var $new_tag_name = $("#new-tag-input").val();
-        //    var $data = {
-        //        description: $description,
-        //        new_tag_name: $new_tag_name
-        //    };
-        //
-        //    return $http.post($url, $data);
-        //},
+        }
     };
 });

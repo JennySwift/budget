@@ -18,6 +18,7 @@ class UsersController extends Controller
 
     /**
      * Delete the user's account
+     * DELETE api/user/{user}
      * @param $id
      */
     public function destroy($id)

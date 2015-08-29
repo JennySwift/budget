@@ -3,8 +3,7 @@ app.factory('TransactionsFactory', function ($http) {
     $object.totals = {};
 
     $object.insertTransaction = function ($new_transaction, $filter) {
-        var $url = 'api/insert/transaction';
-        var $description = 'new transaction';
+        var $url = '/api/transactions';
 
         if ($new_transaction.type === "expense" && $new_transaction.total > 0) {
             //transaction is an expense without the negative sign
@@ -16,7 +15,6 @@ app.factory('TransactionsFactory', function ($http) {
         }
 
         var $data = {
-            description: $description,
             new_transaction: $new_transaction,
             filter: $filter
         };
@@ -116,6 +114,17 @@ app.factory('TransactionsFactory', function ($http) {
         $(".checked").each(function () {
             deleteTransaction($(this));
         });
+    };
+
+    $object.countTransactionsWithTag = function ($tag_id) {
+        var $url = 'api/select/countTransactionsWithTag';
+        var $description = 'count transactions with tag';
+        var $data = {
+            description: $description,
+            tag_id: $tag_id
+        };
+
+        return $http.post($url, $data);
     };
 
 	return $object;

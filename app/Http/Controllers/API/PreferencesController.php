@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Models\Color;
 use App\Models\Preference;
 use Auth;
 use Illuminate\Http\Request;
@@ -14,6 +15,34 @@ use Illuminate\Http\Request;
  */
 class PreferencesController extends Controller
 {
+    /**
+     *
+     */
+    public function updatePreferences(Request $request)
+    {
+        $user = Auth::user();
+        $user->preferences()->merge($request->all());
+
+        return $user->settings;
+    }
+
+    /**
+     *
+     * @param Request $request
+     */
+    public function updateColors(Request $request)
+    {
+        $colors = $request->get('colors');
+
+        foreach ($colors as $type => $color) {
+            Color::where('item', $type)
+                ->where('user_id', Auth::user()->id)
+                ->update([
+                    'color' => $color
+                ]);
+        }
+    }
+
     /**
      *
      * @return mixed

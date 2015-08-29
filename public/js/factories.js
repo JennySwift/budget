@@ -233,21 +233,6 @@ app.factory('BudgetsFactory', function ($http) {
 
 	};
 });
-app.factory('ColorsFactory', function ($http) {
-	return {
-		updateColors: function ($colors) {
-			var $url = 'api/update/colors';
-			var $description = 'colors';
-			var $data = {
-				description: $description,
-				colors: $colors
-			};
-			
-			return $http.post($url, $data);
-		}
-	};
-});
-
 app.factory('FeedbackFactory', function ($http) {
     var $object = {};
 
@@ -420,7 +405,7 @@ app.factory('FilterFactory', function ($http) {
 app.factory('PreferencesFactory', function ($http) {
     return {
         savePreferences: function ($preferences) {
-            var $url = 'api/update/settings';
+            var $url = 'api/update/preferences';
             var $data = $preferences;
 
             return $http.post($url, $data);
@@ -429,6 +414,16 @@ app.factory('PreferencesFactory', function ($http) {
             var $url = 'api/insert/insertOrUpdateDateFormat';
             var $data = {
                 new_format: $new_format
+            };
+
+            return $http.post($url, $data);
+        },
+        updateColors: function ($colors) {
+            var $url = 'api/update/colors';
+            var $description = 'colors';
+            var $data = {
+                description: $description,
+                colors: $colors
             };
 
             return $http.post($url, $data);
@@ -486,35 +481,14 @@ app.factory('SavingsFactory', function ($http) {
 });
 app.factory('TagsFactory', function ($http) {
     return {
+        /**
+         *
+         * @returns {*}
+         */
         getTags: function () {
-            var $url = 'api/select/tags';
-            var $description = 'tags';
-            var $data = {
-                description: $description
-            };
+            var $url = 'api/tags';
 
-            return $http.post($url, $data);
-        },
-        //duplicateTagCheck: function () {
-        //    var $url = 'select/duplicate-tag-check';
-        //    var $description = 'duplicate tag check';
-        //    var $new_tag_name = $("#new-tag-input").val();
-        //    var $data = {
-        //        description: $description,
-        //        new_tag_name: $new_tag_name
-        //    };
-        //
-        //    return $http.post($url, $data);
-        //},
-        countTransactionsWithTag: function ($tag_id) {
-            var $url = 'api/select/countTransactionsWithTag';
-            var $description = 'count transactions with tag';
-            var $data = {
-                description: $description,
-                tag_id: $tag_id
-            };
-
-            return $http.post($url, $data);
+            return $http.get($url);
         },
 
         /**
@@ -522,37 +496,39 @@ app.factory('TagsFactory', function ($http) {
          * @returns {*}
          */
         insertTag: function () {
-            var $url = 'api//tags';
+            var $url = '/api/tags';
             var $data = {
-                new_tag_name: $("#new-tag-input").val()
+                name: $("#new-tag-input").val()
             };
             $("#tag-already-created").hide();
 
             return $http.post($url, $data);
         },
 
+        /**
+         *
+         * @param $tag_id
+         * @param $tag_name
+         * @returns {*}
+         */
         updateTagName: function ($tag_id, $tag_name) {
-            var $url = 'api/update/tagName';
-            var $description = 'tag name';
+            var $url = 'api/tags/'+$tag_id+'/update';
             var $data = {
-                description: $description,
-                tag_id: $tag_id,
-                tag_name: $tag_name
+                name: $tag_name
             };
 
-            return $http.post($url, $data);
-
+            return $http.put($url, $data);
         },
 
+        /**
+         *
+         * @param $tag_id
+         * @returns {*}
+         */
         deleteTag: function ($tag_id) {
-            var $url = 'api/delete/tag';
-            var $description = 'tag';
-            var $data = {
-                description: $description,
-                tag_id: $tag_id
-            };
+            var $url = '/api/tags/'+$tag_id;
 
-            return $http.post($url, $data);
+            return $http.delete($url);
         }
     };
 });
@@ -562,8 +538,7 @@ app.factory('TransactionsFactory', function ($http) {
     $object.totals = {};
 
     $object.insertTransaction = function ($new_transaction, $filter) {
-        var $url = 'api/insert/transaction';
-        var $description = 'new transaction';
+        var $url = '/api/transactions';
 
         if ($new_transaction.type === "expense" && $new_transaction.total > 0) {
             //transaction is an expense without the negative sign
@@ -575,7 +550,6 @@ app.factory('TransactionsFactory', function ($http) {
         }
 
         var $data = {
-            description: $description,
             new_transaction: $new_transaction,
             filter: $filter
         };
@@ -675,6 +649,17 @@ app.factory('TransactionsFactory', function ($http) {
         $(".checked").each(function () {
             deleteTransaction($(this));
         });
+    };
+
+    $object.countTransactionsWithTag = function ($tag_id) {
+        var $url = 'api/select/countTransactionsWithTag';
+        var $description = 'count transactions with tag';
+        var $data = {
+            description: $description,
+            tag_id: $tag_id
+        };
+
+        return $http.post($url, $data);
     };
 
 	return $object;

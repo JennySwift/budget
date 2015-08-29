@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Account;
-use App\Models\Color;
 use App\Repositories\Tags\TagsRepository;
 use App\Repositories\Transactions\FilterRepository;
 use App\Services\TotalsService;
@@ -40,12 +39,20 @@ class PagesController extends Controller {
             'totals_response' => $totalsService->getBasicAndBudgetTotals(),
             'accounts_response' => Account::getAccounts(),
             'tags_response' => $tagsRepository->getTags(),
-            'colors_response' => Color::getColors(),
             'me' => Auth::user(),
             'env' => app()->env
         ]);
 
         return view('home');
+    }
+
+    public function preferences()
+    {
+        JavaScript::put([
+            'me' => Auth::user(),
+        ]);
+
+        return view('preferences');
     }
 
     /**

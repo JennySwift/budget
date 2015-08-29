@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -8,19 +9,32 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Preference extends Model
 {
-
+    /**
+     * @var User
+     */
+    protected $user;
     /**
      * @var array
      */
-    protected $fillable = ['type', 'value'];
+    protected $allowed = ['colors', 'clear_fields'];
+
+    /**
+     * @param User $user
+     */
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
 
     /**
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param array $attributes
+     * @return mixed
      */
-    public function user()
+    public function merge(array $attributes)
     {
-        return $this->belongsTo('App\User');
+        $preferences = array_merge($this->user->preferences, array_only($attributes, $this->allowed));
+        return $this->user->update(compact('preferences'));
     }
 
 }

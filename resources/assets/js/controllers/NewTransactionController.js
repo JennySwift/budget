@@ -11,8 +11,6 @@
 
         $scope.filterFactory = FilterFactory;
         $scope.dropdown = {};
-        //$scope.me = me;
-        //$scope.env = env;
         $scope.tags = tags_response;
         $scope.types = ["income", "expense", "transfer"];
 
@@ -77,7 +75,7 @@
         $scope.clearNewTransactionFields = function () {
             $scope.new_transaction.tags = [];
 
-            if (me.settings.clear_fields) {
+            if (me.preferences.clearFields) {
                 $scope.new_transaction.total = '';
                 $scope.new_transaction.description = '';
                 $scope.new_transaction.merchant = '';

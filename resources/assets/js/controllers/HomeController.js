@@ -4,20 +4,16 @@
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, $http, BudgetsFactory, TransactionsFactory, PreferencesFactory, FeedbackFactory, ColorsFactory) {
+    function home ($scope, $http, BudgetsFactory, TransactionsFactory, PreferencesFactory) {
         /**
          * scope properties
          */
 
-        $scope.something = 'abcd1234';
-
-        //$scope.feedbackFactory = FeedbackFactory;
         $scope.transactionsFactory = TransactionsFactory;
-        //$scope.feedback_messages = [];
         $scope.page = 'home';
 
-        $scope.colors = colors_response;
         $scope.totals = totals_response;
+        $scope.colors = me.preferences.colors;
 
         if ($scope.env === 'local') {
             $scope.tab = 'transactions';
@@ -25,8 +21,6 @@
         else {
             $scope.tab = 'transactions';
         }
-
-
 
         /*=========show=========*/
         $scope.show = {
@@ -41,8 +35,6 @@
             reconciled: true,
             tags: true,
             dlt: true,
-            // modals
-            color_picker: false,
             //components
             new_transaction: false,
             basic_totals: true,
@@ -68,12 +60,6 @@
          * Watches
          */
 
-        //$scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
-        //    if (newValue && newValue.message) {
-        //        scope.provideFeedback(newValue.message);
-        //    }
-        //});
-
         $scope.$watch('PreferencesFactory.date_format', function (newValue, oldValue) {
             if (!newValue) {
                 return;
@@ -88,12 +74,6 @@
                 });
         });
 
-        $scope.$watchCollection('colors', function (newValue) {
-            $("#income-color-picker").val(newValue.income);
-            $("#expense-color-picker").val(newValue.expense);
-            $("#transfer-color-picker").val(newValue.transfer);
-        });
-
         /**
          * End watches
          */
@@ -105,33 +85,6 @@
         $scope.debugTotals = function () {
             return $http.get('/test');
         };
-
-        $scope.updateColors = function () {
-            $scope.showLoading();
-            ColorsFactory.updateColors($scope.colors)
-                .then(function (response) {
-                    //Todo: return the colors in the response to update them
-                    $scope.show.color_picker = false;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-        $scope.defaultColor = function ($type, $default_color) {
-            if ($type === 'income') {
-                $scope.colors.income = $default_color;
-            }
-            else if ($type === 'expense') {
-                $scope.colors.expense = $default_color;
-            }
-            else if ($type === 'transfer') {
-                $scope.colors.transfer = $default_color;
-            }
-        };
-
-        // =================================allocation=================================
 
         $scope.showAllocationPopup = function ($transaction) {
             $scope.show.allocation_popup = true;
@@ -146,13 +99,6 @@
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
-        };
-
-        $scope.updateChart = function () {
-            $(".bar_chart_li:first-child").css('height', '0%');
-            $(".bar_chart_li:nth-child(2)").css('height', '0%');
-            $(".bar_chart_li:first-child").css('height', getTotal()[6] + '%');
-            $(".bar_chart_li:nth-child(2)").css('height', getTotal()[5] + '%');
         };
 
         $scope.toggleFilter = function () {

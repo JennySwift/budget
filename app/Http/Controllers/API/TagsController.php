@@ -47,6 +47,7 @@ class TagsController extends Controller
 
     /**
      * Get all the tags that belong to the user
+     * GET api/tags
      * @return mixed
      */
     public function index()
@@ -56,6 +57,7 @@ class TagsController extends Controller
 
     /**
      * Show a tag
+     * GET api/tags/{tags}
      * @param Tag $tags
      * @return \Illuminate\Http\Response
      */
@@ -66,6 +68,7 @@ class TagsController extends Controller
 
     /**
      * Insert a tag
+     * POST api/tags
      * @param InsertTagRequest $request
      * @return \Illuminate\Http\Response
      */
@@ -81,6 +84,7 @@ class TagsController extends Controller
 
     /**
      * Update a tag
+     * PUT api/tags/{tags}/update
      * @param UpdateTagNameRequest $request
      * @param Tag $tag
      * @return \Illuminate\Http\Response
@@ -96,6 +100,7 @@ class TagsController extends Controller
 
     /**
      * Update the starting date for a tag
+     * PUT api/tags/{tags}
      * @TODO Needs refactoring!!!!
      * @param Request $request
      * @param Tag $tag
@@ -148,6 +153,7 @@ class TagsController extends Controller
 
     /**
      * Delete a tag
+     * DELETE api/tags/{tags}
      * @param Tag $tag
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception

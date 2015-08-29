@@ -20,6 +20,7 @@ class SavingsController extends Controller
 {
     /**
      * Set the savings amount for the user
+     * PUT api/savings/set
      * @param UpdateSavingsTotalRequest $updateSavingsTotalRequest
      * @return string
      */
@@ -35,6 +36,7 @@ class SavingsController extends Controller
 
     /**
      * Increase the savings amount for the user
+     * PUT api/savings/increase
      * @param UpdateSavingsTotalRequest $updateSavingsTotalRequest
      * @return mixed
      */
@@ -51,6 +53,7 @@ class SavingsController extends Controller
 
     /**
      * Decrease the savings amount for the user
+     * PUT api/savings/decrease
      * @param UpdateSavingsTotalRequest $updateSavingsTotalRequest
      * @return string
      */
