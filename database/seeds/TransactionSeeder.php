@@ -29,6 +29,7 @@ class TransactionSeeder extends Seeder {
     {
         $transaction = new Transaction([
             'type' => 'income',
+            'date' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d'),
             'account_id' => Account::whereUserId($user->id)->get()->random(1)->id,
             'description' => $this->faker->sentence(1),
             'merchant' => $this->faker->name(),
@@ -45,6 +46,7 @@ class TransactionSeeder extends Seeder {
     {
         $transaction = new Transaction([
             'type' => 'income',
+            'date' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d'),
             'account_id' => Account::whereUserId($user->id)->get()->random(1)->id,
             'description' => $this->faker->sentence(1),
             'merchant' => $this->faker->name(),
@@ -72,6 +74,7 @@ class TransactionSeeder extends Seeder {
 
         $transaction = new Transaction([
             'type' => 'transfer',
+            'date' => $date,
             'account_id' => $from_account->id,
             'description' => $description,
             'merchant' => NULL,
@@ -85,6 +88,7 @@ class TransactionSeeder extends Seeder {
 
         $transaction = new Transaction([
             'type' => 'transfer',
+            'date' => $date,
             'account_id' => $to_account->id,
             'description' => $description,
             'merchant' => NULL,
