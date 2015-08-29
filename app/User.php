@@ -1,5 +1,6 @@
 <?php namespace App;
 
+use App\Models\Preference;
 use App\Models\Setting;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -28,7 +29,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email', 'password', 'settings'];
+	protected $fillable = ['name', 'email', 'password', 'preferences'];
 
     /**
      * @var array
@@ -38,7 +39,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * @var array
      */
-    protected $casts = ['settings' => 'json'];
+    protected $casts = ['preferences' => 'json'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -69,10 +70,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function colors()
-    {
-        return $this->hasMany('App\Models\Color');
-    }
+//    public function colors()
+//    {
+//        return $this->hasMany('App\Models\Color');
+//    }
 
     /**
      *
@@ -112,24 +113,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return route('api.user.show', $this->id);
     }
 
-	/**
-	 * From Valentin:
-	 * "attempts" is the name of the field that you will increment on each login attempt
-	 * this method will return true if the number of attempts is lower than 5
-	 * false otherwise :)
-	 */ 
-	// public function isNotBlocked()
-	// {
-	//     return $this->attempts > 5;
-	// }
-
     /**
      *
-     * @return Setting
+     * @return Preference
      */
-    public function settings()
+    public function preferences()
     {
-        return new Setting($this);
+        return new Preference($this);
     }
 
     /**
@@ -137,21 +127,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public static function insertRowsForNewUser()
 	{
-		Color::create([
-			'item' => 'income',
-			'color' => '#017d00',
-			'user_id' => Auth::user()->id
-		]);
-		Color::create([
-			'item' => 'expense',
-			'color' => '#fb5e52',
-			'user_id' => Auth::user()->id
-		]);
-		Color::create([
-			'item' => 'transfer',
-			'color' => '#fca700',
-			'user_id' => Auth::user()->id
-		]);	
+		//todo
 	}
 
 }

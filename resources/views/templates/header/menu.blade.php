@@ -11,12 +11,8 @@
             <a href="/accounts">Accounts</a>
         </li>
 
-        <li ng-click="show.color_picker = true">
-            <a href="">Colours</a>
-        </li>
-
-        <li ng-click="show.popups.preferences = true">
-            <a href="">Preferences</a>
+        <li>
+            <a href="/preferences">Preferences</a>
         </li>
 
     </ul>

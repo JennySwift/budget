@@ -188,11 +188,11 @@ class TransactionsController extends Controller
 
         //Insert income or expense transaction
         if ($type !== "transfer") {
-            $this->transactionsRepository->reallyInsertTransaction($new_transaction, $type);
+            $this->transactionsRepository->insertTransaction($new_transaction, $type);
         } //It's a transfer, so insert two transactions, the from and the to
         else {
-            $this->transactionsRepository->reallyInsertTransaction($new_transaction, "from");
-            $this->transactionsRepository->reallyInsertTransaction($new_transaction, "to");
+            $this->transactionsRepository->insertTransaction($new_transaction, "from");
+            $this->transactionsRepository->insertTransaction($new_transaction, "to");
         }
 
         //Find the last transaction that was entered

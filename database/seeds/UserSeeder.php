@@ -60,7 +60,6 @@ class UserSeeder extends Seeder {
     {
         $dummy->transactions()->delete();
         $dummy->accounts()->delete();
-        $dummy->colors()->delete();
         $dummy->savings()->delete();
         $dummy->tags()->delete();
         $dummy->delete();
@@ -72,10 +71,13 @@ class UserSeeder extends Seeder {
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password),
-            'settings' => [
-                'income' => 'green',
-                'expense' => 'red',
-                'transfer' => 'orange'
+            'preferences' => [
+                'colors' => [
+                    'income' => Config::get('colors.income'),
+                    'expense' => Config::get('colors.expense'),
+                    'transfer' => Config::get('colors.transfer'),
+                ],
+                'clearFields' => false
             ]
         ]);
     }

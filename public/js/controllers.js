@@ -688,20 +688,16 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, $http, BudgetsFactory, TransactionsFactory, PreferencesFactory, FeedbackFactory, ColorsFactory) {
+    function home ($scope, $http, BudgetsFactory, TransactionsFactory, PreferencesFactory) {
         /**
          * scope properties
          */
 
-        $scope.something = 'abcd1234';
-
-        //$scope.feedbackFactory = FeedbackFactory;
         $scope.transactionsFactory = TransactionsFactory;
-        //$scope.feedback_messages = [];
         $scope.page = 'home';
 
-        $scope.colors = colors_response;
         $scope.totals = totals_response;
+        $scope.colors = me.preferences.colors;
 
         if ($scope.env === 'local') {
             $scope.tab = 'transactions';
@@ -709,8 +705,6 @@ var app = angular.module('budgetApp');
         else {
             $scope.tab = 'transactions';
         }
-
-
 
         /*=========show=========*/
         $scope.show = {
@@ -725,8 +719,6 @@ var app = angular.module('budgetApp');
             reconciled: true,
             tags: true,
             dlt: true,
-            // modals
-            color_picker: false,
             //components
             new_transaction: false,
             basic_totals: true,
@@ -752,12 +744,6 @@ var app = angular.module('budgetApp');
          * Watches
          */
 
-        //$scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
-        //    if (newValue && newValue.message) {
-        //        scope.provideFeedback(newValue.message);
-        //    }
-        //});
-
         $scope.$watch('PreferencesFactory.date_format', function (newValue, oldValue) {
             if (!newValue) {
                 return;
@@ -772,12 +758,6 @@ var app = angular.module('budgetApp');
                 });
         });
 
-        $scope.$watchCollection('colors', function (newValue) {
-            $("#income-color-picker").val(newValue.income);
-            $("#expense-color-picker").val(newValue.expense);
-            $("#transfer-color-picker").val(newValue.transfer);
-        });
-
         /**
          * End watches
          */
@@ -789,33 +769,6 @@ var app = angular.module('budgetApp');
         $scope.debugTotals = function () {
             return $http.get('/test');
         };
-
-        $scope.updateColors = function () {
-            $scope.showLoading();
-            ColorsFactory.updateColors($scope.colors)
-                .then(function (response) {
-                    //Todo: return the colors in the response to update them
-                    $scope.show.color_picker = false;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-        $scope.defaultColor = function ($type, $default_color) {
-            if ($type === 'income') {
-                $scope.colors.income = $default_color;
-            }
-            else if ($type === 'expense') {
-                $scope.colors.expense = $default_color;
-            }
-            else if ($type === 'transfer') {
-                $scope.colors.transfer = $default_color;
-            }
-        };
-
-        // =================================allocation=================================
 
         $scope.showAllocationPopup = function ($transaction) {
             $scope.show.allocation_popup = true;
@@ -830,13 +783,6 @@ var app = angular.module('budgetApp');
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
-        };
-
-        $scope.updateChart = function () {
-            $(".bar_chart_li:first-child").css('height', '0%');
-            $(".bar_chart_li:nth-child(2)").css('height', '0%');
-            $(".bar_chart_li:first-child").css('height', getTotal()[6] + '%');
-            $(".bar_chart_li:nth-child(2)").css('height', getTotal()[5] + '%');
         };
 
         $scope.toggleFilter = function () {
@@ -942,8 +888,6 @@ var app = angular.module('budgetApp');
 
         $scope.filterFactory = FilterFactory;
         $scope.dropdown = {};
-        //$scope.me = me;
-        //$scope.env = env;
         $scope.tags = tags_response;
         $scope.types = ["income", "expense", "transfer"];
 
@@ -1008,7 +952,7 @@ var app = angular.module('budgetApp');
         $scope.clearNewTransactionFields = function () {
             $scope.new_transaction.tags = [];
 
-            if (me.settings.clear_fields) {
+            if (me.preferences.clearFields) {
                 $scope.new_transaction.total = '';
                 $scope.new_transaction.description = '';
                 $scope.new_transaction.merchant = '';
@@ -1120,6 +1064,15 @@ var app = angular.module('budgetApp');
         .controller('PreferencesController', preferences);
 
     function preferences ($scope, $http, PreferencesFactory, FeedbackFactory) {
+
+        $scope.colors = me.preferences.colors;
+
+        $scope.$watchCollection('colors', function (newValue) {
+            $("#income-color-picker").val(newValue.income);
+            $("#expense-color-picker").val(newValue.expense);
+            $("#transfer-color-picker").val(newValue.transfer);
+        });
+
         /**
          * scope properties
          */
@@ -1136,7 +1089,7 @@ var app = angular.module('budgetApp');
         };
 
         $scope.savePreferences = function () {
-            PreferencesFactory.savePreferences($scope.me.settings)
+            PreferencesFactory.savePreferences($scope.me.preferences)
                 .then(function (response) {
                     //$scope. = response.data;
                 })
@@ -1145,6 +1098,17 @@ var app = angular.module('budgetApp');
                 });
         };
 
+        $scope.defaultColor = function ($type, $default_color) {
+            if ($type === 'income') {
+                $scope.colors.income = $default_color;
+            }
+            else if ($type === 'expense') {
+                $scope.colors.expense = $default_color;
+            }
+            else if ($type === 'transfer') {
+                $scope.colors.transfer = $default_color;
+            }
+        };
     }
 
 })();

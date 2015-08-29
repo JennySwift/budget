@@ -65,7 +65,7 @@ class TransactionsRepository
      * @param $new_transaction
      * @param $transaction_type
      */
-    public function reallyInsertTransaction($new_transaction, $transaction_type)
+    public function insertTransaction($new_transaction, $transaction_type)
     {
         $transaction = new Transaction([
             'date' => $new_transaction['date']['sql'],

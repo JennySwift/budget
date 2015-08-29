@@ -18,8 +18,6 @@ class DatabaseSeeder extends Seeder {
 
 		$this->call('SavingsSeeder');
 
-		$this->call('ColorSeeder');
-
         if ($env === 'local') {
             $this->call('BudgetSeeder');
         }
