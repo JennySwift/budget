@@ -262,7 +262,8 @@ var app = angular.module('budgetApp');
          */
 
         $scope.totals = totals_response;
-        $scope.budgets = budgets_response;
+        $scope.fixedBudgets = fixedBudgets;
+        $scope.flexBudgets = flexBudgets;
         $scope.feedbackFactory = FeedbackFactory;
 
         $scope.show.basic_totals = true;

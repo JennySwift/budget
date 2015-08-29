@@ -14,6 +14,8 @@ class Budget extends Model
 
     protected $fillable = ['type', 'name', 'amount', 'starting_date'];
 
+    protected $appends = ['formattedStartingDate'];
+
     /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -32,5 +34,16 @@ class Budget extends Model
         return $this->belongsToMany('App\Models\Transaction', 'budgets_transactions')
             ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation')
             ->orderBy('name', 'asc');
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getFormattedStartingDateAttribute()
+    {
+        if ($this->starting_date) {
+            return convertDate($this->starting_date, 'user');
+        }
     }
 }

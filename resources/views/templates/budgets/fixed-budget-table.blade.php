@@ -30,14 +30,14 @@
     </tr>
 
     <!-- table content -->
-    <tr ng-repeat="budget in totals.budget.FB.budgets" class="budget_info_ul">
+    <tr ng-repeat="budget in fixedBudgets" class="budget_info_ul">
 
         <td ng-click="showBudgetPopup(tag, 'fixed')" class="budget-tag pointer">[[budget.name]]</td>
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="amount right pointer">[[budget.fixed_budget]]</td>
+        <td ng-click="showBudgetPopup(tag, 'fixed')" class="amount right pointer">[[budget.amount]]</td>
 
         <td ng-click="showBudgetPopup(tag, 'fixed')" class="CSD pointer">
-            <span>[[budget.formatted_starting_date]]</span>
+            <span>[[budget.formattedStartingDate]]</span>
         </td>
 
         <td ng-click="showBudgetPopup(tag, 'fixed')" class="month-number pointer">[[budget.CMN]]</td>

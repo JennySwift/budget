@@ -83,7 +83,8 @@ class PagesController extends Controller {
     {
         JavaScript::put([
             'me' => Auth::user(),
-            'budgets_response' => Budget::forCurrentUser()->get(),
+            'fixedBudgets' => Budget::forCurrentUser()->get(),
+            'flexBudgets' => Budget::forCurrentUser()->get(),
             'totals_response' => []//$totalsService->getBasicAndBudgetTotals()
         ]);
 
