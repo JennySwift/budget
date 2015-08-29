@@ -2,7 +2,6 @@
 
 use App\Models\Account;
 use App\Models\Budget;
-use App\Models\Color;
 use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
@@ -40,6 +39,7 @@ class DatabaseSeeder extends Seeder {
 		Account::truncate();
 		Tag::truncate();
 		Transaction::truncate();
+        DB::table('budgets_transactions')->truncate();
 	}
 
 }

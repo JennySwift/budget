@@ -54,7 +54,7 @@
 
             <td>
                 <button
-                    ng-if="transaction.multiple_budgets"
+                    ng-if="transaction.budgets.length > 1"
                     ng-class="{'allocated, btn-success': transaction.allocated, 'not-allocated, btn-danger': !transaction.allocated}"
                     ng-click="showAllocationPopup(transaction)">
                     allocate
