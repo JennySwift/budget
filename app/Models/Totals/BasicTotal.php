@@ -78,7 +78,7 @@ class BasicTotal {
         //Get all the ids of transactions that don't have a budget
         $ids = Transaction::where('user_id', Auth::user()->id)
             ->where('type', 'expense')
-            ->has('tagsWithBudget', 0)
+            ->has('budgets', 0)
             ->lists('id');
 
         $total = Transaction::whereIn('transactions.id', $ids)

@@ -218,17 +218,17 @@ app.factory('BudgetsFactory', function ($http) {
             
             return $http.put($url, $data);
 		},
-        create: function ($tag, $type) {
-            var $url = $tag.path;
+        create: function ($budget, $type) {
+            var $url = '/api/budgets';
 
             var $data = {
-                tag_id: $tag.id,
-                column: $type + '_budget',
-                budget: $tag.budget,
-                starting_date: $tag.sql_starting_date
+                type: $type,
+				name: $budget.name,
+                amount: $budget.amount,
+                starting_date: $budget.sql_starting_date
             };
 
-            return $http.put($url, $data);
+            return $http.post($url, $data);
         },
 
 	};

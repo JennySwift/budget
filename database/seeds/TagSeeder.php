@@ -9,7 +9,7 @@ use App\Models\Tag;
 
 class TagSeeder extends Seeder {
 
-    protected $howManyTags = 25;
+    protected $howManyTags = 10;
 
     protected $tags = [
         //fixed budget
@@ -17,27 +17,27 @@ class TagSeeder extends Seeder {
         'rent',
         'licenses',
         'insurance',
-        'conferences',
-        'car',
-        'mobile phone',
-        'petrol',
-        'sport',
+//        'conferences',
+//        'car',
+//        'mobile phone',
+//        'petrol',
+//        'sport',
         //flex budget
         'eating out',
         'entertainment',
         'recreation',
         'holidays',
         'gifts',
-        'books',
-        'clothes',
-        'church',
-        'equipment',
-        'guitar',
-        'health',
-        'miscellaneous',
-        'music',
-        'superannuation',
-        'tax',
+//        'books',
+//        'clothes',
+//        'church',
+//        'equipment',
+//        'guitar',
+//        'health',
+//        'miscellaneous',
+//        'music',
+//        'superannuation',
+//        'tax',
         //no budget
         'bank fees'
     ];

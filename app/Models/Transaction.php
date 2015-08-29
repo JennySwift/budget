@@ -117,8 +117,8 @@ class Transaction extends Model
         $tag_with_budget_counter = 0;
         $multiple_budgets = false;
 
-        foreach ($this->tags as $tag) {
-            if ($tag->fixed_budget || $tag->flex_budget) {
+        foreach ($this->budgets as $budget) {
+            if ($budget->fixed_budget || $budget->flex_budget) {
                 //the tag has a budget
                 $tag_with_budget_counter++;
             }

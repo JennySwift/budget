@@ -110,54 +110,54 @@ class BudgetSeeder extends Seeder {
                 'amount' => 50.00,
                 'starting_date' => $this->startingDate
             ],
-            [
-                'type' => 'flex',
-                'name' => 'church',
-                'amount' => 50.00,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'flex',
-                'name' => 'equipment',
-                'amount' => 50.00,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'flex',
-                'name' => 'guitar',
-                'amount' => 100.00,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'flex',
-                'name' => 'health',
-                'amount' => 50.00,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'flex',
-                'name' => 'miscellaneous',
-                'amount' => 50.00,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'flex',
-                'name' => 'music',
-                'amount' => 50.00,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'flex',
-                'name' => 'superannuation',
-                'amount' => 50.00,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'flex',
-                'name' => 'tax',
-                'amount' => 50.00,
-                'starting_date' => $this->startingDate
-            ]
+//            [
+//                'type' => 'flex',
+//                'name' => 'church',
+//                'amount' => 50.00,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'equipment',
+//                'amount' => 50.00,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'guitar',
+//                'amount' => 100.00,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'health',
+//                'amount' => 50.00,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'miscellaneous',
+//                'amount' => 50.00,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'music',
+//                'amount' => 50.00,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'superannuation',
+//                'amount' => 50.00,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'tax',
+//                'amount' => 50.00,
+//                'starting_date' => $this->startingDate
+//            ]
 		];
 
     }

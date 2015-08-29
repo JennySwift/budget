@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Account;
+use App\Models\Budget;
+use App\Models\Tag;
 use App\Repositories\Tags\TagsRepository;
 use App\Repositories\Transactions\FilterRepository;
 use App\Services\TotalsService;
@@ -35,10 +37,10 @@ class PagesController extends Controller {
     {
         JavaScript::put([
             //It wouldn't work if I named it 'transactions', or 'totals'
-            'filter_response' => $filterRepository->filterTransactions(),
-            'totals_response' => $totalsService->getBasicAndBudgetTotals(),
             'accounts_response' => Account::getAccounts(),
-            'tags_response' => $tagsRepository->getTags(),
+            'tags_response' => Tag::all(),//$tagsRepository->getTags(),
+            'totals_response' => [],//$totalsService->getBasicAndBudgetTotals(),
+            'filter_response' => [],//$filterRepository->filterTransactions(),
             'me' => Auth::user(),
             'env' => app()->env
         ]);
@@ -81,8 +83,8 @@ class PagesController extends Controller {
     {
         JavaScript::put([
             'me' => Auth::user(),
-            'tags_response' => $tagsRepository->getTags(),
-            'totals_response' => $totalsService->getBasicAndBudgetTotals()
+            'budgets_response' => Budget::forCurrentUser()->get(),
+            'totals_response' => []//$totalsService->getBasicAndBudgetTotals()
         ]);
 
         return view('budgets');

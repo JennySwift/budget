@@ -148,9 +148,9 @@ class FilterRepository {
                 case "reconciled":
                     $query = $this->filterReconciled($query, $value);
                     break;
-                case "tags":
-                    $query = $this->filterTags($query, $value);
-                    break;
+//                case "tags":
+//                    $query = $this->filterTags($query, $value);
+//                    break;
                 case "budget":
                     $query = $this->filterNumBudgets($query, $value);
                     break;
@@ -575,7 +575,7 @@ class FilterRepository {
                      ->orderBy('id', 'desc')
                      ->skip($filters['offset'])
                      ->take($filters['num_to_fetch'])
-                     ->with('tags')
+                     ->with('budgets')
                      ->with('account')
                      ->get();
     }

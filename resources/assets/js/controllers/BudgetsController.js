@@ -10,7 +10,7 @@
          */
 
         $scope.totals = totals_response;
-        $scope.tags = tags_response;
+        $scope.budgets = budgets_response;
         $scope.feedbackFactory = FeedbackFactory;
 
         $scope.show.basic_totals = true;
@@ -119,7 +119,7 @@
             BudgetsFactory.create($new, $type)
                 .then(function (response) {
                     $scope.handleUpdateResponse(response, 'Budget created');
-                    $scope.updateTag($new, response);
+                    //$scope.updateTag($new, response);
                     $scope.clearAndFocus($type);
                 })
                 .catch(function (response) {

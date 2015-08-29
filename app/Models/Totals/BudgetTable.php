@@ -46,7 +46,7 @@ class BudgetTable
      * @param $user_id
      * @return mixed
      */
-    public function getTagsWithFixedBudget()
+    public function getFixedBudget()
     {
         //Middleware. Create my own middleware. But it won't work for GET requests.
         //Not checking logged in, checking session.

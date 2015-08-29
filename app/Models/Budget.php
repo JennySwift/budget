@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Traits\ForCurrentUserTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -8,6 +9,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Budget extends Model
 {
+
+    use ForCurrentUserTrait;
+
+    protected $fillable = ['type', 'name', 'amount', 'starting_date'];
+
     /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
