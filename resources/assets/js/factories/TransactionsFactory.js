@@ -118,5 +118,16 @@ app.factory('TransactionsFactory', function ($http) {
         });
     };
 
+    $object.countTransactionsWithTag = function ($tag_id) {
+        var $url = 'api/select/countTransactionsWithTag';
+        var $description = 'count transactions with tag';
+        var $data = {
+            description: $description,
+            tag_id: $tag_id
+        };
+
+        return $http.post($url, $data);
+    };
+
 	return $object;
 });

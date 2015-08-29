@@ -1152,7 +1152,7 @@ var app = angular.module('budgetApp');
 
 (function () {
 
-    app.controller('TagsController', function ($scope, $http, TagsFactory, FeedbackFactory) {
+    app.controller('TagsController', function ($scope, $http, TagsFactory, TransactionsFactory, FeedbackFactory) {
 
         /**
          * scope properties
@@ -1242,7 +1242,7 @@ var app = angular.module('budgetApp');
 
         $scope.deleteTag = function ($tag_id) {
             $scope.showLoading();
-            TagsFactory.countTransactionsWithTag($tag_id)
+            TransactionsFactory.countTransactionsWithTag($tag_id)
                 .then(function (response) {
                     var $count = response.data;
                     //The loading symbol isn't hiding here because of the confirm()
