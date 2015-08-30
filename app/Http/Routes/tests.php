@@ -52,13 +52,11 @@
 //
 //});
 
-use App\Models\Budget;
-
 Route::get('/test', function()
 {
-    $budget = Budget::find(1);
-    //dd($transaction);
-    dd($budget->cumulativeMonthNumber);
+    $fixedBudgetTotal = new \App\Models\Totals\FixedBudgetTotal();
+
+    dd($fixedBudgetTotal);
 });
 
 
