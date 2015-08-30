@@ -31,6 +31,7 @@
                 basictotals="basicTotals"
                 fixedbudgettotals="fixedBudgetTotals"
                 flexbudgettotals="flexBudgetTotals"
+                remainingbalance="remainingBalance"
                 getTotals="getTotals()"
                 show="show">
         </totals-directive>

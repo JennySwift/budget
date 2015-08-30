@@ -419,6 +419,7 @@
                 "basicTotals": "=basictotals",
                 "fixedBudgetTotals": "=fixedbudgettotals",
                 "flexBudgetTotals": "=flexbudgettotals",
+                "remainingBalance": "=remainingbalance",
                 "provideFeedback" : "&providefeedback",
                 "show": "=show"
             },

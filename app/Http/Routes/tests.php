@@ -54,9 +54,7 @@
 
 Route::get('/test', function()
 {
-    $flexBudgetTotal = new \App\Models\Totals\FlexBudgetTotal();
-
-    dd($flexBudgetTotal);
+    $this->app->make('App\Models\Totals\RemainingBalance')->calculate();
 });
 
 

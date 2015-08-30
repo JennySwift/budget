@@ -16,6 +16,7 @@ class FlexBudgetTotal implements Arrayable {
         $this->budgets = Budget::whereType(Budget::TYPE_FLEX)->forCurrentUser()->get();
         $this->amount = $this->calculate('amount');
         // Todo: calculatedAmount
+
         $this->spentBeforeStartingDate = $this->calculate('spentBeforeStartingDate');
         $this->spentAfterStartingDate = $this->calculate('spentAfterStartingDate');
         $this->receivedAfterStartingDate = $this->calculate('receivedAfterStartingDate');

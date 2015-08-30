@@ -1,5 +1,6 @@
 <?php namespace App\Providers;
 
+use App\Models\Totals\RemainingBalance;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {

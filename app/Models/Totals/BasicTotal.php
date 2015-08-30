@@ -19,18 +19,15 @@ class BasicTotal {
     public $savings;
 
     /**
-     * Build this object from the database
+     * BasicTotal constructor.
      */
-    static public function createFromDatabase()
+    public function __construct()
     {
-        $object = new static;
-        $object->setDebit();
-        $object->setCredit();
-        $object->setReconciledSum();
-        $object->setEWB();
-        $object->setSavings();
-
-        return $object;
+        $this->setDebit();
+        $this->setCredit();
+        $this->setReconciledSum();
+        $this->setEWB();
+        $this->setSavings();
     }
 
     /**

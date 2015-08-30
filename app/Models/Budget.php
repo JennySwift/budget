@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App;
 use App\Traits\ForCurrentUserTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +20,7 @@ class Budget extends Model
 
     protected $appends = [
         'formattedStartingDate', 'spentAfterStartingDate', 'spentBeforeStartingDate', 'receivedAfterStartingDate',
-        'cumulativeMonthNumber', 'cumulative', 'remaining'
+        'cumulativeMonthNumber', 'cumulative', 'remaining', 'calculatedAmount'
     ];
 
     /**
@@ -47,11 +48,20 @@ class Budget extends Model
      */
     public function getAmountAttribute()
     {
-        if($this->isFlex()) {
+        return $this->attributes['amount'];
+    }
 
+    /**
+     *
+     * @return string
+     */
+    public function getCalculatedAmountAttribute()
+    {
+        if($this->isFlex()) {
+            return App::make('App\Models\Totals\RemainingBalance')->calculate() / 100 * $this->attributes['amount'];
         }
 
-        return $this->attributes['amount'];
+        return NULL;
     }
 
     /**
@@ -146,11 +156,11 @@ class Budget extends Model
      */
     public function getRemainingAttribute()
     {
-        if($this->isFixed()) {
-            return $this->cumulative + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
+        if($this->isFlex()) {
+            return $this->calculatedAmount + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
         }
 
-//        return 0;
+        return $this->cumulative + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
     }
 
     /**

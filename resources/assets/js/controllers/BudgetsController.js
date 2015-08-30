@@ -15,6 +15,7 @@
         $scope.fixedBudgetTotals = fixedBudgetTotals;
         $scope.flexBudgetTotals = flexBudgetTotals;
         $scope.flexBudgets = flexBudgets;
+        $scope.remainingBalance = remainingBalance;
         $scope.feedbackFactory = FeedbackFactory;
 
         $scope.show.basic_totals = true;

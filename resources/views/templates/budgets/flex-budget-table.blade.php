@@ -28,7 +28,7 @@
     <tr ng-repeat="budget in flexBudgets" class="budget_info_ul">
         <td ng-click="showBudgetPopup(tag, 'flex')" class="budget-tag pointer">[[budget.name]]</td>
         <td ng-click="showBudgetPopup(tag, 'flex')" class="percent pointer">[[budget.amount]]</td>
-        <td ng-click="showBudgetPopup(tag, 'flex')" class="amount pointer">[[budget.calculated_budget]]</td>
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="amount pointer">[[budget.calculatedAmount]]</td>
         <td ng-click="showBudgetPopup(tag, 'flex')" class="CSD pointer">
             <span>[[budget.formattedStartingDate]]</span>
         </td>

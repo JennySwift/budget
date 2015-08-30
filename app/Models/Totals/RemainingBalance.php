@@ -3,34 +3,74 @@
 namespace App\Models\Totals;
 
 /**
- * Class RB
+ * Class RemainingBalance
  * @package App\Totals
  * @TODO Take a look at the calculate... methods and think about the responsability of the RB object
  * Does this line of code belongs on the RB object? Are you setting a property on a property of a property of an object?
  * See @complex
  * And try to use proper naming (trust me, it is worth it!!!!! :))
  */
-class RB {
+class RemainingBalance {
 
     public $withEFLB;
     public $withoutEFLB;
     public $FB;
     public $FLB;
+    /**
+     * @var
+     */
+    private $basicTotals;
+    /**
+     * @var
+     */
+    private $fixedBudgetTotal;
+    /**
+     * @var
+     */
+    private $flexBudgetTotal;
+
+    /**
+     * RemainingBalance constructor.
+     */
+    public function __construct(BasicTotal $basicTotals, FixedBudgetTotal $fixedBudgetTotal, FlexBudgetTotal $flexBudgetTotal)
+    {
+        $this->basicTotals = $basicTotals;
+        $this->fixedBudgetTotal = $fixedBudgetTotal;
+        $this->flexBudgetTotal = $flexBudgetTotal;
+    }
+
+
 
     /**
      * @param BudgetTable $FB
      * @param BudgetTable $FLB
      */
-    public function __construct(BudgetTable $FB, BudgetTable $FLB)
-    {
-        $this->FB = $FB;
-        $this->FLB = $FLB;
-        $this->withEFLB = 5;
-        $this->withEFLB = $this->getRBWithEFLB();
-        $this->withoutEFLB = $this->getRBWithoutEFLB();
+//    public function __construct(BudgetTable $FB, BudgetTable $FLB)
+//    {
+//        $this->FB = $FB;
+//        $this->FLB = $FLB;
+//        $this->withEFLB = 5;
+//        $this->withEFLB = $this->getRBWithEFLB();
+//        $this->withoutEFLB = $this->getRBWithoutEFLB();
+//
+//        //Now that we have RB, get the calculated budgets for tags with FLB
+//        $this->calculateBudgets();
+//    }
 
-        //Now that we have RB, get the calculated budgets for tags with FLB
-        $this->calculateBudgets();
+    /**
+     * Calculate remaining balance
+     * @return mixed
+     */
+    public function calculate()
+    {
+        return $this->basicTotals->credit // Total of income from the user regardless of budgets
+               - $this->fixedBudgetTotal->remaining // Total remainings on the fixed budget table
+               + $this->basicTotals->EWB // Total of all the expenses without budget
+               + $this->flexBudgetTotal->spentBeforeStartingDate // Total of spent before starting date for flex budgets
+               + $this->flexBudgetTotal->spentAfterStartingDate // Total of spent after starting date for flex budgets
+               + $this->fixedBudgetTotal->spentBeforeStartingDate // Total of spent before starting date for fixed budgets
+               + $this->fixedBudgetTotal->spentAfterStartingDate // Total of spent after starting date for fixed budgets
+               - $this->basicTotals->savings; // Savings
     }
 
     /**
@@ -116,25 +156,5 @@ class RB {
         return $this->getRBWithEFLB() - $this->FLB->totals->spentAfterSD;
     }
 
-    /**
-     * Calculate remaining balance
-     * @param BasicTotal $basicTotals => Totals not related to budgets, but related to transactions
-     * @param FixedBudgetTotal $fixedBudgetTotal => Totals related to fixed budgets
-     * @param FlexBudgetTable $flexBudget => Totals related to flex budgets
-     * @return mixed
-     */
-    public function calculateRemainingBalance(BasicTotal $basicTotals, FixedBudgetTotal $fixedBudgetTotal, FlexBudgetTable $flexBudget)
-    {
-        $RB =
-            $basicTotals->credit // Total of income from the user regardless of budgets
-            - $fixedBudgetTotal->totals->remaining // Total remainings on the fixed budget table
-            + $basicTotals->EWB // Total of all the expenses without budget
-            + $flexBudget->totals->spentBeforeSD // Total of spent before starting date for flex budgets
-            + $flexBudget->totals->spentAfterSD // Total of spent after starting date for flex budgets
-            + $fixedBudgetTotal->totals->spentBeforeSD // Total of spent before starting date for fixed budgets
-            + $fixedBudgetTotal->totals->spentAfterSD // Total of spent after starting date for fixed budgets
-            - $basicTotals->savings; // Savings
 
-        return $RB;
-    }
 }

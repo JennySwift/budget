@@ -58,7 +58,7 @@
 
         <tr class="tooltipster" title="remaining balance without EFLB">
             <td>Remaining balance:</td>
-            <td><span class="badge badge-danger">[[totals.budget.RBWEFLB]]</span></td>
+            <td><span class="badge badge-danger">[[remainingBalance]]</span></td>
             <td>
                 <span ng-if="totals.changes.RBWEFLB">[[totals.changes.RBWEFLB]]</span>
             </td>

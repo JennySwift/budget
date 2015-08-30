@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Models\Account;
 use App\Models\Budget;
-use App\Models\Tag;
 use App\Models\Totals\BasicTotal;
 use App\Models\Totals\FixedBudgetTotal;
 use App\Models\Totals\FlexBudgetTotal;
 use App\Repositories\Tags\TagsRepository;
 use App\Repositories\Transactions\FilterRepository;
 use App\Services\TotalsService;
-use Auth, JavaScript;
+use App, Auth, JavaScript;
 
 /**
  * Class PagesController
@@ -87,13 +86,18 @@ class PagesController extends Controller {
      */
     public function budgets(TagsRepository $tagsRepository, TotalsService $totalsService)
     {
+        $basicTotal = new BasicTotal();
+        $fixedBudgetTotal = new FixedBudgetTotal();
+        $flexBudgetTotal = new FlexBudgetTotal();
+
         JavaScript::put([
             'me' => Auth::user(),
             'fixedBudgets' => Budget::forCurrentUser()->whereType('fixed')->get(),
             'flexBudgets' => Budget::forCurrentUser()->whereType('flex')->get(),
-            'fixedBudgetTotals' => (new FixedBudgetTotal())->toArray(),
-            'flexBudgetTotals' => (new flexBudgetTotal())->toArray(),
-            'basicTotals' => BasicTotal::createFromDatabase()->toArray()
+            'fixedBudgetTotals' => $fixedBudgetTotal->toArray(),
+            'flexBudgetTotals' => $flexBudgetTotal->toArray(),
+            'basicTotals' => $basicTotal->toArray(),
+            'remainingBalance' => App::make('App\Models\Totals\RemainingBalance')->calculate()
 //            'totals_response' => []//$totalsService->getBasicAndBudgetTotals()
         ]);
 
