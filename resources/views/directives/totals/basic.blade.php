@@ -16,7 +16,7 @@
 
         <tr class="tooltipster" title="remaining fixed budget (total of fixed budget info column R)">
             <td>Remaining fixed budget:</td>
-            <td><span class="badge badge-danger">[[totals.budget.FB.totals.remaining]]</span></td>
+            <td><span class="badge badge-danger">[[fixedBudgetTotals.remaining]]</span></td>
             <td><span ng-if="totals.changes.RFB">[[totals.changes.RFB]]</span></td>
         </tr>
 
@@ -28,25 +28,25 @@
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a fixed budget before its starting date">
             <td>Expenses with <b>fixed</b> budget <b>before</b> starting date:</td>
-            <td><span class="badge badge-danger">[[totals.budget.FB.totals.spentBeforeSD]]</span></td>
+            <td><span class="badge badge-danger">[[fixedBudgetTotals.spentBeforeStartingDate]]</span></td>
             <td><span ng-if="totals.changes.EFBBSD">[[totals.changes.EFBBSD]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget before its starting date">
             <td>Expenses with <b>flex</b> budget <b>before</b> starting date:</td>
-            <td><span class="badge badge-danger">[[totals.budget.FLB.totals.spentBeforeSD]]</span></td>
+            <td><span class="badge badge-danger">[[totals.budget.FLB.totals.spentBeforeStartingDate]]</span></td>
             <td><span ng-if="totals.changes.EFLBBSD">[[totals.changes.EFLBBSD]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget">
             <td>Expenses with <b>flex</b> budget <b>after</b> starting date:</td>
-            <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FLB.totals.spentAfterSD]]</span></td>
+            <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FLB.totals.spentAfterStartingDate]]</span></td>
             <td><span ng-if="totals.changes.EFLB">[[totals.changes.EFLB]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a fixed budget after its starting date">
             <td>Expenses with <b>fixed</b> budget <b>after</b> starting date:</td>
-            <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FB.totals.spentAfterSD]]</span></td>
+            <td><span id="total_income_span" class="badge badge-danger">[[fixedBudgetTotals.spentAfterStartingDate]]</span></td>
             <td><span ng-if="totals.changes.EFBASD">[[totals.changes.EFBASD]]</span></td>
         </tr>
 
@@ -70,7 +70,7 @@
 
         {{--<li class="tooltipster list-group-item list-group-item-danger" title="remaining fixed budget (total of fixed budget info column R)">--}}
             {{--RFB:--}}
-            {{--<span id="budget_span" class="badge">[[totals.budget.FB.totals.remaining]]</span>--}}
+            {{--<span id="budget_span" class="badge">[[fixedBudgetTotals.remaining]]</span>--}}
             {{--<span ng-if="totals.changes.RFB" class="changed">Changed: [[totals.changes.RFB]]</span>--}}
         {{--</li>--}}
 
@@ -82,7 +82,7 @@
 
         {{--<li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget before its starting date">--}}
             {{--EFBBSD:--}}
-            {{--<span class="badge">[[totals.budget.FB.totals.spentBeforeSD]]</span>--}}
+            {{--<span class="badge">[[fixedBudgetTotals.spentBeforeSD]]</span>--}}
             {{--<span ng-if="totals.changes.EFBBSD" class="changed">Changed: [[totals.changes.EFBBSD]]</span>--}}
         {{--</li>--}}
 

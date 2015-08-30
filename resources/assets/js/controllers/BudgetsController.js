@@ -13,6 +13,7 @@
         $scope.basicTotals = basicTotals;
         $scope.fixedBudgets = fixedBudgets;
         $scope.fixedBudgetTotals = fixedBudgetTotals;
+        $scope.flexBudgetTotals = flexBudgetTotals;
         $scope.flexBudgets = flexBudgets;
         $scope.feedbackFactory = FeedbackFactory;
 

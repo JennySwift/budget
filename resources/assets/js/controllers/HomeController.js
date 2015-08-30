@@ -14,6 +14,8 @@
 
         //$scope.totals = totals_response;
         $scope.basicTotals = basicTotals;
+        $scope.fixedBudgetTotals = fixedBudgetTotals;
+        $scope.flexBudgetTotals = flexBudgetTotals;
         $scope.colors = me.preferences.colors;
 
         if ($scope.env === 'local') {

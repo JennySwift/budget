@@ -43,6 +43,8 @@ class PagesController extends Controller {
 //            'tags_response' => Tag::all(),//$tagsRepository->getTags(),
 //            'totals_response' => [],//$totalsService->getBasicAndBudgetTotals(),
             'basicTotals' => BasicTotal::createFromDatabase()->toArray(),
+            'fixedBudgetTotals' => (new FixedBudgetTotal())->toArray(),
+            'flexBudgetTotals' => [],
             'filter_response' => [],//$filterRepository->filterTransactions(),
             'me' => Auth::user(),
             'env' => app()->env
@@ -89,7 +91,8 @@ class PagesController extends Controller {
             'fixedBudgets' => Budget::forCurrentUser()->whereType('fixed')->get(),
             'flexBudgets' => Budget::forCurrentUser()->whereType('flex')->get(),
             'fixedBudgetTotals' => (new FixedBudgetTotal())->toArray(),
-            'basicTotals' => [] //BasicTotal::createFromDatabase()->toArray()
+            'flexBudgetTotals' => [],
+            'basicTotals' => BasicTotal::createFromDatabase()->toArray()
 //            'totals_response' => []//$totalsService->getBasicAndBudgetTotals()
         ]);
 

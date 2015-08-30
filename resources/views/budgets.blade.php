@@ -29,6 +29,8 @@
         <totals-directive
                 {{--totals="totals"--}}
                 basictotals="basicTotals"
+                fixedbudgettotals="fixedBudgetTotals"
+                flexbudgettotals="flexBudgetTotals"
                 getTotals="getTotals()"
                 show="show">
         </totals-directive>

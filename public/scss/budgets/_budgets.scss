@@ -60,12 +60,15 @@
         .CSD {
 //            width: 140px;
         }
-        .totals {
-            @include totals;
-            th {
-                border-radius: 0;
+        table {
+            .totals {
+                @include totals;
+                th {
+                    border-radius: 0;
+                }
             }
         }
+
         .edit {
             width: 20px;
             font-size: 6px;

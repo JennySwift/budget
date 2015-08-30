@@ -28,7 +28,7 @@
 
         <tr class="tooltipster" title="fixed budget (total of fixed budget info column C)">
             <td>Cumulative fixed budget:</td>
-            <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FB.totals.cumulative]]</span></td>
+            <td><span id="total_income_span" class="badge badge-danger">[[fixedBudgetTotals.cumulative]]</span></td>
             <td><span ng-if="totals.changes.CFB">[[totals.changes.CFB]]</span></td>
         </tr>
 
@@ -56,7 +56,7 @@
 
         {{--<li class="tooltipster list-group-item list-group-item-danger" title="fixed budget (total of fixed budget info column C)">--}}
             {{--CFB:--}}
-            {{--<span id="budget_span" class="badge">[[totals.budget.FB.totals.cumulative]]</span>--}}
+            {{--<span id="budget_span" class="badge">[[fixedBudgetTotals.cumulative]]</span>--}}
             {{--<span ng-if="totals.changes.CFB" class="changed">Changed: [[totals.changes.CFB]]</span>--}}
         {{--</li>--}}
 
@@ -68,7 +68,7 @@
 
         {{--<li class="tooltipster list-group-item list-group-item-danger" title="total of allocation of tags of expense transactions that have a fixed budget after its starting date">--}}
             {{--EFBASD:--}}
-            {{--<span class="badge">[[totals.budget.FB.totals.spentAfterSD]]</span>--}}
+            {{--<span class="badge">[[fixedBudgetTotals.spentAfterSD]]</span>--}}
             {{--<span ng-if="totals.changes.EFBASD" class="changed">Changed: [[totals.changes.EFBASD]]</span>--}}
         {{--</li>--}}
 

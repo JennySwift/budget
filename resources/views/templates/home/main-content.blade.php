@@ -4,6 +4,8 @@
             ng-show="show.basic_totals || show.budget_totals"
             {{--totals="totals"--}}
             basicTotals="basicTotals"
+            fixedbudgettotals="fixedBudgetTotals"
+            flexbudgettotals="flexBudgetTotals"
             getTotals="getTotals()"
             provideFeedback="provideFeedback()"
             show="show">

@@ -265,6 +265,7 @@ var app = angular.module('budgetApp');
         $scope.basicTotals = basicTotals;
         $scope.fixedBudgets = fixedBudgets;
         $scope.fixedBudgetTotals = fixedBudgetTotals;
+        $scope.flexBudgetTotals = flexBudgetTotals;
         $scope.flexBudgets = flexBudgets;
         $scope.feedbackFactory = FeedbackFactory;
 
@@ -701,6 +702,8 @@ var app = angular.module('budgetApp');
 
         //$scope.totals = totals_response;
         $scope.basicTotals = basicTotals;
+        $scope.fixedBudgetTotals = fixedBudgetTotals;
+        $scope.flexBudgetTotals = flexBudgetTotals;
         $scope.colors = me.preferences.colors;
 
         if ($scope.env === 'local') {

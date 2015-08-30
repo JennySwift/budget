@@ -705,7 +705,8 @@ caption {
         padding: 0;
         border: none; }
     #allocation-popup #allocation-table-container .totals {
-      background: #777; }
+      background: #777;
+      color: white; }
   #allocation-popup p {
     font-size: 11px; }
     @media (min-width: 400px) {
@@ -983,9 +984,10 @@ caption {
     text-align: right; }
   #budget #budget-content input, #budget #budget-content select {
     width: 100%; }
-  #budget #budget-content .totals {
-    background: #777; }
-    #budget #budget-content .totals th {
+  #budget #budget-content table .totals {
+    background: #777;
+    color: white; }
+    #budget #budget-content table .totals th {
       border-radius: 0; }
   #budget #budget-content .edit {
     width: 20px;

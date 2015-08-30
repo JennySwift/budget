@@ -11,6 +11,8 @@
             scope: {
                 //"totals": "=totals",
                 "basicTotals": "=basictotals",
+                "fixedBudgetTotals": "=fixedbudgettotals",
+                "flexBudgetTotals": "=flexbudgettotals",
                 "provideFeedback" : "&providefeedback",
                 "show": "=show"
             },
