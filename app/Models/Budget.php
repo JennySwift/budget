@@ -150,7 +150,7 @@ class Budget extends Model
             return $this->cumulative + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
         }
 
-        return 0;
+//        return 0;
     }
 
     /**

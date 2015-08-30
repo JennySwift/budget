@@ -8,6 +8,7 @@ use App\Models\Budget;
 use App\Models\Tag;
 use App\Models\Totals\BasicTotal;
 use App\Models\Totals\FixedBudgetTotal;
+use App\Models\Totals\FlexBudgetTotal;
 use App\Repositories\Tags\TagsRepository;
 use App\Repositories\Transactions\FilterRepository;
 use App\Services\TotalsService;
@@ -44,7 +45,7 @@ class PagesController extends Controller {
 //            'totals_response' => [],//$totalsService->getBasicAndBudgetTotals(),
             'basicTotals' => BasicTotal::createFromDatabase()->toArray(),
             'fixedBudgetTotals' => (new FixedBudgetTotal())->toArray(),
-            'flexBudgetTotals' => [],
+            'flexBudgetTotals' => (new flexBudgetTotal())->toArray(),
             'filter_response' => [],//$filterRepository->filterTransactions(),
             'me' => Auth::user(),
             'env' => app()->env
@@ -91,7 +92,7 @@ class PagesController extends Controller {
             'fixedBudgets' => Budget::forCurrentUser()->whereType('fixed')->get(),
             'flexBudgets' => Budget::forCurrentUser()->whereType('flex')->get(),
             'fixedBudgetTotals' => (new FixedBudgetTotal())->toArray(),
-            'flexBudgetTotals' => [],
+            'flexBudgetTotals' => (new flexBudgetTotal())->toArray(),
             'basicTotals' => BasicTotal::createFromDatabase()->toArray()
 //            'totals_response' => []//$totalsService->getBasicAndBudgetTotals()
         ]);

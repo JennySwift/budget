@@ -34,13 +34,13 @@
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget before its starting date">
             <td>Expenses with <b>flex</b> budget <b>before</b> starting date:</td>
-            <td><span class="badge badge-danger">[[totals.budget.FLB.totals.spentBeforeStartingDate]]</span></td>
+            <td><span class="badge badge-danger">[[flexBudgetTotals.spentBeforeStartingDate]]</span></td>
             <td><span ng-if="totals.changes.EFLBBSD">[[totals.changes.EFLBBSD]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget">
             <td>Expenses with <b>flex</b> budget <b>after</b> starting date:</td>
-            <td><span id="total_income_span" class="badge badge-danger">[[totals.budget.FLB.totals.spentAfterStartingDate]]</span></td>
+            <td><span id="total_income_span" class="badge badge-danger">[[flexBudgetTotals.spentAfterStartingDate]]</span></td>
             <td><span ng-if="totals.changes.EFLB">[[totals.changes.EFLB]]</span></td>
         </tr>
 

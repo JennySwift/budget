@@ -54,9 +54,9 @@
 
 Route::get('/test', function()
 {
-    $fixedBudgetTotal = new \App\Models\Totals\FixedBudgetTotal();
+    $flexBudgetTotal = new \App\Models\Totals\FlexBudgetTotal();
 
-    dd($fixedBudgetTotal);
+    dd($flexBudgetTotal);
 });
 
 

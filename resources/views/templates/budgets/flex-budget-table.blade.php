@@ -55,13 +55,13 @@
     <!-- flex budget totals -->
     <tr id="flex-budget-totals" class="budget_info_ul totals">
         <td>totals</td>
-        <td>[[totals.budget.FLB.totals.budget]]</td>
-        <td>[[totals.budget.FLB.totals.calculated_budget]]</td>
+        <td>[[flexBudgetTotals.amount]]</td>
+        <td>[[flexBudgetTotals.calculatedAmount]]</td>
         <td>-</td>
         <td>-</td>
-        <td>[[totals.budget.FLB.totals.spentAfterSD]]</td>
-        <td>[[totals.budget.FLB.totals.receivedAfterSD]]</td>
-        <td>[[totals.budget.FLB.totals.remaining]]</td>
+        <td>[[flexBudgetTotals.spentAfterStartingDate]]</td>
+        <td>[[flexBudgetTotals.receivedAfterStartingDate]]</td>
+        <td>[[flexBudgetTotals.remaining]]</td>
         <td>-</td>
     </tr>
 </table>
