@@ -10,10 +10,10 @@ class FlexBudgetTotal implements Arrayable {
     /**
      * Change to a static constructor or not, up to you
      */
-    public function __construct()
+    public function __construct($budgets)
     {
         $this->type = Budget::TYPE_FLEX;
-        $this->budgets = Budget::whereType(Budget::TYPE_FLEX)->forCurrentUser()->get();
+        $this->budgets = $budgets;
         $this->amount = $this->calculate('amount');
         // Todo: calculatedAmount
 

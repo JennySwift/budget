@@ -10,10 +10,10 @@ class FixedBudgetTotal implements Arrayable {
     /**
      * Change to a static constructor or not, up to you
      */
-    public function __construct()
+    public function __construct($budgets)
     {
         $this->type = Budget::TYPE_FIXED;
-        $this->budgets = Budget::whereType(Budget::TYPE_FIXED)->forCurrentUser()->get();
+        $this->budgets = $budgets;
         $this->amount = $this->calculate('amount');
         $this->remaining = $this->calculate('remaining');
         $this->cumulative = $this->calculate('cumulative');

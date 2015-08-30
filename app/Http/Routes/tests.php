@@ -54,7 +54,8 @@
 
 Route::get('/test', function()
 {
-    $this->app->make('App\Models\Totals\RemainingBalance')->calculate();
+    return 'Test';
+    //$this->app->make('App\Models\Totals\RemainingBalance')->calculate();
 });
 
 

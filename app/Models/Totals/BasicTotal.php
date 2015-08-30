@@ -18,11 +18,14 @@ class BasicTotal {
     public $EWB;
     public $savings;
 
+    protected $transactions;
+
     /**
      * BasicTotal constructor.
      */
-    public function __construct()
+    public function __construct($transactions)
     {
+        $this->transactions = $transactions;
         $this->setDebit();
         $this->setCredit();
         $this->setReconciledSum();
@@ -36,9 +39,9 @@ class BasicTotal {
      */
     public function setDebit()
     {
-        $debit = Transaction::forCurrentUser()
-                          ->where('type', 'expense')
-                          ->sum('total');
+        $debit = $this->transactions->filter(function($transaction) {
+            return $transaction->type == 'expense';
+        })->sum('total');
 
         $this->debit = $debit;
     }
@@ -49,9 +52,9 @@ class BasicTotal {
      */
     public function setCredit()
     {
-        $credit = Transaction::forCurrentUser()
-                          ->where('type', 'income')
-                          ->sum('total');
+        $credit = $this->transactions->filter(function($transaction) {
+            return $transaction->type == 'income';
+        })->sum('total');
 
         $this->credit = $credit;
     }
@@ -62,9 +65,9 @@ class BasicTotal {
      */
     public function setReconciledSum()
     {
-        $reconciled_sum = Transaction::where('user_id', Auth::user()->id)
-            ->where('reconciled', 1)
-            ->sum('total');
+        $reconciled_sum = $this->transactions->filter(function($transaction) {
+            return $transaction->reconciled;
+        })->sum('total');
 
         $this->reconciledSum = $reconciled_sum;
     }
@@ -77,13 +80,18 @@ class BasicTotal {
     public function setEWB()
     {
         //Get all the ids of transactions that don't have a budget
-        $ids = Transaction::where('user_id', Auth::user()->id)
-            ->where('type', 'expense')
-            ->has('budgets', 0)
-            ->lists('id');
+//        $ids = Transaction::forCurrentUser()
+//                          ->where('type', 'expense')
+//                          ->has('budgets', 0)
+//                          ->get()
+//                          ->sum('total');
+//                          ->lists('id');
 
-        $total = Transaction::whereIn('transactions.id', $ids)
-            ->sum('total');
+//        $total = Transaction::whereIn('transactions.id', $ids)
+//                            ->sum('total');
+        $total = $this->transactions->load('budgets')->filter(function($transaction) {
+            return $transaction->type == 'expense' && !$transaction->budgets->count();
+        })->sum('total');
 
         $this->EWB = $total;
     }

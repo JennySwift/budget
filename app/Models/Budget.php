@@ -1,6 +1,6 @@
 <?php namespace App\Models;
 
-use App;
+use App, Cache;
 use App\Traits\ForCurrentUserTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +23,8 @@ class Budget extends Model
         'cumulativeMonthNumber', 'cumulative', 'remaining', 'calculatedAmount'
     ];
 
+    protected $with = ['transactions', 'expenses', 'incomes'];
+
     /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -44,6 +46,24 @@ class Budget extends Model
 
     /**
      *
+     * @return mixed
+     */
+    public function expenses()
+    {
+        return $this->transactions()->whereType('expense');
+    }
+
+    /**
+     *
+     * @return mixed
+     */
+    public function incomes()
+    {
+        return $this->transactions()->whereType('income');
+    }
+
+    /**
+     *
      * @return string
      */
     public function getAmountAttribute()
@@ -58,7 +78,7 @@ class Budget extends Model
     public function getCalculatedAmountAttribute()
     {
         if($this->isFlex()) {
-            return App::make('App\Models\Totals\RemainingBalance')->calculate() / 100 * $this->attributes['amount'];
+            //return App::make('App\Models\Totals\RemainingBalance')->calculate() / 100 * $this->attributes['amount'];
         }
 
         return NULL;
@@ -89,9 +109,9 @@ class Budget extends Model
     public function getSpentBeforeStartingDateAttribute()
     {
         if($this->isFixed()) {
-            $totalSpentBeforeStartingDate = $this->transactions()->where('date', '<', $this->starting_date)
-                ->where('type', 'expense')
-                ->sum('calculated_allocation');
+            $totalSpentBeforeStartingDate = $this->expenses()->where('date', '<', $this->starting_date)
+                                                 ->get()
+                                                 ->sum('calculated_allocation');
 
             return $totalSpentBeforeStartingDate;
         }
@@ -107,6 +127,7 @@ class Budget extends Model
     {
         $totalSpentAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date)
                                             ->where('type', 'expense')
+                                            ->get()
                                             ->sum('calculated_allocation');
 
         return $totalSpentAfterStartingDate;
@@ -120,6 +141,7 @@ class Budget extends Model
     {
         $totalReceivedAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date)
                                             ->where('type', 'income')
+                                            ->get()
                                             ->sum('calculated_allocation');
 
         return $totalReceivedAfterStartingDate;
