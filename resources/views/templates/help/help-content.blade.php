@@ -90,6 +90,11 @@
         <li>- savings</li>
     </ul>
 
+    <p>Update</p>
+    <p>Expenses with flex budget after starting date should not be in the formula (hence why I did RBWithoutEFLB at once point).</p>
+    <p>The reason I think: If the flex budget table tells the user they have $20 to spend on putt putt and $50 on clothes, then the user goes and plays the putt putt, that putt putt expense would cause the remaining balance to decrease, which would mean the user no longer had $50 to spend on clothes.</p>
+    <p>So I don't think RB needs to actually be displayed to the user. The important figures are the remaining columns in the flex budgets table I suppose.</p>
+
     <h2 id="totals">Totals</h2>
     <p>A lot of the figures in the totals sidebar are probably unnecessary for users, but they have been helpful in getting the totals working and understanding what is going on. Hover the totals to see explanations of what they are (or to get confused :)). A lot of them were for figuring out RB. Some are just the same figures as in the budget table totals columns.</p>
     <p>Probably the most relevant figures for the user are: credit, debit, RB, savings, and the R (remaining) columns in the budget tables, so the user can see how much they have left to spend on each tag.</p>
