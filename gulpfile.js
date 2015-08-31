@@ -32,6 +32,10 @@ elixir(function(mix) {
 //});
 
 elixir(function(mix) {
+    mix.stylesIn('resources/assets/css', 'public/css/plugins.css');
+});
+
+elixir(function(mix) {
     mix.scriptsIn('resources/assets/js/controllers', 'public/js/controllers.js')
         .scriptsIn('resources/assets/js/factories', 'public/js/factories.js')
         .scriptsIn('resources/assets/js/directives', 'public/js/directives.js')
