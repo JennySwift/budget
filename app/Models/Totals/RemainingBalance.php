@@ -67,7 +67,7 @@ class RemainingBalance {
                - $this->fixedBudgetTotal->remaining // Total remainings on the fixed budget table
                + $this->basicTotals->EWB // Total of all the expenses without budget
                + $this->flexBudgetTotal->spentBeforeStartingDate // Total of spent before starting date for flex budgets
-               + $this->flexBudgetTotal->spentAfterStartingDate // Total of spent after starting date for flex budgets
+//               + $this->flexBudgetTotal->spentAfterStartingDate // Total of spent after starting date for flex budgets
                + $this->fixedBudgetTotal->spentBeforeStartingDate // Total of spent before starting date for fixed budgets
                + $this->fixedBudgetTotal->spentAfterStartingDate // Total of spent after starting date for fixed budgets
                - $this->basicTotals->savings; // Savings
@@ -126,35 +126,4 @@ class RemainingBalance {
         // @complex
         $this->FLB->totals->remaining = $remaining;
     }
-
-    /**
-     * Get the user's remaining balance (RB), with EFLB in the formula.
-     * Still figuring out the formula and if this is the figure we want.
-     * @return int
-     */
-    private function getRBWithEFLB()
-    {
-//        $budgetTableTotalsService = new BudgetTableTotalsService($this);
-//        $tagsRepository = new TagsRepository();
-        //If totalsservice is calling this file, this file should not call TotalsService (unless tightly coupled, but rare)
-        //(put the getCredit method in this file)
-        //maybe interface if two repositories have similar methods?
-        //flex budget repository and fixed budget repository and they would share same methods, interface budget
-        //or extend budgetrepository
-        $basicTotals = BasicTotal::createFromDatabase();
-
-        return $this->calculateRemainingBalance($basicTotals, $this->FB, $this->FLB);
-    }
-
-    /**
-     * Get remaining balance without the expenses with flex budget.
-     * Still figuring out the formula and if this is the figure we want.
-     * @return int
-     */
-    private function getRBWithoutEFLB()
-    {
-        return $this->getRBWithEFLB() - $this->FLB->totals->spentAfterSD;
-    }
-
-
 }
