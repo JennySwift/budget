@@ -38,7 +38,7 @@ class TransactionSeeder extends Seeder {
     private function createTransactionsForUser($user)
     {
         foreach (range(0, $this->howManyTransactions) as $index) {
-            $this->createIncome($user);
+            $this->createIncome($user, $this->faker->randomElement([20, 50, 100]));
             $dateBeforeStartingDate = $this->faker->dateTimeBetween('-2 years', '-1 years')->format('Y-m-d');
             $dateAfterStartingDate = $this->faker->dateTimeBetween('-1 months', 'now')->format('Y-m-d');
 
@@ -65,6 +65,9 @@ class TransactionSeeder extends Seeder {
         }
         //Give the user just one transfer transaction
         $this->createTransfer($user);
+
+        //Give the user a big income transaction so their remaining balance is positive
+        $this->createIncome($user, 5000);
     }
 
     /**
@@ -116,7 +119,7 @@ class TransactionSeeder extends Seeder {
      *
      * @param $user
      */
-    private function createIncome($user)
+    private function createIncome($user, $total)
     {
         $transaction = new Transaction([
             'type' => 'income',
@@ -124,7 +127,7 @@ class TransactionSeeder extends Seeder {
             'account_id' => Account::whereUserId($user->id)->get()->random(1)->id,
             'description' => $this->faker->sentence(1),
             'merchant' => $this->faker->name(),
-            'total' => $this->faker->randomElement([20, 50, 100]),
+            'total' => $total,
             'reconciled' => $this->faker->numberBetween($min = 0, $max = 1),
             'allocated' => 0,
             'created_at' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s')

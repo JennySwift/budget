@@ -38,36 +38,36 @@ class BudgetSeeder extends Seeder {
                 'amount' => 100,
                 'starting_date' => $this->startingDate
             ],
-            [
-                'type' => 'fixed',
-                'name' => 'conferences',
-                'amount' => 100,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'fixed',
-                'name' => 'car',
-                'amount' => 100,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'fixed',
-                'name' => 'mobile phone',
-                'amount' => 20,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'fixed',
-                'name' => 'petrol',
-                'amount' => 50,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'fixed',
-                'name' => 'sport',
-                'amount' => 20,
-                'starting_date' => $this->startingDate
-            ],
+//            [
+//                'type' => 'fixed',
+//                'name' => 'conferences',
+//                'amount' => 100,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'fixed',
+//                'name' => 'car',
+//                'amount' => 100,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'fixed',
+//                'name' => 'mobile phone',
+//                'amount' => 20,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'fixed',
+//                'name' => 'petrol',
+//                'amount' => 50,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'fixed',
+//                'name' => 'sport',
+//                'amount' => 20,
+//                'starting_date' => $this->startingDate
+//            ],
 			[
 				'type' => 'flex',
 				'name' => 'eating out',
