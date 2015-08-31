@@ -21,8 +21,11 @@ body .main {
   padding-bottom: 60px;
   min-height: 100%;
   display: none; }
+
 body footer {
   display: none;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
   justify-content: space-around;
   padding: 11px;
   background: #000000;
@@ -30,7 +33,11 @@ body footer {
   position: relative;
   margin-top: -60px; }
   body footer li {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
     align-items: center; }
 
 button {
@@ -92,7 +99,11 @@ table {
     vertical-align: middle;
     padding: 0px 9px; }
     table td > div {
+      display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
       align-items: center; }
 
 caption {
@@ -101,6 +112,8 @@ caption {
 
 #navbar {
   display: none;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
   justify-content: space-around;
   position: fixed;
   top: 0;
@@ -110,14 +123,20 @@ caption {
   padding: 0;
   margin: 0; }
   #navbar > li {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
     justify-content: center;
     position: relative;
     height: 44px;
     min-width: 70px; }
     #navbar > li > a {
-      transition: all .5s ease; }
+      transition: all 0.5s ease; }
     #navbar > li:hover > a {
       font-size: 25px; }
   #navbar a {
@@ -126,7 +145,11 @@ caption {
     min-width: 160px; }
     #navbar .gravatar-li .gravatar-container {
       margin-left: 5px;
+      display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
       align-items: center; }
       #navbar .gravatar-li .gravatar-container .gravatar {
         border-radius: 8px;
@@ -167,10 +190,10 @@ caption {
     height: 34px; }
     .tag-wrapper .tag-display .removable-tag {
       cursor: pointer;
-      transition: all, .3s, ease;
+      transition: all, 0.3s, ease;
       position: relative; }
       .tag-wrapper .tag-display .removable-tag:hover {
-        padding: .4em 1.6em .4em; }
+        padding: 0.4em 1.6em 0.4em; }
         .tag-wrapper .tag-display .removable-tag:hover .fa-times {
           display: inline; }
       .tag-wrapper .tag-display .removable-tag .fa-times {
@@ -213,8 +236,7 @@ caption {
   #feedback .feedback-message.ng-move,
   #feedback .feedback-message.ng-enter,
   #feedback .feedback-message.ng-leave {
-    -webkit-transition: all linear .5s;
-    transition: all linear .5s; }
+    transition: all linear 0.5s; }
   #feedback .feedback-message.ng-leave.ng-leave-active,
   #feedback .feedback-message.ng-move,
   #feedback .feedback-message.ng-enter {
@@ -285,16 +307,28 @@ caption {
 @media all and (min-width: 680px) {
   .popup-inner {
     padding: 22px; } }
+
 .checkbox-wrapper {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
   align-items: center; }
 
 .checkbox-animate input {
   visibility: hidden;
   position: absolute; }
+
 .checkbox-animate label {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
   align-items: center;
   border-radius: 3px;
   border: 1px solid #777;
@@ -306,15 +340,26 @@ caption {
   box-shadow: 0px 0px 4px #777 inset; }
   .checkbox-animate label .label-icon {
     display: none;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-animation-duration: .5s;
     animation-duration: .5s; }
     .checkbox-animate label .label-icon .fa-check {
       font-size: 24px; }
 
 .cb-container {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
   align-items: center; }
   .cb-container .label-text {
     padding: 0px 5px; }
@@ -337,7 +382,7 @@ caption {
       position: absolute;
       left: 0;
       cursor: pointer;
-      transition: all, .5s, ease; }
+      transition: all, 0.5s, ease; }
   .cb-slider-wrapper input:checked + label span.label-icon {
     background: green;
     left: 23px; }
@@ -361,7 +406,7 @@ caption {
     bottom: 0;
     margin: auto;
     cursor: pointer;
-    transition: all, .5s, ease; }
+    transition: all, 0.5s, ease; }
     .cb-fa-wrapper label i {
       position: absolute;
       left: 0;
@@ -376,8 +421,14 @@ caption {
     opacity: 1; }
 
 #toolbar {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
   align-items: center;
   margin: 25px 33px 18px 30px; }
   #toolbar button:not(:last-child) {
@@ -388,9 +439,15 @@ caption {
   #toolbar select {
     width: auto; }
   #toolbar .toolbar-filter, #toolbar .flex {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
     align-items: center; }
   #toolbar .flex {
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
     justify-content: flex-start; }
   #toolbar .btn-group button {
     background: white;
@@ -403,8 +460,14 @@ caption {
 .dropdown {
   display: inline-block; }
   .dropdown .dropdown-content {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
     justify-content: space-around;
     width: 400px;
     opacity: .8;
@@ -417,8 +480,14 @@ caption {
     border: .5px solid #777;
     margin-top: 9px; }
     .dropdown .dropdown-content label {
+      display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
       justify-content: space-between;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
       align-items: center; }
 
 .dropdown-directive.no-dropdown-style .dropdown-content {
@@ -430,7 +499,11 @@ caption {
   .dropdown-directive:not(.no-dropdown-style) .btn {
     margin-left: 10px; }
   .dropdown-directive:not(.no-dropdown-style) .dropdown-content {
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
     justify-content: space-around;
     display: none;
     width: 400px;
@@ -444,20 +517,35 @@ caption {
     border: .5px solid #777;
     margin-top: 9px; }
     .dropdown-directive:not(.no-dropdown-style) .dropdown-content label {
+      display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
       justify-content: space-between;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
       align-items: center; }
 
 #actions {
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
   flex-direction: column;
   width: 200px; }
 
 .my-btn-dropdown {
   display: inline-block; }
   .my-btn-dropdown .dropdown-content {
-    animation: slideInDown .5s;
+    -webkit-animation: slideInDown 0.5s;
+    animation: slideInDown 0.5s;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
     justify-content: space-around;
     width: 400px;
     opacity: .8;
@@ -470,10 +558,17 @@ caption {
     border: .5px solid #777;
     margin-top: 9px; }
     .my-btn-dropdown .dropdown-content.ng-hide {
-      animation: slideOutUp .5s; }
+      -webkit-animation: slideOutUp 0.5s;
+      animation: slideOutUp 0.5s; }
     .my-btn-dropdown .dropdown-content label {
+      display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
       justify-content: space-between;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
       align-items: center; }
 
 .totals {
@@ -490,8 +585,14 @@ caption {
   margin: auto;
   font-size: 40px;
   color: #5bc0de;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 100%;
   height: 60px;
@@ -506,8 +607,14 @@ caption {
   z-index: 99;
   font-size: 40px;
   color: #5bc0de;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
   align-items: center; }
 
 .pointer {
@@ -584,7 +691,7 @@ caption {
   display: block; }
 
 .selected {
-  background: #6d84b4; }
+  background: #6D84B4; }
 
 .absolute {
   position: absolute; }
@@ -607,7 +714,7 @@ caption {
   font-size: 20px; }
 
 .bg-blue {
-  background: #6d84b4; }
+  background: #6D84B4; }
 
 .bg-red {
   background: #ff8080; }
@@ -663,6 +770,7 @@ caption {
   width: 100%; }
 
 .my-btn-group {
+  display: -ms-flexbox;
   display: flex;
   display: -webkit-flex; }
   .my-btn-group button {
@@ -672,7 +780,11 @@ caption {
 #allocation-popup {
   max-width: 500px; }
   #allocation-popup #allocation-table-container {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
     justify-content: center; }
     #allocation-popup #allocation-table-container td, #allocation-popup #allocation-table-container th {
       padding: 0;
@@ -689,13 +801,21 @@ caption {
       #allocation-popup #allocation-table-container td * {
         height: 20px; }
       #allocation-popup #allocation-table-container td div {
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
         align-items: center;
+        -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
         justify-content: flex-end;
         margin-right: 5px;
         text-align: right;
         position: relative; }
         #allocation-popup #allocation-table-container td div.editable {
+          -webkit-justify-content: space-between;
+          -ms-flex-pack: justify;
           justify-content: space-between; }
         #allocation-popup #allocation-table-container td div .edit {
           width: 10px;
@@ -713,11 +833,16 @@ caption {
       #allocation-popup p {
         font-size: 12px; } }
   #allocation-popup .center-contents {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
     justify-content: center; }
 
 #filter {
-  animation: slideInRight .5s;
+  -webkit-animation: slideInRight 0.5s;
+  animation: slideInRight 0.5s;
   position: fixed;
   top: 110px;
   right: 0px;
@@ -729,10 +854,15 @@ caption {
   box-shadow: -4px 4px 6px #777;
   background: white; }
   #filter.ng-hide {
+    -webkit-animation: bounceOutRight 2s;
     animation: bounceOutRight 2s; }
   #filter .btn-group {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex; }
     #filter .btn-group button {
+      -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
       flex-grow: 1; }
   #filter .section {
     margin: 8px; }
@@ -754,19 +884,31 @@ caption {
           top: 50%;
           width: 100%; }
   #filter .group {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex; }
   #filter .tag-input-wrapper input {
     width: auto; }
   #filter .accounts > div, #filter .types > div, #filter .status > div, #filter .budget > div {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
     align-items: center; }
   #filter input[type="radio"] {
     width: 27px;
     margin-right: 7px; }
 
 .main-content {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
   justify-content: space-around;
   margin: 30px 15px 15px 15px; }
   .main-content > * {
@@ -790,25 +932,40 @@ caption {
   display: none; }
 
 .select, #description_autocomplete tbody.select {
-  background: #6d84b4; }
+  background: #6D84B4; }
 
 #new-transaction-container {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
   justify-content: center; }
   #new-transaction-container #new-transaction {
     width: 600px;
     border-radius: 5px;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
     flex-direction: column;
     padding: 15px 25px;
     box-shadow: 3px 3px 5px #777;
     border: 1px solid #777;
-    animation: slideInDown .5s; }
+    -webkit-animation: slideInDown 0.5s;
+    animation: slideInDown 0.5s; }
     #new-transaction-container #new-transaction > div {
+      display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
       justify-content: space-between;
       margin: 12px 0; }
       #new-transaction-container #new-transaction > div.type {
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
         justify-content: center; }
       #new-transaction-container #new-transaction > div > div {
         margin: 0px 20px;
@@ -837,12 +994,21 @@ caption {
           color: #ffffff; }
     #new-transaction-container #new-transaction .btn-wrapper {
       width: 100%;
+      display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
       justify-content: space-between; }
     #new-transaction-container #new-transaction.ng-hide {
-      animation: slideOutUp .5s; }
+      -webkit-animation: slideOutUp 0.5s;
+      animation: slideOutUp 0.5s; }
     #new-transaction-container #new-transaction .help-row {
+      display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
       justify-content: space-between; }
       #new-transaction-container #new-transaction .help-row .help > div {
         margin: 15px 0; }
@@ -850,22 +1016,34 @@ caption {
       max-width: 210px; }
     #new-transaction-container #new-transaction input {
       margin-bottom: 4px;
+      -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
       flex-grow: 1; }
 
 #edit-transaction {
   padding: 22px;
   width: 600px;
   border-radius: 5px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
   flex-direction: column;
   padding: 15px 25px;
   box-shadow: 3px 3px 5px #777;
   border: 1px solid #777; }
   #edit-transaction > div {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     margin: 12px 0; }
     #edit-transaction > div.type {
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
       justify-content: center; }
     #edit-transaction > div > div {
       margin: 0px 20px;
@@ -894,7 +1072,11 @@ caption {
         color: #ffffff; }
   #edit-transaction .btn-wrapper {
     width: 100%;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
     justify-content: space-between; }
   #edit-transaction input {
     margin-bottom: 4px; }
@@ -944,8 +1126,13 @@ caption {
     overflow: scroll; }
     #transactions td .fa, #transactions th .fa {
       font-size: 9px; } }
+
 #budget #budget-toolbar {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
   justify-content: center;
   margin-top: 7px; }
   #budget #budget-toolbar .btn-group button {
@@ -954,9 +1141,16 @@ caption {
     #budget #budget-toolbar .btn-group button.selected {
       background: #5cb85c;
       color: white; }
+
 #budget #budget-content {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
   justify-content: space-between;
   margin: 30px;
   font-size: 15px;
@@ -994,13 +1188,19 @@ caption {
     font-size: 6px; }
 
 #graphs {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   overflow: scroll;
   max-width: 800px; }
   #graphs .month-container {
     margin: 0px 10px; }
     #graphs .month-container #months {
+      display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-align-items: flex-end;
+      -ms-flex-align: end;
       align-items: flex-end;
       border: 1px solid #777;
       height: 500px; }
@@ -1011,14 +1211,25 @@ caption {
       #graphs .month-container #months #credit, #graphs .month-container #months #debit {
         width: 30px;
         position: relative;
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
         flex-direction: column;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
         justify-content: center; }
         #graphs .month-container #months #credit .span-container, #graphs .month-container #months #debit .span-container {
+          -webkit-transform: rotate(90deg);
           transform: rotate(90deg); }
 
 #help {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
   justify-content: center;
   color: #777;
   line-height: 1.5em;
@@ -1052,9 +1263,17 @@ caption {
 #login, #register {
   padding-top: 85px; }
   #login .flex, #register .flex {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
     align-items: center;
     padding-top: 40px; }
   #login #login-errors, #register #login-errors {
@@ -1065,7 +1284,11 @@ caption {
     font-size: 18px;
     margin-bottom: 25px; }
   #login #remember-me-container, #register #remember-me-container {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
     align-items: center; }
     #login #remember-me-container label, #register #remember-me-container label {
       margin-bottom: 0; }
@@ -1079,7 +1302,11 @@ caption {
     padding: 14px;
     width: 293px; }
     #tags .create-new-tag .flex {
+      display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
       justify-content: space-between; }
   #tags table {
     padding: 20px 0 20px 20px; }
@@ -1094,16 +1321,28 @@ caption {
       visibility: visible; }
 
 #tags, #accounts {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
   align-items: center;
   margin-top: 50px; }
   #tags > *, #accounts > * {
     max-width: 500px; }
 
 #edit-account-name .popup-inner, #edit-tag-name .popup-inner, #edit-budget .popup-inner {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 300px;
   height: 200px; }
@@ -1120,12 +1359,21 @@ caption {
   padding: 14px;
   width: 293px; }
   #accounts .create-new-account .flex {
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
     justify-content: space-between; }
+
 #accounts tr .btn-danger {
   visibility: hidden; }
+
 #accounts tr:hover .btn-danger {
   visibility: visible; }
+
 #accounts tr td {
   font-size: 17px;
   height: 32px; }
+
+/*# sourceMappingURL=style.css.map */

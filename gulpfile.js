@@ -12,43 +12,9 @@ var elixir = require('laravel-elixir');
  |
  */
 
-//elixir(function(mix) {
-//    mix.less('app.less');
-//});
-
-//elixir(function(mix) {
-//    mix.scripts([
-//        'controllers/_BaseController.js',
-//        'controllers/HomeController.js',
-//        'controllers/AccountsController.js',
-//        'controllers/BudgetsController.js',
-//        'controllers/FilterController.js',
-//        'controllers/TransactionsController.js',
-//        'controllers/NewTransactionController.js',
-//        'controllers/PreferencesController.js',
-//        'factories/AutocompleteFactory.js',
-//        'factories/BudgetsFactory.js',
-//        'factories/SavingsFactory.js',
-//        'factories/ColorsFactory.js',
-//        'factories/TransactionsFactory.js',
-//        'factories/PreferencesFactory.js',
-//        'factories/TagsFactory.js',
-//        'factories/AccountsFactory.js',
-//        'factories/FilterFactory.js',
-//        'factories/FeedbackFactory.js',
-//        'directives/DropdownsDirective.js',
-//        'directives/CheckboxesDirective.js',
-//        'directives/TotalsDirective.js',
-//        'directives/FilterDirective.js',
-//        'directives/TagAutocompleteDirective.js',
-//        'directives/FilterDropdownsDirective.js',
-//        'directives/TransactionAutocompleteDirective.js',
-//    ]);
-//});
-
-//elixir(function(mix) {
-//    mix.scripts(['BaseController.js']);
-//});
+elixir(function(mix) {
+    mix.sass('style.scss');
+});
 
 elixir(function(mix) {
     mix.scriptsIn('resources/assets/js/controllers', 'public/js/controllers.js')
