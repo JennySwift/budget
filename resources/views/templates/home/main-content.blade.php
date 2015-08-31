@@ -6,6 +6,7 @@
             basicTotals="basicTotals"
             fixedbudgettotals="fixedBudgetTotals"
             flexbudgettotals="flexBudgetTotals"
+            remainingbalance="remainingBalance"
             getTotals="getTotals()"
             provideFeedback="provideFeedback()"
             show="show">

@@ -705,6 +705,7 @@ var app = angular.module('budgetApp');
         $scope.basicTotals = basicTotals;
         $scope.fixedBudgetTotals = fixedBudgetTotals;
         $scope.flexBudgetTotals = flexBudgetTotals;
+        $scope.remainingBalance = remainingBalance;
         $scope.colors = me.preferences.colors;
 
         if ($scope.env === 'local') {

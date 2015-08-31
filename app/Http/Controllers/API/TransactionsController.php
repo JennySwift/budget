@@ -10,6 +10,7 @@ use App\Models\Tag;
 use App\Models\Totals\BasicTotal;
 use App\Models\Totals\FixedBudgetTotal;
 use App\Models\Totals\FlexBudgetTotal;
+use App\Models\Totals\RemainingBalance;
 use App\Models\Transaction;
 use App\Repositories\Savings\SavingsRepository;
 use App\Repositories\Transactions\FilterRepository;
@@ -225,6 +226,7 @@ class TransactionsController extends Controller
             'basicTotals' => $basicTotal->toArray(),
             'fixedBudgetTotals' => $fixedBudgetTotal->toArray(),
             'flexBudgetTotals' => $flexBudgetTotal->toArray(),
+            'remainingBalance' => (new RemainingBalance($basicTotal, $fixedBudgetTotal, $flexBudgetTotal))->calculate(),
             'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
         ];
     }

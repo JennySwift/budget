@@ -150,6 +150,9 @@ app.factory('FilterFactory', function ($http) {
         if ($data.flexBudgetTotals) {
             $object.flexBudgetTotals = $data.flexBudgetTotals;
         }
+        if ($data.remainingBalance) {
+            $object.remainingBalance = $data.remainingBalance;
+        }
     };
 
     return $object;

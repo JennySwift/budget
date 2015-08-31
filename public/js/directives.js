@@ -521,6 +521,17 @@
                     }
                 });
 
+                $scope.$watch('filterFactory.remainingBalance', function (newValue, oldValue, scope) {
+                    if (newValue) {
+
+                        if (newValue !== $scope.remainingBalance) {
+                            $scope.totalChanges.remainingBalance = $scope.format(newValue, $scope.remainingBalance);
+                        }
+
+                        scope.remainingBalance = newValue;
+                    }
+                });
+
                 /**
                  * End watches
                  */
