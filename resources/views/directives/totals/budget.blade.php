@@ -32,6 +32,12 @@
             <td><span ng-if="totalChanges.cumalativeFixedBudget">[[totalChanges.cumulativeFixedBudget]]</span></td>
         </tr>
 
+        <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget">
+            <td>Expenses with <b>flex</b> budget <b>after</b> starting date:</td>
+            <td><span id="total_income_span" class="badge badge-danger">[[flexBudgetTotals.spentAfterStartingDate]]</span></td>
+            <td><span ng-if="totalChanges.flexBudgetExpensesAfterStartingDate">[[totalChanges.flexBudgetExpensesAfterStartingDate]]</span></td>
+        </tr>
+
     </table>
 
     {{--<ul class="list-group totals">--}}

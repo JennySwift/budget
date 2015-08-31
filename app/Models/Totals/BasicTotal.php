@@ -65,11 +65,11 @@ class BasicTotal {
      */
     public function setReconciledSum()
     {
-        $reconciled_sum = $this->transactions->filter(function($transaction) {
+        $reconciledSum = $this->transactions->filter(function($transaction) {
             return $transaction->reconciled;
         })->sum('total');
 
-        $this->reconciledSum = $reconciled_sum;
+        $this->reconciledSum = $reconciledSum;
     }
 
     /**
@@ -114,7 +114,7 @@ class BasicTotal {
             "credit" => number_format($this->credit, 2),
             "debit" => number_format($this->debit, 2),
             "balance" => number_format($this->credit + $this->debit, 2),
-            "reconciled_sum" => number_format($this->reconciledSum, 2),
+            "reconciledSum" => number_format($this->reconciledSum, 2),
             "savings" => number_format($this->savings, 2),
             "EWB" => number_format($this->EWB, 2)
         );
