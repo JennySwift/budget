@@ -9,6 +9,8 @@
          * scope properties
          */
 
+        $scope.test = '1';
+
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
 

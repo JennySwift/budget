@@ -56,7 +56,7 @@ class PagesController extends Controller {
             'fixedBudgetTotals' => $fixedBudgetTotal->toArray(),
             'flexBudgetTotals' => $flexBudgetTotal->toArray(),
             'remainingBalance' => (new RemainingBalance($basicTotal, $fixedBudgetTotal, $flexBudgetTotal))->calculate(),
-            'filter_response' => [],//$filterRepository->filterTransactions(),
+            'filter_response' => $filterRepository->filterTransactions(),
             'me' => Auth::user(),
             'env' => app()->env
         ]);

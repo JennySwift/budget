@@ -11,7 +11,7 @@
         <div>
             <input
                 ng-model="filter.reconciled"
-                ng-change="multiSearch()"
+                ng-change="filterTransactions()"
                 type="radio"
                 name="status"
                 value="any">
@@ -21,7 +21,7 @@
         <div>
             <input
                 ng-model="filter.reconciled"
-                ng-change="multiSearch()"
+                ng-change="filterTransactions()"
                 type="radio"
                 name="status"
                 value="true">
@@ -31,7 +31,7 @@
         <div>
             <input
                 ng-model="filter.reconciled"
-                ng-change="multiSearch()"
+                ng-change="filterTransactions()"
                 type="radio"
                 name="status"
                 value="false">

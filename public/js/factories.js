@@ -333,7 +333,7 @@ app.factory('FilterFactory', function ($http) {
         return $filter;
     };
 
-    $object.multiSearch = function ($filter) {
+    $object.filterTransactions = function ($filter) {
         $object.filter = $object.formatDates($filter);
 
         var $url = 'api/select/filter';

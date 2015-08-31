@@ -12,7 +12,7 @@
 //            scope: {
 //                "showFilter": "=show",
 //                "accounts": "=accounts",
-//                "multiSearch": "&search"
+//                "filterTransactions": "&search"
 //            },
 //            templateUrl: 'filter',
 //            //scope: true,
@@ -43,7 +43,7 @@
 //                    if (newValue === oldValue) {
 //                        return;
 //                    }
-//                    $scope.multiSearch(true);
+//                    $scope.filterTransactions(true);
 //                });
 //            }
 //        };

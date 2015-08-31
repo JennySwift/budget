@@ -14,7 +14,7 @@
                         chosenTags="filter.tags.in.and"
                         dropdown="filter.dropdown.in.and"
                         tags="tags"
-                        fnOnEnter="multiSearch()"
+                        fnOnEnter="filterTransactions()"
                         multipleTags="true">
                 </tag-autocomplete-directive>
 
@@ -32,7 +32,7 @@
                         chosenTags="filter.tags.in.or"
                         dropdown="filter.dropdown.in.or"
                         tags="tags"
-                        fnOnEnter="multiSearch()"
+                        fnOnEnter="filterTransactions()"
                         multipleTags="true">
                 </tag-autocomplete-directive>
 
@@ -53,7 +53,7 @@
                         chosenTags="filter.tags.out"
                         dropdown="filter.dropdown"
                         tags="tags"
-                        fnOnEnter="multiSearch()"
+                        fnOnEnter="filterTransactions()"
                         multipleTags="true">
                 </tag-autocomplete-directive>
 

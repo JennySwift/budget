@@ -488,7 +488,10 @@ var app = angular.module('budgetApp');
         $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
             if (newValue) {
                 scope.filter = newValue;
-                $scope.multiSearch();
+
+                if (newValue !== oldValue) {
+                    $scope.filterTransactions();
+                }
             }
         });
 
@@ -511,21 +514,21 @@ var app = angular.module('budgetApp');
             if (newValue === oldValue) {
                 return;
             }
-            $scope.multiSearch(true);
+            $scope.filterTransactions();
         });
 
         $scope.$watchCollection('filter.tags.in.or', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
-            $scope.multiSearch(true);
+            $scope.filterTransactions();
         });
 
         $scope.$watchCollection('filter.tags.out', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
-            $scope.multiSearch(true);
+            $scope.filterTransactions();
         });
 
         $scope.$watchGroup(['filter.offset', 'filter.num_to_fetch'], function (newValue, oldValue) {
@@ -534,7 +537,7 @@ var app = angular.module('budgetApp');
             if (newValue === oldValue) {
                 return;
             }
-            $scope.multiSearch(true);
+            $scope.filterTransactions();
         });
 
         /**
@@ -565,9 +568,9 @@ var app = angular.module('budgetApp');
             });
         };
 
-        $scope.multiSearch = function () {
+        $scope.filterTransactions = function () {
             $scope.showLoading();
-            FilterFactory.multiSearch($scope.filter)
+            FilterFactory.filterTransactions($scope.filter)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers({filter_results: response.data});
                     $scope.hideLoading();
@@ -601,7 +604,7 @@ var app = angular.module('budgetApp');
             $("#search-type-select, #search-account-select, #search-reconciled-select").val("all");
             $("#single-date-input, #from-date-input, #to-date-input, #search-descriptions-input, #search-merchants-input, #search-tags-input").val("");
             $("#search-tag-location").html("");
-            $scope.multiSearch(true);
+            $scope.filterTransactions(true);
         };
 
         $scope.filterDescriptionOrMerchant = function ($keycode) {
@@ -609,21 +612,21 @@ var app = angular.module('budgetApp');
                 return false;
             }
             $scope.resetOffset();
-            $scope.multiSearch(true);
+            $scope.filterTransactions(true);
         };
 
         $scope.filterDate = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
             }
-            $scope.multiSearch();
+            $scope.filterTransactions();
         };
 
         $scope.filterTotal = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
             }
-            $scope.multiSearch();
+            $scope.filterTransactions();
         };
 
         /**
@@ -633,7 +636,7 @@ var app = angular.module('budgetApp');
          */
         $scope.clearFilterField = function ($field, $type) {
             $scope.filter[$field][$type] = "";
-            $scope.multiSearch();
+            $scope.filterTransactions();
         };
 
         /**
@@ -658,7 +661,7 @@ var app = angular.module('budgetApp');
          */
         $scope.clearDateField = function ($field, $type) {
             $scope.filter[$field][$type]['user'] = "";
-            $scope.multiSearch();
+            $scope.filterTransactions();
         };
 
         $scope.resetOffset = function () {
@@ -697,6 +700,8 @@ var app = angular.module('budgetApp');
         /**
          * scope properties
          */
+
+        $scope.test = '1';
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
