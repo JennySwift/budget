@@ -14,16 +14,16 @@
 
     @include('templates.loading')
 
-    <div ng-controller=@yield('controller') id=@yield('id', 'nothing') class="main">
+        <div ng-controller=@yield('controller') id=@yield('id', 'nothing') class="main">
 
-        @include('templates.header')
+            @include('templates.header')
 
-        @include('templates.feedback')
+            @include('templates.feedback')
 
-        @section('page-content')
-        @show
+            @section('page-content')
+            @show
 
-    </div>
+        </div>
 
     @include('templates/footer')
     @include('templates/home/footer')

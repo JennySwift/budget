@@ -432,127 +432,94 @@
                 //    budget_totals: true
                 //};
 
-                //$scope.totals.changes = {
-                //    //RB: [],
-                //    //RBWEFLB: []
-                //};
+                $scope.totalChanges = {
+                    //RB: [],
+                    //RBWEFLB: []
+                };
 
                 $scope.clearChanges = function () {
-                    $scope.totals.changes = {
+                    $scope.totalChanges = {
                         //RB: [],
                         //RBWEFLB: []
                     };
                 };
 
-                $scope.$watch('filterFactory.totals', function (newValue, oldValue, scope) {
+                //$scope.$watch('filterFactory.totals', function (newValue, oldValue, scope) {
+                //    if (newValue) {
+                //        scope.totals.basic = newValue.basic;
+                //        scope.totals.budget = newValue.budget;
+                //    }
+                //});
+
+                $scope.$watch('filterFactory.basicTotals', function (newValue, oldValue, scope) {
+
                     if (newValue) {
-                        scope.totals.basic = newValue.basic;
-                        scope.totals.budget = newValue.budget;
+
+                        if (newValue.credit !== $scope.basicTotals.credit) {
+                            $scope.totalChanges.credit = $scope.format(newValue.credit, $scope.basicTotals.credit);
+                        }
+
+                        if (newValue.debit !== $scope.basicTotals.debit) {
+                            $scope.totalChanges.debit = $scope.format(newValue.debit, $scope.basicTotals.debit);
+                        }
+
+                        if (newValue.balance !== $scope.basicTotals.balance) {
+                            $scope.totalChanges.balance = $scope.format(newValue.balance, $scope.basicTotals.balance);
+                        }
+
+                        if (newValue.reconciledSum !== $scope.basicTotals.reconciledSum) {
+                            $scope.totalChanges.reconciled = $scope.format(newValue.reconciledSum, $scope.basicTotals.reconciledSum);
+                        }
+
+                        if (newValue.savings !== $scope.basicTotals.savings) {
+                            $scope.totalChanges.savings = $scope.format(newValue.savings, $scope.basicTotals.savings);
+                        }
+
+                        if (newValue.EWB !== $scope.basicTotals.EWB) {
+                            $scope.totalChanges.EWB = $scope.format(newValue.EWB, $scope.basicTotals.EWB);
+                        }
+
+                        scope.basicTotals = newValue;
                     }
                 });
 
-                /**
-                 * Notify user when totals change
-                 */
+                $scope.$watch('filterFactory.fixedBudgetTotals', function (newValue, oldValue, scope) {
+                    if (newValue) {
 
-                //Credit
-                //$scope.$watch('totals.basic.credit', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //    $scope.totals.changes.credit = $scope.format(newValue, oldValue);
-                //});
-                //
-                ////RFB
-                //$scope.$watch('totals.budget.FB.totals.remaining', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //    $scope.totals.changes.RFB = $scope.format(newValue, oldValue);
-                //});
-                //
-                ////CFB
-                //$scope.$watch('totals.budget.FB.totals.cumulative_budget', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //    $scope.totals.changes.CFB = $scope.format(newValue, oldValue);
-                //});
-                //
-                ////EWB
-                //$scope.$watch('totals.basic.EWB', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //    $scope.totals.changes.EWB = $scope.format(newValue, oldValue);
-                //});
-                //
-                ////EFBBSD
-                //$scope.$watch('totals.budget.FB.totals.spentBeforeSD', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //    $scope.totals.changes.EFBBSD = $scope.format(newValue, oldValue);
-                //});
-                //
-                ////EFBASD
-                //$scope.$watch('totals.budget.FB.totals.spentAfterSD', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //    $scope.totals.changes.EFBASD = $scope.format(newValue, oldValue);
-                //});
-                //
-                ////Savings
-                //$scope.$watch(' totals.basic.savings', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //
-                //    $scope.totals.changes.savings = $scope.format(newValue, oldValue);
-                //});
-                //
-                ////RB
-                //$scope.$watch('totals.budget.RB', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //    //$scope.totals.changes.RB.push($scope.format(newValue, oldValue));
-                //    $scope.totals.changes.RB = $scope.format(newValue, oldValue);
-                //});
-                //
-                ////RBWEFLB
-                //$scope.$watch('totals.budget.RBWEFLB', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //    //$scope.totals.changes.RBWEFLB.push($scope.format(newValue, oldValue));
-                //    $scope.totals.changes.RBWEFLB = $scope.format(newValue, oldValue);
-                //});
-                //
-                ////Debit
-                //$scope.$watch('totals.basic.debit', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //    $scope.totals.changes.debit = $scope.format(newValue, oldValue);
-                //});
-                //
-                ////Balance
-                //$scope.$watch('totals.basic.balance', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //    $scope.totals.changes.balance = $scope.format(newValue, oldValue);
-                //});
-                //
-                ////Reconciled
-                //$scope.$watch('totals.basic.reconciled_sum', function (newValue, oldValue) {
-                //    if (!oldValue || newValue === oldValue) {
-                //        return;
-                //    }
-                //    $scope.totals.changes.reconciled = $scope.format(newValue, oldValue);
-                //});
+                        if (newValue.remaining !== $scope.fixedBudgetTotals.remaining) {
+                            $scope.totalChanges.remainingFixedBudget = $scope.format(newValue.remaining, $scope.fixedBudgetTotals.remaining);
+                        }
+
+                        if (newValue.cumulative !== $scope.fixedBudgetTotals.cumulative) {
+                            $scope.totalChanges.cumulativeFixedBudget = $scope.format(newValue.cumulative, $scope.fixedBudgetTotals.cumulative);
+                        }
+
+                        if (newValue.spentBeforeStartingDate !== $scope.fixedBudgetTotals.spentBeforeStartingDate) {
+                            $scope.totalChanges.fixedBudgetExpensesBeforeStartingDate = $scope.format(newValue.spentBeforeStartingDate, $scope.fixedBudgetTotals.spentBeforeStartingDate);
+                        }
+
+                        if (newValue.spentAfterStartingDate !== $scope.fixedBudgetTotals.spentAfterStartingDate) {
+                            $scope.totalChanges.fixedBudgetExpensesAfterStartingDate = $scope.format(newValue.spentAfterStartingDate, $scope.fixedBudgetTotals.spentAfterStartingDate);
+                        }
+
+                        scope.fixedBudgetTotals = newValue;
+                    }
+                });
+
+                $scope.$watch('filterFactory.flexBudgetTotals', function (newValue, oldValue, scope) {
+                    if (newValue) {
+
+                        if (newValue.spentBeforeStartingDate !== $scope.flexBudgetTotals.spentBeforeStartingDate) {
+                            $scope.totalChanges.flexBudgetExpensesBeforeStartingDate = $scope.format(newValue.spentBeforeStartingDate, $scope.flexBudgetTotals.spentBeforeStartingDate);
+                        }
+
+                        if (newValue.spentAfterStartingDate !== $scope.flexBudgetTotals.spentAfterStartingDate) {
+                            $scope.totalChanges.flexBudgetExpensesAfterStartingDate = $scope.format(newValue.spentAfterStartingDate, $scope.flexBudgetTotals.spentAfterStartingDate);
+                        }
+
+                        scope.flexBudgetTotals = newValue;
+                    }
+                });
 
                 /**
                  * End watches
@@ -565,7 +532,8 @@
                  * @returns {string}
                  */
                 $scope.format = function (newValue, oldValue) {
-                    var $diff = newValue.replace(',', '') - oldValue.replace(',', '');
+                    //var $diff = newValue.replace(',', '') - oldValue.replace(',', '');
+                    var $diff = newValue - oldValue;
                     return $diff.toFixed(2);
                 };
 

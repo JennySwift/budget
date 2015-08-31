@@ -96,10 +96,10 @@ class TransactionsRepository
         $tags = $this->defaultAllocation($new_transaction['tags']);
 
         //inserting tags
-        $this->insertTags(
-            $transaction,
-            $tags
-        );
+//        $this->insertTags(
+//            $transaction,
+//            $tags
+//        );
 
         return $transaction;
     }

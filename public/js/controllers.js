@@ -1240,6 +1240,18 @@ var app = angular.module('budgetApp');
     }); //end controller
 
 })();
+
+(function () {
+
+    angular
+        .module('budgetApp')
+        .controller('TotalsController', totals);
+
+    function totals ($scope, $http) {
+
+    }
+
+})();
 (function () {
 
     angular

@@ -4,8 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Models\Budget;
 use App\Models\Savings;
 use App\Models\Tag;
+use App\Models\Totals\BasicTotal;
+use App\Models\Totals\FixedBudgetTotal;
+use App\Models\Totals\FlexBudgetTotal;
 use App\Models\Transaction;
 use App\Repositories\Savings\SavingsRepository;
 use App\Repositories\Transactions\FilterRepository;
@@ -196,7 +200,7 @@ class TransactionsController extends Controller
         }
 
         //Find the last transaction that was entered
-        $transaction = Transaction::with('tags')->find(Transaction::getLastTransactionId());
+        $transaction = Transaction::with('budgets')->find(Transaction::getLastTransactionId());
 
         // Put an amount into savings if it is an income expense
         if ($transaction->type === 'income') {
@@ -206,10 +210,21 @@ class TransactionsController extends Controller
 
         // Todo: Check both transactions for multiple budgets, not just the last one?
 
+        $budgets = Budget::forCurrentUser()->get();
+        $fixedBudgets = $budgets->filter(function($model){ return $model->type == 'fixed'; });
+        $flexBudgets = $budgets->filter(function($model){ return $model->type == 'flex'; });
+        $transactions = Transaction::forCurrentUser()->get();
+        $basicTotal = new BasicTotal($transactions);
+        $fixedBudgetTotal = new FixedBudgetTotal($fixedBudgets);
+        $flexBudgetTotal = new FlexBudgetTotal($flexBudgets);
+
         return [
             "transaction" => $transaction,
             "multiple_budgets" => $transaction->hasMultipleBudgets(),
-            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
+//            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
+            'basicTotals' => $basicTotal->toArray(),
+            'fixedBudgetTotals' => $fixedBudgetTotal->toArray(),
+            'flexBudgetTotals' => $flexBudgetTotal->toArray(),
             'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
         ];
     }
