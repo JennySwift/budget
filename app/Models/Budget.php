@@ -110,7 +110,7 @@ class Budget extends Model
     {
         if($this->isFixed()) {
             $totalSpentBeforeStartingDate = $this->expenses()->where('date', '<', $this->starting_date)
-                                                 ->get()
+//                                                 ->get()
                                                  ->sum('calculated_allocation');
 
             return $totalSpentBeforeStartingDate;
@@ -127,7 +127,7 @@ class Budget extends Model
     {
         $totalSpentAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date)
                                             ->where('type', 'expense')
-                                            ->get()
+//                                            ->get()
                                             ->sum('calculated_allocation');
 
         return $totalSpentAfterStartingDate;
@@ -141,7 +141,7 @@ class Budget extends Model
     {
         $totalReceivedAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date)
                                             ->where('type', 'income')
-                                            ->get()
+//                                            ->get()
                                             ->sum('calculated_allocation');
 
         return $totalReceivedAfterStartingDate;
