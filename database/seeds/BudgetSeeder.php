@@ -71,45 +71,45 @@ class BudgetSeeder extends Seeder {
 			[
 				'type' => 'flex',
 				'name' => 'eating out',
-				'amount' => 50.00,
+				'amount' => 10.00,
 				'starting_date' => $this->startingDate
 			],
             [
                 'type' => 'flex',
                 'name' => 'entertainment',
-                'amount' => 50.00,
+                'amount' => 10.00,
                 'starting_date' => $this->startingDate
             ],
             [
                 'type' => 'flex',
                 'name' => 'recreation',
-                'amount' => 50.00,
+                'amount' => 20.00,
                 'starting_date' => $this->startingDate
             ],
             [
                 'type' => 'flex',
                 'name' => 'holidays',
-                'amount' => 200.00,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'flex',
-                'name' => 'gifts',
                 'amount' => 50.00,
                 'starting_date' => $this->startingDate
             ],
-            [
-                'type' => 'flex',
-                'name' => 'books',
-                'amount' => 40.00,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'flex',
-                'name' => 'clothes',
-                'amount' => 50.00,
-                'starting_date' => $this->startingDate
-            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'gifts',
+//                'amount' => 10.00,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'books',
+//                'amount' => 40.00,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'clothes',
+//                'amount' => 50.00,
+//                'starting_date' => $this->startingDate
+//            ],
 //            [
 //                'type' => 'flex',
 //                'name' => 'church',
