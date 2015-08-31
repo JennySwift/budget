@@ -32,16 +32,16 @@
             <td><span ng-if="totalChanges.fixedBudgetExpensesBeforeStartingDate">[[totalChanges.fixedBudgetExpensesBeforeStartingDate]]</span></td>
         </tr>
 
-        <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget before its starting date">
-            <td>Expenses with <b>flex</b> budget <b>before</b> starting date:</td>
-            <td><span class="badge badge-danger">[[flexBudgetTotals.spentBeforeStartingDate]]</span></td>
-            <td><span ng-if="totalChanges.flexBudgetExpensesBeforeStartingDate">[[totalChanges.flexBudgetExpensesBeforeStartingDate]]</span></td>
-        </tr>
-
         <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a fixed budget after its starting date">
             <td>Expenses with <b>fixed</b> budget <b>after</b> starting date:</td>
             <td><span id="total_income_span" class="badge badge-danger">[[fixedBudgetTotals.spentAfterStartingDate]]</span></td>
             <td><span ng-if="totalChanges.fixedBudgetExpensesAfterStartingDate">[[totalChanges.fixedBudgetExpensesAfterStartingDate]]</span></td>
+        </tr>
+
+        <tr class="tooltipster" title="total of allocation of tags of expense transactions that have a flex budget before its starting date">
+            <td>Expenses with <b>flex</b> budget <b>before</b> starting date:</td>
+            <td><span class="badge badge-danger">[[flexBudgetTotals.spentBeforeStartingDate]]</span></td>
+            <td><span ng-if="totalChanges.flexBudgetExpensesBeforeStartingDate">[[totalChanges.flexBudgetExpensesBeforeStartingDate]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="savings">

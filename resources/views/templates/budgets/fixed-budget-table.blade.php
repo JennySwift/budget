@@ -18,7 +18,7 @@
             <i class="fa fa-minus"></i>
         </th>
 
-        <th class="tooltipster" title="received since cumulative starting date">
+        <th class="tooltipster" title="received after starting date">
             <i class="fa fa-plus"></i>
         </th>
 

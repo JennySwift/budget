@@ -10,11 +10,15 @@
         <th class="tooltipster" title="cumulative starting date">SD</th>
         <th class="tooltipster" title="cumulative month number">CMN</th>
 
+        <th class="tooltipster" title="spent before starting date">
+            <i class="fa fa-minus"></i>
+        </th>
+
         <th class="tooltipster" title="spent after starting date">
             <i class="fa fa-minus"></i>
         </th>
 
-        <th class="tooltipster" title="received">
+        <th class="tooltipster" title="received after starting date">
             <i class="fa fa-plus"></i>
         </th>
 
@@ -33,6 +37,11 @@
             <span>[[budget.formattedStartingDate]]</span>
         </td>
         <td ng-click="showBudgetPopup(tag, 'flex')" class="month-number pointer">[[budget.cumulativeMonthNumber]]</td>
+
+        <td ng-click="showBudgetPopup(tag, 'flex')" class="spent pointer">
+            <div>[[budget.spentBeforeStartingDate]]</div>
+        </td>
+
         <td ng-click="showBudgetPopup(tag, 'flex')" class="spent pointer">[[budget.spentAfterStartingDate]]</td>
         <td ng-click="showBudgetPopup(tag, 'flex')" class="received pointer">[[budget.receivedAfterStartingDate]]</td>
         <td ng-click="showBudgetPopup(tag, 'flex')" class="remaining pointer">[[budget.remaining]]</td>
@@ -59,6 +68,7 @@
         <td>[[flexBudgetTotals.calculatedAmount]]</td>
         <td>-</td>
         <td>-</td>
+        <td>[[flexBudgetTotals.spentBeforeStartingDate]]</td>
         <td>[[flexBudgetTotals.spentAfterStartingDate]]</td>
         <td>[[flexBudgetTotals.receivedAfterStartingDate]]</td>
         <td>[[flexBudgetTotals.remaining]]</td>

@@ -286,7 +286,7 @@ app.factory('FilterFactory', function ($http) {
             },
             reconciled: "any",
             offset: 0,
-            num_to_fetch: 20
+            num_to_fetch: 30
         };
     };
 

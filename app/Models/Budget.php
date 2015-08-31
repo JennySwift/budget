@@ -108,15 +108,9 @@ class Budget extends Model
      */
     public function getSpentBeforeStartingDateAttribute()
     {
-        if($this->isFixed()) {
-            $totalSpentBeforeStartingDate = $this->expenses()->where('date', '<', $this->starting_date)
-//                                                 ->get()
-                                                 ->sum('calculated_allocation');
-
-            return $totalSpentBeforeStartingDate;
-        }
-
-        return false;
+        return $this->expenses()->where('date', '<', $this->starting_date)
+//                              ->get()
+                                ->sum('calculated_allocation');
     }
 
     /**
