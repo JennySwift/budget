@@ -4,7 +4,7 @@
  * Totals
  */
 // Select
-Route::post('select/allocationTotals', 'TotalsController@getAllocationTotals');
+Route::post('select/allocationTotals', 'TransactionsController@getAllocationTotals');
 
 // Resources
 Route::resource('totals', 'TotalsController', ['only' => ['index']]);

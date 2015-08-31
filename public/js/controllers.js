@@ -741,7 +741,7 @@ var app = angular.module('budgetApp');
                 description: false,
                 merchant: false
             },
-            allocation_popup: false,
+            allocationPopup: false,
             new_transaction_allocation_popup: false,
             savings_total: {
                 input: false,
@@ -780,13 +780,13 @@ var app = angular.module('budgetApp');
         };
 
         $scope.showAllocationPopup = function ($transaction) {
-            $scope.show.allocation_popup = true;
-            $scope.allocation_popup = $transaction;
+            $scope.show.allocationPopup = true;
+            $scope.allocationPopup = $transaction;
 
             $scope.showLoading();
-            BudgetsFactory.getAllocationTotals($transaction.id)
+            TransactionsFactory.getAllocationTotals($transaction.id)
                 .then(function (response) {
-                    $scope.allocation_popup.allocation_totals = response.data;
+                    $scope.allocationPopup.totals = response.data;
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -1259,7 +1259,7 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('TransactionsController', transactions);
 
-    function transactions ($scope, $http, TransactionsFactory, FilterFactory, BudgetsFactory, FeedbackFactory) {
+    function transactions ($scope, $http, TransactionsFactory, FilterFactory) {
         /**
          * Scope properties
          */
@@ -1367,13 +1367,13 @@ var app = angular.module('budgetApp');
                 });
         };
 
-        $scope.updateAllocation = function ($keycode, $type, $value, $tag_id) {
+        $scope.updateAllocation = function ($keycode, $type, $value, $budget_id) {
             if ($keycode === 13) {
                 $scope.showLoading();
-                BudgetsFactory.updateAllocation($type, $value, $scope.allocation_popup.id, $tag_id)
+                TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
                     .then(function (response) {
-                        $scope.allocation_popup.tags = response.data.allocation_info;
-                        $scope.allocation_popup.allocation_totals = response.data.allocation_totals;
+                        $scope.allocationPopup.budgets = response.data.budgets;
+                        $scope.allocationPopup.totals = response.data.totals;
                         $scope.hideLoading();
                     })
                     .catch(function (response) {
@@ -1389,19 +1389,19 @@ var app = angular.module('budgetApp');
          * @param $tag_id
          */
         $scope.updateTagAllocation = function ($tag_id) {
-            //find the tag in $scope.allocation_popup.tags
-            var $the_tag = _.find($scope.allocation_popup.tags, function ($tag) {
+            //find the tag in $scope.allocationPopup.budgets
+            var $the_tag = _.find($scope.allocationPopup.budgets, function ($tag) {
                 return $tag.id === $tag_id;
             });
-            //get the index of the tag in $scope.allocation_popup_transaction.tags
-            var $index = _.indexOf($scope.allocation_popup.tags, $the_tag);
+            //get the index of the tag in $scope.allocationPopup_transaction.tags
+            var $index = _.indexOf($scope.allocationPopup.budgets, $the_tag);
             //make the tag equal the ajax response
-            $scope.allocation_popup.tags[$index] = response.data.allocation_info;
+            $scope.allocationPopup.budgets[$index] = response.data.allocation_info;
         };
 
         $scope.updateAllocationStatus = function () {
             $scope.showLoading();
-            BudgetsFactory.updateAllocationStatus($scope.allocation_popup.id, $scope.allocation_popup.allocated)
+            TransactionsFactory.updateAllocationStatus($scope.allocationPopup.id, $scope.allocationPopup.allocated)
                 .then(function (response) {
                     $scope.hideLoading();
                 })

@@ -52,7 +52,7 @@
                 description: false,
                 merchant: false
             },
-            allocation_popup: false,
+            allocationPopup: false,
             new_transaction_allocation_popup: false,
             savings_total: {
                 input: false,
@@ -91,13 +91,13 @@
         };
 
         $scope.showAllocationPopup = function ($transaction) {
-            $scope.show.allocation_popup = true;
-            $scope.allocation_popup = $transaction;
+            $scope.show.allocationPopup = true;
+            $scope.allocationPopup = $transaction;
 
             $scope.showLoading();
-            BudgetsFactory.getAllocationTotals($transaction.id)
+            TransactionsFactory.getAllocationTotals($transaction.id)
                 .then(function (response) {
-                    $scope.allocation_popup.allocation_totals = response.data;
+                    $scope.allocationPopup.totals = response.data;
                     $scope.hideLoading();
                 })
                 .catch(function (response) {

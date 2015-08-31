@@ -15,9 +15,9 @@ Route::post('select/countTransactionsWithTag', 'TransactionsController@countTran
 // Update
 Route::post('update/massDescription', 'TransactionsController@updateMassDescription');
 //Route::post('update/transaction', 'TransactionsController@updateTransaction');
-Route::post('update/reconciliation', 'TransactionsController@updateReconciliation');
-Route::post('update/allocationStatus', 'TransactionsController@updateAllocationStatus');
-Route::post('update/allocation', 'TransactionsController@updateAllocation');
+Route::post('updateReconciliation', 'TransactionsController@updateReconciliation');
+Route::post('updateAllocationStatus', 'TransactionsController@updateAllocationStatus');
+Route::post('updateAllocation', 'TransactionsController@updateAllocation');
 
 // Delete
 Route::post('delete/transaction', 'TransactionsController@deleteTransaction');

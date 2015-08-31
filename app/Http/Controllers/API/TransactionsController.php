@@ -287,7 +287,7 @@ class TransactionsController extends Controller
     }
 
     /**
-     *
+     * POST api/updateAllocationStatus
      * @param Request $request
      */
     public function updateAllocationStatus(Request $request)
@@ -298,7 +298,7 @@ class TransactionsController extends Controller
     }
 
     /**
-     *
+     * POST api/updateReconciliation
      * @param Request $request
      */
     public function updateReconciliation(Request $request)
@@ -315,6 +315,7 @@ class TransactionsController extends Controller
 
     /**
      * For one transaction, change the amount that is allocated for one tag
+     * POST api/updateAllocation
      * @param Request $request
      * @return array
      */
@@ -323,19 +324,19 @@ class TransactionsController extends Controller
         $type = $request->get('type');
         $value = $request->get('value');
         $transaction = Transaction::find($request->get('transaction_id'));
-        $tag = Tag::find($request->get('tag_id'));
+        $budget = Budget::find($request->get('budget_id'));
 
         if ($type === 'percent') {
-            $transaction->updateAllocatedPercent($value, $tag);
+            $transaction->updateAllocatedPercent($value, $budget);
         }
         elseif ($type === 'fixed') {
-            $transaction->updateAllocatedFixed($value, $tag);
+            $transaction->updateAllocatedFixed($value, $budget);
         }
 
         return [
 //            "allocation_info" => $tag->getAllocationInfo($transaction, $tag),
-            "allocation_info" => $transaction->tags,
-            "allocation_totals" => $transaction->getAllocationTotals()
+            "budgets" => $transaction->budgets,
+            "totals" => $transaction->getAllocationTotals()
         ];
     }
 

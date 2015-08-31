@@ -166,14 +166,6 @@ app.factory('AutocompleteFactory', function ($http) {
 });
 app.factory('BudgetsFactory', function ($http) {
 	return {
-		getAllocationTotals: function ($transaction_id) {
-			var $url = 'api/select/allocationTotals';
-			var $data = {
-				transaction_id: $transaction_id
-			};
-			
-			return $http.post($url, $data);
-		},
 
         removeBudget: function ($tag) {
             var $url = 'api/remove/budget';
@@ -183,29 +175,6 @@ app.factory('BudgetsFactory', function ($http) {
 
             return $http.post($url, $data);
         },
-
-		updateAllocation: function ($type, $value, $transaction_id, $tag_id) {
-			var $url = 'api/update/allocation';
-			var $description = 'allocation';
-			var $data = {
-				description: $description,
-				type: $type,
-				value: $value,
-				transaction_id: $transaction_id,
-				tag_id: $tag_id
-			};
-			
-			return $http.post($url, $data);
-		},
-		updateAllocationStatus: function ($transaction_id, $status) {
-			var $url = 'api/update/allocationStatus';
-			var $data = {
-				transaction_id: $transaction_id,
-				status: $status
-			};
-			
-			return $http.post($url, $data);
-		},
 		update: function ($tag, $type) {
             var $url = $tag.path;
 
@@ -629,7 +598,7 @@ app.factory('TransactionsFactory', function ($http) {
     };
 
     $object.updateReconciliation = function ($transaction_id, $reconciled, $filter) {
-        var $url = 'api/update/reconciliation';
+        var $url = 'api/updateReconciliation';
 
         if ($reconciled === true) {
             $reconciled = 'true';
@@ -674,7 +643,39 @@ app.factory('TransactionsFactory', function ($http) {
         return $http.post($url, $data);
     };
 
-	return $object;
+    $object.getAllocationTotals = function ($transaction_id) {
+        var $url = 'api/select/allocationTotals';
+        var $data = {
+            transaction_id: $transaction_id
+        };
+
+        return $http.post($url, $data);
+    };
+
+    $object.updateAllocation = function ($type, $value, $transaction_id, $budget_id) {
+        var $url = 'api/updateAllocation';
+        var $data = {
+            type: $type,
+            value: $value,
+            transaction_id: $transaction_id,
+            budget_id: $budget_id
+        };
+
+        return $http.post($url, $data);
+    };
+
+    $object.updateAllocationStatus = function ($transaction_id, $status) {
+        var $url = 'api/updateAllocationStatus';
+        var $data = {
+            transaction_id: $transaction_id,
+            status: $status
+        };
+
+        return $http.post($url, $data);
+    };
+
+
+    return $object;
 });
 
 app.factory('UsersFactory', function ($http) {
