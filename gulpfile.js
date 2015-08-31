@@ -16,8 +16,24 @@ elixir(function(mix) {
     mix.sass('style.scss');
 });
 
+//elixir(function(mix) {
+//    mix.scripts([
+//        'resources/assets/js/plugins/angular.min.js',
+//        'resources/assets/js/plugins/jquery.js',
+//        'resources/assets/js/plugins/underscore-min.js',
+//        'resources/assets/js/plugins/tooltipster.min.js',
+//        'resources/assets/js/plugins/bootstrap.min.js',
+//        'resources/assets/js/plugins/date-en-AU.js',
+//        'resources/assets/js/plugins/time.js',
+//        'resources/assets/js/plugins/moment.js',
+//        'resources/assets/js/plugins/checklist-model.js',
+//        'resources/assets/js/plugins/angular-animate.min.js'
+//    ], 'public/js/plugins.js');
+//});
+
 elixir(function(mix) {
     mix.scriptsIn('resources/assets/js/controllers', 'public/js/controllers.js')
         .scriptsIn('resources/assets/js/factories', 'public/js/factories.js')
-        .scriptsIn('resources/assets/js/directives', 'public/js/directives.js');
+        .scriptsIn('resources/assets/js/directives', 'public/js/directives.js')
+        .scriptsIn('resources/assets/js/plugins', 'public/js/plugins.js')
 });
