@@ -114,22 +114,26 @@ class Transaction extends Model
      */
     public function hasMultipleBudgets()
     {
-        $tag_with_budget_counter = 0;
-        $multiple_budgets = false;
+//        $tag_with_budget_counter = 0;
+//        $multiple_budgets = false;
 
-        foreach ($this->budgets as $budget) {
-            if ($budget->fixed_budget || $budget->flex_budget) {
-                //the tag has a budget
-                $tag_with_budget_counter++;
-            }
+//        foreach ($this->budgets as $budget) {
+//            if ($budget->fixed_budget || $budget->flex_budget) {
+//                //the tag has a budget
+//                $tag_with_budget_counter++;
+//            }
+//        }
+//
+//        if ($tag_with_budget_counter > 1) {
+//            //the transaction has more than one tag that has a budget
+//            $multiple_budgets = true;
+//        }
+
+        if (count($this->budgets) > 1) {
+            return true;
         }
 
-        if ($tag_with_budget_counter > 1) {
-            //the transaction has more than one tag that has a budget
-            $multiple_budgets = true;
-        }
-
-        return $multiple_budgets;
+        return false;
     }
 
     /**

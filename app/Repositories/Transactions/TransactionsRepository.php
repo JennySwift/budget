@@ -14,22 +14,22 @@ class TransactionsRepository
 
 
     /**
-     * Insert tags into transaction
+     * Add budgets to transaction
      * @param $transaction
-     * @param $tags
+     * @param $budgets
      * @param $transaction_total
      */
-    public function insertTags($transaction, $tags)
+    public function insertBudgets($transaction, $budgets)
     {
-        foreach ($tags as $tag) {
-            if (isset($tag['allocated_fixed'])) {
-                $this->allocateFixed($transaction, $tag);
+        foreach ($budgets as $budget) {
+            if (isset($budget['allocated_fixed'])) {
+                $this->allocateFixed($transaction, $budget);
             }
-            elseif (isset($tag['allocated_percent'])) {
-                $this->allocatePercent($transaction, $tag);
+            elseif (isset($budget['allocated_percent'])) {
+                $this->allocatePercent($transaction, $budget);
             }
             else {
-                $transaction->tags()->attach($tag['id'], [
+                $transaction->budgets()->attach($budget['id'], [
                     'calculated_allocation' => $transaction->total,
                 ]);
             }
@@ -41,11 +41,11 @@ class TransactionsRepository
      * @param $transaction
      * @param $tag
      */
-    public function allocateFixed($transaction, $tag)
+    public function allocateFixed($transaction, $budget)
     {
-        $transaction->tags()->attach($tag['id'], [
-            'allocated_fixed' => $tag['allocated_fixed'],
-            'calculated_allocation' => $tag['allocated_fixed']
+        $transaction->budget()->attach($budget['id'], [
+            'allocated_fixed' => $budget['allocated_fixed'],
+            'calculated_allocation' => $budget['allocated_fixed']
         ]);
     }
 
@@ -54,11 +54,11 @@ class TransactionsRepository
      * @param $transaction
      * @param $tag
      */
-    public function allocatePercent($transaction, $tag)
+    public function allocatePercent($transaction, $budget)
     {
-        $transaction->tags()->attach($tag['id'], [
-            'allocated_percent' => $tag['allocated_percent'],
-            'calculated_allocation' => $transaction->total / 100 * $tag['allocated_percent'],
+        $transaction->budgets()->attach($budget['id'], [
+            'allocated_percent' => $budget['allocated_percent'],
+            'calculated_allocation' => $transaction->total / 100 * $budget['allocated_percent'],
         ]);
     }
 
@@ -95,11 +95,11 @@ class TransactionsRepository
 
         $tags = $this->defaultAllocation($new_transaction['tags']);
 
-        //inserting tags
-//        $this->insertTags(
-//            $transaction,
-//            $tags
-//        );
+//      Insert budgets
+        $this->insertBudgets(
+            $transaction,
+            $tags
+        );
 
         return $transaction;
     }

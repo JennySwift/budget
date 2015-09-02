@@ -52,6 +52,7 @@ class PagesController extends Controller {
             'accounts_response' => Account::getAccounts(),
 //            'tags_response' => Tag::all(),//$tagsRepository->getTags(),
 //            'totals_response' => [],//$totalsService->getBasicAndBudgetTotals(),
+            'budgets' => Budget::forCurrentUser()->orderBy('name', 'asc')->get(),
             'basicTotals' => $basicTotal->toArray(),
             'fixedBudgetTotals' => $fixedBudgetTotal->toArray(),
             'flexBudgetTotals' => $flexBudgetTotal->toArray(),

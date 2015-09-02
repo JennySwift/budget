@@ -23,7 +23,9 @@ class Budget extends Model
         'cumulativeMonthNumber', 'cumulative', 'remaining', 'calculatedAmount'
     ];
 
-    protected $with = ['transactions', 'expenses', 'incomes'];
+    //Commenting this out for now because there's so much data I don't need
+    //being attached to the budgets for the budget autocomplete in the new transaction
+//    protected $with = ['transactions', 'expenses', 'incomes'];
 
     /**
      *

@@ -734,7 +734,7 @@ var app = angular.module('budgetApp');
             tags: true,
             dlt: true,
             //components
-            new_transaction: false,
+            new_transaction: true,
             basic_totals: true,
             budget_totals: true,
             filter_totals: true,
@@ -903,6 +903,7 @@ var app = angular.module('budgetApp');
         $scope.filterFactory = FilterFactory;
         $scope.dropdown = {};
         //$scope.tags = tags_response;
+        $scope.budgets = budgets;
         $scope.types = ["income", "expense", "transfer"];
 
         $scope.new_transaction = {

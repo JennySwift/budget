@@ -5,7 +5,6 @@
         <input
             ng-model="typing"
             ng-focus="showDropdown()"
-            ng-blur="hideAndClear()"
             ng-keyup="filterTags($event.keyCode)"
             placeholder="tags"
             type='text'
@@ -13,13 +12,14 @@
 
         <div ng-show="dropdown" class="tag-dropdown">
             <div
-                ng-repeat="tag in results"
+                ng-repeat="budget in results"
                 ng-mousedown="chooseTag($index)"
                 ng-mouseover="hoverItem($index)"
                 ng-class="{'selected': $index == currentIndex}"
-                class="dropdown-item"
-                data-id="[[tag.id]]">
-                <div ng-bind-html="tag.html"></div>
+                class="dropdown-item">
+                <div
+                    ng-bind-html="budget.html">
+                </div>
             </div>
         </div>
 
@@ -31,7 +31,7 @@
         <li
             ng-repeat="tag in chosenTags"
             ng-click="removeTag(tag)"
-            ng-class="{'tag-with-budget': tag.fixed_budget !== null || tag.flex_budget !== null, 'tag-without-budget': tag.fixed_budget === null || tag.flex_budget === null}"
+            ng-class="{'tag-with-fixed-budget': tag.type === 'fixed', 'tag-with-flex-budget': tag.type === 'flex', 'tag-without-budget': tag.fixed_budget === null || tag.flex_budget === null}"
             class="label label-default removable-tag"
             data-id="[[tag.id]]"
             data-allocated-percent="[[tag.allocated_percent]]"

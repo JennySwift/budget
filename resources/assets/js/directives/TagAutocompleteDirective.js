@@ -109,7 +109,8 @@
                         var $name = $response[i].name;
                         var $index = $name.toLowerCase().indexOf($typing);
                         var $substr = $name.substr($index, $typing.length);
-                        var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
+
+                        var $html = $sce.trustAsHtml($name.replace($substr, '<li class="label label-default ' + $response[i].type + '"><span class="highlight">' + $substr + '</span></li>'));
                         $response[i].html = $html;
                     }
                     return $response;
