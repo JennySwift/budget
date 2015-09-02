@@ -13,7 +13,7 @@ use App\Models\Transaction;
 use App\Repositories\Tags\TagsRepository;
 use App\Repositories\Transactions\FilterRepository;
 use App\Services\TotalsService;
-use App, Auth, JavaScript;
+use Auth, JavaScript;
 
 /**
  * Class PagesController
@@ -96,22 +96,26 @@ class PagesController extends Controller {
      */
     public function budgets()
     {
-        $budgets = Budget::forCurrentUser()->get();
-        $fixedBudgets = $budgets->filter(function($model){ return $model->type == 'fixed'; });
-        $flexBudgets = $budgets->filter(function($model){ return $model->type == 'flex'; });
-        $transactions = Transaction::forCurrentUser()->get();
-        $basicTotal = new BasicTotal($transactions);
-        $fixedBudgetTotal = new FixedBudgetTotal($fixedBudgets);
-        $flexBudgetTotal = new FlexBudgetTotal($flexBudgets);
+//        $budgets = Budget::forCurrentUser()->get();
+//        $fixedBudgets = $budgets->filter(function($model){ return $model->type == 'fixed'; });
+//        $flexBudgets = $budgets->filter(function($model){ return $model->type == 'flex'; });
+//        $transactions = Transaction::forCurrentUser()->get();
+//        $basicTotals = new BasicTotal($transactions);
+//        $fixedBudgetTotals = new FixedBudgetTotal($fixedBudgets);
+//        $flexBudgetTotals = new FlexBudgetTotal($flexBudgets);
+
+        $remainingBalance = app('remaining-balance')->calculate();
+
+        //dd($remainingBalance->flexBudgetTotals);
 
         JavaScript::put([
             'me' => Auth::user(),
-            'fixedBudgets' => $fixedBudgets,
-            'flexBudgets' => $flexBudgets,
-            'fixedBudgetTotals' => $fixedBudgetTotal->toArray(),
-            'flexBudgetTotals' => $flexBudgetTotal->toArray(),
-            'basicTotals' => $basicTotal->toArray(),
-            'remainingBalance' => (new RemainingBalance($basicTotal, $fixedBudgetTotal, $flexBudgetTotal))->calculate()
+            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
+            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
+            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+            'remainingBalance' => $remainingBalance->amount
 //            'totals_response' => []//$totalsService->getBasicAndBudgetTotals()
         ]);
 

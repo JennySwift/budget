@@ -3,17 +3,21 @@
 namespace App\Models\Totals;
 
 use App\Models\Budget;
+use App\Contracts\Budgets\BudgetTotal;
 use Illuminate\Contracts\Support\Arrayable;
 
-class FixedBudgetTotal implements Arrayable {
+class FixedBudgetTotal implements Arrayable, BudgetTotal {
+
+    public $type;
+    public $budgets;
 
     /**
      * Change to a static constructor or not, up to you
      */
-    public function __construct($budgets)
+    public function __construct($budgets = NULL)
     {
         $this->type = Budget::TYPE_FIXED;
-        $this->budgets = $budgets;
+        $this->budgets = $budgets ? : Budget::forCurrentUser()->whereType(Budget::TYPE_FIXED)->get();
         $this->amount = $this->calculate('amount');
         $this->remaining = $this->calculate('remaining');
         $this->cumulative = $this->calculate('cumulative');
@@ -29,6 +33,15 @@ class FixedBudgetTotal implements Arrayable {
     public function calculate($column)
     {
         return $this->budgets->sum($column);
+    }
+
+    /**
+     * Calculate budgets totals and set property
+     * @return mixed
+     */
+    public function calculateAndSet($column)
+    {
+        $this->{$column} = $this->calculate($column);
     }
 
     /**
@@ -49,5 +62,4 @@ class FixedBudgetTotal implements Arrayable {
             'receivedAfterStartingDate' => $this->receivedAfterStartingDate,
         ];
     }
-
 }

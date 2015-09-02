@@ -17,15 +17,14 @@ class BasicTotal {
     public $reconciledSum;
     public $EWB;
     public $savings;
-
-    protected $transactions;
+    public $transactions;
 
     /**
      * BasicTotal constructor.
      */
-    public function __construct($transactions)
+    public function __construct($transactions = NULL)
     {
-        $this->transactions = $transactions;
+        $this->transactions = $transactions ? : Transaction::forCurrentUser()->get();
         $this->setDebit();
         $this->setCredit();
         $this->setReconciledSum();

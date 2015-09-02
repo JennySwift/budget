@@ -1,5 +1,9 @@
 <?php namespace App\Providers;
 
+use App\Models\Budget;
+use App\Models\Totals\BasicTotal;
+use App\Models\Totals\FixedBudgetTotal;
+use App\Models\Totals\FlexBudgetTotal;
 use App\Models\Totals\RemainingBalance;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,6 +34,9 @@ class AppServiceProvider extends ServiceProvider {
 			'Illuminate\Contracts\Auth\Registrar',
 			'App\Services\Registrar'
 		);
+		$this->app->bind('remaining-balance', function(){
+			return $this->app->make('App\Models\Totals\RemainingBalance');
+		});
 	}
 
 }

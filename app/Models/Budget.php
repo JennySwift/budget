@@ -20,7 +20,7 @@ class Budget extends Model
 
     protected $appends = [
         'formattedStartingDate', 'spentAfterStartingDate', 'spentBeforeStartingDate', 'receivedAfterStartingDate',
-        'cumulativeMonthNumber', 'cumulative', 'remaining', 'calculatedAmount'
+        'cumulativeMonthNumber', 'cumulative', 'remaining'
     ];
 
     //Commenting this out for now because there's so much data I don't need
@@ -77,14 +77,15 @@ class Budget extends Model
      *
      * @return string
      */
-    public function getCalculatedAmountAttribute()
-    {
-        if($this->isFlex()) {
-            //return App::make('App\Models\Totals\RemainingBalance')->calculate() / 100 * $this->attributes['amount'];
-        }
-
-        return NULL;
-    }
+//    public function getCalculatedAmountAttribute()
+//    {
+//        if($this->isFlex()) {
+//            //dd($this->remainingBalance);
+//            //return $remainingBalance / 100 * $this->attributes['amount'];
+//        }
+//
+//        return NULL;
+//    }
 
     /**
      *
