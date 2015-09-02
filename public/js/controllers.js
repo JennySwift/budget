@@ -701,7 +701,7 @@ var app = angular.module('budgetApp');
          * scope properties
          */
 
-        $scope.test = '1';
+        $scope.test = '3';
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';

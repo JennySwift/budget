@@ -12,10 +12,6 @@ var elixir = require('laravel-elixir');
  |
  */
 
-elixir(function(mix) {
-    mix.sass('style.scss');
-});
-
 //elixir(function(mix) {
 //    mix.scripts([
 //        'resources/assets/js/plugins/angular.min.js',
@@ -32,12 +28,20 @@ elixir(function(mix) {
 //});
 
 elixir(function(mix) {
+    mix.sass('style.scss');
+    //mix.scripts(['plugins/*.js', 'controllers/*.js', 'factories/*.js', 'directives/*.js'], 'public/js/all.js');
+    //mix.scripts('factories/*.js', 'public/js/factories.js');
+
     mix.stylesIn('resources/assets/css', 'public/css/plugins.css');
+    mix.scriptsIn('resources/assets/js/controllers', 'public/js/controllers.js');
+    mix.scriptsIn('resources/assets/js/factories', 'public/js/factories.js');
+    mix.scriptsIn('resources/assets/js/directives', 'public/js/directives.js');
+    mix.scriptsIn('resources/assets/js/plugins', 'public/js/plugins.js');
 });
 
-elixir(function(mix) {
-    mix.scriptsIn('resources/assets/js/controllers', 'public/js/controllers.js')
-        .scriptsIn('resources/assets/js/factories', 'public/js/factories.js')
-        .scriptsIn('resources/assets/js/directives', 'public/js/directives.js')
-        .scriptsIn('resources/assets/js/plugins', 'public/js/plugins.js')
-});
+//elixir(function(mix) {
+//    mix.scriptsIn('resources/assets/js/controllers', 'public/js/controllers.js')
+//        .scriptsIn('resources/assets/js/factories', 'public/js/factories.js')
+//        .scriptsIn('resources/assets/js/directives', 'public/js/directives.js')
+//        .scriptsIn('resources/assets/js/plugins', 'public/js/plugins.js')
+//});

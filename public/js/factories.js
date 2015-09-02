@@ -1,6 +1,7 @@
 app.factory('AccountsFactory', function ($http) {
     return {
         getAccounts: function () {
+
             var $url = '/api/accounts';
 
             return $http.get($url);
@@ -24,7 +25,7 @@ app.factory('AccountsFactory', function ($http) {
             var $url = $account.path;
 
             return $http.delete($url);
-        },
+        }
 
     };
 });
