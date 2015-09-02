@@ -37,15 +37,9 @@ class PagesController extends Controller {
      * @param TotalsService $totalsService
      * @return Response
      */
-    public function home(FilterRepository $filterRepository, TagsRepository $tagsRepository, TotalsService $totalsService)
+    public function home(FilterRepository $filterRepository)
     {
-        $budgets = Budget::forCurrentUser()->get();
-        $fixedBudgets = $budgets->filter(function($model){ return $model->type == 'fixed'; });
-        $flexBudgets = $budgets->filter(function($model){ return $model->type == 'flex'; });
-        $transactions = Transaction::forCurrentUser()->get();
-        $basicTotal = new BasicTotal($transactions);
-        $fixedBudgetTotal = new FixedBudgetTotal($fixedBudgets);
-        $flexBudgetTotal = new FlexBudgetTotal($flexBudgets);
+        $remainingBalance = app('remaining-balance')->calculate();
 
         JavaScript::put([
             //It wouldn't work if I named it 'transactions', or 'totals'
@@ -53,12 +47,16 @@ class PagesController extends Controller {
 //            'tags_response' => Tag::all(),//$tagsRepository->getTags(),
 //            'totals_response' => [],//$totalsService->getBasicAndBudgetTotals(),
             'budgets' => Budget::forCurrentUser()->orderBy('name', 'asc')->get(),
-            'basicTotals' => $basicTotal->toArray(),
-            'fixedBudgetTotals' => $fixedBudgetTotal->toArray(),
-            'flexBudgetTotals' => $flexBudgetTotal->toArray(),
-            'remainingBalance' => (new RemainingBalance($basicTotal, $fixedBudgetTotal, $flexBudgetTotal))->calculate(),
             'filter_response' => $filterRepository->filterTransactions(),
             'me' => Auth::user(),
+
+            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
+            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
+            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+            'remainingBalance' => $remainingBalance->amount,
+
             'env' => app()->env
         ]);
 
@@ -83,7 +81,7 @@ class PagesController extends Controller {
     {
         JavaScript::put([
             'me' => Auth::user(),
-            'accounts' => Account::getAccounts()
+            'accounts' => Account::getAccounts(),
         ]);
 
         return view('accounts');

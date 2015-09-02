@@ -211,23 +211,18 @@ class TransactionsController extends Controller
 
         // Todo: Check both transactions for multiple budgets, not just the last one?
 
-        $budgets = Budget::forCurrentUser()->get();
-        $fixedBudgets = $budgets->filter(function($model){ return $model->type == 'fixed'; });
-        $flexBudgets = $budgets->filter(function($model){ return $model->type == 'flex'; });
-        $transactions = Transaction::forCurrentUser()->get();
-        $basicTotal = new BasicTotal($transactions);
-        $fixedBudgetTotal = new FixedBudgetTotal($fixedBudgets);
-        $flexBudgetTotal = new FlexBudgetTotal($flexBudgets);
+        $remainingBalance = app('remaining-balance')->calculate();
 
         return [
             "transaction" => $transaction,
             "multiple_budgets" => $transaction->hasMultipleBudgets(),
-//            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
-            'basicTotals' => $basicTotal->toArray(),
-            'fixedBudgetTotals' => $fixedBudgetTotal->toArray(),
-            'flexBudgetTotals' => $flexBudgetTotal->toArray(),
-            'remainingBalance' => (new RemainingBalance($basicTotal, $fixedBudgetTotal, $flexBudgetTotal))->calculate(),
-            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
+            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter')),
+
+            //totals
+            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+            'remainingBalance' => $remainingBalance->amount,
         ];
     }
 
