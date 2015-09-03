@@ -16,6 +16,12 @@ class FlexBudgetTotal implements Arrayable, BudgetTotal {
     public $spentBeforeStartingDate;
     public $spentAfterStartingDate;
     public $receivedAfterStartingDate;
+    public $unallocatedAmount;
+    public $allocatedPlusUnallocatedAmount;
+    public $allocatedPlusUnallocatedCalculatedAmount;
+    public $unallocatedCalculatedAmount;
+    public $allocatedPlusUnallocatedRemaining;
+    public $unallocatedRemaining;
 
     /**
      * Change to a static constructor or not, up to you
@@ -28,8 +34,8 @@ class FlexBudgetTotal implements Arrayable, BudgetTotal {
         $this->spentBeforeStartingDate = $this->calculate('spentBeforeStartingDate');
         $this->spentAfterStartingDate = $this->calculate('spentAfterStartingDate');
         $this->receivedAfterStartingDate = $this->calculate('receivedAfterStartingDate');
-        // Todo: $this->remaining = $this->calculate('remaining');
-        // Todo: unallocated totals
+        $this->unallocatedAmount = 100 - $this->amount;
+        $this->allocatedPlusUnallocatedAmount = 100;
     }
 
     /**
@@ -60,13 +66,18 @@ class FlexBudgetTotal implements Arrayable, BudgetTotal {
         return [
             'type' => $this->type,
             'budget' => $this->budgets->toArray(),
-            'amount' => $this->amount,
-            'remaining' => $this->remaining,
-            'calculatedAmount' => $this->calculatedAmount,
+            'allocatedAmount' => $this->amount,
+            'allocatedRemaining' => $this->remaining,
+            'allocatedCalculatedAmount' => $this->calculatedAmount,
             'spentBeforeStartingDate' => $this->spentBeforeStartingDate,
             'spentAfterStartingDate' => $this->spentAfterStartingDate,
             'receivedAfterStartingDate' => $this->receivedAfterStartingDate,
-//            'remaining' => $this->remaining,
+            'unallocatedAmount' => $this->unallocatedAmount,
+            'allocatedPlusUnallocatedAmount' => $this->allocatedPlusUnallocatedAmount,
+            'allocatedPlusUnallocatedCalculatedAmount' => $this->allocatedPlusUnallocatedCalculatedAmount,
+            'unallocatedCalculatedAmount' => $this->unallocatedCalculatedAmount,
+            'allocatedPlusUnallocatedRemaining' => $this->allocatedPlusUnallocatedRemaining,
+            'unallocatedRemaining' => $this->unallocatedRemaining
         ];
     }
 

@@ -49,30 +49,43 @@
             <button ng-click="removeBudget(tag)" class="btn btn-xs btn-danger">delete</button>
         </td>
     </tr>
+    <!-- allocated -->
+    <tr id="flex-budget-totals" class="budget_info_ul">
+        <td>allocated</td>
+        <td>[[flexBudgetTotals.allocatedAmount]]</td>
+        <td>[[flexBudgetTotals.allocatedCalculatedAmount]]</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>[[flexBudgetTotals.allocatedRemaining]]</td>
+        <td>-</td>
+    </tr>
     {{--unallocated--}}
     <tr id="flex-budget-unallocated" class="budget_info_ul">
         <td>unallocated</td>
-        <td>[[totals.budget.FLB.unallocated.budget]]</td>
-        <td>[[totals.budget.FLB.unallocated.calculated_budget]]</td>
+        <td>[[flexBudgetTotals.unallocatedAmount]]</td>
+        <td>[[flexBudgetTotals.unallocatedCalculatedAmount]]</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
-        <td>[[totals.budget.FLB.unallocated.remaining]]</td>
+        <td>[[flexBudgetTotals.unallocatedRemaining]]</td>
         <td>-</td>
     </tr>
     <!-- flex budget totals -->
     <tr id="flex-budget-totals" class="budget_info_ul totals">
         <td>totals</td>
-        <td>[[flexBudgetTotals.amount]]</td>
-        <td>[[flexBudgetTotals.calculatedAmount]]</td>
+        <td>[[flexBudgetTotals.allocatedPlusUnallocatedAmount]]</td>
+        <td>[[flexBudgetTotals.allocatedPlusUnallocatedCalculatedAmount]]</td>
         <td>-</td>
         <td>-</td>
         <td>[[flexBudgetTotals.spentBeforeStartingDate]]</td>
         <td>[[flexBudgetTotals.spentAfterStartingDate]]</td>
         <td>[[flexBudgetTotals.receivedAfterStartingDate]]</td>
-        <td>[[flexBudgetTotals.remaining]]</td>
+        <td>[[flexBudgetTotals.allocatedPlusUnallocatedRemaining]]</td>
         <td>-</td>
     </tr>
 </table>

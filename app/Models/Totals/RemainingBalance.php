@@ -73,6 +73,11 @@ class RemainingBalance {
         });
         $this->flexBudgetTotals->calculateAndSet('calculatedAmount');
         $this->flexBudgetTotals->calculateAndSet('remaining');
+        $this->flexBudgetTotals->allocatedPlusUnallocatedCalculatedAmount = $this->amount;
+        $this->flexBudgetTotals->unallocatedCalculatedAmount = $this->amount - $this->flexBudgetTotals->calculatedAmount;
+        $this->flexBudgetTotals->unallocatedPlusCalculatedRemaining = $this->amount - $this->flexBudgetTotals->calculatedAmount;
+        $this->flexBudgetTotals->allocatedPlusUnallocatedRemaining = $this->amount + $this->flexBudgetTotals->spentAfterStartingDate + $this->flexBudgetTotals->receivedAfterStartingDate;
+        $this->flexBudgetTotals->unallocatedRemaining = $this->flexBudgetTotals->allocatedPlusUnallocatedRemaining - $this->flexBudgetTotals->remaining;
 //        $total = 0;
 //        foreach ($this->flexBudgetTotals as $tag) {
 //            $tag->calculated_budget = $this->withoutEFLB / 100 * $tag->flex_budget;
