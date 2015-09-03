@@ -20,7 +20,7 @@
 
         $scope.show.basic_totals = true;
         $scope.show.budget_totals = true;
-        $scope.tab = 'fixed';
+        $scope.tab = 'flex';
 
         /**
          * Watches
