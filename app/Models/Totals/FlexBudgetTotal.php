@@ -6,21 +6,79 @@ use App\Contracts\Budgets\BudgetTotal;
 use App\Models\Budget;
 use Illuminate\Contracts\Support\Arrayable;
 
+/**
+ * Class FlexBudgetTotal
+ * @package App\Models\Totals
+ */
 class FlexBudgetTotal implements Arrayable, BudgetTotal {
 
+    /**
+     * @var string
+     */
     public $type;
+
+    /**
+     * @var
+     */
     public $budgets;
+
+    /**
+     * @var mixed
+     */
     public $amount;
+
+    /**
+     * @var
+     */
     public $remaining;
+
+    /**
+     * @var
+     */
     public $calculatedAmount;
+
+    /**
+     * @var mixed
+     */
     public $spentBeforeStartingDate;
+
+    /**
+     * @var mixed
+     */
     public $spentAfterStartingDate;
+
+    /**
+     * @var mixed
+     */
     public $receivedAfterStartingDate;
+
+    /**
+     * @var int
+     */
     public $unallocatedAmount;
+
+    /**
+     * @var int
+     */
     public $allocatedPlusUnallocatedAmount;
+    /**
+     * @var
+     */
     public $allocatedPlusUnallocatedCalculatedAmount;
+
+    /**
+     * @var
+     */
     public $unallocatedCalculatedAmount;
+
+    /**
+     * @var
+     */
     public $allocatedPlusUnallocatedRemaining;
+
+    /**
+     * @var
+     */
     public $unallocatedRemaining;
 
     /**

@@ -12,10 +12,6 @@ namespace App\Models\Totals;
  */
 class RemainingBalance {
 
-//    public $withEFLB;
-//    public $withoutEFLB;
-//    public $FB;
-//    public $FLB;
     /**
      * @var
      */
@@ -78,22 +74,6 @@ class RemainingBalance {
         $this->flexBudgetTotals->unallocatedPlusCalculatedRemaining = $this->amount - $this->flexBudgetTotals->calculatedAmount;
         $this->flexBudgetTotals->allocatedPlusUnallocatedRemaining = $this->amount + $this->flexBudgetTotals->spentAfterStartingDate + $this->flexBudgetTotals->receivedAfterStartingDate;
         $this->flexBudgetTotals->unallocatedRemaining = $this->flexBudgetTotals->allocatedPlusUnallocatedRemaining - $this->flexBudgetTotals->remaining;
-//        $total = 0;
-//        foreach ($this->flexBudgetTotals as $tag) {
-//            $tag->calculated_budget = $this->withoutEFLB / 100 * $tag->flex_budget;
-//            $total+= $tag->calculated_budget;
-//        }
-//        $this->calculateUnallocatedRow();
-//
-//        $total+= $this->FLB->unallocated['calculated_budget'];
-//        // @complex
-//        $this->FLB->totals->calculated_budget = $total;
-//        // $this->FLB->getTotal()->getCalculatedBudget()
-//
-//        // @complex
-//        $this->FLB->totals->budget = '100.00';
-//
-//        $this->calculateRemainingFLB();
     }
 
     /**
@@ -128,51 +108,4 @@ class RemainingBalance {
 
         return $this;
     }
-
-    /**
-     * @param BudgetTable $FB
-     * @param BudgetTable $FLB
-     */
-//    public function __construct(BudgetTable $FB, BudgetTable $FLB)
-//    {
-//        $this->FB = $FB;
-//        $this->FLB = $FLB;
-//        $this->withEFLB = 5;
-//        $this->withEFLB = $this->getRBWithEFLB();
-//        $this->withoutEFLB = $this->getRBWithoutEFLB();
-//
-//        //Now that we have RB, get the calculated budgets for tags with FLB
-//        $this->calculateBudgets();
-
-//    }
-
-
-//
-//    public function calculateUnallocatedRow()
-//    {
-//        // This one is okay because you are using the value but not changing it ($this->FB->totals->budget)
-//        $unallocated_budget = 100 - $this->FLB->totals->budget;
-//
-//        $unallocated_row = [
-//            'budget' => $unallocated_budget,
-//            'calculated_budget' => $this->withoutEFLB / 100 * $unallocated_budget,
-//            'remaining' => $this->withoutEFLB / 100 * $unallocated_budget
-//        ];
-//
-//        // @complex
-//        $this->FLB->unallocated = $unallocated_row;
-//    }
-//
-//    public function calculateRemainingFLB()
-//    {
-//        $remaining = 0;
-//        foreach ($this->FLB->tags as $tag) {
-//            $remaining+= $tag->remaining;
-//        }
-//
-//        $remaining+= $this->FLB->unallocated['remaining'];
-//
-//        // @complex
-//        $this->FLB->totals->remaining = $remaining;
-//    }
 }
