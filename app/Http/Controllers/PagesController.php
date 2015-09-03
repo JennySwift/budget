@@ -5,14 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Models\Account;
 use App\Models\Budget;
-use App\Models\Totals\BasicTotal;
-use App\Models\Totals\FixedBudgetTotal;
-use App\Models\Totals\FlexBudgetTotal;
-use App\Models\Totals\RemainingBalance;
-use App\Models\Transaction;
-use App\Repositories\Tags\TagsRepository;
 use App\Repositories\Transactions\FilterRepository;
-use App\Services\TotalsService;
 use Auth, JavaScript;
 
 /**
@@ -33,8 +26,6 @@ class PagesController extends Controller {
      * Show the application dashboard to the user.
      * GET /
      * @param FilterRepository $filterRepository
-     * @param TagsRepository $tagsRepository
-     * @param TotalsService $totalsService
      * @return Response
      */
     public function home(FilterRepository $filterRepository)

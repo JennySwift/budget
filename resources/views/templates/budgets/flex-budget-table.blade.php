@@ -58,6 +58,7 @@
         <td>-</td>
         <td>-</td>
         <td>-</td>
+        <td>-</td>
         <td>[[totals.budget.FLB.unallocated.remaining]]</td>
         <td>-</td>
     </tr>

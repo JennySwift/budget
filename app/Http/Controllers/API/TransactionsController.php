@@ -6,16 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\Budget;
 use App\Models\Savings;
-use App\Models\Tag;
-use App\Models\Totals\BasicTotal;
-use App\Models\Totals\FixedBudgetTotal;
-use App\Models\Totals\FlexBudgetTotal;
-use App\Models\Totals\RemainingBalance;
 use App\Models\Transaction;
 use App\Repositories\Savings\SavingsRepository;
 use App\Repositories\Transactions\FilterRepository;
 use App\Repositories\Transactions\TransactionsRepository;
-use App\Services\TotalsService;
 use Auth;
 use DB;
 use Debugbar;
@@ -42,12 +36,10 @@ class TransactionsController extends Controller
 
     /**
      * @param TransactionsRepository $transactionsRepository
-     * @param TotalsService $totalsService
      */
-    public function __construct(TransactionsRepository $transactionsRepository, TotalsService $totalsService, FilterRepository $filterRepository, SavingsRepository $savingsRepository)
+    public function __construct(TransactionsRepository $transactionsRepository, FilterRepository $filterRepository, SavingsRepository $savingsRepository)
     {
         $this->transactionsRepository = $transactionsRepository;
-        $this->totalsService = $totalsService;
         $this->filterRepository = $filterRepository;
         $this->savingsRepository = $savingsRepository;
     }

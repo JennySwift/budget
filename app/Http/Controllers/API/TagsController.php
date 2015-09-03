@@ -8,13 +8,10 @@ use App\Http\Requests\Tags\InsertTagRequest;
 use App\Http\Requests\Tags\UpdateTagNameRequest;
 use App\Models\Tag;
 use App\Repositories\Tags\TagsRepository;
-use App\Services\TotalsService;
 use Auth;
 use DB;
 use Debugbar;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
-use JavaScript;
 
 /**
  * Class TagsController
@@ -28,19 +25,12 @@ class TagsController extends Controller
     protected $tagsRepository;
 
     /**
-     * @var TotalsService
-     */
-    protected $totalsService;
-
-    /**
      * Create a new controller instance.
      * @param TagsRepository $tagsRepository
-     * @param TotalsService $totalsService
      */
-    public function __construct(TagsRepository $tagsRepository, TotalsService $totalsService)
+    public function __construct(TagsRepository $tagsRepository)
     {
         $this->tagsRepository = $tagsRepository;
-        $this->totalsService = $totalsService;
 
         $this->middleware('auth');
     }
