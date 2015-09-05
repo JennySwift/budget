@@ -52,6 +52,7 @@ class RemainingBalance {
             + $this->fixedBudgetTotals->spentAfterStartingDate // Total of spent after starting date for fixed budgets
             - $this->basicTotals->savings; // Savings
 
+//        $this->flexBudgetTotals->updateBudgets($this->amount);
         $this->updateBudgets();
 
         return $this;
@@ -61,6 +62,12 @@ class RemainingBalance {
      * Now that we have RB, calculate the budget for each tag that has a FLB,
      * add the calculated_budget property to each tag,
      * and add each calculated_budget to show the total calculated budget in the total row
+     *
+     * @VP:
+     * This method seems like it should be in the FlexBudgetTotal class,
+     * but I had trouble accessing the remaining balance in the map method.
+     * (See the commented-out method in FlexBudgetTotal.)
+     *
      */
     public function updateBudgets()
     {
