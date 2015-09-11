@@ -135,6 +135,7 @@ return [
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
+		'Illuminate\Broadcasting\BroadcastServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -145,7 +146,6 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
-		'GrahamCampbell\Throttle\ThrottleServiceProvider',
 		'Spatie\Backup\BackupServiceProvider',
         'Laracasts\Utilities\JavaScript\JavascriptServiceProvider'
 
@@ -197,7 +197,6 @@ return [
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Debugbar' => 'Barryvdh\Debugbar\Facade',
-		'Throttle' => 'GrahamCampbell\Throttle\Facades\Throttle'
 
 	],
 

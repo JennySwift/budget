@@ -34,7 +34,6 @@ class PagesTest extends TestCase {
 		// This can be done by $this->visit('/') with Laravel 5.1
 		$response = $this->call('GET', '/');
 		$this->assertEquals(200, $response->getStatusCode());
-		$this->assert
 	}
 
 }

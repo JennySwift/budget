@@ -5,13 +5,10 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "5.0.*",
+		"laravel/framework": "5.1.*",
 		"barryvdh/laravel-debugbar": "~2.0",
-		"graham-campbell/throttle": "~3.0",
-		"guzzlehttp/guzzle": "~4.0",
-		"spatie/laravel-backup": "2.1.*",
-		"league/flysystem-aws-s3-v2": "~1.0",
-		"heybigname/backup-manager": "0.3.*",
+		"spatie/laravel-backup": "2.5.*",
+	  	"league/flysystem-aws-s3-v3": "~1.0",
         "laracasts/utilities": "~2.0",
 		"league/fractal": "^0.12.0"
 	},
