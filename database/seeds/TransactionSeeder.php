@@ -135,13 +135,13 @@ class TransactionSeeder extends Seeder {
     {
         $fixedBudgetIds = Budget::where('user_id', $user->id)
             ->where('type', 'fixed')
-            ->lists('id');
+            ->lists('id')->all();
 
         $fixedBudgetIds = $this->faker->randomElements($fixedBudgetIds, $this->faker->numberBetween(1,2));
 
         $flexBudgetIds = Budget::where('user_id', $user->id)
             ->where('type', 'flex')
-            ->lists('id');
+            ->lists('id')->all();
 
         $flexBudgetIds = $this->faker->randomElements($flexBudgetIds, $this->faker->numberBetween(1,2));
 
@@ -154,7 +154,7 @@ class TransactionSeeder extends Seeder {
     {
         $budgetIds = Budget::where('user_id', $user->id)
             ->whereType('fixed')
-            ->lists('id');
+            ->lists('id')->all();
 
         return $this->faker->randomElements($budgetIds, $this->faker->numberBetween(1,3));
     }
@@ -163,7 +163,7 @@ class TransactionSeeder extends Seeder {
     {
         $budgetIds = Budget::where('user_id', $user->id)
             ->whereType('flex')
-            ->lists('id');
+            ->lists('id')->all();
 
         return $this->faker->randomElements($budgetIds, $this->faker->numberBetween(1,3));
     }

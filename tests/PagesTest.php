@@ -15,10 +15,7 @@ class PagesTest extends TestCase {
 
 		$this->assertEquals(302, $response->getStatusCode());
 		$this->assertTrue($response->isRedirection());
-		$this->assertEquals(
-			$this->baseUrl.'/auth/login',
-			$response->getTargetUrl()
-		);
+        $this->assertRedirectedTo($this->baseUrl.'/auth/login');
 	}
 
 	/**
@@ -31,9 +28,24 @@ class PagesTest extends TestCase {
 		$user = User::first();
 		$this->be($user);
 
-		// This can be done by $this->visit('/') with Laravel 5.1
-		$response = $this->call('GET', '/');
-		$this->assertEquals(200, $response->getStatusCode());
+        $transaction = \App\Models\Transaction::first();
+
+		$this->visit('/')
+             ->see($user->name)
+             ->see($transaction->account->name);
 	}
+
+    /**
+     * A basic functional test example.
+     * @test
+     * @return void
+     */
+    public function it_can_display_the_accounts_page()
+    {
+        $user = User::first();
+        $this->be($user);
+
+        $this->visit('/accounts')->see('account');
+    }
 
 }
