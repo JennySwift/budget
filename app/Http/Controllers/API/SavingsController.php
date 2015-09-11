@@ -29,7 +29,7 @@ class SavingsController extends Controller
         $savings = Savings::forCurrentUser()->first();
         $savings->update(compact('amount'));
 
-        return number_format($savings->amount, 2);
+        return $savings->amount;
     }
 
     /**
@@ -46,7 +46,7 @@ class SavingsController extends Controller
         $savings->increase($amount);
         $savings->save();
 
-        return number_format($savings->amount, 2);
+        return $savings->amount;
     }
 
     /**
@@ -63,6 +63,6 @@ class SavingsController extends Controller
         $savings->decrease($amount);
         $savings->save();
 
-        return number_format($savings->amount, 2);
+        return $savings->amount;
     }
 }

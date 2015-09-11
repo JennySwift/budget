@@ -33,25 +33,42 @@ class PagesController extends Controller {
         $remainingBalance = app('remaining-balance')->calculate();
 
         JavaScript::put([
+            'env' => app()->env,
+            'me' => Auth::user(),
             //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),
-//            'tags_response' => Tag::all(),//$tagsRepository->getTags(),
-//            'totals_response' => [],//$totalsService->getBasicAndBudgetTotals(),
             'budgets' => Budget::forCurrentUser()->orderBy('name', 'asc')->get(),
             'filter_response' => $filterRepository->filterTransactions(),
-            'me' => Auth::user(),
 
+            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+            'remainingBalance' => $remainingBalance->amount
+        ]);
+
+        return view('home');
+    }
+
+    /**
+     * Show the application dashboard to the user.
+     * GET /budgets
+     * @return Response
+     */
+    public function budgets()
+    {
+        $remainingBalance = app('remaining-balance')->calculate();
+
+        JavaScript::put([
+            'me' => Auth::user(),
             'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
             'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
             'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
             'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
             'basicTotals' => $remainingBalance->basicTotals->toArray(),
-            'remainingBalance' => $remainingBalance->amount,
-
-            'env' => app()->env
+            'remainingBalance' => $remainingBalance->amount
         ]);
 
-        return view('home');
+        return view('budgets');
     }
 
     public function preferences()
@@ -76,39 +93,6 @@ class PagesController extends Controller {
         ]);
 
         return view('accounts');
-    }
-
-    /**
-     * Show the application dashboard to the user.
-     * GET /budgets
-     * @return Response
-     */
-    public function budgets()
-    {
-//        $budgets = Budget::forCurrentUser()->get();
-//        $fixedBudgets = $budgets->filter(function($model){ return $model->type == 'fixed'; });
-//        $flexBudgets = $budgets->filter(function($model){ return $model->type == 'flex'; });
-//        $transactions = Transaction::forCurrentUser()->get();
-//        $basicTotals = new BasicTotal($transactions);
-//        $fixedBudgetTotals = new FixedBudgetTotal($fixedBudgets);
-//        $flexBudgetTotals = new FlexBudgetTotal($flexBudgets);
-
-        $remainingBalance = app('remaining-balance')->calculate();
-
-        //dd($remainingBalance->flexBudgetTotals);
-
-        JavaScript::put([
-            'me' => Auth::user(),
-            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
-            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
-            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-            'remainingBalance' => $remainingBalance->amount
-//            'totals_response' => []//$totalsService->getBasicAndBudgetTotals()
-        ]);
-
-        return view('budgets');
     }
 
     /**
