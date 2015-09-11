@@ -47,6 +47,15 @@ class Transaction extends Model
     }
 
     /**
+     * Total attribute
+     * @return float
+     */
+    public function getTotalAttribute()
+    {
+        return (float) $this->attributes['total'];
+    }
+
+    /**
      * Get the transaction's tags that have a budget
      * @return $this
      */

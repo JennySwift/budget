@@ -70,7 +70,7 @@ class Budget extends Model
      */
     public function getAmountAttribute()
     {
-        return $this->attributes['amount'];
+        return (float) $this->attributes['amount'];
     }
 
     /**
@@ -111,7 +111,7 @@ class Budget extends Model
      */
     public function getSpentBeforeStartingDateAttribute()
     {
-        return $this->expenses()->where('date', '<', $this->starting_date)
+        return (float) $this->expenses()->where('date', '<', $this->starting_date)
 //                              ->get()
                                 ->sum('calculated_allocation');
     }
@@ -127,7 +127,7 @@ class Budget extends Model
 //                                            ->get()
                                             ->sum('calculated_allocation');
 
-        return $totalSpentAfterStartingDate;
+        return (float) $totalSpentAfterStartingDate;
     }
 
     /**
@@ -141,7 +141,7 @@ class Budget extends Model
 //                                            ->get()
                                             ->sum('calculated_allocation');
 
-        return $totalReceivedAfterStartingDate;
+        return (float) $totalReceivedAfterStartingDate;
     }
 
     /**
@@ -164,7 +164,7 @@ class Budget extends Model
     public function getCumulativeAttribute()
     {
         if($this->isFixed()) {
-            return $this->amount * $this->cumulativeMonthNumber;
+            return (float) $this->amount * $this->cumulativeMonthNumber;
         }
     }
 
@@ -179,7 +179,7 @@ class Budget extends Model
             return $this->calculatedAmount + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
         }
 
-        return $this->cumulative + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
+        return (float) $this->cumulative + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
     }
 
     /**

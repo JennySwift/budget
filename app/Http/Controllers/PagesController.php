@@ -31,7 +31,7 @@ class PagesController extends Controller {
     public function home(FilterRepository $filterRepository)
     {
         $remainingBalance = app('remaining-balance')->calculate();
-
+        
         JavaScript::put([
             //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),

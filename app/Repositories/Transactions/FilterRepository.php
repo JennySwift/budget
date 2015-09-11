@@ -227,7 +227,7 @@ class FilterRepository {
         $rawValues = [];
 
         foreach ($array as $item) {
-            $rawValues[] = $item->{$property}->raw;
+            $rawValues[] = $item->{$property};
         }
 
         return $rawValues;

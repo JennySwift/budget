@@ -38,10 +38,10 @@ class FilterTotals {
      */
     public function __construct($income, $expenses, $balance, $reconciled, $numTransactions)
     {
-        $this->income = new Format($income);
-        $this->expenses = new Format($expenses);
-        $this->balance = new Format($balance);
-        $this->reconciled = new Format($reconciled);
+        $this->income = $income;
+        $this->expenses = $expenses;
+        $this->balance = $balance;
+        $this->reconciled = $reconciled;
         $this->numTransactions = $numTransactions;
     }
 }

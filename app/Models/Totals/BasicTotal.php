@@ -110,12 +110,12 @@ class BasicTotal {
     public function toArray()
     {
         return array(
-            "credit" => number_format($this->credit, 2),
-            "debit" => number_format($this->debit, 2),
-            "balance" => number_format($this->credit + $this->debit, 2),
-            "reconciledSum" => number_format($this->reconciledSum, 2),
-            "savings" => number_format($this->savings, 2),
-            "EWB" => number_format($this->EWB, 2)
+            "credit" => $this->credit,
+            "debit" => $this->debit,
+            "balance" => $this->credit + $this->debit,
+            "reconciledSum" => $this->reconciledSum,
+            "savings" => $this->savings,
+            "EWB" => $this->EWB
         );
     }
 

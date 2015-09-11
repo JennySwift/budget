@@ -66,6 +66,6 @@ class Savings extends Model
     {
         $savings = self::forCurrentUser()->pluck('amount');
 
-        return $savings;
+        return (float) $savings;
     }
 }

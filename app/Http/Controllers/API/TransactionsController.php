@@ -174,7 +174,7 @@ class TransactionsController extends Controller
      * }
      * }
      *
-     * POST api/transactions/{transactions}
+     * POST api/transactions
      * @param Request $request
      * @return array
      */
