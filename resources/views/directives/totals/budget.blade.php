@@ -23,7 +23,7 @@
         <tr class="tooltipster" title="reconciled">
             <td>Reconciled:</td>
             <td><span id="total_income_span" class="badge badge-info">[[basicTotals.reconciledSum | number:2]]</span></td>
-            <td><span ng-if="totalChanges.reconciled">[[totalChanges.reconciled | number:2]]</span></td>
+            <td><span ng-if="totalChanges.reconciledSum">[[totalChanges.reconciledSum | number:2]]</span></td>
         </tr>
 
         <tr class="tooltipster" title="fixed budget (total of fixed budget info column C)">

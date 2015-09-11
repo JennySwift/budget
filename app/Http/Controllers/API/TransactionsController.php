@@ -108,9 +108,16 @@ class TransactionsController extends Controller
             $savings->decrease($this->savingsRepository->calculateAmountToSubtract($transaction));
         }
 
+        $remainingBalance = app('remaining-balance')->calculate();
+
         return [
-            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
-            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
+            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter')),
+
+            //totals
+            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+            'remainingBalance' => $remainingBalance->amount,
         ];
     }
 
@@ -265,11 +272,18 @@ class TransactionsController extends Controller
 
         $transaction->save();
 
-        $this->transactionsRepository->insertTags($transaction, $js_transaction['tags']);
+        $this->transactionsRepository->insertBudgets($transaction, $js_transaction['budgets']);
+
+        $remainingBalance = app('remaining-balance')->calculate();
 
         return [
-            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
-            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
+            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter')),
+
+            //totals
+            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+            'remainingBalance' => $remainingBalance->amount,
         ];
     }
 
@@ -294,9 +308,16 @@ class TransactionsController extends Controller
         $transaction->reconciled = convertFromBoolean($request->get('reconciled'));
         $transaction->save();
 
+        $remainingBalance = app('remaining-balance')->calculate();
+
         return [
-            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
-            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
+            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter')),
+
+            //totals
+            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+            'remainingBalance' => $remainingBalance->amount
         ];
     }
 

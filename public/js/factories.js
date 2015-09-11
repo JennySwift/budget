@@ -362,18 +362,18 @@ app.factory('FilterFactory', function ($http) {
         //    //The non filter totals
         //    $object.totals = $data.totals;
         //}
-        if ($data.basicTotals) {
-            $object.basicTotals = $data.basicTotals;
-        }
-        if ($data.fixedBudgetTotals) {
-            $object.fixedBudgetTotals = $data.fixedBudgetTotals;
-        }
-        if ($data.flexBudgetTotals) {
-            $object.flexBudgetTotals = $data.flexBudgetTotals;
-        }
-        if ($data.remainingBalance) {
-            $object.remainingBalance = $data.remainingBalance;
-        }
+        //if ($data.basicTotals) {
+        //    $object.basicTotals = $data.basicTotals;
+        //}
+        //if ($data.fixedBudgetTotals) {
+        //    $object.fixedBudgetTotals = $data.fixedBudgetTotals;
+        //}
+        //if ($data.flexBudgetTotals) {
+        //    $object.flexBudgetTotals = $data.flexBudgetTotals;
+        //}
+        //if ($data.remainingBalance) {
+        //    $object.remainingBalance = $data.remainingBalance;
+        //}
     };
 
     return $object;

@@ -8,14 +8,8 @@
         /**
          * scope properties
          */
-
-        //$scope.totals = totals_response;
-        $scope.basicTotals = basicTotals;
         $scope.fixedBudgets = fixedBudgets;
-        $scope.fixedBudgetTotals = fixedBudgetTotals;
-        $scope.flexBudgetTotals = flexBudgetTotals;
         $scope.flexBudgets = flexBudgets;
-        $scope.remainingBalance = remainingBalance;
         $scope.feedbackFactory = FeedbackFactory;
 
         $scope.show.basic_totals = true;
@@ -89,6 +83,7 @@
          * For updating budget (amount, starting date) for an existing budget
          */
         $scope.updateBudget = function () {
+            $scope.clearTotalChanges();
             $scope.showLoading();
             $scope.budget_popup.sql_starting_date = $scope.formatDate($scope.budget_popup.formatted_starting_date);
             BudgetsFactory.update($scope.budget_popup, $scope.budget_popup.type)
@@ -103,7 +98,7 @@
 
         $scope.handleUpdateResponse = function (response, $message) {
             FilterFactory.updateDataForControllers(response.data);
-            $scope.totals.budget = response.data.totals.budget;
+            $scope.updateTotalsAfterResponse(response);
             $scope.hideLoading();
             $scope.provideFeedback($message);
         };
@@ -119,12 +114,12 @@
                 return;
             }
 
+            $scope.clearTotalChanges();
             $scope.showLoading();
             $new.sql_starting_date = $scope.formatDate($new.starting_date);
             BudgetsFactory.create($new, $type)
                 .then(function (response) {
                     $scope.handleUpdateResponse(response, 'Budget created');
-                    //$scope.updateTag($new, response);
                     $scope.clearAndFocus($type);
                 })
                 .catch(function (response) {
@@ -137,8 +132,7 @@
                 $scope.showLoading();
                 BudgetsFactory.removeBudget($tag)
                     .then(function (response) {
-                        FilterFactory.updateDataForControllers(response.data);
-                        $scope.totals.budget = response.data.totals.budget;
+                        $scope.updateTotalsAfterResponse(response);
                         $scope.updateTag($tag, response);
                         $scope.provideFeedback('Budget deleted');
                         $scope.hideLoading();

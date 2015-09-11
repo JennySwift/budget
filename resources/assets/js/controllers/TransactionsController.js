@@ -12,7 +12,6 @@
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
         $scope.transactions = filter_response.transactions;
-        //$scope.tags = tags_response;
         $scope.accounts = accounts_response;
 
         /**
@@ -32,11 +31,12 @@
         });
 
         $scope.updateReconciliation = function ($transaction_id, $reconciliation) {
+            $scope.clearTotalChanges();
             $scope.showLoading();
             TransactionsFactory.updateReconciliation($transaction_id, $reconciliation, $scope.filter)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
-                    $scope.totals = response.data;
+                    $scope.updateTotalsAfterResponse(response);
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -57,10 +57,12 @@
             var $date_entry = $("#edit-transaction-date").val();
             $scope.edit_transaction.date.user = $date_entry;
             $scope.edit_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
+            $scope.clearTotalChanges();
             $scope.showLoading();
             TransactionsFactory.updateTransaction($scope.edit_transaction, $scope.filter)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
+                    $scope.updateTotalsAfterResponse(response);
                     $scope.provideFeedback('Transaction updated');
 
                     $scope.show.edit_transaction = false;
@@ -157,13 +159,12 @@
 
         $scope.deleteTransaction = function ($transaction) {
             if (confirm("Are you sure?")) {
+                $scope.clearTotalChanges();
                 $scope.showLoading();
                 TransactionsFactory.deleteTransaction($transaction, $scope.filter)
                     .then(function (response) {
-                        $scope.totals = response.data.totals;
-                        //$scope.calculateAmountToTakeFromSavings($transaction);
-
                         FilterFactory.updateDataForControllers(response.data);
+                        $scope.updateTotalsAfterResponse(response);
 
                         $scope.provideFeedback('Transaction deleted');
                         $scope.hideLoading();
@@ -173,16 +174,6 @@
                     });
             }
         };
-
-        //$scope.calculateAmountToTakeFromSavings = function ($transaction) {
-        //    //reverse the automatic insertion into savings if it is an income expense
-        //    if ($transaction.type === 'income') {
-        //        //This value will change. Just for developing purposes.
-        //        var $percent = 10;
-        //        var $amount_to_subtract = $transaction.total / 100 * $percent;
-        //        $scope.reverseAutomaticInsertIntoSavings($amount_to_subtract);
-        //    }
-        //};
 
         $("#mass-delete-button").on('click', function () {
             if (confirm("You are about to delete " + $(".checked").length + " transactions. Are you sure you want to do this?")) {

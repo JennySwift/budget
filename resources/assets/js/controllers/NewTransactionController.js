@@ -126,6 +126,7 @@
                 return;
             }
 
+            $scope.clearTotalChanges();
             $scope.showLoading();
             TransactionsFactory.insertTransaction($scope.new_transaction, $scope.filter)
                 .then(function (response) {
@@ -133,6 +134,7 @@
                     $scope.clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
                     FilterFactory.updateDataForControllers(response.data);
+                    $scope.updateTotalsAfterResponse(response);
                     $scope.checkNewTransactionForMultipleBudgets(response);
                     $scope.hideLoading();
                 })

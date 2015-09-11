@@ -23,6 +23,25 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.env = env;
         }
 
+        if (typeof basicTotals !== 'undefined') {
+            $scope.basicTotals = basicTotals;
+            $scope.fixedBudgetTotals = fixedBudgetTotals;
+            $scope.flexBudgetTotals = flexBudgetTotals;
+            $scope.remainingBalance = remainingBalance;
+        }
+
+        $scope.totalChanges = {};
+
+        $scope.clearTotalChanges = function () {
+            $scope.totalChanges = {};
+        };
+
+        $scope.updateTotalsAfterResponse = function (response) {
+            $scope.basicTotals = response.data.basicTotals;
+            $scope.fixedBudgetTotals = response.data.fixedBudgetTotals;
+            $scope.flexBudgetTotals = response.data.flexBudgetTotals;
+            $scope.remainingBalance = response.data.remainingBalance;
+        };
 
         $(window).load(function () {
             $(".main").css('display', 'block');
@@ -300,14 +319,8 @@ var app = angular.module('budgetApp');
         /**
          * scope properties
          */
-
-        //$scope.totals = totals_response;
-        $scope.basicTotals = basicTotals;
         $scope.fixedBudgets = fixedBudgets;
-        $scope.fixedBudgetTotals = fixedBudgetTotals;
-        $scope.flexBudgetTotals = flexBudgetTotals;
         $scope.flexBudgets = flexBudgets;
-        $scope.remainingBalance = remainingBalance;
         $scope.feedbackFactory = FeedbackFactory;
 
         $scope.show.basic_totals = true;
@@ -381,6 +394,7 @@ var app = angular.module('budgetApp');
          * For updating budget (amount, starting date) for an existing budget
          */
         $scope.updateBudget = function () {
+            $scope.clearTotalChanges();
             $scope.showLoading();
             $scope.budget_popup.sql_starting_date = $scope.formatDate($scope.budget_popup.formatted_starting_date);
             BudgetsFactory.update($scope.budget_popup, $scope.budget_popup.type)
@@ -395,7 +409,7 @@ var app = angular.module('budgetApp');
 
         $scope.handleUpdateResponse = function (response, $message) {
             FilterFactory.updateDataForControllers(response.data);
-            $scope.totals.budget = response.data.totals.budget;
+            $scope.updateTotalsAfterResponse(response);
             $scope.hideLoading();
             $scope.provideFeedback($message);
         };
@@ -411,12 +425,12 @@ var app = angular.module('budgetApp');
                 return;
             }
 
+            $scope.clearTotalChanges();
             $scope.showLoading();
             $new.sql_starting_date = $scope.formatDate($new.starting_date);
             BudgetsFactory.create($new, $type)
                 .then(function (response) {
                     $scope.handleUpdateResponse(response, 'Budget created');
-                    //$scope.updateTag($new, response);
                     $scope.clearAndFocus($type);
                 })
                 .catch(function (response) {
@@ -429,8 +443,7 @@ var app = angular.module('budgetApp');
                 $scope.showLoading();
                 BudgetsFactory.removeBudget($tag)
                     .then(function (response) {
-                        FilterFactory.updateDataForControllers(response.data);
-                        $scope.totals.budget = response.data.totals.budget;
+                        $scope.updateTotalsAfterResponse(response);
                         $scope.updateTag($tag, response);
                         $scope.provideFeedback('Budget deleted');
                         $scope.hideLoading();
@@ -746,11 +759,6 @@ var app = angular.module('budgetApp');
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
 
-        //$scope.totals = totals_response;
-        $scope.basicTotals = basicTotals;
-        $scope.fixedBudgetTotals = fixedBudgetTotals;
-        $scope.flexBudgetTotals = flexBudgetTotals;
-        $scope.remainingBalance = remainingBalance;
         $scope.colors = me.preferences.colors;
 
         if ($scope.env === 'local') {
@@ -1057,6 +1065,7 @@ var app = angular.module('budgetApp');
                 return;
             }
 
+            $scope.clearTotalChanges();
             $scope.showLoading();
             TransactionsFactory.insertTransaction($scope.new_transaction, $scope.filter)
                 .then(function (response) {
@@ -1064,6 +1073,7 @@ var app = angular.module('budgetApp');
                     $scope.clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
                     FilterFactory.updateDataForControllers(response.data);
+                    $scope.updateTotalsAfterResponse(response);
                     $scope.checkNewTransactionForMultipleBudgets(response);
                     $scope.hideLoading();
                 })
@@ -1313,7 +1323,6 @@ var app = angular.module('budgetApp');
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
         $scope.transactions = filter_response.transactions;
-        //$scope.tags = tags_response;
         $scope.accounts = accounts_response;
 
         /**
@@ -1333,11 +1342,12 @@ var app = angular.module('budgetApp');
         });
 
         $scope.updateReconciliation = function ($transaction_id, $reconciliation) {
+            $scope.clearTotalChanges();
             $scope.showLoading();
             TransactionsFactory.updateReconciliation($transaction_id, $reconciliation, $scope.filter)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
-                    $scope.totals = response.data;
+                    $scope.updateTotalsAfterResponse(response);
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -1358,10 +1368,12 @@ var app = angular.module('budgetApp');
             var $date_entry = $("#edit-transaction-date").val();
             $scope.edit_transaction.date.user = $date_entry;
             $scope.edit_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
+            $scope.clearTotalChanges();
             $scope.showLoading();
             TransactionsFactory.updateTransaction($scope.edit_transaction, $scope.filter)
                 .then(function (response) {
                     FilterFactory.updateDataForControllers(response.data);
+                    $scope.updateTotalsAfterResponse(response);
                     $scope.provideFeedback('Transaction updated');
 
                     $scope.show.edit_transaction = false;
@@ -1458,13 +1470,12 @@ var app = angular.module('budgetApp');
 
         $scope.deleteTransaction = function ($transaction) {
             if (confirm("Are you sure?")) {
+                $scope.clearTotalChanges();
                 $scope.showLoading();
                 TransactionsFactory.deleteTransaction($transaction, $scope.filter)
                     .then(function (response) {
-                        $scope.totals = response.data.totals;
-                        //$scope.calculateAmountToTakeFromSavings($transaction);
-
                         FilterFactory.updateDataForControllers(response.data);
+                        $scope.updateTotalsAfterResponse(response);
 
                         $scope.provideFeedback('Transaction deleted');
                         $scope.hideLoading();
@@ -1474,16 +1485,6 @@ var app = angular.module('budgetApp');
                     });
             }
         };
-
-        //$scope.calculateAmountToTakeFromSavings = function ($transaction) {
-        //    //reverse the automatic insertion into savings if it is an income expense
-        //    if ($transaction.type === 'income') {
-        //        //This value will change. Just for developing purposes.
-        //        var $percent = 10;
-        //        var $amount_to_subtract = $transaction.total / 100 * $percent;
-        //        $scope.reverseAutomaticInsertIntoSavings($amount_to_subtract);
-        //    }
-        //};
 
         $("#mass-delete-button").on('click', function () {
             if (confirm("You are about to delete " + $(".checked").length + " transactions. Are you sure you want to do this?")) {

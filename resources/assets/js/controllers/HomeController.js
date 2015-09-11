@@ -14,11 +14,6 @@
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
 
-        //$scope.totals = totals_response;
-        $scope.basicTotals = basicTotals;
-        $scope.fixedBudgetTotals = fixedBudgetTotals;
-        $scope.flexBudgetTotals = flexBudgetTotals;
-        $scope.remainingBalance = remainingBalance;
         $scope.colors = me.preferences.colors;
 
         if ($scope.env === 'local') {

@@ -23,6 +23,25 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.env = env;
         }
 
+        if (typeof basicTotals !== 'undefined') {
+            $scope.basicTotals = basicTotals;
+            $scope.fixedBudgetTotals = fixedBudgetTotals;
+            $scope.flexBudgetTotals = flexBudgetTotals;
+            $scope.remainingBalance = remainingBalance;
+        }
+
+        $scope.totalChanges = {};
+
+        $scope.clearTotalChanges = function () {
+            $scope.totalChanges = {};
+        };
+
+        $scope.updateTotalsAfterResponse = function (response) {
+            $scope.basicTotals = response.data.basicTotals;
+            $scope.fixedBudgetTotals = response.data.fixedBudgetTotals;
+            $scope.flexBudgetTotals = response.data.flexBudgetTotals;
+            $scope.remainingBalance = response.data.remainingBalance;
+        };
 
         $(window).load(function () {
             $(".main").css('display', 'block');
