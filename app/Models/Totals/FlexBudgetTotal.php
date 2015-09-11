@@ -118,25 +118,21 @@ class FlexBudgetTotal implements Arrayable, BudgetTotal {
      * Now that we have RB, calculate the budget for each tag that has a FLB,
      * add the calculated_budget property to each tag,
      * and add each calculated_budget to show the total calculated budget in the total row
-     * @param $remainingBalance
+     * @param RemainingBalance $remainingBalance
      */
-//    public function updateBudgets($remainingBalance)
-//    {
-//        $this->budgets->map(function($budget, $remainingBalance){
-            /**
-             * @VP:
-             * $remainingBalance is 0 here. How do I get it right here?
-             */
-//            $budget->calculatedAmount = $remainingBalance / 100 * $budget->amount;
-//        });
-//        $this->calculateAndSet('calculatedAmount');
-//        $this->calculateAndSet('remaining');
-//        $this->allocatedPlusUnallocatedCalculatedAmount = $remainingBalance;
-//        $this->unallocatedCalculatedAmount = $remainingBalance - $this->calculatedAmount;
-//        $this->unallocatedPlusCalculatedRemaining = $remainingBalance - $this->calculatedAmount;
-//        $this->allocatedPlusUnallocatedRemaining = $remainingBalance + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
-//        $this->unallocatedRemaining = $this->allocatedPlusUnallocatedRemaining - $this->remaining;
-//    }
+    public function updateBudgets(RemainingBalance $remainingBalance)
+    {
+        $this->budgets->map(function($budget) use ($remainingBalance) {
+            $budget->calculatedAmount = $remainingBalance->amount / 100 * $budget->amount;
+        });
+        $this->calculateAndSet('calculatedAmount');
+        $this->calculateAndSet('remaining');
+        $this->allocatedPlusUnallocatedCalculatedAmount = $this->amount;
+        $this->unallocatedCalculatedAmount = $this->amount - $this->calculatedAmount;
+        $this->unallocatedPlusCalculatedRemaining = $this->amount - $this->calculatedAmount;
+        $this->allocatedPlusUnallocatedRemaining = $this->amount + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
+        $this->unallocatedRemaining = $this->allocatedPlusUnallocatedRemaining - $this->remaining;
+    }
 
     /**
      * Get the instance as an array.

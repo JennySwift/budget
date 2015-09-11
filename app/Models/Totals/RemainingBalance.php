@@ -28,6 +28,11 @@ class RemainingBalance {
     public $flexBudgetTotals;
 
     /**
+     * @var
+     */
+    public $amount = 0;
+
+    /**
      * RemainingBalance constructor.
      */
     public function __construct(BasicTotal $basicTotals, FixedBudgetTotal $fixedBudgetTotals, FlexBudgetTotal $flexBudgetTotals)
@@ -52,8 +57,8 @@ class RemainingBalance {
             + $this->fixedBudgetTotals->spentAfterStartingDate // Total of spent after starting date for fixed budgets
             - $this->basicTotals->savings; // Savings
 
-//        $this->flexBudgetTotals->updateBudgets($this->amount);
-        $this->updateBudgets();
+        $this->flexBudgetTotals->updateBudgets($this);
+//        $this->updateBudgets();
 
         return $this;
     }
@@ -69,19 +74,19 @@ class RemainingBalance {
      * (See the commented-out method in FlexBudgetTotal.)
      *
      */
-    public function updateBudgets()
-    {
-        $this->flexBudgetTotals->budgets->map(function($budget){
-            $budget->calculatedAmount = $this->amount / 100 * $budget->amount;
-        });
-        $this->flexBudgetTotals->calculateAndSet('calculatedAmount');
-        $this->flexBudgetTotals->calculateAndSet('remaining');
-        $this->flexBudgetTotals->allocatedPlusUnallocatedCalculatedAmount = $this->amount;
-        $this->flexBudgetTotals->unallocatedCalculatedAmount = $this->amount - $this->flexBudgetTotals->calculatedAmount;
-        $this->flexBudgetTotals->unallocatedPlusCalculatedRemaining = $this->amount - $this->flexBudgetTotals->calculatedAmount;
-        $this->flexBudgetTotals->allocatedPlusUnallocatedRemaining = $this->amount + $this->flexBudgetTotals->spentAfterStartingDate + $this->flexBudgetTotals->receivedAfterStartingDate;
-        $this->flexBudgetTotals->unallocatedRemaining = $this->flexBudgetTotals->allocatedPlusUnallocatedRemaining - $this->flexBudgetTotals->remaining;
-    }
+//    public function updateBudgets()
+//    {
+//        $this->flexBudgetTotals->budgets->map(function($budget){
+//            $budget->calculatedAmount = $this->amount / 100 * $budget->amount;
+//        });
+//        $this->flexBudgetTotals->calculateAndSet('calculatedAmount');
+//        $this->flexBudgetTotals->calculateAndSet('remaining');
+//        $this->flexBudgetTotals->allocatedPlusUnallocatedCalculatedAmount = $this->amount;
+//        $this->flexBudgetTotals->unallocatedCalculatedAmount = $this->amount - $this->flexBudgetTotals->calculatedAmount;
+//        $this->flexBudgetTotals->unallocatedPlusCalculatedRemaining = $this->amount - $this->flexBudgetTotals->calculatedAmount;
+//        $this->flexBudgetTotals->allocatedPlusUnallocatedRemaining = $this->amount + $this->flexBudgetTotals->spentAfterStartingDate + $this->flexBudgetTotals->receivedAfterStartingDate;
+//        $this->flexBudgetTotals->unallocatedRemaining = $this->flexBudgetTotals->allocatedPlusUnallocatedRemaining - $this->flexBudgetTotals->remaining;
+//    }
 
     /**
      * @param BasicTotal $basicTotals
