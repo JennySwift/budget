@@ -9,7 +9,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         .module('budgetApp')
         .controller('BaseController', base);
 
-    function base ($scope, $http, FeedbackFactory, UsersFactory) {
+    function base ($scope, $http, $sce, FeedbackFactory, UsersFactory) {
         /**
          * Scope properties
          */
@@ -41,7 +41,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
         $scope.provideFeedback = function ($message, $type) {
             var $new = {
-                message: $message,
+                message: $sce.trustAsHtml($message),
                 type: $type
             };
 
@@ -56,21 +56,61 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         };
 
         $scope.responseError = function (response) {
-            if (response.status === 503) {
-                $scope.provideFeedback('Sorry, application under construction. Please try again later.', 'error');
-            }
-            else if (response.status === 401) {
-                $scope.provideFeedback('You are not logged in', 'error');
-            }
-            else if (response.data.error) {
-                $scope.provideFeedback(response.data.error, 'error');
-            }
-            else if (response.data) {
-                //Todo (response.data is in a complicated format)
+            if(typeof response !== "undefined") {
+                switch(response.status) {
+                    case 503:
+                        $scope.provideFeedback('Sorry, application under construction. Please try again later.', 'error');
+                        break;
+                    case 401:
+                        $scope.provideFeedback('You are not logged in', 'error');
+                        break;
+                    case 422:
+                        var html = "<ul>";
+                        angular.forEach(response.data, function(value, key) {
+                            var fieldName = key;
+                            angular.forEach(value, function(value) {
+                                html += '<li>'+value+'</li>';
+                            });
+                        });
+                        html += "</ul>";
+                        $scope.provideFeedback(html, 'error');
+                        break;
+                    default:
+                        $scope.provideFeedback(response.data.error, 'error');
+                        break;
+                }
             }
             else {
                 $scope.provideFeedback('There was an error', 'error');
             }
+            //if (response.status === 503) {
+            //    $scope.provideFeedback('Sorry, application under construction. Please try again later.', 'error');
+            //}
+            //else if (response.status === 401) {
+            //    $scope.provideFeedback('You are not logged in', 'error');
+            //}
+            //// Validation errors
+            //else if (response.status === 422) {
+            //    var html = "<ul>";
+            //    angular.forEach(response.data, function(value, key) {
+            //        var fieldName = key;
+            //        angular.forEach(value, function(value) {
+            //            html += '<li>'+value+'</li>';
+            //        });
+            //    });
+            //    html += "</ul>";
+            //    $scope.provideFeedback(html, 'error');
+            //}
+            //else if (response.data.error) {
+            //    $scope.provideFeedback(response.data.error, 'error');
+            //}
+            //else if (response.data) {
+            //    //Todo (response.data is in a complicated format)
+            //
+            //}
+            //else {
+            //    $scope.provideFeedback('There was an error', 'error');
+            //}
             $scope.hideLoading();
         };
 

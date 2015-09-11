@@ -18,7 +18,8 @@
                     type="text"
                     class="new_account_input font-size-sm center margin-bottom"
                     id="new_account_input"
-                    placeholder="new account">
+                    placeholder="new account"
+                    name="name">
 
                 <div>
                     <button ng-click="insertAccount(13)" class="btn btn-success">Create</button>
