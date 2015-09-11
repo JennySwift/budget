@@ -35,7 +35,7 @@
 
             <td ng-show="show.total">
                 {{--<span class="badge badge-[[transaction.type]]">[[transaction.total]]</span>--}}
-                [[transaction.total]]
+                [[transaction.total | number:2]]
             </td>
 
             <td ng-show="show.account" class="max-width-md">[[transaction.account.name]]</td>
