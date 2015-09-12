@@ -107,14 +107,14 @@ class PagesController extends Controller {
      * GET /charts
      * @return Response
      */
-    public function charts()
-    {
-        JavaScript::put([
-            'me' => Auth::user()
-        ]);
-
-        return view('charts');
-    }
+//    public function charts()
+//    {
+//        JavaScript::put([
+//            'me' => Auth::user()
+//        ]);
+//
+//        return view('charts');
+//    }
 
     /**
      * Display a listing of the resource.

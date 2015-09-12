@@ -48,4 +48,45 @@ class PagesTest extends TestCase {
         $this->visit('/accounts')->see('account');
     }
 
+    /**
+     * A basic functional test example.
+     * @test
+     * @return void
+     */
+    public function it_can_display_the_budgets_page()
+    {
+        $user = User::first();
+        $this->be($user);
+
+        $this->visit('/budgets')->see('budget');
+    }
+
+    /**
+     * A basic functional test example.
+     * @test
+     * @return void
+     */
+    public function it_can_display_the_help_page()
+    {
+        $user = User::first();
+        $this->be($user);
+
+        $this->visit('/help')->see('help');
+    }
+
+    /**
+     * A basic functional test example.
+     * @test
+     * @return void
+     */
+    public function it_can_display_the_preferences_page()
+    {
+        $user = User::first();
+        $this->be($user);
+
+        $this->visit('/preferences')
+            ->see('preferences')
+            ->see('colours');
+    }
+
 }
