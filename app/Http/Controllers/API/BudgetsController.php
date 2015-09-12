@@ -8,6 +8,7 @@ use App\Models\Budget;
 use App\Repositories\Budgets\BudgetsRepository;
 use Auth;
 use DB;
+use Illuminate\Http\Request;
 use JavaScript;
 
 /**
@@ -62,21 +63,13 @@ class BudgetsController extends Controller
      */
     public function update(Request $request, Budget $budget)
     {
-        $data = array_compare($budget->toArray(), $request->get('budget'));
+        $data = array_intersect($budget->toArray(), $request->only(['name', 'type', 'amount']));
         $budget->update($data);
-
-
-//        $budget->name = $request->get('name');
-//        $budget->type = $request->get('type');
-//        $budget->amount = $request->get('amount');
-
-//        $budget->save();
 
         $remainingBalance = app('remaining-balance')->calculate();
 
         return [
-            'budget' => $budget,
-
+            'budget' => $budget->toArray(),
             //totals
             'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
             'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
