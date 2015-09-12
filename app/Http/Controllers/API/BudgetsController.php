@@ -63,19 +63,21 @@ class BudgetsController extends Controller
      */
     public function update(Request $request, Budget $budget)
     {
-        $data = array_intersect($budget->toArray(), $request->only(['name', 'type', 'amount']));
+        $data = array_filter(array_diff_assoc($request->only(['name', 'type', 'amount']), $budget->toArray()));
         $budget->update($data);
 
-        $remainingBalance = app('remaining-balance')->calculate();
+        return $this->responseOk($budget);
 
-        return [
-            'budget' => $budget->toArray(),
-            //totals
-            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-            'remainingBalance' => $remainingBalance->amount,
-        ];
+//        $remainingBalance = app('remaining-balance')->calculate();
+
+//        return [
+//            'budget' => $budget->toArray(),
+//            //totals
+//            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+//            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+//            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+//            'remainingBalance' => $remainingBalance->amount,
+//        ];
     }
 
     /**

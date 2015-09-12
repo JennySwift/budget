@@ -62,14 +62,9 @@ class BudgetsTest extends TestCase {
         $content = json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertArrayHasKey('budget', $content);
-        $this->assertArrayHasKey('fixedBudgetTotals', $content);
-        $this->assertArrayHasKey('flexBudgetTotals', $content);
-        $this->assertArrayHasKey('basicTotals', $content);
-        $this->assertArrayHasKey('remainingBalance', $content);
-        $this->assertEquals('fixed', $content['type']);
-        $this->assertEquals('surf', $content['name']);
-        $this->assertEquals(1000, $content['amount']);
+        $this->assertEquals($budget->type, $content['type']);
+        $this->assertEquals('jetskiing', $content['name']);
+        $this->assertEquals($budget->amount, $content['amount']);
         $this->assertTrue(is_array($content['starting_date']));
         $this->assertArrayHasKey('date', $content['starting_date']);
     }
