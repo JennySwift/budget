@@ -55,10 +55,11 @@ class AccountsController extends Controller
      * Demonstration of Model Binding :)
      * GET api/accounts/{accounts}
      * @param $account
+     * @return Account
      */
     public function show(Account $account)
     {
-        dd($account->toArray());
+        return response($account, 200);
     }
 
     /**

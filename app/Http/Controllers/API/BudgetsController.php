@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Budgets\CreateBudgetRequest;
 use App\Models\Budget;
 use App\Repositories\Budgets\BudgetsRepository;
-use App\Repositories\Tags\TagsRepository;
 use Auth;
 use DB;
 use JavaScript;
@@ -25,6 +24,7 @@ class BudgetsController extends Controller
 
     /**
      * Create a new controller instance.
+     * @param BudgetsRepository $budgetsRepository
      */
     public function __construct(BudgetsRepository $budgetsRepository)
     {
