@@ -52,7 +52,7 @@ class Savings extends Model
     public function decrease($amount)
     {
         if($this->amount < $amount) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException("The amount should not be higher than the savings amount.");
         }
 
         $this->decrement('amount', $amount);

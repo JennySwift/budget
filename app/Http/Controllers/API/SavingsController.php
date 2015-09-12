@@ -29,7 +29,12 @@ class SavingsController extends Controller
         $savings = Savings::forCurrentUser()->first();
         $savings->update(compact('amount'));
 
+        // @TODO Should be returning the savings object (with a transformer if you do not need everything :))
         return $savings->amount;
+        // For consistency in your API, always return JSON
+//        return response([
+//            'amount' => $savings->amount
+//        ], 200);
     }
 
     /**

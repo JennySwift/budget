@@ -70,6 +70,13 @@ class Handler extends ExceptionHandler {
             ], Response::HTTP_BAD_REQUEST);
         }
 
+		if ($e instanceof \InvalidArgumentException) {
+			return response([
+				'error' => $e->getMessage(),
+				'status' => Response::HTTP_BAD_REQUEST
+			], Response::HTTP_BAD_REQUEST);
+		}
+
 	    return parent::render($request, $e);
 	}
 
