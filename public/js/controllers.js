@@ -315,7 +315,7 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('BudgetsController', budgets);
 
-    function budgets ($scope, $http, BudgetsFactory, TagsFactory, FilterFactory, FeedbackFactory) {
+    function budgets ($scope, $http, BudgetsFactory, FilterFactory, FeedbackFactory) {
         /**
          * scope properties
          */
@@ -326,6 +326,9 @@ var app = angular.module('budgetApp');
         $scope.show.basic_totals = true;
         $scope.show.budget_totals = true;
         $scope.tab = 'flex';
+        $scope.newBudget = {
+            type: 'fixed'
+        };
 
         /**
          * Watches
@@ -337,56 +340,38 @@ var app = angular.module('budgetApp');
             }
         });
 
-        $scope.getTags = function () {
-            TagsFactory.getTags()
+        $scope.insertBudget = function ($keycode) {
+            if ($keycode !== 13) {
+                return;
+            }
+
+            var $budget = $scope.newBudget;
+
+            $scope.clearTotalChanges();
+            $scope.showLoading();
+            $budget.sql_starting_date = $scope.formatDate($budget.starting_date);
+            BudgetsFactory.insert($budget)
                 .then(function (response) {
-                    $scope.tags = response.data;
+                    $scope.jsInsertBudget(response);
+                    $scope.provideFeedback('Budget created');
+
+                    $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
         };
 
-        $scope.updateTag = function ($tag, response) {
-            var $index = _.indexOf($scope.tags, _.findWhere($scope.tags, {id: $tag.id}));
-            $scope.tags[$index] = response.data.tag;
-        };
-
         /**
-         * Return true if tag has a budget already
-         * @returns {boolean}
+         * Add the budget to the JS array
          */
-        $scope.tagHasBudget = function ($new) {
-            if ($new.flex_budget) {
-                $scope.provideFeedback("You've got a flex budget for that tag.", 'error');
-                return true;
+        $scope.jsInsertBudget = function (response) {
+            var $budget = response.data;
+            if ($budget.type === 'fixed') {
+                $scope.fixedBudgets.push($budget);
             }
-            else if ($new.fixed_budget) {
-                $scope.provideFeedback("You've got a fixed budget for that tag.", 'error');
-                return true;
-            }
-            return false;
-        };
-
-        /**
-         * Clear the tag inputs and focus the correct input
-         * after entering a new budget
-         * todo: clear the budget input
-         * @param $type
-         */
-        $scope.clearAndFocus = function ($type) {
-            if ($type === 'fixed') {
-                //I'm baffled as to why this works to clear the input when the ng-model is new_FB.
-                //$scope.new_fixed_budget.tag.name = '';
-
-                $("#new-fixed-budget-name-input").val("").focus();
-                $("#new-fixed-budget-SD").val("");
-                $("#new-fixed-budget-amount").val("");
-            }
-            else {
-                $("#new-flex-budget-name-input").val("").focus();
-                $("#new-flex-budget-SD").val("");
-                $("#new-flex-budget-amount").val("");
+            else if ($budget.type === 'flex') {
+                $scope.flexBudgets.push($budget);
             }
         };
 
@@ -399,7 +384,8 @@ var app = angular.module('budgetApp');
             $scope.budget_popup.sql_starting_date = $scope.formatDate($scope.budget_popup.formatted_starting_date);
             BudgetsFactory.update($scope.budget_popup, $scope.budget_popup.type)
                 .then(function (response) {
-                    $scope.handleUpdateResponse(response, 'Budget updated');
+                    $scope.updateTotalsAfterResponse(response);
+                    //$scope.handleUpdateResponse(response, 'Budget updated');
                     $scope.show.popups.budget = false;
                 })
                 .catch(function (response) {
@@ -414,45 +400,78 @@ var app = angular.module('budgetApp');
             $scope.provideFeedback($message);
         };
 
-        /**
-         * For creating a new budget for an existing tag
-         * @param $keycode
-         * @param $new
-         * @param $type
-         */
-        $scope.createBudget = function ($keycode, $new, $type) {
-            if ($keycode !== 13 || $scope.tagHasBudget($new)) {
-                return;
-            }
-
-            $scope.clearTotalChanges();
-            $scope.showLoading();
-            $new.sql_starting_date = $scope.formatDate($new.starting_date);
-            BudgetsFactory.create($new, $type)
-                .then(function (response) {
-                    $scope.handleUpdateResponse(response, 'Budget created');
-                    $scope.clearAndFocus($type);
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-        $scope.removeBudget = function ($tag) {
-            if (confirm("Remove " + $tag.budget_type + " budget for " + $tag.name + "?")) {
+        $scope.deleteBudget = function ($budget) {
+            if (confirm("Are you sure you want to delete this budget?")) {
                 $scope.showLoading();
-                BudgetsFactory.removeBudget($tag)
+                BudgetsFactory.destroy($budget)
                     .then(function (response) {
-                        $scope.updateTotalsAfterResponse(response);
-                        $scope.updateTag($tag, response);
-                        $scope.provideFeedback('Budget deleted');
-                        $scope.hideLoading();
+
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
                     });
             }
         };
+
+
+        //$scope.updateTag = function ($tag, response) {
+        //    var $index = _.indexOf($scope.tags, _.findWhere($scope.tags, {id: $tag.id}));
+        //    $scope.tags[$index] = response.data.tag;
+        //};
+
+        /**
+         * Return true if tag has a budget already
+         * @returns {boolean}
+         */
+        //$scope.tagHasBudget = function ($new) {
+        //    if ($new.flex_budget) {
+        //        $scope.provideFeedback("You've got a flex budget for that tag.", 'error');
+        //        return true;
+        //    }
+        //    else if ($new.fixed_budget) {
+        //        $scope.provideFeedback("You've got a fixed budget for that tag.", 'error');
+        //        return true;
+        //    }
+        //    return false;
+        //};
+
+        /**
+         * Clear the tag inputs and focus the correct input
+         * after entering a new budget
+         * todo: clear the budget input
+         * @param $type
+         */
+        //$scope.clearAndFocus = function ($type) {
+        //    if ($type === 'fixed') {
+        //        //I'm baffled as to why this works to clear the input when the ng-model is new_FB.
+        //        //$scope.new_fixed_budget.tag.name = '';
+        //
+        //        $("#new-fixed-budget-name-input").val("").focus();
+        //        $("#new-fixed-budget-SD").val("");
+        //        $("#new-fixed-budget-amount").val("");
+        //    }
+        //    else {
+        //        $("#new-flex-budget-name-input").val("").focus();
+        //        $("#new-flex-budget-SD").val("");
+        //        $("#new-flex-budget-amount").val("");
+        //    }
+        //};
+
+        //$scope.removeBudget = function ($tag) {
+        //    if (confirm("Remove " + $tag.budget_type + " budget for " + $tag.name + "?")) {
+        //        $scope.showLoading();
+        //        BudgetsFactory.removeBudget($tag)
+        //            .then(function (response) {
+        //                $scope.updateTotalsAfterResponse(response);
+        //                $scope.updateTag($tag, response);
+        //                $scope.provideFeedback('Budget deleted');
+        //                $scope.hideLoading();
+        //            })
+        //            .catch(function (response) {
+        //                $scope.responseError(response);
+        //            });
+        //    }
+        //};
 
         $scope.showBudgetPopup = function ($tag, $type) {
             $scope.budget_popup = $tag;
@@ -1175,126 +1194,6 @@ var app = angular.module('budgetApp');
             }
         };
     }
-
-})();
-var app = angular.module('budgetApp');
-
-(function () {
-
-    app.controller('TagsController', function ($scope, $http, TagsFactory, TransactionsFactory, FeedbackFactory) {
-
-        /**
-         * scope properties
-         */
-
-        $scope.autocomplete = {};
-        $scope.edit_tag = false;
-        $scope.feedbackFactory = FeedbackFactory;
-        $scope.edit_tag_popup = {};
-
-        $scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
-            if (newValue && newValue.message) {
-                scope.provideFeedback(newValue.message);
-            }
-        });
-
-        /**
-         * select
-         */
-
-        $scope.getTags = function () {
-            $scope.showLoading();
-            TagsFactory.getTags()
-                .then(function (response) {
-                    $scope.tags = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-        $scope.getTags();
-
-        /**
-         * insert
-         */
-
-        /**
-         * Inserts a new tag into tags table, not into a transaction
-         * @param $keycode
-         */
-        $scope.insertTag = function ($keycode) {
-            if ($keycode !== 13) {
-                return;
-            }
-
-            $scope.showLoading();
-            TagsFactory.insertTag()
-                .then(function (response) {
-                    $scope.getTags();
-                    $("#new-tag-input").val("");
-                    $scope.hideLoading();
-                    $scope.provideFeedback('Tag created');
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        /**
-         * update
-         */
-
-        $scope.showEditTagPopup = function ($tag_id, $tag_name) {
-            $scope.edit_tag_popup.id = $tag_id;
-            $scope.edit_tag_popup.name = $tag_name;
-            $scope.show.popups.edit_tag = true;
-        };
-
-        $scope.updateTag = function () {
-            $scope.showLoading();
-            TagsFactory.updateTagName($scope.edit_tag_popup.id, $scope.edit_tag_popup.name)
-                .then(function (response) {
-                    $scope.getTags();
-                    $scope.show.popups.edit_tag = false;
-                    $scope.hideLoading();
-                    $scope.provideFeedback('Tag edited');
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        /**
-         * delete
-         */
-
-        $scope.deleteTag = function ($tag_id) {
-            $scope.showLoading();
-            TransactionsFactory.countTransactionsWithTag($tag_id)
-                .then(function (response) {
-                    var $count = response.data;
-                    //The loading symbol isn't hiding here because of the confirm()
-                    $scope.hideLoading();
-                    if (confirm("You have " + $count + " transactions with this tag. Are you sure?")) {
-                        $scope.showLoading();
-                        TagsFactory.deleteTag($tag_id)
-                            .then(function (response) {
-                                $scope.getTags();
-                                $scope.hideLoading();
-                                $scope.provideFeedback('Tag deleted');
-                            })
-                            .catch(function (response) {
-                                $scope.responseError(response);
-                            })
-                    }
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-    }); //end controller
 
 })();
 

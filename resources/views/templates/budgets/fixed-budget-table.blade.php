@@ -4,7 +4,7 @@
 <table id="fixed-budget-info-table" class="table table-bordered">
 
     <tr>
-        <th class="tag">Name</th>
+        <th>Name</th>
         <th class="tooltipster" title="amount">A</th>
         <th class="tooltipster" title="cumulative starting date">SD</th>
         <th class="tooltipster" title="cumulative month number">CMN</th>
@@ -30,30 +30,30 @@
     </tr>
 
     <!-- table content -->
-    <tr ng-repeat="budget in fixedBudgets" class="budget_info_ul">
+    <tr ng-repeat="budget in fixedBudgets | orderBy: 'name'" class="budget_info_ul">
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="budget-tag pointer">[[budget.name]]</td>
+        <td ng-click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.name]]</td>
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="amount right pointer">[[budget.amount | number:2]]</td>
+        <td ng-click="showBudgetPopup(budget, 'fixed')" class="amount right pointer">[[budget.amount | number:2]]</td>
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="CSD pointer">
+        <td ng-click="showBudgetPopup(budget, 'fixed')" class="CSD pointer">
             <span>[[budget.formattedStartingDate]]</span>
         </td>
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="month-number pointer">[[budget.cumulativeMonthNumber]]</td>
+        <td ng-click="showBudgetPopup(budget, 'fixed')" class="month-number pointer">[[budget.cumulativeMonthNumber]]</td>
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="cumulative pointer">[[budget.cumulative | number:2]]</td>
+        <td ng-click="showBudgetPopup(budget, 'fixed')" class="cumulative pointer">[[budget.cumulative | number:2]]</td>
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="pointer">[[budget.spentBeforeStartingDate | number:2]]</td>
+        <td ng-click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.spentBeforeStartingDate | number:2]]</td>
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="pointer">[[budget.spentAfterStartingDate | number:2]]</td>
+        <td ng-click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.spentAfterStartingDate | number:2]]</td>
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="received pointer">[[budget.receivedAfterStartingDate | number:2]]</td>
+        <td ng-click="showBudgetPopup(budget, 'fixed')" class="received pointer">[[budget.receivedAfterStartingDate | number:2]]</td>
 
-        <td ng-click="showBudgetPopup(tag, 'fixed')" class="remaining pointer">[[budget.remaining | number:2]]</td>
+        <td ng-click="showBudgetPopup(budget, 'fixed')" class="remaining pointer">[[budget.remaining | number:2]]</td>
 
         <td>
-            <button ng-click="removeBudget(tag)" class="btn btn-xs btn-danger">delete</button>
+            <button ng-click="deleteBudget(budget)" class="btn btn-xs btn-danger">delete</button>
         </td>
 
     </tr>

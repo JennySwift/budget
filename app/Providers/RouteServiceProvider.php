@@ -1,11 +1,16 @@
 <?php namespace App\Providers;
 
 use App\Models\Account;
+use App\Models\Budget;
 use App\Models\Tag;
+use App\Traits\ForCurrentUserTrait;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider {
+
+    use ForCurrentUserTrait;
 
 	/**
 	 * This namespace is applied to the controller routes in your routes file.
@@ -27,7 +32,12 @@ class RouteServiceProvider extends ServiceProvider {
 		parent::boot($router);
 
 		$router->model('accounts', Account::class);
-		$router->model('tags', Tag::class);
+//		$router->model('budgets', Budget::class);
+
+        Route::bind('budgets', function($id)
+        {
+            return Budget::forCurrentUser()->findOrFail($id);
+        });
 	}
 
 	/**

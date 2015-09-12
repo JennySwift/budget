@@ -3,9 +3,6 @@
         <span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
-        <li>
-            <a href="/tags">Tags</a>
-        </li>
 
         <li>
             <a href="/accounts">Accounts</a>

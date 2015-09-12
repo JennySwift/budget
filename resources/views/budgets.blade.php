@@ -40,18 +40,13 @@
 
         <div>
 
-            {{--<div class="margin-bottom">--}}
-            {{--<input ng-keyup="addFixedToSavings($event.keyCode)" type="text" placeholder="add fixed amount to savings" id="add-fixed-to-savings">--}}
-            {{--<input ng-keyup="addPercentageToSavings($event.keyCode)" type="text" placeholder="add percentage of RB to savings" id="add-percentage-to-savings">--}}
-            {{--</div>--}}
+            @include('templates.budgets.new-budget')
 
             <div ng-show="tab === 'fixed'">
-                @include('templates.budgets.fixed-budget-inputs')
                 @include('templates.budgets.fixed-budget-table')
             </div>
 
             <div ng-show="tab === 'flex'">
-                @include('templates.budgets.flex-budget-inputs')
                 @include('templates.budgets.flex-budget-table')
             </div>
 

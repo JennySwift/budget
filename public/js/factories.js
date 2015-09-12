@@ -168,38 +168,38 @@ app.factory('AutocompleteFactory', function ($http) {
 app.factory('BudgetsFactory', function ($http) {
 	return {
 
-        removeBudget: function ($tag) {
-            var $url = 'api/remove/budget';
-            var $data = {
-                tag_id: $tag.id,
-            };
-
-            return $http.post($url, $data);
-        },
-		update: function ($tag, $type) {
-            var $url = $tag.path;
-
-            var $data = {
-                tag_id: $tag.id,
-                column: $type + '_budget',
-                budget: $tag[$type + '_budget'],
-                starting_date: $tag.sql_starting_date
-            };
-            
-            return $http.put($url, $data);
-		},
-        create: function ($budget, $type) {
+        insert: function ($budget) {
             var $url = '/api/budgets';
 
             var $data = {
-                type: $type,
-				name: $budget.name,
+                type: $budget.type,
+                name: $budget.name,
                 amount: $budget.amount,
                 starting_date: $budget.sql_starting_date
             };
 
             return $http.post($url, $data);
         },
+
+		update: function ($budget) {
+            var $url = $budget.path;
+
+            var $data = {
+                id: $budget.id,
+                name: budget.name,
+                type: $budget.type,
+                amount: $budget.amount,
+                starting_date: $budget.sql_starting_date
+            };
+            
+            return $http.put($url, $data);
+		},
+
+        destroy: function ($budget) {
+            var $url = '/api/tags/'+$budget.id;
+
+            return $http.delete($url);
+        }
 
 	};
 });
@@ -461,60 +461,6 @@ app.factory('SavingsFactory', function ($http) {
 		}
 	};
 });
-app.factory('TagsFactory', function ($http) {
-    return {
-        /**
-         *
-         * @returns {*}
-         */
-        getTags: function () {
-            var $url = 'api/tags';
-
-            return $http.get($url);
-        },
-
-        /**
-         * Adds a new tag to tags table, not to a transaction
-         * @returns {*}
-         */
-        insertTag: function () {
-            var $url = '/api/tags';
-            var $data = {
-                name: $("#new-tag-input").val()
-            };
-            $("#tag-already-created").hide();
-
-            return $http.post($url, $data);
-        },
-
-        /**
-         *
-         * @param $tag_id
-         * @param $tag_name
-         * @returns {*}
-         */
-        updateTagName: function ($tag_id, $tag_name) {
-            var $url = 'api/tags/'+$tag_id+'/update';
-            var $data = {
-                name: $tag_name
-            };
-
-            return $http.put($url, $data);
-        },
-
-        /**
-         *
-         * @param $tag_id
-         * @returns {*}
-         */
-        deleteTag: function ($tag_id) {
-            var $url = '/api/tags/'+$tag_id;
-
-            return $http.delete($url);
-        }
-    };
-});
-
 app.factory('TransactionsFactory', function ($http) {
     var $object = {};
     $object.totals = {};

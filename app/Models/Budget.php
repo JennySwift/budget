@@ -183,6 +183,16 @@ class Budget extends Model
     }
 
     /**
+     * For when a new budget is created,
+     * calculated amount is returned with the new budget
+     * @param $remainingBalance
+     */
+    public function getCalculatedAmount($remainingBalance)
+    {
+        $this->calculatedAmount = $remainingBalance->amount / 100 * $this->amount;
+    }
+
+    /**
      *
      * @return bool
      */

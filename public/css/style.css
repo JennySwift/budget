@@ -1184,7 +1184,7 @@ caption {
     margin-bottom: 34px;
     padding: 10px 15px;
     border: 1px solid #777; }
-    #budget #budget-content .new-entry input {
+    #budget #budget-content .new-entry input, #budget #budget-content .new-entry select {
       margin-bottom: 10px; }
   #budget #budget-content tr {
     background: #fff; }

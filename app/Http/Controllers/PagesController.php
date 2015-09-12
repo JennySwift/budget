@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Models\Account;
 use App\Models\Budget;
+use App\Repositories\Budgets\BudgetsRepository;
 use App\Repositories\Transactions\FilterRepository;
 use Auth, JavaScript;
 
@@ -15,11 +16,17 @@ use Auth, JavaScript;
 class PagesController extends Controller {
 
     /**
+     * @var BudgetsRepository
+     */
+    private $budgetsRepository;
+
+    /**
      * Create a new controller instance.
      */
-    public function __construct()
+    public function __construct(BudgetsRepository $budgetsRepository)
     {
         $this->middleware('auth');
+        $this->budgetsRepository = $budgetsRepository;
     }
 
     /**
@@ -37,7 +44,7 @@ class PagesController extends Controller {
             'me' => Auth::user(),
             //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),
-            'budgets' => Budget::forCurrentUser()->orderBy('name', 'asc')->get(),
+            'budgets' => $this->budgetsRepository->getBudgets(),
             'filter_response' => $filterRepository->filterTransactions(),
 
             'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
@@ -128,13 +135,13 @@ class PagesController extends Controller {
      * GET /tags
      * @return Response
      */
-    public function tags()
-    {
-        JavaScript::put([
-            'me' => Auth::user()
-        ]);
-
-        return view('tags');
-    }
+//    public function tags()
+//    {
+//        JavaScript::put([
+//            'me' => Auth::user()
+//        ]);
+//
+//        return view('tags');
+//    }
 
 }
