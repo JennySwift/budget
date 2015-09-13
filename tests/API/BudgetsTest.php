@@ -57,18 +57,27 @@ class BudgetsTest extends TestCase {
 
         $budget = Budget::forCurrentUser()->first();
 
+        if ($budget->type == 'fixed') {
+            $type = 'flex';
+        }
+        else if ($budget->type == 'flex') {
+            $type = 'fixed';
+        }
+
         $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
-            'type' => ($budget->type == "fixed")?'flex':'fixed',
+//            'type' => ($budget->type == "fixed")?'flex':'fixed',
+            'type' => $type,
             'name' => 'jetskiing',
-            'amount' => 666,
+            'amount' => 123,
             'starting_date' => '2016-01-01'
         ]);
+
         $content = json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(($budget->type !== "fixed")?'flex':'fixed', $content['type']);
+        $this->assertEquals($type, $content['type']);
         $this->assertEquals('jetskiing', $content['name']);
-        $this->assertEquals('666', $content['amount']);
+        $this->assertEquals('123', $content['amount']);
         $this->assertTrue(is_array($content['starting_date']));
         $this->assertArrayHasKey('date', $content['starting_date']);
         $date = Carbon::parse($content['starting_date']['date']);
