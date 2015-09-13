@@ -13,11 +13,14 @@
                 display: flex;
                 justify-content: space-between;
                 .highlight {
-                    background-color: lightblue;
+                    background-color: $primary;
                     color: #ffffff;
+                    font-weight: bold;
+                    padding: 2px;
+                    border-radius: 4px;
                 }
                 &.selected {
-                    background-color: lightblue;
+                    background-color: $info;
                     color: #ffffff;
                 }
                 .fixed-label {

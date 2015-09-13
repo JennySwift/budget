@@ -614,10 +614,13 @@ caption {
       -ms-flex-pack: justify;
       justify-content: space-between; }
       .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .highlight {
-        background-color: lightblue;
-        color: #ffffff; }
+        background-color: #337ab7;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 2px;
+        border-radius: 4px; }
       .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item.selected {
-        background-color: lightblue;
+        background-color: #5bc0de;
         color: #ffffff; }
       .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .fixed-label {
         background: #337ab7; }

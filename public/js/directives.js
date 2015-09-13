@@ -263,7 +263,7 @@
                 };
 
                 $scope.hideDropdown = function () {
-                    //$scope.dropdown = false;
+                    $scope.dropdown = false;
                 };
 
                 $scope.highlightLetters = function ($response, $typing) {
