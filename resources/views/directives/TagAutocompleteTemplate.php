@@ -18,8 +18,9 @@
                 ng-mouseover="hoverItem($index)"
                 ng-class="{'selected': $index == currentIndex}"
                 class="dropdown-item">
-                <div
-                    ng-bind-html="budget.html">
+                <div ng-bind-html="budget.html"></div>
+                <div>
+                    <span class="label label-default [[budget.type]]-label">[[budget.type]]</span>
                 </div>
             </div>
         </div>

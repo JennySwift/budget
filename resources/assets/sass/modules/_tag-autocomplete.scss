@@ -10,6 +10,8 @@
             cursor: pointer;
             .dropdown-item {
                 padding: 4px 0;
+                display: flex;
+                justify-content: space-between;
                 .highlight {
                     background-color: lightblue;
                     color: #ffffff;
@@ -18,24 +20,30 @@
                     background-color: lightblue;
                     color: #ffffff;
                 }
-                &.fixed-budget {
-                    div {
-//                        background: $primary;
-                        &:after {
-                            content: ' fixed';
-                            font-size: 6px;
-                        }
-                    }
+                .fixed-label {
+                    background: $primary;
                 }
-                &.fixed-budget {
-                    div {
-//                        background: $warning;
-                        &:after {
-                            content: ' flex';
-                            font-size: 6px;
-                        }
-                    }
+                .flex-label {
+                    background: $warning;
                 }
+//                &.fixed-budget {
+//                    div {
+////                        background: $primary;
+//                        &:after {
+//                            content: ' fixed';
+//                            font-size: 6px;
+//                        }
+//                    }
+//                }
+//                &.fixed-budget {
+//                    div {
+////                        background: $warning;
+//                        &:after {
+//                            content: ' flex';
+//                            font-size: 6px;
+//                        }
+//                    }
+//                }
             }
 
         }
