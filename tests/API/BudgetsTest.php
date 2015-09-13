@@ -2,6 +2,7 @@
 
 use App\Models\Budget;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class BudgetsTest extends TestCase {
@@ -57,15 +58,66 @@ class BudgetsTest extends TestCase {
         $budget = Budget::forCurrentUser()->first();
 
         $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
-            'name' => 'jetskiing'
+            'type' => ($budget->type == "fixed")?'flex':'fixed',
+            'name' => 'jetskiing',
+            'amount' => 666,
+            'starting_date' => '2016-01-01'
         ]);
         $content = json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals($budget->type, $content['type']);
+        $this->assertEquals(($budget->type !== "fixed")?'flex':'fixed', $content['type']);
         $this->assertEquals('jetskiing', $content['name']);
-        $this->assertEquals($budget->amount, $content['amount']);
+        $this->assertEquals('666', $content['amount']);
         $this->assertTrue(is_array($content['starting_date']));
         $this->assertArrayHasKey('date', $content['starting_date']);
+        $date = Carbon::parse($content['starting_date']['date']);
+        $this->assertEquals('2016-01-01', $date->format('Y-m-d'));
+    }
+
+    /**
+     * A basic functional test example.
+     * @test
+     * @return void
+     */
+    public function it_does_not_updates_a_budget_if_values_are_the_same()
+    {
+        $user = User::first();
+        $this->be($user);
+
+        $budget = Budget::forCurrentUser()->first();
+
+        $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
+            'name' => $budget->name,
+            'amount' => $budget->amount
+        ]);
+
+        $this->assertEquals(304, $response->getStatusCode());
+        $this->seeInDatabase('budgets', [
+            'user_id' => $user->id,
+            'name' => $budget->name,
+            'amount' => $budget->amount
+        ]);
+    }
+
+    /**
+     * A basic functional test example.
+     * @test
+     * @return void
+     */
+    public function it_deletes_a_budget()
+    {
+        $user = User::first();
+        $this->be($user);
+
+        $budget = Budget::forCurrentUser()->first();
+
+        $response = $this->apiCall('DELETE', '/api/budgets/'.$budget->id);
+
+        $this->assertEquals(204, $response->getStatusCode());
+        $this->missingFromDatabase('budgets', [
+            'user_id' => $user->id,
+            'name' => $budget->name
+        ]);
     }
 }

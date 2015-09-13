@@ -63,7 +63,12 @@ class BudgetsController extends Controller
      */
     public function update(Request $request, Budget $budget)
     {
-        $data = array_filter(array_diff_assoc($request->only(['name', 'type', 'amount']), $budget->toArray()));
+        $data = array_filter(array_diff_assoc($request->only(['name', 'type', 'amount', 'starting_date']), $budget->toArray()));
+
+        if(empty($data)) {
+            return $this->responseNotModified();
+        }
+
         $budget->update($data);
 
         return $this->responseOk($budget);

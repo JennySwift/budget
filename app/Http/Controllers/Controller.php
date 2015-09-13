@@ -39,4 +39,13 @@ abstract class Controller extends BaseController {
         return response([], Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     * Create a 304 - No content response
+     * @return Response
+     */
+    public function responseNotModified()
+    {
+        return response([], Response::HTTP_NOT_MODIFIED);
+    }
+
 }
