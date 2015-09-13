@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Account;
-use App\Models\Budget;
 use App\Repositories\Budgets\BudgetsRepository;
-use App\Repositories\Transactions\FilterRepository;
+use App\Repositories\Filters\FilterRepository;
 use Auth, JavaScript;
 
 /**

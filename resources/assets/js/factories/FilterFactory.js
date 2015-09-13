@@ -3,10 +3,7 @@ app.factory('FilterFactory', function ($http) {
 
     $object.resetFilter = function () {
         $object.filter = {
-            budget: {
-                in: "all",
-                out: ""
-            },
+
             total: {
                 in: "",
                 out: ""
@@ -57,12 +54,16 @@ app.factory('FilterFactory', function ($http) {
                 in: "",
                 out: ""
             },
-            tags: {
+            budgets: {
                 in: {
                     and: [],
                     or: []
                 },
                 out: []
+            },
+            numBudgets: {
+                in: "all",
+                out: ""
             },
             reconciled: "any",
             offset: 0,

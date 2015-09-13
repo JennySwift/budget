@@ -8,7 +8,7 @@ use App\Models\Budget;
 use App\Models\Savings;
 use App\Models\Transaction;
 use App\Repositories\Savings\SavingsRepository;
-use App\Repositories\Transactions\FilterRepository;
+use App\Repositories\Filters\FilterRepository;
 use App\Repositories\Transactions\TransactionsRepository;
 use Auth;
 use DB;

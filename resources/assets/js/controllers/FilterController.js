@@ -13,7 +13,7 @@
 
         $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
-        //$scope.tags = tags_response;
+        $scope.budgets = budgets;
         $scope.types = ["income", "expense", "transfer"];
         $scope.totals = filter_response.totals;
         $scope.filterTab = 'show';
@@ -191,10 +191,10 @@
          */
         $scope.clearTagField = function ($type1, $type2) {
             if ($type2) {
-                $scope.filter.tags[$type1][$type2] = [];
+                $scope.filter.budgets[$type1][$type2] = [];
             }
             else {
-                $scope.filter.tags[$type1] = [];
+                $scope.filter.budgets[$type1] = [];
             }
         };
 
