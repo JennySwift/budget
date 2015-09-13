@@ -19,10 +19,10 @@ app.factory('BudgetsFactory', function ($http) {
 
             var $data = {
                 id: $budget.id,
-                name: budget.name,
+                name: $budget.name,
                 type: $budget.type,
                 amount: $budget.amount,
-                starting_date: $budget.sql_starting_date
+                starting_date: $budget.sqlStartingDate
             };
             
             return $http.put($url, $data);

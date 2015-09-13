@@ -9,7 +9,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         .module('budgetApp')
         .controller('BaseController', base);
 
-    function base ($scope, $http, $sce, FeedbackFactory, UsersFactory) {
+    function base ($scope, $http, $sce, TotalsFactory, UsersFactory) {
         /**
          * Scope properties
          */
@@ -34,6 +34,19 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
         $scope.clearTotalChanges = function () {
             $scope.totalChanges = {};
+        };
+
+        $scope.getTotals = function () {
+            $scope.showLoading();
+            TotalsFactory.getTotals()
+                .then(function (response) {
+                    $scope.updateTotalsAfterResponse(response);
+                    //$scope.provideFeedback('');
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
         };
 
         $scope.updateTotalsAfterResponse = function (response) {

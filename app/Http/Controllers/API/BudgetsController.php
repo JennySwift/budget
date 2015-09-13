@@ -54,6 +54,14 @@ class BudgetsController extends Controller
     }
 
     /**
+     * GET api/budgets{budgets}
+     */
+    public function show(Budget $budget)
+    {
+        return $this->responseOk($budget);
+    }
+
+    /**
      * Update the starting date for a budget
      * PUT api/budgets/{budgets}
      * @TODO Needs refactoring!!!!
@@ -70,6 +78,10 @@ class BudgetsController extends Controller
         }
 
         $budget->update($data);
+
+        //Put the calculated amount attribute on the budget
+        $remainingBalance = app('remaining-balance')->calculate();
+        $budget->getCalculatedAmount($remainingBalance);
 
         return $this->responseOk($budget);
 

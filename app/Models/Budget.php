@@ -19,7 +19,9 @@ class Budget extends Model
     protected $fillable = ['type', 'name', 'amount', 'starting_date'];
 
     protected $appends = [
-        'formattedStartingDate', 'spentAfterStartingDate', 'spentBeforeStartingDate', 'receivedAfterStartingDate',
+        'path',
+        'formattedStartingDate', 'spentAfterStartingDate',
+        'spentBeforeStartingDate', 'receivedAfterStartingDate',
         'cumulativeMonthNumber', 'cumulative', 'remaining'
     ];
 
@@ -62,6 +64,15 @@ class Budget extends Model
     public function incomes()
     {
         return $this->transactions()->whereType('income');
+    }
+    
+    /**
+     * Return the URL of the resource
+     * @return string
+     */
+    public function getPathAttribute()
+    {
+        return route('api.budgets.show', $this->id);
     }
 
     /**

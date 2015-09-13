@@ -1,4 +1,11 @@
 #accounts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    > * {
+        max-width: 500px;
+    }
     .create-new-account {
         @include createNew;
     }

@@ -4,7 +4,7 @@
 @section('controller', 'AccountsController')
 
 @section('page-content')
-    @include('templates.popups.settings.index')
+    @include('templates.accounts.popups.index')
 
     <div id="accounts">
 

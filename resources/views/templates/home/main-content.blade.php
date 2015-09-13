@@ -17,7 +17,7 @@
         {{--This line had to be inside the div or the scope property--}}
         {{--wouldn't work in the popup--}}
 
-        @include('templates.popups.home.index')
+        @include('templates.home.popups.index')
 
         @include('templates.home.transactions')
     </div>

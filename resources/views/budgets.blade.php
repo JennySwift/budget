@@ -6,7 +6,7 @@
 
 @section('page-content')
 
-    @include('templates.popups.budget/index')
+    @include('templates.budgets.popups.index')
 
     <div id="budget-toolbar">
         <div class="btn-group">

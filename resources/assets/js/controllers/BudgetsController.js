@@ -65,16 +65,17 @@
         };
 
         /**
-         * For updating budget (amount, starting date) for an existing budget
+         * For updating budget (name, type, amount, starting date) for an existing budget
          */
         $scope.updateBudget = function () {
             $scope.clearTotalChanges();
             $scope.showLoading();
-            $scope.budget_popup.sql_starting_date = $scope.formatDate($scope.budget_popup.formatted_starting_date);
-            BudgetsFactory.update($scope.budget_popup, $scope.budget_popup.type)
+            $scope.budget_popup.sqlStartingDate = $scope.formatDate($scope.budget_popup.formattedStartingDate);
+            BudgetsFactory.update($scope.budget_popup)
                 .then(function (response) {
-                    $scope.updateTotalsAfterResponse(response);
-                    //$scope.handleUpdateResponse(response, 'Budget updated');
+                    $scope.jsUpdateBudget(response);
+                    $scope.getTotals();
+                    //$scope.updateTotalsAfterResponse(response);
                     $scope.show.popups.budget = false;
                 })
                 .catch(function (response) {
@@ -82,12 +83,25 @@
                 });
         };
 
-        $scope.handleUpdateResponse = function (response, $message) {
-            FilterFactory.updateDataForControllers(response.data);
-            $scope.updateTotalsAfterResponse(response);
-            $scope.hideLoading();
-            $scope.provideFeedback($message);
+        $scope.jsUpdateBudget = function (response) {
+            var $budget = response.data;
+            if ($budget.type === 'flex') {
+                var $index = _.indexOf($scope.flexBudgets, _.findWhere($scope.flexBudgets, {id: response.data.id}));
+                $scope.flexBudgets[$index] = response.data;
+            }
+            else if ($budget.type === 'fixed') {
+                var $index = _.indexOf($scope.fixedBudgets, _.findWhere($scope.fixedBudgets, {id: response.data.id}));
+                $scope.fixedBudgets[$index] = response.data;
+            }
+
         };
+
+        //$scope.handleUpdateResponse = function (response, $message) {
+        //    FilterFactory.updateDataForControllers(response.data);
+        //    $scope.updateTotalsAfterResponse(response);
+        //    $scope.hideLoading();
+        //    $scope.provideFeedback($message);
+        //};
 
         $scope.deleteBudget = function ($budget) {
             if (confirm("Are you sure you want to delete this budget?")) {

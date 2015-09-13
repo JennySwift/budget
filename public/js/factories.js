@@ -186,10 +186,10 @@ app.factory('BudgetsFactory', function ($http) {
 
             var $data = {
                 id: $budget.id,
-                name: budget.name,
+                name: $budget.name,
                 type: $budget.type,
                 amount: $budget.amount,
-                starting_date: $budget.sql_starting_date
+                starting_date: $budget.sqlStartingDate
             };
             
             return $http.put($url, $data);
@@ -460,6 +460,17 @@ app.factory('SavingsFactory', function ($http) {
 			return $http.put($url, $data);
 		}
 	};
+});
+app.factory('TotalsFactory', function ($http) {
+    return {
+
+        getTotals: function () {
+            var $url = '/api/totals';
+
+            return $http.get($url);
+        }
+
+    };
 });
 app.factory('TransactionsFactory', function ($http) {
     var $object = {};

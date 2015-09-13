@@ -155,20 +155,32 @@ caption {
         border-radius: 8px;
         height: 32px; }
 
-.tag-with-budget {
-  background: green; }
-
-.tag-with-fixed-budget {
-  background: #337ab7; }
-  .tag-with-fixed-budget:after {
-    content: ' fixed';
-    font-size: 6px; }
-
-.tag-with-flex-budget {
-  background: #fca700; }
-  .tag-with-flex-budget:after {
-    content: ' flex';
-    font-size: 6px; }
+#tags {
+  margin-bottom: 20px; }
+  #tags .create-new-tag {
+    box-shadow: 3px 3px 5px #777;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    padding: 14px;
+    width: 293px; }
+    #tags .create-new-tag .flex {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between; }
+  #tags table {
+    padding: 20px 0 20px 20px; }
+    #tags table tr td {
+      text-align: left;
+      height: 50px; }
+      #tags table tr td .label {
+        font-size: 18px; }
+    #tags table tr .btn-danger {
+      visibility: hidden; }
+    #tags table tr:hover .btn-danger {
+      visibility: visible; }
 
 .error_message {
   font-size: 17px;
@@ -585,21 +597,6 @@ caption {
   -ms-flex-align: center;
   align-items: center; }
 
-.tag-with-budget {
-  background: green; }
-
-.tag-with-fixed-budget {
-  background: #337ab7; }
-  .tag-with-fixed-budget:after {
-    content: ' fixed';
-    font-size: 6px; }
-
-.tag-with-flex-budget {
-  background: #fca700; }
-  .tag-with-flex-budget:after {
-    content: ' flex';
-    font-size: 6px; }
-
 .tag-wrapper {
   width: 100%; }
   .tag-wrapper .tag-input-wrapper input {
@@ -643,6 +640,21 @@ caption {
 
 .hover-parent > *:hover {
   background: #b5b5b5; }
+
+.tag-with-budget {
+  background: green; }
+
+.tag-with-fixed-budget {
+  background: #337ab7; }
+  .tag-with-fixed-budget:after {
+    content: ' fixed';
+    font-size: 6px; }
+
+.tag-with-flex-budget {
+  background: #fca700; }
+  .tag-with-flex-budget:after {
+    content: ' flex';
+    font-size: 6px; }
 
 .list-group {
   border-radius: 5px; }
@@ -1208,6 +1220,21 @@ caption {
     width: 20px;
     font-size: 6px; }
 
+#edit-budget .popup-inner {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 300px;
+  height: 400px; }
+  #edit-budget .popup-inner input {
+    margin-bottom: 15px; }
+
 #graphs {
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1341,7 +1368,7 @@ caption {
     #tags table tr:hover .btn-danger {
       visibility: visible; }
 
-#tags, #accounts {
+#accounts {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -1352,10 +1379,30 @@ caption {
   -ms-flex-align: center;
   align-items: center;
   margin-top: 50px; }
-  #tags > *, #accounts > * {
+  #accounts > * {
     max-width: 500px; }
+  #accounts .create-new-account {
+    box-shadow: 3px 3px 5px #777;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    padding: 14px;
+    width: 293px; }
+    #accounts .create-new-account .flex {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between; }
+  #accounts tr .btn-danger {
+    visibility: hidden; }
+  #accounts tr:hover .btn-danger {
+    visibility: visible; }
+  #accounts tr td {
+    font-size: 17px;
+    height: 32px; }
 
-#edit-account-name .popup-inner, #edit-tag-name .popup-inner, #edit-budget .popup-inner {
+#edit-account-name .popup-inner {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -1367,34 +1414,5 @@ caption {
   align-items: center;
   width: 300px;
   height: 200px; }
-
-#edit-budget .popup-inner {
-  height: 240px; }
-  #edit-budget .popup-inner input {
-    margin-bottom: 15px; }
-
-#accounts .create-new-account {
-  box-shadow: 3px 3px 5px #777;
-  margin-bottom: 30px;
-  border-radius: 4px;
-  padding: 14px;
-  width: 293px; }
-  #accounts .create-new-account .flex {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
-    justify-content: space-between; }
-
-#accounts tr .btn-danger {
-  visibility: hidden; }
-
-#accounts tr:hover .btn-danger {
-  visibility: visible; }
-
-#accounts tr td {
-  font-size: 17px;
-  height: 32px; }
 
 /*# sourceMappingURL=style.css.map */
