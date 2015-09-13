@@ -624,21 +624,21 @@ var app = angular.module('budgetApp');
             }
         });
 
-        $scope.$watchCollection('filter.tags.in.and', function (newValue, oldValue) {
+        $scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
             $scope.filterTransactions();
         });
 
-        $scope.$watchCollection('filter.tags.in.or', function (newValue, oldValue) {
+        $scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
             $scope.filterTransactions();
         });
 
-        $scope.$watchCollection('filter.tags.out', function (newValue, oldValue) {
+        $scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }

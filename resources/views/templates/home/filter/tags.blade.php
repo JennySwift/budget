@@ -14,7 +14,6 @@
                         chosenTags="filter.budgets.in.and"
                         dropdown="filter.dropdown.in.and"
                         tags="budgets"
-                        fnOnEnter="filterTransactions()"
                         multipleTags="true">
                 </tag-autocomplete-directive>
 
@@ -32,7 +31,6 @@
                         chosenTags="filter.budgets.in.or"
                         dropdown="filter.dropdown.in.or"
                         tags="budgets"
-                        fnOnEnter="filterTransactions()"
                         multipleTags="true">
                 </tag-autocomplete-directive>
 
@@ -52,8 +50,7 @@
                 <tag-autocomplete-directive
                         chosenTags="filter.budgets.out"
                         dropdown="filter.dropdown"
-                        tags="tags"
-                        fnOnEnter="filterTransactions()"
+                        tags="budgets"
                         multipleTags="true">
                 </tag-autocomplete-directive>
 

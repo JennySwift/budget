@@ -5,6 +5,7 @@
         <input
             ng-model="typing"
             ng-focus="showDropdown()"
+            ng-blur="hideDropdown()"
             ng-keyup="filterTags($event.keyCode)"
             placeholder="tags"
             type='text'
