@@ -408,6 +408,7 @@ var app = angular.module('budgetApp');
         };
 
         $scope.jsUpdateBudget = function (response) {
+            //todo: allow for if budget type is changed. I will have to remove the budget from the table it was in
             var $budget = response.data;
             if ($budget.type === 'flex') {
                 var $index = _.indexOf($scope.flexBudgets, _.findWhere($scope.flexBudgets, {id: response.data.id}));
@@ -432,12 +433,26 @@ var app = angular.module('budgetApp');
                 $scope.showLoading();
                 BudgetsFactory.destroy($budget)
                     .then(function (response) {
-
+                        $scope.getTotals();
+                        $scope.jsDeleteBudget($budget);
+                        $scope.hideLoading();
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
                     });
             }
+        };
+
+        $scope.jsDeleteBudget = function ($budget) {
+            if ($budget.type === 'fixed') {
+                var $index = _.indexOf($scope.fixedBudgets, _.findWhere($scope.fixedBudgets, {id: $budget.id}));
+                $scope.fixedBudgets = _.without($scope.fixedBudgets, $budget);
+            }
+            else if ($budget.type === 'flex') {
+                var $index = _.indexOf($scope.flexBudgets, _.findWhere($scope.flexBudgets, {id: $budget.id}));
+                $scope.flexBudgets = _.without($scope.flexBudgets, $budget);
+            }
+
         };
 
 

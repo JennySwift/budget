@@ -44,7 +44,7 @@
         <td ng-click="showBudgetPopup(budget, 'flex')" class="received pointer">[[budget.receivedAfterStartingDate | number:2]]</td>
         <td ng-click="showBudgetPopup(budget, 'flex')" class="remaining pointer">[[budget.remaining | number:2]]</td>
         <td>
-            <button ng-click="removeBudget(budget)" class="btn btn-xs btn-danger">delete</button>
+            <button ng-click="deleteBudget(budget)" class="btn btn-xs btn-danger">delete</button>
         </td>
     </tr>
     <!-- allocated -->

@@ -29,7 +29,7 @@ app.factory('BudgetsFactory', function ($http) {
 		},
 
         destroy: function ($budget) {
-            var $url = '/api/tags/'+$budget.id;
+            var $url = '/api/budgets/'+$budget.id;
 
             return $http.delete($url);
         }
