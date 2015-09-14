@@ -53,12 +53,14 @@ class PagesTest extends TestCase {
      * @test
      * @return void
      */
-    public function it_can_display_the_budgets_page()
+    public function it_can_display_the_budget_pages()
     {
         $user = User::first();
         $this->be($user);
 
-        $this->visit('/budgets')->see('budget');
+        $this->visit('/budgets/fixed')->see('budget')->see('total');
+        $this->visit('/budgets/flex')->see('budget')->see('total');
+        $this->visit('/budgets/unassigned')->see('budget')->see('total');
     }
 
     /**
