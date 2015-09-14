@@ -1,0 +1,10 @@
+<totals-directive
+        {{--totals="totals"--}}
+        basictotals="basicTotals"
+        fixedbudgettotals="fixedBudgetTotals"
+        flexbudgettotals="flexBudgetTotals"
+        totalchanges="totalChanges"
+        remainingbalance="remainingBalance"
+        getTotals="getTotals()"
+        show="show">
+</totals-directive>

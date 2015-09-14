@@ -56,17 +56,37 @@ class PagesController extends Controller {
     }
 
     /**
-     * Show the application dashboard to the user.
-     * GET /budgets
+     * GET /fixed-budgets
      * @return Response
      */
-    public function budgets()
+    public function fixedBudgets()
     {
         $remainingBalance = app('remaining-balance')->calculate();
 
         JavaScript::put([
             'me' => Auth::user(),
             'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
+//            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
+            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+            'remainingBalance' => $remainingBalance->amount
+        ]);
+
+        return view('budgets/fixed');
+    }
+
+    /**
+     * GET /flex-budgets
+     * @return Response
+     */
+    public function flexBudgets()
+    {
+        $remainingBalance = app('remaining-balance')->calculate();
+
+        JavaScript::put([
+            'me' => Auth::user(),
+//            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
             'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
             'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
             'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
@@ -74,7 +94,28 @@ class PagesController extends Controller {
             'remainingBalance' => $remainingBalance->amount
         ]);
 
-        return view('budgets');
+        return view('budgets/flex');
+    }
+
+    /**
+     * GET /unassigned-budgets
+     * @return Response
+     */
+    public function unassignedBudgets()
+    {
+        $remainingBalance = app('remaining-balance')->calculate();
+
+        JavaScript::put([
+            'me' => Auth::user(),
+//            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
+//            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
+            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+            'remainingBalance' => $remainingBalance->amount
+        ]);
+
+        return view('budgets/unassigned');
     }
 
     public function preferences()

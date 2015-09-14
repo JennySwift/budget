@@ -127,7 +127,7 @@ class FlexBudgetTotal implements Arrayable, BudgetTotal {
         });
         $this->calculateAndSet('calculatedAmount');
         $this->calculateAndSet('remaining');
-        $this->allocatedPlusUnallocatedCalculatedAmount = $this->amount;
+        $this->allocatedPlusUnallocatedCalculatedAmount = $remainingBalance->amount;
         $this->unallocatedCalculatedAmount = $this->amount - $this->calculatedAmount;
         $this->unallocatedPlusCalculatedRemaining = $this->amount - $this->calculatedAmount;
         $this->allocatedPlusUnallocatedRemaining = $this->amount + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;

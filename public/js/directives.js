@@ -373,7 +373,7 @@
                 "provideFeedback" : "&providefeedback",
                 "show": "=show"
             },
-            templateUrl: 'totals-directive',
+            templateUrl: '/totals-directive',
             //scope: true,
             link: function($scope, elem, attrs) {
                 //$scope.filterFactory = FilterFactory;

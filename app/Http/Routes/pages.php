@@ -6,6 +6,8 @@
  */
 Route::get('/', 'PagesController@home');
 Route::get('accounts', 'PagesController@accounts');
-Route::get('budgets', 'PagesController@budgets');
+Route::get('budgets/fixed', 'PagesController@fixedBudgets');
+Route::get('budgets/flex', 'PagesController@flexBudgets');
+Route::get('budgets/unassigned', 'PagesController@unassignedBudgets');
 Route::get('help', 'PagesController@help'); // Skipped in code review
 Route::get('preferences', 'PagesController@preferences'); // Done after code review

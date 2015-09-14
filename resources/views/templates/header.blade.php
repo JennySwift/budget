@@ -18,9 +18,7 @@
 
         @include('templates.header.user')
 
-        <li>
-            <a href="/budgets" class="fa fa-usd"></a>
-        </li>
+        @include('templates.header.budgets')
 
         @include('templates.header.help')
 
