@@ -5,6 +5,7 @@ use Auth;
 use Debugbar;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class FilterRepository
@@ -50,6 +51,7 @@ class FilterRepository {
         $this->filterNumBudgetsRepository = $filterNumBudgetsRepository;
         $this->filterBasicsRepository = $filterBasicsRepository;
         $this->filterTotalsRepository = $filterTotalsRepository;
+        $this->defaults = Config::get('filters.defaults');
     }
 
     /**
@@ -62,77 +64,75 @@ class FilterRepository {
      */
     private $filters;
 
-    /**
-     * @VP:
-     * Can this go somewhere else?
-     * @var array
-     */
-    protected $defaults = [
-        "total" => [
-            "in" => "",
-            "out" => ""
-        ],
-        "types" => [
-            "in" => [],
-            "out" => []
-        ],
-        "accounts" => [
-            "in" => [],
-            "out" => []
-        ],
-        "single_date" => [
-            "in" => [
-                "user" => "",
-                "sql" => ""
-            ],
-            "out" => [
-                "user" => "",
-                "sql" => ""
-            ],
-        ],
-        "from_date" => [
-            "in" => [
-                "user" => "",
-                "sql" => ""
-            ],
-            "out" => [
-                "user" => "",
-                "sql" => ""
-            ],
-        ],
-        "to_date" => [
-            "in" => [
-                "user" => "",
-                "sql" => ""
-            ],
-            "out" => [
-                "user" => "",
-                "sql" => ""
-            ],
-        ],
-        "description" => [
-              "in" => "",
-              "out" => ""
-        ],
-        "merchant" => [
-              "in" => "",
-              "out" => ""
-        ],
-        "budgets" => [
-            "in" => [
-                "and" => [],
-                "or" => []
-            ],
-            "out" => []
-        ],
-        "numBudgets" => [
-            "in" => "all",
-            "out" => ""
-        ],
-        "reconciled" => "any",
-        "offset" => 0,
-        "num_to_fetch" => 30
-    ];
+//    /**
+//     * @var array
+//     */
+//    protected $defaults = [
+//        "total" => [
+//            "in" => "",
+//            "out" => ""
+//        ],
+//        "types" => [
+//            "in" => [],
+//            "out" => []
+//        ],
+//        "accounts" => [
+//            "in" => [],
+//            "out" => []
+//        ],
+//        "single_date" => [
+//            "in" => [
+//                "user" => "",
+//                "sql" => ""
+//            ],
+//            "out" => [
+//                "user" => "",
+//                "sql" => ""
+//            ],
+//        ],
+//        "from_date" => [
+//            "in" => [
+//                "user" => "",
+//                "sql" => ""
+//            ],
+//            "out" => [
+//                "user" => "",
+//                "sql" => ""
+//            ],
+//        ],
+//        "to_date" => [
+//            "in" => [
+//                "user" => "",
+//                "sql" => ""
+//            ],
+//            "out" => [
+//                "user" => "",
+//                "sql" => ""
+//            ],
+//        ],
+//        "description" => [
+//              "in" => "",
+//              "out" => ""
+//        ],
+//        "merchant" => [
+//              "in" => "",
+//              "out" => ""
+//        ],
+//        "budgets" => [
+//            "in" => [
+//                "and" => [],
+//                "or" => []
+//            ],
+//            "out" => []
+//        ],
+//        "numBudgets" => [
+//            "in" => "all",
+//            "out" => ""
+//        ],
+//        "reconciled" => "any",
+//        "offset" => 0,
+//        "num_to_fetch" => 30
+//    ];
 
     /**
      * Filter the transactions
@@ -142,7 +142,6 @@ class FilterRepository {
      */
     public function filterTransactions(array $filters = [])
     {
-//        dd($filters);
         // Merge the argument with the defaults
         $this->filters = array_merge($this->defaults, $filters);
 

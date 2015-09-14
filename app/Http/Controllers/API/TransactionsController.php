@@ -59,13 +59,14 @@ class TransactionsController extends Controller
     }
 
     /**
-     *
+     * POST api/select/filter
      * @param Request $request
      * @param TransactionsRepository $transactionsRepository
      * @return array
      */
     public function filterTransactions(Request $request)
     {
+//        dd($request->get('filter'));
         return $this->filterRepository->filterTransactions($request->get('filter'));
     }
 

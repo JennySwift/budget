@@ -38,20 +38,19 @@ class FilterNumBudgetsRepository {
      */
     private function filterInNumBudgets($query, $value)
     {
-        dd($value);
         if ($value['in'] === "zero") {
-            $ids = Transaction::where('user_id', Auth::user()->id)
-                ->has('tagsWithBudget', 0)
+            $ids = Transaction::forCurrentUser()
+                ->has('assignedBudgets', 0)
                 ->lists('id');
         }
         elseif ($value['in'] === "single") {
-            $ids = Transaction::where('user_id', Auth::user()->id)
-                ->has('tagsWithBudget', 1)
+            $ids = Transaction::forCurrentUser()
+                ->has('assignedBudgets', 1)
                 ->lists('id');
         }
         elseif ($value['in'] === "multiple") {
-            $ids = Transaction::where('user_id', Auth::user()->id)
-                ->has('tagsWithBudget', '>', 1)
+            $ids = Transaction::forCurrentUser()
+                ->has('assignedBudgets', '>', 1)
                 ->lists('id');
         }
 
@@ -67,18 +66,18 @@ class FilterNumBudgetsRepository {
     private function filterOutNumBudgets($query, $value)
     {
         if ($value['out'] === "zero") {
-            $ids = Transaction::where('user_id', Auth::user()->id)
-                ->has('budgetsWithBudget', 0)
+            $ids = Transaction::forCurrentUser()
+                ->has('assignedBudgets', 0)
                 ->lists('id');
         }
         elseif ($value['out'] === "single") {
-            $ids = Transaction::where('user_id', Auth::user()->id)
-                ->has('tagsWithBudget', 1)
+            $ids = Transaction::forCurrentUser()
+                ->has('assignedBudgets', 1)
                 ->lists('id');
         }
         elseif ($value['out'] === "multiple") {
-            $ids = Transaction::where('user_id', Auth::user()->id)
-                ->has('tagsWithBudget', '>', 1)
+            $ids = Transaction::forCurrentUser()
+                ->has('assignedBudgets', '>', 1)
                 ->lists('id');
         }
 

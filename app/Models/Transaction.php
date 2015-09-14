@@ -35,7 +35,7 @@ class Transaction extends Model
     }
 
     /**
-     * Get tags for one transaction
+     * Get budgets for one transaction, assigned or unassigned
      * Todo: set the allocation type?
      * @return $this
      */
@@ -45,6 +45,33 @@ class Transaction extends Model
             ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation')
             ->orderBy('name', 'asc');
     }
+
+    /**
+     * Get budgets (only assigned budgets) for one transaction.
+     * @return mixed
+     */
+    public function assignedBudgets()
+    {
+        return $this->belongsToMany('App\Models\Budget', 'budgets_transactions')
+//            ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation')
+            ->where('budgets.type', '!=', 'unassigned');
+//            ->orderBy('name', 'asc');
+    }
+
+    /**
+     *
+     * @param $transaction_id
+     * @return bool
+     */
+    public function hasMultipleBudgets()
+    {
+        if (count($this->budgets) > 1) {
+            return true;
+        }
+
+        return false;
+    }
+
 
     /**
      * Total attribute
@@ -59,23 +86,23 @@ class Transaction extends Model
      * Get the transaction's tags that have a budget
      * @return $this
      */
-    public function tagsWithBudget()
-    {
-        return $this->belongsToMany('App\Models\Tag', 'transactions_tags')
-            ->where('budget_id', '!=', 'null')
-            ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation');
-    }
+//    public function tagsWithBudget()
+//    {
+//        return $this->belongsToMany('App\Models\Tag', 'transactions_tags')
+//            ->where('budget_id', '!=', 'null')
+//            ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation');
+//    }
 
     /**
      * Get the transaction's tags that have a flex budget
      * @return $this
      */
-    public function tagsWithFlexBudget()
-    {
-        return $this->belongsToMany('App\Models\Tag', 'transactions_tags')
-                    ->where('budget_id', 2)
-                    ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation');
-    }
+//    public function tagsWithFlexBudget()
+//    {
+//        return $this->belongsToMany('App\Models\Tag', 'transactions_tags')
+//                    ->where('budget_id', 2)
+//                    ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation');
+//    }
 
     /**
      *
@@ -114,35 +141,6 @@ class Transaction extends Model
         DB::table('transactions_tags')
             ->where('transaction_id', $transaction->id)
             ->delete();
-    }
-
-    /**
-     *
-     * @param $transaction_id
-     * @return bool
-     */
-    public function hasMultipleBudgets()
-    {
-//        $tag_with_budget_counter = 0;
-//        $multiple_budgets = false;
-
-//        foreach ($this->budgets as $budget) {
-//            if ($budget->fixed_budget || $budget->flex_budget) {
-//                //the tag has a budget
-//                $tag_with_budget_counter++;
-//            }
-//        }
-//
-//        if ($tag_with_budget_counter > 1) {
-//            //the transaction has more than one tag that has a budget
-//            $multiple_budgets = true;
-//        }
-
-        if (count($this->budgets) > 1) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

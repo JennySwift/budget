@@ -114,6 +114,9 @@ class TotalsTest extends TestCase {
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
     }
 
+    //Todo: Check all other total columns are correct, for each table
+    //Todo: Check 'remaining' rows are correct
+
 	/**
 	 * A basic functional test example.
 	 * @test
