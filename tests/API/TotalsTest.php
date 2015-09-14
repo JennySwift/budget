@@ -14,6 +14,49 @@ class TotalsTest extends TestCase {
     use DatabaseTransactions;
 
     /**
+     * @var
+     */
+    protected $user;
+
+    /**
+     * @var
+     */
+    protected $totals;
+
+    /**
+     * @var
+     */
+    protected $remainingBalance;
+
+    /**
+     * @var
+     */
+    protected $response;
+
+    /**
+     * @var
+     */
+    protected $fixedBudgetTotals;
+
+    /**
+     * @var
+     */
+    protected $flexBudgetTotals;
+
+    /**
+     *
+     */
+    private function setProperties()
+    {
+        $this->user = $this->logInUser();
+        $this->response = $this->getResponse();
+        $this->totals = $this->getTotals($this->response);
+        $this->remainingBalance = $this->totals['remainingBalance'];
+        $this->fixedBudgetTotals = $this->totals['fixedBudgetTotals'];
+        $this->flexBudgetTotals = $this->totals['flexBudgetTotals'];
+    }
+
+    /**
      * Get the totals response
      * @return Response
      */
@@ -27,9 +70,48 @@ class TotalsTest extends TestCase {
      * @param $response
      * @return mixed
      */
-    private function getTotals($response)
+    private function getTotals()
     {
-        return json_decode($response->getContent(), true);
+        return json_decode($this->response->getContent(), true);
+    }
+
+    /**
+     * A basic functional test example.
+     * @test
+     * @return void
+     */
+    public function remaining_balance_is_sum_of_figures()
+    {
+        $this->setProperties();
+
+        $sum = $this->totals['basicTotals']['credit']
+            - $this->fixedBudgetTotals['remaining']
+            + $this->totals['basicTotals']['EWB']
+            + $this->flexBudgetTotals['spentBeforeStartingDate']
+            + $this->fixedBudgetTotals['spentBeforeStartingDate']
+            + $this->fixedBudgetTotals['spentAfterStartingDate']
+            - $this->totals['basicTotals']['savings'];
+
+        $this->assertEquals($sum, $this->remainingBalance);
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * A basic functional test example.
+     * @test
+     * @return void
+     */
+    public function fixed_budget_amount_total_is_sum_of_amount_columns()
+    {
+        $this->setProperties();
+
+        $sum = 0;
+        foreach ($this->fixedBudgetTotals['budget'] as $budget) {
+            $sum+= $budget['amount'];
+        }
+
+        $this->assertEquals($sum, $this->fixedBudgetTotals['amount']);
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
     }
 
 	/**
@@ -39,11 +121,9 @@ class TotalsTest extends TestCase {
 	 */
 	public function flex_budget_total_calculated_amount_equals_remaining_balance()
 	{
-        $user = $this->logInUser();
-        $response = $this->getResponse();
-        $totals = $this->getTotals($response);
+        $this->setProperties();
 
-        $this->assertEquals($totals['flexBudgetTotals']['allocatedPlusUnallocatedCalculatedAmount'], $totals['remainingBalance']);
-		$this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals($this->remainingBalance, $this->flexBudgetTotals['allocatedPlusUnallocatedCalculatedAmount']);
+		$this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
 	}
 }

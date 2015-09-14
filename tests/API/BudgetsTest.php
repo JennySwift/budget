@@ -49,17 +49,20 @@ class BudgetsTest extends TestCase {
      * @test
      * @return void
      */
-    public function it_updates_a_budget()
+    public function it_updates_an_assigned_budget()
     {
         $this->logInUser();
 
-        $budget = Budget::forCurrentUser()->first();
+        $budget = Budget::forCurrentUser()->where('type', '!=', 'unassigned')->first();
 
         if ($budget->type == 'fixed') {
             $type = 'flex';
         }
         else if ($budget->type == 'flex') {
             $type = 'fixed';
+        }
+        else if ($budget->type == 'unassigned') {
+            $type = 'unassigned';
         }
 
         $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
@@ -87,11 +90,11 @@ class BudgetsTest extends TestCase {
      * @test
      * @return void
      */
-    public function it_does_not_updates_a_budget_if_values_are_the_same()
+    public function it_does_not_update_an_assigned_budget_if_values_are_the_same()
     {
         $user = $this->logInUser();
 
-        $budget = Budget::forCurrentUser()->first();
+        $budget = Budget::forCurrentUser()->where('type', '!=', 'unassigned')->first();
 
         $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
             'name' => $budget->name,
