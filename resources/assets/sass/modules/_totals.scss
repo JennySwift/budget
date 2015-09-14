@@ -4,6 +4,16 @@
     padding-bottom: 10px;
     td {
         text-align: right;
+        &:first-child {
+            max-width: 200px;
+        }
+        padding: 3px 5px;
+
+    }
+    tr:not(:last-child) {
+        td {
+            border-bottom: 1px solid #777;
+        }
     }
 //    .changed {
 //        position: absolute;

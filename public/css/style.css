@@ -558,7 +558,12 @@ caption {
   margin-bottom: 20px;
   padding-bottom: 10px; }
   .totals td {
-    text-align: right; }
+    text-align: right;
+    padding: 3px 5px; }
+    .totals td:first-child {
+      max-width: 200px; }
+  .totals tr:not(:last-child) td {
+    border-bottom: 1px solid #777; }
 
 #loading {
   position: absolute;
@@ -1180,9 +1185,6 @@ caption {
     #budget #budget-toolbar .btn-group button.selected {
       background: #5cb85c;
       color: white; }
-
-#budget .budget-table {
-  margin: auto; }
 
 #budget .new-entry {
   max-width: 433px;
