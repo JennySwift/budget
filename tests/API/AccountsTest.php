@@ -15,8 +15,7 @@ class AccountsTest extends TestCase {
 	 */
 	public function it_lists_all_the_accounts()
 	{
-        $user = User::first();
-		$this->be($user);
+        $this->logInUser();
 
         $accounts = Account::all();
 
@@ -38,8 +37,7 @@ class AccountsTest extends TestCase {
      */
     public function it_displays_an_account()
     {
-        $user = User::first();
-        $this->be($user);
+        $user = $this->logInUser();
 
         $account = Account::forCurrentUser()->first();
 
@@ -62,8 +60,7 @@ class AccountsTest extends TestCase {
 	 */
 	public function it_can_add_a_new_account()
 	{
-		$user = User::first();
-		$this->be($user);
+        $this->logInUser();
 
         $account = [
             'name' => 'kangaroo'
@@ -86,8 +83,7 @@ class AccountsTest extends TestCase {
      */
     public function it_cannot_add_a_new_account_without_proper_data()
     {
-        $user = User::first();
-        $this->be($user);
+        $this->logInUser();
 
         // No name provided
         $response = $this->apiCall('POST', '/api/accounts', []);
@@ -109,8 +105,7 @@ class AccountsTest extends TestCase {
      */
     public function it_can_update_an_existing_account()
     {
-        $user = User::first();
-        $this->be($user);
+        $this->logInUser();
 
         $account = Account::forCurrentUser()->first();
 
@@ -133,8 +128,7 @@ class AccountsTest extends TestCase {
      */
     public function it_can_delete_an_account()
     {
-        $user = User::first();
-        $this->be($user);
+        $user = $this->logInUser();
 
         $name = 'echidna';
 

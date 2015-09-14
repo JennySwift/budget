@@ -16,8 +16,7 @@ class BudgetsTest extends TestCase {
 	 */
 	public function it_creates_a_new_budget()
 	{
-        $user = User::first();
-		$this->be($user);
+        $this->logInUser();
 
         $budget = [
             'type' => 'fixed',
@@ -52,8 +51,7 @@ class BudgetsTest extends TestCase {
      */
     public function it_updates_a_budget()
     {
-        $user = User::first();
-        $this->be($user);
+        $this->logInUser();
 
         $budget = Budget::forCurrentUser()->first();
 
@@ -91,8 +89,7 @@ class BudgetsTest extends TestCase {
      */
     public function it_does_not_updates_a_budget_if_values_are_the_same()
     {
-        $user = User::first();
-        $this->be($user);
+        $user = $this->logInUser();
 
         $budget = Budget::forCurrentUser()->first();
 
@@ -116,8 +113,7 @@ class BudgetsTest extends TestCase {
      */
     public function it_deletes_a_budget()
     {
-        $user = User::first();
-        $this->be($user);
+        $user = $this->logInUser();
 
         $budget = Budget::forCurrentUser()->first();
 

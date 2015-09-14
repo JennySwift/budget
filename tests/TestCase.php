@@ -1,5 +1,7 @@
 <?php
 
+use App\User;
+
 class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 	protected $baseUrl = "http://localhost";
@@ -38,5 +40,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 		return parent::call($method, $uri, $parameters, $cookies, $files, $server, $content);
 	}
+
+    public function logInUser()
+    {
+        $user = User::first();
+        $this->be($user);
+        return $user;
+    }
 
 }

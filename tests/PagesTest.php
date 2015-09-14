@@ -25,8 +25,7 @@ class PagesTest extends TestCase {
 	 */
 	public function it_can_display_the_homepage()
 	{
-		$user = User::first();
-		$this->be($user);
+        $user = $this->logInUser();
 
         $transaction = \App\Models\Transaction::first();
 
@@ -42,8 +41,7 @@ class PagesTest extends TestCase {
      */
     public function it_can_display_the_accounts_page()
     {
-        $user = User::first();
-        $this->be($user);
+        $this->logInUser();
 
         $this->visit('/accounts')->see('account');
     }
@@ -55,8 +53,7 @@ class PagesTest extends TestCase {
      */
     public function it_can_display_the_budget_pages()
     {
-        $user = User::first();
-        $this->be($user);
+        $this->logInUser();
 
         $this->visit('/budgets/fixed')->see('budget')->see('total');
         $this->visit('/budgets/flex')->see('budget')->see('total');
@@ -70,8 +67,7 @@ class PagesTest extends TestCase {
      */
     public function it_can_display_the_help_page()
     {
-        $user = User::first();
-        $this->be($user);
+        $this->logInUser();
 
         $this->visit('/help')->see('help');
     }
@@ -83,8 +79,7 @@ class PagesTest extends TestCase {
      */
     public function it_can_display_the_preferences_page()
     {
-        $user = User::first();
-        $this->be($user);
+        $this->logInUser();
 
         $this->visit('/preferences')
             ->see('preferences')

@@ -15,8 +15,7 @@ class SavingsTest extends TestCase {
 	 */
 	public function it_sets_the_savings_amount()
 	{
-        $user = User::first();
-		$this->be($user);
+        $user = $this->logInUser();
 
         $savings = Savings::forCurrentUser()->first();
         $this->seeInDatabase('savings', [
@@ -39,8 +38,7 @@ class SavingsTest extends TestCase {
      */
     public function it_increases_the_savings_amount()
     {
-        $user = User::first();
-        $this->be($user);
+        $user = $this->logInUser();
 
         $savings = Savings::forCurrentUser()->first();
         $this->seeInDatabase('savings', [
@@ -63,9 +61,7 @@ class SavingsTest extends TestCase {
      */
     public function it_decreases_the_savings_amount()
     {
-        $user = User::first();
-        $this->be($user);
-
+        $user = $this->logInUser();
 
         $savings = Savings::forCurrentUser()->first();
         $this->seeInDatabase('savings', [
@@ -86,9 +82,7 @@ class SavingsTest extends TestCase {
      */
     public function it_cannot_decrease_with_a_higher_amount()
     {
-        $user = User::first();
-        $this->be($user);
-
+        $user = $this->logInUser();
 
         $savings = Savings::forCurrentUser()->first();
         $this->seeInDatabase('savings', [
@@ -114,8 +108,7 @@ class SavingsTest extends TestCase {
      */
     public function it_cannot_set_a_negative_savings_amount()
     {
-        $user = User::first();
-        $this->be($user);
+        $user = $this->logInUser();
 
         $savings = Savings::forCurrentUser()->first();
         $this->seeInDatabase('savings', [
@@ -137,8 +130,7 @@ class SavingsTest extends TestCase {
      */
     public function it_cannot_set_a_string_as_savings_amount()
     {
-        $user = User::first();
-        $this->be($user);
+        $user = $this->logInUser();
 
         $savings = Savings::forCurrentUser()->first();
         $this->seeInDatabase('savings', [
