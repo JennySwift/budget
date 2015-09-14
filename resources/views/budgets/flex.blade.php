@@ -11,16 +11,15 @@
 
         @include('templates.budgets.toolbar')
 
+        @include('templates.budgets.new-budget')
+
         <div id="budget-content">
 
             @include('templates.budgets.totals')
             @include('templates.feedback')
 
-            <div>
-
-                @include('templates.budgets.new-budget')
+            <div class="budget-table">
                 @include('templates.budgets.flex-budget-table')
-
             </div>
 
             <span id="budget_hover_span" class="tooltipster" title=""></span>

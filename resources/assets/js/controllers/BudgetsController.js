@@ -8,6 +8,14 @@
         /**
          * scope properties
          */
+
+        $scope.show = {
+            newBudget: false
+        };
+
+        $scope.toggleNewBudget = function () {
+            $scope.show.newBudget = true;
+        };
         //$scope.fixedBudgets = fixedBudgets;
         //$scope.flexBudgets = flexBudgets;
         //$scope.feedbackFactory = FeedbackFactory;

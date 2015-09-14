@@ -84,6 +84,9 @@ select {
 	padding-top: 4px;
 	width: 100%;
 	height: 30px;
+    &.form-control {
+        display: inline;
+    }
 }
 
 input {

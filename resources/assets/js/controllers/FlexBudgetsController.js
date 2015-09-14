@@ -14,6 +14,7 @@
 
         $scope.show.basic_totals = true;
         $scope.show.budget_totals = true;
+
         //$scope.tab = 'flex';
         $scope.newBudget = {
             type: 'fixed'

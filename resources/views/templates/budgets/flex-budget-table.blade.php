@@ -5,24 +5,37 @@
 
     <tr>
         <th>Name</th>
-        <th class="tooltipster" title="# percent of F/I">%</th>
-        <th class="tooltipster" title="amount (% column % of F/I)">A</th>
-        <th class="tooltipster" title="cumulative starting date">SD</th>
-        <th class="tooltipster" title="cumulative month number">CMN</th>
+        <th class="tooltipster" title="# percent of F/I">Amount</th>
+        <th class="tooltipster" title="amount (% column % of F/I)">
+            <div>Calculated</div>
+            <div>amount</div>
+        </th>
+        <th class="tooltipster" title="cumulative starting date">
+            <div>Starting</div>
+            <div>date</div>
+        </th>
+        <th class="tooltipster" title="cumulative month number">
+            <div>Cumulative</div>
+            <div>month</div>
+            <div>number</div>
+        </th>
 
         <th class="tooltipster" title="spent before starting date">
-            <i class="fa fa-minus"></i>
+            <div>Spent before</div>
+            <div>starting date</div>
         </th>
 
         <th class="tooltipster" title="spent after starting date">
-            <i class="fa fa-minus"></i>
+            <div>Spent after</div>
+            <div>starting date</div>
         </th>
 
         <th class="tooltipster" title="received after starting date">
-            <i class="fa fa-plus"></i>
+            <div>Received after</div>
+            <div>starting date</div>
         </th>
 
-        <th class="tooltipster" title="remaining">R</th>
+        <th class="tooltipster" title="remaining">Remaining</th>
 
         <th>
             <i class="fa fa-times"></i>

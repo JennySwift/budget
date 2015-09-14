@@ -332,6 +332,14 @@ var app = angular.module('budgetApp');
         /**
          * scope properties
          */
+
+        $scope.show = {
+            newBudget: false
+        };
+
+        $scope.toggleNewBudget = function () {
+            $scope.show.newBudget = true;
+        };
         //$scope.fixedBudgets = fixedBudgets;
         //$scope.flexBudgets = flexBudgets;
         //$scope.feedbackFactory = FeedbackFactory;
@@ -1055,6 +1063,7 @@ var app = angular.module('budgetApp');
 
         $scope.show.basic_totals = true;
         $scope.show.budget_totals = true;
+
         //$scope.tab = 'flex';
         $scope.newBudget = {
             type: 'fixed'

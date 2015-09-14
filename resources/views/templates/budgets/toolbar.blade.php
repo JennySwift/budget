@@ -12,5 +12,6 @@
             {{--Flex Budgets--}}
         {{--</button>--}}
     {{--</div>--}}
-    @include('templates.budgets.help')
+{{--    @include('templates.budgets.help')--}}
+    <button ng-click="toggleNewBudget()" class="btn btn-info">New</button>
 </div>

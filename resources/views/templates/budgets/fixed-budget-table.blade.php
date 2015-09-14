@@ -5,24 +5,37 @@
 
     <tr>
         <th>Name</th>
-        <th class="tooltipster" title="amount">A</th>
-        <th class="tooltipster" title="cumulative starting date">SD</th>
-        <th class="tooltipster" title="cumulative month number">CMN</th>
-        <th class="tooltipster" title="cumulative (amount * cumulative month number)">C</th>
-
-        <th class="tooltipster" title="spent before cumulative starting date">
-            <i class="fa fa-minus"></i>
+        <th class="tooltipster" title="amount">Amount</th>
+        <th class="tooltipster" title="cumulative starting date">
+            <div>Starting</div>
+            <div>date</div>
+        </th>
+        <th class="tooltipster" title="cumulative month number">
+            <div>Cumulative</div>
+            <div>month</div>
+            <div>number</div>
+        </th>
+        <th class="tooltipster" title="cumulative (amount * cumulative month number)">
+            <div>Cumulative</div>
+            <div>amount</div>
         </th>
 
-        <th class="tooltipster" title="spent since cumulative starting date">
-            <i class="fa fa-minus"></i>
+        <th class="tooltipster" title="spent before starting date">
+            <div>Spent before</div>
+            <div>starting date</div>
+        </th>
+
+        <th class="tooltipster" title="spent after starting date">
+            <div>Spent after</div>
+            <div>starting date</div>
         </th>
 
         <th class="tooltipster" title="received after starting date">
-            <i class="fa fa-plus"></i>
+            <div>Received after</div>
+            <div>starting date</div>
         </th>
 
-        <th class="tooltipster" title="remaining  (cumulative + spent + received)">R</th>
+        <th class="tooltipster" title="remaining  (cumulative + spent + received)">Remaining</th>
 
         <th>
             <i class="fa fa-times"></i>
