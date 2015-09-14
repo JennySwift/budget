@@ -4,10 +4,33 @@ use App\Models\Budget;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 
+/**
+ * Class TotalsTest
+ */
 class TotalsTest extends TestCase {
 
     use DatabaseTransactions;
+
+    /**
+     * Get the totals response
+     * @return Response
+     */
+    private function getResponse()
+    {
+        return $this->apiCall('GET', '/api/totals');
+    }
+
+    /**
+     * Get the totals
+     * @param $response
+     * @return mixed
+     */
+    private function getTotals($response)
+    {
+        return json_decode($response->getContent(), true);
+    }
 
 	/**
 	 * A basic functional test example.
@@ -16,28 +39,11 @@ class TotalsTest extends TestCase {
 	 */
 	public function flex_budget_total_calculated_amount_equals_remaining_balance()
 	{
-//        $user = User::first();
-//		$this->be($user);
+        $user = $this->logInUser();
+        $response = $this->getResponse();
+        $totals = $this->getTotals($response);
 
-//        $budget = [
-//            'type' => 'fixed',
-//            'name' => 'surf',
-//            'amount' => 1000,
-//            'starting_date' => '2015-01-01'
-//        ];
-//
-//		$response = $this->apiCall('POST', '/api/budgets', $budget);
-//        $content = json_decode($response->getContent(), true);
-//
-//		$this->assertEquals(201, $response->getStatusCode());
-//        $this->assertArrayHasKey('type', $content);
-//        $this->assertArrayHasKey('name', $content);
-//        $this->assertArrayHasKey('amount', $content);
-//        $this->assertArrayHasKey('starting_date', $content);
-//        $this->assertEquals('fixed', $content['type']);
-//        $this->assertEquals('surf', $content['name']);
-//        $this->assertEquals(1000, $content['amount']);
-//        $this->assertTrue(is_array($content['starting_date']));
-//        $this->assertArrayHasKey('date', $content['starting_date']);
+        $this->assertEquals($totals['flexBudgetTotals']['allocatedPlusUnallocatedCalculatedAmount'], $totals['remainingBalance']);
+		$this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 	}
 }
