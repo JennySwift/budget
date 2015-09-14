@@ -28,18 +28,28 @@ class RemainingBalance {
     public $flexBudgetTotals;
 
     /**
+     * @var UnassignedBudgetTotal
+     */
+    public $unassignedBudgetTotals;
+
+    /**
      * @var
      */
     public $amount = 0;
 
     /**
      * RemainingBalance constructor.
+     * @param BasicTotal $basicTotals
+     * @param FixedBudgetTotal $fixedBudgetTotals
+     * @param FlexBudgetTotal $flexBudgetTotals
+     * @param UnassignedBudgetTotal $unassignedBudgetTotal
      */
-    public function __construct(BasicTotal $basicTotals, FixedBudgetTotal $fixedBudgetTotals, FlexBudgetTotal $flexBudgetTotals)
+    public function __construct(BasicTotal $basicTotals, FixedBudgetTotal $fixedBudgetTotals, FlexBudgetTotal $flexBudgetTotals, UnassignedBudgetTotal $unassignedBudgetTotals)
     {
         $this->basicTotals = $basicTotals;
         $this->fixedBudgetTotals = $fixedBudgetTotals;
         $this->flexBudgetTotals = $flexBudgetTotals;
+        $this->unassignedBudgetTotals = $unassignedBudgetTotals;
     }
 
     /**

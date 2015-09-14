@@ -18,8 +18,8 @@ class CreateBudgetsTable extends Migration {
 			$table->integer('user_id')->unsigned()->index();
 			$table->enum('type', Config::get('budgets.types'))->index();
 			$table->string('name')->index();
-			$table->decimal('amount', 10, 2)->index();
-			$table->date('starting_date');
+			$table->decimal('amount', 10, 2)->nullable()->index();
+			$table->date('starting_date')->nullable();
 			$table->timestamps();
 
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

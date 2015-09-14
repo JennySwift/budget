@@ -116,12 +116,11 @@ app.factory('TransactionsFactory', function ($http) {
         });
     };
 
-    $object.countTransactionsWithTag = function ($tag_id) {
-        var $url = 'api/select/countTransactionsWithTag';
-        var $description = 'count transactions with tag';
+    $object.countTransactionsWithBudget = function ($budget) {
+        var $url = '/api/select/countTransactionsWithBudget';
+
         var $data = {
-            description: $description,
-            tag_id: $tag_id
+            budget_id: $budget.id
         };
 
         return $http.post($url, $data);

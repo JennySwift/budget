@@ -45,14 +45,14 @@ class TransactionsController extends Controller
     }
 
     /**
-     *
+     * POST api/select/countTransactionsWithBudget
      * @param Request $request
      * @return mixed
      */
-    public function countTransactionsWithTag(Request $request)
+    public function countTransactionsWithBudget(Request $request)
     {
-        $count = DB::table('transactions_tags')
-            ->where('tag_id', $request->get('tag_id'))
+        $count = DB::table('budgets_transactions')
+            ->where('budget_id', $request->get('budget_id'))
             ->count();
 
         return $count;

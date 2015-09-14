@@ -42,7 +42,7 @@ class TransactionSeeder extends Seeder {
     {
         $dateBeforeStartingDate = $this->faker->dateTimeBetween('-2 years', '-1 years')->format('Y-m-d');
         $dateAfterStartingDate = $this->faker->dateTimeBetween('-1 months', 'now')->format('Y-m-d');
-
+        $bankFeesId = Budget::where('user_id', $user->id)->whereName('bank fees')->pluck('id');
         foreach (range(1, $num) as $index) {
             //Create fixed budget expenses before starting date
             $transaction = $this->createExpense($user, $dateBeforeStartingDate);
@@ -67,6 +67,10 @@ class TransactionSeeder extends Seeder {
             //Create expenses after starting date with both fixed and flex budgets
             $transaction = $this->createExpense($user, $dateAfterStartingDate);
             $this->addBudgetsToTransaction($transaction, $this->getRandomFixedAndFlexBudgetIds($user));
+
+            //Create expenses with unassigned budget
+            $transaction = $this->createExpense($user, $dateAfterStartingDate);
+            $this->addBudgetToTransaction($transaction, $bankFeesId);
         }
     }
 
@@ -77,6 +81,7 @@ class TransactionSeeder extends Seeder {
 
         $businessId = Budget::where('user_id', $user->id)->whereName('business')->pluck('id');
         $buskingId = Budget::where('user_id', $user->id)->whereName('busking')->pluck('id');
+        $somethingId = Budget::where('user_id', $user->id)->whereName('something')->pluck('id');
 
         foreach (range(1, $num) as $index) {
             //Create fixed budget income before starting date for 'business' budget
@@ -94,6 +99,10 @@ class TransactionSeeder extends Seeder {
             //Create flex budget income after starting date for 'busking' budget
             $transaction = $this->createIncome($user, $dateAfterStartingDate);
             $this->addBudgetToTransaction($transaction, $buskingId);
+
+            //Create income with unassigned budget
+            $transaction = $this->createIncome($user, $dateAfterStartingDate);
+            $this->addBudgetToTransaction($transaction, $somethingId);
         }
     }
 
@@ -163,6 +172,15 @@ class TransactionSeeder extends Seeder {
     {
         $budgetIds = Budget::where('user_id', $user->id)
             ->whereType('flex')
+            ->lists('id')->all();
+
+        return $this->faker->randomElements($budgetIds, $this->faker->numberBetween(1,3));
+    }
+
+    private function getRandomUnassignedBudgetIds($user)
+    {
+        $budgetIds = Budget::where('user_id', $user->id)
+            ->whereType('unassigned')
             ->lists('id')->all();
 
         return $this->faker->randomElements($budgetIds, $this->faker->numberBetween(1,3));

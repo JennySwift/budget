@@ -1,6 +1,5 @@
 <?php
 
-//use App\Models\Transaction;
 
 //Route::get('/test', function () {
 
@@ -23,41 +22,11 @@
 
 //});
 
-//Route::post('/test', function(TransactionsController $transactionsController)
-//{
-//    $filter = [
-//        "budget" => [],
-//        "total" => "",
-//        "types" => [],
-//        "accounts" => [],
-//        "single_date" => "",
-//        "from_date" => "",
-//        "to_date" => "",
-//        "description" => "",
-//        "merchant" => "",
-//        "tags" => [],
-//        "reconciled" => "any",
-//        "offset" => 0,
-//        "num_to_fetch" => 20
-//    ];
-//
-//    return $transactionsController->filterTransactions($filter);
-//});
-
-//    dd('Test');
-//    $data = new FixedAndFlexData();
-//    dd($data->FLB);
-//    return $data->FB;
-
-//
-//});
+use App\Models\Budget;
 
 Route::get('/test', function()
 {
-    return 'Test';
-    //$this->app->make('App\Models\Totals\RemainingBalance')->calculate();
+    $budget = Budget::first();
+    //dd($budget);
+    return $budget;
 });
-
-
-
-//Route::get('/test', 'TransactionsController@filterTransactions');

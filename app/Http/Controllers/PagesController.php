@@ -66,7 +66,8 @@ class PagesController extends Controller {
         JavaScript::put([
             'me' => Auth::user(),
             'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
-//            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
+            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
+            'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,
             'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
             'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
             'basicTotals' => $remainingBalance->basicTotals->toArray(),
@@ -86,8 +87,9 @@ class PagesController extends Controller {
 
         JavaScript::put([
             'me' => Auth::user(),
-//            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
+            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
             'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
+            'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,
             'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
             'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
             'basicTotals' => $remainingBalance->basicTotals->toArray(),
@@ -107,10 +109,12 @@ class PagesController extends Controller {
 
         JavaScript::put([
             'me' => Auth::user(),
-//            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
-//            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
+            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
+            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
+            'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,
             'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
             'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+            'unassignedBudgetTotals' => $remainingBalance->unassignedBudgetTotals->toArray(),
             'basicTotals' => $remainingBalance->basicTotals->toArray(),
             'remainingBalance' => $remainingBalance->amount
         ]);

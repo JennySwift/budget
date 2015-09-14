@@ -15,6 +15,14 @@ class BudgetSeeder extends Seeder {
 	public function __construct() {
 		$this->budgets = [
             [
+                'type' => 'unassigned',
+                'name' => 'bank fees'
+            ],
+            [
+                'type' => 'unassigned',
+                'name' => 'something'
+            ],
+            [
                 'type' => 'fixed',
                 'name' => 'business',
                 'amount' => 100,
@@ -170,6 +178,7 @@ class BudgetSeeder extends Seeder {
 //                'amount' => 50.00,
 //                'starting_date' => $this->startingDate
 //            ]
+
 		];
 
     }

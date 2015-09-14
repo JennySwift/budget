@@ -15,14 +15,21 @@ class Budget extends Model
 
     const TYPE_FIXED = "fixed";
     const TYPE_FLEX = "flex";
+    const TYPE_UNASSIGNED = "unassigned";
 
     protected $fillable = ['type', 'name', 'amount', 'starting_date'];
 
     protected $appends = [
         'path',
-        'formattedStartingDate', 'spentAfterStartingDate',
-        'spentBeforeStartingDate', 'receivedAfterStartingDate',
-        'cumulativeMonthNumber', 'cumulative', 'remaining'
+        'formattedStartingDate',
+        'spent',
+        'received',
+        'spentAfterStartingDate',
+        'spentBeforeStartingDate',
+        'receivedAfterStartingDate',
+        'cumulativeMonthNumber',
+        'cumulative',
+        'remaining'
     ];
 
     //Commenting this out for now because there's so much data I don't need
@@ -65,7 +72,7 @@ class Budget extends Model
     {
         return $this->transactions()->whereType('income');
     }
-    
+
     /**
      * Return the URL of the resource
      * @return string
@@ -99,12 +106,15 @@ class Budget extends Model
 //    }
 
     /**
-     *
-     * @return string
-     */
+ *
+ * @return string
+ */
     public function getStartingDateAttribute()
     {
-        return Carbon::createFromFormat('Y-m-d', $this->attributes['starting_date']);
+        if (!$this->isUnassigned()) {
+            return Carbon::createFromFormat('Y-m-d', $this->attributes['starting_date']);
+        }
+        return null;
     }
 
     /**
@@ -113,7 +123,30 @@ class Budget extends Model
      */
     public function getFormattedStartingDateAttribute()
     {
-        return convertDate($this->starting_date);
+        if (!$this->isUnassigned()) {
+            return convertDate($this->starting_date);
+        }
+        return NULL;
+    }
+
+    /**
+     * Get total spent on a given budget, regardless of the date
+     * @return mixed
+     */
+    public function getSpentAttribute()
+    {
+        return (float) $this->expenses()
+            ->sum('calculated_allocation');
+    }
+
+    /**
+     * Get total received on a given budget, regardless of the date
+     * @return mixed
+     */
+    public function getReceivedAttribute()
+    {
+        return (float) $this->incomes()
+            ->sum('calculated_allocation');
     }
 
     /**
@@ -122,9 +155,11 @@ class Budget extends Model
      */
     public function getSpentBeforeStartingDateAttribute()
     {
-        return (float) $this->expenses()->where('date', '<', $this->starting_date)
-//                              ->get()
-                                ->sum('calculated_allocation');
+        if (!$this->isUnassigned()) {
+            return (float) $this->expenses()->where('date', '<', $this->starting_date)
+                ->sum('calculated_allocation');
+        }
+        return null;
     }
 
     /**
@@ -133,12 +168,15 @@ class Budget extends Model
      */
     public function getSpentAfterStartingDateAttribute()
     {
-        $totalSpentAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date)
-                                            ->where('type', 'expense')
-//                                            ->get()
-                                            ->sum('calculated_allocation');
+        if (!$this->isUnassigned()) {
+            $totalSpentAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date)
+                ->where('type', 'expense')
+                ->sum('calculated_allocation');
 
-        return (float) $totalSpentAfterStartingDate;
+            return (float) $totalSpentAfterStartingDate;
+        }
+        return null;
+
     }
 
     /**
@@ -147,12 +185,16 @@ class Budget extends Model
      */
     public function getReceivedAfterStartingDateAttribute()
     {
-        $totalReceivedAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date)
-                                            ->where('type', 'income')
-//                                            ->get()
-                                            ->sum('calculated_allocation');
+        if (!$this->isUnassigned())
+        {
+            $totalReceivedAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date)
+                ->where('type', 'income')
+                ->sum('calculated_allocation');
 
-        return (float) $totalReceivedAfterStartingDate;
+            return (float) $totalReceivedAfterStartingDate;
+        }
+        return null;
+
     }
 
     /**
@@ -162,9 +204,12 @@ class Budget extends Model
      */
     public function getCumulativeMonthNumberAttribute()
     {
-        $diff = Carbon::now()->diff($this->starting_date);
+        if (!$this->isUnassigned()) {
+            $diff = Carbon::now()->diff($this->starting_date);
 
-        return $diff->format('%y') * 12 + $diff->format('%m') + 1;
+            return $diff->format('%y') * 12 + $diff->format('%m') + 1;
+        }
+        return NULL;
     }
 
     /**
@@ -219,6 +264,15 @@ class Budget extends Model
     public function isFlex()
     {
         return $this->type == $this::TYPE_FLEX;
+    }
+
+    /**
+     *
+     * @return bool
+     */
+    public function isUnassigned()
+    {
+        return $this->type == $this::TYPE_UNASSIGNED;
     }
 
 }

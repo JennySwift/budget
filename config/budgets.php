@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'types' => ['fixed', 'flex']
+    'types' => ['fixed', 'flex', 'unassigned']
 ];

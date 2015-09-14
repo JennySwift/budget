@@ -7,7 +7,7 @@
 // Select
 Route::post('select/filter', 'TransactionsController@filterTransactions');
 Route::post('select/autocompleteTransaction', 'TransactionsController@autocompleteTransaction');
-Route::post('select/countTransactionsWithTag', 'TransactionsController@countTransactionsWithTag');
+Route::post('select/countTransactionsWithBudget', 'TransactionsController@countTransactionsWithBudget');
 
 // Insert
 //Route::post('insert/transaction', 'TransactionsController@insertTransaction');
