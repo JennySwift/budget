@@ -1,15 +1,4 @@
 <?php
-// my attempt at custom validation
-Validator::extend('accepted_email', function ($attribute, $value, $parameters) {
-    $accepted_emails = [
-        //enter emails here
-        'cheezyspaghetti@gmail.com',
-        'cheezyspaghetti@optusnet.com.au',
-        'nihantanu@gmail.com'
-    ];
-    $is_accepted = in_array($value, $accepted_emails);
-    return $is_accepted;
-});
 
 // Important application routes
 require app_path('Http/Routes/auth.php');

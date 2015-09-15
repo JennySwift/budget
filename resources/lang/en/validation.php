@@ -64,6 +64,7 @@ return [
 	"required_with_all"    => "The :attribute field is required when :values is present.",
 	"required_without"     => "The :attribute field is required when :values is not present.",
 	"required_without_all" => "The :attribute field is required when none of :values are present.",
+	"required_if_fixed_or_flex" => "The :attribute field is required if the type is fixed or flex.",
 	"same"                 => "The :attribute and :other must match.",
 	"size"                 => [
 		"numeric" => "The :attribute must be :size.",
@@ -87,11 +88,11 @@ return [
 	*/
 
 	'custom' => [
-		'attribute-name' => [
-			'rule-name' => 'custom-message',
-		],
+		'email' => [
+			'accepted_email' => 'Sorry, this app is not yet ready for the public.'
+		]
 	],
-	'accepted_email' => 'Sorry, this app is not yet ready for the public.',
+
 
 	/*
 	|--------------------------------------------------------------------------
