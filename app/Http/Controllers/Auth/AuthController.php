@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers\Auth;
 
+use App\Models\Savings;
 use App\User;
+use Illuminate\Support\Facades\Config;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -42,7 +44,7 @@ class AuthController extends Controller {
 	{
 		return Validator::make($data, [
 			'name' => 'required|max:255',
-			'email' => 'required|email|max:255|unique:users|accepted_email',
+			'email' => 'required|email|max:255|unique:users',
 			'password' => 'required|confirmed|min:10',
 		]);
 	}
@@ -55,11 +57,27 @@ class AuthController extends Controller {
 	 */
 	public function create(array $data)
 	{
-		return User::create([
-			'name' => $data['name'],
-			'email' => $data['email'],
-			'password' => bcrypt($data['password']),
-		]);
+        $user = new User([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+            'preferences' => Config::get('user-preferences.defaults')
+        ]);
+
+        $user->save();
+
+        $savings = new Savings(['amount' => 0]);
+        $savings->user()->associate($user);
+        $savings->save();
+        
+        return $user;
+
+//		return User::create([
+//			'name' => $data['name'],
+//			'email' => $data['email'],
+//			'password' => bcrypt($data['password']),
+//            'preferences' => Config::get('user-preferences.defaults')
+//		]);
 	}
 
 	/**

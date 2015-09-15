@@ -1,5 +1,6 @@
+<h3 ng-if="transactions.length === 0">You don't have any transactions yet.</h3>
 
-<table id="transactions" class="">
+<table ng-if="transactions.length > 0" id="transactions" class="">
 
     @include('templates.home.transactions.table-header')
 

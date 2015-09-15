@@ -3,6 +3,8 @@
 namespace App\Repositories\Filters;
 
 
+use App\Models\Transaction;
+use App\Traits\ForCurrentUserTrait;
 use Carbon\Carbon;
 
 /**
@@ -10,6 +12,8 @@ use Carbon\Carbon;
  * @package App\Repositories\Filters
  */
 class GraphsRepository {
+
+    use ForCurrentUserTrait;
 
     /**
      * @var FilterTotalsRepository
@@ -31,6 +35,11 @@ class GraphsRepository {
      */
     public function getGraphTotals($query)
     {
+        if (Transaction::forCurrentUser()->count() < 1) {
+            //User doesn't have any transactions
+            return false;
+        }
+
         $minDate = $query->min('date');
         $maxDate = $query->max('date');
         $minDate = Carbon::createFromFormat('Y-m-d', $minDate)->startOfMonth();

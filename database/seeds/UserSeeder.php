@@ -26,14 +26,7 @@ class UserSeeder extends Seeder {
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password),
-            'preferences' => [
-                'colors' => [
-                    'income' => Config::get('colors.income'),
-                    'expense' => Config::get('colors.expense'),
-                    'transfer' => Config::get('colors.transfer'),
-                ],
-                'clearFields' => false
-            ]
+            'preferences' => Config::get('user-preferences.defaults')
         ]);
     }
 
