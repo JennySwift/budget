@@ -24,7 +24,7 @@ class CreateTransactionsTable extends Migration {
 			$table->string('merchant')->nullable()->index();
 			$table->decimal('total', 10, 2)->index();
 			$table->boolean('reconciled')->index();
-			$table->boolean('allocated')->index();
+			$table->boolean('allocated')->default(0)->index();
 			$table->timestamps();
 
 			$table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
