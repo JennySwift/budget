@@ -15,6 +15,13 @@ class Transaction extends Model
 
     use ForCurrentUserTrait;
 
+    const DIRECTION_FROM = "from";
+    const DIRECTION_TO = "to";
+
+    const TYPE_TRANSFER = "transfer";
+    const TYPE_INCOME = "income";
+    const TYPE_EXPENSE = "expense";
+
     /**
      * @var array
      */

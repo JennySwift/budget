@@ -7,7 +7,6 @@
 // Select
 Route::post('select/filter', 'TransactionsController@filterTransactions');
 Route::post('select/autocompleteTransaction', 'TransactionsController@autocompleteTransaction');
-Route::post('select/countTransactionsWithBudget', 'TransactionsController@countTransactionsWithBudget');
 
 // Insert
 //Route::post('insert/transaction', 'TransactionsController@insertTransaction');
@@ -17,6 +16,8 @@ Route::post('update/massDescription', 'TransactionsController@updateMassDescript
 //Route::post('update/transaction', 'TransactionsController@updateTransaction');
 Route::post('updateReconciliation', 'TransactionsController@updateReconciliation');
 Route::post('updateAllocationStatus', 'TransactionsController@updateAllocationStatus');
+
+// PUT /budgets/{budgets}/transactions/{transactions}
 Route::post('updateAllocation', 'TransactionsController@updateAllocation');
 
 // Delete

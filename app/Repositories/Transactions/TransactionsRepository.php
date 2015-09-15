@@ -19,7 +19,7 @@ class TransactionsRepository
      * @param $budgets
      * @param $transaction_total
      */
-    public function insertBudgets($transaction, $budgets)
+    public function attachBudgets($transaction, $budgets)
     {
         foreach ($budgets as $budget) {
             if (isset($budget['allocated_fixed'])) {
@@ -63,43 +63,62 @@ class TransactionsRepository
     }
 
     /**
-     *
+     * Insert a transaction in database
      * @param $new_transaction
      * @param $transaction_type
+     * @return Transaction
+     * @TODO Should happen in your JS,
      */
-    public function insertTransaction($new_transaction, $transaction_type)
+//    public function insert(array $data)
+//    {
+//        if ($data['type'] !== Transaction::TYPE_TRANSFER) {
+//            $transaction = $this->create($data);
+//        } //It's a transfer, so insert two transactions, the from and the to
+//        else {
+//            $this->create($data, Transaction::DIRECTION_FROM);
+//            $this->create($data, Transaction::DIRECTION_TO);
+//        }
+//
+//        return $transaction;
+//    }
+
+    public function create(array $data)
     {
         $transaction = new Transaction([
-            'date' => $new_transaction['date']['sql'],
-            'description' => $new_transaction['description'],
-            'type' => $new_transaction['type'],
-            'reconciled' => convertFromBoolean($new_transaction['reconciled']),
+            'date' => $data['date']['sql'],
+            'description' => $data['description'],
+            'merchant' => $data['merchant'],
+            'total' => $data['total'],
+            'type' => $data['type'],
+            'reconciled' => $data['reconciled'],
+            // @TODO This value should be converted in JS, PHP should receive 0 or 1, to ease validation
         ]);
-
-        if ($transaction_type === "from") {
-            $transaction->account_id = $new_transaction['from_account'];
-            $transaction->total = $new_transaction['negative_total'];
+        if(!array_key_exists('direction', $data)) {
+            switch($data['direction']) {
+                case Transaction::DIRECTION_FROM:
+                    $transaction->total = $data['negative_total'];
+                    $account = Account::find($data[Transaction::DIRECTION_FROM]);
+                    $transaction->account()->associate($account);
+                    break;
+                case Transaction::DIRECTION_TO:
+                    $transaction->total = $data['total'];
+                    $account = Account::find($data[Transaction::DIRECTION_TO]);
+                    $transaction->account()->associate($account);
+                    break;
+            }
+        } else {
+            // [1,2,3,4]
+            $budgets = $this->defaultAllocation($data['budgets']);
+            //      Insert budgets
+            $this->attachBudgets(
+                $transaction,
+                $budgets
+            );
         }
-        elseif ($transaction_type === "to") {
-            $transaction->account_id = $new_transaction['to_account'];
-            $transaction->total = $new_transaction['total'];
-        }
-        elseif ($transaction_type === 'income' || $transaction_type === 'expense') {
-            $transaction->account_id = $new_transaction['account'];
-            $transaction->merchant = $new_transaction['merchant'];
-            $transaction->total = $new_transaction['total'];
-        }
-
         $transaction->user()->associate(Auth::user());
         $transaction->save();
 
-        $tags = $this->defaultAllocation($new_transaction['tags']);
-
-//      Insert budgets
-        $this->insertBudgets(
-            $transaction,
-            $tags
-        );
+        event(new TransactionWasCreated($transaction));
 
         return $transaction;
     }

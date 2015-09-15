@@ -83,6 +83,15 @@ class Budget extends Model
     }
 
     /**
+     * Count budget's transactions
+     * @return mixed
+     */
+    public function getTransactionsCountAttribute()
+    {
+        return $this->transactions->count();
+    }
+
+    /**
      *
      * @return string
      */

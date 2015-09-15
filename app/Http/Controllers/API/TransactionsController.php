@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\TransactionWasCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\Budget;
@@ -45,20 +46,7 @@ class TransactionsController extends Controller
     }
 
     /**
-     * POST api/select/countTransactionsWithBudget
-     * @param Request $request
-     * @return mixed
-     */
-    public function countTransactionsWithBudget(Request $request)
-    {
-        $count = DB::table('budgets_transactions')
-            ->where('budget_id', $request->get('budget_id'))
-            ->count();
-
-        return $count;
-    }
-
-    /**
+     * GET api/transactions?limit=40&page=2&account_id=3&type=income
      * POST api/select/filter
      * @param Request $request
      * @param TransactionsRepository $transactionsRepository
@@ -182,48 +170,40 @@ class TransactionsController extends Controller
      * }
      * }
      *
-     * POST api/transactions
+     * POST /api/accounts/{accounts}/transaction
      * @param Request $request
      * @return array
      */
     public function store(Request $request)
     {
-        $new_transaction = $request->get('new_transaction');
-        $type = $new_transaction['type'];
+        $data = $request->only([
+            'date', 'type', 'description', 'merchant', 'total', 'reconciled', 'account_id', 'budgets'
+        ]);
 
-        //Insert income or expense transaction
-        if ($type !== "transfer") {
-            $this->transactionsRepository->insertTransaction($new_transaction, $type);
-        } //It's a transfer, so insert two transactions, the from and the to
-        else {
-            $this->transactionsRepository->insertTransaction($new_transaction, "from");
-            $this->transactionsRepository->insertTransaction($new_transaction, "to");
-        }
-
-        //Find the last transaction that was entered
-        $transaction = Transaction::with('budgets')->find(Transaction::getLastTransactionId());
+        $transaction = $this->transactionsRepository->create($data);
 
         // Put an amount into savings if it is an income expense
-        if ($transaction->type === 'income') {
-            $savings = Savings::forCurrentUser()->first();
-            $savings->increase($this->savingsRepository->calculateAfterIncomeAdded($transaction));
-        }
+//        if ($transaction->type === 'income') {
+//            $savings = Savings::forCurrentUser()->first();
+//            $savings->increase($this->savingsRepository->calculateAfterIncomeAdded($transaction));
+//        }
 
         // Todo: Check both transactions for multiple budgets, not just the last one?
+        return $this->responseCreated($transaction);
 
-        $remainingBalance = app('remaining-balance')->calculate();
-
-        return [
-            "transaction" => $transaction,
-            "multiple_budgets" => $transaction->hasMultipleBudgets(),
-            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter')),
-
-            //totals
-            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-            'remainingBalance' => $remainingBalance->amount,
-        ];
+//        $remainingBalance = app('remaining-balance')->calculate();
+//
+//        return [
+//            "transaction" => $transaction,
+//            "multiple_budgets" => $transaction->hasMultipleBudgets(),
+//            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter')),
+//
+//            //totals
+//            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+//            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+//            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+//            'remainingBalance' => $remainingBalance->amount,
+//        ];
     }
 
     //Todo: Combine the update methods below into one method
@@ -273,7 +253,7 @@ class TransactionsController extends Controller
 
         $transaction->save();
 
-        $this->transactionsRepository->insertBudgets($transaction, $js_transaction['budgets']);
+        $this->transactionsRepository->attachBudgets($transaction, $js_transaction['budgets']);
 
         $remainingBalance = app('remaining-balance')->calculate();
 
@@ -325,6 +305,10 @@ class TransactionsController extends Controller
     /**
      * For one transaction, change the amount that is allocated for one tag
      * POST api/updateAllocation
+     *
+     * One route to update allocation for transactions linked to multiple budgets
+     * PUT api/budgets/{budgets}/transactions/{transactions} => ['type' => 'percent', 'amount' => 75]
+     *
      * @param Request $request
      * @return array
      */
