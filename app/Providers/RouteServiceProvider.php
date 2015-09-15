@@ -3,6 +3,7 @@
 use App\Models\Account;
 use App\Models\Budget;
 use App\Models\Tag;
+use App\Models\Transaction;
 use App\Traits\ForCurrentUserTrait;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -37,6 +38,11 @@ class RouteServiceProvider extends ServiceProvider {
         Route::bind('budgets', function($id)
         {
             return Budget::forCurrentUser()->findOrFail($id);
+        });
+
+        Route::bind('transactions', function($id)
+        {
+            return Transaction::forCurrentUser()->findOrFail($id);
         });
 	}
 

@@ -1,5 +1,7 @@
 <?php namespace App\Repositories\Transactions;
 
+use App\Events\TransactionWasCreated;
+use App\Models\Account;
 use App\Models\Transaction;
 use Auth;
 use DB;
@@ -91,12 +93,12 @@ class TransactionsRepository
             'total' => $data['total'],
             'type' => $data['type'],
             'reconciled' => $data['reconciled'],
-            // @TODO This value should be converted in JS, PHP should receive 0 or 1, to ease validation
         ]);
-        if(!array_key_exists('direction', $data)) {
+
+        if(array_key_exists('direction', $data)) {
             switch($data['direction']) {
                 case Transaction::DIRECTION_FROM:
-                    $transaction->total = $data['negative_total'];
+                    $transaction->total = $data['total'] * -1;
                     $account = Account::find($data[Transaction::DIRECTION_FROM]);
                     $transaction->account()->associate($account);
                     break;
@@ -106,17 +108,26 @@ class TransactionsRepository
                     $transaction->account()->associate($account);
                     break;
             }
-        } else {
+
+            $transaction->user()->associate(Auth::user());
+            $transaction->save();
+        }
+        else {
             // [1,2,3,4]
             $budgets = $this->defaultAllocation($data['budgets']);
+
+            $transaction->user()->associate(Auth::user());
+            $transaction->account()->associate(Account::find($data['account_id']));
+//            dd($transaction->user);
+            $transaction->save();
+
+
             //      Insert budgets
             $this->attachBudgets(
                 $transaction,
                 $budgets
             );
         }
-        $transaction->user()->associate(Auth::user());
-        $transaction->save();
 
         event(new TransactionWasCreated($transaction));
 
@@ -130,22 +141,22 @@ class TransactionsRepository
      * @param $tags
      * @return mixed
      */
-    public function defaultAllocation($tags)
+    public function defaultAllocation($budgets)
     {
         $count = 0;
-        foreach ($tags as $tag) {
+        foreach ($budgets as $budget) {
             $count++;
             if ($count === 1) {
-                $tag['allocated_percent'] = 100;
+                $budget['allocated_percent'] = 100;
             }
             else {
-                $tag['allocated_percent'] = 0;
+                $budget['allocated_percent'] = 0;
             }
 
-            $tags[$count-1] = $tag;
+            $budgets[$count-1] = $budget;
         }
 
-        return $tags;
+        return $budgets;
     }
 
     /**

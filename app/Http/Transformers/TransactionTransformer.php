@@ -17,7 +17,14 @@ class TransactionTransformer extends TransformerAbstract
     {
         return [
             'id' => $transaction->id,
-            // @TODO Add remaining field...
+            'date' => $transaction->date,
+            'type' => $transaction->type,
+            'description' => $transaction->description,
+            'merchant' => $transaction->merchant,
+            'total' => $transaction->total,
+            'reconciled' => $transaction->reconciled,
+            'account_id' => $transaction->account_id,
+            'budgets' => $transaction->budgets,
             'hasMultipleBudgets' => (bool) $transaction->hasMultipleBudgets()
         ];
     }

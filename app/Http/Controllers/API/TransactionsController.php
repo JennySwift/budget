@@ -82,15 +82,12 @@ class TransactionsController extends Controller
     }
 
     /**
-     * @VP:
-     * I tried using the destroy method instead of this (see method below),
-     * but I need to send the filter in the request (for the response), not just the id.
-     * ??
+     * Delete a transaction, only if it belongs to the user
      * @param Request $request
+     * @return Response
      */
-    public function deleteTransaction(Request $request)
+    public function destroy($transaction)
     {
-        $transaction = Transaction::find($request->get('transaction')['id']);
         $transaction->delete();
 
         //Reverse the automatic insertion into savings if it is an income expense
@@ -99,40 +96,8 @@ class TransactionsController extends Controller
             $savings->decrease($this->savingsRepository->calculateAmountToSubtract($transaction));
         }
 
-        $remainingBalance = app('remaining-balance')->calculate();
-
-        return [
-            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter')),
-
-            //totals
-            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-            'remainingBalance' => $remainingBalance->amount,
-        ];
+        return $this->responseNoContent();
     }
-
-    /**
-     * Delete a transaction, only if it belongs to the user
-     * @param $id
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     */
-//    public function destroy($id)
-//    {
-//        $transaction = Transaction::forCurrentUser()->findOrFail($id);
-//        $transaction->delete();
-//
-//        //Reverse the automatic insertion into savings if it is an income expense
-//        if ($transaction->type === 'income') {
-//            $this->savingsRepository->calculateAmountToSubtract($transaction);
-//        }
-//
-//        //Todo: return response code
-//        return [
-//            'totals' => $this->totalsService->getBasicAndBudgetTotals(),
-//            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter'))
-//        ];
-//    }
 
     public function show($id)
     {
@@ -154,44 +119,7 @@ class TransactionsController extends Controller
     }
 
     /**
-     *
-     * For Postman:
-     *
-     * {"new_transaction": {
-     *
-     * "total": -5,
-     * "type": "expense",
-     * "description": "",
-     * "merchant": "",
-     * "date": {
-     * "entered": "today",
-     * "sql": "2015-07-08"
-     * },
-     * "reconciled": false,
-     * "multiple_budgets": false,
-     * "reconciled": false,
-     * "multiple_budgets": false,
-     * "account": 1,
-     * "from_account": 1,
-     * "to_account": 1,
-     * "tags": [
-     * {
-     * "id": 5,
-     * "created_at": "2015-07-08 06:37:07",
-     * "updated_at": "2015-07-08 06:37:07",
-     * "name": "books",
-     * "fixed_budget": "10.00",
-     * "flex_budget": null,
-     * "starting_date": "2015-01-01",
-     * "budget_id": 1,
-     * "user_id": 1
-     * }
-     * ]
-     *
-     * }
-     * }
-     *
-     * POST /api/accounts/{accounts}/transaction
+     * Todo: Should be POST /api/accounts/{accounts}/transaction
      * @param Request $request
      * @return array
      */
@@ -214,22 +142,7 @@ class TransactionsController extends Controller
 //            $savings->increase($this->savingsRepository->calculateAfterIncomeAdded($transaction));
 //        }
 
-        // Todo: Check both transactions for multiple budgets, not just the last one?
         return $this->responseWithTransformer($item, Response::HTTP_OK);
-
-//        $remainingBalance = app('remaining-balance')->calculate();
-//
-//        return [
-//            "transaction" => $transaction,
-//            "multiple_budgets" => $transaction->hasMultipleBudgets(),
-//            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter')),
-//
-//            //totals
-//            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-//            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-//            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-//            'remainingBalance' => $remainingBalance->amount,
-//        ];
     }
 
     //Todo: Combine the update methods below into one method

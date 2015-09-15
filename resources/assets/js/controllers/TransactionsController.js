@@ -163,8 +163,10 @@
                 $scope.showLoading();
                 TransactionsFactory.deleteTransaction($transaction, $scope.filter)
                     .then(function (response) {
-                        FilterFactory.updateDataForControllers(response.data);
-                        $scope.updateTotalsAfterResponse(response);
+                        //Todo: get totals and filter results with separate request
+                        //todo: (not returned in this response anymore for restfulness)
+                        //FilterFactory.updateDataForControllers(response.data);
+                        //$scope.updateTotalsAfterResponse(response);
 
                         $scope.provideFeedback('Transaction deleted');
                         $scope.hideLoading();

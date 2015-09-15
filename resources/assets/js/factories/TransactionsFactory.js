@@ -2,21 +2,40 @@ app.factory('TransactionsFactory', function ($http) {
     var $object = {};
     $object.totals = {};
 
-    $object.insertTransaction = function ($new_transaction, $filter) {
+    $object.insertExpenseTransaction = function ($newTransaction) {
         var $url = '/api/transactions';
 
-        if ($new_transaction.type === "expense" && $new_transaction.total > 0) {
+        if ($newTransaction.total > 0) {
             //transaction is an expense without the negative sign
-            $new_transaction.total = $new_transaction.total * -1;
+            $newTransaction.total*= -1;
         }
 
-        else if ($new_transaction.type === 'transfer') {
-            $new_transaction.negative_total = $new_transaction.total *-1;
-        }
+        $data = {
+            'date': $newTransaction.date,
+            'type': $newTransaction.type,
+            'description': $newTransaction.description,
+            'merchant': $newTransaction.merchant,
+            'total': $newTransaction.total,
+            'reconciled': $newTransaction.reconciled,
+            'account_id': $newTransaction.account_id,
+            'budgets': $newTransaction.budgets
+        };
+
+        return $http.post($url, $data);
+    };
+
+    $object.insertIncomeTransaction = function ($newTransaction) {
+        var $url = '/api/transactions';
+
+        return $http.post($url, $newTransaction);
+    };
+
+    $object.insertTransferTransaction = function ($newTransaction, $direction) {
+        var $url = '/api/transactions';
+        $newTransaction.direction = $direction;
 
         var $data = {
-            new_transaction: $new_transaction,
-            filter: $filter
+            newTransaction: $newTransaction
         };
 
         return $http.post($url, $data);
@@ -100,14 +119,10 @@ app.factory('TransactionsFactory', function ($http) {
         return $http.post($url, $data);
     };
 
-    $object.deleteTransaction = function ($transaction, $filter) {
-        var $url = 'api/delete/transaction';
-        var $data = {
-            transaction: $transaction,
-            filter: $filter
-        };
+    $object.deleteTransaction = function ($transaction) {
+        var $url = $transaction.path;
 
-        return $http.post($url, $data);
+        return $http.delete($url);
     };
 
     $object.massDelete = function () {

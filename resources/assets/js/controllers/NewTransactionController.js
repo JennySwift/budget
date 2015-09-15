@@ -126,15 +126,73 @@
             }
 
             $scope.clearTotalChanges();
+
+            if ($scope.new_transaction.type === 'income') {
+                $scope.insertIncomeTransaction();
+            }
+            else if ($scope.new_transaction.type === 'expense') {
+                $scope.insertExpenseTransaction();
+            }
+            else if ($scope.new_transaction.type === 'transfer') {
+                $scope.insertTransferTransactions();
+            }
+        };
+
+        $scope.insertIncomeTransaction = function () {
             $scope.showLoading();
-            TransactionsFactory.insertTransaction($scope.new_transaction, $scope.filter)
+            TransactionsFactory.insertIncomeTransaction($scope.new_transaction)
                 .then(function (response) {
                     $scope.provideFeedback('Transaction added');
                     $scope.clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
-                    FilterFactory.updateDataForControllers(response.data);
-                    $scope.updateTotalsAfterResponse(response);
-                    $scope.checkNewTransactionForMultipleBudgets(response);
+
+                    //Todo: get totals, filter, and check for multiple budgets
+                    //FilterFactory.updateDataForControllers(response.data);
+                    //$scope.updateTotalsAfterResponse(response);
+                    //$scope.checkNewTransactionForMultipleBudgets(response);
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.insertExpenseTransaction = function () {
+            $scope.showLoading();
+            TransactionsFactory.insertExpenseTransaction($scope.new_transaction)
+                .then(function (response) {
+                    $scope.provideFeedback('Transaction added');
+                    $scope.clearNewTransactionFields();
+                    $scope.new_transaction.dropdown = false;
+
+                    //Todo: get totals, filter, and check for multiple budgets
+                    //FilterFactory.updateDataForControllers(response.data);
+                    //$scope.updateTotalsAfterResponse(response);
+                    //$scope.checkNewTransactionForMultipleBudgets(response);
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.insertTransferTransactions = function () {
+            $scope.insertTransferTransaction();
+            $scope.insertTransferTransaction();
+        };
+
+        $scope.insertTransferTransaction = function () {
+            $scope.showLoading();
+            TransactionsFactory.insertTransferTransaction($scope.new_transaction)
+                .then(function (response) {
+                    $scope.provideFeedback('Transaction added');
+                    $scope.clearNewTransactionFields();
+                    $scope.new_transaction.dropdown = false;
+
+                    //Todo: get totals, filter, and check for multiple budgets
+                    //FilterFactory.updateDataForControllers(response.data);
+                    //$scope.updateTotalsAfterResponse(response);
+                    //$scope.checkNewTransactionForMultipleBudgets(response);
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
