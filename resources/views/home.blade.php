@@ -19,6 +19,10 @@
 
     @include('templates.home.main-content')
 
+    <script id="totals">
+        @include('directives.totals')
+    </script>
+
 </div>
 
 @stop
