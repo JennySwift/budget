@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder {
 		$this->call('SavingsSeeder');
 		$this->call('BudgetSeeder');
 		$this->call('AccountSeeder');
-		$this->call('TagSeeder');
 		$this->call('TransactionSeeder');
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 		Model::reguard();
@@ -37,7 +36,6 @@ class DatabaseSeeder extends Seeder {
 		Savings::truncate();
 		Budget::truncate();
 		Account::truncate();
-		Tag::truncate();
 		Transaction::truncate();
         DB::table('budgets_transactions')->truncate();
 	}
