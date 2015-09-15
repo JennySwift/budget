@@ -19,7 +19,7 @@
             <select ng-model="newBudget.type" ng-keyup="insertBudget($event.keyCode)" class="form-control">
                 <option value="fixed">Fixed</option>
                 <option value="flex">Flex</option>
-                <option value="none">None</option>
+                <option value="unassigned">Unassigned</option>
             </select>
         </div>
 

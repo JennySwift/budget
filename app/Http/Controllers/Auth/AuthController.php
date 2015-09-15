@@ -69,7 +69,7 @@ class AuthController extends Controller {
         $savings = new Savings(['amount' => 0]);
         $savings->user()->associate($user);
         $savings->save();
-        
+
         return $user;
 
 //		return User::create([

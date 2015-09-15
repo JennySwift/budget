@@ -396,6 +396,9 @@ var app = angular.module('budgetApp');
             else if ($budget.type === 'flex') {
                 $scope.flexBudgets.push($budget);
             }
+            else if ($budget.type === 'unassigned') {
+                $scope.unassignedBudgets.push($budget);
+            }
         };
 
         /**
@@ -1502,14 +1505,6 @@ var app = angular.module('budgetApp');
          * scope properties
          */
         $scope.unassignedBudgetTotals = unassignedBudgetTotals;
-        $scope.feedbackFactory = FeedbackFactory;
-
-        $scope.show.basic_totals = true;
-        $scope.show.budget_totals = true;
-        $scope.newBudget = {
-            type: 'fixed'
-        };
-
     }
 
 })();

@@ -72,6 +72,9 @@
             else if ($budget.type === 'flex') {
                 $scope.flexBudgets.push($budget);
             }
+            else if ($budget.type === 'unassigned') {
+                $scope.unassignedBudgets.push($budget);
+            }
         };
 
         /**
