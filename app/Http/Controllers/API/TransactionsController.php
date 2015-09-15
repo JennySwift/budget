@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Events\TransactionWasCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Transformers\TransactionTransformer;
 use App\Models\Budget;
 use App\Models\Savings;
 use App\Models\Transaction;
@@ -15,6 +16,7 @@ use Auth;
 use DB;
 use Debugbar;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Class TransactionsController
@@ -132,6 +134,25 @@ class TransactionsController extends Controller
 //        ];
 //    }
 
+    public function show($id)
+    {
+        $transaction = Transaction::find($id);
+
+        $item = $this->createItem(
+            $transaction,
+            new TransactionTransformer
+        );
+
+        // Put an amount into savings if it is an income expense
+//        if ($transaction->type === 'income') {
+//            $savings = Savings::forCurrentUser()->first();
+//            $savings->increase($this->savingsRepository->calculateAfterIncomeAdded($transaction));
+//        }
+
+        // Todo: Check both transactions for multiple budgets, not just the last one?
+        return $this->responseWithTransformer($item, Response::HTTP_OK);
+    }
+
     /**
      *
      * For Postman:
@@ -182,6 +203,11 @@ class TransactionsController extends Controller
 
         $transaction = $this->transactionsRepository->create($data);
 
+        $item = $this->createItem(
+            $transaction,
+            new TransactionTransformer
+        );
+
         // Put an amount into savings if it is an income expense
 //        if ($transaction->type === 'income') {
 //            $savings = Savings::forCurrentUser()->first();
@@ -189,7 +215,7 @@ class TransactionsController extends Controller
 //        }
 
         // Todo: Check both transactions for multiple budgets, not just the last one?
-        return $this->responseCreated($transaction);
+        return $this->responseWithTransformer($item, Response::HTTP_OK);
 
 //        $remainingBalance = app('remaining-balance')->calculate();
 //

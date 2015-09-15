@@ -1,10 +1,15 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Item;
+use League\Fractal\Serializer\DataArraySerializer;
+use League\Fractal\TransformerAbstract;
 
 abstract class Controller extends BaseController {
 
@@ -31,6 +36,23 @@ abstract class Controller extends BaseController {
     }
 
     /**
+     * @param $resource
+     * @return mixed
+     */
+    public function responseWithTransformer($resource, $code)
+    {
+        $manager = new Manager();
+        $manager->setSerializer(new DataArraySerializer);
+
+        $manager->parseIncludes(request()->get('includes', []));
+
+        return response()->json(
+            $manager->createData($resource)->toArray(),
+            $code
+        );
+    }
+
+    /**
      * Create a 204 - No content response
      * @return Response
      */
@@ -46,6 +68,17 @@ abstract class Controller extends BaseController {
     public function responseNotModified()
     {
         return response([], Response::HTTP_NOT_MODIFIED);
+    }
+
+    /**
+     * @param Model               $model
+     * @param TransformerAbstract $transformer
+     * @param null                $key
+     * @return Item
+     */
+    public function createItem(Model $model, TransformerAbstract $transformer, $key = null)
+    {
+        return new Item($model, $transformer, $key);
     }
 
 }

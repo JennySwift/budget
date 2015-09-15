@@ -67,11 +67,11 @@ class Transaction extends Model
 
     /**
      *
-     * @param $transaction_id
      * @return bool
      */
     public function hasMultipleBudgets()
     {
+        // $this->budgets->count()
         if (count($this->budgets) > 1) {
             return true;
         }
