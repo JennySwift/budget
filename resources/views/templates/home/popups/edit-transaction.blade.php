@@ -48,6 +48,7 @@
         </div>
 
         <tag-autocomplete-directive
+            ng-if="edit_transaction.type !== 'transfer'"
             chosenTags="edit_transaction.tags"
             dropdown="edit_transaction.dropdown"
             tags="tags"

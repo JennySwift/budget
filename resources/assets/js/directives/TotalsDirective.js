@@ -18,8 +18,8 @@
                 "provideFeedback" : "&providefeedback",
                 "show": "=show"
             },
-            template: $('script#totals').html(),
-            //templateUrl: '/totals-directive',
+            //template: $('script#totals').html(),
+            templateUrl: '/totals-directive',
             //scope: true,
             link: function($scope, elem, attrs) {
                 //$scope.filterFactory = FilterFactory;

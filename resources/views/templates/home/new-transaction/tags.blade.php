@@ -1,4 +1,4 @@
-<div>
+<div ng-if="new_transaction.type !== 'transfer'">
     <div class="help-row">
         <label>Add tags to your transaction (optional)</label>
 

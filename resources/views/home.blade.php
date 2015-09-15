@@ -19,9 +19,9 @@
 
     @include('templates.home.main-content')
 
-    <script id="totals">
-        @include('directives.totals')
-    </script>
+    {{--<script id="totals">--}}
+        {{--@include('directives.totals')--}}
+    {{--</script>--}}
 
 </div>
 
