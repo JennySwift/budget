@@ -37,7 +37,7 @@ class AccountsTest extends TestCase {
      */
     public function it_displays_an_account()
     {
-        $user = $this->logInUser();
+        $this->logInUser();
 
         $account = Account::forCurrentUser()->first();
 
@@ -50,7 +50,7 @@ class AccountsTest extends TestCase {
         $this->assertArrayHasKey('path', $content);
         $this->assertContains($account->name, $content);
         $this->assertContains($account->path, $content);
-        $this->assertEquals($user->id, $content['user_id']);
+        $this->assertEquals($this->user->id, $content['user_id']);
     }
 
 	/**
@@ -128,12 +128,12 @@ class AccountsTest extends TestCase {
      */
     public function it_can_delete_an_account()
     {
-        $user = $this->logInUser();
+        $this->logInUser();
 
         $name = 'echidna';
 
         $account = new Account(compact('name'));
-        $account->user()->associate($user);
+        $account->user()->associate($this->user);
         $account->save();
 
         $this->seeInDatabase('accounts', compact('name'));

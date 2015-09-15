@@ -6,6 +6,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 	protected $baseUrl = "http://localhost";
 
+	protected $user;
+
 	/**
 	 * Creates the application.
 	 *
@@ -41,11 +43,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		return parent::call($method, $uri, $parameters, $cookies, $files, $server, $content);
 	}
 
+	/**
+	 *
+	 * @return mixed
+	 */
     public function logInUser()
     {
         $user = User::first();
         $this->be($user);
-        return $user;
+        $this->user = $user;
     }
 
 }
