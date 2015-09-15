@@ -92,7 +92,7 @@ class BudgetsTest extends TestCase {
      */
     public function it_does_not_update_an_assigned_budget_if_values_are_the_same()
     {
-        $user = $this->logInUser();
+        $this->logInUser();
 
         $budget = Budget::forCurrentUser()->where('type', '!=', 'unassigned')->first();
 
@@ -103,7 +103,7 @@ class BudgetsTest extends TestCase {
 
         $this->assertEquals(304, $response->getStatusCode());
         $this->seeInDatabase('budgets', [
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'name' => $budget->name,
             'amount' => $budget->amount
         ]);
@@ -116,7 +116,7 @@ class BudgetsTest extends TestCase {
      */
     public function it_deletes_a_budget()
     {
-        $user = $this->logInUser();
+        $this->logInUser();
 
         $budget = Budget::forCurrentUser()->first();
 
@@ -124,7 +124,7 @@ class BudgetsTest extends TestCase {
 
         $this->assertEquals(204, $response->getStatusCode());
         $this->missingFromDatabase('budgets', [
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'name' => $budget->name
         ]);
     }

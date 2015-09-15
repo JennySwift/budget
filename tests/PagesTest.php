@@ -25,12 +25,12 @@ class PagesTest extends TestCase {
 	 */
 	public function it_can_display_the_homepage()
 	{
-        $user = $this->logInUser();
+        $this->logInUser();
 
         $transaction = \App\Models\Transaction::first();
 
 		$this->visit('/')
-             ->see($user->name)
+             ->see($this->user->name)
              ->see($transaction->account->name);
 	}
 
