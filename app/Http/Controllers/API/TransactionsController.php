@@ -120,6 +120,7 @@ class TransactionsController extends Controller
 
     /**
      * Todo: Should be POST /api/accounts/{accounts}/transaction
+     * Todo: Do validations
      * @param Request $request
      * @return array
      */
@@ -142,7 +143,7 @@ class TransactionsController extends Controller
 //            $savings->increase($this->savingsRepository->calculateAfterIncomeAdded($transaction));
 //        }
 
-        return $this->responseWithTransformer($item, Response::HTTP_OK);
+        return $this->responseWithTransformer($item, Response::HTTP_CREATED);
     }
 
     //Todo: Combine the update methods below into one method

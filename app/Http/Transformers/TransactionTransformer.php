@@ -23,6 +23,7 @@ class TransactionTransformer extends TransformerAbstract
             'merchant' => $transaction->merchant,
             'total' => $transaction->total,
             'reconciled' => $transaction->reconciled,
+            'allocated' => $transaction->allocated,
             'account_id' => $transaction->account_id,
             'budgets' => $transaction->budgets,
             'hasMultipleBudgets' => (bool) $transaction->hasMultipleBudgets()
