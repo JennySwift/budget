@@ -34,9 +34,9 @@ class AppServiceProvider extends ServiceProvider {
 			'Illuminate\Contracts\Auth\Registrar',
 			'App\Services\Registrar'
 		);
-		$this->app->bind('remaining-balance', function(){
-			return $this->app->make('App\Models\Totals\RemainingBalance');
-		});
+//		$this->app->bind('remaining-balance', function(){
+//			return $this->app->make('App\Models\Totals\RemainingBalance');
+//		});
 	}
 
 }
