@@ -30,18 +30,14 @@ class CreateBudgetRequest extends Request {
             'name' => 'required|unique:budgets,name,NULL,id,user_id,'.Auth::id(),
             'type' => 'required|in:'.implode(',', Config::get('budgets.types')),
 
-            /**
-             * @VP:
-             * How would I do 'fixed or flex' for 'required_if', not just 'fixed'?
-             */
-            'amount' => 'required_if:type,fixed|required_if:type,flex|numeric|min:0',
-			'starting_date' => 'required_if:type,fixed|required_if:type,flex|date_format:Y-m-d'
+//            'amount' => 'required_if:type,fixed|required_if:type,flex|numeric|min:0',
+//			'starting_date' => 'required_if:type,fixed|required_if:type,flex|date_format:Y-m-d'
         ];
 
-//        if ($this->get('type') !== 'unassigned') {
-//            $rules['amount'] = 'required|numeric|min:0';
-//			$rules['starting_date'] = 'required|date_format:Y-m-d';
-//        }
+        if ($this->get('type') !== 'unassigned') {
+            $rules['amount'] = 'required_if:type,fixed|required_if:type,flex|numeric|min:0';
+			$rules['starting_date'] = 'required_if:type,fixed|required_if:type,flex|date_format:Y-m-d';
+        }
 
         return $rules;
 	}

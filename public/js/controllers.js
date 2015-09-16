@@ -30,7 +30,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.remainingBalance = remainingBalance;
         }
 
-        if (page === 'home') {
+        if (typeof page !== 'undefined' && page === 'home') {
             //Putting this here so that transactions update
             //after inserting transaction from newTransactionController
             $scope.transactions = filter_response.transactions;

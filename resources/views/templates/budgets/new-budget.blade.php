@@ -25,7 +25,7 @@
 
     </div>
 
-    <div class="flex">
+    <div ng-if="newBudget.type !== 'unassigned'" class="flex">
 
         <div>
             <label>Enter an an amount</label>
