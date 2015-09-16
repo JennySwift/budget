@@ -28,13 +28,13 @@ class TransactionSeeder extends Seeder {
 
         foreach($users as $user) {
             // Create transactions without budgets
-            $this->createIncomeTransactionsWithoutBudgets($user, 2);
+            $this->createIncomeTransactionsWithoutBudgets($user, 1);
             $this->createExpenseTransactionsWithOutBudgets($user, 1);
             $this->createTransferTransactions($user, 1);
 
             //Create transactions with budgets
-            $this->createExpenseTransactionsWithBudgets($user, 2);
-            $this->createIncomeTransactionsWithBudgets($user, 2);
+            $this->createExpenseTransactionsWithBudgets($user, 1);
+            $this->createIncomeTransactionsWithBudgets($user, 1);
         }
 	}
 
@@ -45,31 +45,32 @@ class TransactionSeeder extends Seeder {
         $bankFeesId = Budget::where('user_id', $user->id)->whereName('bank fees')->pluck('id');
         foreach (range(1, $num) as $index) {
             //Create fixed budget expenses before starting date
-            $transaction = $this->createExpense($user, $dateBeforeStartingDate);
-            $this->addBudgetsToTransaction($transaction, $this->getRandomFixedBudgetIds($user));
+            $transaction = $this->createExpense($user, $dateBeforeStartingDate, 5);
+//            $this->addBudgetsToTransaction($transaction, $this->getRandomFixedBudgetIds($user));
+            $this->addBudgetsToTransaction($transaction, [2,3]);
 
             //Create fixed budget expenses after starting date
-            $transaction = $this->createExpense($user, $dateAfterStartingDate);
-            $this->addBudgetsToTransaction($transaction, $this->getRandomFixedBudgetIds($user));
+            $transaction = $this->createExpense($user, $dateAfterStartingDate, 10);
+            $this->addBudgetsToTransaction($transaction, [2,3]);
 
             //Create flex budget expenses before starting date
-            $transaction = $this->createExpense($user, $dateBeforeStartingDate);
-            $this->addBudgetsToTransaction($transaction, $this->getRandomFlexBudgetIds($user));
+            $transaction = $this->createExpense($user, $dateBeforeStartingDate, 15);
+            $this->addBudgetsToTransaction($transaction, [4,5]);
 
             //Create flex budget expenses after starting date
-            $transaction = $this->createExpense($user, $dateAfterStartingDate);
-            $this->addBudgetsToTransaction($transaction, $this->getRandomFlexBudgetIds($user));
+            $transaction = $this->createExpense($user, $dateAfterStartingDate, 20);
+            $this->addBudgetsToTransaction($transaction, [4,5]);
 
             //Create expenses before starting date with both fixed and flex budgets
-            $transaction = $this->createExpense($user, $dateBeforeStartingDate);
-            $this->addBudgetsToTransaction($transaction, $this->getRandomFixedAndFlexBudgetIds($user));
+            $transaction = $this->createExpense($user, $dateBeforeStartingDate, 25);
+            $this->addBudgetsToTransaction($transaction, [2,4]);
 
             //Create expenses after starting date with both fixed and flex budgets
-            $transaction = $this->createExpense($user, $dateAfterStartingDate);
-            $this->addBudgetsToTransaction($transaction, $this->getRandomFixedAndFlexBudgetIds($user));
+            $transaction = $this->createExpense($user, $dateAfterStartingDate, 30);
+            $this->addBudgetsToTransaction($transaction, [3,5]);
 
             //Create expenses with unassigned budget
-            $transaction = $this->createExpense($user, $dateAfterStartingDate);
+            $transaction = $this->createExpense($user, $dateAfterStartingDate, 5);
             $this->addBudgetToTransaction($transaction, $bankFeesId);
         }
     }
@@ -85,23 +86,23 @@ class TransactionSeeder extends Seeder {
 
         foreach (range(1, $num) as $index) {
             //Create fixed budget income before starting date for 'business' budget
-            $transaction = $this->createIncome($user, $dateBeforeStartingDate);
+            $transaction = $this->createIncome($user, $dateBeforeStartingDate, 100);
             $this->addBudgetToTransaction($transaction, $businessId);
 
             //Create fixed budget income after starting date for 'business' budget
-            $transaction = $this->createIncome($user, $dateAfterStartingDate);
+            $transaction = $this->createIncome($user, $dateAfterStartingDate, 200);
             $this->addBudgetToTransaction($transaction, $businessId);
 
             //Create flex budget income before starting date for 'busking' budget
-            $transaction = $this->createIncome($user, $dateBeforeStartingDate);
+            $transaction = $this->createIncome($user, $dateBeforeStartingDate, 500);
             $this->addBudgetToTransaction($transaction, $buskingId);
 
             //Create flex budget income after starting date for 'busking' budget
-            $transaction = $this->createIncome($user, $dateAfterStartingDate);
+            $transaction = $this->createIncome($user, $dateAfterStartingDate, 1000);
             $this->addBudgetToTransaction($transaction, $buskingId);
 
             //Create income with unassigned budget
-            $transaction = $this->createIncome($user, $dateAfterStartingDate);
+            $transaction = $this->createIncome($user, $dateAfterStartingDate, 250);
             $this->addBudgetToTransaction($transaction, $somethingId);
         }
     }
@@ -189,7 +190,7 @@ class TransactionSeeder extends Seeder {
     private function createIncomeTransactionsWithoutBudgets($user, $num)
     {
         foreach (range(1, $num) as $index) {
-            $transaction = $this->createIncome($user, $this->faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d'));
+            $transaction = $this->createIncome($user, $this->faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d'), 300);
         }
     }
 
@@ -203,7 +204,7 @@ class TransactionSeeder extends Seeder {
     private function createExpenseTransactionsWithoutBudgets($user, $num)
     {
         foreach (range(1, $num) as $index) {
-            $transaction = $this->createExpense($user, $this->faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d'));
+            $transaction = $this->createExpense($user, $this->faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d'), 50);
         }
     }
 
@@ -213,7 +214,7 @@ class TransactionSeeder extends Seeder {
      * @param $addBudgets
      * @param $date
      */
-    private function createExpense($user, $date)
+    private function createExpense($user, $date, $total)
     {
         $transaction = new Transaction([
             'type' => 'expense',
@@ -221,7 +222,8 @@ class TransactionSeeder extends Seeder {
             'account_id' => Account::whereUserId($user->id)->get()->random(1)->id,
             'description' => $this->faker->sentence(1),
             'merchant' => $this->faker->name(),
-            'total' => $this->faker->randomElement([5, 10, 15, 20]) * -1,
+//            'total' => $this->faker->randomElement([5, 10, 15, 20]) * -1,
+            'total' => $total,
             'reconciled' => $this->faker->numberBetween($min = 0, $max = 1),
             'allocated' => 0,
             'created_at' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s')
@@ -237,7 +239,7 @@ class TransactionSeeder extends Seeder {
      *
      * @param $user
      */
-    private function createIncome($user, $date)
+    private function createIncome($user, $date, $total)
     {
         $transaction = new Transaction([
             'type' => 'income',
@@ -245,7 +247,8 @@ class TransactionSeeder extends Seeder {
             'account_id' => Account::whereUserId($user->id)->get()->random(1)->id,
             'description' => $this->faker->sentence(1),
             'merchant' => $this->faker->name(),
-            'total' => $this->faker->randomElement([100, 500, 1000, 2000]),
+//            'total' => $this->faker->randomElement([100, 500, 1000, 2000]),
+            'total' => $total,
             'reconciled' => $this->faker->numberBetween($min = 0, $max = 1),
             'allocated' => 0,
             'created_at' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s')
@@ -266,7 +269,8 @@ class TransactionSeeder extends Seeder {
         $to_account = Account::whereUserId($user->id)->get()->random(1);
 
         $date = $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s');
-        $amount = $this->faker->randomElement([5, 10, 15, 20]);
+//        $total = $this->faker->randomElement([5, 10, 15, 20]);
+        $total = 100;
         $description = $this->faker->sentence(1);
 
         while ($from_account->id == $to_account->id) {
@@ -279,7 +283,7 @@ class TransactionSeeder extends Seeder {
             'account_id' => $from_account->id,
             'description' => $description,
             'merchant' => NULL,
-            'total' => $amount,
+            'total' => $total * -1,
             'reconciled' => $this->faker->numberBetween($min = 0, $max = 1),
             'allocated' => 0,
             'created_at' => $date
@@ -293,7 +297,7 @@ class TransactionSeeder extends Seeder {
             'account_id' => $to_account->id,
             'description' => $description,
             'merchant' => NULL,
-            'total' => $amount,
+            'total' => $total,
             'reconciled' => $this->faker->numberBetween($min = 0, $max = 1),
             'allocated' => 0,
             'created_at' => $date

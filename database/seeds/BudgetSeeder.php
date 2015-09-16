@@ -18,10 +18,10 @@ class BudgetSeeder extends Seeder {
                 'type' => 'unassigned',
                 'name' => 'bank fees'
             ],
-            [
-                'type' => 'unassigned',
-                'name' => 'something'
-            ],
+//            [
+//                'type' => 'unassigned',
+//                'name' => 'something'
+//            ],
             [
                 'type' => 'fixed',
                 'name' => 'business',
@@ -34,24 +34,24 @@ class BudgetSeeder extends Seeder {
 				'amount' => 100,
 				'starting_date' => $this->startingDate
 			],
-            [
-                'type' => 'fixed',
-                'name' => 'rent',
-                'amount' => 50,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'fixed',
-                'name' => 'licenses',
-                'amount' => 20,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'fixed',
-                'name' => 'insurance',
-                'amount' => 100,
-                'starting_date' => $this->startingDate
-            ],
+//            [
+//                'type' => 'fixed',
+//                'name' => 'rent',
+//                'amount' => 50,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'fixed',
+//                'name' => 'licenses',
+//                'amount' => 20,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'fixed',
+//                'name' => 'insurance',
+//                'amount' => 100,
+//                'starting_date' => $this->startingDate
+//            ],
 //            [
 //                'type' => 'fixed',
 //                'name' => 'conferences',
@@ -94,24 +94,24 @@ class BudgetSeeder extends Seeder {
 				'amount' => 10.00,
 				'starting_date' => $this->startingDate
 			],
-            [
-                'type' => 'flex',
-                'name' => 'entertainment',
-                'amount' => 5.00,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'flex',
-                'name' => 'recreation',
-                'amount' => 20.00,
-                'starting_date' => $this->startingDate
-            ],
-            [
-                'type' => 'flex',
-                'name' => 'holidays',
-                'amount' => 50.00,
-                'starting_date' => $this->startingDate
-            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'entertainment',
+//                'amount' => 5.00,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'recreation',
+//                'amount' => 20.00,
+//                'starting_date' => $this->startingDate
+//            ],
+//            [
+//                'type' => 'flex',
+//                'name' => 'holidays',
+//                'amount' => 50.00,
+//                'starting_date' => $this->startingDate
+//            ],
 //            [
 //                'type' => 'flex',
 //                'name' => 'gifts',
