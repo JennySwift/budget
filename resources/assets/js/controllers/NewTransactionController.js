@@ -63,11 +63,11 @@
          * Watches
          */
 
-        $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
-            if (newValue) {
-                scope.filter = newValue;
-            }
-        });
+        //$scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        scope.filter = newValue;
+        //    }
+        //});
 
         /**
          * Clear new transaction fields
@@ -143,6 +143,7 @@
                     $scope.clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
                     $scope.getTotals();
+                    $scope.filterTransactions();
 
                     //Todo: get filter response, and check for multiple budgets
                     //FilterFactory.updateDataForControllers(response.data);
@@ -159,13 +160,14 @@
             $scope.insertTransferTransaction('to');
         };
 
-        $scope.insertTransferTransaction = function () {
+        $scope.insertTransferTransaction = function ($direction) {
             $scope.showLoading();
             TransactionsFactory.insertTransferTransaction($scope.new_transaction, $direction)
                 .then(function (response) {
                     $scope.provideFeedback('Transfer added');
                     $scope.clearNewTransactionFields();
                     $scope.getTotals();
+                    $scope.filterTransactions();
                     $scope.new_transaction.dropdown = false;
 
                     //Todo: get filter stuff

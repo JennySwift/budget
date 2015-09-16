@@ -15,7 +15,7 @@
         $scope.accounts = accounts_response;
         $scope.budgets = budgets;
         $scope.types = ["income", "expense", "transfer"];
-        $scope.totals = filter_response.totals;
+        //$scope.totals = filter_response.totals;
         $scope.filterTab = 'show';
         //$scope.loading = true;
 
@@ -29,30 +29,30 @@
 
         // Not sure why I have to do this in the filter controller,
         // but $scope.filter wasn't updating otherwise
-        $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
-            if (newValue) {
-                scope.filter = newValue;
+        //$scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        scope.filter = newValue;
+        //
+        //        if (newValue !== oldValue) {
+        //            $scope.filterTransactions();
+        //        }
+        //    }
+        //});
 
-                if (newValue !== oldValue) {
-                    $scope.filterTransactions();
-                }
-            }
-        });
+        //$scope.$watch('filterFactory.filter_results.totals', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        scope.totals = newValue;
+        //        //$scope.calculateGraphFigures();
+        //    }
+        //});
 
-        $scope.$watch('filterFactory.filter_results.totals', function (newValue, oldValue, scope) {
-            if (newValue) {
-                scope.totals = newValue;
-                //$scope.calculateGraphFigures();
-            }
-        });
-
-        $scope.$watch('filterFactory.filter_results.graph_totals', function (newValue, oldValue, scope) {
-            if (newValue) {
-                //This is running many times when it shouldn't
-                scope.graph_totals = newValue;
-                $scope.calculateGraphFigures();
-            }
-        });
+        //$scope.$watch('filterFactory.filter_results.graph_totals', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        //This is running many times when it shouldn't
+        //        scope.graph_totals = newValue;
+        //        $scope.calculateGraphFigures();
+        //    }
+        //});
 
         $scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
             if (newValue === oldValue) {
@@ -110,18 +110,6 @@
                     month: this.month
                 });
             });
-        };
-
-        $scope.filterTransactions = function () {
-            $scope.showLoading();
-            FilterFactory.filterTransactions($scope.filter)
-                .then(function (response) {
-                    FilterFactory.updateDataForControllers({filter_results: response.data});
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
         };
 
         //Todo: I might not need some of this code (not allowing offset to be less than 0)

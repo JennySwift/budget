@@ -11,32 +11,30 @@
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
-        $scope.transactions = filter_response.transactions;
         $scope.accounts = accounts_response;
 
         /**
          * Watches
          */
 
-        $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
-            if (newValue) {
-                scope.filter = newValue;
-            }
-        });
-
-        $scope.$watch('filterFactory.filter_results.transactions', function (newValue, oldValue, scope) {
-            if (newValue) {
-                scope.transactions = newValue;
-            }
-        });
+        //$scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        scope.filter = newValue;
+        //    }
+        //});
+        //
+        //$scope.$watch('filterFactory.filter_results.transactions', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        scope.transactions = newValue;
+        //    }
+        //});
 
         $scope.updateReconciliation = function ($transaction_id, $reconciliation) {
             $scope.clearTotalChanges();
             $scope.showLoading();
             TransactionsFactory.updateReconciliation($transaction_id, $reconciliation, $scope.filter)
                 .then(function (response) {
-                    FilterFactory.updateDataForControllers(response.data);
-                    $scope.updateTotalsAfterResponse(response);
+                    $scope.filterTransactions();
                     $scope.hideLoading();
                 })
                 .catch(function (response) {

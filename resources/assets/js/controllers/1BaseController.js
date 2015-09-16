@@ -9,7 +9,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         .module('budgetApp')
         .controller('BaseController', base);
 
-    function base ($scope, $http, $sce, TotalsFactory, UsersFactory) {
+    function base ($scope, $http, $sce, TotalsFactory, UsersFactory, FilterFactory) {
         /**
          * Scope properties
          */
@@ -28,6 +28,26 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.fixedBudgetTotals = fixedBudgetTotals;
             $scope.flexBudgetTotals = flexBudgetTotals;
             $scope.remainingBalance = remainingBalance;
+        }
+
+        if (page === 'home') {
+            //Putting this here so that transactions update
+            //after inserting transaction from newTransactionController
+            $scope.transactions = filter_response.transactions;
+
+            $scope.filter = FilterFactory.filter;
+
+            $scope.filterTransactions = function () {
+                $scope.showLoading();
+                FilterFactory.filterTransactions($scope.filter)
+                    .then(function (response) {
+                        $scope.hideLoading();
+                        $scope.transactions = response.data.transactions;
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    })
+            };
         }
 
         $scope.totalChanges = {};

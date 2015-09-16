@@ -9,7 +9,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         .module('budgetApp')
         .controller('BaseController', base);
 
-    function base ($scope, $http, $sce, TotalsFactory, UsersFactory) {
+    function base ($scope, $http, $sce, TotalsFactory, UsersFactory, FilterFactory) {
         /**
          * Scope properties
          */
@@ -28,6 +28,26 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.fixedBudgetTotals = fixedBudgetTotals;
             $scope.flexBudgetTotals = flexBudgetTotals;
             $scope.remainingBalance = remainingBalance;
+        }
+
+        if (page === 'home') {
+            //Putting this here so that transactions update
+            //after inserting transaction from newTransactionController
+            $scope.transactions = filter_response.transactions;
+
+            $scope.filter = FilterFactory.filter;
+
+            $scope.filterTransactions = function () {
+                $scope.showLoading();
+                FilterFactory.filterTransactions($scope.filter)
+                    .then(function (response) {
+                        $scope.hideLoading();
+                        $scope.transactions = response.data.transactions;
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    })
+            };
         }
 
         $scope.totalChanges = {};
@@ -614,7 +634,7 @@ var app = angular.module('budgetApp');
         $scope.accounts = accounts_response;
         $scope.budgets = budgets;
         $scope.types = ["income", "expense", "transfer"];
-        $scope.totals = filter_response.totals;
+        //$scope.totals = filter_response.totals;
         $scope.filterTab = 'show';
         //$scope.loading = true;
 
@@ -628,30 +648,30 @@ var app = angular.module('budgetApp');
 
         // Not sure why I have to do this in the filter controller,
         // but $scope.filter wasn't updating otherwise
-        $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
-            if (newValue) {
-                scope.filter = newValue;
+        //$scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        scope.filter = newValue;
+        //
+        //        if (newValue !== oldValue) {
+        //            $scope.filterTransactions();
+        //        }
+        //    }
+        //});
 
-                if (newValue !== oldValue) {
-                    $scope.filterTransactions();
-                }
-            }
-        });
+        //$scope.$watch('filterFactory.filter_results.totals', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        scope.totals = newValue;
+        //        //$scope.calculateGraphFigures();
+        //    }
+        //});
 
-        $scope.$watch('filterFactory.filter_results.totals', function (newValue, oldValue, scope) {
-            if (newValue) {
-                scope.totals = newValue;
-                //$scope.calculateGraphFigures();
-            }
-        });
-
-        $scope.$watch('filterFactory.filter_results.graph_totals', function (newValue, oldValue, scope) {
-            if (newValue) {
-                //This is running many times when it shouldn't
-                scope.graph_totals = newValue;
-                $scope.calculateGraphFigures();
-            }
-        });
+        //$scope.$watch('filterFactory.filter_results.graph_totals', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        //This is running many times when it shouldn't
+        //        scope.graph_totals = newValue;
+        //        $scope.calculateGraphFigures();
+        //    }
+        //});
 
         $scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
             if (newValue === oldValue) {
@@ -709,18 +729,6 @@ var app = angular.module('budgetApp');
                     month: this.month
                 });
             });
-        };
-
-        $scope.filterTransactions = function () {
-            $scope.showLoading();
-            FilterFactory.filterTransactions($scope.filter)
-                .then(function (response) {
-                    FilterFactory.updateDataForControllers({filter_results: response.data});
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
         };
 
         //Todo: I might not need some of this code (not allowing offset to be less than 0)
@@ -1122,11 +1130,11 @@ var app = angular.module('budgetApp');
          * Watches
          */
 
-        $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
-            if (newValue) {
-                scope.filter = newValue;
-            }
-        });
+        //$scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        scope.filter = newValue;
+        //    }
+        //});
 
         /**
          * Clear new transaction fields
@@ -1202,6 +1210,7 @@ var app = angular.module('budgetApp');
                     $scope.clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
                     $scope.getTotals();
+                    $scope.filterTransactions();
 
                     //Todo: get filter response, and check for multiple budgets
                     //FilterFactory.updateDataForControllers(response.data);
@@ -1218,13 +1227,14 @@ var app = angular.module('budgetApp');
             $scope.insertTransferTransaction('to');
         };
 
-        $scope.insertTransferTransaction = function () {
+        $scope.insertTransferTransaction = function ($direction) {
             $scope.showLoading();
             TransactionsFactory.insertTransferTransaction($scope.new_transaction, $direction)
                 .then(function (response) {
                     $scope.provideFeedback('Transfer added');
                     $scope.clearNewTransactionFields();
                     $scope.getTotals();
+                    $scope.filterTransactions();
                     $scope.new_transaction.dropdown = false;
 
                     //Todo: get filter stuff
@@ -1356,32 +1366,30 @@ var app = angular.module('budgetApp');
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
-        $scope.transactions = filter_response.transactions;
         $scope.accounts = accounts_response;
 
         /**
          * Watches
          */
 
-        $scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
-            if (newValue) {
-                scope.filter = newValue;
-            }
-        });
-
-        $scope.$watch('filterFactory.filter_results.transactions', function (newValue, oldValue, scope) {
-            if (newValue) {
-                scope.transactions = newValue;
-            }
-        });
+        //$scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        scope.filter = newValue;
+        //    }
+        //});
+        //
+        //$scope.$watch('filterFactory.filter_results.transactions', function (newValue, oldValue, scope) {
+        //    if (newValue) {
+        //        scope.transactions = newValue;
+        //    }
+        //});
 
         $scope.updateReconciliation = function ($transaction_id, $reconciliation) {
             $scope.clearTotalChanges();
             $scope.showLoading();
             TransactionsFactory.updateReconciliation($transaction_id, $reconciliation, $scope.filter)
                 .then(function (response) {
-                    FilterFactory.updateDataForControllers(response.data);
-                    $scope.updateTotalsAfterResponse(response);
+                    $scope.filterTransactions();
                     $scope.hideLoading();
                 })
                 .catch(function (response) {

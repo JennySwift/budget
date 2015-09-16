@@ -56,7 +56,6 @@ class TransactionsController extends Controller
      */
     public function filterTransactions(Request $request)
     {
-//        dd($request->get('filter'));
         return $this->filterRepository->filterTransactions($request->get('filter'));
     }
 

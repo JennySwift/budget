@@ -15,6 +15,7 @@
         id="new-transaction-container">
 
         @include('templates.home.new-transaction')
+
     </div>
 
     @include('templates.home.main-content')

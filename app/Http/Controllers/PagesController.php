@@ -41,6 +41,7 @@ class PagesController extends Controller {
         JavaScript::put([
             'env' => app()->env,
             'me' => Auth::user(),
+            'page' => 'home',
 //            //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),
             'budgets' => $this->budgetsRepository->getBudgets(),
