@@ -98,23 +98,10 @@ class TransactionsController extends Controller
         return $this->responseNoContent();
     }
 
-    public function show($id)
+    public function show($transaction)
     {
-        $transaction = Transaction::find($id);
-
-        $item = $this->createItem(
-            $transaction,
-            new TransactionTransformer
-        );
-
-        // Put an amount into savings if it is an income expense
-//        if ($transaction->type === 'income') {
-//            $savings = Savings::forCurrentUser()->first();
-//            $savings->increase($this->savingsRepository->calculateAfterIncomeAdded($transaction));
-//        }
-
-        // Todo: Check both transactions for multiple budgets, not just the last one?
-        return $this->responseWithTransformer($item, Response::HTTP_OK);
+        return $this->responseOk($transaction);
+//        return $this->responseWithTransformer($item, Response::HTTP_OK);
     }
 
     /**
@@ -151,6 +138,17 @@ class TransactionsController extends Controller
 
     // Update the model with this array
 //     $exercise->update($data);
+
+    /**
+     * POST api/updateReconciliation
+     * @param Request $request
+     */
+    public function updateReconciliation(Request $request)
+    {
+        $transaction = Transaction::find($request->get('id'));
+        $transaction->reconciled = convertFromBoolean($request->get('reconciled'));
+        $transaction->save();
+    }
 
     /**
      * Update the transaction
@@ -216,29 +214,6 @@ class TransactionsController extends Controller
         $transaction = Transaction::find($request->get('transaction_id'));
         $transaction->allocated = $request->get('status');
         $transaction->save();
-    }
-
-    /**
-     * POST api/updateReconciliation
-     * @param Request $request
-     */
-    public function updateReconciliation(Request $request)
-    {
-        $transaction = Transaction::find($request->get('id'));
-        $transaction->reconciled = convertFromBoolean($request->get('reconciled'));
-        $transaction->save();
-
-        $remainingBalance = app('remaining-balance')->calculate();
-
-        return [
-            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter')),
-
-            //totals
-            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-            'remainingBalance' => $remainingBalance->amount
-        ];
     }
 
     /**
