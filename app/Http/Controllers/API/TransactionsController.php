@@ -123,12 +123,6 @@ class TransactionsController extends Controller
             new TransactionTransformer
         );
 
-        // Put an amount into savings if it is an income expense
-//        if ($transaction->type === 'income') {
-//            $savings = Savings::forCurrentUser()->first();
-//            $savings->increase($this->savingsRepository->calculateAfterIncomeAdded($transaction));
-//        }
-
         return $this->responseWithTransformer($item, Response::HTTP_CREATED);
     }
 
