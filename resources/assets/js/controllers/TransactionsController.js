@@ -163,10 +163,10 @@
                 $scope.showLoading();
                 TransactionsFactory.deleteTransaction($transaction, $scope.filter)
                     .then(function (response) {
-                        //Todo: get totals and filter results with separate request
-                        //todo: (not returned in this response anymore for restfulness)
+                        jsDeleteTransaction($transaction);
+                        $scope.getTotals();
+                        //Todo: get filter totals with separate request
                         //FilterFactory.updateDataForControllers(response.data);
-                        //$scope.updateTotalsAfterResponse(response);
 
                         $scope.provideFeedback('Transaction deleted');
                         $scope.hideLoading();
@@ -176,6 +176,11 @@
                     });
             }
         };
+
+        function jsDeleteTransaction ($transaction) {
+          var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
+            $scope.transactions = _.without($scope.transactions, $scope.transactions[$index]);
+        }
 
         $("#mass-delete-button").on('click', function () {
             if (confirm("You are about to delete " + $(".checked").length + " transactions. Are you sure you want to do this?")) {

@@ -359,22 +359,6 @@ app.factory('FilterFactory', function ($http) {
             //This includes filtered transactions as well as filter totals
             $object.filter_results = $data.filter_results;
         }
-        //if ($data.totals) {
-        //    //The non filter totals
-        //    $object.totals = $data.totals;
-        //}
-        //if ($data.basicTotals) {
-        //    $object.basicTotals = $data.basicTotals;
-        //}
-        //if ($data.fixedBudgetTotals) {
-        //    $object.fixedBudgetTotals = $data.fixedBudgetTotals;
-        //}
-        //if ($data.flexBudgetTotals) {
-        //    $object.flexBudgetTotals = $data.flexBudgetTotals;
-        //}
-        //if ($data.remainingBalance) {
-        //    $object.remainingBalance = $data.remainingBalance;
-        //}
     };
 
     return $object;
