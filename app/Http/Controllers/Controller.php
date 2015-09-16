@@ -76,7 +76,7 @@ abstract class Controller extends BaseController {
      * @param null                $key
      * @return Item
      */
-    public function createItem(Model $model, TransformerAbstract $transformer, $key = null)
+    public function createItem($model, TransformerAbstract $transformer, $key = null)
     {
         return new Item($model, $transformer, $key);
     }

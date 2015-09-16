@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Http\Transformers\SidebarTotalTransformer;
 use App\Models\Account;
 use App\Repositories\Budgets\BudgetsRepository;
 use App\Repositories\Filters\FilterRepository;
@@ -36,8 +37,6 @@ class PagesController extends Controller {
      */
     public function home(FilterRepository $filterRepository)
     {
-        $remainingBalance = app('remaining-balance')->calculate();
-
         JavaScript::put([
             'env' => app()->env,
             'me' => Auth::user(),
@@ -47,10 +46,10 @@ class PagesController extends Controller {
             'budgets' => $this->budgetsRepository->getBudgets(),
             'filter_response' => $filterRepository->filterTransactions(),
 
-            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-            'remainingBalance' => $remainingBalance->amount
+//            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
+//            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
+//            'basicTotals' => $remainingBalance->basicTotals->toArray(),
+//            'remainingBalance' => $remainingBalance->amount
         ]);
 
         return view('home');

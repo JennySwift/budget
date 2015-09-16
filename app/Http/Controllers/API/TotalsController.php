@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Transformers\SidebarTotalTransformer;
 
 class TotalsController extends Controller
 {
@@ -23,5 +21,18 @@ class TotalsController extends Controller
             'basicTotals' => $remainingBalance->basicTotals->toArray(),
             'remainingBalance' => $remainingBalance->amount
         ];
+    }
+
+    /**
+     * Get the totals for the sidebar
+     * @return mixed
+     */
+    public function sidebar()
+    {
+        $remainingBalance = app('remaining-balance')->calculate();
+
+        $resource = $this->createItem($remainingBalance, new SidebarTotalTransformer);
+
+        return $this->responseWithTransformer($resource, 200);
     }
 }

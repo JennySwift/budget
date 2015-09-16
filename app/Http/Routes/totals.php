@@ -8,6 +8,7 @@ Route::post('select/allocationTotals', 'TransactionsController@getAllocationTota
 
 // Resources
 Route::get('totals', 'TotalsController@all');
+Route::get('totals/sidebar', 'TotalsController@sidebar');
 
 // ?
 // Route::post('totals/basicAndBudget', 'TotalsController@index');

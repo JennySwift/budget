@@ -14,6 +14,7 @@ class BasicTotal {
 
     public $debit;
     public $credit;
+    public $balance;
     public $reconciledSum;
     public $EWB;
     public $savings;
@@ -27,6 +28,7 @@ class BasicTotal {
         $this->transactions = $transactions ? : Transaction::forCurrentUser()->get();
         $this->setDebit();
         $this->setCredit();
+        $this->setBalance();
         $this->setReconciledSum();
         $this->setEWB();
         $this->setSavings();
@@ -105,6 +107,14 @@ class BasicTotal {
 
     /**
      *
+     */
+    public function setBalance()
+    {
+        $this->balance = $this->credit + $this->debit;
+    }
+
+    /**
+     *
      * @return array
      */
     public function toArray()
@@ -112,7 +122,7 @@ class BasicTotal {
         return [
             "credit" => $this->credit,
             "debit" => $this->debit,
-            "balance" => $this->credit + $this->debit,
+            "balance" => $this->balance,
             "reconciledSum" => $this->reconciledSum,
             "savings" => $this->savings,
             "EWB" => $this->EWB

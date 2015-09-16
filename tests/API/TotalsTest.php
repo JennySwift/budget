@@ -14,122 +14,45 @@ class TotalsTest extends TestCase {
     use DatabaseTransactions;
 
     /**
-     * @var
-     */
-    protected $remainingBalance;
-
-    /**
-     * @var
-     */
-    protected $fixedBudgetTotals;
-
-    /**
-     * @var
-     */
-    protected $flexBudgetTotals;
-
-    /**
-     * A basic functional test example.
      * @test
-     * @return void
      */
-    public function remaining_balance_is_sum_of_figures()
+    public function it_can_load_the_totals_for_the_sidebar()
     {
-        // I am logged in
         $this->logInUser();
 
-        // I make a request for the totals
-        $response = $this->getResponse();
-        $totals = $this->getTotals($response);
-        $this->setProperties($totals);
+        $response = $this->apiCall('GET', 'api/totals/sidebar');
+        $content = json_decode($response->getContent(), false)->data;
 
-        // Set transactions and budgets amount to specific amount
+        $this->assertResponseOk();
 
-        $sum = $totals->basicTotals->credit
-            - $this->fixedBudgetTotals->remaining
-            + $totals->basicTotals->EWB
-            + $this->flexBudgetTotals->spentBeforeStartingDate
-            + $this->fixedBudgetTotals->spentBeforeStartingDate
-            + $this->fixedBudgetTotals->spentAfterStartingDate
-            - $totals->basicTotals->savings;
+        // Check if every attribute is present
+        $this->assertObjectHasAttribute('credit', $content);
+        $this->assertObjectHasAttribute('debit', $content);
+        $this->assertObjectHasAttribute('savings', $content);
+        $this->assertObjectHasAttribute('balance', $content);
+        $this->assertObjectHasAttribute('reconciled', $content);
+        $this->assertObjectHasAttribute('expensesWithoutBudget', $content);
+        $this->assertObjectHasAttribute('remainingBalance', $content);
+        $this->assertObjectHasAttribute('remainingFixedBudget', $content);
+        $this->assertObjectHasAttribute('cumulativeFixedBudget', $content);
+        $this->assertObjectHasAttribute('expensesWithFixedBudgetAfterStartingDate', $content);
+        $this->assertObjectHasAttribute('expensesWithFixedBudgetBeforeStartingDate', $content);
+        $this->assertObjectHasAttribute('expensesWithFlexBudgetAfterStartingDate', $content);
+        $this->assertObjectHasAttribute('expensesWithFlexBudgetBeforeStartingDate', $content);
 
-        $this->assertEquals($sum, $this->remainingBalance);
-        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
-    }
-
-    /**
-     * A basic functional test example.
-     * @test
-     * @return void
-     */
-    public function fixed_budget_amount_total_is_sum_of_amount_columns()
-    {
-        // I am logged in
-        $this->logInUser();
-
-        // I make a request for the totals
-        $response = $this->getResponse();
-        $totals = $this->getTotals($response);
-        $this->setProperties($totals);
-
-        $sum = 0;
-        foreach ($this->fixedBudgetTotals->budget as $budget) {
-            $sum+= $budget->amount;
-        }
-
-        $this->assertEquals($sum, $this->fixedBudgetTotals->amount);
-        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
-    }
-
-    //Todo: Check all other total columns are correct, for each table
-    //Todo: Check 'remaining' rows are correct
-
-    /**
-	 * A basic functional test example.
-	 * @test
-	 * @return void
-	 */
-	public function it_checks_if_flex_budget_total_calculated_amount_equals_remaining_balance()
-	{
-        // I am logged in
-        $this->logInUser();
-
-        // I make a request for the totals
-        $response = $this->getResponse();
-        $totals = $this->getTotals($response);
-        $this->setProperties($totals);
-
-        // And I assert that...
-        $this->assertEquals($this->remainingBalance, $this->flexBudgetTotals->allocatedPlusUnallocatedCalculatedAmount);
-		$this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
-	}
-
-    /**
-     *
-     */
-    private function setProperties($totals)
-    {
-        $this->remainingBalance = $totals->remainingBalance;
-        $this->fixedBudgetTotals = $totals->fixedBudgetTotals;
-        $this->flexBudgetTotals = $totals->flexBudgetTotals;
-    }
-
-    /**
-     * Get the totals response
-     * @return Response
-     */
-    private function getResponse()
-    {
-        return $this->apiCall('GET', '/api/totals');
-    }
-
-    /**
-     * Get the totals
-     * @param $response
-     * @return mixed
-     */
-    private function getTotals($response)
-    {
-        return json_decode($response->getContent(), false);
+        // Check if the values are correct according to our seeders!!
+        $this->assertEquals(2350, $content->credit);
+        $this->assertEquals(160, $content->debit);
+        $this->assertEquals(50, $content->savings);
+        $this->assertEquals(2510, $content->balance);
+        // @TODO Make the reconciled fixed as well so we can ensure it works as expected
+        $this->assertEquals(50, $content->expensesWithoutBudget);
+        $this->assertEquals(440, $content->remainingBalance);
+        $this->assertEquals(2020, $content->remainingFixedBudget);
+        $this->assertEquals(1800, $content->cumulativeFixedBudget);
+        $this->assertEquals(20, $content->expensesWithFixedBudgetAfterStartingDate);
+        $this->assertEquals(60, $content->expensesWithFixedBudgetBeforeStartingDate);
+        $this->assertEquals(100, $content->expensesWithFlexBudgetAfterStartingDate);
+        $this->assertEquals(30, $content->expensesWithFlexBudgetBeforeStartingDate);
     }
 }
