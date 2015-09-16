@@ -109,14 +109,14 @@ class BasicTotal {
      */
     public function toArray()
     {
-        return array(
+        return [
             "credit" => $this->credit,
             "debit" => $this->debit,
             "balance" => $this->credit + $this->debit,
             "reconciledSum" => $this->reconciledSum,
             "savings" => $this->savings,
             "EWB" => $this->EWB
-        );
+        ];
     }
 
 }
