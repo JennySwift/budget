@@ -30,8 +30,8 @@ class TransactionsTest extends TestCase {
             'reconciled' => 0,
             'allocated' => 0,
             'budgets' => [
-                ['id' => 3, 'name' => 'business'],
-                ['id' => 4, 'name' => 'groceries']
+                ['id' => 2, 'name' => 'business'],
+                ['id' => 4, 'name' => 'busking']
             ]
         ];
 
@@ -54,7 +54,7 @@ class TransactionsTest extends TestCase {
 
         $this->seeInDatabase('budgets_transactions', [
             'transaction_id' => $content->id,
-            'budget_id' => 3
+            'budget_id' => 2
         ]);
 
         $this->seeInDatabase('budgets_transactions', [
@@ -81,7 +81,7 @@ class TransactionsTest extends TestCase {
         $this->assertEquals(0, $content->allocated);
 
         $this->assertEquals('business', $content->budgets[0]->name);
-        $this->assertEquals('groceries', $content->budgets[1]->name);
+        $this->assertEquals('busking', $content->budgets[1]->name);
 	}
 
     /**
