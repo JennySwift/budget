@@ -470,17 +470,18 @@ app.factory('TransactionsFactory', function ($http) {
 
     $object.insertTransferTransaction = function ($newTransaction, $direction) {
         var $url = '/api/transactions';
+        var $data = $newTransaction;
 
-        $newTransaction.direction = $direction;
+        $data.direction = $direction;
 
         if ($direction === 'from') {
-            $newTransaction.account_id = $newTransaction.from_account_id;
+            $data.account_id = $data.from_account_id;
         }
         else if ($direction === 'to') {
-            $newTransaction.account_id = $newTransaction.to_account_id;
+            $data.account_id = $data.to_account_id;
         }
 
-        return $http.post($url, $newTransaction);
+        return $http.post($url, $data);
     };
 
     $object.updateMassTags = function ($tag_array, $url, $tag_location) {

@@ -1224,7 +1224,9 @@ var app = angular.module('budgetApp');
 
         $scope.insertTransferTransactions = function () {
             $scope.insertTransferTransaction('from');
-            $scope.insertTransferTransaction('to');
+            setTimeout(function(){
+                $scope.insertTransferTransaction('to');
+            }, 100);
         };
 
         $scope.insertTransferTransaction = function ($direction) {
