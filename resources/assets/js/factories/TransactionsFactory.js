@@ -2,43 +2,30 @@ app.factory('TransactionsFactory', function ($http) {
     var $object = {};
     $object.totals = {};
 
-    $object.insertExpenseTransaction = function ($newTransaction) {
+    $object.insertIncomeOrExpenseTransaction = function ($newTransaction) {
         var $url = '/api/transactions';
 
-        if ($newTransaction.total > 0) {
+        if ($newTransaction.type === 'expense' && $newTransaction.total > 0) {
             //transaction is an expense without the negative sign
             $newTransaction.total*= -1;
         }
-
-        $data = {
-            'date': $newTransaction.date,
-            'type': $newTransaction.type,
-            'description': $newTransaction.description,
-            'merchant': $newTransaction.merchant,
-            'total': $newTransaction.total,
-            'reconciled': $newTransaction.reconciled,
-            'account_id': $newTransaction.account_id,
-            'budgets': $newTransaction.budgets
-        };
-
-        return $http.post($url, $data);
-    };
-
-    $object.insertIncomeTransaction = function ($newTransaction) {
-        var $url = '/api/transactions';
 
         return $http.post($url, $newTransaction);
     };
 
     $object.insertTransferTransaction = function ($newTransaction, $direction) {
         var $url = '/api/transactions';
+
         $newTransaction.direction = $direction;
 
-        var $data = {
-            newTransaction: $newTransaction
-        };
+        if ($direction === 'from') {
+            $newTransaction.account_id = $newTransaction.from_account_id;
+        }
+        else if ($direction === 'to') {
+            $newTransaction.account_id = $newTransaction.to_account_id;
+        }
 
-        return $http.post($url, $data);
+        return $http.post($url, $newTransaction);
     };
 
     $object.updateMassTags = function ($tag_array, $url, $tag_location) {

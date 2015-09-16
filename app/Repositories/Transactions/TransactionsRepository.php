@@ -84,9 +84,89 @@ class TransactionsRepository
 //        return $transaction;
 //    }
 
+    /**
+     *
+     * @param array $data
+     * @return Transaction
+     */
     public function create(array $data)
     {
-        $transaction = new Transaction([
+        Debugbar::info('data', $data);
+        //Build transaction
+        $transaction = $this->newTransaction($data);
+
+        //If transfer
+        if($data['type'] === 'transfer') {
+            $transaction = $this->insertTransferTransaction($transaction, $data);
+        }
+        //If income or expense
+        else {
+            $transaction = $this->insertIncomeOrExpenseTransaction($transaction, $data);
+        }
+
+        //Fire event
+        event(new TransactionWasCreated($transaction));
+
+        return $transaction;
+    }
+
+    /**
+     *
+     * @param $transaction
+     * @param $data
+     */
+    private function insertIncomeOrExpenseTransaction($transaction, $data)
+    {
+        // [1,2,3,4]
+        $budgets = $this->defaultAllocation($data['budgets']);
+
+        $transaction->user()->associate(Auth::user());
+        $transaction->account()->associate(Account::find($data['account_id']));
+        $transaction->save();
+
+        // Insert budgets
+        $this->attachBudgets(
+            $transaction,
+            $budgets
+        );
+
+        return $transaction;
+    }
+
+    /**
+     *
+     * @param $transaction
+     * @param $data
+     * @return mixed
+     */
+    private function insertTransferTransaction($transaction, $data)
+    {
+        switch($data['direction']) {
+            case Transaction::DIRECTION_FROM:
+                $transaction->total = $data['total'] * -1;
+                $account = Account::find($data['account_id']);
+                $transaction->account()->associate($account);
+                break;
+            case Transaction::DIRECTION_TO:
+                $transaction->total = $data['total'];
+                $account = Account::find($data['account_id']);
+                $transaction->account()->associate($account);
+                break;
+        }
+
+        $transaction->user()->associate(Auth::user());
+        $transaction->save();
+        return $transaction;
+    }
+
+    /**
+     * Start to build a new transaction to insert
+     * @param $data
+     * @return Transaction
+     */
+    private function newTransaction($data)
+    {
+        return new Transaction([
             'date' => $data['date']['sql'],
             'description' => $data['description'],
             'merchant' => $data['merchant'],
@@ -94,44 +174,6 @@ class TransactionsRepository
             'type' => $data['type'],
             'reconciled' => $data['reconciled'],
         ]);
-
-        if(array_key_exists('direction', $data)) {
-            switch($data['direction']) {
-                case Transaction::DIRECTION_FROM:
-                    $transaction->total = $data['total'] * -1;
-                    $account = Account::find($data[Transaction::DIRECTION_FROM]);
-                    $transaction->account()->associate($account);
-                    break;
-                case Transaction::DIRECTION_TO:
-                    $transaction->total = $data['total'];
-                    $account = Account::find($data[Transaction::DIRECTION_TO]);
-                    $transaction->account()->associate($account);
-                    break;
-            }
-
-            $transaction->user()->associate(Auth::user());
-            $transaction->save();
-        }
-        else {
-            // [1,2,3,4]
-            $budgets = $this->defaultAllocation($data['budgets']);
-
-            $transaction->user()->associate(Auth::user());
-            $transaction->account()->associate(Account::find($data['account_id']));
-//            dd($transaction->user);
-            $transaction->save();
-
-
-            //      Insert budgets
-            $this->attachBudgets(
-                $transaction,
-                $budgets
-            );
-        }
-
-        event(new TransactionWasCreated($transaction));
-
-        return $transaction;
     }
 
     /**

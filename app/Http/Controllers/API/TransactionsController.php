@@ -127,7 +127,7 @@ class TransactionsController extends Controller
     public function store(Request $request)
     {
         $data = $request->only([
-            'date', 'type', 'description', 'merchant', 'total', 'reconciled', 'account_id', 'budgets'
+            'date', 'type', 'direction', 'description', 'merchant', 'total', 'reconciled', 'account_id', 'budgets'
         ]);
 
         $transaction = $this->transactionsRepository->create($data);

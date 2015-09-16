@@ -1075,7 +1075,7 @@ var app = angular.module('budgetApp');
 
         $scope.new_transaction = {
             type: 'income',
-            account: 1,
+            account_id: 1,
             date: {
                 entered: 'today'
             },
@@ -1083,7 +1083,7 @@ var app = angular.module('budgetApp');
             description: '',
             reconciled: false,
             multiple_budgets: false,
-            tags: []
+            budgets: []
         };
 
         /**
@@ -1094,7 +1094,7 @@ var app = angular.module('budgetApp');
             $scope.new_transaction.date.entered = 'today';
             $scope.new_transaction.merchant = 'some merchant';
             $scope.new_transaction.description = 'some description';
-            $scope.new_transaction.tags = [
+            $scope.new_transaction.budgets = [
                 //{
                 //    id: '1',
                 //    name: 'insurance',
@@ -1113,9 +1113,9 @@ var app = angular.module('budgetApp');
         $scope.accounts = accounts_response;
         if ($scope.accounts[0]) {
             //this if check is to get rid of the error for a new user who does not yet have any accounts.
-            $scope.new_transaction.account = $scope.accounts[0].id;
-            $scope.new_transaction.from_account = $scope.accounts[0].id;
-            $scope.new_transaction.to_account = $scope.accounts[0].id;
+            $scope.new_transaction.account_id = $scope.accounts[0].id;
+            $scope.new_transaction.from_account_id = $scope.accounts[0].id;
+            $scope.new_transaction.to_account_id = $scope.accounts[0].id;
         }
 
         /**
@@ -1132,7 +1132,7 @@ var app = angular.module('budgetApp');
          * Clear new transaction fields
          */
         $scope.clearNewTransactionFields = function () {
-            $scope.new_transaction.tags = [];
+            $scope.new_transaction.budgets = [];
 
             if (me.preferences.clearFields) {
                 $scope.new_transaction.total = '';
@@ -1186,47 +1186,25 @@ var app = angular.module('budgetApp');
 
             $scope.clearTotalChanges();
 
-            if ($scope.new_transaction.type === 'income') {
-                $scope.insertIncomeTransaction();
-            }
-            else if ($scope.new_transaction.type === 'expense') {
-                $scope.insertExpenseTransaction();
-            }
-            else if ($scope.new_transaction.type === 'transfer') {
+            if ($scope.new_transaction.type === 'transfer') {
                 $scope.insertTransferTransactions();
             }
+            else {
+                $scope.insertIncomeOrExpenseTransaction();
+            }
         };
 
-        $scope.insertIncomeTransaction = function () {
+        $scope.insertIncomeOrExpenseTransaction = function () {
             $scope.showLoading();
-            TransactionsFactory.insertIncomeTransaction($scope.new_transaction)
+            TransactionsFactory.insertIncomeOrExpenseTransaction($scope.new_transaction)
                 .then(function (response) {
                     $scope.provideFeedback('Transaction added');
                     $scope.clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
+                    $scope.getTotals();
 
-                    //Todo: get totals, filter, and check for multiple budgets
+                    //Todo: get filter response, and check for multiple budgets
                     //FilterFactory.updateDataForControllers(response.data);
-                    //$scope.updateTotalsAfterResponse(response);
-                    //$scope.checkNewTransactionForMultipleBudgets(response);
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-        $scope.insertExpenseTransaction = function () {
-            $scope.showLoading();
-            TransactionsFactory.insertExpenseTransaction($scope.new_transaction)
-                .then(function (response) {
-                    $scope.provideFeedback('Transaction added');
-                    $scope.clearNewTransactionFields();
-                    $scope.new_transaction.dropdown = false;
-
-                    //Todo: get totals, filter, and check for multiple budgets
-                    //FilterFactory.updateDataForControllers(response.data);
-                    //$scope.updateTotalsAfterResponse(response);
                     //$scope.checkNewTransactionForMultipleBudgets(response);
                     $scope.hideLoading();
                 })
@@ -1236,22 +1214,21 @@ var app = angular.module('budgetApp');
         };
 
         $scope.insertTransferTransactions = function () {
-            $scope.insertTransferTransaction();
-            $scope.insertTransferTransaction();
+            $scope.insertTransferTransaction('from');
+            $scope.insertTransferTransaction('to');
         };
 
         $scope.insertTransferTransaction = function () {
             $scope.showLoading();
-            TransactionsFactory.insertTransferTransaction($scope.new_transaction)
+            TransactionsFactory.insertTransferTransaction($scope.new_transaction, $direction)
                 .then(function (response) {
-                    $scope.provideFeedback('Transaction added');
+                    $scope.provideFeedback('Transfer added');
                     $scope.clearNewTransactionFields();
+                    $scope.getTotals();
                     $scope.new_transaction.dropdown = false;
 
-                    //Todo: get totals, filter, and check for multiple budgets
+                    //Todo: get filter stuff
                     //FilterFactory.updateDataForControllers(response.data);
-                    //$scope.updateTotalsAfterResponse(response);
-                    //$scope.checkNewTransactionForMultipleBudgets(response);
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
