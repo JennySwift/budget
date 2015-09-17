@@ -75,6 +75,8 @@ app.factory('TransactionsFactory', function ($http) {
     $object.updateTransaction = function ($transaction) {
         var $url = $transaction.path;
 
+        $transaction.date = Date.parse($("#edit-transaction-date").val()).toString('yyyy-MM-dd');
+
         //Make sure total is negative for an expense transaction
         if ($transaction.type === 'expense' && $transaction.total > 0) {
             $transaction.total = $transaction.total * -1;

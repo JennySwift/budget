@@ -1332,29 +1332,10 @@ var app = angular.module('budgetApp');
         .controller('TransactionsController', transactions);
 
     function transactions ($scope, $http, TransactionsFactory, FilterFactory) {
-        /**
-         * Scope properties
-         */
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
-
-        /**
-         * Watches
-         */
-
-        //$scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
-        //    if (newValue) {
-        //        scope.filter = newValue;
-        //    }
-        //});
-        //
-        //$scope.$watch('filterFactory.filter_results.transactions', function (newValue, oldValue, scope) {
-        //    if (newValue) {
-        //        scope.transactions = newValue;
-        //    }
-        //});
 
         $scope.updateReconciliation = function ($transaction, $reconciliation) {
             $scope.clearTotalChanges();
@@ -1380,18 +1361,13 @@ var app = angular.module('budgetApp');
         };
 
         $scope.updateTransaction = function () {
-            var $date_entry = $("#edit-transaction-date").val();
-            $scope.edit_transaction.date.user = $date_entry;
-            $scope.edit_transaction.date.sql = Date.parse($date_entry).toString('yyyy-MM-dd');
             $scope.clearTotalChanges();
             $scope.showLoading();
-            TransactionsFactory.updateTransaction($scope.edit_transaction, $scope.filter)
+            TransactionsFactory.updateTransaction($scope.edit_transaction)
                 .then(function (response) {
                     $scope.getSideBarTotals();
                     $scope.provideFeedback('Transaction updated');
-
                     $scope.show.edit_transaction = false;
-
                     $scope.totals = response.data;
                     $scope.hideLoading();
                 })

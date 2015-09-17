@@ -110,10 +110,10 @@ class TransactionsController extends Controller
         //Todo: update the savings when event is fired
         event(new TransactionWasUpdated($transaction, $data));
 
-        if ($request->get('budgets')) {
-            //Todo: make sure the allocated fixed, allocated percent and calculated allocation columns are set like I did in transactions repository attachBudgets()
-            $transaction->budgets()->sync($request->get('budgets'));
-        }
+//        if ($request->get('budgets')) {
+//            //Todo: make sure the allocated fixed, allocated percent and calculated allocation columns are set like I did in transactions repository attachBudgets()
+//            $transaction->budgets()->sync($request->get('budgets'));
+//        }
 
         $transaction->update($data);
         $transaction->save();
