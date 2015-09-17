@@ -9,15 +9,51 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         .module('budgetApp')
         .controller('BaseController', base);
 
-    function base ($scope, $http, $sce, TotalsFactory, UsersFactory, FilterFactory) {
+    function base ($scope, $http, $sce, TotalsFactory, UsersFactory, FilterFactory, TransactionsFactory) {
         /**
          * Scope properties
          */
         $scope.feedback_messages = [];
         $scope.show = {
-            popups: {}
+            popups: {},
+            allocationPopup: false,
+            actions: false,
+            status: false,
+            date: true,
+            description: true,
+            merchant: true,
+            total: true,
+            type: true,
+            account: true,
+            reconciled: true,
+            tags: true,
+            dlt: true,
+            //components
+            new_transaction: true,
+            basic_totals: true,
+            budget_totals: true,
+            filter_totals: true,
+            edit_transaction: false,
+            edit_tag: false,
+            budget: false,
+            filter: false,
+            autocomplete: {
+                description: false,
+                merchant: false
+            },
+            savings_total: {
+                input: false,
+                edit_btn: true
+            }
+
         };
+
         $scope.me = me;
+        $scope.test = 'hi';
+
+        $scope.testing = function () {
+            console.log('hi');
+        };
 
         if (typeof env !== 'undefined') {
             $scope.env = env;
@@ -49,6 +85,80 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
                     .catch(function (response) {
                         $scope.responseError(response);
                     })
+            };
+
+            $scope.handleAllocationForNewTransaction = function ($transaction) {
+                if ($transaction.hasMultipleBudgets) {
+                    FilterFactory.filterTransactions($scope.filter)
+                        .then(function (response) {
+                            $scope.hideLoading();
+                            $scope.transactions = response.data.transactions;
+                            var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
+                            if ($index !== -1) {
+                                //The transaction that was just entered is in the filtered transactions
+                                $scope.showAllocationPopup($scope.transactions[$index]);
+                                //$scope.transactions[$index] = $scope.allocationPopup;
+                            }
+                            else {
+                                $scope.showAllocationPopup($transaction);
+                            }
+                        })
+                        .catch(function (response) {
+                            $scope.responseError(response);
+                        })
+                }
+            };
+
+            $scope.showAllocationPopup = function ($transaction) {
+                $scope.show.allocationPopup = true;
+                $scope.allocationPopup = $transaction;
+
+                $scope.showLoading();
+                TransactionsFactory.getAllocationTotals($transaction.id)
+                    .then(function (response) {
+                        $scope.allocationPopup.totals = response.data;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
+
+            /**
+             * This should be in transactions controller but it wasn't firing for some reason
+             * @param $keycode
+             * @param $type
+             * @param $value
+             * @param $budget_id
+             */
+            $scope.updateAllocation = function ($keycode, $type, $value, $budget_id) {
+                if ($keycode === 13) {
+                    $scope.showLoading();
+                    TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
+                        .then(function (response) {
+                            $scope.allocationPopup.budgets = response.data.budgets;
+                            $scope.allocationPopup.totals = response.data.totals;
+                            $scope.hideLoading();
+                        })
+                        .catch(function (response) {
+                            $scope.responseError(response);
+                        });
+                }
+            };
+
+
+            /**
+             * This should be in transactions controller but it wasn't firing for some reason
+             */
+            $scope.updateAllocationStatus = function () {
+                $scope.showLoading();
+                TransactionsFactory.updateAllocationStatus($scope.allocationPopup.id, $scope.allocationPopup.allocated)
+                    .then(function (response) {
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
             };
         }
 
@@ -853,40 +963,6 @@ var app = angular.module('budgetApp');
             $scope.tab = 'transactions';
         }
 
-        /*=========show=========*/
-        $scope.show = {
-            actions: false,
-            status: false,
-            date: true,
-            description: true,
-            merchant: true,
-            total: true,
-            type: true,
-            account: true,
-            reconciled: true,
-            tags: true,
-            dlt: true,
-            //components
-            new_transaction: true,
-            basic_totals: true,
-            budget_totals: true,
-            filter_totals: true,
-            edit_transaction: false,
-            edit_tag: false,
-            budget: false,
-            filter: false,
-            autocomplete: {
-                description: false,
-                merchant: false
-            },
-            allocationPopup: false,
-            new_transaction_allocation_popup: false,
-            savings_total: {
-                input: false,
-                edit_btn: true
-            }
-        };
-
         /**
          * Watches
          */
@@ -915,21 +991,6 @@ var app = angular.module('budgetApp');
          */
         $scope.debugTotals = function () {
             return $http.get('/test');
-        };
-
-        $scope.showAllocationPopup = function ($transaction) {
-            $scope.show.allocationPopup = true;
-            $scope.allocationPopup = $transaction;
-
-            $scope.showLoading();
-            TransactionsFactory.getAllocationTotals($transaction.id)
-                .then(function (response) {
-                    $scope.allocationPopup.totals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
         };
 
         $scope.toggleFilter = function () {
@@ -1056,22 +1117,21 @@ var app = angular.module('budgetApp');
          */
         if ($scope.env === 'local') {
             $scope.new_transaction.total = 10;
+            $scope.new_transaction.type = 'expense';
             $scope.new_transaction.date.entered = 'today';
             $scope.new_transaction.merchant = 'some merchant';
             $scope.new_transaction.description = 'some description';
             $scope.new_transaction.budgets = [
-                //{
-                //    id: '1',
-                //    name: 'insurance',
-                //    //fixed_budget: '10.00',
-                //    //flex_budget: null
-                //},
-                //{
-                //    id: '2',
-                //    name: 'petrol',
-                //    //fixed_budget: null,
-                //    //flex_budget: '5'
-                //}
+                {
+                    id: '2',
+                    name: 'business',
+                    type: 'fixed'
+                },
+                {
+                    id: '4',
+                    name: 'busking',
+                    type: 'flex'
+                }
             ];
         }
 
@@ -1084,20 +1144,12 @@ var app = angular.module('budgetApp');
         }
 
         /**
-         * Watches
-         */
-
-        //$scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
-        //    if (newValue) {
-        //        scope.filter = newValue;
-        //    }
-        //});
-
-        /**
          * Clear new transaction fields
          */
-        $scope.clearNewTransactionFields = function () {
-            $scope.new_transaction.budgets = [];
+        function clearNewTransactionFields () {
+            if ($scope.env !== 'local') {
+                $scope.new_transaction.budgets = [];
+            }
 
             if (me.preferences.clearFields) {
                 $scope.new_transaction.total = '';
@@ -1106,13 +1158,13 @@ var app = angular.module('budgetApp');
                 $scope.new_transaction.reconciled = false;
                 $scope.new_transaction.multiple_budgets = false;
             }
-        };
+        }
 
         /**
          * Return true if there are errors.
          * @returns {boolean}
          */
-        $scope.anyErrors = function () {
+        function anyErrors () {
             $errorCount = 0;
             var $messages = [];
 
@@ -1138,59 +1190,59 @@ var app = angular.module('budgetApp');
             }
 
             return false;
-        };
+        }
 
         /**
          * Insert a new transaction
          * @param $keycode
          */
         $scope.insertTransaction = function ($keycode) {
-            if ($keycode !== 13 || $scope.anyErrors()) {
+            if ($keycode !== 13 || anyErrors()) {
                 return;
             }
 
             $scope.clearTotalChanges();
 
             if ($scope.new_transaction.type === 'transfer') {
-                $scope.insertTransferTransactions();
+                insertTransferTransactions();
             }
             else {
-                $scope.insertIncomeOrExpenseTransaction();
+                insertIncomeOrExpenseTransaction();
             }
         };
 
-        $scope.insertIncomeOrExpenseTransaction = function () {
+        function insertIncomeOrExpenseTransaction () {
             $scope.showLoading();
             TransactionsFactory.insertIncomeOrExpenseTransaction($scope.new_transaction)
                 .then(function (response) {
                     $scope.provideFeedback('Transaction added');
-                    $scope.clearNewTransactionFields();
+                    clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
                     $scope.getSideBarTotals();
-                    $scope.filterTransactions();
 
                     //Todo: get filter response
-                    $scope.checkNewTransactionForMultipleBudgets(response.data);
+                    $scope.handleAllocationForNewTransaction(response.data.data);
+
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
-        };
+        }
 
-        $scope.insertTransferTransactions = function () {
-            $scope.insertTransferTransaction('from');
+        function insertTransferTransactions () {
+            insertTransferTransaction('from');
             setTimeout(function(){
                 $scope.insertTransferTransaction('to');
             }, 100);
-        };
+        }
 
-        $scope.insertTransferTransaction = function ($direction) {
+        function insertTransferTransaction ($direction) {
             $scope.showLoading();
             TransactionsFactory.insertTransferTransaction($scope.new_transaction, $direction)
                 .then(function (response) {
                     $scope.provideFeedback('Transfer added');
-                    $scope.clearNewTransactionFields();
+                    clearNewTransactionFields();
                     $scope.getSideBarTotals();
                     $scope.filterTransactions();
                     $scope.new_transaction.dropdown = false;
@@ -1202,45 +1254,7 @@ var app = angular.module('budgetApp');
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
-        };
-
-        /**
-         * See if the transaction that was just entered has multiple budgets.
-         * @param response
-         */
-        $scope.checkNewTransactionForMultipleBudgets = function (response) {
-            if (response.data.hasMultipleBudgets) {
-                $scope.allocation_popup = response.data;
-                $scope.showAllocationPopupForNewTransaction();
-            }
-        };
-
-        $scope.showAllocationPopupForNewTransaction = function () {
-            var $transaction = $scope.findTransaction();
-
-            if ($transaction) {
-                $scope.showAllocationPopup($transaction);
-            }
-            else {
-                //the transaction isn't showing with the current filter settings
-                $scope.showAllocationPopup($scope.allocation_popup);
-            }
-        };
-
-        /**
-         * For the allocation popup when a new transaction is entered.
-         * Find the transaction that was just entered.
-         * This is so that the transaction is updated live
-         * when actions are done in the allocation popup.
-         * Otherwise it will need a page refresh.
-         */
-        $scope.findTransaction = function () {
-            var $transaction = _.find($scope.transactions, function ($scope_transaction) {
-                return $scope_transaction.id === $scope.allocation_popup.id;
-            });
-
-            return $transaction;
-        };
+        }
     }
 
 })();
@@ -1438,23 +1452,6 @@ var app = angular.module('budgetApp');
                         $scope.responseError(response);
                     });
             }
-        };
-
-        /**
-         * For after the response in $scope.updateAllocation, if I want to just update
-         * one tag. I switched to updating all tags so I could do the automatic allocation
-         * of the other tags to 0% when one is changed to 100%, so I am not using this function anymore.
-         * @param $tag_id
-         */
-        $scope.updateTagAllocation = function ($tag_id) {
-            //find the tag in $scope.allocationPopup.budgets
-            var $the_tag = _.find($scope.allocationPopup.budgets, function ($tag) {
-                return $tag.id === $tag_id;
-            });
-            //get the index of the tag in $scope.allocationPopup_transaction.tags
-            var $index = _.indexOf($scope.allocationPopup.budgets, $the_tag);
-            //make the tag equal the ajax response
-            $scope.allocationPopup.budgets[$index] = response.data.allocation_info;
         };
 
         $scope.updateAllocationStatus = function () {

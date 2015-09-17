@@ -21,40 +21,6 @@
             $scope.tab = 'transactions';
         }
 
-        /*=========show=========*/
-        $scope.show = {
-            actions: false,
-            status: false,
-            date: true,
-            description: true,
-            merchant: true,
-            total: true,
-            type: true,
-            account: true,
-            reconciled: true,
-            tags: true,
-            dlt: true,
-            //components
-            new_transaction: true,
-            basic_totals: true,
-            budget_totals: true,
-            filter_totals: true,
-            edit_transaction: false,
-            edit_tag: false,
-            budget: false,
-            filter: false,
-            autocomplete: {
-                description: false,
-                merchant: false
-            },
-            allocationPopup: false,
-            new_transaction_allocation_popup: false,
-            savings_total: {
-                input: false,
-                edit_btn: true
-            }
-        };
-
         /**
          * Watches
          */
@@ -83,21 +49,6 @@
          */
         $scope.debugTotals = function () {
             return $http.get('/test');
-        };
-
-        $scope.showAllocationPopup = function ($transaction) {
-            $scope.show.allocationPopup = true;
-            $scope.allocationPopup = $transaction;
-
-            $scope.showLoading();
-            TransactionsFactory.getAllocationTotals($transaction.id)
-                .then(function (response) {
-                    $scope.allocationPopup.totals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
         };
 
         $scope.toggleFilter = function () {

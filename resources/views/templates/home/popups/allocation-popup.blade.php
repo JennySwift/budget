@@ -2,6 +2,7 @@
 
 <div ng-show="show.allocationPopup" ng-cloak class="popup-outer">
     <div id="allocation-popup" class="popup-inner">
+        <button ng-click="testing()">test</button>
         <p class="width-100">The total for this transaction is <span class="bold">[[allocationPopup.total]]</span>. You have more than one budget associated with this transaction. Specify what percentage of [[allocation_popup.total]] you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
         
         <div id="allocation-table-container">

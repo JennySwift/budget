@@ -32,22 +32,21 @@
          */
         if ($scope.env === 'local') {
             $scope.new_transaction.total = 10;
+            $scope.new_transaction.type = 'expense';
             $scope.new_transaction.date.entered = 'today';
             $scope.new_transaction.merchant = 'some merchant';
             $scope.new_transaction.description = 'some description';
             $scope.new_transaction.budgets = [
-                //{
-                //    id: '1',
-                //    name: 'insurance',
-                //    //fixed_budget: '10.00',
-                //    //flex_budget: null
-                //},
-                //{
-                //    id: '2',
-                //    name: 'petrol',
-                //    //fixed_budget: null,
-                //    //flex_budget: '5'
-                //}
+                {
+                    id: '2',
+                    name: 'business',
+                    type: 'fixed'
+                },
+                {
+                    id: '4',
+                    name: 'busking',
+                    type: 'flex'
+                }
             ];
         }
 
@@ -60,20 +59,12 @@
         }
 
         /**
-         * Watches
-         */
-
-        //$scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
-        //    if (newValue) {
-        //        scope.filter = newValue;
-        //    }
-        //});
-
-        /**
          * Clear new transaction fields
          */
-        $scope.clearNewTransactionFields = function () {
-            $scope.new_transaction.budgets = [];
+        function clearNewTransactionFields () {
+            if ($scope.env !== 'local') {
+                $scope.new_transaction.budgets = [];
+            }
 
             if (me.preferences.clearFields) {
                 $scope.new_transaction.total = '';
@@ -82,13 +73,13 @@
                 $scope.new_transaction.reconciled = false;
                 $scope.new_transaction.multiple_budgets = false;
             }
-        };
+        }
 
         /**
          * Return true if there are errors.
          * @returns {boolean}
          */
-        $scope.anyErrors = function () {
+        function anyErrors () {
             $errorCount = 0;
             var $messages = [];
 
@@ -114,59 +105,59 @@
             }
 
             return false;
-        };
+        }
 
         /**
          * Insert a new transaction
          * @param $keycode
          */
         $scope.insertTransaction = function ($keycode) {
-            if ($keycode !== 13 || $scope.anyErrors()) {
+            if ($keycode !== 13 || anyErrors()) {
                 return;
             }
 
             $scope.clearTotalChanges();
 
             if ($scope.new_transaction.type === 'transfer') {
-                $scope.insertTransferTransactions();
+                insertTransferTransactions();
             }
             else {
-                $scope.insertIncomeOrExpenseTransaction();
+                insertIncomeOrExpenseTransaction();
             }
         };
 
-        $scope.insertIncomeOrExpenseTransaction = function () {
+        function insertIncomeOrExpenseTransaction () {
             $scope.showLoading();
             TransactionsFactory.insertIncomeOrExpenseTransaction($scope.new_transaction)
                 .then(function (response) {
                     $scope.provideFeedback('Transaction added');
-                    $scope.clearNewTransactionFields();
+                    clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
                     $scope.getSideBarTotals();
-                    $scope.filterTransactions();
 
                     //Todo: get filter response
-                    $scope.checkNewTransactionForMultipleBudgets(response.data);
+                    $scope.handleAllocationForNewTransaction(response.data.data);
+
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
-        };
+        }
 
-        $scope.insertTransferTransactions = function () {
-            $scope.insertTransferTransaction('from');
+        function insertTransferTransactions () {
+            insertTransferTransaction('from');
             setTimeout(function(){
                 $scope.insertTransferTransaction('to');
             }, 100);
-        };
+        }
 
-        $scope.insertTransferTransaction = function ($direction) {
+        function insertTransferTransaction ($direction) {
             $scope.showLoading();
             TransactionsFactory.insertTransferTransaction($scope.new_transaction, $direction)
                 .then(function (response) {
                     $scope.provideFeedback('Transfer added');
-                    $scope.clearNewTransactionFields();
+                    clearNewTransactionFields();
                     $scope.getSideBarTotals();
                     $scope.filterTransactions();
                     $scope.new_transaction.dropdown = false;
@@ -178,45 +169,7 @@
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
-        };
-
-        /**
-         * See if the transaction that was just entered has multiple budgets.
-         * @param response
-         */
-        $scope.checkNewTransactionForMultipleBudgets = function (response) {
-            if (response.data.hasMultipleBudgets) {
-                $scope.allocation_popup = response.data;
-                $scope.showAllocationPopupForNewTransaction();
-            }
-        };
-
-        $scope.showAllocationPopupForNewTransaction = function () {
-            var $transaction = $scope.findTransaction();
-
-            if ($transaction) {
-                $scope.showAllocationPopup($transaction);
-            }
-            else {
-                //the transaction isn't showing with the current filter settings
-                $scope.showAllocationPopup($scope.allocation_popup);
-            }
-        };
-
-        /**
-         * For the allocation popup when a new transaction is entered.
-         * Find the transaction that was just entered.
-         * This is so that the transaction is updated live
-         * when actions are done in the allocation popup.
-         * Otherwise it will need a page refresh.
-         */
-        $scope.findTransaction = function () {
-            var $transaction = _.find($scope.transactions, function ($scope_transaction) {
-                return $scope_transaction.id === $scope.allocation_popup.id;
-            });
-
-            return $transaction;
-        };
+        }
     }
 
 })();

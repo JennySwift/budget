@@ -15,11 +15,11 @@
             show="show">
     </totals-directive>
 
+    @include('templates.home.popups.index')
+
     <div ng-controller="TransactionsController" ng-show="tab === 'transactions'" class="flex-grow-2">
         {{--This line had to be inside the div or the scope property--}}
         {{--wouldn't work in the popup--}}
-
-        @include('templates.home.popups.index')
 
         @include('templates.home.transactions')
     </div>

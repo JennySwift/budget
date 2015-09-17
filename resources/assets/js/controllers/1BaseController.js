@@ -9,15 +9,51 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         .module('budgetApp')
         .controller('BaseController', base);
 
-    function base ($scope, $http, $sce, TotalsFactory, UsersFactory, FilterFactory) {
+    function base ($scope, $http, $sce, TotalsFactory, UsersFactory, FilterFactory, TransactionsFactory) {
         /**
          * Scope properties
          */
         $scope.feedback_messages = [];
         $scope.show = {
-            popups: {}
+            popups: {},
+            allocationPopup: false,
+            actions: false,
+            status: false,
+            date: true,
+            description: true,
+            merchant: true,
+            total: true,
+            type: true,
+            account: true,
+            reconciled: true,
+            tags: true,
+            dlt: true,
+            //components
+            new_transaction: true,
+            basic_totals: true,
+            budget_totals: true,
+            filter_totals: true,
+            edit_transaction: false,
+            edit_tag: false,
+            budget: false,
+            filter: false,
+            autocomplete: {
+                description: false,
+                merchant: false
+            },
+            savings_total: {
+                input: false,
+                edit_btn: true
+            }
+
         };
+
         $scope.me = me;
+        $scope.test = 'hi';
+
+        $scope.testing = function () {
+            console.log('hi');
+        };
 
         if (typeof env !== 'undefined') {
             $scope.env = env;
@@ -49,6 +85,80 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
                     .catch(function (response) {
                         $scope.responseError(response);
                     })
+            };
+
+            $scope.handleAllocationForNewTransaction = function ($transaction) {
+                if ($transaction.hasMultipleBudgets) {
+                    FilterFactory.filterTransactions($scope.filter)
+                        .then(function (response) {
+                            $scope.hideLoading();
+                            $scope.transactions = response.data.transactions;
+                            var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
+                            if ($index !== -1) {
+                                //The transaction that was just entered is in the filtered transactions
+                                $scope.showAllocationPopup($scope.transactions[$index]);
+                                //$scope.transactions[$index] = $scope.allocationPopup;
+                            }
+                            else {
+                                $scope.showAllocationPopup($transaction);
+                            }
+                        })
+                        .catch(function (response) {
+                            $scope.responseError(response);
+                        })
+                }
+            };
+
+            $scope.showAllocationPopup = function ($transaction) {
+                $scope.show.allocationPopup = true;
+                $scope.allocationPopup = $transaction;
+
+                $scope.showLoading();
+                TransactionsFactory.getAllocationTotals($transaction.id)
+                    .then(function (response) {
+                        $scope.allocationPopup.totals = response.data;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
+
+            /**
+             * This should be in transactions controller but it wasn't firing for some reason
+             * @param $keycode
+             * @param $type
+             * @param $value
+             * @param $budget_id
+             */
+            $scope.updateAllocation = function ($keycode, $type, $value, $budget_id) {
+                if ($keycode === 13) {
+                    $scope.showLoading();
+                    TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
+                        .then(function (response) {
+                            $scope.allocationPopup.budgets = response.data.budgets;
+                            $scope.allocationPopup.totals = response.data.totals;
+                            $scope.hideLoading();
+                        })
+                        .catch(function (response) {
+                            $scope.responseError(response);
+                        });
+                }
+            };
+
+
+            /**
+             * This should be in transactions controller but it wasn't firing for some reason
+             */
+            $scope.updateAllocationStatus = function () {
+                $scope.showLoading();
+                TransactionsFactory.updateAllocationStatus($scope.allocationPopup.id, $scope.allocationPopup.allocated)
+                    .then(function (response) {
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
             };
         }
 
