@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Events\TransactionWasCreated;
+use App\Events\TransactionWasUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Transformers\TransactionTransformer;
@@ -40,14 +41,6 @@ class TransactionsController extends Controller
     {
         $this->transactionsRepository = $transactionsRepository;
         $this->savingsRepository = $savingsRepository;
-    }
-
-    /**
-     *
-     */
-    public function updateMassDescription()
-    {
-
     }
 
     /**
@@ -118,56 +111,37 @@ class TransactionsController extends Controller
      * Update the transaction
      * PUT api/transactions/{transactions}
      * @param Request $request
+     * @param Transaction $transaction
+     * @return Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Transaction $transaction)
     {
-        $js_transaction = $request->get('transaction');
-        $transaction = Transaction::find($js_transaction['id']);
-        $previous_total = $transaction->total;
-        $new_total = $js_transaction['total'];
-        $savings = Savings::forCurrentUser()->first();
 
-        // If it is an income transaction, and if the total has decreased,
-        // remove a percentage from savings
-        if ($transaction->type === 'income' && $new_total < $previous_total) {
-            $savings->decrease($this->savingsRepository->calculateAfterDecrease($previous_total, $new_total));
+        $data = array_filter(array_diff_assoc($request->only([
+            'date', 'account_id', 'description', 'merchant', 'total', 'reconciled', 'allocated'
+        ]), $transaction->toArray()));
+        
+        Debugbar::info('data', $data);
+        Debugbar::info('transaction', $transaction);
+        Debugbar::info('request', $request->all());
+
+//        if(empty($data)) {
+//            return $this->responseNotModified();
+//        }
+
+        //Fire event
+        //Todo: update the savings when event is fired
+        event(new TransactionWasUpdated($transaction, $data));
+
+        if ($request->get('budgets')) {
+            //Todo: make sure the allocated fixed, allocated percent and calculated allocation columns are set like I did in transactions repository attachBudgets()
+            $transaction->budgets()->sync($request->get('budgets'));
         }
 
-        // If it is an income transaction, and if the total has increased,
-        // add a percentage to savings
-        if ($transaction->type === 'income' && $new_total > $previous_total) {
-            $savings->increase($this->savingsRepository->calculateAfterIncrease($previous_total, $new_total));
-        }
-
-        $transaction->update([
-            'account_id' => $js_transaction['account']['id'],
-            'type' => $js_transaction['type'],
-            'date' => $js_transaction['date']['sql'],
-            'merchant' => $js_transaction['merchant'],
-            'total' => $new_total,
-            'description' => $js_transaction['description'],
-            'reconciled' => convertFromBoolean($js_transaction['reconciled'])
-        ]);
-
-        //delete all previous tags for the transaction and then add the current ones
-        Transaction::deleteAllTagsForTransaction($transaction);
-
+        $transaction->update($data);
         $transaction->save();
-
-        $this->transactionsRepository->attachBudgets($transaction, $js_transaction['budgets']);
 
         return $this->responseOk($transaction);
-    }
-
-    /**
-     * POST api/updateAllocationStatus
-     * @param Request $request
-     */
-    public function updateAllocationStatus(Request $request)
-    {
-        $transaction = Transaction::find($request->get('transaction_id'));
-        $transaction->allocated = $request->get('status');
-        $transaction->save();
     }
 
     /**

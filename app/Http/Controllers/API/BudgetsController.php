@@ -84,17 +84,6 @@ class BudgetsController extends Controller
         $budget->getCalculatedAmount($remainingBalance);
 
         return $this->responseOk($budget);
-
-//        $remainingBalance = app('remaining-balance')->calculate();
-
-//        return [
-//            'budget' => $budget->toArray(),
-//            //totals
-//            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-//            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-//            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-//            'remainingBalance' => $remainingBalance->amount,
-//        ];
     }
 
     /**

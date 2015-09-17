@@ -544,11 +544,7 @@ app.factory('TransactionsFactory', function ($http) {
             $transaction.total = $transaction.total * -1;
         }
 
-        var $data = {
-            transaction: $transaction
-        };
-
-        return $http.put($url, $data);
+        return $http.put($url, $transaction);
     };
 
     $object.updateReconciliation = function ($transaction_id, $reconciled) {
@@ -602,14 +598,13 @@ app.factory('TransactionsFactory', function ($http) {
         return $http.post($url, $data);
     };
 
-    $object.updateAllocationStatus = function ($transaction_id, $status) {
-        var $url = 'api/updateAllocationStatus';
+    $object.updateAllocationStatus = function ($transaction) {
+        var $url = $transaction.path;
         var $data = {
-            transaction_id: $transaction_id,
-            status: $status
+            allocated: $transaction.allocated
         };
 
-        return $http.post($url, $data);
+        return $http.put($url, $data);
     };
 
 

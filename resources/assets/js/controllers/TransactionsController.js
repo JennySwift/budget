@@ -129,7 +129,7 @@
 
         $scope.updateAllocationStatus = function () {
             $scope.showLoading();
-            TransactionsFactory.updateAllocationStatus($scope.allocationPopup.id, $scope.allocationPopup.allocated)
+            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
                 .then(function (response) {
                     $scope.hideLoading();
                 })

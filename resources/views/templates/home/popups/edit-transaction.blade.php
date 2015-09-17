@@ -1,7 +1,9 @@
 
 <div ng-controller="TransactionsController" ng-show="show.edit_transaction" ng-cloak class="popup-outer">
+
     <div id="edit-transaction" class="popup-inner">
-        <input ng-model="edit_transaction.date.user" id="edit-transaction-date" placeholder="date" type='text'>
+
+        <input ng-model="edit_transaction.userDate" id="edit-transaction-date" placeholder="date" type='text'>
 		<input ng-model="edit_transaction.description" placeholder="description" type='text'>
 		<input ng-model="edit_transaction.merchant" placeholder="merchant" type='text'>
 		<input ng-model="edit_transaction.total" placeholder="$" type='text'>

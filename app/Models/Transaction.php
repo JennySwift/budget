@@ -147,17 +147,6 @@ class Transaction extends Model
     }
 
     /**
-     * For when updating a transaction
-     * @param $transaction
-     */
-    public static function deleteAllTagsForTransaction($transaction)
-    {
-        DB::table('budgets_transactions')
-            ->where('transaction_id', $transaction->id)
-            ->delete();
-    }
-
-    /**
      *
      * @return array
      */

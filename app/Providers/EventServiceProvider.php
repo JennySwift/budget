@@ -1,6 +1,7 @@
 <?php namespace App\Providers;
 
 use App\Events\TransactionWasCreated;
+use App\Events\TransactionWasUpdated;
 use App\Listeners\UpdateSavingsListener;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -16,6 +17,9 @@ class EventServiceProvider extends ServiceProvider {
 		TransactionWasCreated::class => [
 			UpdateSavingsListener::class,
 		],
+        TransactionWasUpdated::class => [
+            UpdateSavingsListener::class,
+        ],
 	];
 
 	/**
