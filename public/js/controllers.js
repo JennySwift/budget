@@ -1169,9 +1169,8 @@ var app = angular.module('budgetApp');
                     $scope.getSideBarTotals();
                     $scope.filterTransactions();
 
-                    //Todo: get filter response, and check for multiple budgets
-                    //FilterFactory.updateDataForControllers(response.data);
-                    //$scope.checkNewTransactionForMultipleBudgets(response);
+                    //Todo: get filter response
+                    $scope.checkNewTransactionForMultipleBudgets(response.data);
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -1210,8 +1209,8 @@ var app = angular.module('budgetApp');
          * @param response
          */
         $scope.checkNewTransactionForMultipleBudgets = function (response) {
-            if (response.data.multiple_budgets) {
-                $scope.allocation_popup = response.data.transaction;
+            if (response.data.hasMultipleBudgets) {
+                $scope.allocation_popup = response.data;
                 $scope.showAllocationPopupForNewTransaction();
             }
         };
@@ -1236,7 +1235,7 @@ var app = angular.module('budgetApp');
          * Otherwise it will need a page refresh.
          */
         $scope.findTransaction = function () {
-            var $transaction = _.find(FilterFactory.filter_results.transactions, function ($scope_transaction) {
+            var $transaction = _.find($scope.transactions, function ($scope_transaction) {
                 return $scope_transaction.id === $scope.allocation_popup.id;
             });
 

@@ -72,7 +72,7 @@ class Transaction extends Model
     public function hasMultipleBudgets()
     {
         // $this->budgets->count()
-        if (count($this->budgets) > 1) {
+        if (count($this->assignedBudgets) > 1) {
             return true;
         }
 
