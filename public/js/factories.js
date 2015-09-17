@@ -547,22 +547,10 @@ app.factory('TransactionsFactory', function ($http) {
         return $http.put($url, $transaction);
     };
 
-    $object.updateReconciliation = function ($transaction_id, $reconciled) {
-        var $url = 'api/updateReconciliation';
+    $object.updateReconciliation = function ($transaction) {
+        var $url = $transaction.path;
 
-        if ($reconciled === true) {
-            $reconciled = 'true';
-        }
-        else {
-            $reconciled = 'false';
-        }
-
-        var $data = {
-            id: $transaction_id,
-            reconciled: $reconciled
-        };
-
-        return $http.post($url, $data);
+        return $http.put($url, $transaction.reconciled);
     };
 
     $object.deleteTransaction = function ($transaction) {

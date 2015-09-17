@@ -29,10 +29,10 @@
         //    }
         //});
 
-        $scope.updateReconciliation = function ($transaction_id, $reconciliation) {
+        $scope.updateReconciliation = function ($transaction, $reconciliation) {
             $scope.clearTotalChanges();
             $scope.showLoading();
-            TransactionsFactory.updateReconciliation($transaction_id, $reconciliation, $scope.filter)
+            TransactionsFactory.updateReconciliation($transaction)
                 .then(function (response) {
                     $scope.getSideBarTotals();
                     $scope.filterTransactions();

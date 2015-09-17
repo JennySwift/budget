@@ -89,24 +89,6 @@ class TransactionsController extends Controller
         return $this->responseWithTransformer($item, Response::HTTP_CREATED);
     }
 
-    //Todo: Combine the update methods below into one method
-    // Create an array with the new fields merged
-//     $data = array_compare($exercise->toArray(), $request->get('exercise'));
-
-    // Update the model with this array
-//     $exercise->update($data);
-
-    /**
-     * POST api/updateReconciliation
-     * @param Request $request
-     */
-    public function updateReconciliation(Request $request)
-    {
-        $transaction = Transaction::find($request->get('id'));
-        $transaction->reconciled = convertFromBoolean($request->get('reconciled'));
-        $transaction->save();
-    }
-
     /**
      * Update the transaction
      * PUT api/transactions/{transactions}
@@ -116,18 +98,13 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-
         $data = array_filter(array_diff_assoc($request->only([
             'date', 'account_id', 'description', 'merchant', 'total', 'reconciled', 'allocated'
         ]), $transaction->toArray()));
-        
-        Debugbar::info('data', $data);
-        Debugbar::info('transaction', $transaction);
-        Debugbar::info('request', $request->all());
 
-//        if(empty($data)) {
-//            return $this->responseNotModified();
-//        }
+        if(empty($data)) {
+            return $this->responseNotModified();
+        }
 
         //Fire event
         //Todo: update the savings when event is fired
