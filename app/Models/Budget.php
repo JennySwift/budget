@@ -85,11 +85,13 @@ class Budget extends Model
 
     /**
      * Count budget's transactions
+     * $this->transactions without the parenthesis
+     * attaches the transactions to the budgets and I don't want that.
      * @return mixed
      */
     public function getTransactionsCountAttribute()
     {
-        return $this->transactions->count();
+        return $this->transactions()->count();
     }
 
     /**

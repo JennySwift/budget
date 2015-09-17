@@ -36,6 +36,8 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.transactions = filter_response.transactions;
 
             $scope.filter = FilterFactory.filter;
+            $scope.filterTotals = filter_response.totals;
+            $scope.graphTotals = filter_response.graph_totals;
 
             $scope.filterTransactions = function () {
                 $scope.showLoading();
@@ -614,9 +616,7 @@ var app = angular.module('budgetApp');
         $scope.accounts = accounts_response;
         $scope.budgets = budgets;
         $scope.types = ["income", "expense", "transfer"];
-        //$scope.totals = filter_response.totals;
         $scope.filterTab = 'show';
-        //$scope.loading = true;
 
         $scope.resetFilter = function () {
             FilterFactory.resetFilter();
@@ -625,25 +625,6 @@ var app = angular.module('budgetApp');
         /**
          * Watches
          */
-
-        // Not sure why I have to do this in the filter controller,
-        // but $scope.filter wasn't updating otherwise
-        //$scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
-        //    if (newValue) {
-        //        scope.filter = newValue;
-        //
-        //        if (newValue !== oldValue) {
-        //            $scope.filterTransactions();
-        //        }
-        //    }
-        //});
-
-        //$scope.$watch('filterFactory.filter_results.totals', function (newValue, oldValue, scope) {
-        //    if (newValue) {
-        //        scope.totals = newValue;
-        //        //$scope.calculateGraphFigures();
-        //    }
-        //});
 
         //$scope.$watch('filterFactory.filter_results.graph_totals', function (newValue, oldValue, scope) {
         //    if (newValue) {
@@ -691,14 +672,12 @@ var app = angular.module('budgetApp');
             $scope.graphFigures = {
                 months: []
             };
-            //console.log($scope.graph_totals);
 
-            $($scope.graph_totals.monthsTotals).each(function () {
+            $($scope.graphTotals.monthsTotals).each(function () {
                 var $income = this.income.raw;
                 var $expenses = this.expenses.raw * -1;
 
-                //var $max = Math.max($income, $expenses);
-                var $max = $scope.graph_totals.maxTotal;
+                var $max = $scope.graphTotals.maxTotal;
                 var $num = 500 / $max;
 
                 $scope.graphFigures.months.push({
@@ -724,7 +703,7 @@ var app = angular.module('budgetApp');
         };
 
         $scope.nextResults = function () {
-            if ($scope.filter.offset + ($scope.filter.num_to_fetch * 1) > $scope.totals.numTransactions) {
+            if ($scope.filter.offset + ($scope.filter.num_to_fetch * 1) > $scope.filterTotals.numTransactions) {
                 //stop it going past the end.
                 return;
             }
@@ -1369,6 +1348,7 @@ var app = angular.module('budgetApp');
             $scope.showLoading();
             TransactionsFactory.updateReconciliation($transaction_id, $reconciliation, $scope.filter)
                 .then(function (response) {
+                    $scope.getSideBarTotals();
                     $scope.filterTransactions();
                     $scope.hideLoading();
                 })
@@ -1394,8 +1374,7 @@ var app = angular.module('budgetApp');
             $scope.showLoading();
             TransactionsFactory.updateTransaction($scope.edit_transaction, $scope.filter)
                 .then(function (response) {
-                    FilterFactory.updateDataForControllers(response.data);
-                    $scope.updateTotalsAfterResponse(response);
+                    $scope.getSideBarTotals();
                     $scope.provideFeedback('Transaction updated');
 
                     $scope.show.edit_transaction = false;

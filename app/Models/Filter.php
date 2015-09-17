@@ -1,20 +1,39 @@
-<?php namespace App\Repositories\Filters;
+<?php namespace App\Models;
 
-use App\Models\Transaction;
+use App\Repositories\Filters\FilterBasicsRepository;
+use App\Repositories\Filters\FilterBudgetsRepository;
+use App\Repositories\Filters\FilterNumBudgetsRepository;
+use App\Repositories\Filters\FilterTotalsRepository;
+use App\Repositories\Filters\GraphsRepository;
 use Auth;
 use Debugbar;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Config;
 
 /**
  * Class FilterRepository
+ * @property array filter
  * @package App\Repositories\Transactions
  */
-class FilterRepository {
+class Filter implements Arrayable {
 
     /**
      * @var
+     */
+    protected $transactions;
+
+    /**
+     * @var
+     */
+    protected $graphTotals;
+
+    /**
+     * @var
+     */
+    protected $totals;
+
+    /**
+     * @var FilterBudgetsRepository
      */
     private $filterBudgetsRepository;
 
@@ -32,10 +51,21 @@ class FilterRepository {
      * @var FilterBasicsRepository
      */
     private $filterBasicsRepository;
+
     /**
      * @var FilterTotalsRepository
      */
     private $filterTotalsRepository;
+
+    /**
+     * @var
+     */
+    private $num_transactions;
+
+    /**
+     * @var
+     */
+    private $filters;
 
     /**
      * @param FilterBasicsRepository $filterBasicsRepository
@@ -52,91 +82,39 @@ class FilterRepository {
         $this->filterBasicsRepository = $filterBasicsRepository;
         $this->filterTotalsRepository = $filterTotalsRepository;
         $this->defaults = Config::get('filters.defaults');
+
+//        $this->setTransactions();
+//        $this->setTotals();
+//        $this->setGraphTotals();
     }
 
     /**
-     * @var
+     *
      */
-    private $num_transactions;
+//    private function setTransactions()
+//    {
+//        $this->transactions = $transactions;
+//    }
 
     /**
-     * @var
+     *
      */
-    private $filters;
+//    private function setTotals()
+//    {
+//        $this->totals= $totals;
+//    }
 
-//    /**
-//     * @var array
-//     */
-//    protected $defaults = [
-//        "total" => [
-//            "in" => "",
-//            "out" => ""
-//        ],
-//        "types" => [
-//            "in" => [],
-//            "out" => []
-//        ],
-//        "accounts" => [
-//            "in" => [],
-//            "out" => []
-//        ],
-//        "single_date" => [
-//            "in" => [
-//                "user" => "",
-//                "sql" => ""
-//            ],
-//            "out" => [
-//                "user" => "",
-//                "sql" => ""
-//            ],
-//        ],
-//        "from_date" => [
-//            "in" => [
-//                "user" => "",
-//                "sql" => ""
-//            ],
-//            "out" => [
-//                "user" => "",
-//                "sql" => ""
-//            ],
-//        ],
-//        "to_date" => [
-//            "in" => [
-//                "user" => "",
-//                "sql" => ""
-//            ],
-//            "out" => [
-//                "user" => "",
-//                "sql" => ""
-//            ],
-//        ],
-//        "description" => [
-//              "in" => "",
-//              "out" => ""
-//        ],
-//        "merchant" => [
-//              "in" => "",
-//              "out" => ""
-//        ],
-//        "budgets" => [
-//            "in" => [
-//                "and" => [],
-//                "or" => []
-//            ],
-//            "out" => []
-//        ],
-//        "numBudgets" => [
-//            "in" => "all",
-//            "out" => ""
-//        ],
-//        "reconciled" => "any",
-//        "offset" => 0,
-//        "num_to_fetch" => 30
-//    ];
+    /**
+     *
+     */
+//    private function setGraphTotals()
+//    {
+//        $this->graphTotals= $graphTotals;
+//    }
 
     /**
      * Filter the transactions
-     * GET api/select/filter
+     * GET api/filter
      * @param array $filters
      * @return array
      */
@@ -185,18 +163,14 @@ class FilterRepository {
         }
 
         $this->num_transactions = $this->filterTotalsRepository->countTransactions($query);
-
-        // If I didn't clone here, I couldn't reuse the original query because it would get modified
-//        $transactionsQuery = clone $query;
-//        $totalsQuery = clone $query;
-//        $graphTotalsQuery = clone $query;
-
-//        return $this->getGraphTotals($graphTotalsQuery);
+        $this->transactions = $this->finishTransactionsQuery($query, $this->filters);
+        $this->totals = $this->filterTotalsRepository->getFilterTotals($this->finishTotalsQuery($query), $query);
+        $this->graphTotals = $this->graphsRepository->getGraphTotals($query);
 
         return [
-            "transactions" => $this->getFilteredTransactions($this->finishTransactionsQuery($query, $this->filters)),
-            "totals" => $this->filterTotalsRepository->getFilterTotals($this->finishTotalsQuery($query), $query),
-            "graph_totals" => $this->graphsRepository->getGraphTotals($query)
+            'transactions' => $this->transactions,
+            'totals' => $this->totals,
+            'graphTotals' => $this->graphTotals,
         ];
     }
 
@@ -221,34 +195,29 @@ class FilterRepository {
      */
     private function finishTransactionsQuery($query, $filters)
     {
-        return $query->orderBy('date', 'desc')
+        $transactions = $query->orderBy('date', 'desc')
                      ->orderBy('id', 'desc')
                      ->skip($filters['offset'])
                      ->take($filters['num_to_fetch'])
                      ->with('budgets')
                      ->with('account')
                      ->get();
-    }
-
-    /**
-     *
-     * @param $transactions
-     * @return mixed
-     */
-    private function getFilteredTransactions(Collection $transactions)
-    {
-        foreach ($transactions as $transaction) {
-            $date = [
-                'user' => convertDate(Carbon::createFromFormat('Y-m-d', $transaction->date))
-            ];
-
-            $transaction->date = $date;
-            $transaction->reconciled = convertToBoolean($transaction->reconciled);
-            $transaction->allocated = convertToBoolean($transaction->allocated);
-            $transaction->multiple_budgets = $transaction->hasMultipleBudgets();
-        }
 
         return $transactions;
     }
 
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'transactions' => $this->transactions,
+            'totals' => $this->totals,
+            'graphTotals' => $this->graphTotals,
+
+        ];
+    }
 }

@@ -15,9 +15,7 @@
         $scope.accounts = accounts_response;
         $scope.budgets = budgets;
         $scope.types = ["income", "expense", "transfer"];
-        //$scope.totals = filter_response.totals;
         $scope.filterTab = 'show';
-        //$scope.loading = true;
 
         $scope.resetFilter = function () {
             FilterFactory.resetFilter();
@@ -26,25 +24,6 @@
         /**
          * Watches
          */
-
-        // Not sure why I have to do this in the filter controller,
-        // but $scope.filter wasn't updating otherwise
-        //$scope.$watch('filterFactory.filter', function (newValue, oldValue, scope) {
-        //    if (newValue) {
-        //        scope.filter = newValue;
-        //
-        //        if (newValue !== oldValue) {
-        //            $scope.filterTransactions();
-        //        }
-        //    }
-        //});
-
-        //$scope.$watch('filterFactory.filter_results.totals', function (newValue, oldValue, scope) {
-        //    if (newValue) {
-        //        scope.totals = newValue;
-        //        //$scope.calculateGraphFigures();
-        //    }
-        //});
 
         //$scope.$watch('filterFactory.filter_results.graph_totals', function (newValue, oldValue, scope) {
         //    if (newValue) {
@@ -92,14 +71,12 @@
             $scope.graphFigures = {
                 months: []
             };
-            //console.log($scope.graph_totals);
 
-            $($scope.graph_totals.monthsTotals).each(function () {
+            $($scope.graphTotals.monthsTotals).each(function () {
                 var $income = this.income.raw;
                 var $expenses = this.expenses.raw * -1;
 
-                //var $max = Math.max($income, $expenses);
-                var $max = $scope.graph_totals.maxTotal;
+                var $max = $scope.graphTotals.maxTotal;
                 var $num = 500 / $max;
 
                 $scope.graphFigures.months.push({
@@ -125,7 +102,7 @@
         };
 
         $scope.nextResults = function () {
-            if ($scope.filter.offset + ($scope.filter.num_to_fetch * 1) > $scope.totals.numTransactions) {
+            if ($scope.filter.offset + ($scope.filter.num_to_fetch * 1) > $scope.filterTotals.numTransactions) {
                 //stop it going past the end.
                 return;
             }

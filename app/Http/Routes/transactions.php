@@ -5,7 +5,6 @@
  */
 
 // Select
-Route::post('select/filter', 'TransactionsController@filterTransactions');
 Route::post('select/autocompleteTransaction', 'TransactionsController@autocompleteTransaction');
 
 // Insert

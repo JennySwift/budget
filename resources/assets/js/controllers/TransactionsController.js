@@ -34,6 +34,7 @@
             $scope.showLoading();
             TransactionsFactory.updateReconciliation($transaction_id, $reconciliation, $scope.filter)
                 .then(function (response) {
+                    $scope.getSideBarTotals();
                     $scope.filterTransactions();
                     $scope.hideLoading();
                 })
@@ -59,8 +60,7 @@
             $scope.showLoading();
             TransactionsFactory.updateTransaction($scope.edit_transaction, $scope.filter)
                 .then(function (response) {
-                    FilterFactory.updateDataForControllers(response.data);
-                    $scope.updateTotalsAfterResponse(response);
+                    $scope.getSideBarTotals();
                     $scope.provideFeedback('Transaction updated');
 
                     $scope.show.edit_transaction = false;

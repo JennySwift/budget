@@ -117,7 +117,7 @@ app.factory('FilterFactory', function ($http) {
     $object.filterTransactions = function ($filter) {
         $object.filter = $object.formatDates($filter);
 
-        var $url = 'api/select/filter';
+        var $url = 'api/filter/transactions';
 
         return $http.post($url, {'filter': $filter});
     };

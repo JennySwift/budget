@@ -140,12 +140,12 @@ class Transaction extends Model
     }
 
     /**
-     *
-     * @param $transaction_id
+     * For when updating a transaction
+     * @param $transaction
      */
     public static function deleteAllTagsForTransaction($transaction)
     {
-        DB::table('transactions_tags')
+        DB::table('budgets_transactions')
             ->where('transaction_id', $transaction->id)
             ->delete();
     }

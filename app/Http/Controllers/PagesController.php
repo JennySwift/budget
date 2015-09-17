@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Transformers\SidebarTotalTransformer;
 use App\Models\Account;
+use App\Models\Filter;
 use App\Repositories\Budgets\BudgetsRepository;
-use App\Repositories\Filters\FilterRepository;
 use Auth, JavaScript;
 
 /**
@@ -32,10 +32,10 @@ class PagesController extends Controller {
     /**
      * Show the application dashboard to the user.
      * GET /
-     * @param FilterRepository $filterRepository
+     * @param Filter $filter
      * @return Response
      */
-    public function home(FilterRepository $filterRepository)
+    public function home(Filter $filter)
     {
         JavaScript::put([
             'env' => app()->env,
@@ -44,7 +44,7 @@ class PagesController extends Controller {
 //            //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),
             'budgets' => $this->budgetsRepository->getBudgets(),
-            'filter_response' => $filterRepository->filterTransactions(),
+            'filter_response' => $filter->filterTransactions(),
 
 //            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
 //            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),

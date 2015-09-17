@@ -36,6 +36,8 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.transactions = filter_response.transactions;
 
             $scope.filter = FilterFactory.filter;
+            $scope.filterTotals = filter_response.totals;
+            $scope.graphTotals = filter_response.graph_totals;
 
             $scope.filterTransactions = function () {
                 $scope.showLoading();

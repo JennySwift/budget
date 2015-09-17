@@ -50,7 +50,7 @@
                 <option value="100">100</option>
             </select>
 
-            <span class="badge">[[filter.display_from]] to [[filter.display_to]] of [[totals.numTransactions]]</span>
+            <span class="badge">[[filter.display_from]] to [[filter.display_to]] of [[filterTotals.numTransactions]]</span>
 
         </div>
 
@@ -66,7 +66,7 @@
 
             <button
                 ng-click="nextResults()"
-                ng-disabled="filter.display_to >= totals.filter.num_transactions"
+                ng-disabled="filter.display_to >= filterTotals.numTransactions"
                 type="button"
                 id="next-results-button"
                 class="navigate-results-button btn btn-info">

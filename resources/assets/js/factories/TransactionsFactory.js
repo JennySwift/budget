@@ -72,7 +72,7 @@ app.factory('TransactionsFactory', function ($http) {
         });
     };
 
-    $object.updateTransaction = function ($transaction, $filter) {
+    $object.updateTransaction = function ($transaction) {
         var $url = $transaction.path;
 
         //Make sure total is negative for an expense transaction
@@ -81,14 +81,13 @@ app.factory('TransactionsFactory', function ($http) {
         }
 
         var $data = {
-            transaction: $transaction,
-            filter: $filter
+            transaction: $transaction
         };
 
         return $http.put($url, $data);
     };
 
-    $object.updateReconciliation = function ($transaction_id, $reconciled, $filter) {
+    $object.updateReconciliation = function ($transaction_id, $reconciled) {
         var $url = 'api/updateReconciliation';
 
         if ($reconciled === true) {
@@ -100,8 +99,7 @@ app.factory('TransactionsFactory', function ($http) {
 
         var $data = {
             id: $transaction_id,
-            reconciled: $reconciled,
-            filter: $filter
+            reconciled: $reconciled
         };
 
         return $http.post($url, $data);

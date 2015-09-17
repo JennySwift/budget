@@ -10,7 +10,6 @@ use App\Models\Budget;
 use App\Models\Savings;
 use App\Models\Transaction;
 use App\Repositories\Savings\SavingsRepository;
-use App\Repositories\Filters\FilterRepository;
 use App\Repositories\Transactions\TransactionsRepository;
 use Auth;
 use DB;
@@ -28,10 +27,7 @@ class TransactionsController extends Controller
      * @var TransactionsRepository
      */
     protected $transactionsRepository;
-    /**
-     * @var FilterRepository
-     */
-    private $filterRepository;
+
     /**
      * @var SavingsRepository
      */
@@ -40,23 +36,10 @@ class TransactionsController extends Controller
     /**
      * @param TransactionsRepository $transactionsRepository
      */
-    public function __construct(TransactionsRepository $transactionsRepository, FilterRepository $filterRepository, SavingsRepository $savingsRepository)
+    public function __construct(TransactionsRepository $transactionsRepository, SavingsRepository $savingsRepository)
     {
         $this->transactionsRepository = $transactionsRepository;
-        $this->filterRepository = $filterRepository;
         $this->savingsRepository = $savingsRepository;
-    }
-
-    /**
-     * GET api/transactions?limit=40&page=2&account_id=3&type=income
-     * POST api/select/filter
-     * @param Request $request
-     * @param TransactionsRepository $transactionsRepository
-     * @return array
-     */
-    public function filterTransactions(Request $request)
-    {
-        return $this->filterRepository->filterTransactions($request->get('filter'));
     }
 
     /**
@@ -186,17 +169,7 @@ class TransactionsController extends Controller
 
         $this->transactionsRepository->attachBudgets($transaction, $js_transaction['budgets']);
 
-        $remainingBalance = app('remaining-balance')->calculate();
-
-        return [
-            'filter_results' => $this->filterRepository->filterTransactions($request->get('filter')),
-
-            //totals
-            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-            'remainingBalance' => $remainingBalance->amount,
-        ];
+        return $this->responseOk($transaction);
     }
 
     /**
