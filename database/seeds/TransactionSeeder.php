@@ -10,6 +10,9 @@ use App\Models\Tag;
 
 /**
  * Class TransactionSeeder
+ * @property  fixedBudgetIds
+ * @property  flexBudgetIds
+ * @property  mixedBudgetIds
  */
 class TransactionSeeder extends Seeder {
 
@@ -17,6 +20,21 @@ class TransactionSeeder extends Seeder {
      * @var int
      */
     protected $howManyTransactions = 3;
+    /**
+     * Fixed budgets ids that belong to the user
+     * @var
+     */
+    protected $fixedBudgetIds;
+    /**
+     * Flex budget ids that belong to the user
+     * @var
+     */
+    protected $flexBudgetIds;
+    /**
+     * One fixed budget id and one flex budget id that belong to the user
+     * @var
+     */
+    protected $mixedBudgetIds;
 
     /**
      *
@@ -27,6 +45,11 @@ class TransactionSeeder extends Seeder {
 		$users = User::all();
 
         foreach($users as $user) {
+            // Get budget ids for user
+            $this->fixedBudgetIds = $user->fixedBudgets()->lists('id')->all();
+            $this->flexBudgetIds = $user->flexBudgets()->lists('id')->all();
+            $this->mixedBudgetIds = [$this->fixedBudgetIds[0], $this->flexBudgetIds[0]];
+
             // Create transactions without budgets
             $this->createIncomeTransactionsWithoutBudgets($user, 1);
             $this->createExpenseTransactionsWithOutBudgets($user, 1);
@@ -38,6 +61,11 @@ class TransactionSeeder extends Seeder {
         }
 	}
 
+    /**
+     *
+     * @param $user
+     * @param $num
+     */
     private function createExpenseTransactionsWithBudgets($user, $num)
     {
         $dateBeforeStartingDate = $this->faker->dateTimeBetween('-2 years', '-1 years')->format('Y-m-d');
@@ -47,27 +75,27 @@ class TransactionSeeder extends Seeder {
             //Create fixed budget expenses before starting date
             $transaction = $this->createExpense($user, $dateBeforeStartingDate, 5);
 //            $this->addBudgetsToTransaction($transaction, $this->getRandomFixedBudgetIds($user));
-            $this->addBudgetsToTransaction($transaction, [2,3]);
+            $this->addBudgetsToTransaction($transaction, $this->fixedBudgetIds);
 
             //Create fixed budget expenses after starting date
             $transaction = $this->createExpense($user, $dateAfterStartingDate, 10);
-            $this->addBudgetsToTransaction($transaction, [2,3]);
+            $this->addBudgetsToTransaction($transaction, $this->fixedBudgetIds);
 
             //Create flex budget expenses before starting date
             $transaction = $this->createExpense($user, $dateBeforeStartingDate, 15);
-            $this->addBudgetsToTransaction($transaction, [4,5]);
+            $this->addBudgetsToTransaction($transaction, $this->flexBudgetIds);
 
             //Create flex budget expenses after starting date
             $transaction = $this->createExpense($user, $dateAfterStartingDate, 20);
-            $this->addBudgetsToTransaction($transaction, [4,5]);
+            $this->addBudgetsToTransaction($transaction, $this->flexBudgetIds);
 
             //Create expenses before starting date with both fixed and flex budgets
             $transaction = $this->createExpense($user, $dateBeforeStartingDate, 25);
-            $this->addBudgetsToTransaction($transaction, [2,4]);
+            $this->addBudgetsToTransaction($transaction, $this->mixedBudgetIds);
 
             //Create expenses after starting date with both fixed and flex budgets
             $transaction = $this->createExpense($user, $dateAfterStartingDate, 30);
-            $this->addBudgetsToTransaction($transaction, [3,5]);
+            $this->addBudgetsToTransaction($transaction, $this->mixedBudgetIds);
 
             //Create expenses with unassigned budget
             $transaction = $this->createExpense($user, $dateAfterStartingDate, 5);
@@ -75,6 +103,11 @@ class TransactionSeeder extends Seeder {
         }
     }
 
+    /**
+     *
+     * @param $user
+     * @param $num
+     */
     private function createIncomeTransactionsWithBudgets($user, $num)
     {
         $dateBeforeStartingDate = $this->faker->dateTimeBetween('-2 years', '-1 years')->format('Y-m-d');
@@ -160,6 +193,11 @@ class TransactionSeeder extends Seeder {
         return $fixedAndFlexBudgetIds;
     }
 
+    /**
+     *
+     * @param $user
+     * @return mixed
+     */
     private function getRandomFixedBudgetIds($user)
     {
         $budgetIds = Budget::where('user_id', $user->id)
@@ -169,6 +207,11 @@ class TransactionSeeder extends Seeder {
         return $this->faker->randomElements($budgetIds, $this->faker->numberBetween(1,3));
     }
 
+    /**
+     *
+     * @param $user
+     * @return mixed
+     */
     private function getRandomFlexBudgetIds($user)
     {
         $budgetIds = Budget::where('user_id', $user->id)
@@ -178,6 +221,11 @@ class TransactionSeeder extends Seeder {
         return $this->faker->randomElements($budgetIds, $this->faker->numberBetween(1,3));
     }
 
+    /**
+     *
+     * @param $user
+     * @return mixed
+     */
     private function getRandomUnassignedBudgetIds($user)
     {
         $budgetIds = Budget::where('user_id', $user->id)
@@ -187,6 +235,11 @@ class TransactionSeeder extends Seeder {
         return $this->faker->randomElements($budgetIds, $this->faker->numberBetween(1,3));
     }
 
+    /**
+     *
+     * @param $user
+     * @param $num
+     */
     private function createIncomeTransactionsWithoutBudgets($user, $num)
     {
         foreach (range(1, $num) as $index) {
@@ -194,6 +247,11 @@ class TransactionSeeder extends Seeder {
         }
     }
 
+    /**
+     *
+     * @param $user
+     * @param $num
+     */
     private function createTransferTransactions($user, $num)
     {
         foreach (range(1, $num) as $index) {
@@ -201,6 +259,11 @@ class TransactionSeeder extends Seeder {
         }
     }
 
+    /**
+     *
+     * @param $user
+     * @param $num
+     */
     private function createExpenseTransactionsWithoutBudgets($user, $num)
     {
         foreach (range(1, $num) as $index) {
@@ -223,7 +286,7 @@ class TransactionSeeder extends Seeder {
             'description' => $this->faker->sentence(1),
             'merchant' => $this->faker->name(),
 //            'total' => $this->faker->randomElement([5, 10, 15, 20]) * -1,
-            'total' => $total,
+            'total' => $total * -1,
             'reconciled' => $this->faker->numberBetween($min = 0, $max = 1),
             'allocated' => 0,
             'created_at' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s')

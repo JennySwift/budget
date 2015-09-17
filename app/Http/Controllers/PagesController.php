@@ -65,6 +65,7 @@ class PagesController extends Controller {
 
         JavaScript::put([
             'me' => Auth::user(),
+            'page' => 'budgets',
             'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
             'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
             'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,
@@ -87,6 +88,7 @@ class PagesController extends Controller {
 
         JavaScript::put([
             'me' => Auth::user(),
+            'page' => 'budgets',
             'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
             'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
             'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,
@@ -109,6 +111,7 @@ class PagesController extends Controller {
 
         JavaScript::put([
             'me' => Auth::user(),
+            'page' => 'budgets',
             'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
             'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
             'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,

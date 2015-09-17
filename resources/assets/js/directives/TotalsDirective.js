@@ -10,10 +10,11 @@
             restrict: 'EA',
             scope: {
                 //"totals": "=totals",
-                "basicTotals": "=basictotals",
-                "fixedBudgetTotals": "=fixedbudgettotals",
-                "flexBudgetTotals": "=flexbudgettotals",
-                "remainingBalance": "=remainingbalance",
+                "sideBarTotals": "=sidebartotals",
+                //"basicTotals": "=basictotals",
+                //"fixedBudgetTotals": "=fixedbudgettotals",
+                //"flexBudgetTotals": "=flexbudgettotals",
+                //"remainingBalance": "=remainingbalance",
                 "totalChanges": "=totalchanges",
                 "provideFeedback" : "&providefeedback",
                 "show": "=show"
@@ -22,22 +23,10 @@
             templateUrl: '/totals-directive',
             //scope: true,
             link: function($scope, elem, attrs) {
-                //$scope.filterFactory = FilterFactory;
-                //$scope.show = {
-                //    basic_totals: true,
-                //    budget_totals: true
-                //};
 
-                //$scope.$watch('filterFactory.totals', function (newValue, oldValue, scope) {
-                //    if (newValue) {
-                //        scope.totals.basic = newValue.basic;
-                //        scope.totals.budget = newValue.budget;
-                //    }
-                //});
+                $scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
 
-                $scope.$watch('basicTotals', function (newValue, oldValue, scope) {
-
-                    if (newValue) {
+                    if (newValue && oldValue) {
 
                         if (newValue.credit !== oldValue.credit) {
                             $scope.totalChanges.credit = $scope.calculateDifference(newValue.credit, oldValue.credit);
@@ -59,60 +48,39 @@
                             $scope.totalChanges.savings = $scope.calculateDifference(newValue.savings, oldValue.savings);
                         }
 
-                        if (newValue.EWB !== oldValue.EWB) {
-                            $scope.totalChanges.EWB = $scope.calculateDifference(newValue.EWB, oldValue.EWB);
+                        if (newValue.expensesWithoutBudget !== oldValue.expensesWithoutBudget) {
+                            $scope.totalChanges.expensesWithoutBudget = $scope.calculateDifference(newValue.expensesWithoutBudget, oldValue.expensesWithoutBudget);
                         }
 
-                        scope.basicTotals = newValue;
-                    }
-                });
-
-                $scope.$watch('fixedBudgetTotals', function (newValue, oldValue, scope) {
-                    if (newValue) {
-
-                        if (newValue.remaining !== oldValue.remaining) {
-                            $scope.totalChanges.remainingFixedBudget = $scope.calculateDifference(newValue.remaining, oldValue.remaining);
+                        if (newValue.remainingFixedBudget !== oldValue.remainingFixedBudget) {
+                            $scope.totalChanges.remainingFixedBudget = $scope.calculateDifference(newValue.remainingFixedBudget, oldValue.remainingFixedBudget);
                         }
 
-                        if (newValue.cumulative !== oldValue.cumulative) {
-                            $scope.totalChanges.cumulativeFixedBudget = $scope.calculateDifference(newValue.cumulative, oldValue.cumulative);
+                        if (newValue.cumulativeFixedBudget !== oldValue.cumulativeFixedBudget) {
+                            $scope.totalChanges.cumulativeFixedBudget = $scope.calculateDifference(newValue.cumulativeFixedBudget, oldValue.cumulativeFixedBudget);
                         }
 
-                        if (newValue.spentBeforeStartingDate !== oldValue.spentBeforeStartingDate) {
-                            $scope.totalChanges.fixedBudgetExpensesBeforeStartingDate = $scope.calculateDifference(newValue.spentBeforeStartingDate, oldValue.spentBeforeStartingDate);
+                        if (newValue.expensesWithFixedBudgetBeforeStartingDate !== oldValue.expensesWithFixedBudgetBeforeStartingDate) {
+                            $scope.totalChanges.expensesWithFixedBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetBeforeStartingDate, oldValue.expensesWithFixedBudgetBeforeStartingDate);
                         }
 
-                        if (newValue.spentAfterStartingDate !== oldValue.spentAfterStartingDate) {
-                            $scope.totalChanges.fixedBudgetExpensesAfterStartingDate = $scope.calculateDifference(newValue.spentAfterStartingDate, oldValue.spentAfterStartingDate);
+                        if (newValue.expensesWithFixedBudgetAfterStartingDate !== oldValue.expensesWithFixedBudgetAfterStartingDate) {
+                            $scope.totalChanges.expensesWithFixedBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetAfterStartingDate, oldValue.expensesWithFixedBudgetAfterStartingDate);
                         }
 
-                        scope.fixedBudgetTotals = newValue;
-                    }
-                });
-
-                $scope.$watch('flexBudgetTotals', function (newValue, oldValue, scope) {
-                    if (newValue) {
-
-                        if (newValue.spentBeforeStartingDate !== oldValue.spentBeforeStartingDate) {
-                            $scope.totalChanges.flexBudgetExpensesBeforeStartingDate = $scope.calculateDifference(newValue.spentBeforeStartingDate, oldValue.spentBeforeStartingDate);
+                        if (newValue.expensesWithFlexBudgetBeforeStartingDate !== oldValue.expensesWithFlexBudgetBeforeStartingDate) {
+                            $scope.totalChanges.expensesWithFlexBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetBeforeStartingDate, oldValue.expensesWithFlexBudgetBeforeStartingDate);
                         }
 
-                        if (newValue.spentAfterStartingDate !== oldValue.spentAfterStartingDate) {
-                            $scope.totalChanges.flexBudgetExpensesAfterStartingDate = $scope.calculateDifference(newValue.spentAfterStartingDate, oldValue.spentAfterStartingDate);
+                        if (newValue.expensesWithFlexBudgetAfterStartingDate !== oldValue.expensesWithFlexBudgetAfterStartingDate) {
+                            $scope.totalChanges.expensesWithFlexBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetAfterStartingDate, oldValue.expensesWithFlexBudgetAfterStartingDate);
                         }
 
-                        scope.flexBudgetTotals = newValue;
-                    }
-                });
-
-                $scope.$watch('remainingBalance', function (newValue, oldValue, scope) {
-                    if (newValue) {
-
-                        if (newValue !== oldValue) {
-                            $scope.totalChanges.remainingBalance = $scope.calculateDifference(newValue, oldValue);
+                        if (newValue.remainingBalance !== oldValue.remainingBalance) {
+                            $scope.totalChanges.remainingBalance = $scope.calculateDifference(newValue.remainingBalance, oldValue.remainingBalance);
                         }
 
-                        scope.remainingBalance = newValue;
+                        scope.sideBarTotals = newValue;
                     }
                 });
 

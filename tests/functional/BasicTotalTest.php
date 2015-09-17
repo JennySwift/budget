@@ -19,7 +19,7 @@ class BasicTotalTest extends TestCase
         $this->assertNotNull($basicTotals->debit);
         $this->assertNotNull($basicTotals->credit);
         $this->assertNotNull($basicTotals->reconciledSum);
-        $this->assertNotNull($basicTotals->EWB);
+        $this->assertNotNull($basicTotals->expensesWithoutBudget);
         $this->assertNotNull($basicTotals->savings);
     }
 
@@ -36,7 +36,7 @@ class BasicTotalTest extends TestCase
         $this->assertArrayHasKey('debit', $toArray);
         $this->assertArrayHasKey('credit', $toArray);
         $this->assertArrayHasKey('reconciledSum', $toArray);
-        $this->assertArrayHasKey('EWB', $toArray);
+        $this->assertArrayHasKey('expensesWithoutBudget', $toArray);
         $this->assertArrayHasKey('savings', $toArray);
         $this->assertArrayHasKey('balance', $toArray);
     }

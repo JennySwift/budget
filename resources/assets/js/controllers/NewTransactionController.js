@@ -142,7 +142,7 @@
                     $scope.provideFeedback('Transaction added');
                     $scope.clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
-                    $scope.getTotals();
+                    $scope.getSideBarTotals();
                     $scope.filterTransactions();
 
                     //Todo: get filter response, and check for multiple budgets
@@ -168,7 +168,7 @@
                 .then(function (response) {
                     $scope.provideFeedback('Transfer added');
                     $scope.clearNewTransactionFields();
-                    $scope.getTotals();
+                    $scope.getSideBarTotals();
                     $scope.filterTransactions();
                     $scope.new_transaction.dropdown = false;
 

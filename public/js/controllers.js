@@ -56,19 +56,6 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.totalChanges = {};
         };
 
-        $scope.getTotals = function () {
-            $scope.showLoading();
-            TotalsFactory.getTotals()
-                .then(function (response) {
-                    $scope.updateTotalsAfterResponse(response);
-                    //$scope.provideFeedback('');
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
         $scope.updateTotalsAfterResponse = function (response) {
             $scope.basicTotals = response.data.basicTotals;
             $scope.fixedBudgetTotals = response.data.fixedBudgetTotals;
@@ -202,39 +189,39 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             }
             return false;
         };
+
+        if (typeof page !== 'undefined' && (page === 'home' || page === 'budgets')) {
+            $scope.getTotals = function () {
+                $scope.showLoading();
+                TotalsFactory.getTotals()
+                    .then(function (response) {
+                        $scope.updateTotalsAfterResponse(response);
+                        //$scope.provideFeedback('');
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
+
+            $scope.getSideBarTotals = function () {
+                $scope.showLoading();
+                TotalsFactory.getSideBarTotals()
+                    .then(function (response) {
+                        $scope.sideBarTotals = response.data.data;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
+
+            $scope.getSideBarTotals();
+        }
     }
 
 })();
 
-
-
-
-/*==============================dates==============================*/
-
-$("#convert_date_button_2").on('click', function () {
-    $(this).toggleClass("long_date");
-    $("#my_results .date").each(function () {
-        var $date = $(this).val();
-        var $parse = Date.parse($date);
-        var $toString;
-        if ($("#convert_date_button_2").hasClass("long_date")) {
-            $toString = $parse.toString('dd MMM yyyy');
-        }
-        else {
-            $toString = $parse.toString('dd/MM/yyyy');
-        }
-
-        $(this).val($toString);
-    });
-});
-
-/*==============================new month==============================*/
-
-function newMonth () {
-    $("#fixed-budget-info-table .spent").each(function () {
-        $(this).text(0);
-    });
-}
 var app = angular.module('budgetApp');
 
 (function () {
@@ -396,6 +383,7 @@ var app = angular.module('budgetApp');
             BudgetsFactory.insert($budget)
                 .then(function (response) {
                     $scope.jsInsertBudget(response);
+                    $scope.getSideBarTotals();
                     $scope.provideFeedback('Budget created');
 
                     $scope.hideLoading();
@@ -431,7 +419,7 @@ var app = angular.module('budgetApp');
             BudgetsFactory.update($scope.budget_popup)
                 .then(function (response) {
                     $scope.jsUpdateBudget(response);
-                    $scope.getTotals();
+                    $scope.getSideBarTotals();
                     //$scope.updateTotalsAfterResponse(response);
                     $scope.show.popups.budget = false;
                 })
@@ -463,29 +451,21 @@ var app = angular.module('budgetApp');
 
         $scope.deleteBudget = function ($budget) {
             $scope.showLoading();
-            TransactionsFactory.countTransactionsWithBudget($budget)
-                .then(function (response) {
-                    var $message;
-
-                    if (confirm('You have ' + response.data + ' transactions with this budget. Are you sure you want to delete it?')) {
-                        $scope.showLoading();
-                        BudgetsFactory.destroy($budget)
-                            .then(function (response) {
-                                $scope.getTotals();
-                                $scope.jsDeleteBudget($budget);
-                                $scope.hideLoading();
-                            })
-                            .catch(function (response) {
-                                $scope.responseError(response);
-                            });
-                    }
-                    else {
+            if (confirm('You have ' + $budget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?')) {
+                $scope.showLoading();
+                BudgetsFactory.destroy($budget)
+                    .then(function (response) {
+                        $scope.getSideBarTotals();
+                        $scope.jsDeleteBudget($budget);
                         $scope.hideLoading();
-                    }
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            }
+            else {
+                $scope.hideLoading();
+            }
         };
 
         $scope.jsDeleteBudget = function ($budget) {
@@ -877,12 +857,10 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, $http, BudgetsFactory, TransactionsFactory, PreferencesFactory) {
+    function home ($scope, $http, TransactionsFactory, PreferencesFactory) {
         /**
          * scope properties
          */
-
-        $scope.test = '3';
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
@@ -1209,7 +1187,7 @@ var app = angular.module('budgetApp');
                     $scope.provideFeedback('Transaction added');
                     $scope.clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
-                    $scope.getTotals();
+                    $scope.getSideBarTotals();
                     $scope.filterTransactions();
 
                     //Todo: get filter response, and check for multiple budgets
@@ -1235,7 +1213,7 @@ var app = angular.module('budgetApp');
                 .then(function (response) {
                     $scope.provideFeedback('Transfer added');
                     $scope.clearNewTransactionFields();
-                    $scope.getTotals();
+                    $scope.getSideBarTotals();
                     $scope.filterTransactions();
                     $scope.new_transaction.dropdown = false;
 
@@ -1519,7 +1497,7 @@ var app = angular.module('budgetApp');
                 TransactionsFactory.deleteTransaction($transaction, $scope.filter)
                     .then(function (response) {
                         jsDeleteTransaction($transaction);
-                        $scope.getTotals();
+                        $scope.getSideBarTotals();
                         //Todo: get filter totals with separate request
                         //FilterFactory.updateDataForControllers(response.data);
 

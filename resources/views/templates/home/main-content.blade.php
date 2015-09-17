@@ -3,12 +3,14 @@
     <totals-directive
             ng-show="show.basic_totals || show.budget_totals"
             {{--totals="totals"--}}
+            sideBarTotals="sideBarTotals"
             basicTotals="basicTotals"
             fixedbudgettotals="fixedBudgetTotals"
             flexbudgettotals="flexBudgetTotals"
             remainingbalance="remainingBalance"
             totalchanges="totalChanges"
-            getTotals="getTotals()"
+            {{--getTotals="getTotals()"--}}
+            {{--getSideBarTotals="getSideBarTotals()"--}}
             provideFeedback="provideFeedback()"
             show="show">
     </totals-directive>

@@ -56,19 +56,6 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.totalChanges = {};
         };
 
-        $scope.getTotals = function () {
-            $scope.showLoading();
-            TotalsFactory.getTotals()
-                .then(function (response) {
-                    $scope.updateTotalsAfterResponse(response);
-                    //$scope.provideFeedback('');
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
         $scope.updateTotalsAfterResponse = function (response) {
             $scope.basicTotals = response.data.basicTotals;
             $scope.fixedBudgetTotals = response.data.fixedBudgetTotals;
@@ -202,36 +189,35 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             }
             return false;
         };
+
+        if (typeof page !== 'undefined' && (page === 'home' || page === 'budgets')) {
+            $scope.getTotals = function () {
+                $scope.showLoading();
+                TotalsFactory.getTotals()
+                    .then(function (response) {
+                        $scope.updateTotalsAfterResponse(response);
+                        //$scope.provideFeedback('');
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
+
+            $scope.getSideBarTotals = function () {
+                $scope.showLoading();
+                TotalsFactory.getSideBarTotals()
+                    .then(function (response) {
+                        $scope.sideBarTotals = response.data.data;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
+
+            $scope.getSideBarTotals();
+        }
     }
 
 })();
-
-
-
-
-/*==============================dates==============================*/
-
-$("#convert_date_button_2").on('click', function () {
-    $(this).toggleClass("long_date");
-    $("#my_results .date").each(function () {
-        var $date = $(this).val();
-        var $parse = Date.parse($date);
-        var $toString;
-        if ($("#convert_date_button_2").hasClass("long_date")) {
-            $toString = $parse.toString('dd MMM yyyy');
-        }
-        else {
-            $toString = $parse.toString('dd/MM/yyyy');
-        }
-
-        $(this).val($toString);
-    });
-});
-
-/*==============================new month==============================*/
-
-function newMonth () {
-    $("#fixed-budget-info-table .spent").each(function () {
-        $(this).text(0);
-    });
-}

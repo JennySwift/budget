@@ -12,6 +12,17 @@ class TransactionsTest extends TestCase {
 
     use DatabaseTransactions;
 
+    /**
+     * @test
+     */
+    public function it_checks_total_of_expense_transaction_is_negative()
+    {
+        $this->logInUser();
+
+        $transaction = Transaction::forCurrentUser()->whereType('expense')->first();
+        $this->assertTrue($transaction->total < 0);
+    }
+
 	/**
 	 * @test
 	 * @return void
@@ -79,7 +90,6 @@ class TransactionsTest extends TestCase {
         $this->assertEquals('5', $content->total);
         $this->assertEquals(0, $content->reconciled);
         $this->assertEquals(0, $content->allocated);
-
         $this->assertEquals('business', $content->budgets[0]->name);
         $this->assertEquals('busking', $content->budgets[1]->name);
 	}

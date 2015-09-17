@@ -36,7 +36,7 @@
         </div>
 
         <div>
-            <label>Enter a starting date (optional)</label>
+            <label>Enter a starting date</label>
 
             <input ng-model="newBudget.starting_date"
                    ng-keyup="insertBudget($event.keyCode)"

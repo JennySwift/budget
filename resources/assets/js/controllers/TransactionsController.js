@@ -162,7 +162,7 @@
                 TransactionsFactory.deleteTransaction($transaction, $scope.filter)
                     .then(function (response) {
                         jsDeleteTransaction($transaction);
-                        $scope.getTotals();
+                        $scope.getSideBarTotals();
                         //Todo: get filter totals with separate request
                         //FilterFactory.updateDataForControllers(response.data);
 

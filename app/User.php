@@ -70,6 +70,24 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function fixedBudgets()
+    {
+        return $this->hasMany('App\Models\Budget')->whereType('fixed');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function flexBudgets()
+    {
+        return $this->hasMany('App\Models\Budget')->whereType('flex');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
 //    public function colors()
 //    {
 //        return $this->hasMany('App\Models\Color');

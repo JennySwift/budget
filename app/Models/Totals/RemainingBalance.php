@@ -60,15 +60,13 @@ class RemainingBalance {
     {
         $this->amount = $this->basicTotals->credit // Total of income from the user regardless of budgets
             - $this->fixedBudgetTotals->remaining // Total remainings on the fixed budget table
-            + $this->basicTotals->EWB // Total of all the expenses without budget
+            + $this->basicTotals->expensesWithoutBudget // Total of all the expenses without budget
             + $this->flexBudgetTotals->spentBeforeStartingDate // Total of spent before starting date for flex budgets
-//               + $this->flexBudgetTotal->spentAfterStartingDate // Total of spent after starting date for flex budgets
             + $this->fixedBudgetTotals->spentBeforeStartingDate // Total of spent before starting date for fixed budgets
             + $this->fixedBudgetTotals->spentAfterStartingDate // Total of spent after starting date for fixed budgets
             - $this->basicTotals->savings; // Savings
 
         $this->flexBudgetTotals->updateBudgets($this);
-//        $this->updateBudgets();
 
         return $this;
     }

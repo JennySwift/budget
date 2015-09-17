@@ -26,7 +26,7 @@ use App\Models\Budget;
 
 Route::get('/test', function()
 {
-    $budget = Budget::first();
+    $budget = Budget::find(2);
     //dd($budget);
-    return $budget;
+    return $budget->transactions()->get();
 });

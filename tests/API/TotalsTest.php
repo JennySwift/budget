@@ -30,7 +30,7 @@ class TotalsTest extends TestCase {
         $this->assertObjectHasAttribute('debit', $content);
         $this->assertObjectHasAttribute('savings', $content);
         $this->assertObjectHasAttribute('balance', $content);
-        $this->assertObjectHasAttribute('reconciled', $content);
+        $this->assertObjectHasAttribute('reconciledSum', $content);
         $this->assertObjectHasAttribute('expensesWithoutBudget', $content);
         $this->assertObjectHasAttribute('remainingBalance', $content);
         $this->assertObjectHasAttribute('remainingFixedBudget', $content);
@@ -42,17 +42,17 @@ class TotalsTest extends TestCase {
 
         // Check if the values are correct according to our seeders!!
         $this->assertEquals(2350, $content->credit);
-        $this->assertEquals(160, $content->debit);
+        $this->assertEquals(-160, $content->debit);
         $this->assertEquals(50, $content->savings);
-        $this->assertEquals(2510, $content->balance);
+        $this->assertEquals(2190, $content->balance);
         // @TODO Make the reconciled fixed as well so we can ensure it works as expected
-        $this->assertEquals(50, $content->expensesWithoutBudget);
-        $this->assertEquals(440, $content->remainingBalance);
-        $this->assertEquals(2020, $content->remainingFixedBudget);
+        $this->assertEquals(-55, $content->expensesWithoutBudget);
+        $this->assertEquals(200, $content->remainingBalance);
+        $this->assertEquals(1960, $content->remainingFixedBudget);
         $this->assertEquals(1800, $content->cumulativeFixedBudget);
-        $this->assertEquals(20, $content->expensesWithFixedBudgetAfterStartingDate);
-        $this->assertEquals(60, $content->expensesWithFixedBudgetBeforeStartingDate);
-        $this->assertEquals(100, $content->expensesWithFlexBudgetAfterStartingDate);
-        $this->assertEquals(30, $content->expensesWithFlexBudgetBeforeStartingDate);
+        $this->assertEquals(-40, $content->expensesWithFixedBudgetAfterStartingDate);
+        $this->assertEquals(-30, $content->expensesWithFixedBudgetBeforeStartingDate);
+        $this->assertEquals(-20, $content->expensesWithFlexBudgetAfterStartingDate);
+        $this->assertEquals(-15, $content->expensesWithFlexBudgetBeforeStartingDate);
     }
 }

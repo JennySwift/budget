@@ -16,7 +16,7 @@ class BasicTotal {
     public $credit;
     public $balance;
     public $reconciledSum;
-    public $EWB;
+    public $expensesWithoutBudget;
     public $savings;
     public $transactions;
 
@@ -30,7 +30,7 @@ class BasicTotal {
         $this->setCredit();
         $this->setBalance();
         $this->setReconciledSum();
-        $this->setEWB();
+        $this->setExpensesWithoutBudget();
         $this->setSavings();
     }
 
@@ -78,7 +78,7 @@ class BasicTotal {
      * and return the total of those transactions.
      * @return mixed
      */
-    public function setEWB()
+    public function setExpensesWithoutBudget()
     {
         //Get all the ids of transactions that don't have a budget
 //        $ids = Transaction::forCurrentUser()
@@ -91,10 +91,10 @@ class BasicTotal {
 //        $total = Transaction::whereIn('transactions.id', $ids)
 //                            ->sum('total');
         $total = $this->transactions->load('budgets')->filter(function($transaction) {
-            return $transaction->type == 'expense' && !$transaction->budgets->count();
+            return $transaction->type == 'expense' && !$transaction->assignedBudgets->count();
         })->sum('total');
 
-        $this->EWB = $total;
+        $this->expensesWithoutBudget = $total;
     }
 
     /**
@@ -125,7 +125,7 @@ class BasicTotal {
             "balance" => $this->balance,
             "reconciledSum" => $this->reconciledSum,
             "savings" => $this->savings,
-            "EWB" => $this->EWB
+            "expensesWithoutBudget" => $this->expensesWithoutBudget
         ];
     }
 

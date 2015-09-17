@@ -445,8 +445,17 @@ app.factory('SavingsFactory', function ($http) {
 app.factory('TotalsFactory', function ($http) {
     return {
 
+        /**
+         * Get all the totals
+         * @returns {*}
+         */
         getTotals: function () {
             var $url = '/api/totals';
+
+            return $http.get($url);
+        },
+        getSideBarTotals: function () {
+            var $url = '/api/totals/sidebar';
 
             return $http.get($url);
         }
@@ -572,16 +581,6 @@ app.factory('TransactionsFactory', function ($http) {
         $(".checked").each(function () {
             deleteTransaction($(this));
         });
-    };
-
-    $object.countTransactionsWithBudget = function ($budget) {
-        var $url = '/api/select/countTransactionsWithBudget';
-
-        var $data = {
-            budget_id: $budget.id
-        };
-
-        return $http.post($url, $data);
     };
 
     $object.getAllocationTotals = function ($transaction_id) {

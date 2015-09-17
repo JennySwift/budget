@@ -52,6 +52,7 @@
             BudgetsFactory.insert($budget)
                 .then(function (response) {
                     $scope.jsInsertBudget(response);
+                    $scope.getSideBarTotals();
                     $scope.provideFeedback('Budget created');
 
                     $scope.hideLoading();
@@ -87,7 +88,7 @@
             BudgetsFactory.update($scope.budget_popup)
                 .then(function (response) {
                     $scope.jsUpdateBudget(response);
-                    $scope.getTotals();
+                    $scope.getSideBarTotals();
                     //$scope.updateTotalsAfterResponse(response);
                     $scope.show.popups.budget = false;
                 })
@@ -119,29 +120,21 @@
 
         $scope.deleteBudget = function ($budget) {
             $scope.showLoading();
-            TransactionsFactory.countTransactionsWithBudget($budget)
-                .then(function (response) {
-                    var $message;
-
-                    if (confirm('You have ' + response.data + ' transactions with this budget. Are you sure you want to delete it?')) {
-                        $scope.showLoading();
-                        BudgetsFactory.destroy($budget)
-                            .then(function (response) {
-                                $scope.getTotals();
-                                $scope.jsDeleteBudget($budget);
-                                $scope.hideLoading();
-                            })
-                            .catch(function (response) {
-                                $scope.responseError(response);
-                            });
-                    }
-                    else {
+            if (confirm('You have ' + $budget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?')) {
+                $scope.showLoading();
+                BudgetsFactory.destroy($budget)
+                    .then(function (response) {
+                        $scope.getSideBarTotals();
+                        $scope.jsDeleteBudget($budget);
                         $scope.hideLoading();
-                    }
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            }
+            else {
+                $scope.hideLoading();
+            }
         };
 
         $scope.jsDeleteBudget = function ($budget) {

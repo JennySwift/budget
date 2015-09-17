@@ -119,16 +119,6 @@ app.factory('TransactionsFactory', function ($http) {
         });
     };
 
-    $object.countTransactionsWithBudget = function ($budget) {
-        var $url = '/api/select/countTransactionsWithBudget';
-
-        var $data = {
-            budget_id: $budget.id
-        };
-
-        return $http.post($url, $data);
-    };
-
     $object.getAllocationTotals = function ($transaction_id) {
         var $url = 'api/select/allocationTotals';
         var $data = {

@@ -29,7 +29,8 @@ class Budget extends Model
         'receivedAfterStartingDate',
         'cumulativeMonthNumber',
         'cumulative',
-        'remaining'
+        'remaining',
+        'transactionsCount'
     ];
 
     //Commenting this out for now because there's so much data I don't need
