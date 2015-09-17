@@ -73,7 +73,7 @@ class FiltersTest extends TestCase {
      */
     private function getResponse($data)
     {
-        $this->response = $this->apiCall('POST', '/api/select/filter', $data);
+        $this->response = $this->apiCall('POST', '/api/filter/transactions', $data);
         $content = json_decode($this->response->getContent(), true);
         $this->transactions = $content['transactions'];
     }
