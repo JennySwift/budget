@@ -31,7 +31,7 @@ class Transaction extends Model
     /**
      * @var array
      */
-    protected $appends = ['path', 'userDate'];
+    protected $appends = ['path', 'userDate', 'reconciled'];
 
     /**
      *
@@ -90,10 +90,28 @@ class Transaction extends Model
         return (float) $this->attributes['total'];
     }
 
+    /**
+     * Convert the date from sql format to dd/mm/yy
+     * @return string
+     */
     public function getUserDateAttribute()
     {
         $date = Carbon::createFromFormat('Y-m-d', $this->attributes['date']);
         return convertDate($date);
+    }
+
+    /**
+     * Convert 0 and 1 to true and false for the JS
+     * @return bool
+     */
+    public function getReconciledAttribute()
+    {
+        if ($this->attributes['reconciled']) {
+            return $this->attributes['reconciled'] = true;
+        }
+        else {
+            return $this->attributes['reconciled'] = false;
+        }
     }
 
     /**

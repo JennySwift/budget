@@ -1337,7 +1337,7 @@ var app = angular.module('budgetApp');
         $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
 
-        $scope.updateReconciliation = function ($transaction, $reconciliation) {
+        $scope.updateReconciliation = function ($transaction) {
             $scope.clearTotalChanges();
             $scope.showLoading();
             TransactionsFactory.updateReconciliation($transaction)

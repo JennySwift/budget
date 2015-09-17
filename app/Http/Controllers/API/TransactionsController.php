@@ -98,9 +98,14 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-        $data = array_filter(array_diff_assoc($request->only([
-            'date', 'account_id', 'description', 'merchant', 'total', 'reconciled', 'allocated'
-        ]), $transaction->toArray()));
+        $data = array_filter(array_diff_assoc(
+            $request->only([
+                'date', 'account_id', 'description', 'merchant', 'total', 'reconciled', 'allocated'
+            ]),
+            $transaction->toArray()
+        ), 'removeFalseKeepZero');
+
+
 
         if(empty($data)) {
             return $this->responseNotModified();

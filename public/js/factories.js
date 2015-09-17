@@ -551,8 +551,14 @@ app.factory('TransactionsFactory', function ($http) {
 
     $object.updateReconciliation = function ($transaction) {
         var $url = $transaction.path;
+        //So the reconciled value doesn't change the checkbox for the front-end
+        var $data = {reconciled: 0};
 
-        return $http.put($url, $transaction.reconciled);
+        if ($transaction.reconciled) {
+            $data.reconciled = 1;
+        }
+
+        return $http.put($url, $data);
     };
 
     $object.deleteTransaction = function ($transaction) {
