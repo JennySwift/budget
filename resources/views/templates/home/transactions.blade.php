@@ -12,7 +12,7 @@
 
         <tr class="results_inner_div">
 
-            <td ng-show="show.date">[[transaction.date.user]]</td>
+            <td ng-show="show.date">[[transaction.userDate]]</td>
 
             <td ng-show="show.description" class="max-width-md">
                 <div>

@@ -2,6 +2,7 @@
 
 use App\Traits\ForCurrentUserTrait;
 use Auth;
+use Carbon\Carbon;
 use DB;
 use Debugbar;
 use Illuminate\Database\Eloquent\Model;
@@ -30,7 +31,7 @@ class Transaction extends Model
     /**
      * @var array
      */
-    protected $appends = ['path'];
+    protected $appends = ['path', 'userDate'];
 
     /**
      *
@@ -87,6 +88,12 @@ class Transaction extends Model
     public function getTotalAttribute()
     {
         return (float) $this->attributes['total'];
+    }
+
+    public function getUserDateAttribute()
+    {
+        $date = Carbon::createFromFormat('Y-m-d', $this->attributes['date']);
+        return convertDate($date);
     }
 
     /**

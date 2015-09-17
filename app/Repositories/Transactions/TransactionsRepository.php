@@ -91,7 +91,6 @@ class TransactionsRepository
      */
     public function create(array $data)
     {
-        Debugbar::info('data', $data);
         //Build transaction
         $transaction = $this->newTransaction($data);
 

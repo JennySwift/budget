@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Budget;
+use App\Models\Transaction;
 
 //Route::get('/test', function () {
 
@@ -22,11 +24,9 @@
 
 //});
 
-use App\Models\Budget;
-
 Route::get('/test', function()
 {
-    $budget = Budget::find(2);
-    //dd($budget);
-    return $budget->transactions()->get();
+    $transaction = Transaction::first();
+    //dd($transaction);
+    return $transaction;
 });
