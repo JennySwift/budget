@@ -131,7 +131,7 @@
                         column: $scope.placeholder
                     };
 
-                    return $http.post('select/autocompleteTransaction', $data).
+                    return $http.post('/api/autocomplete/transaction', $data).
                         success(function(response, status, headers, config) {
                             $scope.results = AutocompleteFactory.transferTransactions(response);
                             $scope.results = AutocompleteFactory.removeDuplicates($scope.results);

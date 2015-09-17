@@ -208,28 +208,14 @@ class TransactionsRepository
      */
     public function autocompleteTransaction($column, $typing)
     {
-        $transactions = Transaction::where($column, 'LIKE', $typing)
-            ->where('transactions.user_id', Auth::user()->id)
-            ->join('accounts', 'transactions.account_id', '=', 'accounts.id')
-            ->select('transactions.id', 'total', 'account_id', 'accounts.name AS account_name', 'type', 'description',
-                'merchant')
+        $transactions = Transaction::forCurrentUser()
+            ->where($column, 'LIKE', $typing)
             ->limit(50)
             ->orderBy('date', 'desc')
             ->orderBy('id', 'desc')
+            ->with('account')
+            ->with('budgets')
             ->get();
-
-        foreach ($transactions as $transaction) {
-            $transaction_model = Transaction::find($transaction->id);
-            $tags = $transaction_model->tags;
-
-            $account = array(
-                "id" => $transaction->account_id,
-                "name" => $transaction->account_name
-            );
-
-            $transaction->account = $account;
-            $transaction->tags = $tags;
-        }
 
         return $transactions;
     }

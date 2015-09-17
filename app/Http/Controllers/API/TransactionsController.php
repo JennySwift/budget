@@ -44,19 +44,6 @@ class TransactionsController extends Controller
 
     /**
      *
-     * @param Request $request
-     * @return mixed
-     */
-    public function autocompleteTransaction(Request $request)
-    {
-        $typing = '%' . $request->get('typing') . '%';
-        $transactions = $this->transactionsRepository->autocompleteTransaction($request->get('column'), $typing);
-
-        return $transactions;
-    }
-
-    /**
-     *
      */
     public function updateMassDescription()
     {

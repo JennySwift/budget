@@ -4,9 +4,6 @@
  * Transactions
  */
 
-// Select
-Route::post('select/autocompleteTransaction', 'TransactionsController@autocompleteTransaction');
-
 // Insert
 //Route::post('insert/transaction', 'TransactionsController@insertTransaction');
 

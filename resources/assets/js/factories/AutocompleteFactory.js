@@ -107,11 +107,11 @@ app.factory('AutocompleteFactory', function ($http) {
 			var $index = $transactions.indexOf(this);
 			if (this.type === "transfer") {
 				$counter++;
-				if (this.total.indexOf("-") != -1) {
+				if (this.total < 0) {
 					//this is a negative transfer
 					$from_account = this.account;
 				}
-				else if (this.total.indexOf("-") == -1) {
+				else if (this.total > 0) {
 					//this is a positive transfer
 					$to_account = this.account;
 					$total = this.total;
