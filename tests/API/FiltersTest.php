@@ -66,9 +66,6 @@ class FiltersTest extends TestCase {
 
     /**
      * Get the filter response
-     * @VP:
-     * Is there a way I can access the data like $content->transactions rather than $content['transactions']?
-     * And $transaction->budgets rather than $transaction['budgets']?
      * @return Response
      */
     private function getResponse($data)

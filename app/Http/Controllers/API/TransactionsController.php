@@ -105,23 +105,21 @@ class TransactionsController extends Controller
             $transaction->toArray()
         ), 'removeFalseKeepZero');
 
-
-
-        if(empty($data)) {
-            return $this->responseNotModified();
-        }
+//        if(empty($data)) {
+//            return $this->responseNotModified();
+//        }
 
         //Fire event
         //Todo: update the savings when event is fired
         event(new TransactionWasUpdated($transaction, $data));
 
-//        if ($request->get('budgets')) {
-//            //Todo: make sure the allocated fixed, allocated percent and calculated allocation columns are set like I did in transactions repository attachBudgets()
-//            $transaction->budgets()->sync($request->get('budgets'));
-//        }
-
         $transaction->update($data);
         $transaction->save();
+
+        if ($request->get('budgets')) {
+            $transaction->budgets()->detach();
+            $this->transactionsRepository->attachBudgets($transaction, $request->get('budgets'));
+        }
 
         return $this->responseOk($transaction);
     }

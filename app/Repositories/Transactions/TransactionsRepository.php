@@ -14,7 +14,6 @@ use Debugbar;
 class TransactionsRepository
 {
 
-
     /**
      * Add budgets to transaction
      * @param $transaction
@@ -24,6 +23,7 @@ class TransactionsRepository
     public function attachBudgets($transaction, $budgets)
     {
         foreach ($budgets as $budget) {
+            Debugbar::info('budget', $budget);
             if (isset($budget['allocated_fixed'])) {
                 $this->allocateFixed($transaction, $budget);
             }
@@ -39,9 +39,9 @@ class TransactionsRepository
     }
 
     /**
-     * Give a transaction a tag with a fixed allocation
+     * Give a transaction a budget with a fixed allocation
      * @param $transaction
-     * @param $tag
+     * @param $budget
      */
     public function allocateFixed($transaction, $budget)
     {
@@ -52,9 +52,9 @@ class TransactionsRepository
     }
 
     /**
-     * Give a transaction a tag with a percentage allocation of the transaction's total
+     * Give a transaction a budget with a percentage allocation of the transaction's total
      * @param $transaction
-     * @param $tag
+     * @param $budget
      */
     public function allocatePercent($transaction, $budget)
     {
@@ -65,32 +65,13 @@ class TransactionsRepository
     }
 
     /**
-     * Insert a transaction in database
-     * @param $new_transaction
-     * @param $transaction_type
-     * @return Transaction
-     * @TODO Should happen in your JS,
-     */
-//    public function insert(array $data)
-//    {
-//        if ($data['type'] !== Transaction::TYPE_TRANSFER) {
-//            $transaction = $this->create($data);
-//        } //It's a transfer, so insert two transactions, the from and the to
-//        else {
-//            $this->create($data, Transaction::DIRECTION_FROM);
-//            $this->create($data, Transaction::DIRECTION_TO);
-//        }
-//
-//        return $transaction;
-//    }
-
-    /**
      *
      * @param array $data
      * @return Transaction
      */
     public function create(array $data)
     {
+//        Debugbar::info('data', $data);
         //Build transaction
         $transaction = $this->newTransaction($data);
 
@@ -116,7 +97,7 @@ class TransactionsRepository
      */
     private function insertIncomeOrExpenseTransaction($transaction, $data)
     {
-        // [1,2,3,4]
+        // Should be [1,2,3,4]?
         $budgets = $this->defaultAllocation($data['budgets']);
 
         $transaction->user()->associate(Auth::user());

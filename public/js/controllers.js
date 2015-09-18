@@ -14,6 +14,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
          * Scope properties
          */
         $scope.feedback_messages = [];
+        $scope.budgets = budgets;
         $scope.show = {
             popups: {},
             allocationPopup: false,
@@ -1096,7 +1097,6 @@ var app = angular.module('budgetApp');
 
         $scope.filterFactory = FilterFactory;
         $scope.dropdown = {};
-        $scope.budgets = budgets;
         $scope.types = ["income", "expense", "transfer"];
 
         $scope.new_transaction = {

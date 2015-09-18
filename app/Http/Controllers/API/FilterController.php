@@ -49,6 +49,7 @@ class FilterController extends Controller
          * because I need to pass $request->get('filter') and I'm not sure how
          * to get that in my constructor without newing up a new Filter.
          */
+//        return $this->filter->filterTransactions($request->get('filter'))->transactions;
         return $this->filter->filterTransactions($request->get('filter'));
 //        return $this->filterRepository->filterTransactions($request->get('filter'));
     }

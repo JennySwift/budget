@@ -14,6 +14,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
          * Scope properties
          */
         $scope.feedback_messages = [];
+        $scope.budgets = budgets;
         $scope.show = {
             popups: {},
             allocationPopup: false,

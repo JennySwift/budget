@@ -165,6 +165,17 @@ class Transaction extends Model
     }
 
     /**
+     * For when updating a transaction
+     * @param $transaction
+     */
+//    public function deleteAllBudgetsForTransaction($transaction)
+//    {
+//        DB::table('budgets_transactions')
+//            ->where('transaction_id', $transaction->id)
+//            ->delete();
+//    }
+
+    /**
      *
      * @return array
      */

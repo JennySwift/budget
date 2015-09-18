@@ -11,7 +11,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class FilterRepository
+ * Class Filter
  * @property array filter
  * @package App\Repositories\Transactions
  */
@@ -20,17 +20,17 @@ class Filter implements Arrayable {
     /**
      * @var
      */
-    protected $transactions;
+    public $transactions;
 
     /**
      * @var
      */
-    protected $graphTotals;
+    public $graphTotals;
 
     /**
      * @var
      */
-    protected $totals;
+    public $totals;
 
     /**
      * @var FilterBudgetsRepository
@@ -167,6 +167,7 @@ class Filter implements Arrayable {
         $this->totals = $this->filterTotalsRepository->getFilterTotals($this->finishTotalsQuery($query), $query);
         $this->graphTotals = $this->graphsRepository->getGraphTotals($query);
 
+//        return $this;
         return [
             'transactions' => $this->transactions,
             'totals' => $this->totals,

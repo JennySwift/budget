@@ -51,9 +51,9 @@
 
         <tag-autocomplete-directive
             ng-if="edit_transaction.type !== 'transfer'"
-            chosenTags="edit_transaction.tags"
+            chosenTags="edit_transaction.budgets"
             dropdown="edit_transaction.dropdown"
-            tags="tags"
+            tags="budgets"
             multipleTags="true">
         </tag-autocomplete-directive>
 
