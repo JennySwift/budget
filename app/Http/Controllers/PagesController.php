@@ -44,12 +44,7 @@ class PagesController extends Controller {
 //            //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),
             'budgets' => $this->budgetsRepository->getBudgets(),
-            'filter_response' => $filter->filterTransactions(),
-
-//            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-//            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-//            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-//            'remainingBalance' => $remainingBalance->amount
+            'filter_response' => $filter->filterTransactions()
         ]);
 
         return view('home');
