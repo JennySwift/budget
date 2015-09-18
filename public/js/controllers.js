@@ -14,7 +14,6 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
          * Scope properties
          */
         $scope.feedback_messages = [];
-        $scope.budgets = budgets;
         $scope.show = {
             popups: {},
             allocationPopup: false,
@@ -75,6 +74,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.filter = FilterFactory.filter;
             $scope.filterTotals = filter_response.totals;
             $scope.graphTotals = filter_response.graph_totals;
+            $scope.budgets = budgets;
 
             $scope.filterTransactions = function () {
                 $scope.showLoading();
