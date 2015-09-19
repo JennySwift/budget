@@ -89,25 +89,23 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             };
 
             $scope.handleAllocationForNewTransaction = function ($transaction) {
-                if ($transaction.hasMultipleBudgets) {
-                    FilterFactory.filterTransactions($scope.filter)
-                        .then(function (response) {
-                            $scope.hideLoading();
-                            $scope.transactions = response.data.transactions;
-                            var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
-                            if ($index !== -1) {
-                                //The transaction that was just entered is in the filtered transactions
-                                $scope.showAllocationPopup($scope.transactions[$index]);
-                                //$scope.transactions[$index] = $scope.allocationPopup;
-                            }
-                            else {
-                                $scope.showAllocationPopup($transaction);
-                            }
-                        })
-                        .catch(function (response) {
-                            $scope.responseError(response);
-                        })
-                }
+                FilterFactory.filterTransactions($scope.filter)
+                    .then(function (response) {
+                        $scope.hideLoading();
+                        $scope.transactions = response.data.transactions;
+                        var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
+                        if ($index !== -1) {
+                            //The transaction that was just entered is in the filtered transactions
+                            $scope.showAllocationPopup($scope.transactions[$index]);
+                            //$scope.transactions[$index] = $scope.allocationPopup;
+                        }
+                        else {
+                            $scope.showAllocationPopup($transaction);
+                        }
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    })
             };
 
             $scope.showAllocationPopup = function ($transaction) {

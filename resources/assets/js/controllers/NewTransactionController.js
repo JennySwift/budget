@@ -129,13 +129,18 @@
             $scope.showLoading();
             TransactionsFactory.insertIncomeOrExpenseTransaction($scope.new_transaction)
                 .then(function (response) {
+                    var $transaction = response.data.data;
                     $scope.provideFeedback('Transaction added');
                     clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
                     $scope.getSideBarTotals();
 
-                    //Todo: get filter response
-                    $scope.handleAllocationForNewTransaction(response.data.data);
+                    if ($transaction.hasMultipleBudgets) {
+                        $scope.handleAllocationForNewTransaction($transaction);
+                    }
+                    else {
+                        $scope.filterTransactions();
+                    }
 
                     $scope.hideLoading();
                 })
@@ -147,7 +152,7 @@
         function insertTransferTransactions () {
             insertTransferTransaction('from');
             setTimeout(function(){
-                $scope.insertTransferTransaction('to');
+                insertTransferTransaction('to');
             }, 100);
         }
 
