@@ -26,7 +26,7 @@ class TransactionTransformer extends TransformerAbstract
             'allocated' => $transaction->allocated,
             'account_id' => $transaction->account_id,
             'budgets' => $transaction->budgets,
-            'hasMultipleBudgets' => (bool) $transaction->hasMultipleBudgets()
+            'multipleBudgets' => (bool) $transaction->multipleBudgets
         ];
     }
 

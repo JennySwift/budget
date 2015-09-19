@@ -31,7 +31,7 @@ class Transaction extends Model
     /**
      * @var array
      */
-    protected $appends = ['path', 'userDate', 'reconciled'];
+    protected $appends = ['path', 'userDate', 'reconciled', 'multipleBudgets'];
 
     /**
      *
@@ -70,7 +70,7 @@ class Transaction extends Model
      *
      * @return bool
      */
-    public function hasMultipleBudgets()
+    public function getMultipleBudgetsAttribute()
     {
         // $this->budgets->count()
         if (count($this->assignedBudgets) > 1) {

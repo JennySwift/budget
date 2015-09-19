@@ -1219,7 +1219,7 @@ var app = angular.module('budgetApp');
                     $scope.new_transaction.dropdown = false;
                     $scope.getSideBarTotals();
 
-                    if ($transaction.hasMultipleBudgets) {
+                    if ($transaction.multipleBudgets) {
                         $scope.handleAllocationForNewTransaction($transaction);
                     }
                     else {
