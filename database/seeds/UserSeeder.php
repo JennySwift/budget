@@ -9,6 +9,7 @@ use App\User;
 class UserSeeder extends Seeder {
 
     protected $users = [
+        'You' => 'jennyswiftcreations@gmail.com',
         'Dummy' => 'cheezyspaghetti@gmail.com',
         'Dummy Bob' => 'bob@gmail.com',
     ];
