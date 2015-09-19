@@ -1337,9 +1337,9 @@ caption {
       #help-navigation-container .dropdown-content #help-navigation > ul li {
         list-style: none; }
 
-#login, #register {
+#login {
   padding-top: 85px; }
-  #login .flex, #register .flex {
+  #login .flex {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -1353,21 +1353,76 @@ caption {
     -ms-flex-align: center;
     align-items: center;
     padding-top: 40px; }
-  #login #login-errors, #register #login-errors {
+  #login #login-errors {
     background: #f2dede;
     padding: 11px 20px;
     border-radius: 4px;
     color: #777;
     font-size: 18px;
     margin-bottom: 25px; }
-  #login #remember-me-container, #register #remember-me-container {
+  #login #remember-me-container {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center; }
-    #login #remember-me-container label, #register #remember-me-container label {
+    #login #remember-me-container label {
+      margin-bottom: 0; }
+
+#register {
+  padding-top: 85px; }
+  #register #trial-message {
+    background: #fca700;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0 18px;
+    border-radius: 4px;
+    color: white; }
+    #register #trial-message a {
+      font-weight: bold;
+      text-decoration: underline;
+      color: white; }
+    #register #trial-message p {
+      width: auto; }
+    #register #trial-message ul {
+      margin-top: 0; }
+  #register .flex {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 40px; }
+  #register #login-errors {
+    background: #f2dede;
+    padding: 11px 20px;
+    border-radius: 4px;
+    color: #777;
+    font-size: 18px;
+    margin-bottom: 25px; }
+  #register #remember-me-container {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    #register #remember-me-container label {
       margin-bottom: 0; }
 
 #tags {
