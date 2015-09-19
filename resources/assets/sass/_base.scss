@@ -5,16 +5,8 @@ html, body {
     overflow-x: hidden;
     background: #fff;
     margin: 0;
-}
-
-body {
-	padding-top: 40px;
-    color: #777;
-}
-
-//for flexbox sticky footer
-html, body {
-  height: 100%;
+    //for flexbox sticky footer
+    height: 100%;
 }
 
 h1,h2,h3,h4,h5 {
@@ -23,6 +15,8 @@ h1,h2,h3,h4,h5 {
 }
 
 body {
+    padding-top: 40px;
+    color: #777;
     .main {
         padding-bottom: 60px;
         min-height: 100%;
@@ -133,13 +127,4 @@ caption {
 	padding: 8px;
 	font-weight: bold;
 }
-
-li {
-//	list-style-type: none;
-}
-
-//ul {
-//	margin: 0;
-//	padding: 0;
-//}
 
