@@ -16,7 +16,7 @@ class AutocompleteTest extends TestCase {
      */
     public function does_something()
     {
-        
+
     }
 
 }

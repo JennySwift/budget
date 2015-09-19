@@ -42,6 +42,18 @@
     }
 }
 
+#playground-notice {
+    text-align: center;
+    background: $danger;
+    padding: 8px;
+    color: white;
+    a {
+        color: white;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+}
+
 //
 //@media all and (max-width: 500px) {
 //	#nav {

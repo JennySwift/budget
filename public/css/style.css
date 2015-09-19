@@ -157,6 +157,16 @@ caption {
         border-radius: 8px;
         height: 32px; }
 
+#playground-notice {
+  text-align: center;
+  background: #d9534f;
+  padding: 8px;
+  color: white; }
+  #playground-notice a {
+    color: white;
+    font-weight: bold;
+    text-decoration: underline; }
+
 #tags {
   margin-bottom: 20px; }
   #tags .create-new-tag {
