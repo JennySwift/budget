@@ -9,7 +9,7 @@ use App\Models\Account;
 
 class AccountSeeder extends Seeder {
 
-    protected $accounts = ['bankwest', 'cash'];
+    protected $accounts = ['bank account', 'cash'];
 
 	public function run()
 	{
