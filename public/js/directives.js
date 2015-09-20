@@ -169,7 +169,7 @@
         .directive('tagAutocompleteDirective', tagAutocomplete);
 
     /* @inject */
-    function tagAutocomplete(FeedbackFactory, $sce) {
+    function tagAutocomplete($sce) {
         return {
             restrict: 'EA',
             scope: {
@@ -239,7 +239,7 @@
                     var $tag_id = $scope.results[$scope.currentIndex].id;
 
                     if (!$scope.duplicateTagCheck($tag_id, $scope.chosenTags)) {
-                        FeedbackFactory.provideFeedback('You have already entered that tag');
+                        //$scope.provideFeedback('You have already entered that tag');
                         $scope.hideAndClear();
                         return;
                     }
@@ -470,7 +470,7 @@
         .directive('transactionAutocompleteDirective', transactionAutocomplete);
 
     /* @inject */
-    function transactionAutocomplete(FeedbackFactory, AutocompleteFactory, $sce, $http, $timeout, $interval) {
+    function transactionAutocomplete(AutocompleteFactory, $sce, $http, $interval) {
         return {
             restrict: 'EA',
             scope: {

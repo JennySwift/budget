@@ -54,13 +54,6 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.env = env;
         }
 
-        if (typeof basicTotals !== 'undefined') {
-            $scope.basicTotals = basicTotals;
-            $scope.fixedBudgetTotals = fixedBudgetTotals;
-            $scope.flexBudgetTotals = flexBudgetTotals;
-            $scope.remainingBalance = remainingBalance;
-        }
-
         if (typeof page !== 'undefined' && page === 'home') {
             //Putting this here so that transactions update
             //after inserting transaction from newTransactionController
@@ -162,16 +155,8 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.totalChanges = {};
         };
 
-        $scope.updateTotalsAfterResponse = function (response) {
-            $scope.basicTotals = response.data.basicTotals;
-            $scope.fixedBudgetTotals = response.data.fixedBudgetTotals;
-            $scope.flexBudgetTotals = response.data.flexBudgetTotals;
-            $scope.remainingBalance = response.data.remainingBalance;
-        };
-
         $(window).load(function () {
             $(".main").css('display', 'block');
-            //$("#budget").css('display', 'flex');
             $("footer, #navbar").css('display', 'flex');
             $("#page-loading").hide();
         });
@@ -270,18 +255,6 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         };
 
         if (typeof page !== 'undefined' && (page === 'home' || page === 'budgets')) {
-            $scope.getTotals = function () {
-                $scope.showLoading();
-                TotalsFactory.getTotals()
-                    .then(function (response) {
-                        $scope.updateTotalsAfterResponse(response);
-                        //$scope.provideFeedback('');
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            };
 
             $scope.getSideBarTotals = function () {
                 $scope.showLoading();

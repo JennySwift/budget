@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, $http, TransactionsFactory, PreferencesFactory) {
+    function home ($scope, TransactionsFactory, PreferencesFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';

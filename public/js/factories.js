@@ -203,22 +203,6 @@ app.factory('BudgetsFactory', function ($http) {
 
 	};
 });
-app.factory('FeedbackFactory', function ($http) {
-    var $object = {};
-
-    $object.provideFeedback = function ($message) {
-        //My watch in my controller would only work once unless I made an object here.
-        //(Just $object.message would not work.)
-        $object.data = {
-            message: $message,
-            update: true
-        };
-        return $object.data;
-    };
-
-    return $object;
-});
-
 app.factory('FilterFactory', function ($http) {
     var $object = {};
 
@@ -343,28 +327,8 @@ app.factory('FilterFactory', function ($http) {
         return $http.post($url, {'filter': $filter});
     };
 
-    /**
-     * For displaying the filtered transactions
-     * and the filter totals
-     * and the non-filter totals on the page
-     * todo: maybe this should be in some totals factory
-     * @param $data
-     */
-    //$object.updateDataForControllers = function ($data) {
-    //    if ($data.filter_results) {
-    //        //This includes filtered transactions as well as filter totals
-    //        $object.filter_results = $data.filter_results;
-    //    }
-    //};
-
     return $object;
 });
-//app.factory('HelpersFactory', function ($http) {
-//    return {
-//
-//
-//    };
-//});
 app.factory('PreferencesFactory', function ($http) {
     return {
         savePreferences: function ($preferences) {
@@ -421,22 +385,6 @@ app.factory('SavingsFactory', function ($http) {
 				amount: $percentage_of_RB,
 			};
 			$("#add-percentage-to-savings").val("");
-			
-			return $http.put($url, $data);
-		},
-		addPercentageToSavingsAutomatically: function ($amount_to_add) {
-			var $url = '/api/savings/increase';
-			var $data = {
-				amount: $amount_to_add
-			};
-			
-			return $http.put($url, $data);
-		},
-		reverseAutomaticInsertIntoSavings: function ($amount_to_subtract) {
-			var $url = '/api/savings/decrease';
-			var $data = {
-				amount: $amount_to_subtract
-			};
 			
 			return $http.put($url, $data);
 		}

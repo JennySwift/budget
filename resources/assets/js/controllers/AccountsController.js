@@ -2,22 +2,12 @@ var app = angular.module('budgetApp');
 
 (function () {
 
-    app.controller('AccountsController', function ($scope, $http, AccountsFactory, FeedbackFactory) {
+    app.controller('AccountsController', function ($scope, $http, AccountsFactory) {
 
-        /**
-         * scope properties
-         */
-
-        //$scope.me = me;
         $scope.autocomplete = {};
         $scope.edit_account = false;
         $scope.accounts = accounts;
-        $scope.feedbackFactory = FeedbackFactory;
         $scope.edit_account_popup = {};
-
-        /**
-         * select
-         */
 
         $scope.getAccounts = function () {
             $scope.showLoading();
@@ -30,10 +20,6 @@ var app = angular.module('budgetApp');
                     $scope.responseError(response);
                 });
         };
-
-        /**
-         * insert
-         */
 
         $scope.insertAccount = function ($keycode) {
             if ($keycode !== 13) {
@@ -52,10 +38,6 @@ var app = angular.module('budgetApp');
                     $scope.responseError(response);
                 });
         };
-
-        /**
-         * update
-         */
 
         $scope.showEditAccountPopup = function ($account_id, $account_name) {
             $scope.edit_account_popup.id = $account_id;
@@ -76,10 +58,6 @@ var app = angular.module('budgetApp');
                     $scope.responseError(response);
                 });
         };
-
-        /**
-         * delete
-         */
 
         $scope.deleteAccount = function ($account) {
             if (confirm("Are you sure you want to delete this account?")) {

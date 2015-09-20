@@ -9,7 +9,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         .module('budgetApp')
         .controller('BaseController', base);
 
-    function base ($scope, $http, $sce, TotalsFactory, UsersFactory, FilterFactory, TransactionsFactory) {
+    function base ($scope, $sce, TotalsFactory, UsersFactory, FilterFactory, TransactionsFactory) {
         /**
          * Scope properties
          */
@@ -49,21 +49,9 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         };
 
         $scope.me = me;
-        $scope.test = 'hi';
-
-        $scope.testing = function () {
-            console.log('hi');
-        };
 
         if (typeof env !== 'undefined') {
             $scope.env = env;
-        }
-
-        if (typeof basicTotals !== 'undefined') {
-            $scope.basicTotals = basicTotals;
-            $scope.fixedBudgetTotals = fixedBudgetTotals;
-            $scope.flexBudgetTotals = flexBudgetTotals;
-            $scope.remainingBalance = remainingBalance;
         }
 
         if (typeof page !== 'undefined' && page === 'home') {
@@ -167,16 +155,8 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             $scope.totalChanges = {};
         };
 
-        $scope.updateTotalsAfterResponse = function (response) {
-            $scope.basicTotals = response.data.basicTotals;
-            $scope.fixedBudgetTotals = response.data.fixedBudgetTotals;
-            $scope.flexBudgetTotals = response.data.flexBudgetTotals;
-            $scope.remainingBalance = response.data.remainingBalance;
-        };
-
         $(window).load(function () {
             $(".main").css('display', 'block');
-            //$("#budget").css('display', 'flex');
             $("footer, #navbar").css('display', 'flex');
             $("#page-loading").hide();
         });
@@ -233,34 +213,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             else {
                 $scope.provideFeedback('There was an error', 'error');
             }
-            //if (response.status === 503) {
-            //    $scope.provideFeedback('Sorry, application under construction. Please try again later.', 'error');
-            //}
-            //else if (response.status === 401) {
-            //    $scope.provideFeedback('You are not logged in', 'error');
-            //}
-            //// Validation errors
-            //else if (response.status === 422) {
-            //    var html = "<ul>";
-            //    angular.forEach(response.data, function(value, key) {
-            //        var fieldName = key;
-            //        angular.forEach(value, function(value) {
-            //            html += '<li>'+value+'</li>';
-            //        });
-            //    });
-            //    html += "</ul>";
-            //    $scope.provideFeedback(html, 'error');
-            //}
-            //else if (response.data.error) {
-            //    $scope.provideFeedback(response.data.error, 'error');
-            //}
-            //else if (response.data) {
-            //    //Todo (response.data is in a complicated format)
-            //
-            //}
-            //else {
-            //    $scope.provideFeedback('There was an error', 'error');
-            //}
+
             $scope.hideLoading();
         };
 
@@ -302,18 +255,6 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         };
 
         if (typeof page !== 'undefined' && (page === 'home' || page === 'budgets')) {
-            $scope.getTotals = function () {
-                $scope.showLoading();
-                TotalsFactory.getTotals()
-                    .then(function (response) {
-                        $scope.updateTotalsAfterResponse(response);
-                        //$scope.provideFeedback('');
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            };
 
             $scope.getSideBarTotals = function () {
                 $scope.showLoading();
@@ -337,28 +278,12 @@ var app = angular.module('budgetApp');
 
 (function () {
 
-    app.controller('AccountsController', function ($scope, $http, AccountsFactory, FeedbackFactory) {
+    app.controller('AccountsController', function ($scope, $http, AccountsFactory) {
 
-        /**
-         * scope properties
-         */
-
-        //$scope.me = me;
         $scope.autocomplete = {};
         $scope.edit_account = false;
         $scope.accounts = accounts;
-        $scope.feedbackFactory = FeedbackFactory;
         $scope.edit_account_popup = {};
-
-        $scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
-            if (newValue && newValue.message) {
-                scope.provideFeedback(newValue.message);
-            }
-        });
-
-        /**
-         * select
-         */
 
         $scope.getAccounts = function () {
             $scope.showLoading();
@@ -371,10 +296,6 @@ var app = angular.module('budgetApp');
                     $scope.responseError(response);
                 });
         };
-
-        /**
-         * insert
-         */
 
         $scope.insertAccount = function ($keycode) {
             if ($keycode !== 13) {
@@ -393,10 +314,6 @@ var app = angular.module('budgetApp');
                     $scope.responseError(response);
                 });
         };
-
-        /**
-         * update
-         */
 
         $scope.showEditAccountPopup = function ($account_id, $account_name) {
             $scope.edit_account_popup.id = $account_id;
@@ -417,10 +334,6 @@ var app = angular.module('budgetApp');
                     $scope.responseError(response);
                 });
         };
-
-        /**
-         * delete
-         */
 
         $scope.deleteAccount = function ($account) {
             if (confirm("Are you sure you want to delete this account?")) {
@@ -446,10 +359,7 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('BudgetsController', budgets);
 
-    function budgets ($scope, $http, BudgetsFactory, FilterFactory, FeedbackFactory, TransactionsFactory) {
-        /**
-         * scope properties
-         */
+    function budgets ($scope, BudgetsFactory) {
 
         $scope.show = {
             newBudget: false,
@@ -459,27 +369,24 @@ var app = angular.module('budgetApp');
         $scope.toggleNewBudget = function () {
             $scope.show.newBudget = true;
         };
-        $scope.fixedBudgets = fixedBudgets;
-        $scope.flexBudgets = flexBudgets;
-        $scope.unassignedBudgets = unassignedBudgets;
-        $scope.feedbackFactory = FeedbackFactory;
+
+        if (typeof fixedBudgets !== 'undefined') {
+            $scope.fixedBudgets = fixedBudgets;
+        }
+
+        if (typeof flexBudgets !== 'undefined') {
+            $scope.flexBudgets = flexBudgets;
+        }
+
+        if (typeof unassignedBudgets !== 'undefined') {
+            $scope.unassignedBudgets = unassignedBudgets;
+        }
 
         $scope.show.basic_totals = true;
         $scope.show.budget_totals = true;
-        //$scope.tab = 'flex';
         $scope.newBudget = {
             type: 'fixed'
         };
-
-        /**
-        * Watches
-        */
-
-        $scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
-            if (newValue && newValue.message) {
-                scope.provideFeedback(newValue.message);
-            }
-        });
 
         $scope.insertBudget = function ($keycode) {
             if ($keycode !== 13) {
@@ -531,7 +438,6 @@ var app = angular.module('budgetApp');
                 .then(function (response) {
                     $scope.jsUpdateBudget(response);
                     $scope.getSideBarTotals();
-                    //$scope.updateTotalsAfterResponse(response);
                     $scope.show.popups.budget = false;
                 })
                 .catch(function (response) {
@@ -552,13 +458,6 @@ var app = angular.module('budgetApp');
             }
 
         };
-
-        //$scope.handleUpdateResponse = function (response, $message) {
-        //    FilterFactory.updateDataForControllers(response.data);
-        //    $scope.updateTotalsAfterResponse(response);
-        //    $scope.hideLoading();
-        //    $scope.provideFeedback($message);
-        //};
 
         $scope.deleteBudget = function ($budget) {
             $scope.showLoading();
@@ -594,66 +493,6 @@ var app = angular.module('budgetApp');
             }
 
         };
-
-
-        //$scope.updateTag = function ($tag, response) {
-        //    var $index = _.indexOf($scope.tags, _.findWhere($scope.tags, {id: $tag.id}));
-        //    $scope.tags[$index] = response.data.tag;
-        //};
-
-        /**
-         * Return true if tag has a budget already
-         * @returns {boolean}
-         */
-        //$scope.tagHasBudget = function ($new) {
-        //    if ($new.flex_budget) {
-        //        $scope.provideFeedback("You've got a flex budget for that tag.", 'error');
-        //        return true;
-        //    }
-        //    else if ($new.fixed_budget) {
-        //        $scope.provideFeedback("You've got a fixed budget for that tag.", 'error');
-        //        return true;
-        //    }
-        //    return false;
-        //};
-
-        /**
-         * Clear the tag inputs and focus the correct input
-         * after entering a new budget
-         * todo: clear the budget input
-         * @param $type
-         */
-        //$scope.clearAndFocus = function ($type) {
-        //    if ($type === 'fixed') {
-        //        //I'm baffled as to why this works to clear the input when the ng-model is new_FB.
-        //        //$scope.new_fixed_budget.tag.name = '';
-        //
-        //        $("#new-fixed-budget-name-input").val("").focus();
-        //        $("#new-fixed-budget-SD").val("");
-        //        $("#new-fixed-budget-amount").val("");
-        //    }
-        //    else {
-        //        $("#new-flex-budget-name-input").val("").focus();
-        //        $("#new-flex-budget-SD").val("");
-        //        $("#new-flex-budget-amount").val("");
-        //    }
-        //};
-
-        //$scope.removeBudget = function ($tag) {
-        //    if (confirm("Remove " + $tag.budget_type + " budget for " + $tag.name + "?")) {
-        //        $scope.showLoading();
-        //        BudgetsFactory.removeBudget($tag)
-        //            .then(function (response) {
-        //                $scope.updateTotalsAfterResponse(response);
-        //                $scope.updateTag($tag, response);
-        //                $scope.provideFeedback('Budget deleted');
-        //                $scope.hideLoading();
-        //            })
-        //            .catch(function (response) {
-        //                $scope.responseError(response);
-        //            });
-        //    }
-        //};
 
         $scope.showBudgetPopup = function ($tag, $type) {
             $scope.budget_popup = $tag;
@@ -714,12 +553,7 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('FilterController', filter);
 
-    function filter ($scope, $http, FilterFactory, FeedbackFactory) {
-
-        $scope.something = 'abcdefghijklmn';
-        /**
-         * scope properties
-         */
+    function filter ($scope, FilterFactory) {
 
         $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
@@ -772,10 +606,6 @@ var app = angular.module('budgetApp');
             }
             $scope.filterTransactions();
         });
-
-        /**
-         * End watches
-         */
 
         $scope.calculateGraphFigures = function () {
             $scope.graphFigures = {
@@ -902,13 +732,11 @@ var app = angular.module('budgetApp');
 
     angular
         .module('budgetApp')
-        .controller('FixedBudgetsController', budgets);
+        .controller('FixedBudgetsController', fixedBudgets);
 
-    function budgets ($scope, $http, BudgetsFactory, FilterFactory, FeedbackFactory) {
-        /**
-         * scope properties
-         */
+    function fixedBudgets ($scope) {
 
+        $scope.fixedBudgetTotals = fixedBudgetTotals;
 
     }
 
@@ -917,13 +745,11 @@ var app = angular.module('budgetApp');
 
     angular
         .module('budgetApp')
-        .controller('FlexBudgetsController', budgets);
+        .controller('FlexBudgetsController', flexBudgets);
 
-    function budgets ($scope, $http, BudgetsFactory, FilterFactory, FeedbackFactory) {
-        /**
-         * scope properties
-         */
+    function flexBudgets ($scope) {
 
+        $scope.flexBudgetTotals = flexBudgetTotals;
 
     }
 
@@ -932,7 +758,7 @@ var app = angular.module('budgetApp');
 
 (function () {
 
-    app.controller('HelpController', function ($scope, $http, AccountsFactory, FeedbackFactory) {
+    app.controller('HelpController', function ($scope) {
 
 
 
@@ -945,10 +771,7 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, $http, TransactionsFactory, PreferencesFactory) {
-        /**
-         * scope properties
-         */
+    function home ($scope, TransactionsFactory, PreferencesFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
@@ -961,10 +784,6 @@ var app = angular.module('budgetApp');
         else {
             $scope.tab = 'transactions';
         }
-
-        /**
-         * Watches
-         */
 
         $scope.$watch('PreferencesFactory.date_format', function (newValue, oldValue) {
             if (!newValue) {
@@ -979,18 +798,6 @@ var app = angular.module('budgetApp');
                     $scope.responseError(response);
                 });
         });
-
-        /**
-         * End watches
-         */
-
-        /**
-         * For trying to get the page load faster,
-         * seeing the queries that are taking place
-         */
-        $scope.debugTotals = function () {
-            return $http.get('/test');
-        };
 
         $scope.toggleFilter = function () {
             $scope.show.filter = !$scope.show.filter;
@@ -1088,10 +895,7 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('NewTransactionController', newTransaction);
 
-    function newTransaction ($scope, $http, TransactionsFactory, FilterFactory, FeedbackFactory) {
-        /**
-         * scope properties
-         */
+    function newTransaction ($scope, TransactionsFactory, FilterFactory) {
 
         $scope.filterFactory = FilterFactory;
         $scope.dropdown = {};
@@ -1277,20 +1081,7 @@ var app = angular.module('budgetApp');
             $("#transfer-color-picker").val(newValue.transfer);
         });
 
-        /**
-         * scope properties
-         */
-
         $scope.preferences = {};
-
-        $scope.responseError = function (response) {
-            if (response.status === 503) {
-                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
-            }
-            else {
-                FeedbackFactory.provideFeedback('There was an error');
-            }
-        };
 
         $scope.savePreferences = function () {
             PreferencesFactory.savePreferences($scope.me.preferences)
@@ -1316,25 +1107,13 @@ var app = angular.module('budgetApp');
     }
 
 })();
-
-(function () {
-
-    angular
-        .module('budgetApp')
-        .controller('TotalsController', totals);
-
-    function totals ($scope, $http) {
-
-    }
-
-})();
 (function () {
 
     angular
         .module('budgetApp')
         .controller('TransactionsController', transactions);
 
-    function transactions ($scope, $http, TransactionsFactory, FilterFactory) {
+    function transactions ($scope, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
@@ -1482,12 +1261,10 @@ var app = angular.module('budgetApp');
 
     angular
         .module('budgetApp')
-        .controller('UnassignedBudgetsController', budgets);
+        .controller('UnassignedBudgetsController', unassignedBudgets);
 
-    function budgets ($scope, $http, BudgetsFactory, FilterFactory, FeedbackFactory) {
-        /**
-         * scope properties
-         */
+    function unassignedBudgets ($scope) {
+
         $scope.unassignedBudgetTotals = unassignedBudgetTotals;
     }
 

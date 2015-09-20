@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('BudgetsController', budgets);
 
-    function budgets ($scope, BudgetsFactory, FeedbackFactory) {
+    function budgets ($scope, BudgetsFactory) {
 
         $scope.show = {
             newBudget: false,
@@ -14,10 +14,18 @@
         $scope.toggleNewBudget = function () {
             $scope.show.newBudget = true;
         };
-        $scope.fixedBudgets = fixedBudgets;
-        $scope.flexBudgets = flexBudgets;
-        $scope.unassignedBudgets = unassignedBudgets;
-        $scope.feedbackFactory = FeedbackFactory;
+
+        if (typeof fixedBudgets !== 'undefined') {
+            $scope.fixedBudgets = fixedBudgets;
+        }
+
+        if (typeof flexBudgets !== 'undefined') {
+            $scope.flexBudgets = flexBudgets;
+        }
+
+        if (typeof unassignedBudgets !== 'undefined') {
+            $scope.unassignedBudgets = unassignedBudgets;
+        }
 
         $scope.show.basic_totals = true;
         $scope.show.budget_totals = true;
@@ -75,7 +83,6 @@
                 .then(function (response) {
                     $scope.jsUpdateBudget(response);
                     $scope.getSideBarTotals();
-                    //$scope.updateTotalsAfterResponse(response);
                     $scope.show.popups.budget = false;
                 })
                 .catch(function (response) {

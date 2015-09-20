@@ -2,13 +2,11 @@
 
     angular
         .module('budgetApp')
-        .controller('FlexBudgetsController', budgets);
+        .controller('FlexBudgetsController', flexBudgets);
 
-    function budgets ($scope) {
-        /**
-         * scope properties
-         */
+    function flexBudgets ($scope) {
 
+        $scope.flexBudgetTotals = flexBudgetTotals;
 
     }
 

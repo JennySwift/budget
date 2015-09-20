@@ -2,9 +2,9 @@
 
     angular
         .module('budgetApp')
-        .controller('UnassignedBudgetsController', budgets);
+        .controller('UnassignedBudgetsController', unassignedBudgets);
 
-    function budgets ($scope) {
+    function unassignedBudgets ($scope) {
 
         $scope.unassignedBudgetTotals = unassignedBudgetTotals;
     }

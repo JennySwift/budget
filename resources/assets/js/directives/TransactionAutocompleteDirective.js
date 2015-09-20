@@ -5,7 +5,7 @@
         .directive('transactionAutocompleteDirective', transactionAutocomplete);
 
     /* @inject */
-    function transactionAutocomplete(FeedbackFactory, AutocompleteFactory, $sce, $http, $timeout, $interval) {
+    function transactionAutocomplete(AutocompleteFactory, $sce, $http, $interval) {
         return {
             restrict: 'EA',
             scope: {

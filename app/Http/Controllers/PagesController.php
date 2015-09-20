@@ -62,12 +62,7 @@ class PagesController extends Controller {
             'me' => Auth::user(),
             'page' => 'budgets',
             'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
-            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
-            'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,
             'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-            'remainingBalance' => $remainingBalance->amount
         ]);
 
         return view('budgets/fixed');
@@ -84,13 +79,8 @@ class PagesController extends Controller {
         JavaScript::put([
             'me' => Auth::user(),
             'page' => 'budgets',
-            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
             'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
-            'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,
-            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
             'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
-            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-            'remainingBalance' => $remainingBalance->amount
         ]);
 
         return view('budgets/flex');
@@ -107,14 +97,8 @@ class PagesController extends Controller {
         JavaScript::put([
             'me' => Auth::user(),
             'page' => 'budgets',
-            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
-            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
             'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,
-            'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
-            'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
             'unassignedBudgetTotals' => $remainingBalance->unassignedBudgetTotals->toArray(),
-            'basicTotals' => $remainingBalance->basicTotals->toArray(),
-            'remainingBalance' => $remainingBalance->amount
         ]);
 
         return view('budgets/unassigned');
@@ -146,20 +130,6 @@ class PagesController extends Controller {
 
     /**
      * Display a listing of the resource.
-     * GET /charts
-     * @return Response
-     */
-//    public function charts()
-//    {
-//        JavaScript::put([
-//            'me' => Auth::user()
-//        ]);
-//
-//        return view('charts');
-//    }
-
-    /**
-     * Display a listing of the resource.
      * GET /help
      * @return Response
      */
@@ -171,19 +141,5 @@ class PagesController extends Controller {
 
         return view('help');
     }
-
-    /**
-     * Show the application dashboard to the user.
-     * GET /tags
-     * @return Response
-     */
-//    public function tags()
-//    {
-//        JavaScript::put([
-//            'me' => Auth::user()
-//        ]);
-//
-//        return view('tags');
-//    }
 
 }
