@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('TransactionsController', transactions);
 
-    function transactions ($scope, $http, TransactionsFactory, FilterFactory) {
+    function transactions ($scope, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;

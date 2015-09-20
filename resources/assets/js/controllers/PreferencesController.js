@@ -14,20 +14,7 @@
             $("#transfer-color-picker").val(newValue.transfer);
         });
 
-        /**
-         * scope properties
-         */
-
         $scope.preferences = {};
-
-        $scope.responseError = function (response) {
-            if (response.status === 503) {
-                FeedbackFactory.provideFeedback('Sorry, application under construction. Please try again later.');
-            }
-            else {
-                FeedbackFactory.provideFeedback('There was an error');
-            }
-        };
 
         $scope.savePreferences = function () {
             PreferencesFactory.savePreferences($scope.me.preferences)

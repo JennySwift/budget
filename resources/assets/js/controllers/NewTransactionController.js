@@ -4,10 +4,7 @@
         .module('budgetApp')
         .controller('NewTransactionController', newTransaction);
 
-    function newTransaction ($scope, $http, TransactionsFactory, FilterFactory, FeedbackFactory) {
-        /**
-         * scope properties
-         */
+    function newTransaction ($scope, TransactionsFactory, FilterFactory) {
 
         $scope.filterFactory = FilterFactory;
         $scope.dropdown = {};

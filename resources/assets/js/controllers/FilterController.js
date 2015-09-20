@@ -4,12 +4,7 @@
         .module('budgetApp')
         .controller('FilterController', filter);
 
-    function filter ($scope, $http, FilterFactory, FeedbackFactory) {
-
-        $scope.something = 'abcdefghijklmn';
-        /**
-         * scope properties
-         */
+    function filter ($scope, FilterFactory) {
 
         $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
@@ -62,10 +57,6 @@
             }
             $scope.filterTransactions();
         });
-
-        /**
-         * End watches
-         */
 
         $scope.calculateGraphFigures = function () {
             $scope.graphFigures = {

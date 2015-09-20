@@ -5,9 +5,6 @@
         .controller('HomeController', home);
 
     function home ($scope, $http, TransactionsFactory, PreferencesFactory) {
-        /**
-         * scope properties
-         */
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
@@ -20,10 +17,6 @@
         else {
             $scope.tab = 'transactions';
         }
-
-        /**
-         * Watches
-         */
 
         $scope.$watch('PreferencesFactory.date_format', function (newValue, oldValue) {
             if (!newValue) {
@@ -38,18 +31,6 @@
                     $scope.responseError(response);
                 });
         });
-
-        /**
-         * End watches
-         */
-
-        /**
-         * For trying to get the page load faster,
-         * seeing the queries that are taking place
-         */
-        $scope.debugTotals = function () {
-            return $http.get('/test');
-        };
 
         $scope.toggleFilter = function () {
             $scope.show.filter = !$scope.show.filter;

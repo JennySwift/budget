@@ -15,12 +15,6 @@ var app = angular.module('budgetApp');
         $scope.feedbackFactory = FeedbackFactory;
         $scope.edit_account_popup = {};
 
-        $scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
-            if (newValue && newValue.message) {
-                scope.provideFeedback(newValue.message);
-            }
-        });
-
         /**
          * select
          */

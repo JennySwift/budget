@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('FixedBudgetsController', budgets);
 
-    function budgets ($scope, $http, BudgetsFactory, FilterFactory, FeedbackFactory) {
+    function budgets ($scope) {
         /**
          * scope properties
          */

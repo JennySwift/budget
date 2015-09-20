@@ -4,10 +4,7 @@
         .module('budgetApp')
         .controller('BudgetsController', budgets);
 
-    function budgets ($scope, $http, BudgetsFactory, FilterFactory, FeedbackFactory, TransactionsFactory) {
-        /**
-         * scope properties
-         */
+    function budgets ($scope, BudgetsFactory, FeedbackFactory) {
 
         $scope.show = {
             newBudget: false,
@@ -24,20 +21,9 @@
 
         $scope.show.basic_totals = true;
         $scope.show.budget_totals = true;
-        //$scope.tab = 'flex';
         $scope.newBudget = {
             type: 'fixed'
         };
-
-        /**
-        * Watches
-        */
-
-        $scope.$watch('feedbackFactory.data', function (newValue, oldValue, scope) {
-            if (newValue && newValue.message) {
-                scope.provideFeedback(newValue.message);
-            }
-        });
 
         $scope.insertBudget = function ($keycode) {
             if ($keycode !== 13) {
@@ -111,13 +97,6 @@
 
         };
 
-        //$scope.handleUpdateResponse = function (response, $message) {
-        //    FilterFactory.updateDataForControllers(response.data);
-        //    $scope.updateTotalsAfterResponse(response);
-        //    $scope.hideLoading();
-        //    $scope.provideFeedback($message);
-        //};
-
         $scope.deleteBudget = function ($budget) {
             $scope.showLoading();
             if (confirm('You have ' + $budget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?')) {
@@ -152,66 +131,6 @@
             }
 
         };
-
-
-        //$scope.updateTag = function ($tag, response) {
-        //    var $index = _.indexOf($scope.tags, _.findWhere($scope.tags, {id: $tag.id}));
-        //    $scope.tags[$index] = response.data.tag;
-        //};
-
-        /**
-         * Return true if tag has a budget already
-         * @returns {boolean}
-         */
-        //$scope.tagHasBudget = function ($new) {
-        //    if ($new.flex_budget) {
-        //        $scope.provideFeedback("You've got a flex budget for that tag.", 'error');
-        //        return true;
-        //    }
-        //    else if ($new.fixed_budget) {
-        //        $scope.provideFeedback("You've got a fixed budget for that tag.", 'error');
-        //        return true;
-        //    }
-        //    return false;
-        //};
-
-        /**
-         * Clear the tag inputs and focus the correct input
-         * after entering a new budget
-         * todo: clear the budget input
-         * @param $type
-         */
-        //$scope.clearAndFocus = function ($type) {
-        //    if ($type === 'fixed') {
-        //        //I'm baffled as to why this works to clear the input when the ng-model is new_FB.
-        //        //$scope.new_fixed_budget.tag.name = '';
-        //
-        //        $("#new-fixed-budget-name-input").val("").focus();
-        //        $("#new-fixed-budget-SD").val("");
-        //        $("#new-fixed-budget-amount").val("");
-        //    }
-        //    else {
-        //        $("#new-flex-budget-name-input").val("").focus();
-        //        $("#new-flex-budget-SD").val("");
-        //        $("#new-flex-budget-amount").val("");
-        //    }
-        //};
-
-        //$scope.removeBudget = function ($tag) {
-        //    if (confirm("Remove " + $tag.budget_type + " budget for " + $tag.name + "?")) {
-        //        $scope.showLoading();
-        //        BudgetsFactory.removeBudget($tag)
-        //            .then(function (response) {
-        //                $scope.updateTotalsAfterResponse(response);
-        //                $scope.updateTag($tag, response);
-        //                $scope.provideFeedback('Budget deleted');
-        //                $scope.hideLoading();
-        //            })
-        //            .catch(function (response) {
-        //                $scope.responseError(response);
-        //            });
-        //    }
-        //};
 
         $scope.showBudgetPopup = function ($tag, $type) {
             $scope.budget_popup = $tag;

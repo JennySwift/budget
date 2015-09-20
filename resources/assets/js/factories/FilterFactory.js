@@ -122,19 +122,5 @@ app.factory('FilterFactory', function ($http) {
         return $http.post($url, {'filter': $filter});
     };
 
-    /**
-     * For displaying the filtered transactions
-     * and the filter totals
-     * and the non-filter totals on the page
-     * todo: maybe this should be in some totals factory
-     * @param $data
-     */
-    //$object.updateDataForControllers = function ($data) {
-    //    if ($data.filter_results) {
-    //        //This includes filtered transactions as well as filter totals
-    //        $object.filter_results = $data.filter_results;
-    //    }
-    //};
-
     return $object;
 });

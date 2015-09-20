@@ -4,10 +4,8 @@
         .module('budgetApp')
         .controller('UnassignedBudgetsController', budgets);
 
-    function budgets ($scope, $http, BudgetsFactory, FilterFactory, FeedbackFactory) {
-        /**
-         * scope properties
-         */
+    function budgets ($scope) {
+
         $scope.unassignedBudgetTotals = unassignedBudgetTotals;
     }
 
