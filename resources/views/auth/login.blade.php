@@ -6,7 +6,7 @@
 
         <div id="requirements">
             <p>You can log in with the following email and password. This will give you access to an existing account with pre-populated data. If you want to instead try it out without the pre-populated data, you can register for the demo version
-                <a href="auth/register">here.</a></p>
+                <a href="/auth/register">here.</a></p>
             <ul>
                 <li>Email: jennyswiftcreations@gmail.com</li>
                 <li>Password: abcdefg</li>
