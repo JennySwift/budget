@@ -6,7 +6,6 @@
 
     function unassignedBudgets ($scope) {
 
-        $scope.unassignedBudgetTotals = unassignedBudgetTotals;
     }
 
 })();

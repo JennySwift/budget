@@ -6,7 +6,6 @@
 
     function flexBudgets ($scope) {
 
-        $scope.flexBudgetTotals = flexBudgetTotals;
 
     }
 

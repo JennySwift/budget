@@ -4,9 +4,8 @@
         .module('budgetApp')
         .controller('FixedBudgetsController', fixedBudgets);
 
-    function fixedBudgets ($scope) {
+    function fixedBudgets ($scope, TotalsFactory) {
 
-        $scope.fixedBudgetTotals = fixedBudgetTotals;
 
     }
 

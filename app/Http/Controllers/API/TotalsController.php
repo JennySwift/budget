@@ -35,4 +35,39 @@ class TotalsController extends Controller
 
         return $this->responseWithTransformer($resource, 200);
     }
+
+    /**
+     * Get the fixed budget totals
+     * @return array
+     */
+    public function fixedBudget()
+    {
+        $remainingBalance = app('remaining-balance')->calculate();
+
+        return $remainingBalance->fixedBudgetTotals->toArray();
+    }
+
+    /**
+     * Get the flex budget totals
+     * @return array
+     */
+    public function flexBudget()
+    {
+        $remainingBalance = app('remaining-balance')->calculate();
+
+        return $remainingBalance->flexBudgetTotals->toArray();
+    }
+
+    /**
+     * Get the unassigned budget totals
+     * @return array
+     */
+    public function unassignedBudget()
+    {
+        $remainingBalance = app('remaining-balance')->calculate();
+
+        return $remainingBalance->unassignedBudgetTotals->toArray();
+    }
+
+
 }

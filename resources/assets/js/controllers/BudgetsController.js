@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('BudgetsController', budgets);
 
-    function budgets ($scope, BudgetsFactory) {
+    function budgets ($scope, BudgetsFactory, TotalsFactory) {
 
         $scope.show = {
             newBudget: false,
@@ -25,6 +25,54 @@
 
         if (typeof unassignedBudgets !== 'undefined') {
             $scope.unassignedBudgets = unassignedBudgets;
+        }
+
+        if (page === 'fixedBudgets') {
+            $scope.fixedBudgetTotals = fixedBudgetTotals;
+
+            $scope.getFixedBudgetTotals = function () {
+                $scope.showLoading();
+                TotalsFactory.getFixedBudgetTotals()
+                    .then(function (response) {
+                        $scope.fixedBudgetTotals = response.data;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
+        }
+
+        else if (page === 'flexBudgets') {
+            $scope.flexBudgetTotals = flexBudgetTotals;
+
+            $scope.getFlexBudgetTotals = function () {
+                $scope.showLoading();
+                TotalsFactory.getFlexBudgetTotals()
+                    .then(function (response) {
+                        $scope.flexBudgetTotals = response.data;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
+        }
+
+        else if (page === 'unassignedBudgets') {
+            $scope.unassignedBudgetTotals = unassignedBudgetTotals;
+
+            $scope.getUnassignedBudgetTotals = function () {
+                $scope.showLoading();
+                TotalsFactory.getUnassignedBudgetTotals()
+                    .then(function (response) {
+                        $scope.unassignedBudgetTotals = response.data;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
         }
 
         $scope.show.basic_totals = true;
@@ -49,6 +97,16 @@
                     $scope.getSideBarTotals();
                     $scope.provideFeedback('Budget created');
 
+                    if ($budget.type === 'fixed' && page === 'fixedBudgets') {
+                        $scope.getFixedBudgetTotals();
+                    }
+                    else if ($budget.type === 'flex' && page === 'flexBudgets') {
+                        $scope.getFlexBudgetTotals();
+                    }
+                    else if ($budget.type === 'unassigned' && page === 'unassignedBudgets') {
+                        $scope.getUnassignedBudgetTotals();
+                    }
+
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -61,13 +119,13 @@
         */
         $scope.jsInsertBudget = function (response) {
             var $budget = response.data;
-            if ($budget.type === 'fixed') {
+            if ($budget.type === 'fixed' && page === 'fixedBudgets') {
                 $scope.fixedBudgets.push($budget);
             }
-            else if ($budget.type === 'flex') {
+            else if ($budget.type === 'flex' && page === 'flexBudgets') {
                 $scope.flexBudgets.push($budget);
             }
-            else if ($budget.type === 'unassigned') {
+            else if ($budget.type === 'unassigned' && page === 'unassignedBudgets') {
                 $scope.unassignedBudgets.push($budget);
             }
         };

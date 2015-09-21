@@ -254,7 +254,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             return false;
         };
 
-        if (typeof page !== 'undefined' && (page === 'home' || page === 'budgets')) {
+        if (typeof page !== 'undefined' && (page === 'home' || page === 'fixedBudgets' || page === 'flexBudgets' || page === 'unassignedBudgets')) {
 
             $scope.getSideBarTotals = function () {
                 $scope.showLoading();

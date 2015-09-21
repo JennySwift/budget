@@ -254,7 +254,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             return false;
         };
 
-        if (typeof page !== 'undefined' && (page === 'home' || page === 'budgets')) {
+        if (typeof page !== 'undefined' && (page === 'home' || page === 'fixedBudgets' || page === 'flexBudgets' || page === 'unassignedBudgets')) {
 
             $scope.getSideBarTotals = function () {
                 $scope.showLoading();
@@ -359,7 +359,7 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('BudgetsController', budgets);
 
-    function budgets ($scope, BudgetsFactory) {
+    function budgets ($scope, BudgetsFactory, TotalsFactory) {
 
         $scope.show = {
             newBudget: false,
@@ -380,6 +380,54 @@ var app = angular.module('budgetApp');
 
         if (typeof unassignedBudgets !== 'undefined') {
             $scope.unassignedBudgets = unassignedBudgets;
+        }
+
+        if (page === 'fixedBudgets') {
+            $scope.fixedBudgetTotals = fixedBudgetTotals;
+
+            $scope.getFixedBudgetTotals = function () {
+                $scope.showLoading();
+                TotalsFactory.getFixedBudgetTotals()
+                    .then(function (response) {
+                        $scope.fixedBudgetTotals = response.data;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
+        }
+
+        else if (page === 'flexBudgets') {
+            $scope.flexBudgetTotals = flexBudgetTotals;
+
+            $scope.getFlexBudgetTotals = function () {
+                $scope.showLoading();
+                TotalsFactory.getFlexBudgetTotals()
+                    .then(function (response) {
+                        $scope.flexBudgetTotals = response.data;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
+        }
+
+        else if (page === 'unassignedBudgets') {
+            $scope.unassignedBudgetTotals = unassignedBudgetTotals;
+
+            $scope.getUnassignedBudgetTotals = function () {
+                $scope.showLoading();
+                TotalsFactory.getUnassignedBudgetTotals()
+                    .then(function (response) {
+                        $scope.unassignedBudgetTotals = response.data;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            };
         }
 
         $scope.show.basic_totals = true;
@@ -404,6 +452,16 @@ var app = angular.module('budgetApp');
                     $scope.getSideBarTotals();
                     $scope.provideFeedback('Budget created');
 
+                    if ($budget.type === 'fixed' && page === 'fixedBudgets') {
+                        $scope.getFixedBudgetTotals();
+                    }
+                    else if ($budget.type === 'flex' && page === 'flexBudgets') {
+                        $scope.getFlexBudgetTotals();
+                    }
+                    else if ($budget.type === 'unassigned' && page === 'unassignedBudgets') {
+                        $scope.getUnassignedBudgetTotals();
+                    }
+
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -416,13 +474,13 @@ var app = angular.module('budgetApp');
         */
         $scope.jsInsertBudget = function (response) {
             var $budget = response.data;
-            if ($budget.type === 'fixed') {
+            if ($budget.type === 'fixed' && page === 'fixedBudgets') {
                 $scope.fixedBudgets.push($budget);
             }
-            else if ($budget.type === 'flex') {
+            else if ($budget.type === 'flex' && page === 'flexBudgets') {
                 $scope.flexBudgets.push($budget);
             }
-            else if ($budget.type === 'unassigned') {
+            else if ($budget.type === 'unassigned' && page === 'unassignedBudgets') {
                 $scope.unassignedBudgets.push($budget);
             }
         };
@@ -734,9 +792,8 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('FixedBudgetsController', fixedBudgets);
 
-    function fixedBudgets ($scope) {
+    function fixedBudgets ($scope, TotalsFactory) {
 
-        $scope.fixedBudgetTotals = fixedBudgetTotals;
 
     }
 
@@ -749,7 +806,6 @@ var app = angular.module('budgetApp');
 
     function flexBudgets ($scope) {
 
-        $scope.flexBudgetTotals = flexBudgetTotals;
 
     }
 
@@ -1265,7 +1321,6 @@ var app = angular.module('budgetApp');
 
     function unassignedBudgets ($scope) {
 
-        $scope.unassignedBudgetTotals = unassignedBudgetTotals;
     }
 
 })();
