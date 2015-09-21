@@ -639,7 +639,7 @@
                         $scope.new_transaction.to_account_id = $scope.selectedItem.to_account.id;
                     }
 
-                    $scope.new_transaction.tags = $scope.selectedItem.tags;
+                    $scope.new_transaction.budgets = $scope.selectedItem.budgets;
                 };
 
             }

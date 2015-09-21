@@ -34,11 +34,7 @@
             ng-repeat="tag in chosenTags"
             ng-click="removeTag(tag)"
             ng-class="{'tag-with-fixed-budget': tag.type === 'fixed', 'tag-with-flex-budget': tag.type === 'flex', 'tag-without-budget': tag.fixed_budget === null || tag.flex_budget === null}"
-            class="label label-default removable-tag"
-            data-id="[[tag.id]]"
-            data-allocated-percent="[[tag.allocated_percent]]"
-            data-allocated-fixed="[[tag.allocated_fixed]]"
-            data-amount="[[tag.amount]]">
+            class="label label-default removable-tag">
             [[tag.name]]
             <i class="fa fa-times"></i>
         </li>

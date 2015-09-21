@@ -41,7 +41,12 @@
 
             <tr>
                 <td colspan="7">
-                    <li ng-repeat="tag in transaction.tags" ng-class="{'tag-with-budget': tag.budget !== null || tag.percent !== null, 'tag-without-budget': tag.budget === null || tag.percent === null}" class="label label-default" data-id="[[tag.id]]" data-allocated-percent="[[tag.allocated_percent]]" data-allocated-fixed="[[tag.allocated_fixed]]" data-amount="[[tag.amount]]">[[tag.name]]</li>
+                    <li
+                        ng-repeat="budget in transaction.budgets"
+                        ng-class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex', 'tag-without-budget': budget.type === 'unassigned'}"
+                        class="label label-default">
+                        [[budget.name]]
+                    </li>
                 </td>
                 <td colspan="1" class="budget-tag-info">[[transaction.allocate]]</td>
             </tr>
