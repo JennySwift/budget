@@ -61,7 +61,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
             $scope.filter = FilterFactory.filter;
             $scope.filterTotals = filter_response.totals;
-            $scope.graphTotals = filter_response.graph_totals;
+            $scope.graphTotals = filter_response.graphTotals;
             $scope.budgets = budgets;
 
             $scope.filterTransactions = function () {
@@ -70,11 +70,35 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
                     .then(function (response) {
                         $scope.hideLoading();
                         $scope.transactions = response.data.transactions;
+                        $scope.graphTotals = response.data.graphTotals;
+                        calculateGraphFigures();
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
                     })
             };
+
+            function calculateGraphFigures () {
+                $scope.graphFigures = {
+                    months: []
+                };
+
+                $($scope.graphTotals.monthsTotals).each(function () {
+                    var $expenses = this.expenses * -1;
+                    var $max = $scope.graphTotals.maxTotal;
+                    var $num = 500 / $max;
+
+                    $scope.graphFigures.months.push({
+                        incomeHeight: this.income * $num,
+                        expensesHeight: $expenses * $num,
+                        income: this.income,
+                        expenses: this.expenses,
+                        month: this.month
+                    });
+                });
+            }
+
+            calculateGraphFigures();
 
             $scope.handleAllocationForNewTransaction = function ($transaction) {
                 FilterFactory.filterTransactions($scope.filter)

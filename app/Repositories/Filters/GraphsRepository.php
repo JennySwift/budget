@@ -35,32 +35,27 @@ class GraphsRepository {
      */
     public function getGraphTotals($query)
     {
-//        if (Transaction::forCurrentUser()->count() < 1) {
-//            //User doesn't have any transactions
-//            return false;
-//        }
-//
-//        dd($query->count());
-//        $minDate = $query->min('date');
-//        $maxDate = $query->max('date');
-//        dd($query->toSql());
-//        $minDate = Carbon::createFromFormat('Y-m-d', $minDate)->startOfMonth();
-//        $maxDate = Carbon::createFromFormat('Y-m-d', $maxDate)->startOfMonth();
-//
-//        $monthsTotals = [];
-//
-//        $date = $maxDate;
-//
-//        while ($minDate <= $date) {
-//            $monthsTotals[] = $this->monthTotals($query, $date);
-//            $date = $date->subMonths(1);
-//
-//        }
-//
-//        return [
-//            'monthsTotals' => $monthsTotals,
-//            'maxTotal' => $this->getMax($monthsTotals)
-//        ];
+        if (Transaction::forCurrentUser()->count() < 1) {
+            //User doesn't have any transactions
+            return false;
+        }
+
+        $minDate = Carbon::createFromFormat('Y-m-d', $query->min('date'))->startOfMonth();
+        $maxDate = Carbon::createFromFormat('Y-m-d', $query->max('date'))->startOfMonth();
+
+
+        $date = $maxDate;
+
+        while ($minDate <= $date) {
+            $monthsTotals[] = $this->monthTotals($query, $date);
+            $date = $date->subMonths(1);
+
+        }
+
+        return [
+            'monthsTotals' => $monthsTotals,
+            'maxTotal' => $this->getMax($monthsTotals)
+        ];
     }
 
     /**

@@ -8,7 +8,7 @@
                 id="debit">
 
                 <div class="span-container">
-                    <span class="badge">[[month.expenses.formatted]]</span>
+                    <span ng-if="month.expenses < 0" class="badge">[[month.expenses | number:2]]</span>
                 </div>
 
             </div>
@@ -18,7 +18,7 @@
                 id="credit">
 
                 <div class="span-container">
-                    <span class="badge">[[month.income.formatted]]</span>
+                    <span ng-if="month.income > 0" class="badge">[[month.income | number:2]]</span>
                 </div>
 
             </div>

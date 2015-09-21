@@ -103,6 +103,7 @@ class Filter implements Arrayable {
         $this->setTransactions();
         $this->setTotals();
         $this->setGraphTotals();
+//        return $this->graphTotals;
         return $this->toArray();
     }
 

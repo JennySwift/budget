@@ -58,28 +58,6 @@
             $scope.filterTransactions();
         });
 
-        $scope.calculateGraphFigures = function () {
-            $scope.graphFigures = {
-                months: []
-            };
-
-            $($scope.graphTotals.monthsTotals).each(function () {
-                var $income = this.income.raw;
-                var $expenses = this.expenses.raw * -1;
-
-                var $max = $scope.graphTotals.maxTotal;
-                var $num = 500 / $max;
-
-                $scope.graphFigures.months.push({
-                    incomeHeight: $income * $num,
-                    expensesHeight: $expenses * $num,
-                    income: this.income,
-                    expenses: this.expenses,
-                    month: this.month
-                });
-            });
-        };
-
         //Todo: I might not need some of this code (not allowing offset to be less than 0)
         // todo: since I disabled the button if that is the case
         $scope.prevResults = function () {
