@@ -632,11 +632,11 @@
 
                     $scope.new_transaction.total = $scope.selectedItem.total;
                     $scope.new_transaction.type = $scope.selectedItem.type;
-                    $scope.new_transaction.account = $scope.selectedItem.account.id;
+                    $scope.new_transaction.account_id = $scope.selectedItem.account.id;
 
                     if ($scope.selectedItem.from_account && $scope.selectedItem.to_account) {
-                        $scope.new_transaction.from_account = $scope.selectedItem.from_account.id;
-                        $scope.new_transaction.to_account = $scope.selectedItem.to_account.id;
+                        $scope.new_transaction.from_account_id = $scope.selectedItem.from_account.id;
+                        $scope.new_transaction.to_account_id = $scope.selectedItem.to_account.id;
                     }
 
                     $scope.new_transaction.tags = $scope.selectedItem.tags;
