@@ -5,6 +5,7 @@
  * @TODO Regroup these methods in a single PagesController
  */
 Route::get('/', 'PagesController@home');
+Route::get('/home', 'PagesController@home');
 Route::get('accounts', 'PagesController@accounts');
 Route::get('budgets/fixed', 'PagesController@fixedBudgets');
 Route::get('budgets/flex', 'PagesController@flexBudgets');
