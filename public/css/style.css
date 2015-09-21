@@ -1343,38 +1343,50 @@ caption {
       #help-navigation-container .dropdown-content #help-navigation > ul li {
         list-style: none; }
 
-#login {
-  padding-top: 85px; }
-  #login .flex {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    padding-top: 40px; }
-  #login #login-errors {
-    background: #f2dede;
-    padding: 11px 20px;
-    border-radius: 4px;
-    color: #777;
-    font-size: 18px;
-    margin-bottom: 25px; }
-  #login #remember-me-container {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center; }
-    #login #remember-me-container label {
-      margin-bottom: 0; }
+#login .flex {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+
+#login #requirements {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  #login #requirements p {
+    width: 540px; }
+
+#login #login-errors {
+  background: #f2dede;
+  padding: 11px 20px;
+  border-radius: 4px;
+  color: #777;
+  font-size: 18px;
+  margin-bottom: 25px; }
+
+#login #remember-me-container {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  #login #remember-me-container label {
+    margin-bottom: 0; }
 
 #register #trial-message {
   background: #fca700;
