@@ -142,8 +142,6 @@ class FlexBudgetTotal implements Arrayable, BudgetTotal {
     public function toArray()
     {
         return [
-            'type' => $this->type,
-            'budget' => $this->budgets->toArray(),
             'allocatedAmount' => $this->amount,
             'allocatedRemaining' => $this->remaining,
             'allocatedCalculatedAmount' => $this->calculatedAmount,

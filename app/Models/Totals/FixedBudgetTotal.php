@@ -52,8 +52,6 @@ class FixedBudgetTotal implements Arrayable, BudgetTotal {
     public function toArray()
     {
         return [
-            'type' => $this->type,
-            'budget' => $this->budgets->toArray(),
             'amount' => $this->amount,
             'remaining' => $this->remaining,
             'cumulative' => $this->cumulative,

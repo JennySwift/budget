@@ -48,8 +48,6 @@ class UnassignedBudgetTotal implements Arrayable, BudgetTotal {
     public function toArray()
     {
         return [
-            'type' => $this->type,
-            'budget' => $this->budgets->toArray(),
             'spent' => $this->spent,
             'received' => $this->received,
         ];
