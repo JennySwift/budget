@@ -50,7 +50,7 @@ class FilterController extends Controller
          * to get that in my constructor without newing up a new Filter.
          */
 //        return $this->filter->filterTransactions($request->get('filter'))->transactions;
-        return $this->filter->filterTransactions($request->get('filter'));
+        return $this->filter->setFilter($request->get('filter'));
 //        return $this->filterRepository->filterTransactions($request->get('filter'));
     }
 }

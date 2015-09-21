@@ -60,12 +60,17 @@ class Filter implements Arrayable {
     /**
      * @var
      */
-    private $num_transactions;
+    private $numTransactions;
 
     /**
      * @var
      */
     private $filters;
+
+    /**
+     * @var
+     */
+    private $query;
 
     /**
      * @param FilterBasicsRepository $filterBasicsRepository
@@ -82,47 +87,30 @@ class Filter implements Arrayable {
         $this->filterBasicsRepository = $filterBasicsRepository;
         $this->filterTotalsRepository = $filterTotalsRepository;
         $this->defaults = Config::get('filters.defaults');
+    }
 
-//        $this->setTransactions();
-//        $this->setTotals();
-//        $this->setGraphTotals();
+    /**
+     *
+     * @param array $filters
+     */
+    public function setFilter(array $filters = [])
+    {
+        // Merge the argument with the defaults
+        $this->filters = array_merge($this->defaults, $filters);
+
+        $this->setQuery();
+        $this->setNumTransactions();
+        $this->setTransactions();
+        $this->setTotals();
+        $this->setGraphTotals();
+        return $this->toArray();
     }
 
     /**
      *
      */
-//    private function setTransactions()
-//    {
-//        $this->transactions = $transactions;
-//    }
-
-    /**
-     *
-     */
-//    private function setTotals()
-//    {
-//        $this->totals= $totals;
-//    }
-
-    /**
-     *
-     */
-//    private function setGraphTotals()
-//    {
-//        $this->graphTotals= $graphTotals;
-//    }
-
-    /**
-     * Filter the transactions
-     * GET api/filter
-     * @param array $filters
-     * @return array
-     */
-    public function filterTransactions(array $filters = [])
+    private function setQuery()
     {
-        // Merge the argument with the defaults
-        $this->filters = array_merge($this->defaults, $filters);
-
         // Prepare the query
         $query = Transaction::where('transactions.user_id', Auth::user()->id);
 
@@ -162,17 +150,31 @@ class Filter implements Arrayable {
             }
         }
 
-        $this->num_transactions = $this->filterTotalsRepository->countTransactions($query);
-        $this->transactions = $this->finishTransactionsQuery($query, $this->filters);
-        $this->totals = $this->filterTotalsRepository->getFilterTotals($this->finishTotalsQuery($query), $query);
-        $this->graphTotals = $this->graphsRepository->getGraphTotals($query);
+        $this->query = $query;
+    }
 
-//        return $this;
-        return [
-            'transactions' => $this->transactions,
-            'totals' => $this->totals,
-            'graphTotals' => $this->graphTotals,
-        ];
+    /**
+     *
+     */
+    private function setNumTransactions()
+    {
+        $this->numTransactions = $this->filterTotalsRepository->countTransactions($this->query);
+    }
+
+    /**
+     *
+     */
+    private function setTotals()
+    {
+        $this->totals = $this->filterTotalsRepository->getFilterTotals($this->finishTotalsQuery($this->query), $this->query);
+    }
+
+    /**
+     *
+     */
+    private function setGraphTotals()
+    {
+        $this->graphTotals = $this->graphsRepository->getGraphTotals($this->query);
     }
 
     /**
@@ -190,21 +192,17 @@ class Filter implements Arrayable {
 
     /**
      * Get the transactions after putting together the query
-     * @param $query
-     * @param $filters
      * @return mixed
      */
-    private function finishTransactionsQuery($query, $filters)
+    private function setTransactions()
     {
-        $transactions = $query->orderBy('date', 'desc')
+        $this->transactions = $this->query->orderBy('date', 'desc')
                      ->orderBy('id', 'desc')
-                     ->skip($filters['offset'])
-                     ->take($filters['num_to_fetch'])
+                     ->skip($this->filters['offset'])
+                     ->take($this->filters['num_to_fetch'])
                      ->with('budgets')
                      ->with('account')
                      ->get();
-
-        return $transactions;
     }
 
     /**
@@ -218,7 +216,6 @@ class Filter implements Arrayable {
             'transactions' => $this->transactions,
             'totals' => $this->totals,
             'graphTotals' => $this->graphTotals,
-
         ];
     }
 }
