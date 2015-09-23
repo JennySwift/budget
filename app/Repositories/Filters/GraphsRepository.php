@@ -76,7 +76,7 @@ class GraphsRepository {
     }
 
     /**
-     * 
+     *
      * @param $query
      * @param $date
      * @return \App\Models\Totals\FilterTotals

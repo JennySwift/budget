@@ -54,6 +54,8 @@ class UpdateSavingsListener
 
                 $savings = Savings::forCurrentUser()->first();
 
+                //Todo: Allow for the user to change the type of the transaction
+                
                 // If it is an income transaction, and if the total has decreased,
                 // remove a percentage from savings
                 if ($event->oldTransaction->type === 'income' && $newTotal < $oldTotal) {
