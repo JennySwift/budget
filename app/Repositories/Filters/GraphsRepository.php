@@ -75,6 +75,12 @@ class GraphsRepository {
         return max($maxIncome, $maxExpenses);
     }
 
+    /**
+     * 
+     * @param $query
+     * @param $date
+     * @return \App\Models\Totals\FilterTotals
+     */
     private function monthTotals($query, $date)
     {
         $queryClone = clone $query;
