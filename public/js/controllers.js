@@ -71,11 +71,17 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
                         $scope.hideLoading();
                         $scope.transactions = response.data.transactions;
                         $scope.graphTotals = response.data.graphTotals;
+                        $scope.filterTotals = response.data.totals;
                         calculateGraphFigures();
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
                     })
+            };
+
+            $scope.resetFilter = function () {
+                $scope.filter = FilterFactory.resetFilter();
+                $scope.filterTransactions();
             };
 
             function calculateGraphFigures () {
@@ -643,9 +649,9 @@ var app = angular.module('budgetApp');
         $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
 
-        $scope.resetFilter = function () {
-            FilterFactory.resetFilter();
-        };
+        //$scope.resetFilter = function () {
+        //    FilterFactory.resetFilter();
+        //};
 
         /**
          * Watches

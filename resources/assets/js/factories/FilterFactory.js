@@ -69,6 +69,7 @@ app.factory('FilterFactory', function ($http) {
             offset: 0,
             num_to_fetch: 30
         };
+        return $object.filter;
     };
 
     $object.resetFilter();

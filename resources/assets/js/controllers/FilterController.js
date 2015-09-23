@@ -12,9 +12,9 @@
         $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
 
-        $scope.resetFilter = function () {
-            FilterFactory.resetFilter();
-        };
+        //$scope.resetFilter = function () {
+        //    FilterFactory.resetFilter();
+        //};
 
         /**
          * Watches
