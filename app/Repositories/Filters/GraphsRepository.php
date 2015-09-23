@@ -83,7 +83,7 @@ class GraphsRepository {
             ->whereYear('date', '=', $date->year)
             ->get();
 
-        $monthTotals = $this->filterTotalsRepository->getFilterTotals($lastMonthTransactions, $query);
+        $monthTotals = $this->filterTotalsRepository->getFilterTotals($query);
         $monthTotals->month = $date->format("M Y");
 
         return $monthTotals;
