@@ -13,16 +13,21 @@ class FilterTotalsRepository {
 
     /**
      *
-     * @param $totals
-     * @return array
+     * @param $query
+     * @return FilterTotals
      */
-    public function getFilterTotals($totals, $query)
+    public function getFilterTotals($query)
     {
+        $transactions = $query
+            ->select('date', 'type', 'reconciled', 'total')
+            ->orderBy('date', 'desc')
+            ->get();
+
         $income = 0;
         $expenses = 0;
         $total_reconciled = 0;
 
-        foreach ($totals as $transaction) {
+        foreach ($transactions as $transaction) {
             $total = $transaction->total;
             $type = $transaction->type;
             $reconciled = $transaction->reconciled;
@@ -57,14 +62,6 @@ class FilterTotalsRepository {
             $total_reconciled,
             $this->countTransactions($query)
         );
-
-//        return [
-//            'income' => $income,
-//            'expenses' => $expenses,
-//            'balance' => number_format($balance, 2),
-//            'reconciled' => number_format($total_reconciled, 2),
-//            'num_transactions' => $this->num_transactions
-//        ];
     }
 
     /**

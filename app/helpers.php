@@ -57,17 +57,17 @@ function numberFormatObject($totals)
  * @param $variable
  * @return int
  */
-//function convertFromBoolean($variable)
-//{
-//    if ($variable == 'true') {
-//        $variable = 1;
-//    }
-//    elseif ($variable == 'false') {
-//        $variable = 0;
-//    }
-//
-//    return $variable;
-//}
+function convertFromBoolean($variable)
+{
+    if ($variable == 'true') {
+        $variable = 1;
+    }
+    elseif ($variable == 'false') {
+        $variable = 0;
+    }
+
+    return $variable;
+}
 
 /**
  *

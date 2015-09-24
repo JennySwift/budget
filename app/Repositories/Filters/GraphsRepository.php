@@ -75,6 +75,12 @@ class GraphsRepository {
         return max($maxIncome, $maxExpenses);
     }
 
+    /**
+     *
+     * @param $query
+     * @param $date
+     * @return \App\Models\Totals\FilterTotals
+     */
     private function monthTotals($query, $date)
     {
         $queryClone = clone $query;
@@ -83,7 +89,7 @@ class GraphsRepository {
             ->whereYear('date', '=', $date->year)
             ->get();
 
-        $monthTotals = $this->filterTotalsRepository->getFilterTotals($lastMonthTransactions, $query);
+        $monthTotals = $this->filterTotalsRepository->getFilterTotals($query);
         $monthTotals->month = $date->format("M Y");
 
         return $monthTotals;

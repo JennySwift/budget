@@ -272,8 +272,11 @@ app.factory('FilterFactory', function ($http) {
             },
             reconciled: "any",
             offset: 0,
-            num_to_fetch: 30
+            num_to_fetch: 30,
+            display_from: 1,
+            display_to: 30
         };
+        return $object.filter;
     };
 
     $object.resetFilter();

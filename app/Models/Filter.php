@@ -103,7 +103,7 @@ class Filter implements Arrayable {
         $this->setTransactions();
         $this->setTotals();
         $this->setGraphTotals();
-//        return $this->graphTotals;
+//        dd($this->totals);
         return $this->toArray();
     }
 
@@ -167,7 +167,7 @@ class Filter implements Arrayable {
      */
     private function setTotals()
     {
-        $this->totals = $this->filterTotalsRepository->getFilterTotals($this->finishTotalsQuery($this->query), $this->query);
+        $this->totals = $this->filterTotalsRepository->getFilterTotals($this->query);
     }
 
     /**
@@ -179,25 +179,14 @@ class Filter implements Arrayable {
     }
 
     /**
-     * Get the totals after putting together the query
-     * @param $query
-     * @return mixed
-     */
-    private function finishTotalsQuery($query)
-    {
-        return $query
-            ->select('date', 'type', 'reconciled', 'total')
-            ->orderBy('date', 'desc')
-            ->get();
-    }
-
-    /**
      * Get the transactions after putting together the query
      * @return mixed
      */
     private function setTransactions()
     {
-        $this->transactions = $this->query->orderBy('date', 'desc')
+        $query = clone $this->query;
+
+        $this->transactions = $query->orderBy('date', 'desc')
                      ->orderBy('id', 'desc')
                      ->skip($this->filters['offset'])
                      ->take($this->filters['num_to_fetch'])

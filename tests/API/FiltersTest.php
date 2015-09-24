@@ -84,9 +84,9 @@ class FiltersTest extends TestCase {
     }
 
     /**
-     * @test
-     * @return void
-     */
+ * @test
+ * @return void
+ */
     public function num_budgets_filter_works_when_value_is_no_budgets()
     {
         $this->setDefaults();
@@ -113,6 +113,60 @@ class FiltersTest extends TestCase {
                 $this->assertNotEquals('fixed', $budget['type']);
                 $this->assertNotEquals('flex', $budget['type']);
             }
+        }
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_checks_reconciled_filter_works_for_reconciled_transactions()
+    {
+        $this->setDefaults();
+        $this->setProperties();
+
+        $filter = [
+            'reconciled' => 'true'
+        ];
+
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+        $this->getResponse($data);
+
+        foreach ($this->transactions as $transaction) {
+            $this->assertTrue($transaction['reconciled']);
+        }
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_checks_reconciled_filter_works_for_unreconciled_transactions()
+    {
+        $this->setDefaults();
+        $this->setProperties();
+
+        $filter = [
+            'reconciled' => 'false'
+        ];
+
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+        $this->getResponse($data);
+
+        foreach ($this->transactions as $transaction) {
+            $this->assertFalse($transaction['reconciled']);
         }
 
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());

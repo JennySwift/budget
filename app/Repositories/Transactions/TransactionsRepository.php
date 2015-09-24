@@ -2,6 +2,7 @@
 
 use App\Events\TransactionWasCreated;
 use App\Models\Account;
+use App\Models\Budget;
 use App\Models\Transaction;
 use Auth;
 use DB;
@@ -23,7 +24,6 @@ class TransactionsRepository
     public function attachBudgets($transaction, $budgets)
     {
         foreach ($budgets as $budget) {
-            Debugbar::info('budget', $budget);
             if (isset($budget['allocated_fixed'])) {
                 $this->allocateFixed($transaction, $budget);
             }
@@ -31,6 +31,7 @@ class TransactionsRepository
                 $this->allocatePercent($transaction, $budget);
             }
             else {
+                //Todo: if budget is unassigned, calculated_allocation should be null
                 $transaction->budgets()->attach($budget['id'], [
                     'calculated_allocation' => $transaction->total,
                 ]);
@@ -56,7 +57,7 @@ class TransactionsRepository
      * @param $transaction
      * @param $budget
      */
-    public function allocatePercent($transaction, $budget)
+    public function allocatePercent(Transaction $transaction, $budget)
     {
         $transaction->budgets()->attach($budget['id'], [
             'allocated_percent' => $budget['allocated_percent'],
@@ -91,23 +92,20 @@ class TransactionsRepository
     }
 
     /**
-     *
+     * Budgets should be sent in the form of [1,2,3,4]?
      * @param $transaction
      * @param $data
      */
     private function insertIncomeOrExpenseTransaction($transaction, $data)
     {
-        // Should be [1,2,3,4]?
-        $budgets = $this->defaultAllocation($data['budgets']);
-
         $transaction->user()->associate(Auth::user());
         $transaction->account()->associate(Account::find($data['account_id']));
         $transaction->save();
 
         // Insert budgets
-        $this->attachBudgets(
+        $this->attachBudgetsWithDefaultAllocation(
             $transaction,
-            $budgets
+            $data['budgets']
         );
 
         return $transaction;
@@ -156,29 +154,46 @@ class TransactionsRepository
         ]);
     }
 
+
     /**
      * For when a new transaction is entered, so that the calculated allocation
      * for each tag is not 100%, which makes no sense.
      * Give the first tag an allocation of 100% and the rest 0%.
-     * @param $tags
+     * @param Transaction $transaction
+     * @param $budgets
      * @return mixed
      */
-    public function defaultAllocation($budgets)
+    public function attachBudgetsWithDefaultAllocation(Transaction $transaction, $budgets)
     {
-        $count = 0;
+        $assignedCount = 0;
         foreach ($budgets as $budget) {
-            $count++;
-            if ($count === 1) {
-                $budget['allocated_percent'] = 100;
+            $budget = Budget::find($budget['id']);
+
+            if ($budget->isAssigned()) {
+                $assignedCount++;
+
+                if ($assignedCount === 1) {
+                    //Allocate 100% of the transaction to the first assigned budget
+                    $transaction->budgets()->attach($budget->id, [
+                        'allocated_percent' => 100,
+                        'calculated_allocation' => $transaction->total,
+                    ]);
+                }
+
+                else {
+                    //Allocate 0% of the transaction to the other assigned budgets
+                    $transaction->budgets()->attach($budget->id, [
+                        'allocated_percent' => 0,
+                        'calculated_allocation' => 0,
+                    ]);
+                }
             }
+
             else {
-                $budget['allocated_percent'] = 0;
+                //Budget is unassigned. No need to allocate.
+                $transaction->budgets()->attach($budget->id);
             }
-
-            $budgets[$count-1] = $budget;
         }
-
-        return $budgets;
     }
 
     /**
