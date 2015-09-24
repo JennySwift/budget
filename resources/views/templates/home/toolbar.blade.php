@@ -40,7 +40,10 @@
     <div ng-controller="FilterController" class="toolbar-filter">
 
         <div class="flex">
-            <select ng-model="filter.num_to_fetch" name="" id="" class="form-control">
+            <select
+                ng-model="filter.num_to_fetch"
+                ng-change="changeNumToFetch()"
+                class="form-control">
                 <option value="2">2</option>
                 <option value="4">4</option>
                 <option value="10">10</option>
