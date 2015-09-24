@@ -287,4 +287,13 @@ class Budget extends Model
         return $this->type == $this::TYPE_UNASSIGNED;
     }
 
+    /**
+     *
+     * @return bool
+     */
+    public function isAssigned()
+    {
+        return $this->type == $this::TYPE_FIXED || $this->type == $this::TYPE_FLEX;
+    }
+
 }
