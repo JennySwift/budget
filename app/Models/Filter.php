@@ -119,39 +119,71 @@ class Filter implements Arrayable {
         foreach ($this->filters as $type => $value) {
 
             switch($type) {
+                case "bugFix":
+                    $query = $this->bugFix($query, $value);
+                    break;
+
                 case "single_date":
                 case "from_date":
                 case "to_date":
                     $query = $this->filterBasicsRepository->filterDates($query, $type, $value);
                     break;
+
                 case "accounts":
                     $query = $this->filterBasicsRepository->filterAccounts($query, $value);
                     break;
+
                 case "types":
                     $query = $this->filterBasicsRepository->filterTypes($query, $value);
                     break;
+
                 case "total":
                     $query = $this->filterBasicsRepository->filterTotal($query, $value);
                     break;
+
                 case "reconciled":
                     $query = $this->filterBasicsRepository->filterReconciled($query, $value);
                     break;
+
                 case "budgets":
                     $query = $this->filterBudgetsRepository->filterBudgets($query, $value);
                     break;
+
                 case "numBudgets":
                     $query = $this->filterNumBudgetsRepository->filterNumBudgets($query, $value);
                     break;
+
                 case "description":
                 case "merchant":
                     $query = $this->filterBasicsRepository->filterDescriptionOrMerchant($query, $type, $value);
                     break;
+                
                 default:
                     // @TODO If nothing matches, throw an exception!!
             }
         }
 
         $this->query = $query;
+    }
+
+    /**
+     * Just a temporary thing to fix where the default
+     * allocation put 100% for tags without budgets
+     * and 0% to tags with budgets
+     * @VP:
+     * Why isn't this working? It's returning transactions with budgets where
+     * the calculated_allocation column on the pivot table is not 0.
+     */
+    private function bugFix($query, $value)
+    {
+        if ($value) {
+            $query = $query->with(['budgets' => function($q)
+            {
+               $q->wherePivot('calculated_allocation', 0);
+            }]);
+        }
+
+        return $query;
     }
 
     /**

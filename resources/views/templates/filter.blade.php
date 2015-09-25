@@ -23,7 +23,11 @@
     @include('templates/home/filter/reconciled')
     @include('templates/home/filter/num-budgets')
 
-
+    {{--<label>bug fix</label>--}}
+    {{--<input--}}
+        {{--ng-model="filter.bugFix"--}}
+        {{--ng-change="filterTransactions()"--}}
+        {{--type="checkbox">--}}
 
 
 </div>    
