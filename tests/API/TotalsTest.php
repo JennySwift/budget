@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 
 /**
  * Class TotalsTest
- * Todo: add tests for fixed budget totals and flex budget totals (including assigned/unassigned totals)
+ * Todo: add test for flex budget totals (including assigned/unassigned totals)
  */
 class TotalsTest extends TestCase {
 
@@ -70,7 +70,6 @@ class TotalsTest extends TestCase {
         $this->assertResponseOk();
 
         $budget = $content[0];
-//        dd($budget);
 
         // Check if every attribute is present
         $this->assertObjectHasAttribute('path', $budget);
@@ -155,4 +154,37 @@ class TotalsTest extends TestCase {
         $this->assertEquals(1000, $budget->remaining);
         $this->assertEquals(6, $budget->transactionsCount);
     }
+
+    /**
+     * @test
+     */
+    public function it_checks_the_fixed_budget_totals_are_correct()
+    {
+        $this->logInUser();
+
+        $response = $this->apiCall('GET', 'api/totals/fixedBudget');
+        $totals = json_decode($response->getContent(), false);
+
+        $this->assertResponseOk();
+
+        // Check if every attribute is present
+        $this->assertObjectHasAttribute('amount', $totals);
+        $this->assertObjectHasAttribute('remaining', $totals);
+        $this->assertObjectHasAttribute('cumulative', $totals);
+        $this->assertObjectHasAttribute('spentBeforeStartingDate', $totals);
+        $this->assertObjectHasAttribute('spentAfterStartingDate', $totals);
+        $this->assertObjectHasAttribute('receivedAfterStartingDate', $totals);
+
+        // Check if the values are correct according to our seeders!!
+        $this->assertEquals(200, $totals->amount);
+        $this->assertEquals(1800, $totals->cumulative);
+        $this->assertEquals(-30, $totals->spentBeforeStartingDate);
+        $this->assertEquals(-40, $totals->spentAfterStartingDate);
+        $this->assertEquals(200, $totals->receivedAfterStartingDate);
+        $this->assertEquals(1960, $totals->remaining);
+    }
+
+
+
+
 }

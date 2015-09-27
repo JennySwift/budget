@@ -39,6 +39,7 @@ class TotalsController extends Controller
 
     /**
      * Get the fixed budget totals
+     * GET api/totals/fixedBudget
      * @return array
      */
     public function fixedBudget()
@@ -50,6 +51,7 @@ class TotalsController extends Controller
 
     /**
      * Get the flex budget totals
+     * GET api/totals/flexBudget
      * @return array
      */
     public function flexBudget()
