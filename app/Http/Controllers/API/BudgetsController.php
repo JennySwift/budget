@@ -106,4 +106,16 @@ class BudgetsController extends Controller
 
         return response([], 204);
     }
+
+    /**
+     * This is just so I can write a test for the fixed budgets in TotalsTest.php
+     */
+    public function getFixedBudgets()
+    {
+        $budgets = Budget::forCurrentUser()->whereType('fixed')->get();
+
+        //Transform budgets
+        $resource = createCollection($budgets, new BudgetTransformer);
+        return transform($resource);
+    }
 }
