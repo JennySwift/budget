@@ -26,7 +26,7 @@ use App\Models\Transaction;
 
 Route::get('/test', function()
 {
-    $transaction = Transaction::first();
-    //dd($transaction);
-    return $transaction;
+    $budget = Budget::first();
+    //dd($budget);
+    return $budget;
 });

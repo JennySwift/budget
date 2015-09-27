@@ -25,6 +25,7 @@ class TotalsController extends Controller
 
     /**
      * Get the totals for the sidebar
+     * GET api/totals/sidebar
      * @return mixed
      */
     public function sidebar()

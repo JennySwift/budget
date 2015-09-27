@@ -7,8 +7,6 @@
     function filter ($scope, FilterFactory) {
 
         $scope.filterFactory = FilterFactory;
-        $scope.accounts = accounts_response;
-        $scope.budgets = budgets;
         $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
 

@@ -41,7 +41,7 @@ class PagesController extends Controller {
             'env' => app()->env,
             'me' => Auth::user(),
             'page' => 'home',
-//            //It wouldn't work if I named it 'transactions', or 'totals'
+////            //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),
             'budgets' => $this->budgetsRepository->getBudgets(),
             'filter_response' => $filter->setFilter()
@@ -58,10 +58,12 @@ class PagesController extends Controller {
     {
         $remainingBalance = app('remaining-balance')->calculate();
 
+//        dd($remainingBalance->fixedBudgetTotals->budgets['data']);
+
         JavaScript::put([
             'me' => Auth::user(),
             'page' => 'fixedBudgets',
-            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
+            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets['data'],
             'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
         ]);
 
@@ -76,10 +78,12 @@ class PagesController extends Controller {
     {
         $remainingBalance = app('remaining-balance')->calculate();
 
+//        dd($remainingBalance->flexBudgetTotals->budgets['data']);
+
         JavaScript::put([
             'me' => Auth::user(),
             'page' => 'flexBudgets',
-            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
+            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets['data'],
             'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
         ]);
 
@@ -94,11 +98,13 @@ class PagesController extends Controller {
     {
         $remainingBalance = app('remaining-balance')->calculate();
 
+//        dd($remainingBalance->unassignedBudgetTotals->budgets);
+
         JavaScript::put([
             'me' => Auth::user(),
             'page' => 'unassignedBudgets',
             'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,
-            'unassignedBudgetTotals' => $remainingBalance->unassignedBudgetTotals->toArray(),
+//            'unassignedBudgetTotals' => $remainingBalance->unassignedBudgetTotals->toArray(),
         ]);
 
         return view('budgets/unassigned');

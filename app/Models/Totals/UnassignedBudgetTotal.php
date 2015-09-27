@@ -18,8 +18,8 @@ class UnassignedBudgetTotal implements Arrayable, BudgetTotal {
     {
         $this->type = Budget::TYPE_UNASSIGNED;
         $this->budgets = $budgets ? : Budget::forCurrentUser()->whereType(Budget::TYPE_UNASSIGNED)->get();
-        $this->spent = $this->calculate('spent');
-        $this->received = $this->calculate('received');
+//        $this->spent = $this->calculate('spent');
+//        $this->received = $this->calculate('received');
     }
 
     /**

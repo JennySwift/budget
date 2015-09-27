@@ -4,11 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Budgets\CreateBudgetRequest;
+use App\Http\Transformers\BudgetTransformer;
 use App\Models\Budget;
 use App\Repositories\Budgets\BudgetsRepository;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use JavaScript;
 
 /**
@@ -50,7 +52,12 @@ class BudgetsController extends Controller
             $budget->getCalculatedAmount($remainingBalance);
         }
 
-        return $this->responseCreated($budget);
+        $item = $this->createItem(
+            $budget,
+            new BudgetTransformer
+        );
+
+        return $this->responseWithTransformer($item, Response::HTTP_CREATED);
     }
 
     /**

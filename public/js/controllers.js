@@ -445,19 +445,19 @@ var app = angular.module('budgetApp');
         }
 
         else if (page === 'unassignedBudgets') {
-            $scope.unassignedBudgetTotals = unassignedBudgetTotals;
+            //$scope.unassignedBudgetTotals = unassignedBudgetTotals;
 
-            $scope.getUnassignedBudgetTotals = function () {
-                $scope.showLoading();
-                TotalsFactory.getUnassignedBudgetTotals()
-                    .then(function (response) {
-                        $scope.unassignedBudgetTotals = response.data;
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            };
+            //$scope.getUnassignedBudgetTotals = function () {
+            //    $scope.showLoading();
+            //    TotalsFactory.getUnassignedBudgetTotals()
+            //        .then(function (response) {
+            //            $scope.unassignedBudgetTotals = response.data;
+            //            $scope.hideLoading();
+            //        })
+            //        .catch(function (response) {
+            //            $scope.responseError(response);
+            //        });
+            //};
         }
 
         $scope.show.basic_totals = true;
@@ -488,9 +488,9 @@ var app = angular.module('budgetApp');
                     else if ($budget.type === 'flex' && page === 'flexBudgets') {
                         $scope.getFlexBudgetTotals();
                     }
-                    else if ($budget.type === 'unassigned' && page === 'unassignedBudgets') {
-                        $scope.getUnassignedBudgetTotals();
-                    }
+                    //else if ($budget.type === 'unassigned' && page === 'unassignedBudgets') {
+                    //    $scope.getUnassignedBudgetTotals();
+                    //}
 
                     $scope.hideLoading();
                 })
@@ -503,7 +503,7 @@ var app = angular.module('budgetApp');
         * Add the budget to the JS array
         */
         $scope.jsInsertBudget = function (response) {
-            var $budget = response.data;
+            var $budget = response.data.data;
             if ($budget.type === 'fixed' && page === 'fixedBudgets') {
                 $scope.fixedBudgets.push($budget);
             }
@@ -556,6 +556,7 @@ var app = angular.module('budgetApp');
                         $scope.getSideBarTotals();
                         $scope.jsDeleteBudget($budget);
                         $scope.hideLoading();
+                        $scope.provideFeedback('Budget deleted');
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
@@ -644,8 +645,6 @@ var app = angular.module('budgetApp');
     function filter ($scope, FilterFactory) {
 
         $scope.filterFactory = FilterFactory;
-        $scope.accounts = accounts_response;
-        $scope.budgets = budgets;
         $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
 

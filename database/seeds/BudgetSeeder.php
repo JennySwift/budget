@@ -26,7 +26,7 @@ class BudgetSeeder extends Seeder {
              * Why didn't this syntax work?
              * $budgets = Config::get('budgets.seeder{$user->id}');
              */
-            
+
             $budgets = Config::get('budgets.seeder' . $user->id);
 
 			foreach($budgets as $budget) {

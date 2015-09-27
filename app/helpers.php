@@ -2,6 +2,10 @@
 use App\Exceptions\ModelAlreadyExistsException;
 use App\Exceptions\NotLoggedInException;
 use Carbon\Carbon;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Serializer\DataArraySerializer;
+use League\Fractal\TransformerAbstract;
 
 /**
  * Throw an exception with a helpful error when the user is not logged in
@@ -134,5 +138,32 @@ function checkForDuplicates($model)
 function removeFalseKeepZero($value)
 {
     return $value || is_numeric($value);
+}
+
+/**
+ *
+ * @param $resource
+ */
+function transform($resource)
+{
+    $manager = new Manager();
+    $manager->setSerializer(new DataArraySerializer);
+
+    $manager->parseIncludes(request()->get('includes', []));
+
+//    return $manager->createData($resource);
+    return $manager->createData($resource)->toArray();
+}
+
+/**
+ *
+ * @param $model
+ * @param TransformerAbstract $transformer
+ * @param null $key
+ * @return Collection
+ */
+function createCollection($model, TransformerAbstract $transformer, $key = null)
+{
+    return new Collection($model, $transformer, $key);
 }
 

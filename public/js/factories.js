@@ -196,7 +196,7 @@ app.factory('BudgetsFactory', function ($http) {
 		},
 
         destroy: function ($budget) {
-            var $url = '/api/budgets/'+$budget.id;
+            var $url = $budget.path;
 
             return $http.delete($url);
         }
