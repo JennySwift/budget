@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 
 /**
  * Class TotalsTest
+ * Todo: add tests for fixed budget totals and flex budget totals (including assigned/unassigned totals)
  */
 class TotalsTest extends TestCase {
 
