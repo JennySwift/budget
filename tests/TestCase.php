@@ -47,9 +47,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	 *
 	 * @return mixed
 	 */
-    public function logInUser()
+    public function logInUser($id = 1)
     {
-        $user = User::first();
+        $user = User::find($id);
         $this->be($user);
         $this->user = $user;
     }
