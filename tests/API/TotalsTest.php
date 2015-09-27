@@ -8,7 +8,6 @@ use Illuminate\Http\Response;
 
 /**
  * Class TotalsTest
- * Todo: add test for flex budget totals (including assigned/unassigned totals)
  */
 class TotalsTest extends TestCase {
 
@@ -182,6 +181,50 @@ class TotalsTest extends TestCase {
         $this->assertEquals(-40, $totals->spentAfterStartingDate);
         $this->assertEquals(200, $totals->receivedAfterStartingDate);
         $this->assertEquals(1960, $totals->remaining);
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_the_flex_budget_totals_are_correct()
+    {
+        $this->logInUser();
+
+        $response = $this->apiCall('GET', 'api/totals/flexBudget');
+        $totals = json_decode($response->getContent(), false);
+
+        $this->assertResponseOk();
+//        dd($totals);
+
+        // Check if every attribute is present
+        $this->assertObjectHasAttribute('allocatedAmount', $totals);
+        $this->assertObjectHasAttribute('allocatedRemaining', $totals);
+        $this->assertObjectHasAttribute('allocatedCalculatedAmount', $totals);
+        $this->assertObjectHasAttribute('spentBeforeStartingDate', $totals);
+        $this->assertObjectHasAttribute('spentAfterStartingDate', $totals);
+        $this->assertObjectHasAttribute('receivedAfterStartingDate', $totals);
+
+        $this->assertObjectHasAttribute('unallocatedAmount', $totals);
+        $this->assertObjectHasAttribute('allocatedPlusUnallocatedAmount', $totals);
+        $this->assertObjectHasAttribute('allocatedPlusUnallocatedCalculatedAmount', $totals);
+        $this->assertObjectHasAttribute('unallocatedCalculatedAmount', $totals);
+        $this->assertObjectHasAttribute('allocatedPlusUnallocatedRemaining', $totals);
+        $this->assertObjectHasAttribute('unallocatedRemaining', $totals);
+
+        // Check if the values are correct according to our seeders!!
+        $this->assertEquals(20, $totals->allocatedAmount);
+        $this->assertEquals(1020, $totals->allocatedRemaining);
+        $this->assertEquals(40, $totals->allocatedCalculatedAmount);
+        $this->assertEquals(-15, $totals->spentBeforeStartingDate);
+        $this->assertEquals(-20, $totals->spentAfterStartingDate);
+        $this->assertEquals(1000, $totals->receivedAfterStartingDate);
+
+        $this->assertEquals(80, $totals->unallocatedAmount);
+        $this->assertEquals(100, $totals->allocatedPlusUnallocatedAmount);
+        $this->assertEquals(200, $totals->allocatedPlusUnallocatedCalculatedAmount);
+        $this->assertEquals(160, $totals->unallocatedCalculatedAmount);
+        $this->assertEquals(1180, $totals->allocatedPlusUnallocatedRemaining);
+        $this->assertEquals(160, $totals->unallocatedRemaining);
     }
 
 

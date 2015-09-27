@@ -78,7 +78,7 @@ class PagesController extends Controller {
     {
         $remainingBalance = app('remaining-balance')->calculate();
 
-//        dd($remainingBalance->flexBudgetTotals->budgets['data']);
+//        dd($remainingBalance->flexBudgetTotals->toArray());
 
         JavaScript::put([
             'me' => Auth::user(),
