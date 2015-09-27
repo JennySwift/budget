@@ -118,4 +118,20 @@ class BudgetsController extends Controller
         $resource = createCollection($budgets, new BudgetTransformer);
         return transform($resource);
     }
+
+    /**
+     * This is just so I can write a test for the flex budgets in TotalsTest.php
+     */
+    public function getFlexBudgets()
+    {
+//        $budgets = Budget::forCurrentUser()->whereType('flex')->get();
+
+        $remainingBalance = app('remaining-balance')->calculate();
+        $budgets = $remainingBalance->flexBudgetTotals->budgets['data'];
+        return $budgets;
+
+        //Transform budgets
+//        $resource = createCollection($budgets, new BudgetTransformer);
+//        return transform($resource);
+    }
 }

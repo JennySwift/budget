@@ -105,4 +105,53 @@ class TotalsTest extends TestCase {
         $this->assertEquals(1060, $budget->remaining);
         $this->assertEquals(6, $budget->transactionsCount);
     }
+
+    /**
+     * @test
+     */
+    public function it_checks_the_flex_budget_attributes_are_correct()
+    {
+        $this->logInUser();
+
+        $response = $this->apiCall('GET', 'api/flexBudgets');
+        $content = json_decode($response->getContent(), false);
+
+        $this->assertResponseOk();
+        $budget = $content[0];
+//        dd($budget);
+
+        // Check if every attribute is present
+        $this->assertObjectHasAttribute('path', $budget);
+        $this->assertObjectHasAttribute('name', $budget);
+        $this->assertObjectHasAttribute('amount', $budget);
+        $this->assertObjectHasAttribute('calculatedAmount', $budget);
+        $this->assertObjectHasAttribute('type', $budget);
+        $this->assertObjectHasAttribute('formattedStartingDate', $budget);
+        $this->assertObjectHasAttribute('spent', $budget);
+        $this->assertObjectHasAttribute('received', $budget);
+        $this->assertObjectHasAttribute('spentAfterStartingDate', $budget);
+        $this->assertObjectHasAttribute('spentBeforeStartingDate', $budget);
+        $this->assertObjectHasAttribute('receivedAfterStartingDate', $budget);
+        $this->assertObjectHasAttribute('cumulativeMonthNumber', $budget);
+        $this->assertObjectHasAttribute('cumulative', $budget);
+        $this->assertObjectHasAttribute('remaining', $budget);
+        $this->assertObjectHasAttribute('transactionsCount', $budget);
+
+        // Check if the values are correct according to our seeders!!
+        $this->assertEquals("http://localhost/api/budgets/4", $budget->path);
+        $this->assertEquals("busking", $budget->name);
+        $this->assertEquals(10, $budget->amount);
+        $this->assertEquals(20, $budget->calculatedAmount);
+        $this->assertEquals('flex', $budget->type);
+        $this->assertEquals("01/01/15", $budget->formattedStartingDate);
+        $this->assertEquals(-35, $budget->spent);
+        $this->assertEquals(1500, $budget->received);
+        $this->assertEquals(-15, $budget->spentBeforeStartingDate);
+        $this->assertEquals(-20, $budget->spentAfterStartingDate);
+        $this->assertEquals(1000, $budget->receivedAfterStartingDate);
+        $this->assertEquals(9, $budget->cumulativeMonthNumber);
+        $this->assertEquals(null, $budget->cumulative);
+        $this->assertEquals(1000, $budget->remaining);
+        $this->assertEquals(6, $budget->transactionsCount);
+    }
 }
