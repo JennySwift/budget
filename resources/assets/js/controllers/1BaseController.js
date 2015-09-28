@@ -9,44 +9,10 @@
         .module('budgetApp')
         .controller('BaseController', base);
 
-    function base ($scope, $sce, TotalsFactory, FilterFactory, TransactionsFactory, ErrorsFactory) {
+    function base ($scope, $sce, TotalsFactory, FilterFactory, TransactionsFactory, ShowFactory, ErrorsFactory) {
 
         $scope.feedback_messages = [];
-        $scope.show = {
-            popups: {},
-            allocationPopup: false,
-            actions: false,
-            status: false,
-            date: true,
-            description: true,
-            merchant: true,
-            total: true,
-            type: true,
-            account: true,
-            reconciled: true,
-            tags: true,
-            dlt: true,
-            //components
-            new_transaction: true,
-            basic_totals: true,
-            budget_totals: true,
-            filter_totals: true,
-            edit_transaction: false,
-            edit_tag: false,
-            budget: false,
-            filter: false,
-            autocomplete: {
-                description: false,
-                merchant: false
-            },
-            savings_total: {
-                input: false,
-                edit_btn: true
-            }
-
-        };
-
-        $scope.me = me;
+        $scope.show = ShowFactory.defaults;
 
         if (typeof env !== 'undefined') {
 
@@ -65,7 +31,6 @@
 
             $scope.filter = FilterFactory.filter;
             $scope.filterTotals = filterBasicTotals;
-            $scope.budgets = budgets;
 
             $scope.runFilter = function () {
                 $scope.getFilterBasicTotals();
@@ -138,23 +103,7 @@
             }
 
             function calculateGraphFigures () {
-                $scope.graphFigures = {
-                    months: []
-                };
-
-                $($scope.graphTotals.monthsTotals).each(function () {
-                    var $expenses = this.expenses * -1;
-                    var $max = $scope.graphTotals.maxTotal;
-                    var $num = 500 / $max;
-
-                    $scope.graphFigures.months.push({
-                        incomeHeight: this.income * $num,
-                        expensesHeight: $expenses * $num,
-                        income: this.income,
-                        expenses: this.expenses,
-                        month: this.month
-                    });
-                });
+                $scope.graphFigures = FilterFactory.calculateGraphFigures($scope.graphTotals);
             }
 
             $scope.handleAllocationForNewTransaction = function ($transaction) {
@@ -235,12 +184,6 @@
         $scope.clearTotalChanges = function () {
             $scope.totalChanges = {};
         };
-
-        $(window).load(function () {
-            $(".main").css('display', 'block');
-            $("footer, #navbar").css('display', 'flex');
-            $("#page-loading").hide();
-        });
 
         $scope.showLoading = function () {
             $scope.loading = true;

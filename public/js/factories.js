@@ -387,6 +387,28 @@ app.factory('FilterFactory', function ($http) {
         return $http.post($url, {'filter': $filter});
     };
 
+    $object.calculateGraphFigures = function ($graphTotals) {
+        var $graphFigures = {
+            months: []
+        };
+
+        $($graphTotals.monthsTotals).each(function () {
+            var $expenses = this.expenses * -1;
+            var $max = $graphTotals.maxTotal;
+            var $num = 500 / $max;
+
+            $graphFigures.months.push({
+                incomeHeight: this.income * $num,
+                expensesHeight: $expenses * $num,
+                income: this.income,
+                expenses: this.expenses,
+                month: this.month
+            });
+        });
+
+        return $graphFigures;
+    };
+
     return $object;
 });
 app.factory('NewTransactionFactory', function ($http) {
@@ -538,6 +560,44 @@ app.factory('SavingsFactory', function ($http) {
 			return $http.put($url, $data);
 		}
 	};
+});
+app.factory('ShowFactory', function () {
+    return {
+        defaults: {
+            popups: {},
+            allocationPopup: false,
+            actions: false,
+            status: false,
+            date: true,
+            description: true,
+            merchant: true,
+            total: true,
+            type: true,
+            account: true,
+            reconciled: true,
+            tags: true,
+            dlt: true,
+            //components
+            new_transaction: true,
+            basic_totals: true,
+            budget_totals: true,
+            filter_totals: true,
+            edit_transaction: false,
+            edit_tag: false,
+            budget: false,
+            filter: false,
+            autocomplete: {
+                description: false,
+                merchant: false
+            },
+            savings_total: {
+                input: false,
+                edit_btn: true
+            }
+
+        }
+
+    };
 });
 app.factory('TotalsFactory', function ($http) {
     return {

@@ -141,5 +141,27 @@ app.factory('FilterFactory', function ($http) {
         return $http.post($url, {'filter': $filter});
     };
 
+    $object.calculateGraphFigures = function ($graphTotals) {
+        var $graphFigures = {
+            months: []
+        };
+
+        $($graphTotals.monthsTotals).each(function () {
+            var $expenses = this.expenses * -1;
+            var $max = $graphTotals.maxTotal;
+            var $num = 500 / $max;
+
+            $graphFigures.months.push({
+                incomeHeight: this.income * $num,
+                expensesHeight: $expenses * $num,
+                income: this.income,
+                expenses: this.expenses,
+                month: this.month
+            });
+        });
+
+        return $graphFigures;
+    };
+
     return $object;
 });
