@@ -867,26 +867,13 @@ var app = angular.module('budgetApp');
          * @returns {boolean}
          */
         function anyErrors () {
-            $errorCount = 0;
+            var $errorMessages = NewTransactionFactory.anyErrors($scope.new_transaction);
 
-            if (!Date.parse($scope.new_transaction.date.entered)) {
-                $scope.provideFeedback('Date is not valid', 'error');
-                $errorCount++;
-            }
-            else {
-                $scope.new_transaction.date.sql = Date.parse($scope.new_transaction.date.entered).toString('yyyy-MM-dd');
-            }
+            if ($errorMessages) {
+                for (var i = 0; i < $errorMessages.length; i++) {
+                    $scope.provideFeedback($errorMessages[i], 'error');
+                }
 
-            if ($scope.new_transaction.total === "") {
-                $scope.provideFeedback('Total is required', 'error');
-                $errorCount++;
-            }
-            else if (!$.isNumeric($scope.new_transaction.total)) {
-                $scope.provideFeedback('Total is not a valid number', 'error');
-                $errorCount++;
-            }
-
-            if ($errorCount > 0) {
                 return true;
             }
 

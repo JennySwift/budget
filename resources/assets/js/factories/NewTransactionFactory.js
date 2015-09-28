@@ -63,5 +63,29 @@ app.factory('NewTransactionFactory', function ($http) {
         return $newTransaction;
     };
 
+    $object.anyErrors = function ($newTransaction) {
+        var $messages = [];
+
+        if (!Date.parse($newTransaction.date.entered)) {
+            $messages.push('Date is not valid');
+        }
+        else {
+            $newTransaction.date.sql = Date.parse($newTransaction.date.entered).toString('yyyy-MM-dd');
+        }
+
+        if ($newTransaction.total === "") {
+            $messages.push('Total is required');
+        }
+        else if (!$.isNumeric($newTransaction.total)) {
+            $messages.push('Total is not a valid number');
+        }
+
+        if ($messages.length > 0) {
+            return $messages;
+        }
+
+        return false;
+    };
+
     return $object;
 });
