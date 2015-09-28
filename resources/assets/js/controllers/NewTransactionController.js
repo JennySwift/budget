@@ -9,23 +9,10 @@
         $scope.dropdown = {};
         $scope.types = ["income", "expense", "transfer"];
         $scope.accounts = accounts_response;
-        $scope.new_transaction = NewTransactionFactory.getDefaults($scope.env, $scope.accounts);
+        $scope.new_transaction = NewTransactionFactory.getDefaults(env, $scope.accounts);
 
-        /**
-         * Clear new transaction fields
-         */
         function clearNewTransactionFields () {
-            if ($scope.env !== 'local') {
-                $scope.new_transaction.budgets = [];
-            }
-
-            if (me.preferences.clearFields) {
-                $scope.new_transaction.total = '';
-                $scope.new_transaction.description = '';
-                $scope.new_transaction.merchant = '';
-                $scope.new_transaction.reconciled = false;
-                $scope.new_transaction.multiple_budgets = false;
-            }
+            $scope.new_transaction = NewTransactionFactory.clearFields(env, me, $scope.new_transaction);
         }
 
         /**

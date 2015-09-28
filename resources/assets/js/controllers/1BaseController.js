@@ -49,9 +49,8 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         $scope.me = me;
 
         if (typeof env !== 'undefined') {
-            $scope.env = env;
 
-            if ($scope.env === 'local') {
+            if (env === 'local') {
                 $scope.tab = 'transactions';
             }
             else {

@@ -396,6 +396,22 @@ app.factory('NewTransactionFactory', function ($http) {
         return $defaults;
     };
 
+    $object.clearFields = function (env, me, $newTransaction) {
+        if (env !== 'local') {
+            $newTransaction.budgets = [];
+        }
+
+        if (me.preferences.clearFields) {
+            $newTransaction.total = '';
+            $newTransaction.description = '';
+            $newTransaction.merchant = '';
+            $newTransaction.reconciled = false;
+            $newTransaction.multiple_budgets = false;
+        }
+
+        return $newTransaction;
+    };
+
     return $object;
 });
 app.factory('PreferencesFactory', function ($http) {
