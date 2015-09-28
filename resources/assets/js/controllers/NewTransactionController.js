@@ -136,7 +136,7 @@
                         $scope.handleAllocationForNewTransaction($transaction);
                     }
                     else {
-                        $scope.filterTransactions();
+                        $scope.runFilter();
                     }
 
                     $scope.hideLoading();
@@ -160,7 +160,7 @@
                     $scope.provideFeedback('Transfer added');
                     clearNewTransactionFields();
                     $scope.getSideBarTotals();
-                    $scope.filterTransactions();
+                    $scope.runFilter();
                     $scope.new_transaction.dropdown = false;
 
                     //Todo: get filter stuff

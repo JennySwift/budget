@@ -883,6 +883,9 @@ caption {
     -ms-flex-pack: center;
     justify-content: center; }
 
+#filter-totals .list-group-item {
+  padding: 5px 15px; }
+
 #filter {
   -webkit-animation: slideInRight 0.5s;
   animation: slideInRight 0.5s;
@@ -890,7 +893,7 @@ caption {
   top: 110px;
   right: 0px;
   opacity: .8;
-  height: 500px;
+  height: 600px;
   overflow: scroll;
   width: 275px;
   overflow: scroll;
@@ -1137,6 +1140,8 @@ caption {
     height: 39px;
     position: relative;
     transition: all, 1.5s, ease; }
+    #transactions td.description, #transactions td.merchant {
+      max-width: 120px; }
     #transactions td:hover .tooltip-container {
       visibility: visible; }
     #transactions td div:not(.tooltip) {

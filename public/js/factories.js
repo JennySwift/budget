@@ -322,10 +322,26 @@ app.factory('FilterFactory', function ($http) {
         return $filter;
     };
 
-    $object.filterTransactions = function ($filter) {
+    $object.getTransactions = function ($filter) {
         $object.filter = $object.formatDates($filter);
 
         var $url = 'api/filter/transactions';
+
+        return $http.post($url, {'filter': $filter});
+    };
+
+    $object.getBasicTotals = function ($filter) {
+        $object.filter = $object.formatDates($filter);
+
+        var $url = 'api/filter/basicTotals';
+
+        return $http.post($url, {'filter': $filter});
+    };
+
+    $object.getGraphTotals = function ($filter) {
+        $object.filter = $object.formatDates($filter);
+
+        var $url = 'api/filter/graphTotals';
 
         return $http.post($url, {'filter': $filter});
     };

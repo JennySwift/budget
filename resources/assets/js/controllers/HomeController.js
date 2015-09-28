@@ -11,13 +11,6 @@
 
         $scope.colors = me.preferences.colors;
 
-        if ($scope.env === 'local') {
-            $scope.tab = 'transactions';
-        }
-        else {
-            $scope.tab = 'transactions';
-        }
-
         $scope.$watch('PreferencesFactory.date_format', function (newValue, oldValue) {
             if (!newValue) {
                 return;
@@ -35,24 +28,6 @@
         $scope.toggleFilter = function () {
             $scope.show.filter = !$scope.show.filter;
         };
-
-        $scope.transactionsTab = function () {
-            $scope.tab = 'transactions';
-            $scope.show.basic_totals = true;
-            $scope.show.budget_totals = true;
-            $scope.show.filter = false;
-        };
-
-        $scope.graphsTab = function () {
-            $scope.tab = 'graphs';
-            $scope.show.basic_totals = false;
-            $scope.show.budget_totals = false;
-            $scope.show.filter = true;
-        };
-
-        if ($scope.tab === 'graphs') {
-            $scope.graphsTab();
-        }
 
 
 

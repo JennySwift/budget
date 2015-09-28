@@ -21,7 +21,7 @@
             <input
                 checklist-model="filter.types.in"
                 checklist-value="type"
-                checklist-change="filterTransactions()"
+                checklist-change="runFilter()"
                 ng-disabled="filter.types.out.indexOf(type) !== -1"
                 type="checkbox">
             <label
@@ -35,7 +35,7 @@
             <input
                     checklist-model="filter.types.out"
                     checklist-value="type"
-                    checklist-change="filterTransactions()"
+                    checklist-change="runFilter()"
                     ng-disabled="filter.types.in.indexOf(type) !== -1"
                     type="checkbox">
             <label

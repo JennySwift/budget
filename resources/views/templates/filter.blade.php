@@ -1,5 +1,8 @@
 
+
 <div ng-cloak ng-show="show.filter" id="filter" class="margin-bottom">
+
+    @include('templates/filter-totals')
 
     <div class="btn-group">
         <button ng-click="filterTab = 'show'" class="btn btn-success">Show</button>

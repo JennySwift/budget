@@ -44,7 +44,8 @@ class PagesController extends Controller {
 ////            //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),
             'budgets' => $this->budgetsRepository->getBudgets(),
-            'filter_response' => $filter->setFilter()
+            'transactions' => $filter->getTransactions(),
+            'filterBasicTotals' => $filter->getBasicTotals(),
         ]);
 
         return view('home');
@@ -57,8 +58,6 @@ class PagesController extends Controller {
     public function fixedBudgets()
     {
         $remainingBalance = app('remaining-balance')->calculate();
-
-//        dd($remainingBalance->fixedBudgetTotals->budgets['data']);
 
         JavaScript::put([
             'me' => Auth::user(),
@@ -78,8 +77,6 @@ class PagesController extends Controller {
     {
         $remainingBalance = app('remaining-balance')->calculate();
 
-//        dd($remainingBalance->flexBudgetTotals->toArray());
-
         JavaScript::put([
             'me' => Auth::user(),
             'page' => 'flexBudgets',
@@ -97,8 +94,6 @@ class PagesController extends Controller {
     public function unassignedBudgets()
     {
         $remainingBalance = app('remaining-balance')->calculate();
-
-//        dd($remainingBalance->unassignedBudgetTotals->budgets);
 
         JavaScript::put([
             'me' => Auth::user(),

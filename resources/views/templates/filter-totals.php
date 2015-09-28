@@ -1,9 +1,9 @@
-<div ng-show="show.filter_totals" class="col-sm-2">
-    <ul class="list-group totals">
+<div ng-show="show.filter_totals" id="filter-totals" class="col-sm-2">
+    <ul class="list-group">
         <li class="list-group-item list-group-heading">
-            Search totals
+            Filter totals
         </li>
-    
+
         <li class="tooltipster list-group-item list-group-item-success" title="credit">
             <span id="search_income_span" class="badge">[[filterTotals.income | number:2]]</span>
             C:  

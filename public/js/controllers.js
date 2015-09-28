@@ -52,27 +52,63 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
         if (typeof env !== 'undefined') {
             $scope.env = env;
+
+            if ($scope.env === 'local') {
+                $scope.tab = 'transactions';
+            }
+            else {
+                $scope.tab = 'transactions';
+            }
         }
 
         if (typeof page !== 'undefined' && page === 'home') {
             //Putting this here so that transactions update
             //after inserting transaction from newTransactionController
-            $scope.transactions = filter_response.transactions;
+            $scope.transactions = transactions;
 
             $scope.filter = FilterFactory.filter;
-            $scope.filterTotals = filter_response.totals;
-            $scope.graphTotals = filter_response.graphTotals;
+            $scope.filterTotals = filterBasicTotals;
             $scope.budgets = budgets;
+
+            $scope.runFilter = function () {
+                $scope.getFilterBasicTotals();
+                if ($scope.tab === 'transactions') {
+                    $scope.filterTransactions();
+                }
+                else {
+                    $scope.getGraphTotals();
+                }
+            };
 
             $scope.filterTransactions = function () {
                 $scope.showLoading();
-                FilterFactory.filterTransactions($scope.filter)
+                FilterFactory.getTransactions($scope.filter)
                     .then(function (response) {
+                        $scope.transactions = response.data;
                         $scope.hideLoading();
-                        $scope.transactions = response.data.transactions;
-                        $scope.graphTotals = response.data.graphTotals;
-                        $scope.filterTotals = response.data.totals;
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    })
+            };
+
+            $scope.getFilterBasicTotals = function () {
+                FilterFactory.getBasicTotals($scope.filter)
+                    .then(function (response) {
+                        $scope.filterTotals = response.data;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    })
+            };
+
+            $scope.getGraphTotals = function () {
+                FilterFactory.getGraphTotals($scope.filter)
+                    .then(function (response) {
+                        $scope.graphTotals = response.data;
                         calculateGraphFigures();
+                        $scope.hideLoading();
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
@@ -81,8 +117,28 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
 
             $scope.resetFilter = function () {
                 $scope.filter = FilterFactory.resetFilter();
-                $scope.filterTransactions();
+                $scope.runFilter();
             };
+
+            $scope.transactionsTab = function () {
+                $scope.tab = 'transactions';
+                $scope.show.basic_totals = true;
+                $scope.show.budget_totals = true;
+                $scope.show.filter = false;
+                $scope.runFilter();
+            };
+
+            $scope.graphsTab = function () {
+                $scope.tab = 'graphs';
+                $scope.show.basic_totals = false;
+                $scope.show.budget_totals = false;
+                $scope.show.filter = true;
+                $scope.runFilter();
+            };
+
+            if ($scope.tab === 'graphs') {
+                $scope.graphsTab();
+            }
 
             function calculateGraphFigures () {
                 $scope.graphFigures = {
@@ -103,8 +159,6 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
                     });
                 });
             }
-
-            calculateGraphFigures();
 
             $scope.handleAllocationForNewTransaction = function ($transaction) {
                 FilterFactory.filterTransactions($scope.filter)
@@ -668,21 +722,21 @@ var app = angular.module('budgetApp');
             if (newValue === oldValue) {
                 return;
             }
-            $scope.filterTransactions();
+            $scope.runFilter();
         });
 
         $scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
-            $scope.filterTransactions();
+            $scope.runFilter();
         });
 
         $scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
-            $scope.filterTransactions();
+            $scope.runFilter();
         });
 
         //Todo: I might not need some of this code (not allowing offset to be less than 0)
@@ -695,7 +749,7 @@ var app = angular.module('budgetApp');
             else {
                 $scope.filter.offset-= ($scope.filter.num_to_fetch * 1);
                 updateRange();
-                $scope.filterTransactions();
+                $scope.runFilter();
             }
         };
 
@@ -709,7 +763,7 @@ var app = angular.module('budgetApp');
 
         $scope.changeNumToFetch = function () {
             updateRange();
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         $scope.nextResults = function () {
@@ -720,14 +774,14 @@ var app = angular.module('budgetApp');
 
             $scope.filter.offset+= ($scope.filter.num_to_fetch * 1);
             updateRange();
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         $scope.resetSearch = function () {
             $("#search-type-select, #search-account-select, #search-reconciled-select").val("all");
             $("#single-date-input, #from-date-input, #to-date-input, #search-descriptions-input, #search-merchants-input, #search-tags-input").val("");
             $("#search-tag-location").html("");
-            $scope.filterTransactions(true);
+            $scope.filter(true);
         };
 
         $scope.filterDescriptionOrMerchant = function ($keycode) {
@@ -735,21 +789,21 @@ var app = angular.module('budgetApp');
                 return false;
             }
             $scope.resetOffset();
-            $scope.filterTransactions(true);
+            $scope.filter(true);
         };
 
         $scope.filterDate = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
             }
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         $scope.filterTotal = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
             }
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         /**
@@ -759,7 +813,7 @@ var app = angular.module('budgetApp');
          */
         $scope.clearFilterField = function ($field, $type) {
             $scope.filter[$field][$type] = "";
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         /**
@@ -784,7 +838,7 @@ var app = angular.module('budgetApp');
          */
         $scope.clearDateField = function ($field, $type) {
             $scope.filter[$field][$type]['user'] = "";
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         $scope.resetOffset = function () {
@@ -850,13 +904,6 @@ var app = angular.module('budgetApp');
 
         $scope.colors = me.preferences.colors;
 
-        if ($scope.env === 'local') {
-            $scope.tab = 'transactions';
-        }
-        else {
-            $scope.tab = 'transactions';
-        }
-
         $scope.$watch('PreferencesFactory.date_format', function (newValue, oldValue) {
             if (!newValue) {
                 return;
@@ -874,24 +921,6 @@ var app = angular.module('budgetApp');
         $scope.toggleFilter = function () {
             $scope.show.filter = !$scope.show.filter;
         };
-
-        $scope.transactionsTab = function () {
-            $scope.tab = 'transactions';
-            $scope.show.basic_totals = true;
-            $scope.show.budget_totals = true;
-            $scope.show.filter = false;
-        };
-
-        $scope.graphsTab = function () {
-            $scope.tab = 'graphs';
-            $scope.show.basic_totals = false;
-            $scope.show.budget_totals = false;
-            $scope.show.filter = true;
-        };
-
-        if ($scope.tab === 'graphs') {
-            $scope.graphsTab();
-        }
 
 
 
@@ -1099,7 +1128,7 @@ var app = angular.module('budgetApp');
                         $scope.handleAllocationForNewTransaction($transaction);
                     }
                     else {
-                        $scope.filterTransactions();
+                        $scope.runFilter();
                     }
 
                     $scope.hideLoading();
@@ -1123,7 +1152,7 @@ var app = angular.module('budgetApp');
                     $scope.provideFeedback('Transfer added');
                     clearNewTransactionFields();
                     $scope.getSideBarTotals();
-                    $scope.filterTransactions();
+                    $scope.runFilter();
                     $scope.new_transaction.dropdown = false;
 
                     //Todo: get filter stuff
@@ -1197,7 +1226,7 @@ var app = angular.module('budgetApp');
             TransactionsFactory.updateReconciliation($transaction)
                 .then(function (response) {
                     $scope.getSideBarTotals();
-                    $scope.filterTransactions();
+                    $scope.runFilter();
                     $scope.hideLoading();
                 })
                 .catch(function (response) {

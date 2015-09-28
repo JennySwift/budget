@@ -33,24 +33,32 @@ class FilterController extends Controller
     /**
      * Filter transactions
      * GET api/transactions?limit=40&page=2&account_id=3&type=income
-     * POST api/select/filter
+     * POST api/filter/transactions
      * @param Request $request
-     * @param TransactionsRepository $transactionsRepository
      * @return array
      */
     public function transactions(Request $request)
     {
-        /**
-         * @VP:
-         * Not sure how I can access values like this:
-         * $this->filter->transactions
-         * $this->filter->totals
-         * $this->filter->graphTotals
-         * because I need to pass $request->get('filter') and I'm not sure how
-         * to get that in my constructor without newing up a new Filter.
-         */
-//        return $this->filter->filterTransactions($request->get('filter'))->transactions;
-        return $this->filter->setFilter($request->get('filter'));
-//        return $this->filterRepository->filterTransactions($request->get('filter'));
+        return $this->filter->getTransactions($request->get('filter'));
+    }
+
+    /**
+     * POST api/filter/basicTotals
+     * @param Request $request
+     * @return array
+     */
+    public function basicTotals(Request $request)
+    {
+        return $this->filter->getBasicTotals($request->get('filter'));
+    }
+
+    /**
+     * POST api/filter/graphTotals
+     * @param Request $request
+     * @return array
+     */
+    public function graphTotals(Request $request)
+    {
+        return $this->filter->getGraphTotals($request->get('filter'));
     }
 }

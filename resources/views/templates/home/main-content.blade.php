@@ -30,7 +30,6 @@
 
     <div ng-controller="FilterController">
         @include('templates/filter')
-        @include('templates/filter-totals')
     </div>
 
 </div>

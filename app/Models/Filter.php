@@ -30,7 +30,7 @@ class Filter implements Arrayable {
     /**
      * @var
      */
-    public $totals;
+    public $basicTotals;
 
     /**
      * @var FilterBudgetsRepository
@@ -78,6 +78,9 @@ class Filter implements Arrayable {
      * @param GraphsRepository $graphsRepository
      * @param FilterNumBudgetsRepository $filterNumBudgetsRepository
      * @param FilterTotalsRepository $filterTotalsRepository
+     * @VP:
+     * How do I pass a variable to this constructor without getting this error:
+     * Unresolvable dependency resolving [Parameter #0 [ <required> array $filter ]] in class App\Models\Filter
      */
     public function __construct(FilterBasicsRepository $filterBasicsRepository, FilterBudgetsRepository $filterBudgetsRepository, GraphsRepository $graphsRepository, FilterNumBudgetsRepository $filterNumBudgetsRepository, FilterTotalsRepository $filterTotalsRepository)
     {
@@ -101,10 +104,53 @@ class Filter implements Arrayable {
         $this->setQuery();
         $this->setNumTransactions();
         $this->setTransactions();
-        $this->setTotals();
+        $this->setBasicTotals();
         $this->setGraphTotals();
-//        dd($this->totals);
         return $this->toArray();
+    }
+
+    /**
+     * Get the filtered transactions
+     * @param array $filters
+     * @return mixed
+     */
+    public function getTransactions(array $filters = [])
+    {
+        // Merge the argument with the defaults
+        $this->filters = array_merge($this->defaults, $filters);
+
+        $this->setQuery();
+        $this->setTransactions();
+        return $this->transactions;
+    }
+
+    /**
+     * Get the basic filter totals
+     * @param array $filters
+     * @return mixed
+     */
+    public function getBasicTotals(array $filters = [])
+    {
+        // Merge the argument with the defaults
+        $this->filters = array_merge($this->defaults, $filters);
+        $this->setQuery();
+        $this->setBasicTotals();
+        return $this->basicTotals->toArray();
+    }
+
+    /**
+     * Get the graph totals for the filtered transactions
+     * @param array $filters
+     * @return mixed
+     */
+    public function getGraphTotals(array $filters = [])
+    {
+        // Merge the argument with the defaults
+        $this->filters = array_merge($this->defaults, $filters);
+
+        $this->setQuery();
+        $this->setGraphTotals();
+        return $this->graphTotals;
     }
 
     /**
@@ -197,9 +243,9 @@ class Filter implements Arrayable {
     /**
      *
      */
-    private function setTotals()
+    private function setBasicTotals()
     {
-        $this->totals = $this->filterTotalsRepository->getFilterTotals($this->query);
+        $this->basicTotals = $this->filterTotalsRepository->getFilterTotals($this->query);
     }
 
     /**
@@ -236,7 +282,7 @@ class Filter implements Arrayable {
     {
         return [
             'transactions' => $this->transactions,
-            'totals' => $this->totals,
+            'totals' => $this->basicTotals,
             'graphTotals' => $this->graphTotals,
         ];
     }
