@@ -20,27 +20,66 @@ app.config(function ($interpolateProvider) {
 
 app.run(runBlock);
 
-function runBlock ($rootScope, UsersFactory) {
+function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, ErrorsFactory) {
 
-    $rootScope.show = {
-        popups: {}
-    };
+    $rootScope.show = ShowFactory.defaults;
 
-    $rootScope.me = me;
+    $rootScope.feedback_messages = [];
 
     $rootScope.totalChanges = {};
 
     $rootScope.feedback_messages = [];
 
+    $rootScope.clearTotalChanges = function () {
+        $rootScope.totalChanges = {};
+    };
+
     if (typeof env !== 'undefined') {
         $rootScope.env = env;
     }
+
+    /**
+     * Todo: custom angular filter
+     * @param $date
+     * @returns {*}
+     */
+    $rootScope.formatDate = function ($date) {
+        if ($date) {
+            if (!Date.parse($date)) {
+                $rootScope.provideFeedback('Date is invalid', 'error');
+                return false;
+            }
+            else {
+                return Date.parse($date).toString('yyyy-MM-dd');
+            }
+        }
+        return false;
+    };
 
     $rootScope.clearTotalChanges = function () {
         $rootScope.totalChanges = {};
     };
 
-    //$rootScope.showBar = page === 'home' || page === 'budgets';
+    $rootScope.responseError = function (response) {
+        $rootScope.provideFeedback(ErrorsFactory.responseError(response), 'error');
+        $rootScope.hideLoading();
+    };
+
+    $rootScope.getSideBarTotals = function () {
+        $rootScope.totalsLoading = true;
+        TotalsFactory.getSideBarTotals()
+            .then(function (response) {
+                $rootScope.sideBarTotals = response.data.data;
+                $rootScope.totalsLoading = false;
+            })
+            .catch(function (response) {
+                $rootScope.responseError(response);
+            });
+    };
+
+    if (typeof page !== 'undefined' && (page === 'home' || page === 'fixedBudgets' || page === 'flexBudgets' || page === 'unassignedBudgets')) {
+        $rootScope.getSideBarTotals();
+    }
 
     $rootScope.closePopup = function ($event, $popup) {
         var $target = $event.target;
@@ -71,8 +110,6 @@ function runBlock ($rootScope, UsersFactory) {
 
         $rootScope.feedback_messages.push($new);
 
-        //$rootScope.feedback_messages.push($message);
-
         setTimeout(function () {
             $rootScope.feedback_messages = _.without($rootScope.feedback_messages, $new);
             $rootScope.$apply();
@@ -84,9 +121,8 @@ function runBlock ($rootScope, UsersFactory) {
         if (confirm("Do you really want to delete your account?")) {
             if (confirm("You are about to delete your account! You will no longer be able to use the budget app. Are you sure this is what you want?")) {
                 $rootScope.showLoading();
-                UsersFactory.deleteAccount($rootScope.me)
+                UsersFactory.deleteAccount(me)
                     .then(function (response) {
-                        //$rootScope. = response.data;
                         $rootScope.provideFeedback('Your account has been deleted');
                         $rootScope.hideLoading();
                     })

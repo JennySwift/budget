@@ -10,7 +10,7 @@
 
 @include('templates.page-loading')
 
-<body ng-controller="BaseController">
+<body>
 
     @include('templates.loading')
 

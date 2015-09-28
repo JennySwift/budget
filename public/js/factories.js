@@ -564,6 +564,7 @@ app.factory('SavingsFactory', function ($http) {
 app.factory('ShowFactory', function () {
     return {
         defaults: {
+            newBudget: false,
             popups: {},
             allocationPopup: false,
             actions: false,

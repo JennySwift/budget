@@ -6,11 +6,6 @@
 
     function budgets ($scope, BudgetsFactory, TotalsFactory) {
 
-        $scope.show = {
-            newBudget: false,
-            popups: {}
-        };
-
         $scope.toggleNewBudget = function () {
             $scope.show.newBudget = true;
         };
