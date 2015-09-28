@@ -852,55 +852,12 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('NewTransactionController', newTransaction);
 
-    function newTransaction ($scope, TransactionsFactory, FilterFactory) {
+    function newTransaction ($scope, NewTransactionFactory, TransactionsFactory, FilterFactory) {
 
-        $scope.filterFactory = FilterFactory;
         $scope.dropdown = {};
         $scope.types = ["income", "expense", "transfer"];
-
-        $scope.new_transaction = {
-            type: 'income',
-            account_id: 1,
-            date: {
-                entered: 'today'
-            },
-            merchant: '',
-            description: '',
-            reconciled: false,
-            multiple_budgets: false,
-            budgets: []
-        };
-
-        /**
-         * Fill in the new transaction fields if development environment
-         */
-        if ($scope.env === 'local') {
-            $scope.new_transaction.total = 10;
-            $scope.new_transaction.type = 'expense';
-            $scope.new_transaction.date.entered = 'today';
-            $scope.new_transaction.merchant = 'some merchant';
-            $scope.new_transaction.description = 'some description';
-            $scope.new_transaction.budgets = [
-                {
-                    id: '2',
-                    name: 'business',
-                    type: 'fixed'
-                },
-                {
-                    id: '4',
-                    name: 'busking',
-                    type: 'flex'
-                }
-            ];
-        }
-
         $scope.accounts = accounts_response;
-        if ($scope.accounts[0]) {
-            //this if check is to get rid of the error for a new user who does not yet have any accounts.
-            $scope.new_transaction.account_id = $scope.accounts[0].id;
-            $scope.new_transaction.from_account_id = $scope.accounts[0].id;
-            $scope.new_transaction.to_account_id = $scope.accounts[0].id;
-        }
+        $scope.new_transaction = NewTransactionFactory.getDefaults($scope.env, $scope.accounts);
 
         /**
          * Clear new transaction fields
@@ -925,7 +882,6 @@ var app = angular.module('budgetApp');
          */
         function anyErrors () {
             $errorCount = 0;
-            var $messages = [];
 
             if (!Date.parse($scope.new_transaction.date.entered)) {
                 $scope.provideFeedback('Date is not valid', 'error');
@@ -1013,7 +969,6 @@ var app = angular.module('budgetApp');
                     $scope.new_transaction.dropdown = false;
 
                     //Todo: get filter stuff
-                    //FilterFactory.updateDataForControllers(response.data);
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
