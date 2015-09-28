@@ -14,14 +14,13 @@ app.factory('AccountsFactory', function ($http) {
 
             return $http.post($url, $data);
         },
-        updateAccountName: function ($account_id, $account_name) {
-            var $url = '/api/accounts/' + $account_id;
-            var $data = { name: $account_name };
+        updateAccountName: function ($account) {
+            var $url = $account.path;
+            var $data = { name: $account.name };
 
             return $http.put($url, $data);
         },
         deleteAccount: function ($account) {
-            console.log($account.path);
             var $url = $account.path;
 
             return $http.delete($url);

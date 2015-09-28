@@ -370,18 +370,6 @@ var app = angular.module('budgetApp');
         $scope.accounts = accounts;
         $scope.edit_account_popup = {};
 
-        $scope.getAccounts = function () {
-            $scope.showLoading();
-            AccountsFactory.getAccounts()
-                .then(function (response) {
-                    $scope.accounts = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
         $scope.insertAccount = function ($keycode) {
             if ($keycode !== 13) {
                 return;
@@ -390,7 +378,7 @@ var app = angular.module('budgetApp');
             $scope.showLoading();
             AccountsFactory.insertAccount()
                 .then(function (response) {
-                    $scope.getAccounts();
+                    $scope.accounts.push(response.data);
                     $scope.provideFeedback('Account added');
                     $("#new_account_input").val("");
                     $scope.hideLoading();
@@ -400,17 +388,17 @@ var app = angular.module('budgetApp');
                 });
         };
 
-        $scope.showEditAccountPopup = function ($account_id, $account_name) {
-            $scope.edit_account_popup.id = $account_id;
-            $scope.edit_account_popup.name = $account_name;
+        $scope.showEditAccountPopup = function ($account) {
+            $scope.edit_account_popup = $account;
             $scope.show.popups.edit_account = true;
         };
 
         $scope.updateAccount = function () {
             $scope.showLoading();
-            AccountsFactory.updateAccountName($scope.edit_account_popup.id, $scope.edit_account_popup.name)
+            AccountsFactory.updateAccountName($scope.edit_account_popup)
                 .then(function (response) {
-                    $scope.getAccounts();
+                    var $index = _.indexOf($scope.accounts, _.findWhere($scope.accounts, {id: $scope.edit_account_popup.id}));
+                    $scope.accounts[$index] = response.data;
                     $scope.provideFeedback('Account edited');
                     $scope.show.popups.edit_account = false;
                     $scope.hideLoading();
@@ -425,7 +413,7 @@ var app = angular.module('budgetApp');
                 $scope.showLoading();
                 AccountsFactory.deleteAccount($account)
                     .then(function (response) {
-                        $scope.getAccounts();
+                        $scope.accounts = _.without($scope.accounts, $account);
                         $scope.provideFeedback('Account deleted');
                         $scope.hideLoading();
                     })
@@ -435,7 +423,7 @@ var app = angular.module('budgetApp');
             }
         };
 
-    }); //end controller
+    });
 
 })();
 (function () {
