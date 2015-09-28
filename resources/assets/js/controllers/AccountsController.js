@@ -4,8 +4,6 @@ var app = angular.module('budgetApp');
 
     app.controller('AccountsController', function ($scope, $http, AccountsFactory) {
 
-        $scope.autocomplete = {};
-        $scope.edit_account = false;
         $scope.accounts = accounts;
         $scope.edit_account_popup = {};
 

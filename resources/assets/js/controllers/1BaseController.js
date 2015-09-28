@@ -10,11 +10,8 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         .controller('BaseController', base);
 
     function base ($scope, $sce, TotalsFactory, UsersFactory, FilterFactory, TransactionsFactory) {
-        /**
-         * Scope properties
-         */
+
         $scope.feedback_messages = [];
-        //$scope.totalsLoading = true;
         $scope.show = {
             popups: {},
             allocationPopup: false,

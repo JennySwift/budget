@@ -49,8 +49,11 @@
                 });
         };
 
+        /**
+         * $scope.edit_transaction.account wasn't updating with ng-model,
+         * so I'm doing it manually.
+         */
         $scope.fixEditTransactionAccount = function () {
-            //$scope.edit_transaction.account wasn't updating with ng-model, so I'm doing it manually.
             $account_id = $("#edit-transaction-account").val();
 
             $account_match = _.find($scope.accounts, function ($account) {
@@ -60,32 +63,6 @@
 
             $scope.edit_transaction.account.id = $account_id;
             $scope.edit_transaction.account.name = $account_name;
-        };
-
-        $scope.massEditTags = function () {
-            $scope.showLoading();
-            TransactionsFactory.updateMassTags()
-                .then(function (response) {
-                    multiSearch();
-                    $tag_array.length = 0;
-                    $tag_location.html($tag_array);
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-        $scope.massEditDescription = function () {
-            $scope.showLoading();
-            TransactionsFactory.updateMassDescription()
-                .then(function (response) {
-                    multiSearch();
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
         };
 
         $scope.updateAllocation = function ($keycode, $type, $value, $budget_id) {
@@ -123,8 +100,6 @@
                         jsDeleteTransaction($transaction);
                         $scope.getSideBarTotals();
                         //Todo: get filter totals with separate request
-                        //FilterFactory.updateDataForControllers(response.data);
-
                         $scope.provideFeedback('Transaction deleted');
                         $scope.hideLoading();
                     })
@@ -138,12 +113,6 @@
           var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
             $scope.transactions = _.without($scope.transactions, $scope.transactions[$index]);
         }
-
-        $("#mass-delete-button").on('click', function () {
-            if (confirm("You are about to delete " + $(".checked").length + " transactions. Are you sure you want to do this?")) {
-                massDelete();
-            }
-        });
 
     }
 

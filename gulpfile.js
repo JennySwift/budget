@@ -17,6 +17,7 @@ elixir(function(mix) {
     //mix.scripts(['plugins/*.js', 'controllers/*.js', 'factories/*.js', 'directives/*.js'], 'public/js/all.js');
     //mix.scripts('factories/*.js', 'public/js/factories.js');
 
+    mix.scripts('resources/assets/js/app.js', 'public/js/app.js');
     mix.stylesIn('resources/assets/css', 'public/css/plugins.css');
     mix.scriptsIn('resources/assets/js/controllers', 'public/js/controllers.js');
     mix.scriptsIn('resources/assets/js/factories', 'public/js/factories.js');
