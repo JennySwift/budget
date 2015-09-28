@@ -39,6 +39,16 @@
             }
         };
 
+        /**
+         * When this is needed:
+         * When filter is changed (FilterController)
+         * When new transaction is entered (NewTransactionController)
+         * When transaction is edited (TransactionsController)
+         *
+         * So if I put it in the FilterController, how will I update
+         * $scope.transactions in the TransactionsController when a
+         * new transaction is entered in the NewTransactionController?
+         */
         $scope.filterTransactions = function () {
             $scope.showLoading();
             FilterFactory.getTransactions($scope.filter)
@@ -74,6 +84,10 @@
                 })
         };
 
+        /**
+         * This is here because it calls $scope.runFilter,
+         * and that method is in this file
+         */
         $scope.resetFilter = function () {
             $scope.filter = FilterFactory.resetFilter();
             $scope.runFilter();
@@ -99,10 +113,20 @@
             $scope.graphsTab();
         }
 
+        /**
+         * This is here because it is called by $scope.runFilter,
+         * which is in this file.
+         */
         function calculateGraphFigures () {
             $scope.graphFigures = FilterFactory.calculateGraphFigures($scope.graphTotals);
         }
 
+        /**
+         * Although related to a new transaction, this is here,
+         * not in NewTransactionController,
+         * because it uses $scope.transactions.
+         * @param $transaction
+         */
         $scope.handleAllocationForNewTransaction = function ($transaction) {
             FilterFactory.getTransactions($scope.filter)
                 .then(function (response) {
@@ -123,6 +147,11 @@
                 })
         };
 
+        /**
+         * This is here because it is called by $scope.handleAllocationForNewTransaction,
+         * which is in this file
+         * @param $transaction
+         */
         $scope.showAllocationPopup = function ($transaction) {
             $scope.show.allocationPopup = true;
             $scope.allocationPopup = $transaction;
