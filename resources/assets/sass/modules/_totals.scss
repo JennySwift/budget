@@ -1,3 +1,14 @@
+#remaining-balance-totals {
+    position: relative;
+    .fa-pulse {
+        position: absolute;
+        top: 5px;
+        left: 10px;
+        font-size: 15px;
+        color: $info;
+    }
+}
+
 .totals {
     box-shadow: 3px 3px 10px #777;
     margin-bottom: 20px;

@@ -549,6 +549,15 @@ caption {
       -ms-flex-align: center;
       align-items: center; }
 
+#remaining-balance-totals {
+  position: relative; }
+  #remaining-balance-totals .fa-pulse {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    font-size: 15px;
+    color: #5bc0de; }
+
 .totals {
   box-shadow: 3px 3px 10px #777;
   margin-bottom: 20px;

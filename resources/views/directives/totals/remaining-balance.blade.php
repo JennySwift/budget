@@ -1,4 +1,6 @@
-<div ng-show="show.basic_totals">
+<div ng-show="show.basic_totals" id="remaining-balance-totals">
+
+    <i ng-if="totalsLoading" class="fa fa-spinner fa-pulse"></i>
 
     <table class="totals">
 

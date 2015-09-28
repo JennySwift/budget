@@ -2,6 +2,7 @@
         {{--totals="totals"--}}
         {{--basictotals="basicTotals"--}}
         sideBarTotals="sideBarTotals"
+        totalsLoading="totalsLoading"
         fixedbudgettotals="fixedBudgetTotals"
         flexbudgettotals="flexBudgetTotals"
         totalchanges="totalChanges"

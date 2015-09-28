@@ -11,6 +11,7 @@
             scope: {
                 //"totals": "=totals",
                 "sideBarTotals": "=sidebartotals",
+                "totalsLoading": "=totalsloading",
                 //"basicTotals": "=basictotals",
                 //"fixedBudgetTotals": "=fixedbudgettotals",
                 //"flexBudgetTotals": "=flexbudgettotals",

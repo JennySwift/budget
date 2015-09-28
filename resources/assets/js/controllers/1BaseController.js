@@ -14,6 +14,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
          * Scope properties
          */
         $scope.feedback_messages = [];
+        //$scope.totalsLoading = true;
         $scope.show = {
             popups: {},
             allocationPopup: false,
@@ -161,10 +162,10 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             }
 
             $scope.handleAllocationForNewTransaction = function ($transaction) {
-                FilterFactory.filterTransactions($scope.filter)
+                FilterFactory.getTransactions($scope.filter)
                     .then(function (response) {
                         $scope.hideLoading();
-                        $scope.transactions = response.data.transactions;
+                        $scope.transactions = response.data;
                         var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
                         if ($index !== -1) {
                             //The transaction that was just entered is in the filtered transactions
@@ -341,11 +342,11 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         if (typeof page !== 'undefined' && (page === 'home' || page === 'fixedBudgets' || page === 'flexBudgets' || page === 'unassignedBudgets')) {
 
             $scope.getSideBarTotals = function () {
-                $scope.showLoading();
+                $scope.totalsLoading = true;
                 TotalsFactory.getSideBarTotals()
                     .then(function (response) {
                         $scope.sideBarTotals = response.data.data;
-                        $scope.hideLoading();
+                        $scope.totalsLoading = false;
                     })
                     .catch(function (response) {
                         $scope.responseError(response);

@@ -134,6 +134,7 @@
 
                     if ($transaction.multipleBudgets) {
                         $scope.handleAllocationForNewTransaction($transaction);
+                        $scope.getFilterBasicTotals();
                     }
                     else {
                         $scope.runFilter();
