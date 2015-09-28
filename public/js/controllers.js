@@ -1,7 +1,7 @@
-var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function ($interpolateProvider) {
-    $interpolateProvider.startSymbol('[[');
-    $interpolateProvider.endSymbol(']]');
-});
+//var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function ($interpolateProvider) {
+//    $interpolateProvider.startSymbol('[[');
+//    $interpolateProvider.endSymbol(']]');
+//});
 
 (function () {
 
@@ -9,7 +9,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         .module('budgetApp')
         .controller('BaseController', base);
 
-    function base ($scope, $sce, TotalsFactory, UsersFactory, FilterFactory, TransactionsFactory) {
+    function base ($scope, $sce, TotalsFactory, FilterFactory, TransactionsFactory, ErrorsFactory) {
 
         $scope.feedback_messages = [];
         $scope.show = {
@@ -267,34 +267,7 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
         };
 
         $scope.responseError = function (response) {
-            if(typeof response !== "undefined") {
-                switch(response.status) {
-                    case 503:
-                        $scope.provideFeedback('Sorry, application under construction. Please try again later.', 'error');
-                        break;
-                    case 401:
-                        $scope.provideFeedback('You are not logged in', 'error');
-                        break;
-                    case 422:
-                        var html = "<ul>";
-                        angular.forEach(response.data, function(value, key) {
-                            var fieldName = key;
-                            angular.forEach(value, function(value) {
-                                html += '<li>'+value+'</li>';
-                            });
-                        });
-                        html += "</ul>";
-                        $scope.provideFeedback(html, 'error');
-                        break;
-                    default:
-                        $scope.provideFeedback(response.data.error, 'error');
-                        break;
-                }
-            }
-            else {
-                $scope.provideFeedback('There was an error', 'error');
-            }
-
+            $scope.provideFeedback(ErrorsFactory.responseError(response), 'error');
             $scope.hideLoading();
         };
 
@@ -302,23 +275,6 @@ var app = angular.module('budgetApp', ['checklist-model', 'ngAnimate'], function
             var $target = $event.target;
             if ($target.className === 'popup-outer') {
                 $scope.show.popups[$popup] = false;
-            }
-        };
-
-        $scope.deleteUser = function () {
-            if (confirm("Do you really want to delete your account?")) {
-                if (confirm("You are about to delete your account! You will no longer be able to use the budget app. Are you sure this is what you want?")) {
-                    $scope.showLoading();
-                    UsersFactory.deleteAccount($scope.me)
-                        .then(function (response) {
-                            //$scope. = response.data;
-                            $scope.provideFeedback('Your account has been deleted');
-                            $scope.hideLoading();
-                        })
-                        .catch(function (response) {
-                            $scope.responseError(response);
-                        });
-                }
             }
         };
 

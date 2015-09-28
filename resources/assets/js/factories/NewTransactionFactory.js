@@ -15,9 +15,7 @@ app.factory('NewTransactionFactory', function ($http) {
     };
 
     $object.getDefaults = function ($env, $accounts) {
-        /**
-         * Fill in the new transaction fields if development environment
-         */
+        //Fill in the new transaction fields if development environment
         if ($env === 'local') {
             $defaults.total = 10;
             $defaults.type = 'expense';

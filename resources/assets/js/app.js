@@ -20,7 +20,7 @@ app.config(function ($interpolateProvider) {
 
 app.run(runBlock);
 
-function runBlock ($rootScope) {
+function runBlock ($rootScope, UsersFactory) {
 
     $rootScope.show = {
         popups: {}
@@ -79,6 +79,7 @@ function runBlock ($rootScope) {
         }, 3000);
     };
 
+    //Todo: fix methods here that aren't defined in $rootScope
     $rootScope.deleteUser = function () {
         if (confirm("Do you really want to delete your account?")) {
             if (confirm("You are about to delete your account! You will no longer be able to use the budget app. Are you sure this is what you want?")) {
