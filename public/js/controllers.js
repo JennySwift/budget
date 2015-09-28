@@ -709,7 +709,7 @@ var app = angular.module('budgetApp');
                 return false;
             }
             $scope.resetOffset();
-            $scope.filter(true);
+            $scope.runFilter(true);
         };
 
         $scope.filterDate = function ($keycode) {
