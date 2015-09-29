@@ -9,6 +9,7 @@
         $scope.filterFactory = FilterFactory;
         $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
+        $scope.accounts = accounts_response;
 
         //$scope.resetFilter = function () {
         //    FilterFactory.resetFilter();
