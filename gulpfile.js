@@ -19,6 +19,7 @@ elixir(function(mix) {
 
     mix.scripts('resources/assets/js/app.js', 'public/js/app.js');
     mix.stylesIn('resources/assets/css', 'public/css/plugins.css');
+    mix.scriptsIn('resources/assets/js/filters', 'public/js/filters.js');
     mix.scriptsIn('resources/assets/js/controllers', 'public/js/controllers.js');
     mix.scriptsIn('resources/assets/js/factories', 'public/js/factories.js');
     mix.scriptsIn('resources/assets/js/directives', 'public/js/directives.js');

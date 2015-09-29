@@ -38,24 +38,6 @@ function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, E
         $rootScope.env = env;
     }
 
-    /**
-     * Todo: custom angular filter
-     * @param $date
-     * @returns {*}
-     */
-    $rootScope.formatDate = function ($date) {
-        if ($date) {
-            if (!Date.parse($date)) {
-                $rootScope.provideFeedback('Date is invalid', 'error');
-                return false;
-            }
-            else {
-                return Date.parse($date).toString('yyyy-MM-dd');
-            }
-        }
-        return false;
-    };
-
     $rootScope.clearTotalChanges = function () {
         $rootScope.totalChanges = {};
     };

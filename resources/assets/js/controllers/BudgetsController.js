@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('BudgetsController', budgets);
 
-    function budgets ($scope, BudgetsFactory, TotalsFactory) {
+    function budgets ($scope, $filter, BudgetsFactory, TotalsFactory) {
 
         $scope.toggleNewBudget = function () {
             $scope.show.newBudget = true;
@@ -69,7 +69,9 @@
 
             $scope.clearTotalChanges();
             $scope.showLoading();
-            $budget.sql_starting_date = $scope.formatDate($budget.starting_date);
+            //$budget.sql_starting_date = $scope.formatDate($budget.starting_date);
+            //$budget.sql_starting_date = $budget.starting_date;
+            $budget.sql_starting_date = $filter('formatDate')($budget.starting_date);
             BudgetsFactory.insert($budget)
                 .then(function (response) {
                     jsInsertBudget(response);
@@ -113,6 +115,7 @@
             $scope.clearTotalChanges();
             $scope.showLoading();
             $scope.budget_popup.sqlStartingDate = $scope.formatDate($scope.budget_popup.formattedStartingDate);
+            //$scope.budget_popup.sqlStartingDate = $scope.budget_popup.formattedStartingDate;
             BudgetsFactory.update($scope.budget_popup)
                 .then(function (response) {
                     jsUpdateBudget(response);
