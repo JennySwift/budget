@@ -5,7 +5,7 @@
         .directive('tagAutocompleteDirective', tagAutocomplete);
 
     /* @inject */
-    function tagAutocomplete($sce) {
+    function tagAutocomplete($sce, $rootScope) {
         return {
             restrict: 'EA',
             scope: {
@@ -75,7 +75,7 @@
                     var $tag_id = $scope.results[$scope.currentIndex].id;
 
                     if (!$scope.duplicateTagCheck($tag_id, $scope.chosenTags)) {
-                        //$scope.provideFeedback('You have already entered that tag');
+                        //$rootScope.$broadcast('provideFeedback', 'You have already entered that tag');
                         $scope.hideAndClear();
                         return;
                     }

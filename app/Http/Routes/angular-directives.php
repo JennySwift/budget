@@ -7,6 +7,10 @@ Route::get('checkboxes', function () {
     return view('directives/CheckboxesTemplate');
 });
 
+Route::get('feedback', function () {
+    return view('directives/feedback');
+});
+
 Route::get('filter', function () {
     return view('directives/FilterTemplate');
 });

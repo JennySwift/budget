@@ -2,7 +2,7 @@ var app = angular.module('budgetApp');
 
 (function () {
 
-    app.controller('AccountsController', function ($scope, $http, AccountsFactory) {
+    app.controller('AccountsController', function ($rootScope, $scope, $http, AccountsFactory) {
 
         $scope.accounts = accounts;
         $scope.edit_account_popup = {};
@@ -16,7 +16,7 @@ var app = angular.module('budgetApp');
             AccountsFactory.insertAccount()
                 .then(function (response) {
                     $scope.accounts.push(response.data);
-                    $scope.provideFeedback('Account added');
+                    $rootScope.$broadcast('provideFeedback', 'Account added');
                     $("#new_account_input").val("");
                     $scope.hideLoading();
                 })
@@ -36,7 +36,7 @@ var app = angular.module('budgetApp');
                 .then(function (response) {
                     var $index = _.indexOf($scope.accounts, _.findWhere($scope.accounts, {id: $scope.edit_account_popup.id}));
                     $scope.accounts[$index] = response.data;
-                    $scope.provideFeedback('Account edited');
+                    $rootScope.$broadcast('provideFeedback', 'Account edited');
                     $scope.show.popups.edit_account = false;
                     $scope.hideLoading();
                 })
@@ -51,7 +51,7 @@ var app = angular.module('budgetApp');
                 AccountsFactory.deleteAccount($account)
                     .then(function (response) {
                         $scope.accounts = _.without($scope.accounts, $account);
-                        $scope.provideFeedback('Account deleted');
+                        $rootScope.$broadcast('provideFeedback', 'Account deleted');
                         $scope.hideLoading();
                     })
                     .catch(function (response) {
@@ -69,7 +69,7 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('BudgetsController', budgets);
 
-    function budgets ($scope, $filter, BudgetsFactory, TotalsFactory) {
+    function budgets ($rootScope, $scope, $filter, BudgetsFactory, TotalsFactory) {
 
         $scope.toggleNewBudget = function () {
             $scope.show.newBudget = true;
@@ -141,7 +141,7 @@ var app = angular.module('budgetApp');
                 .then(function (response) {
                     jsInsertBudget(response);
                     $scope.getSideBarTotals();
-                    $scope.provideFeedback('Budget created');
+                    $rootScope.$broadcast('provideFeedback', 'Budget created');
 
                     if ($budget.type === 'fixed' && page === 'fixedBudgets') {
                         $scope.getFixedBudgetTotals();
@@ -214,7 +214,7 @@ var app = angular.module('budgetApp');
                         $scope.getSideBarTotals();
                         jsDeleteBudget($budget);
                         $scope.hideLoading();
-                        $scope.provideFeedback('Budget deleted');
+                        $rootScope.$broadcast('provideFeedback', 'Budget deleted');
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
@@ -668,7 +668,7 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('NewTransactionController', newTransaction);
 
-    function newTransaction ($scope, NewTransactionFactory, TransactionsFactory, FilterFactory) {
+    function newTransaction ($rootScope, $scope, NewTransactionFactory, TransactionsFactory, FilterFactory) {
 
         $scope.dropdown = {};
         $scope.types = ["income", "expense", "transfer"];
@@ -688,7 +688,7 @@ var app = angular.module('budgetApp');
 
             if ($errorMessages) {
                 for (var i = 0; i < $errorMessages.length; i++) {
-                    $scope.provideFeedback($errorMessages[i], 'error');
+                    $rootScope.$broadcast('provideFeedback', $errorMessages[i], 'error');
                 }
 
                 return true;
@@ -721,7 +721,7 @@ var app = angular.module('budgetApp');
             TransactionsFactory.insertIncomeOrExpenseTransaction($scope.new_transaction)
                 .then(function (response) {
                     var $transaction = response.data.data;
-                    $scope.provideFeedback('Transaction added');
+                    $rootScope.$broadcast('provideFeedback', 'Transaction added');
                     clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
                     $scope.getSideBarTotals();
@@ -752,7 +752,7 @@ var app = angular.module('budgetApp');
             $scope.showLoading();
             TransactionsFactory.insertTransferTransaction($scope.new_transaction, $direction)
                 .then(function (response) {
-                    $scope.provideFeedback('Transfer added');
+                    $rootScope.$broadcast('provideFeedback', 'Transfer added');
                     clearNewTransactionFields();
                     $scope.getSideBarTotals();
                     $scope.runFilter();
@@ -774,7 +774,7 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('PreferencesController', preferences);
 
-    function preferences ($scope, PreferencesFactory) {
+    function preferences ($rootScope, $scope, PreferencesFactory) {
 
         $scope.colors = me.preferences.colors;
 
@@ -789,7 +789,7 @@ var app = angular.module('budgetApp');
         $scope.savePreferences = function () {
             PreferencesFactory.savePreferences($scope.me.preferences)
                 .then(function (response) {
-                    $scope.provideFeedback('Preferences saved');
+                    $rootScope.$broadcast('provideFeedback', 'Preferences saved');
                     //$scope. = response.data;
                 })
                 .catch(function (response) {
@@ -817,7 +817,7 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('TransactionsController', transactions);
 
-    function transactions ($scope, TransactionsFactory, FilterFactory) {
+    function transactions ($rootScope, $scope, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
@@ -852,7 +852,7 @@ var app = angular.module('budgetApp');
             TransactionsFactory.updateTransaction($scope.edit_transaction)
                 .then(function (response) {
                     $scope.getSideBarTotals();
-                    $scope.provideFeedback('Transaction updated');
+                    $rootScope.$broadcast('provideFeedback', 'Transaction updated');
                     $scope.show.edit_transaction = false;
                     $scope.totals = response.data;
                     $scope.hideLoading();
@@ -913,7 +913,7 @@ var app = angular.module('budgetApp');
                         jsDeleteTransaction($transaction);
                         $scope.getSideBarTotals();
                         //Todo: get filter totals with separate request
-                        $scope.provideFeedback('Transaction deleted');
+                        $rootScope.$broadcast('provideFeedback', 'Transaction deleted');
                         $scope.hideLoading();
                     })
                     .catch(function (response) {

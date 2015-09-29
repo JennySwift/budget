@@ -2,7 +2,7 @@ var app = angular.module('budgetApp');
 
 (function () {
 
-    app.controller('AccountsController', function ($scope, $http, AccountsFactory) {
+    app.controller('AccountsController', function ($rootScope, $scope, $http, AccountsFactory) {
 
         $scope.accounts = accounts;
         $scope.edit_account_popup = {};
@@ -16,7 +16,7 @@ var app = angular.module('budgetApp');
             AccountsFactory.insertAccount()
                 .then(function (response) {
                     $scope.accounts.push(response.data);
-                    $scope.provideFeedback('Account added');
+                    $rootScope.$broadcast('provideFeedback', 'Account added');
                     $("#new_account_input").val("");
                     $scope.hideLoading();
                 })
@@ -36,7 +36,7 @@ var app = angular.module('budgetApp');
                 .then(function (response) {
                     var $index = _.indexOf($scope.accounts, _.findWhere($scope.accounts, {id: $scope.edit_account_popup.id}));
                     $scope.accounts[$index] = response.data;
-                    $scope.provideFeedback('Account edited');
+                    $rootScope.$broadcast('provideFeedback', 'Account edited');
                     $scope.show.popups.edit_account = false;
                     $scope.hideLoading();
                 })
@@ -51,7 +51,7 @@ var app = angular.module('budgetApp');
                 AccountsFactory.deleteAccount($account)
                     .then(function (response) {
                         $scope.accounts = _.without($scope.accounts, $account);
-                        $scope.provideFeedback('Account deleted');
+                        $rootScope.$broadcast('provideFeedback', 'Account deleted');
                         $scope.hideLoading();
                     })
                     .catch(function (response) {

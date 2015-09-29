@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('PreferencesController', preferences);
 
-    function preferences ($scope, PreferencesFactory) {
+    function preferences ($rootScope, $scope, PreferencesFactory) {
 
         $scope.colors = me.preferences.colors;
 
@@ -19,7 +19,7 @@
         $scope.savePreferences = function () {
             PreferencesFactory.savePreferences($scope.me.preferences)
                 .then(function (response) {
-                    $scope.provideFeedback('Preferences saved');
+                    $rootScope.$broadcast('provideFeedback', 'Preferences saved');
                     //$scope. = response.data;
                 })
                 .catch(function (response) {

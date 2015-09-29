@@ -3,7 +3,7 @@ angular.module('budgetApp')
         return function (input) {
             if (input) {
                 if (!Date.parse(input)) {
-                    //$rootScope.$broadcast('provideFeedback', {message: 'Date is invalid', type:'error'});
+                    $rootScope.$broadcast('provideFeedback', 'Date is invalid', 'error');
                     return input;
                 } else {
                     return Date.parse(input).toString('yyyy-MM-dd');

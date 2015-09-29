@@ -7,7 +7,6 @@ but it's so I have a value for the master template--}}
 @section('page-content')
 
     @include('templates.header')
-    @include('templates.feedback')
     @include('templates/help/help-navigation')
 
     <h1>Help</h1>

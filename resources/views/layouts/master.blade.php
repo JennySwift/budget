@@ -18,7 +18,8 @@
 
             @include('templates.header')
 
-            @include('templates.feedback')
+            {{--@include('directives.feedback')--}}
+            <feedback-directive></feedback-directive>
 
             @section('page-content')
             @show

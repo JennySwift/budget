@@ -24,11 +24,7 @@ function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, E
 
     $rootScope.show = ShowFactory.defaults;
 
-    $rootScope.feedback_messages = [];
-
     $rootScope.totalChanges = {};
-
-    $rootScope.feedback_messages = [];
 
     $rootScope.clearTotalChanges = function () {
         $rootScope.totalChanges = {};
@@ -38,30 +34,12 @@ function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, E
         $rootScope.env = env;
     }
 
-    /**
-     * Todo: custom angular filter
-     * @param $date
-     * @returns {*}
-     */
-    $rootScope.formatDate = function ($date) {
-        if ($date) {
-            if (!Date.parse($date)) {
-                $rootScope.provideFeedback('Date is invalid', 'error');
-                return false;
-            }
-            else {
-                return Date.parse($date).toString('yyyy-MM-dd');
-            }
-        }
-        return false;
-    };
-
     $rootScope.clearTotalChanges = function () {
         $rootScope.totalChanges = {};
     };
 
     $rootScope.responseError = function (response) {
-        $rootScope.provideFeedback(ErrorsFactory.responseError(response), 'error');
+        $rootScope.$broadcast('provideFeedback', ErrorsFactory.responseError(response), 'error');
         $rootScope.hideLoading();
     };
 
@@ -102,27 +80,13 @@ function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, E
         $rootScope.loading = false;
     };
 
-    $rootScope.provideFeedback = function ($message, $type) {
-        var $new = {
-            message: $sce.trustAsHtml($message),
-            type: $type
-        };
-
-        $rootScope.feedback_messages.push($new);
-
-        setTimeout(function () {
-            $rootScope.feedback_messages = _.without($rootScope.feedback_messages, $new);
-            $rootScope.$apply();
-        }, 3000);
-    };
-
     $rootScope.deleteUser = function () {
         if (confirm("Do you really want to delete your account?")) {
             if (confirm("You are about to delete your account! You will no longer be able to use the budget app. Are you sure this is what you want?")) {
                 $rootScope.showLoading();
                 UsersFactory.deleteAccount(me)
                     .then(function (response) {
-                        $rootScope.provideFeedback('Your account has been deleted');
+                        $rootScope.$broadcast('provideFeedback', 'Your account has been deleted');
                         $rootScope.hideLoading();
                     })
                     .catch(function (response) {

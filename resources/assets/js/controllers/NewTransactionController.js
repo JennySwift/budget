@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('NewTransactionController', newTransaction);
 
-    function newTransaction ($scope, NewTransactionFactory, TransactionsFactory, FilterFactory) {
+    function newTransaction ($rootScope, $scope, NewTransactionFactory, TransactionsFactory, FilterFactory) {
 
         $scope.dropdown = {};
         $scope.types = ["income", "expense", "transfer"];
@@ -24,7 +24,7 @@
 
             if ($errorMessages) {
                 for (var i = 0; i < $errorMessages.length; i++) {
-                    $scope.provideFeedback($errorMessages[i], 'error');
+                    $rootScope.$broadcast('provideFeedback', $errorMessages[i], 'error');
                 }
 
                 return true;
@@ -57,7 +57,7 @@
             TransactionsFactory.insertIncomeOrExpenseTransaction($scope.new_transaction)
                 .then(function (response) {
                     var $transaction = response.data.data;
-                    $scope.provideFeedback('Transaction added');
+                    $rootScope.$broadcast('provideFeedback', 'Transaction added');
                     clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
                     $scope.getSideBarTotals();
@@ -88,7 +88,7 @@
             $scope.showLoading();
             TransactionsFactory.insertTransferTransaction($scope.new_transaction, $direction)
                 .then(function (response) {
-                    $scope.provideFeedback('Transfer added');
+                    $rootScope.$broadcast('provideFeedback', 'Transfer added');
                     clearNewTransactionFields();
                     $scope.getSideBarTotals();
                     $scope.runFilter();

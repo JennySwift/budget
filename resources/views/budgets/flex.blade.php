@@ -16,7 +16,6 @@
         <div id="budget-content">
 
             @include('templates.budgets.totals')
-            @include('templates.feedback')
 
             <div class="budget-table">
                 @include('templates.budgets.flex-budget-table')

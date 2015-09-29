@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('TransactionsController', transactions);
 
-    function transactions ($scope, TransactionsFactory, FilterFactory) {
+    function transactions ($rootScope, $scope, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
@@ -39,7 +39,7 @@
             TransactionsFactory.updateTransaction($scope.edit_transaction)
                 .then(function (response) {
                     $scope.getSideBarTotals();
-                    $scope.provideFeedback('Transaction updated');
+                    $rootScope.$broadcast('provideFeedback', 'Transaction updated');
                     $scope.show.edit_transaction = false;
                     $scope.totals = response.data;
                     $scope.hideLoading();
@@ -100,7 +100,7 @@
                         jsDeleteTransaction($transaction);
                         $scope.getSideBarTotals();
                         //Todo: get filter totals with separate request
-                        $scope.provideFeedback('Transaction deleted');
+                        $rootScope.$broadcast('provideFeedback', 'Transaction deleted');
                         $scope.hideLoading();
                     })
                     .catch(function (response) {

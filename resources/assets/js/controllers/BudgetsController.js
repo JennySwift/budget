@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('BudgetsController', budgets);
 
-    function budgets ($scope, $filter, BudgetsFactory, TotalsFactory) {
+    function budgets ($rootScope, $scope, $filter, BudgetsFactory, TotalsFactory) {
 
         $scope.toggleNewBudget = function () {
             $scope.show.newBudget = true;
@@ -76,7 +76,7 @@
                 .then(function (response) {
                     jsInsertBudget(response);
                     $scope.getSideBarTotals();
-                    $scope.provideFeedback('Budget created');
+                    $rootScope.$broadcast('provideFeedback', 'Budget created');
 
                     if ($budget.type === 'fixed' && page === 'fixedBudgets') {
                         $scope.getFixedBudgetTotals();
@@ -149,7 +149,7 @@
                         $scope.getSideBarTotals();
                         jsDeleteBudget($budget);
                         $scope.hideLoading();
-                        $scope.provideFeedback('Budget deleted');
+                        $rootScope.$broadcast('provideFeedback', 'Budget deleted');
                     })
                     .catch(function (response) {
                         $scope.responseError(response);
