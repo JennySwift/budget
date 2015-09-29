@@ -26,5 +26,3 @@
         </div>
 
     @include('templates.shared.footer')
-    @include('templates/home/footer')
-    @include('footer')
