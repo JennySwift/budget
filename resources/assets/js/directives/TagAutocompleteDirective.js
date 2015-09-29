@@ -19,7 +19,7 @@
                 "id": "@id",
                 "focusOnEnter": "@focusonenter"
             },
-            templateUrl: 'tag-autocomplete',
+            templateUrl: 'tag-autocomplete-template',
             link: function($scope, elem, attrs) {
                 $scope.results = {};
                 $scope.messages = {};

@@ -12,7 +12,7 @@
                 "model": "=model",
                 "id": "@id"
             },
-            templateUrl: 'checkboxes',
+            templateUrl: 'checkboxes-template',
             link: function($scope, elem, attrs) {
                 $scope.animateIn = attrs.animateIn || 'zoomIn';
                 $scope.animateOut = attrs.animateOut || 'zoomOut';

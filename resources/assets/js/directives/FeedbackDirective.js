@@ -2,7 +2,7 @@ angular.module('budgetApp')
     .directive('feedbackDirective', function ($sce, $timeout) {
         return {
             scope: {},
-            templateUrl: '/feedback',
+            templateUrl: 'feedback-template',
 
             link: function ($scope) {
                 $scope.feedbackMessages = [];

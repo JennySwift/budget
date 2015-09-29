@@ -12,7 +12,7 @@
                 "model": "=model",
                 "id": "@id"
             },
-            templateUrl: 'checkboxes',
+            templateUrl: 'checkboxes-template',
             link: function($scope, elem, attrs) {
                 $scope.animateIn = attrs.animateIn || 'zoomIn';
                 $scope.animateOut = attrs.animateOut || 'zoomOut';
@@ -116,7 +116,7 @@ angular.module('budgetApp')
     .directive('feedbackDirective', function ($sce, $timeout) {
         return {
             scope: {},
-            templateUrl: '/feedback',
+            templateUrl: 'feedback-template',
 
             link: function ($scope) {
                 $scope.feedbackMessages = [];
@@ -208,7 +208,7 @@ angular.module('budgetApp')
                 "id": "@id",
                 "focusOnEnter": "@focusonenter"
             },
-            templateUrl: 'tag-autocomplete',
+            templateUrl: 'tag-autocomplete-template',
             link: function($scope, elem, attrs) {
                 $scope.results = {};
                 $scope.messages = {};
@@ -401,7 +401,7 @@ angular.module('budgetApp')
                 "show": "=show"
             },
             //template: $('script#totals').html(),
-            templateUrl: '/totals-directive',
+            templateUrl: 'totals-template',
             //scope: true,
             link: function($scope, elem, attrs) {
 
@@ -509,7 +509,7 @@ angular.module('budgetApp')
                 "hideLoading": "&hideloading",
                 "loading": "=loading"
             },
-            templateUrl: 'transaction-autocomplete',
+            templateUrl: 'transaction-autocomplete-template',
             link: function($scope, elem, attrs) {
                 $scope.results = {};
 

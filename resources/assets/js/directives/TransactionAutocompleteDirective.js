@@ -18,7 +18,7 @@
                 "hideLoading": "&hideloading",
                 "loading": "=loading"
             },
-            templateUrl: 'transaction-autocomplete',
+            templateUrl: 'transaction-autocomplete-template',
             link: function($scope, elem, attrs) {
                 $scope.results = {};
 

@@ -5,6 +5,13 @@
 
 <script type="text/javascript" src="/js/plugins.js"></script>
 <script type="text/javascript" src="/js/app.js"></script>
+
+@include('directives.feedback')
+@include('directives.totals')
+@include('directives.tag-autocomplete')
+@include('directives.transaction-autocomplete')
+@include('directives.checkboxes')
+
 <script type="text/javascript" src="/js/filters.js"></script>
 <script type="text/javascript" src="/js/controllers.js"></script>
 <script type="text/javascript" src="/js/factories.js"></script>
