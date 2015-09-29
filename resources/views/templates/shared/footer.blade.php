@@ -1,5 +1,5 @@
 
-@include('templates/real-footer')
+@include('templates.shared.real-footer')
 
 {{--<script type="text/javascript" src="js/all.js"></script>--}}
 

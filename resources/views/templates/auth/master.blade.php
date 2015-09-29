@@ -17,13 +17,13 @@
 </head>
 
 <body>
-    @include('templates.header')
+    @include('templates.shared.header')
     <div class="main">
         @section('content')
         @show
     </div>
 
-    @include('templates/real-footer')
+    @include('templates.shared.real-footer')
 
 </body>
 

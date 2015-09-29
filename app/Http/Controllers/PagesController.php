@@ -48,7 +48,7 @@ class PagesController extends Controller {
             'filterBasicTotals' => $filter->getBasicTotals(),
         ]);
 
-        return view('home');
+        return view('pages/home');
     }
 
     /**
@@ -66,7 +66,7 @@ class PagesController extends Controller {
             'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
         ]);
 
-        return view('budgets/fixed');
+        return view('pages/budgets/fixed');
     }
 
     /**
@@ -84,7 +84,7 @@ class PagesController extends Controller {
             'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
         ]);
 
-        return view('budgets/flex');
+        return view('pages/budgets/flex');
     }
 
     /**
@@ -102,7 +102,7 @@ class PagesController extends Controller {
 //            'unassignedBudgetTotals' => $remainingBalance->unassignedBudgetTotals->toArray(),
         ]);
 
-        return view('budgets/unassigned');
+        return view('pages/budgets/unassigned');
     }
 
     public function preferences()
@@ -111,7 +111,7 @@ class PagesController extends Controller {
             'me' => Auth::user(),
         ]);
 
-        return view('preferences');
+        return view('pages/preferences');
     }
 
     /**
@@ -126,7 +126,7 @@ class PagesController extends Controller {
             'accounts' => Account::getAccounts(),
         ]);
 
-        return view('accounts');
+        return view('pages/accounts');
     }
 
     /**
@@ -140,7 +140,7 @@ class PagesController extends Controller {
             'me' => Auth::user(),
         ]);
 
-        return view('help');
+        return view('pages/help');
     }
 
 }

@@ -27,7 +27,7 @@
 
 
     <div ng-controller="FilterController">
-        @include('templates/filter')
+        @include('templates.shared.filter')
     </div>
 
 </div>
