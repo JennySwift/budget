@@ -10,6 +10,18 @@
         $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
 
+        $rootScope.$on('filterTransactions', function (event, data) {
+            $scope.showLoading();
+            FilterFactory.getTransactions($scope.filter)
+                .then(function (response) {
+                    $scope.transactions = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        });
+
         $scope.updateReconciliation = function ($transaction) {
             $scope.clearTotalChanges();
             $scope.showLoading();

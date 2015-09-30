@@ -13346,7 +13346,7 @@ var app = angular.module('budgetApp');
         $rootScope.$on('runFilter', function (event, data) {
             $scope.getFilterBasicTotals();
             if ($scope.tab === 'transactions') {
-                $scope.filterTransactions();
+                $scope.$emit('filterTransactions');
             }
             else {
                 $scope.getGraphTotals();
@@ -13560,28 +13560,6 @@ var app = angular.module('budgetApp');
 
         $scope.filter = FilterFactory.filter;
         $scope.filterTotals = filterBasicTotals;
-
-        /**
-         * When this is needed:
-         * When filter is changed (FilterController)
-         * When new transaction is entered (NewTransactionController)
-         * When transaction is edited (TransactionsController)
-         *
-         * So if I put it in the FilterController, how will I update
-         * $scope.transactions in the TransactionsController when a
-         * new transaction is entered in the NewTransactionController?
-         */
-        $scope.filterTransactions = function () {
-            $scope.showLoading();
-            FilterFactory.getTransactions($scope.filter)
-                .then(function (response) {
-                    $scope.transactions = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
 
         $scope.getFilterBasicTotals = function () {
             FilterFactory.getBasicTotals($scope.filter)
@@ -13889,6 +13867,18 @@ var app = angular.module('budgetApp');
         $scope.transactionsFactory = TransactionsFactory;
         $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
+
+        $rootScope.$on('filterTransactions', function (event, data) {
+            $scope.showLoading();
+            FilterFactory.getTransactions($scope.filter)
+                .then(function (response) {
+                    $scope.transactions = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        });
 
         $scope.updateReconciliation = function ($transaction) {
             $scope.clearTotalChanges();
@@ -14949,16 +14939,6 @@ angular.module('budgetApp')
                         $scope.feedbackMessages = _.without($scope.feedbackMessages, newMessage);
                     }, 3000);
                 });
-
-                //$scope.$on('runFilter', function (event, data) {
-                //    $scope.getFilterBasicTotals();
-                //    if ($scope.tab === 'transactions') {
-                //        $scope.filterTransactions();
-                //    }
-                //    else {
-                //        $scope.getGraphTotals();
-                //    }
-                //});
             }
         }
     });

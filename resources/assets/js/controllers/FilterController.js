@@ -18,7 +18,7 @@
         $rootScope.$on('runFilter', function (event, data) {
             $scope.getFilterBasicTotals();
             if ($scope.tab === 'transactions') {
-                $scope.filterTransactions();
+                $scope.$emit('filterTransactions');
             }
             else {
                 $scope.getGraphTotals();

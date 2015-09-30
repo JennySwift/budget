@@ -29,28 +29,6 @@
         $scope.filter = FilterFactory.filter;
         $scope.filterTotals = filterBasicTotals;
 
-        /**
-         * When this is needed:
-         * When filter is changed (FilterController)
-         * When new transaction is entered (NewTransactionController)
-         * When transaction is edited (TransactionsController)
-         *
-         * So if I put it in the FilterController, how will I update
-         * $scope.transactions in the TransactionsController when a
-         * new transaction is entered in the NewTransactionController?
-         */
-        $scope.filterTransactions = function () {
-            $scope.showLoading();
-            FilterFactory.getTransactions($scope.filter)
-                .then(function (response) {
-                    $scope.transactions = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
         $scope.getFilterBasicTotals = function () {
             FilterFactory.getBasicTotals($scope.filter)
                 .then(function (response) {

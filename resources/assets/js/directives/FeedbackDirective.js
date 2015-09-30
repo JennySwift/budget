@@ -18,16 +18,6 @@ angular.module('budgetApp')
                         $scope.feedbackMessages = _.without($scope.feedbackMessages, newMessage);
                     }, 3000);
                 });
-
-                //$scope.$on('runFilter', function (event, data) {
-                //    $scope.getFilterBasicTotals();
-                //    if ($scope.tab === 'transactions') {
-                //        $scope.filterTransactions();
-                //    }
-                //    else {
-                //        $scope.getGraphTotals();
-                //    }
-                //});
             }
         }
     });
