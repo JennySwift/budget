@@ -5,7 +5,7 @@
         .directive('tagAutocompleteDirective', tagAutocomplete);
 
     /* @inject */
-    function tagAutocomplete($sce, $rootScope) {
+    function tagAutocomplete($sce) {
         return {
             restrict: 'EA',
             scope: {

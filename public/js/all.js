@@ -13919,11 +13919,6 @@ var app = angular.module('budgetApp');
                 })
         });
 
-        /**
-         * This is here because it is called by $scope.handleAllocationForNewTransaction,
-         * which is in this file
-         * @param $transaction
-         */
         $scope.showAllocationPopup = function ($transaction) {
             $scope.show.allocationPopup = true;
             $scope.allocationPopup = $transaction;
@@ -14856,13 +14851,7 @@ app.factory('UsersFactory', function ($http) {
     function dropdown($parse, $http) {
         return {
             restrict: 'EA',
-            //scope: {
-            //    //"id": "@id",
-            //    //"selectedObject": "=selectedobject",
-            //    'url': '@url',
-            //    'showPopup': '=show'
-            //},
-            //templateUrl: 'templates/DropdownsTemplate.php',
+
             scope: true,
             link: function($scope, elem, attrs) {
                 $scope.animateIn = attrs.animateIn || 'flipInX';
@@ -14936,16 +14925,9 @@ angular.module('budgetApp')
         .directive('filterDropdownsDirective', filterDropdown);
 
     /* @inject */
-    function filterDropdown($parse, $http) {
+    function filterDropdown() {
         return {
             restrict: 'A',
-            //scope: {
-            //    //"model": "=model",
-            //    //"id": "@id"
-            //    "types": "=types",
-            //    "path": "@path"
-            //},
-            //templateUrl: 'filter-dropdowns',
             scope: true,
             link: function($scope, elem, attrs) {
                 $scope.content = $(elem).find('.content');
@@ -14986,7 +14968,7 @@ angular.module('budgetApp')
         .directive('tagAutocompleteDirective', tagAutocomplete);
 
     /* @inject */
-    function tagAutocomplete($sce, $rootScope) {
+    function tagAutocomplete($sce) {
         return {
             restrict: 'EA',
             scope: {
@@ -15176,25 +15158,17 @@ angular.module('budgetApp')
         .module('budgetApp')
         .directive('totalsDirective', totals);
 
-    /* @inject */
-    function totals(SavingsFactory, FilterFactory) {
+    function totals() {
         return {
             restrict: 'EA',
             scope: {
-                //"totals": "=totals",
                 "sideBarTotals": "=sidebartotals",
                 "totalsLoading": "=totalsloading",
-                //"basicTotals": "=basictotals",
-                //"fixedBudgetTotals": "=fixedbudgettotals",
-                //"flexBudgetTotals": "=flexbudgettotals",
-                //"remainingBalance": "=remainingbalance",
                 "totalChanges": "=totalchanges",
                 "provideFeedback" : "&providefeedback",
                 "show": "=show"
             },
-            //template: $('script#totals').html(),
             templateUrl: 'totals-template',
-            //scope: true,
             link: function($scope, elem, attrs) {
 
                 $scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
@@ -15287,7 +15261,6 @@ angular.module('budgetApp')
         .module('budgetApp')
         .directive('transactionAutocompleteDirective', transactionAutocomplete);
 
-    /* @inject */
     function transactionAutocomplete(AutocompleteFactory, $sce, $http, $interval) {
         return {
             restrict: 'EA',

@@ -130,11 +130,6 @@
                 })
         });
 
-        /**
-         * This is here because it is called by $scope.handleAllocationForNewTransaction,
-         * which is in this file
-         * @param $transaction
-         */
         $scope.showAllocationPopup = function ($transaction) {
             $scope.show.allocationPopup = true;
             $scope.allocationPopup = $transaction;

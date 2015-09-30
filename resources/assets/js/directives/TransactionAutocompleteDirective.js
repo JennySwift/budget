@@ -4,7 +4,6 @@
         .module('budgetApp')
         .directive('transactionAutocompleteDirective', transactionAutocomplete);
 
-    /* @inject */
     function transactionAutocomplete(AutocompleteFactory, $sce, $http, $interval) {
         return {
             restrict: 'EA',

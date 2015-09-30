@@ -4,25 +4,17 @@
         .module('budgetApp')
         .directive('totalsDirective', totals);
 
-    /* @inject */
-    function totals(SavingsFactory, FilterFactory) {
+    function totals() {
         return {
             restrict: 'EA',
             scope: {
-                //"totals": "=totals",
                 "sideBarTotals": "=sidebartotals",
                 "totalsLoading": "=totalsloading",
-                //"basicTotals": "=basictotals",
-                //"fixedBudgetTotals": "=fixedbudgettotals",
-                //"flexBudgetTotals": "=flexbudgettotals",
-                //"remainingBalance": "=remainingbalance",
                 "totalChanges": "=totalchanges",
                 "provideFeedback" : "&providefeedback",
                 "show": "=show"
             },
-            //template: $('script#totals').html(),
             templateUrl: 'totals-template',
-            //scope: true,
             link: function($scope, elem, attrs) {
 
                 $scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {

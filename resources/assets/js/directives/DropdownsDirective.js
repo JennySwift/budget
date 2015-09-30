@@ -8,13 +8,7 @@
     function dropdown($parse, $http) {
         return {
             restrict: 'EA',
-            //scope: {
-            //    //"id": "@id",
-            //    //"selectedObject": "=selectedobject",
-            //    'url': '@url',
-            //    'showPopup': '=show'
-            //},
-            //templateUrl: 'templates/DropdownsTemplate.php',
+
             scope: true,
             link: function($scope, elem, attrs) {
                 $scope.animateIn = attrs.animateIn || 'flipInX';
