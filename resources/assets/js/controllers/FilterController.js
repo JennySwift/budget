@@ -11,21 +11,9 @@
         $scope.filterTab = 'show';
         $scope.accounts = accounts_response;
 
-        //$scope.resetFilter = function () {
-        //    FilterFactory.resetFilter();
-        //};
-
         /**
          * Watches
          */
-
-        //$scope.$watch('filterFactory.filter_results.graph_totals', function (newValue, oldValue, scope) {
-        //    if (newValue) {
-        //        //This is running many times when it shouldn't
-        //        scope.graph_totals = newValue;
-        //        $scope.calculateGraphFigures();
-        //    }
-        //});
 
         $scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
             if (newValue === oldValue) {
