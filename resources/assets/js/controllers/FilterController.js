@@ -4,12 +4,26 @@
         .module('budgetApp')
         .controller('FilterController', filter);
 
-    function filter ($scope, FilterFactory) {
+    function filter ($rootScope, $scope, FilterFactory) {
 
         $scope.filterFactory = FilterFactory;
         $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
         $scope.accounts = accounts_response;
+
+        $scope.runFilter = function () {
+            $rootScope.$emit('runFilter');
+        };
+
+        $rootScope.$on('runFilter', function (event, data) {
+            $scope.getFilterBasicTotals();
+            if ($scope.tab === 'transactions') {
+                $scope.filterTransactions();
+            }
+            else {
+                $scope.getGraphTotals();
+            }
+        });
 
         /**
          * Watches
@@ -19,21 +33,21 @@
             if (newValue === oldValue) {
                 return;
             }
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         });
 
         $scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         });
 
         $scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         });
 
         //Todo: I might not need some of this code (not allowing offset to be less than 0)
@@ -46,7 +60,7 @@
             else {
                 $scope.filter.offset-= ($scope.filter.num_to_fetch * 1);
                 updateRange();
-                $scope.runFilter();
+                $rootScope.$emit('runFilter');
             }
         };
 
@@ -60,7 +74,7 @@
 
         $scope.changeNumToFetch = function () {
             updateRange();
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         };
 
         $scope.nextResults = function () {
@@ -71,7 +85,7 @@
 
             $scope.filter.offset+= ($scope.filter.num_to_fetch * 1);
             updateRange();
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         };
 
         $scope.resetSearch = function () {
@@ -86,21 +100,21 @@
                 return false;
             }
             $scope.resetOffset();
-            $scope.runFilter(true);
+            $rootScope.$emit('runFilter');
         };
 
         $scope.filterDate = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
             }
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         };
 
         $scope.filterTotal = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
             }
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         };
 
         /**
@@ -110,7 +124,7 @@
          */
         $scope.clearFilterField = function ($field, $type) {
             $scope.filter[$field][$type] = "";
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         };
 
         /**
@@ -135,7 +149,7 @@
          */
         $scope.clearDateField = function ($field, $type) {
             $scope.filter[$field][$type]['user'] = "";
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         };
 
         $scope.resetOffset = function () {

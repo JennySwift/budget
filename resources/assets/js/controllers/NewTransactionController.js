@@ -67,7 +67,7 @@
                         $scope.getFilterBasicTotals();
                     }
                     else {
-                        $scope.runFilter();
+                        $rootScope.$emit('runFilter');
                     }
 
                     $scope.hideLoading();
@@ -91,7 +91,7 @@
                     $rootScope.$broadcast('provideFeedback', 'Transfer added');
                     clearNewTransactionFields();
                     $scope.getSideBarTotals();
-                    $scope.runFilter();
+                    $rootScope.$emit('runFilter');
                     $scope.new_transaction.dropdown = false;
 
                     //Todo: get filter stuff

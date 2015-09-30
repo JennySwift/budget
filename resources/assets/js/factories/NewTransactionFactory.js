@@ -28,11 +28,11 @@ app.factory('NewTransactionFactory', function ($http) {
                     name: 'business',
                     type: 'fixed'
                 },
-                {
-                    id: '4',
-                    name: 'busking',
-                    type: 'flex'
-                }
+                //{
+                //    id: '4',
+                //    name: 'busking',
+                //    type: 'flex'
+                //}
             ];
         }
 

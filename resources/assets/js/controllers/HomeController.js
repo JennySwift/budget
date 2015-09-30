@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, TransactionsFactory, FilterFactory) {
+    function home ($rootScope, $scope, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
@@ -28,16 +28,6 @@
 
         $scope.filter = FilterFactory.filter;
         $scope.filterTotals = filterBasicTotals;
-
-        $scope.runFilter = function () {
-            $scope.getFilterBasicTotals();
-            if ($scope.tab === 'transactions') {
-                $scope.filterTransactions();
-            }
-            else {
-                $scope.getGraphTotals();
-            }
-        };
 
         /**
          * When this is needed:
@@ -90,7 +80,7 @@
          */
         $scope.resetFilter = function () {
             $scope.filter = FilterFactory.resetFilter();
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         };
 
         $scope.transactionsTab = function () {
@@ -98,7 +88,7 @@
             $scope.show.basic_totals = true;
             $scope.show.budget_totals = true;
             $scope.show.filter = false;
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         };
 
         $scope.graphsTab = function () {
@@ -106,7 +96,7 @@
             $scope.show.basic_totals = false;
             $scope.show.budget_totals = false;
             $scope.show.filter = true;
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         };
 
         if ($scope.tab === 'graphs') {

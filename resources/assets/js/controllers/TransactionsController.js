@@ -16,7 +16,7 @@
             TransactionsFactory.updateReconciliation($transaction)
                 .then(function (response) {
                     $scope.getSideBarTotals();
-                    $scope.runFilter();
+                    $rootScope.$emit('runFilter');
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
