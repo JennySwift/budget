@@ -13018,22 +13018,6 @@ function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, E
         $rootScope.hideLoading();
     };
 
-    $rootScope.getSideBarTotals = function () {
-        $rootScope.totalsLoading = true;
-        TotalsFactory.getSideBarTotals()
-            .then(function (response) {
-                $rootScope.sideBarTotals = response.data.data;
-                $rootScope.totalsLoading = false;
-            })
-            .catch(function (response) {
-                $rootScope.responseError(response);
-            });
-    };
-
-    if (typeof page !== 'undefined' && (page === 'home' || page === 'fixedBudgets' || page === 'flexBudgets' || page === 'unassignedBudgets')) {
-        $rootScope.getSideBarTotals();
-    }
-
     $rootScope.closePopup = function ($event, $popup) {
         var $target = $event.target;
         if ($target.className === 'popup-outer') {
@@ -13215,7 +13199,7 @@ var app = angular.module('budgetApp');
             BudgetsFactory.insert($budget)
                 .then(function (response) {
                     jsInsertBudget(response);
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $rootScope.$broadcast('provideFeedback', 'Budget created');
 
                     if ($budget.type === 'fixed' && page === 'fixedBudgets') {
@@ -13259,7 +13243,7 @@ var app = angular.module('budgetApp');
             BudgetsFactory.update($scope.budget_popup)
                 .then(function (response) {
                     jsUpdateBudget(response);
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $scope.show.popups.budget = false;
                 })
                 .catch(function (response) {
@@ -13286,7 +13270,7 @@ var app = angular.module('budgetApp');
                 $scope.showLoading();
                 BudgetsFactory.destroy($budget)
                     .then(function (response) {
-                        $scope.getSideBarTotals();
+                        $scope.$emit('getSideBarTotals');
                         jsDeleteBudget($budget);
                         $scope.hideLoading();
                         $rootScope.$broadcast('provideFeedback', 'Budget deleted');
@@ -13700,7 +13684,7 @@ var app = angular.module('budgetApp');
                     $rootScope.$broadcast('provideFeedback', 'Transaction added');
                     clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
 
                     if ($transaction.multipleBudgets) {
                         $scope.$emit('handleAllocationForNewTransaction', $transaction);
@@ -13730,7 +13714,7 @@ var app = angular.module('budgetApp');
                 .then(function (response) {
                     $rootScope.$broadcast('provideFeedback', 'Transfer added');
                     clearNewTransactionFields();
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $rootScope.$emit('runFilter');
                     $scope.new_transaction.dropdown = false;
 
@@ -13816,7 +13800,7 @@ var app = angular.module('budgetApp');
             $scope.showLoading();
             TransactionsFactory.updateReconciliation($transaction)
                 .then(function (response) {
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $rootScope.$emit('runFilter');
                     $scope.hideLoading();
                 })
@@ -13850,7 +13834,7 @@ var app = angular.module('budgetApp');
             $scope.showLoading();
             TransactionsFactory.updateTransaction($scope.edit_transaction)
                 .then(function (response) {
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $rootScope.$broadcast('provideFeedback', 'Transaction updated');
                     $scope.show.edit_transaction = false;
                     $scope.totals = response.data;
@@ -13941,7 +13925,7 @@ var app = angular.module('budgetApp');
                 TransactionsFactory.deleteTransaction($transaction, $scope.filter)
                     .then(function (response) {
                         jsDeleteTransaction($transaction);
-                        $scope.getSideBarTotals();
+                        $scope.$emit('getSideBarTotals');
                         //Todo: get filter totals with separate request
                         $rootScope.$broadcast('provideFeedback', 'Transaction deleted');
                         $scope.hideLoading();
@@ -15158,7 +15142,7 @@ angular.module('budgetApp')
         .module('budgetApp')
         .directive('totalsDirective', totals);
 
-    function totals() {
+    function totals($rootScope, TotalsFactory) {
         return {
             restrict: 'EA',
             scope: {
@@ -15170,6 +15154,20 @@ angular.module('budgetApp')
             },
             templateUrl: 'totals-template',
             link: function($scope, elem, attrs) {
+
+                $scope.$emit('getSideBarTotals');
+
+                $rootScope.$on('getSideBarTotals', function () {
+                    $rootScope.totalsLoading = true;
+                    TotalsFactory.getSideBarTotals()
+                        .then(function (response) {
+                            $rootScope.sideBarTotals = response.data.data;
+                            $rootScope.totalsLoading = false;
+                        })
+                        .catch(function (response) {
+                            $rootScope.responseError(response);
+                        });
+                });
 
                 $scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
 

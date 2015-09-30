@@ -43,22 +43,6 @@ function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, E
         $rootScope.hideLoading();
     };
 
-    $rootScope.getSideBarTotals = function () {
-        $rootScope.totalsLoading = true;
-        TotalsFactory.getSideBarTotals()
-            .then(function (response) {
-                $rootScope.sideBarTotals = response.data.data;
-                $rootScope.totalsLoading = false;
-            })
-            .catch(function (response) {
-                $rootScope.responseError(response);
-            });
-    };
-
-    if (typeof page !== 'undefined' && (page === 'home' || page === 'fixedBudgets' || page === 'flexBudgets' || page === 'unassignedBudgets')) {
-        $rootScope.getSideBarTotals();
-    }
-
     $rootScope.closePopup = function ($event, $popup) {
         var $target = $event.target;
         if ($target.className === 'popup-outer') {

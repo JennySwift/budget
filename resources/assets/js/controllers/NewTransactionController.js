@@ -60,7 +60,7 @@
                     $rootScope.$broadcast('provideFeedback', 'Transaction added');
                     clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
 
                     if ($transaction.multipleBudgets) {
                         $scope.$emit('handleAllocationForNewTransaction', $transaction);
@@ -90,7 +90,7 @@
                 .then(function (response) {
                     $rootScope.$broadcast('provideFeedback', 'Transfer added');
                     clearNewTransactionFields();
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $rootScope.$emit('runFilter');
                     $scope.new_transaction.dropdown = false;
 

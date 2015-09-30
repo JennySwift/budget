@@ -4,7 +4,7 @@
         .module('budgetApp')
         .directive('totalsDirective', totals);
 
-    function totals() {
+    function totals($rootScope, TotalsFactory) {
         return {
             restrict: 'EA',
             scope: {
@@ -16,6 +16,20 @@
             },
             templateUrl: 'totals-template',
             link: function($scope, elem, attrs) {
+
+                $scope.$emit('getSideBarTotals');
+
+                $rootScope.$on('getSideBarTotals', function () {
+                    $rootScope.totalsLoading = true;
+                    TotalsFactory.getSideBarTotals()
+                        .then(function (response) {
+                            $rootScope.sideBarTotals = response.data.data;
+                            $rootScope.totalsLoading = false;
+                        })
+                        .catch(function (response) {
+                            $rootScope.responseError(response);
+                        });
+                });
 
                 $scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
 
