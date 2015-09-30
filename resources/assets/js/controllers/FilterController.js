@@ -6,10 +6,13 @@
 
     function filter ($rootScope, $scope, FilterFactory) {
 
-        $scope.filterFactory = FilterFactory;
         $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
         $scope.accounts = accounts_response;
+
+        $scope.filter = FilterFactory.filter;
+        $scope.filterTotals = filterBasicTotals;
+        $scope.test = FilterFactory.test;
 
         $scope.runFilter = function () {
             $rootScope.$emit('runFilter');
@@ -18,12 +21,58 @@
         $rootScope.$on('runFilter', function (event, data) {
             $scope.getFilterBasicTotals();
             if ($scope.tab === 'transactions') {
-                $scope.$emit('filterTransactions');
+                $scope.$emit('filterTransactions', $scope.filter);
             }
             else {
                 $scope.getGraphTotals();
             }
         });
+
+        $scope.getFilterBasicTotals = function () {
+            FilterFactory.getBasicTotals($scope.filter)
+                .then(function (response) {
+                    $scope.filterTotals = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        };
+
+        /**
+         * I have three instances of FilterController and when this is called
+         * from one of them, the wrong $scope.filter is updated.
+         */
+        //$scope.resetFilter = function () {
+        //    FilterFactory.updateTest(2);
+        //    $scope.filter = FilterFactory.resetFilter();
+        //    $rootScope.$emit('runFilter');
+        //};
+
+        $rootScope.$on('resetFilter', function (event, data) {
+            $scope.filter = FilterFactory.resetFilter();
+            $rootScope.$emit('runFilter');
+        });
+
+        $scope.resetFilter = function () {
+            $scope.$emit('resetFilter');
+        };
+
+        $scope.getGraphTotals = function () {
+            FilterFactory.getGraphTotals($scope.filter)
+                .then(function (response) {
+                    $scope.graphTotals = response.data;
+                    calculateGraphFigures();
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        };
+
+        function calculateGraphFigures () {
+            $scope.graphFigures = FilterFactory.calculateGraphFigures($scope.graphTotals);
+        }
 
         /**
          * Watches

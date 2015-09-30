@@ -13334,10 +13334,13 @@ var app = angular.module('budgetApp');
 
     function filter ($rootScope, $scope, FilterFactory) {
 
-        $scope.filterFactory = FilterFactory;
         $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
         $scope.accounts = accounts_response;
+
+        $scope.filter = FilterFactory.filter;
+        $scope.filterTotals = filterBasicTotals;
+        $scope.test = FilterFactory.test;
 
         $scope.runFilter = function () {
             $rootScope.$emit('runFilter');
@@ -13346,12 +13349,58 @@ var app = angular.module('budgetApp');
         $rootScope.$on('runFilter', function (event, data) {
             $scope.getFilterBasicTotals();
             if ($scope.tab === 'transactions') {
-                $scope.$emit('filterTransactions');
+                $scope.$emit('filterTransactions', $scope.filter);
             }
             else {
                 $scope.getGraphTotals();
             }
         });
+
+        $scope.getFilterBasicTotals = function () {
+            FilterFactory.getBasicTotals($scope.filter)
+                .then(function (response) {
+                    $scope.filterTotals = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        };
+
+        /**
+         * I have three instances of FilterController and when this is called
+         * from one of them, the wrong $scope.filter is updated.
+         */
+        //$scope.resetFilter = function () {
+        //    FilterFactory.updateTest(2);
+        //    $scope.filter = FilterFactory.resetFilter();
+        //    $rootScope.$emit('runFilter');
+        //};
+
+        $rootScope.$on('resetFilter', function (event, data) {
+            $scope.filter = FilterFactory.resetFilter();
+            $rootScope.$emit('runFilter');
+        });
+
+        $scope.resetFilter = function () {
+            $scope.$emit('resetFilter');
+        };
+
+        $scope.getGraphTotals = function () {
+            FilterFactory.getGraphTotals($scope.filter)
+                .then(function (response) {
+                    $scope.graphTotals = response.data;
+                    calculateGraphFigures();
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        };
+
+        function calculateGraphFigures () {
+            $scope.graphFigures = FilterFactory.calculateGraphFigures($scope.graphTotals);
+        }
 
         /**
          * Watches
@@ -13543,6 +13592,7 @@ var app = angular.module('budgetApp');
         $scope.budgets = budgets;
         $scope.colors = me.preferences.colors;
 
+
         if (env === 'local') {
             $scope.tab = 'transactions';
         }
@@ -13557,41 +13607,6 @@ var app = angular.module('budgetApp');
         //Putting this here so that transactions update
         //after inserting transaction from newTransactionController
         $scope.transactions = transactions;
-
-        $scope.filter = FilterFactory.filter;
-        $scope.filterTotals = filterBasicTotals;
-
-        $scope.getFilterBasicTotals = function () {
-            FilterFactory.getBasicTotals($scope.filter)
-                .then(function (response) {
-                    $scope.filterTotals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        $scope.getGraphTotals = function () {
-            FilterFactory.getGraphTotals($scope.filter)
-                .then(function (response) {
-                    $scope.graphTotals = response.data;
-                    calculateGraphFigures();
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        /**
-         * This is here because it calls $scope.runFilter,
-         * and that method is in this file
-         */
-        $scope.resetFilter = function () {
-            $scope.filter = FilterFactory.resetFilter();
-            $rootScope.$emit('runFilter');
-        };
 
         $scope.transactionsTab = function () {
             $scope.tab = 'transactions';
@@ -13611,14 +13626,6 @@ var app = angular.module('budgetApp');
 
         if ($scope.tab === 'graphs') {
             $scope.graphsTab();
-        }
-
-        /**
-         * This is here because it is called by $scope.runFilter,
-         * which is in this file.
-         */
-        function calculateGraphFigures () {
-            $scope.graphFigures = FilterFactory.calculateGraphFigures($scope.graphTotals);
         }
 
         /**
@@ -13667,42 +13674,6 @@ var app = angular.module('budgetApp');
                 });
         };
 
-        /**
-         * This should be in transactions controller but it wasn't firing for some reason
-         * @param $keycode
-         * @param $type
-         * @param $value
-         * @param $budget_id
-         */
-        $scope.updateAllocation = function ($keycode, $type, $value, $budget_id) {
-            if ($keycode === 13) {
-                $scope.showLoading();
-                TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
-                    .then(function (response) {
-                        $scope.allocationPopup.budgets = response.data.budgets;
-                        $scope.allocationPopup.totals = response.data.totals;
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-        };
-
-
-        /**
-         * This should be in transactions controller but it wasn't firing for some reason
-         */
-        $scope.updateAllocationStatus = function () {
-            $scope.showLoading();
-            TransactionsFactory.updateAllocationStatus($scope.allocationPopup.id, $scope.allocationPopup.allocated)
-                .then(function (response) {
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
 
     }
 
@@ -13868,9 +13839,9 @@ var app = angular.module('budgetApp');
         $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
 
-        $rootScope.$on('filterTransactions', function (event, data) {
+        $rootScope.$on('filterTransactions', function (event, filter) {
             $scope.showLoading();
-            FilterFactory.getTransactions($scope.filter)
+            FilterFactory.getTransactions(filter)
                 .then(function (response) {
                     $scope.transactions = response.data;
                     $scope.hideLoading();
@@ -13887,6 +13858,17 @@ var app = angular.module('budgetApp');
                 .then(function (response) {
                     $scope.getSideBarTotals();
                     $rootScope.$emit('runFilter');
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.updateAllocationStatus = function () {
+            $scope.showLoading();
+            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
+                .then(function (response) {
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -13948,17 +13930,6 @@ var app = angular.module('budgetApp');
                         $scope.responseError(response);
                     });
             }
-        };
-
-        $scope.updateAllocationStatus = function () {
-            $scope.showLoading();
-            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
-                .then(function (response) {
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
         };
 
         $scope.deleteTransaction = function ($transaction) {
@@ -14261,6 +14232,13 @@ app.factory('ErrorsFactory', function ($q) {
 });
 app.factory('FilterFactory', function ($http) {
     var $object = {};
+
+    $object.test = 1;
+
+    $object.updateTest = function ($newValue) {
+        $object.test = $newValue;
+        return $object.test;
+    };
 
     $object.resetFilter = function () {
         $object.filter = {

@@ -1,6 +1,13 @@
 app.factory('FilterFactory', function ($http) {
     var $object = {};
 
+    $object.test = 1;
+
+    $object.updateTest = function ($newValue) {
+        $object.test = $newValue;
+        return $object.test;
+    };
+
     $object.resetFilter = function () {
         $object.filter = {
 

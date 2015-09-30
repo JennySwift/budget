@@ -10,9 +10,9 @@
         $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
 
-        $rootScope.$on('filterTransactions', function (event, data) {
+        $rootScope.$on('filterTransactions', function (event, filter) {
             $scope.showLoading();
-            FilterFactory.getTransactions($scope.filter)
+            FilterFactory.getTransactions(filter)
                 .then(function (response) {
                     $scope.transactions = response.data;
                     $scope.hideLoading();
@@ -29,6 +29,17 @@
                 .then(function (response) {
                     $scope.getSideBarTotals();
                     $rootScope.$emit('runFilter');
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.updateAllocationStatus = function () {
+            $scope.showLoading();
+            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
+                .then(function (response) {
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -90,17 +101,6 @@
                         $scope.responseError(response);
                     });
             }
-        };
-
-        $scope.updateAllocationStatus = function () {
-            $scope.showLoading();
-            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
-                .then(function (response) {
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
         };
 
         $scope.deleteTransaction = function ($transaction) {

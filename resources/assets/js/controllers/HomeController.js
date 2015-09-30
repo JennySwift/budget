@@ -11,6 +11,7 @@
         $scope.budgets = budgets;
         $scope.colors = me.preferences.colors;
 
+
         if (env === 'local') {
             $scope.tab = 'transactions';
         }
@@ -25,41 +26,6 @@
         //Putting this here so that transactions update
         //after inserting transaction from newTransactionController
         $scope.transactions = transactions;
-
-        $scope.filter = FilterFactory.filter;
-        $scope.filterTotals = filterBasicTotals;
-
-        $scope.getFilterBasicTotals = function () {
-            FilterFactory.getBasicTotals($scope.filter)
-                .then(function (response) {
-                    $scope.filterTotals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        $scope.getGraphTotals = function () {
-            FilterFactory.getGraphTotals($scope.filter)
-                .then(function (response) {
-                    $scope.graphTotals = response.data;
-                    calculateGraphFigures();
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        /**
-         * This is here because it calls $scope.runFilter,
-         * and that method is in this file
-         */
-        $scope.resetFilter = function () {
-            $scope.filter = FilterFactory.resetFilter();
-            $rootScope.$emit('runFilter');
-        };
 
         $scope.transactionsTab = function () {
             $scope.tab = 'transactions';
@@ -79,14 +45,6 @@
 
         if ($scope.tab === 'graphs') {
             $scope.graphsTab();
-        }
-
-        /**
-         * This is here because it is called by $scope.runFilter,
-         * which is in this file.
-         */
-        function calculateGraphFigures () {
-            $scope.graphFigures = FilterFactory.calculateGraphFigures($scope.graphTotals);
         }
 
         /**
@@ -135,42 +93,6 @@
                 });
         };
 
-        /**
-         * This should be in transactions controller but it wasn't firing for some reason
-         * @param $keycode
-         * @param $type
-         * @param $value
-         * @param $budget_id
-         */
-        $scope.updateAllocation = function ($keycode, $type, $value, $budget_id) {
-            if ($keycode === 13) {
-                $scope.showLoading();
-                TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
-                    .then(function (response) {
-                        $scope.allocationPopup.budgets = response.data.budgets;
-                        $scope.allocationPopup.totals = response.data.totals;
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-        };
-
-
-        /**
-         * This should be in transactions controller but it wasn't firing for some reason
-         */
-        $scope.updateAllocationStatus = function () {
-            $scope.showLoading();
-            TransactionsFactory.updateAllocationStatus($scope.allocationPopup.id, $scope.allocationPopup.allocated)
-                .then(function (response) {
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
 
     }
 
