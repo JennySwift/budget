@@ -47,53 +47,6 @@
             $scope.graphsTab();
         }
 
-        /**
-         * Although related to a new transaction, this is here,
-         * not in NewTransactionController,
-         * because it uses $scope.transactions.
-         * @param $transaction
-         */
-        $scope.handleAllocationForNewTransaction = function ($transaction) {
-            FilterFactory.getTransactions($scope.filter)
-                .then(function (response) {
-                    $scope.hideLoading();
-                    $scope.transactions = response.data;
-                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
-                    if ($index !== -1) {
-                        //The transaction that was just entered is in the filtered transactions
-                        $scope.showAllocationPopup($scope.transactions[$index]);
-                        //$scope.transactions[$index] = $scope.allocationPopup;
-                    }
-                    else {
-                        $scope.showAllocationPopup($transaction);
-                    }
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        /**
-         * This is here because it is called by $scope.handleAllocationForNewTransaction,
-         * which is in this file
-         * @param $transaction
-         */
-        $scope.showAllocationPopup = function ($transaction) {
-            $scope.show.allocationPopup = true;
-            $scope.allocationPopup = $transaction;
-
-            $scope.showLoading();
-            TransactionsFactory.getAllocationTotals($transaction.id)
-                .then(function (response) {
-                    $scope.allocationPopup.totals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-
     }
 
 })();

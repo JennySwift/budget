@@ -13382,6 +13382,13 @@ var app = angular.module('budgetApp');
             $rootScope.$emit('runFilter');
         });
 
+        /**
+         * Didn't work
+         */
+        //$rootScope.$on('getFilter', function () {
+        //    return $scope.filter;
+        //});
+
         $scope.resetFilter = function () {
             $scope.$emit('resetFilter');
         };
@@ -13628,53 +13635,6 @@ var app = angular.module('budgetApp');
             $scope.graphsTab();
         }
 
-        /**
-         * Although related to a new transaction, this is here,
-         * not in NewTransactionController,
-         * because it uses $scope.transactions.
-         * @param $transaction
-         */
-        $scope.handleAllocationForNewTransaction = function ($transaction) {
-            FilterFactory.getTransactions($scope.filter)
-                .then(function (response) {
-                    $scope.hideLoading();
-                    $scope.transactions = response.data;
-                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
-                    if ($index !== -1) {
-                        //The transaction that was just entered is in the filtered transactions
-                        $scope.showAllocationPopup($scope.transactions[$index]);
-                        //$scope.transactions[$index] = $scope.allocationPopup;
-                    }
-                    else {
-                        $scope.showAllocationPopup($transaction);
-                    }
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        /**
-         * This is here because it is called by $scope.handleAllocationForNewTransaction,
-         * which is in this file
-         * @param $transaction
-         */
-        $scope.showAllocationPopup = function ($transaction) {
-            $scope.show.allocationPopup = true;
-            $scope.allocationPopup = $transaction;
-
-            $scope.showLoading();
-            TransactionsFactory.getAllocationTotals($transaction.id)
-                .then(function (response) {
-                    $scope.allocationPopup.totals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-
     }
 
 })();
@@ -13743,7 +13703,7 @@ var app = angular.module('budgetApp');
                     $scope.getSideBarTotals();
 
                     if ($transaction.multipleBudgets) {
-                        $scope.handleAllocationForNewTransaction($transaction);
+                        $scope.$emit('handleAllocationForNewTransaction', $transaction);
                         $scope.getFilterBasicTotals();
                     }
                     else {
@@ -13930,6 +13890,53 @@ var app = angular.module('budgetApp');
                         $scope.responseError(response);
                     });
             }
+        };
+
+        /**
+         * This is erroring, because I need $scope.filter from FilterController.
+         * But how do I get it? This event is fired from NewTransactionController,
+         * and it doesn't have access to $scope.filter from FilterController either.
+         */
+        $rootScope.$on('handleAllocationForNewTransaction', function (event, $transaction) {
+            //var $filter = $scope.$emit('getFilter');
+
+            FilterFactory.getTransactions($filter)
+                .then(function (response) {
+                    $scope.hideLoading();
+                    $scope.transactions = response.data;
+                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
+                    if ($index !== -1) {
+                        //The transaction that was just entered is in the filtered transactions
+                        $scope.showAllocationPopup($scope.transactions[$index]);
+                        //$scope.transactions[$index] = $scope.allocationPopup;
+                    }
+                    else {
+                        $scope.showAllocationPopup($transaction);
+                    }
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        });
+
+        /**
+         * This is here because it is called by $scope.handleAllocationForNewTransaction,
+         * which is in this file
+         * @param $transaction
+         */
+        $scope.showAllocationPopup = function ($transaction) {
+            $scope.show.allocationPopup = true;
+            $scope.allocationPopup = $transaction;
+
+            $scope.showLoading();
+            TransactionsFactory.getAllocationTotals($transaction.id)
+                .then(function (response) {
+                    $scope.allocationPopup.totals = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
         };
 
         $scope.deleteTransaction = function ($transaction) {
@@ -14434,11 +14441,11 @@ app.factory('NewTransactionFactory', function ($http) {
                     name: 'business',
                     type: 'fixed'
                 },
-                //{
-                //    id: '4',
-                //    name: 'busking',
-                //    type: 'flex'
-                //}
+                {
+                    id: '4',
+                    name: 'busking',
+                    type: 'flex'
+                }
             ];
         }
 

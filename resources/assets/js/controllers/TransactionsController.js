@@ -103,6 +103,53 @@
             }
         };
 
+        /**
+         * This is erroring, because I need $scope.filter from FilterController.
+         * But how do I get it? This event is fired from NewTransactionController,
+         * and it doesn't have access to $scope.filter from FilterController either.
+         */
+        $rootScope.$on('handleAllocationForNewTransaction', function (event, $transaction) {
+            //var $filter = $scope.$emit('getFilter');
+
+            FilterFactory.getTransactions($filter)
+                .then(function (response) {
+                    $scope.hideLoading();
+                    $scope.transactions = response.data;
+                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
+                    if ($index !== -1) {
+                        //The transaction that was just entered is in the filtered transactions
+                        $scope.showAllocationPopup($scope.transactions[$index]);
+                        //$scope.transactions[$index] = $scope.allocationPopup;
+                    }
+                    else {
+                        $scope.showAllocationPopup($transaction);
+                    }
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        });
+
+        /**
+         * This is here because it is called by $scope.handleAllocationForNewTransaction,
+         * which is in this file
+         * @param $transaction
+         */
+        $scope.showAllocationPopup = function ($transaction) {
+            $scope.show.allocationPopup = true;
+            $scope.allocationPopup = $transaction;
+
+            $scope.showLoading();
+            TransactionsFactory.getAllocationTotals($transaction.id)
+                .then(function (response) {
+                    $scope.allocationPopup.totals = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
         $scope.deleteTransaction = function ($transaction) {
             if (confirm("Are you sure?")) {
                 $scope.clearTotalChanges();

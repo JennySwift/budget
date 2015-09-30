@@ -54,6 +54,13 @@
             $rootScope.$emit('runFilter');
         });
 
+        /**
+         * Didn't work
+         */
+        //$rootScope.$on('getFilter', function () {
+        //    return $scope.filter;
+        //});
+
         $scope.resetFilter = function () {
             $scope.$emit('resetFilter');
         };

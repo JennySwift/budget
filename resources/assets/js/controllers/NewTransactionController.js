@@ -63,7 +63,7 @@
                     $scope.getSideBarTotals();
 
                     if ($transaction.multipleBudgets) {
-                        $scope.handleAllocationForNewTransaction($transaction);
+                        $scope.$emit('handleAllocationForNewTransaction', $transaction);
                         $scope.getFilterBasicTotals();
                     }
                     else {
