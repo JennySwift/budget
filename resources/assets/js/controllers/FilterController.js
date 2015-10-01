@@ -40,18 +40,13 @@
         $scope.getGraphTotals = function () {
             FilterFactory.getGraphTotals($scope.filter)
                 .then(function (response) {
-                    $scope.graphTotals = response.data;
-                    calculateGraphFigures();
+                    $scope.graphFigures = FilterFactory.calculateGraphFigures(response.data);
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
                 })
         };
-
-        function calculateGraphFigures () {
-            $scope.graphFigures = FilterFactory.calculateGraphFigures($scope.graphTotals);
-        }
 
     }
 
