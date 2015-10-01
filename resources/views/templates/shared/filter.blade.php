@@ -17,16 +17,25 @@
     </div>
 
     {{--@include('directive-templates.filter.accounts')--}}
+
     <filter-accounts-directive
             filter="filter"
             filterTab="filterTab"
             runFilter="runFilter()">
     </filter-accounts-directive>
+
     @include('templates.home.filter.types')
     @include('templates.home.filter.description')
     @include('templates.home.filter.merchant')
     @include('templates.home.filter.tags')
-    @include('templates.home.filter.date')
+    {{--@include('templates.home.filter.date')--}}
+
+    <filter-date-directive
+            filter="filter"
+            filterTab="filterTab"
+            runFilter="runFilter()">
+    </filter-date-directive>
+
     @include('templates.home.filter.amount')
     @include('templates.home.filter.reconciled')
     @include('templates.home.filter.num-budgets')

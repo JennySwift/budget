@@ -13445,13 +13445,6 @@ var app = angular.module('budgetApp');
             $rootScope.$emit('runFilter');
         };
 
-        $scope.filterDate = function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $rootScope.$emit('runFilter');
-        };
-
         $scope.filterTotal = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
@@ -13482,16 +13475,6 @@ var app = angular.module('budgetApp');
             else {
                 $scope.filter.budgets[$type1] = [];
             }
-        };
-
-        /**
-         * $type is either 'in' or 'out'
-         * @param $field
-         * @param $type
-         */
-        $scope.clearDateField = function ($field, $type) {
-            $scope.filter[$field][$type]['user'] = "";
-            $rootScope.$emit('runFilter');
         };
 
         $scope.resetOffset = function () {
@@ -14873,6 +14856,38 @@ angular.module('budgetApp')
 
             link: function ($scope) {
                 $scope.accounts = accounts_response;
+            }
+        }
+    });
+
+angular.module('budgetApp')
+    .directive('filterDateDirective', function ($rootScope) {
+        return {
+            scope: {
+                'filter': '=filter',
+                'filterTab': '=filtertab',
+                'runFilter': '&runfilter'
+            },
+            templateUrl: 'filter-date-template',
+
+            link: function ($scope) {
+
+                $scope.filterDate = function ($keycode) {
+                    if ($keycode !== 13) {
+                        return false;
+                    }
+                    $rootScope.$emit('runFilter');
+                };
+
+                /**
+                 * $type is either 'in' or 'out'
+                 * @param $field
+                 * @param $type
+                 */
+                $scope.clearDateField = function ($field, $type) {
+                    $scope.filter[$field][$type]['user'] = "";
+                    $rootScope.$emit('runFilter');
+                };
             }
         }
     });

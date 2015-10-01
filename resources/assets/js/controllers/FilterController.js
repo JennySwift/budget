@@ -133,13 +133,6 @@
             $rootScope.$emit('runFilter');
         };
 
-        $scope.filterDate = function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $rootScope.$emit('runFilter');
-        };
-
         $scope.filterTotal = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
@@ -170,16 +163,6 @@
             else {
                 $scope.filter.budgets[$type1] = [];
             }
-        };
-
-        /**
-         * $type is either 'in' or 'out'
-         * @param $field
-         * @param $type
-         */
-        $scope.clearDateField = function ($field, $type) {
-            $scope.filter[$field][$type]['user'] = "";
-            $rootScope.$emit('runFilter');
         };
 
         $scope.resetOffset = function () {
