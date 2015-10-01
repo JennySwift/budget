@@ -24,7 +24,14 @@
             runFilter="runFilter()">
     </filter-accounts-directive>
 
-    @include('templates.home.filter.types')
+    {{--@include('templates.home.filter.types')--}}
+
+    <filter-types-directive
+            filter="filter"
+            filterTab="filterTab"
+            runFilter="runFilter()">
+    </filter-types-directive>
+
     {{--@include('templates.home.filter.description')--}}
 
     <filter-description-directive

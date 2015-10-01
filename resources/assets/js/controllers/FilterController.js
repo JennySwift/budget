@@ -6,9 +6,7 @@
 
     function filter ($rootScope, $scope, FilterFactory) {
 
-        $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
-
         $scope.filter = FilterFactory.filter;
         $scope.filterTotals = filterBasicTotals;
 

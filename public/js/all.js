@@ -13318,9 +13318,7 @@ var app = angular.module('budgetApp');
 
     function filter ($rootScope, $scope, FilterFactory) {
 
-        $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
-
         $scope.filter = FilterFactory.filter;
         $scope.filterTotals = filterBasicTotals;
 
@@ -15054,6 +15052,24 @@ angular.module('budgetApp')
                     $scope.filter[$field][$type] = "";
                     $rootScope.$emit('runFilter');
                 };
+
+            }
+        }
+    });
+
+angular.module('budgetApp')
+    .directive('filterTypesDirective', function () {
+        return {
+            scope: {
+                'filter': '=filter',
+                'filterTab': '=filtertab',
+                'runFilter': '&runfilter'
+            },
+            templateUrl: 'filter-types-template',
+
+            link: function ($scope) {
+
+                $scope.types = ["income", "expense", "transfer"];
 
             }
         }
