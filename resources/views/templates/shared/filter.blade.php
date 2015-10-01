@@ -25,8 +25,22 @@
     </filter-accounts-directive>
 
     @include('templates.home.filter.types')
-    @include('templates.home.filter.description')
-    @include('templates.home.filter.merchant')
+    {{--@include('templates.home.filter.description')--}}
+
+    <filter-description-directive
+            filter="filter"
+            filterTab="filterTab"
+            runFilter="runFilter()">
+    </filter-description-directive>
+
+{{--    @include('templates.home.filter.merchant')--}}
+
+    <filter-merchant-directive
+            filter="filter"
+            filterTab="filterTab"
+            runFilter="runFilter()">
+    </filter-merchant-directive>
+
     {{--@include('templates.home.filter.tags')--}}
 
     <filter-tags-directive

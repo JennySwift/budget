@@ -100,18 +100,6 @@
             $rootScope.$emit('runFilter');
         };
 
-        $scope.filterDescriptionOrMerchant = function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $scope.resetOffset();
-            $rootScope.$emit('runFilter');
-        };
-
-        $scope.resetOffset = function () {
-            $scope.filter.offset = 0;
-        };
-
     }
 
 })();
