@@ -44,7 +44,15 @@
             runFilter="runFilter()">
     </filter-date-directive>
 
-    @include('templates.home.filter.amount')
+    {{--@include('templates.home.filter.amount')--}}
+
+    <filter-total-directive
+            filter="filter"
+            filterTab="filterTab"
+            runFilter="runFilter()">
+            {{--clearFilterField="clearFilterField()">--}}
+    </filter-total-directive>
+
     @include('templates.home.filter.reconciled')
     @include('templates.home.filter.num-budgets')
 

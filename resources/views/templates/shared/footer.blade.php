@@ -14,6 +14,7 @@
 @include('directive-templates.filter.accounts')
 @include('directive-templates.filter.date')
 @include('directive-templates.filter.tags')
+@include('directive-templates.filter.total')
 
 {{--<script type="text/javascript" src="/js/filters.js"></script>--}}
 {{--<script type="text/javascript" src="/js/controllers.js"></script>--}}
