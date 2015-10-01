@@ -62,31 +62,6 @@
             $scope.graphFigures = FilterFactory.calculateGraphFigures($scope.graphTotals);
         }
 
-        /**
-         * Watches
-         */
-
-        $scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $rootScope.$emit('runFilter');
-        });
-
-        $scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $rootScope.$emit('runFilter');
-        });
-
-        $scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $rootScope.$emit('runFilter');
-        });
-
         //Todo: I might not need some of this code (not allowing offset to be less than 0)
         // todo: since I disabled the button if that is the case
         $scope.prevResults = function () {
@@ -148,21 +123,6 @@
         $scope.clearFilterField = function ($field, $type) {
             $scope.filter[$field][$type] = "";
             $rootScope.$emit('runFilter');
-        };
-
-        /**
-         * $type1 is 'in' or 'out'.
-         * $type2 is 'and' or 'or'.
-         * @param $type1
-         * @param $type2
-         */
-        $scope.clearTagField = function ($type1, $type2) {
-            if ($type2) {
-                $scope.filter.budgets[$type1][$type2] = [];
-            }
-            else {
-                $scope.filter.budgets[$type1] = [];
-            }
         };
 
         $scope.resetOffset = function () {

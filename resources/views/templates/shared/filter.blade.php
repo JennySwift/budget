@@ -27,7 +27,15 @@
     @include('templates.home.filter.types')
     @include('templates.home.filter.description')
     @include('templates.home.filter.merchant')
-    @include('templates.home.filter.tags')
+    {{--@include('templates.home.filter.tags')--}}
+
+    <filter-tags-directive
+            filter="filter"
+            filterTab="filterTab"
+            runFilter="runFilter()"
+            budgets="budgets">
+    </filter-tags-directive>
+
     {{--@include('templates.home.filter.date')--}}
 
     <filter-date-directive

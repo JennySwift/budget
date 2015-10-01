@@ -13374,31 +13374,6 @@ var app = angular.module('budgetApp');
             $scope.graphFigures = FilterFactory.calculateGraphFigures($scope.graphTotals);
         }
 
-        /**
-         * Watches
-         */
-
-        $scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $rootScope.$emit('runFilter');
-        });
-
-        $scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $rootScope.$emit('runFilter');
-        });
-
-        $scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $rootScope.$emit('runFilter');
-        });
-
         //Todo: I might not need some of this code (not allowing offset to be less than 0)
         // todo: since I disabled the button if that is the case
         $scope.prevResults = function () {
@@ -13460,21 +13435,6 @@ var app = angular.module('budgetApp');
         $scope.clearFilterField = function ($field, $type) {
             $scope.filter[$field][$type] = "";
             $rootScope.$emit('runFilter');
-        };
-
-        /**
-         * $type1 is 'in' or 'out'.
-         * $type2 is 'and' or 'or'.
-         * @param $type1
-         * @param $type2
-         */
-        $scope.clearTagField = function ($type1, $type2) {
-            if ($type2) {
-                $scope.filter.budgets[$type1][$type2] = [];
-            }
-            else {
-                $scope.filter.budgets[$type1] = [];
-            }
         };
 
         $scope.resetOffset = function () {
@@ -14934,6 +14894,59 @@ angular.module('budgetApp')
     }
 }).call(this);
 
+
+angular.module('budgetApp')
+    .directive('filterTagsDirective', function ($rootScope) {
+        return {
+            scope: {
+                'filter': '=filter',
+                'filterTab': '=filtertab',
+                'runFilter': '&runfilter',
+                'budgets': '=budgets'
+            },
+            templateUrl: 'filter-tags-template',
+
+            link: function ($scope) {
+
+                $scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
+                    if (newValue === oldValue) {
+                        return;
+                    }
+                    $rootScope.$emit('runFilter');
+                });
+
+                $scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
+                    if (newValue === oldValue) {
+                        return;
+                    }
+                    $rootScope.$emit('runFilter');
+                });
+
+                $scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
+                    if (newValue === oldValue) {
+                        return;
+                    }
+                    $rootScope.$emit('runFilter');
+                });
+
+                /**
+                 * $type1 is 'in' or 'out'.
+                 * $type2 is 'and' or 'or'.
+                 * @param $type1
+                 * @param $type2
+                 */
+                $scope.clearTagField = function ($type1, $type2) {
+                    if ($type2) {
+                        $scope.filter.budgets[$type1][$type2] = [];
+                    }
+                    else {
+                        $scope.filter.budgets[$type1] = [];
+                    }
+                };
+
+            }
+        }
+    });
 
 ;(function(){
     'use strict';
