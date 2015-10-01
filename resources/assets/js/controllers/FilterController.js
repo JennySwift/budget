@@ -20,7 +20,7 @@
                 $scope.$emit('filterTransactions', $scope.filter);
             }
             else {
-                $scope.getGraphTotals();
+                $scope.$emit('getGraphTotals');
             }
         });
 
@@ -34,17 +34,6 @@
                     $scope.responseError(response);
                 })
         });
-
-        $scope.getGraphTotals = function () {
-            FilterFactory.getGraphTotals($scope.filter)
-                .then(function (response) {
-                    $scope.graphFigures = FilterFactory.calculateGraphFigures(response.data);
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
 
     }
 

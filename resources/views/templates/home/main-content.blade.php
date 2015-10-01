@@ -21,8 +21,10 @@
         @include('templates.home.transactions')
     </div>
 
-    <div ng-controller="FilterController" ng-show="tab === 'graphs'" class="flex-grow-2">
-        @include('templates.home.graphs')
+    <div ng-show="tab === 'graphs'" class="flex-grow-2">
+{{--        @include('templates.home.graphs')--}}
+
+        <graphs-directive></graphs-directive>
     </div>
 
 

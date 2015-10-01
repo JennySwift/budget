@@ -37,11 +37,8 @@
         </button>
     </div>
 
-    <div ng-controller="FilterController" class="toolbar-filter">
-        <filter-toolbar-directive
-                filter="filter"
-                filterTotals="filterTotals">
-        </filter-toolbar-directive>
+    <div class="toolbar-filter">
+        <filter-toolbar-directive></filter-toolbar-directive>
 
     </div>
     

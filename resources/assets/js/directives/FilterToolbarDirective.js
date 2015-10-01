@@ -2,20 +2,17 @@ angular.module('budgetApp')
     .directive('filterToolbarDirective', function ($rootScope, FilterFactory) {
         return {
             scope: {
-                'filter': '=filter',
-                'filterTotals': '=filtertotals'
+
             },
             templateUrl: 'filter-toolbar-template',
 
             link: function ($scope) {
-
-                $rootScope.$on('resetFilter', function (event, data) {
-                    $scope.filter = FilterFactory.resetFilter();
-                    $rootScope.$emit('runFilter');
-                });
+                $scope.filter = FilterFactory.filter;
+                $scope.filterTotals = filterBasicTotals;
 
                 $scope.resetFilter = function () {
-                    $scope.$emit('resetFilter');
+                    FilterFactory.resetFilter();
+                    $rootScope.$emit('runFilter');
                 };
 
                 /**

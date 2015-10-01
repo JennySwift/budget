@@ -13332,7 +13332,7 @@ var app = angular.module('budgetApp');
                 $scope.$emit('filterTransactions', $scope.filter);
             }
             else {
-                $scope.getGraphTotals();
+                $scope.$emit('getGraphTotals');
             }
         });
 
@@ -13346,17 +13346,6 @@ var app = angular.module('budgetApp');
                     $scope.responseError(response);
                 })
         });
-
-        $scope.getGraphTotals = function () {
-            FilterFactory.getGraphTotals($scope.filter)
-                .then(function (response) {
-                    $scope.graphFigures = FilterFactory.calculateGraphFigures(response.data);
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
 
     }
 
@@ -13606,12 +13595,11 @@ var app = angular.module('budgetApp');
     function transactions ($rootScope, $scope, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
-        $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
 
         $rootScope.$on('filterTransactions', function (event, filter) {
             $scope.showLoading();
-            FilterFactory.getTransactions(filter)
+            FilterFactory.getTransactions(FilterFactory.filter)
                 .then(function (response) {
                     $scope.transactions = response.data;
                     $scope.hideLoading();
@@ -14037,6 +14025,8 @@ app.factory('ErrorsFactory', function ($q) {
 });
 app.factory('FilterFactory', function ($http, $rootScope) {
     var $object = {};
+
+    console.log(filterBasicTotals);
 
     $object.resetFilter = function () {
         $object.filter = {
@@ -14853,6 +14843,32 @@ angular.module('budgetApp')
 
 
 angular.module('budgetApp')
+    .directive('graphsDirective', function ($rootScope, FilterFactory) {
+        return {
+            scope: {
+
+            },
+            templateUrl: 'graphs-template',
+
+            link: function ($scope) {
+
+                $rootScope.$on('getGraphTotals', function () {
+                    $rootScope.showLoading();
+                    FilterFactory.getGraphTotals(FilterFactory.filter)
+                        .then(function (response) {
+                            $scope.graphFigures = FilterFactory.calculateGraphFigures(response.data);
+                            $rootScope.hideLoading();
+                        })
+                        .catch(function (response) {
+                            $rootScope.responseError(response);
+                        })
+                });
+
+            }
+        }
+    });
+
+angular.module('budgetApp')
     .directive('filterMerchantDirective', function ($rootScope) {
         return {
             scope: {
@@ -14953,20 +14969,17 @@ angular.module('budgetApp')
     .directive('filterToolbarDirective', function ($rootScope, FilterFactory) {
         return {
             scope: {
-                'filter': '=filter',
-                'filterTotals': '=filtertotals'
+
             },
             templateUrl: 'filter-toolbar-template',
 
             link: function ($scope) {
-
-                $rootScope.$on('resetFilter', function (event, data) {
-                    $scope.filter = FilterFactory.resetFilter();
-                    $rootScope.$emit('runFilter');
-                });
+                $scope.filter = FilterFactory.filter;
+                $scope.filterTotals = filterBasicTotals;
 
                 $scope.resetFilter = function () {
-                    $scope.$emit('resetFilter');
+                    FilterFactory.resetFilter();
+                    $rootScope.$emit('runFilter');
                 };
 
                 /**

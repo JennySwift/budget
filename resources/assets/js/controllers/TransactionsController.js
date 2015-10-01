@@ -7,12 +7,11 @@
     function transactions ($rootScope, $scope, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
-        $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
 
         $rootScope.$on('filterTransactions', function (event, filter) {
             $scope.showLoading();
-            FilterFactory.getTransactions(filter)
+            FilterFactory.getTransactions(FilterFactory.filter)
                 .then(function (response) {
                     $scope.transactions = response.data;
                     $scope.hideLoading();
