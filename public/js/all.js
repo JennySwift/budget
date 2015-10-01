@@ -13327,7 +13327,7 @@ var app = angular.module('budgetApp');
         };
 
         $rootScope.$on('runFilter', function (event, data) {
-            $scope.getFilterBasicTotals();
+            $rootScope.$emit('getFilterBasicTotals');
             if ($scope.tab === 'transactions') {
                 $scope.$emit('filterTransactions', $scope.filter);
             }
@@ -13336,7 +13336,7 @@ var app = angular.module('budgetApp');
             }
         });
 
-        $scope.getFilterBasicTotals = function () {
+        $rootScope.$on('getFilterBasicTotals', function () {
             FilterFactory.getBasicTotals($scope.filter)
                 .then(function (response) {
                     $scope.filterTotals = response.data;
@@ -13345,7 +13345,7 @@ var app = angular.module('budgetApp');
                 .catch(function (response) {
                     $scope.responseError(response);
                 })
-        };
+        });
 
         $scope.getGraphTotals = function () {
             FilterFactory.getGraphTotals($scope.filter)
@@ -13514,7 +13514,7 @@ var app = angular.module('budgetApp');
 
                     if ($transaction.multipleBudgets) {
                         $scope.$emit('handleAllocationForNewTransaction', $transaction);
-                        $scope.getFilterBasicTotals();
+                        $rootScope.$emit('getFilterBasicTotals');
                     }
                     else {
                         $rootScope.$emit('runFilter');
@@ -13702,15 +13702,8 @@ var app = angular.module('budgetApp');
             }
         };
 
-        /**
-         * This is erroring, because I need $scope.filter from FilterController.
-         * But how do I get it? This event is fired from NewTransactionController,
-         * and it doesn't have access to $scope.filter from FilterController either.
-         */
         $rootScope.$on('handleAllocationForNewTransaction', function (event, $transaction) {
-            //var $filter = $scope.$emit('getFilter');
-
-            FilterFactory.getTransactions($filter)
+            FilterFactory.getTransactions(FilterFactory.filter)
                 .then(function (response) {
                     $scope.hideLoading();
                     $scope.transactions = response.data;
@@ -13748,7 +13741,7 @@ var app = angular.module('budgetApp');
             if (confirm("Are you sure?")) {
                 $scope.clearTotalChanges();
                 $scope.showLoading();
-                TransactionsFactory.deleteTransaction($transaction, $scope.filter)
+                TransactionsFactory.deleteTransaction($transaction, FilterFactory.filter)
                     .then(function (response) {
                         jsDeleteTransaction($transaction);
                         $scope.$emit('getSideBarTotals');
@@ -14042,7 +14035,7 @@ app.factory('ErrorsFactory', function ($q) {
 
     };
 });
-app.factory('FilterFactory', function ($http) {
+app.factory('FilterFactory', function ($http, $rootScope) {
     var $object = {};
 
     $object.resetFilter = function () {

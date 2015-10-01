@@ -64,7 +64,7 @@
 
                     if ($transaction.multipleBudgets) {
                         $scope.$emit('handleAllocationForNewTransaction', $transaction);
-                        $scope.getFilterBasicTotals();
+                        $rootScope.$emit('getFilterBasicTotals');
                     }
                     else {
                         $rootScope.$emit('runFilter');

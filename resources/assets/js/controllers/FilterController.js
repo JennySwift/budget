@@ -15,7 +15,7 @@
         };
 
         $rootScope.$on('runFilter', function (event, data) {
-            $scope.getFilterBasicTotals();
+            $rootScope.$emit('getFilterBasicTotals');
             if ($scope.tab === 'transactions') {
                 $scope.$emit('filterTransactions', $scope.filter);
             }
@@ -24,7 +24,7 @@
             }
         });
 
-        $scope.getFilterBasicTotals = function () {
+        $rootScope.$on('getFilterBasicTotals', function () {
             FilterFactory.getBasicTotals($scope.filter)
                 .then(function (response) {
                     $scope.filterTotals = response.data;
@@ -33,7 +33,7 @@
                 .catch(function (response) {
                     $scope.responseError(response);
                 })
-        };
+        });
 
         $scope.getGraphTotals = function () {
             FilterFactory.getGraphTotals($scope.filter)

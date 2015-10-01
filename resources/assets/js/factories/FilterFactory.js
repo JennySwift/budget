@@ -1,4 +1,4 @@
-app.factory('FilterFactory', function ($http) {
+app.factory('FilterFactory', function ($http, $rootScope) {
     var $object = {};
 
     $object.resetFilter = function () {
