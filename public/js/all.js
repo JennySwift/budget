@@ -13320,11 +13320,9 @@ var app = angular.module('budgetApp');
 
         $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
-        $scope.accounts = accounts_response;
 
         $scope.filter = FilterFactory.filter;
         $scope.filterTotals = filterBasicTotals;
-        $scope.test = FilterFactory.test;
 
         $scope.runFilter = function () {
             $rootScope.$emit('runFilter');
@@ -13351,27 +13349,10 @@ var app = angular.module('budgetApp');
                 })
         };
 
-        /**
-         * I have three instances of FilterController and when this is called
-         * from one of them, the wrong $scope.filter is updated.
-         */
-        //$scope.resetFilter = function () {
-        //    FilterFactory.updateTest(2);
-        //    $scope.filter = FilterFactory.resetFilter();
-        //    $rootScope.$emit('runFilter');
-        //};
-
         $rootScope.$on('resetFilter', function (event, data) {
             $scope.filter = FilterFactory.resetFilter();
             $rootScope.$emit('runFilter');
         });
-
-        /**
-         * Didn't work
-         */
-        //$rootScope.$on('getFilter', function () {
-        //    return $scope.filter;
-        //});
 
         $scope.resetFilter = function () {
             $scope.$emit('resetFilter');
@@ -13456,13 +13437,6 @@ var app = angular.module('budgetApp');
             $rootScope.$emit('runFilter');
         };
 
-        $scope.resetSearch = function () {
-            $("#search-type-select, #search-account-select, #search-reconciled-select").val("all");
-            $("#single-date-input, #from-date-input, #to-date-input, #search-descriptions-input, #search-merchants-input, #search-tags-input").val("");
-            $("#search-tag-location").html("");
-            $scope.filter(true);
-        };
-
         $scope.filterDescriptionOrMerchant = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
@@ -13522,14 +13496,6 @@ var app = angular.module('budgetApp');
 
         $scope.resetOffset = function () {
             $scope.filter.offset = 0;
-        };
-
-        $scope.showContent = function (event) {
-            $(event.target).next().addClass('show-me').removeClass('hide');
-        };
-
-        $scope.hideContent = function (event) {
-            $(event.target).next().addClass('hide-me').removeClass('show');
         };
 
     }
@@ -14219,13 +14185,6 @@ app.factory('ErrorsFactory', function ($q) {
 app.factory('FilterFactory', function ($http) {
     var $object = {};
 
-    $object.test = 1;
-
-    $object.updateTest = function ($newValue) {
-        $object.test = $newValue;
-        return $object.test;
-    };
-
     $object.resetFilter = function () {
         $object.filter = {
 
@@ -14558,14 +14517,14 @@ app.factory('ShowFactory', function () {
             tags: true,
             dlt: true,
             //components
-            new_transaction: true,
+            new_transaction: false,
             basic_totals: true,
             budget_totals: true,
             filter_totals: true,
             edit_transaction: false,
             edit_tag: false,
             budget: false,
-            filter: false,
+            filter: true,
             autocomplete: {
                 description: false,
                 merchant: false
@@ -14901,6 +14860,22 @@ angular.module('budgetApp')
         }
     });
 
+
+angular.module('budgetApp')
+    .directive('filterAccountsDirective', function () {
+        return {
+            scope: {
+                'filter': '=filter',
+                'filterTab': '=filtertab',
+                'runFilter': '&runfilter'
+            },
+            templateUrl: 'filter-accounts-template',
+
+            link: function ($scope) {
+                $scope.accounts = accounts_response;
+            }
+        }
+    });
 
 ;(function(){
     'use strict';

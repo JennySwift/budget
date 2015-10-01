@@ -16,14 +16,14 @@ app.factory('ShowFactory', function () {
             tags: true,
             dlt: true,
             //components
-            new_transaction: true,
+            new_transaction: false,
             basic_totals: true,
             budget_totals: true,
             filter_totals: true,
             edit_transaction: false,
             edit_tag: false,
             budget: false,
-            filter: false,
+            filter: true,
             autocomplete: {
                 description: false,
                 merchant: false

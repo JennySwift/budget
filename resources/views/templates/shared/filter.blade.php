@@ -16,7 +16,12 @@
         Hide tab
     </div>
 
-    @include('templates.home.filter.accounts')
+    {{--@include('directive-templates.filter.accounts')--}}
+    <filter-accounts-directive
+            filter="filter"
+            filterTab="filterTab"
+            runFilter="runFilter()">
+    </filter-accounts-directive>
     @include('templates.home.filter.types')
     @include('templates.home.filter.description')
     @include('templates.home.filter.merchant')

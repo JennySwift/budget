@@ -11,6 +11,7 @@
 @include('directive-templates.tag-autocomplete')
 @include('directive-templates.transaction-autocomplete')
 @include('directive-templates.checkboxes')
+@include('directive-templates.filter.accounts')
 
 {{--<script type="text/javascript" src="/js/filters.js"></script>--}}
 {{--<script type="text/javascript" src="/js/controllers.js"></script>--}}

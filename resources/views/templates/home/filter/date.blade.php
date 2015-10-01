@@ -61,25 +61,6 @@
 
         </div>
 
-        {{--<div ng-show="filterTab === 'hide'" class="group">--}}
-
-            {{--<input--}}
-                    {{--ng-model="filter.from_date.out.user"--}}
-                    {{--ng-keyup="filterDate($event.keyCode)"--}}
-                    {{--type="text"--}}
-                    {{--placeholder="from a date">--}}
-
-            {{--<span class="input-group-btn">--}}
-                {{--<button--}}
-                        {{--ng-click="clearDateField('from_date', 'out')"--}}
-                        {{--class="clear-search-button"--}}
-                        {{--type="button">--}}
-                    {{--clear--}}
-                {{--</button>--}}
-            {{--</span>--}}
-
-        {{--</div>--}}
-
         <div ng-show="filterTab === 'show'" class="group">
 
             <input
@@ -98,25 +79,6 @@
             </span>
 
         </div>
-
-        {{--<div ng-show="filterTab === 'hide'" class="group">--}}
-
-            {{--<input--}}
-                    {{--ng-model="filter.to_date.out.user"--}}
-                    {{--ng-keyup="filterDate($event.keyCode)"--}}
-                    {{--type="text"--}}
-                    {{--placeholder="to a date">--}}
-
-            {{--<span class="input-group-btn">--}}
-                {{--<button--}}
-                        {{--ng-click="clearDateField('to_date', 'out')"--}}
-                        {{--class="clear-search-button"--}}
-                        {{--type="button">--}}
-                    {{--clear--}}
-                {{--</button>--}}
-            {{--</span>--}}
-
-        {{--</div>--}}
 
     </div>
 

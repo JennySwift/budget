@@ -8,11 +8,9 @@
 
         $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
-        $scope.accounts = accounts_response;
 
         $scope.filter = FilterFactory.filter;
         $scope.filterTotals = filterBasicTotals;
-        $scope.test = FilterFactory.test;
 
         $scope.runFilter = function () {
             $rootScope.$emit('runFilter');
@@ -39,27 +37,10 @@
                 })
         };
 
-        /**
-         * I have three instances of FilterController and when this is called
-         * from one of them, the wrong $scope.filter is updated.
-         */
-        //$scope.resetFilter = function () {
-        //    FilterFactory.updateTest(2);
-        //    $scope.filter = FilterFactory.resetFilter();
-        //    $rootScope.$emit('runFilter');
-        //};
-
         $rootScope.$on('resetFilter', function (event, data) {
             $scope.filter = FilterFactory.resetFilter();
             $rootScope.$emit('runFilter');
         });
-
-        /**
-         * Didn't work
-         */
-        //$rootScope.$on('getFilter', function () {
-        //    return $scope.filter;
-        //});
 
         $scope.resetFilter = function () {
             $scope.$emit('resetFilter');
@@ -144,13 +125,6 @@
             $rootScope.$emit('runFilter');
         };
 
-        $scope.resetSearch = function () {
-            $("#search-type-select, #search-account-select, #search-reconciled-select").val("all");
-            $("#single-date-input, #from-date-input, #to-date-input, #search-descriptions-input, #search-merchants-input, #search-tags-input").val("");
-            $("#search-tag-location").html("");
-            $scope.filter(true);
-        };
-
         $scope.filterDescriptionOrMerchant = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
@@ -210,14 +184,6 @@
 
         $scope.resetOffset = function () {
             $scope.filter.offset = 0;
-        };
-
-        $scope.showContent = function (event) {
-            $(event.target).next().addClass('show-me').removeClass('hide');
-        };
-
-        $scope.hideContent = function (event) {
-            $(event.target).next().addClass('hide-me').removeClass('show');
         };
 
     }
