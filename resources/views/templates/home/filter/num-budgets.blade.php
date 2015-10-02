@@ -9,7 +9,7 @@
         <div ng-show="filterTab === 'show'">
             <input
                 ng-model="filter.numBudgets.in"
-                ng-change="filterTransactions()"
+                ng-change="runFilter()"
                 type="radio"
                 name="numBudgetsIn"
                 value="all">
@@ -19,7 +19,7 @@
         <div ng-show="filterTab === 'show'">
             <input
                 ng-model="filter.numBudgets.in"
-                ng-change="filterTransactions()"
+                ng-change="runFilter()"
                 type="radio"
                 name="numBudgetsIn"
                 value="zero">
@@ -29,7 +29,7 @@
         <div ng-show="filterTab === 'hide'">
             <input
                     ng-model="filter.numBudgets.out"
-                    ng-change="filterTransactions()"
+                    ng-change="runFilter()"
                     type="radio"
                     name="numBudgetsOut"
                     value="none">
@@ -39,7 +39,7 @@
         <div ng-show="filterTab === 'hide'">
             <input
                     ng-model="filter.numBudgets.out"
-                    ng-change="filterTransactions()"
+                    ng-change="runFilter()"
                     type="radio"
                     name="numBudgetsOut"
                     value="zero">
@@ -49,7 +49,7 @@
         <div ng-show="filterTab === 'show'">
             <input
                 ng-model="filter.numBudgets.in"
-                ng-change="filterTransactions()"
+                ng-change="runFilter()"
                 type="radio"
                 name="numBudgetsIn"
                 value="single">
@@ -59,7 +59,7 @@
         <div ng-show="filterTab === 'hide'">
             <input
                     ng-model="filter.numBudgets.out"
-                    ng-change="filterTransactions()"
+                    ng-change="runFilter()"
                     type="radio"
                     name="numBudgetsOut"
                     value="single">
@@ -69,7 +69,7 @@
         <div ng-show="filterTab === 'show'">
             <input
                 ng-model="filter.numBudgets.in"
-                ng-change="filterTransactions()"
+                ng-change="runFilter()"
                 type="radio"
                 name="numBudgetsIn"
                 value="multiple">
@@ -79,7 +79,7 @@
         <div ng-show="filterTab === 'hide'">
             <input
                     ng-model="filter.numBudgets.out"
-                    ng-change="filterTransactions()"
+                    ng-change="runFilter()"
                     type="radio"
                     name="numBudgetsOut"
                     value="multiple">

@@ -13,7 +13,7 @@
             <label>Clear fields upon entering new transaction</label>
 
             <checkbox
-                model="me.preferences.clear_fields"
+                model="me.preferences.clearFields"
                 id="clear-fields">
             </checkbox>
 

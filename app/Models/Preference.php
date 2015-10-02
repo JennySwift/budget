@@ -16,7 +16,7 @@ class Preference extends Model
     /**
      * @var array
      */
-    protected $allowed = ['colors', 'clear_fields'];
+    protected $allowed = ['colors', 'clearFields'];
 
     /**
      * @param User $user

@@ -21,16 +21,16 @@ class Budget extends Model
 
     protected $appends = [
         'path',
-        'formattedStartingDate',
-        'spent',
-        'received',
-        'spentAfterStartingDate',
-        'spentBeforeStartingDate',
-        'receivedAfterStartingDate',
-        'cumulativeMonthNumber',
-        'cumulative',
-        'remaining',
-        'transactionsCount'
+//        'formattedStartingDate',
+//        'spent',
+//        'received',
+//        'spentAfterStartingDate',
+//        'spentBeforeStartingDate',
+//        'receivedAfterStartingDate',
+//        'cumulativeMonthNumber',
+//        'cumulative',
+//        'remaining',
+//        'transactionsCount'
     ];
 
     //Commenting this out for now because there's so much data I don't need

@@ -43,7 +43,6 @@ class GraphsRepository {
         $minDate = Carbon::createFromFormat('Y-m-d', $query->min('date'))->startOfMonth();
         $maxDate = Carbon::createFromFormat('Y-m-d', $query->max('date'))->startOfMonth();
 
-
         $date = $maxDate;
 
         while ($minDate <= $date) {
@@ -84,12 +83,11 @@ class GraphsRepository {
     private function monthTotals($query, $date)
     {
         $queryClone = clone $query;
-        $lastMonthTransactions = $queryClone
+        $queryClone = $queryClone
             ->whereMonth('date', '=', $date->month)
-            ->whereYear('date', '=', $date->year)
-            ->get();
+            ->whereYear('date', '=', $date->year);
 
-        $monthTotals = $this->filterTotalsRepository->getFilterTotals($query);
+        $monthTotals = $this->filterTotalsRepository->getFilterTotals($queryClone);
         $monthTotals->month = $date->format("M Y");
 
         return $monthTotals;

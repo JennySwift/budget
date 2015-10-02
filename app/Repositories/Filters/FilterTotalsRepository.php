@@ -18,50 +18,61 @@ class FilterTotalsRepository {
      */
     public function getFilterTotals($query)
     {
-        $transactions = $query
-            ->select('date', 'type', 'reconciled', 'total')
-            ->orderBy('date', 'desc')
-            ->get();
+        $transactions = $this->getTransactions($query);
 
         $income = 0;
         $expenses = 0;
-        $total_reconciled = 0;
+        $totalReconciled = 0;
 
         foreach ($transactions as $transaction) {
-            $total = $transaction->total;
-            $type = $transaction->type;
-            $reconciled = $transaction->reconciled;
+            switch($transaction->type) {
+                case "income":
+                    $income += $transaction->total;
+                    break;
 
-            if ($type === 'income') {
-                $income += $total;
+                case "expense":
+                    $expenses += $transaction->total;
+                    break;
+
+                case "transfer":
+                    if ($transaction->total > 0) {
+                        $income += $transaction->total;
+                    }
+                    elseif ($transaction->total < 0) {
+                        $expenses += $transaction->total;
+                    }
+
+                default:
+                    // @TODO If nothing matches, throw an exception!!
             }
-            elseif ($type === 'expense') {
-                $expenses += $total;
-            }
-            elseif ($type === 'transfer') {
-                if ($total > 0) {
-                    $income += $total;
-                }
-                elseif ($total < 0) {
-                    $expenses += $total;
-                }
-            }
-            if ($reconciled == 1) {
-                $total_reconciled += $total;
+
+            if ($transaction->reconciled == 1) {
+                $totalReconciled += $transaction->total;
             }
         }
-
-        $balance = $income + $expenses;
 
         //todo: format these values again elsewhere. I need them unformatted here.
 
         return new FilterTotals(
             $income,
             $expenses,
-            $balance,
-            $total_reconciled,
+            $income + $expenses,
+            $totalReconciled,
             $this->countTransactions($query)
         );
+    }
+
+    /**
+     *
+     * @param $query
+     * @return mixed
+     */
+    private function getTransactions($query)
+    {
+        return $query
+            ->select('date', 'type', 'reconciled', 'total')
+            ->orderBy('date', 'desc')
+            ->get();
     }
 
     /**

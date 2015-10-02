@@ -11,6 +11,7 @@
             scope: {
                 //"totals": "=totals",
                 "sideBarTotals": "=sidebartotals",
+                "totalsLoading": "=totalsloading",
                 //"basicTotals": "=basictotals",
                 //"fixedBudgetTotals": "=fixedbudgettotals",
                 //"flexBudgetTotals": "=flexbudgettotals",
@@ -20,7 +21,7 @@
                 "show": "=show"
             },
             //template: $('script#totals').html(),
-            templateUrl: '/totals-directive',
+            templateUrl: 'totals-template',
             //scope: true,
             link: function($scope, elem, attrs) {
 

@@ -6,13 +6,13 @@ but it's so I have a value for the master template--}}
 
 @section('page-content')
 
-    @include('templates.feedback')
-    @include('templates/help/help-navigation')
+    @include('templates.shared.header')
+    @include('templates.help.help-navigation')
 
     <h1>Help</h1>
 
     <div id="help">
-        @include('templates/help/help-content')
+        @include('templates.help.help-content')
     </div>
 
 @stop

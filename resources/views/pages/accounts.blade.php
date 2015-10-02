@@ -30,9 +30,9 @@
         </div>
 
         <table class="">
-            <tr ng-repeat="account in accounts">
+            <tr ng-repeat="account in accounts | orderBy: 'name'">
                 <td
-                    ng-click="showEditAccountPopup(account.id, account.name)"
+                    ng-click="showEditAccountPopup(account)"
                     class="pointer">
                     [[account.name]]
                 </td>

@@ -58,7 +58,7 @@
         </tag-autocomplete-directive>
 
 		<div class="btn-wrapper">
-			<button ng-click="filterTransactions(); show.edit_transaction = false" class="cancel">Cancel</button>
+			<button ng-click="runFilter(); show.edit_transaction = false" class="cancel">Cancel</button>
 			<button ng-click="updateTransaction()" class="save">Save</button>
 		</div>
 	

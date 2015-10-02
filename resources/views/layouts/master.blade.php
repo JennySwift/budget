@@ -5,26 +5,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Budget App</title>
-    @include('templates.head-links')
+    @include('templates.shared.head-links')
 </head>
 
-@include('templates.page-loading')
+@include('templates.shared.page-loading')
 
-<body ng-controller="BaseController">
+<body>
 
-    @include('templates.loading')
+    @include('templates.shared.loading')
 
         <div ng-controller=@yield('controller') id=@yield('id', 'nothing') class="main">
 
-            @include('templates.header')
+            @include('templates.shared.header')
 
-            @include('templates.feedback')
+            <feedback-directive></feedback-directive>
 
             @section('page-content')
             @show
 
         </div>
 
-    @include('templates/footer')
-    @include('templates/home/footer')
-    @include('footer')
+    @include('templates.shared.footer')

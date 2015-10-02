@@ -4,11 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Budgets\CreateBudgetRequest;
+use App\Http\Transformers\BudgetTransformer;
 use App\Models\Budget;
 use App\Repositories\Budgets\BudgetsRepository;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use JavaScript;
 
 /**
@@ -50,7 +52,12 @@ class BudgetsController extends Controller
             $budget->getCalculatedAmount($remainingBalance);
         }
 
-        return $this->responseCreated($budget);
+        $item = $this->createItem(
+            $budget,
+            new BudgetTransformer
+        );
+
+        return $this->responseWithTransformer($item, Response::HTTP_CREATED);
     }
 
     /**
@@ -98,5 +105,33 @@ class BudgetsController extends Controller
         $budget->delete();
 
         return response([], 204);
+    }
+
+    /**
+     * This is just so I can write a test for the fixed budgets in TotalsTest.php
+     */
+    public function getFixedBudgets()
+    {
+        $budgets = Budget::forCurrentUser()->whereType('fixed')->get();
+
+        //Transform budgets
+        $resource = createCollection($budgets, new BudgetTransformer);
+        return transform($resource);
+    }
+
+    /**
+     * This is just so I can write a test for the flex budgets in TotalsTest.php
+     */
+    public function getFlexBudgets()
+    {
+//        $budgets = Budget::forCurrentUser()->whereType('flex')->get();
+
+        $remainingBalance = app('remaining-balance')->calculate();
+        $budgets = $remainingBalance->flexBudgetTotals->budgets['data'];
+        return $budgets;
+
+        //Transform budgets
+//        $resource = createCollection($budgets, new BudgetTransformer);
+//        return transform($resource);
     }
 }

@@ -7,10 +7,9 @@
     function filter ($scope, FilterFactory) {
 
         $scope.filterFactory = FilterFactory;
-        $scope.accounts = accounts_response;
-        $scope.budgets = budgets;
         $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
+        $scope.accounts = accounts_response;
 
         //$scope.resetFilter = function () {
         //    FilterFactory.resetFilter();
@@ -32,21 +31,21 @@
             if (newValue === oldValue) {
                 return;
             }
-            $scope.filterTransactions();
+            $scope.runFilter();
         });
 
         $scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
-            $scope.filterTransactions();
+            $scope.runFilter();
         });
 
         $scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
             if (newValue === oldValue) {
                 return;
             }
-            $scope.filterTransactions();
+            $scope.runFilter();
         });
 
         //Todo: I might not need some of this code (not allowing offset to be less than 0)
@@ -59,7 +58,7 @@
             else {
                 $scope.filter.offset-= ($scope.filter.num_to_fetch * 1);
                 updateRange();
-                $scope.filterTransactions();
+                $scope.runFilter();
             }
         };
 
@@ -73,7 +72,7 @@
 
         $scope.changeNumToFetch = function () {
             updateRange();
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         $scope.nextResults = function () {
@@ -84,14 +83,14 @@
 
             $scope.filter.offset+= ($scope.filter.num_to_fetch * 1);
             updateRange();
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         $scope.resetSearch = function () {
             $("#search-type-select, #search-account-select, #search-reconciled-select").val("all");
             $("#single-date-input, #from-date-input, #to-date-input, #search-descriptions-input, #search-merchants-input, #search-tags-input").val("");
             $("#search-tag-location").html("");
-            $scope.filterTransactions(true);
+            $scope.filter(true);
         };
 
         $scope.filterDescriptionOrMerchant = function ($keycode) {
@@ -99,21 +98,21 @@
                 return false;
             }
             $scope.resetOffset();
-            $scope.filterTransactions(true);
+            $scope.runFilter(true);
         };
 
         $scope.filterDate = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
             }
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         $scope.filterTotal = function ($keycode) {
             if ($keycode !== 13) {
                 return false;
             }
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         /**
@@ -123,7 +122,7 @@
          */
         $scope.clearFilterField = function ($field, $type) {
             $scope.filter[$field][$type] = "";
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         /**
@@ -148,7 +147,7 @@
          */
         $scope.clearDateField = function ($field, $type) {
             $scope.filter[$field][$type]['user'] = "";
-            $scope.filterTransactions();
+            $scope.runFilter();
         };
 
         $scope.resetOffset = function () {

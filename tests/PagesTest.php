@@ -35,6 +35,44 @@ class PagesTest extends TestCase {
 	}
 
     /**
+     * @test
+     * @VP:
+     * Why is $time around .8 here whereas in Postman it is around 1400ms?
+     */
+    public function it_tests_the_page_load_speed_of_home_page()
+    {
+        $start = microtime(true);
+        $this->logInUser(2);
+        $this->visit('/');
+        $time = microtime(true) - $start;
+        $this->assertLessThan(1, $time);
+    }
+
+    /**
+     * @test
+     */
+    public function it_tests_the_page_load_speed_of_fixed_budgets_page()
+    {
+        $start = microtime(true);
+        $this->logInUser(2);
+        $this->visit('/budgets/fixed');
+        $time = microtime(true) - $start;
+        $this->assertLessThan(1.2, $time);
+    }
+
+    /**
+     * @test
+     */
+    public function it_tests_the_page_load_speed_of_flex_budgets_page()
+    {
+        $start = microtime(true);
+        $this->logInUser(2);
+        $this->visit('/budgets/flex');
+        $time = microtime(true) - $start;
+        $this->assertLessThan(1.2, $time);
+    }
+
+    /**
      * A basic functional test example.
      * @test
      * @return void

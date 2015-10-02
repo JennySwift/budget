@@ -1,4 +1,8 @@
-
+#filter-totals {
+    .list-group-item {
+        padding: 5px 15px;
+    }
+}
 #filter {
     //animation
     animation: slideInRight .5s;
@@ -10,7 +14,7 @@
 	top: 110px;
 	right: 0px;
 	opacity: .8;
-	height: 500px;
+	height: 600px;
     overflow: scroll;
     width: 275px;
 	overflow: scroll;

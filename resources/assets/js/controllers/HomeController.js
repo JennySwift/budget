@@ -4,36 +4,93 @@
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, TransactionsFactory, PreferencesFactory) {
+    function home ($scope, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
-
+        $scope.budgets = budgets;
         $scope.colors = me.preferences.colors;
 
-        if ($scope.env === 'local') {
+        if (env === 'local') {
             $scope.tab = 'transactions';
         }
         else {
             $scope.tab = 'transactions';
         }
 
-        $scope.$watch('PreferencesFactory.date_format', function (newValue, oldValue) {
-            if (!newValue) {
-                return;
+        $scope.toggleFilter = function () {
+            $scope.show.filter = !$scope.show.filter;
+        };
+
+        //Putting this here so that transactions update
+        //after inserting transaction from newTransactionController
+        $scope.transactions = transactions;
+
+        $scope.filter = FilterFactory.filter;
+        $scope.filterTotals = filterBasicTotals;
+
+        $scope.runFilter = function () {
+            $scope.getFilterBasicTotals();
+            if ($scope.tab === 'transactions') {
+                $scope.filterTransactions();
             }
+            else {
+                $scope.getGraphTotals();
+            }
+        };
+
+        /**
+         * When this is needed:
+         * When filter is changed (FilterController)
+         * When new transaction is entered (NewTransactionController)
+         * When transaction is edited (TransactionsController)
+         *
+         * So if I put it in the FilterController, how will I update
+         * $scope.transactions in the TransactionsController when a
+         * new transaction is entered in the NewTransactionController?
+         */
+        $scope.filterTransactions = function () {
             $scope.showLoading();
-            PreferencesFactory.insertOrUpdateDateFormat(newValue)
+            FilterFactory.getTransactions($scope.filter)
                 .then(function (response) {
+                    $scope.transactions = response.data;
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
-                });
-        });
+                })
+        };
 
-        $scope.toggleFilter = function () {
-            $scope.show.filter = !$scope.show.filter;
+        $scope.getFilterBasicTotals = function () {
+            FilterFactory.getBasicTotals($scope.filter)
+                .then(function (response) {
+                    $scope.filterTotals = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        };
+
+        $scope.getGraphTotals = function () {
+            FilterFactory.getGraphTotals($scope.filter)
+                .then(function (response) {
+                    $scope.graphTotals = response.data;
+                    calculateGraphFigures();
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        };
+
+        /**
+         * This is here because it calls $scope.runFilter,
+         * and that method is in this file
+         */
+        $scope.resetFilter = function () {
+            $scope.filter = FilterFactory.resetFilter();
+            $scope.runFilter();
         };
 
         $scope.transactionsTab = function () {
@@ -41,6 +98,7 @@
             $scope.show.basic_totals = true;
             $scope.show.budget_totals = true;
             $scope.show.filter = false;
+            $scope.runFilter();
         };
 
         $scope.graphsTab = function () {
@@ -48,76 +106,103 @@
             $scope.show.basic_totals = false;
             $scope.show.budget_totals = false;
             $scope.show.filter = true;
+            $scope.runFilter();
         };
 
         if ($scope.tab === 'graphs') {
             $scope.graphsTab();
         }
 
-
-
-
-
-
-
-
-
-
-        /*==============================quick select of transactions==============================*/
-
-        $("body").on('click', '.mass-delete-checkbox-container', function (event) {
-            var $this = $(this).closest("tbody");
-            var $checked = $(".checked");
-            $(".last-checked").removeClass("last-checked");
-            $(".first-checked").removeClass("first-checked");
-
-            if (event.shiftKey) {
-                var $last_checked = $($checked).last().closest("tbody");
-                var $first_checked = $($checked).first().closest("tbody");
-
-                $($last_checked).addClass("last-checked");
-                $($first_checked).addClass("first-checked");
-                $($this).addClass("checked");
-
-                if ($($this).prevAll(".last-checked").length !== 0) {
-                    //$this is after .last-checked
-                    shiftSelect("forwards");
-                }
-                else if ($($this).nextAll(".last-checked").length !== 0) {
-                    //$this is before .last-checked
-                    shiftSelect("backwards");
-                }
-            }
-            else if (event.altKey) {
-                $($this).toggleClass('checked');
-            }
-            else {
-                console.log("no shift");
-                $(".checked").not($this).removeClass('checked');
-                $($this).toggleClass('checked');
-            }
-        });
-
-        function shiftSelect ($direction) {
-            $("#my_results tbody").each(function () {
-                var $prev_checked_length = $(this).prevAll(".checked").length;
-                var $after_checked_length = $(this).nextAll(".checked").length;
-                var $after_last_checked = $(this).prevAll(".last-checked").length;
-                var $before_first_checked = $(this).nextAll(".first-checked").length;
-
-                if ($direction === "forwards") {
-                    //if it's after $last_checked and before $this
-                    if ($prev_checked_length !== 0 && $after_checked_length !== 0 && $after_last_checked !== 0) {
-                        $(this).addClass('checked');
-                    }
-                }
-                else if ($direction === "backwards") {
-                    if ($prev_checked_length !== 0 && $after_checked_length !== 0 && $before_first_checked !== 0) {
-                        $(this).addClass('checked');
-                    }
-                }
-            });
+        /**
+         * This is here because it is called by $scope.runFilter,
+         * which is in this file.
+         */
+        function calculateGraphFigures () {
+            $scope.graphFigures = FilterFactory.calculateGraphFigures($scope.graphTotals);
         }
+
+        /**
+         * Although related to a new transaction, this is here,
+         * not in NewTransactionController,
+         * because it uses $scope.transactions.
+         * @param $transaction
+         */
+        $scope.handleAllocationForNewTransaction = function ($transaction) {
+            FilterFactory.getTransactions($scope.filter)
+                .then(function (response) {
+                    $scope.hideLoading();
+                    $scope.transactions = response.data;
+                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
+                    if ($index !== -1) {
+                        //The transaction that was just entered is in the filtered transactions
+                        $scope.showAllocationPopup($scope.transactions[$index]);
+                        //$scope.transactions[$index] = $scope.allocationPopup;
+                    }
+                    else {
+                        $scope.showAllocationPopup($transaction);
+                    }
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        };
+
+        /**
+         * This is here because it is called by $scope.handleAllocationForNewTransaction,
+         * which is in this file
+         * @param $transaction
+         */
+        $scope.showAllocationPopup = function ($transaction) {
+            $scope.show.allocationPopup = true;
+            $scope.allocationPopup = $transaction;
+
+            $scope.showLoading();
+            TransactionsFactory.getAllocationTotals($transaction.id)
+                .then(function (response) {
+                    $scope.allocationPopup.totals = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        /**
+         * This should be in transactions controller but it wasn't firing for some reason
+         * @param $keycode
+         * @param $type
+         * @param $value
+         * @param $budget_id
+         */
+        $scope.updateAllocation = function ($keycode, $type, $value, $budget_id) {
+            if ($keycode === 13) {
+                $scope.showLoading();
+                TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
+                    .then(function (response) {
+                        $scope.allocationPopup.budgets = response.data.budgets;
+                        $scope.allocationPopup.totals = response.data.totals;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            }
+        };
+
+
+        /**
+         * This should be in transactions controller but it wasn't firing for some reason
+         */
+        $scope.updateAllocationStatus = function () {
+            $scope.showLoading();
+            TransactionsFactory.updateAllocationStatus($scope.allocationPopup.id, $scope.allocationPopup.allocated)
+                .then(function (response) {
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
 
     }
 

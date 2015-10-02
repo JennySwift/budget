@@ -41,13 +41,14 @@ class PagesController extends Controller {
             'env' => app()->env,
             'me' => Auth::user(),
             'page' => 'home',
-//            //It wouldn't work if I named it 'transactions', or 'totals'
+////            //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),
             'budgets' => $this->budgetsRepository->getBudgets(),
-            'filter_response' => $filter->setFilter()
+            'transactions' => $filter->getTransactions(),
+            'filterBasicTotals' => $filter->getBasicTotals(),
         ]);
 
-        return view('home');
+        return view('pages/home');
     }
 
     /**
@@ -61,11 +62,11 @@ class PagesController extends Controller {
         JavaScript::put([
             'me' => Auth::user(),
             'page' => 'fixedBudgets',
-            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets,
+            'fixedBudgets' => $remainingBalance->fixedBudgetTotals->budgets['data'],
             'fixedBudgetTotals' => $remainingBalance->fixedBudgetTotals->toArray(),
         ]);
 
-        return view('budgets/fixed');
+        return view('pages/budgets/fixed');
     }
 
     /**
@@ -79,11 +80,11 @@ class PagesController extends Controller {
         JavaScript::put([
             'me' => Auth::user(),
             'page' => 'flexBudgets',
-            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets,
+            'flexBudgets' => $remainingBalance->flexBudgetTotals->budgets['data'],
             'flexBudgetTotals' => $remainingBalance->flexBudgetTotals->toArray(),
         ]);
 
-        return view('budgets/flex');
+        return view('pages/budgets/flex');
     }
 
     /**
@@ -98,10 +99,10 @@ class PagesController extends Controller {
             'me' => Auth::user(),
             'page' => 'unassignedBudgets',
             'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,
-            'unassignedBudgetTotals' => $remainingBalance->unassignedBudgetTotals->toArray(),
+//            'unassignedBudgetTotals' => $remainingBalance->unassignedBudgetTotals->toArray(),
         ]);
 
-        return view('budgets/unassigned');
+        return view('pages/budgets/unassigned');
     }
 
     public function preferences()
@@ -110,7 +111,7 @@ class PagesController extends Controller {
             'me' => Auth::user(),
         ]);
 
-        return view('preferences');
+        return view('pages/preferences');
     }
 
     /**
@@ -125,7 +126,7 @@ class PagesController extends Controller {
             'accounts' => Account::getAccounts(),
         ]);
 
-        return view('accounts');
+        return view('pages/accounts');
     }
 
     /**
@@ -139,7 +140,7 @@ class PagesController extends Controller {
             'me' => Auth::user(),
         ]);
 
-        return view('help');
+        return view('pages/help');
     }
 
 }

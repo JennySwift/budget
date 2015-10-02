@@ -6,8 +6,6 @@
     box-shadow: 3px 3px 10px #777;
     thead {
         tr {
-//            background: #777;
-//            color: white;
             background: white;
             color: $info;
         }
@@ -19,6 +17,9 @@
 		height: 39px;
         position: relative;
         transition: all, 1.5s, ease;
+        &.description, &.merchant {
+            max-width: 120px;
+        }
         &:hover {
             .tooltip-container {
                 visibility: visible;
@@ -53,11 +54,6 @@
 			padding: 9px 0px 2px 0px;
 			height: 24px;
 		}
-//        position: absolute;
-//        bottom: 0;
-//        .label {
-//
-//        }
 	}
     .results_inner_div {
         td {

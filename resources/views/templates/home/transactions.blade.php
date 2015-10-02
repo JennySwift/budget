@@ -14,7 +14,7 @@
 
             <td ng-show="show.date">[[transaction.userDate]]</td>
 
-            <td ng-show="show.description" class="max-width-md">
+            <td ng-show="show.description" class="description">
                 <div>
                     <div>[[transaction.description]]</div>
                 </div>
@@ -24,7 +24,7 @@
                 </div>
             </td>
 
-            <td ng-show="show.merchant" class="max-width-md">
+            <td ng-show="show.merchant" class="merchant">
                 <div>
                     <div>[[transaction.merchant]]</div>
                 </div>

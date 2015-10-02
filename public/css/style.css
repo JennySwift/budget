@@ -559,6 +559,15 @@ caption {
       -ms-flex-align: center;
       align-items: center; }
 
+#remaining-balance-totals {
+  position: relative; }
+  #remaining-balance-totals .fa-pulse {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    font-size: 15px;
+    color: #5bc0de; }
+
 .totals {
   box-shadow: 3px 3px 10px #777;
   margin-bottom: 20px;
@@ -893,6 +902,9 @@ caption {
     -ms-flex-pack: center;
     justify-content: center; }
 
+#filter-totals .list-group-item {
+  padding: 5px 15px; }
+
 #filter {
   -webkit-animation: slideInRight 0.5s;
   animation: slideInRight 0.5s;
@@ -900,7 +912,7 @@ caption {
   top: 110px;
   right: 0px;
   opacity: .8;
-  height: 500px;
+  height: 600px;
   overflow: scroll;
   width: 275px;
   overflow: scroll;
@@ -1147,6 +1159,8 @@ caption {
     height: 39px;
     position: relative;
     transition: all, 1.5s, ease; }
+    #transactions td.description, #transactions td.merchant {
+      max-width: 120px; }
     #transactions td:hover .tooltip-container {
       visibility: visible; }
     #transactions td div:not(.tooltip) {

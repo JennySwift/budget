@@ -26,18 +26,18 @@ class BudgetsTest extends TestCase {
         ];
 
 		$response = $this->apiCall('POST', '/api/budgets', $budget);
-        $content = json_decode($response->getContent(), true);
+        $content = json_decode($response->getContent(), true)['data'];
 
 		$this->assertEquals(201, $response->getStatusCode());
         $this->assertArrayHasKey('type', $content);
         $this->assertArrayHasKey('name', $content);
         $this->assertArrayHasKey('amount', $content);
-        $this->assertArrayHasKey('starting_date', $content);
+        $this->assertArrayHasKey('formattedStartingDate', $content);
         $this->assertEquals('fixed', $content['type']);
         $this->assertEquals('surf', $content['name']);
         $this->assertEquals(1000, $content['amount']);
-        $this->assertTrue(is_array($content['starting_date']));
-        $this->assertArrayHasKey('date', $content['starting_date']);
+//        $this->assertTrue(is_array($content['starting_date']));
+//        $this->assertArrayHasKey('date', $content['starting_date']);
 	}
 
     /**
