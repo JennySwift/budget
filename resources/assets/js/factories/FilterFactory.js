@@ -63,6 +63,42 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
 
     $object.resetFilter();
 
+    /**
+     * Updates filter.display_from and filter.display_to values
+     */
+    $object.updateRange = function ($numToFetch) {
+        if ($numToFetch) {
+            this.filter.num_to_fetch = $numToFetch;
+        }
+
+        this.filter.display_from = this.filter.offset + 1;
+        this.filter.display_to = this.filter.offset + (this.filter.num_to_fetch * 1);
+    };
+
+    //Todo: I might not need some of this code (not allowing offset to be less than 0)
+    // todo: since I disabled the button if that is the case
+    $object.prevResults = function () {
+        //make it so the offset cannot be less than 0.
+        if (this.filter.offset - this.filter.num_to_fetch < 0) {
+            this.filter.offset = 0;
+        }
+        else {
+            this.filter.offset-= (this.filter.num_to_fetch * 1);
+            this.updateRange();
+            $rootScope.$emit('runFilter');
+        }
+    };
+
+    $object.nextResults = function ($filterTotals) {
+        if (this.filter.offset + (this.filter.num_to_fetch * 1) > $filterTotals.numTransactions) {
+            //stop it going past the end.
+            return;
+        }
+
+        this.filter.offset+= (this.filter.num_to_fetch * 1);
+        this.updateRange();
+        $rootScope.$emit('runFilter');
+    };
 
     $object.formatDates = function () {
         if (this.filter.single_date.in) {
