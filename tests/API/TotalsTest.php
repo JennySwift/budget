@@ -103,8 +103,6 @@ class TotalsTest extends TestCase {
         $this->assertEquals(-40, $budget->spentAfterStartingDate);
         $this->assertEquals(-30, $budget->spentBeforeStartingDate);
         $this->assertEquals(200, $budget->receivedAfterStartingDate);
-        //These three lines will need updating each month unless I change the
-        //starting date in the seeder
         $this->assertEquals(9, $budget->cumulativeMonthNumber);
         $this->assertEquals(900, $budget->cumulative);
         $this->assertEquals(1060, $budget->remaining);
