@@ -13,6 +13,10 @@
             $rootScope.$emit('runFilter');
         };
 
+        $rootScope.$on('resetFilterInFilterController', function () {
+            $scope.filter = FilterFactory.filter;
+        });
+
         $rootScope.$on('runFilter', function (event, data) {
             $rootScope.$emit('getFilterBasicTotals');
             if ($scope.tab === 'transactions') {

@@ -1,4 +1,4 @@
-app.factory('FilterFactory', function ($http, $rootScope) {
+app.factory('FilterFactory', function ($http, $rootScope, $filter) {
     var $object = {};
 
     $object.resetFilter = function () {
@@ -17,34 +17,16 @@ app.factory('FilterFactory', function ($http, $rootScope) {
                 out: []
             },
             single_date: {
-                in: {
-                    user: "",
-                    sql: ""
-                },
-                out: {
-                    user: "",
-                    sql: ""
-                }
+                in: '',
+                out: ''
             },
             from_date: {
-                in: {
-                    user: "",
-                    sql: ""
-                },
-                out: {
-                    user: "",
-                    sql: ""
-                }
+                in: '',
+                out: ''
             },
             to_date: {
-                in: {
-                    user: "",
-                    sql: ""
-                },
-                out: {
-                    user: "",
-                    sql: ""
-                }
+                in: '',
+                out: ''
             },
             description: {
                 in: "",
@@ -71,74 +53,80 @@ app.factory('FilterFactory', function ($http, $rootScope) {
             display_from: 1,
             display_to: 30
         };
+
+        this.filter = $object.filter;
+
+        $rootScope.$emit('resetFilterInFilterController');
+
         return $object.filter;
     };
 
     $object.resetFilter();
 
-    $object.formatDates = function ($filter) {
-        if ($filter.single_date.in.user) {
-            $filter.single_date.in.sql = Date.parse($filter.single_date.in.user).toString('yyyy-MM-dd');
+
+    $object.formatDates = function () {
+        if (this.filter.single_date.in) {
+            this.filter.single_date.in = $filter('formatDate')(this.filter.single_date.in);
         }
         else {
-            $filter.single_date.in.sql = "";
+            this.filter.single_date.in = "";
         }
-        if ($filter.single_date.out.user) {
-            $filter.single_date.out.sql = Date.parse($filter.single_date.out.user).toString('yyyy-MM-dd');
-        }
-        else {
-            $filter.single_date.out.sql = "";
-        }
-        if ($filter.from_date.in.user) {
-            $filter.from_date.in.sql = Date.parse($filter.from_date.in.user).toString('yyyy-MM-dd');
+        if (this.filter.single_date.out) {
+            this.filter.single_date.out = $filter('formatDate')(this.filter.single_date.out);
         }
         else {
-            $filter.from_date.in.sql = "";
+            this.filter.single_date.out = "";
         }
-        if ($filter.from_date.out.user) {
-            $filter.from_date.out.sql = Date.parse($filter.from_date.out.user).toString('yyyy-MM-dd');
-        }
-        else {
-            $filter.from_date.out.sql = "";
-        }
-        if ($filter.to_date.in.user) {
-            $filter.to_date.in.sql = Date.parse($filter.to_date.in.user).toString('yyyy-MM-dd');
+        if (this.filter.from_date.in) {
+            this.filter.from_date.in = $filter('formatDate')(this.filter.from_date.in);
         }
         else {
-            $filter.to_date.in.sql = "";
+            this.filter.from_date.in = "";
         }
-        if ($filter.to_date.out.user) {
-            $filter.to_date.out.sql = Date.parse($filter.to_date.out.user).toString('yyyy-MM-dd');
+        if (this.filter.from_date.out) {
+            this.filter.from_date.out = $filter('formatDate')(this.filter.from_date.out);
         }
         else {
-            $filter.to_date.out.sql = "";
+            this.filter.from_date.out.sql = "";
+        }
+        if (this.filter.to_date.in) {
+            this.filter.to_date.in = $filter('formatDate')(this.filter.to_date.in);
+        }
+        else {
+            this.filter.to_date.in = "";
+        }
+        if (this.filter.to_date.out) {
+            this.filter.to_date.out = $filter('formatDate')(this.filter.to_date.out);
+        }
+        else {
+            this.filter.to_date.out = "";
         }
 
-        return $filter;
+        return this.filter;
     };
 
-    $object.getTransactions = function ($filter) {
-        $object.filter = $object.formatDates($filter);
+    $object.getTransactions = function () {
+        $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/transactions';
 
-        return $http.post($url, {'filter': $filter});
+        return $http.post($url, {'filter': $object.filter});
     };
 
-    $object.getBasicTotals = function ($filter) {
-        $object.filter = $object.formatDates($filter);
+    $object.getBasicTotals = function () {
+        $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/basicTotals';
 
-        return $http.post($url, {'filter': $filter});
+        return $http.post($url, {'filter': $object.filter});
     };
 
-    $object.getGraphTotals = function ($filter) {
-        $object.filter = $object.formatDates($filter);
+    $object.getGraphTotals = function () {
+        $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/graphTotals';
 
-        return $http.post($url, {'filter': $filter});
+        return $http.post($url, {'filter': $object.filter});
     };
 
     $object.calculateGraphFigures = function ($graphTotals) {

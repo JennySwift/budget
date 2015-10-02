@@ -10,7 +10,7 @@
             <div ng-show="filterTab === 'show'" class="group">
 
                 <input
-                        ng-model="filter.single_date.in.user"
+                        ng-model="filter.single_date.in"
                         ng-keyup="filterDate($event.keyCode)"
                         type="text"
                         placeholder="single date">
@@ -28,7 +28,7 @@
             <div ng-show="filterTab === 'hide'" class="group">
 
                 <input
-                        ng-model="filter.single_date.out.user"
+                        ng-model="filter.single_date.out"
                         ng-keyup="filterDate($event.keyCode)"
                         type="text"
                         placeholder="single date">
@@ -46,7 +46,7 @@
             <div ng-show="filterTab === 'show'" class="group">
 
                 <input
-                        ng-model="filter.from_date.in.user"
+                        ng-model="filter.from_date.in"
                         ng-keyup="filterDate($event.keyCode)"
                         type="text"
                         placeholder="from a date">
@@ -65,7 +65,7 @@
             <div ng-show="filterTab === 'show'" class="group">
 
                 <input
-                        ng-model="filter.to_date.in.user"
+                        ng-model="filter.to_date.in"
                         ng-keyup="filterDate($event.keyCode)"
                         type="text"
                         placeholder="to a date">

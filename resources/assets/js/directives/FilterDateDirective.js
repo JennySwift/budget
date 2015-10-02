@@ -23,7 +23,7 @@ angular.module('budgetApp')
                  * @param $type
                  */
                 $scope.clearDateField = function ($field, $type) {
-                    $scope.filter[$field][$type]['user'] = "";
+                    $scope.filter[$field][$type] = "";
                     $rootScope.$emit('runFilter');
                 };
             }

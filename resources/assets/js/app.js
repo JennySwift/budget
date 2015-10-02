@@ -20,13 +20,9 @@ app.config(function ($interpolateProvider) {
 
 app.run(runBlock);
 
-function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, ErrorsFactory) {
+function runBlock ($rootScope, UsersFactory, ShowFactory, ErrorsFactory) {
 
     $rootScope.show = ShowFactory.defaults;
-
-    if (typeof env !== 'undefined') {
-        $rootScope.env = env;
-    }
 
     $rootScope.responseError = function (response) {
         $rootScope.$broadcast('provideFeedback', ErrorsFactory.responseError(response), 'error');
