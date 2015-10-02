@@ -8,6 +8,10 @@ use Illuminate\Http\Response;
 
 /**
  * Class TotalsTest
+ * Each month I will need to change the starting date of the budgets in the seeder
+ * (config/budgets.php), and this line for both fixed and flex methods in this file:
+ * $this->assertEquals("01/02/15", $budget->formattedStartingDate);
+ * in order for the tests to pass.
  */
 class TotalsTest extends TestCase {
 
@@ -93,12 +97,14 @@ class TotalsTest extends TestCase {
         $this->assertEquals(100, $budget->amount);
         $this->assertEquals(null, $budget->calculatedAmount);
         $this->assertEquals('fixed', $budget->type);
-        $this->assertEquals("01/01/15", $budget->formattedStartingDate);
+        $this->assertEquals("01/02/15", $budget->formattedStartingDate);
         $this->assertEquals(-70, $budget->spent);
         $this->assertEquals(300, $budget->received);
         $this->assertEquals(-40, $budget->spentAfterStartingDate);
         $this->assertEquals(-30, $budget->spentBeforeStartingDate);
         $this->assertEquals(200, $budget->receivedAfterStartingDate);
+        //These three lines will need updating each month unless I change the
+        //starting date in the seeder
         $this->assertEquals(9, $budget->cumulativeMonthNumber);
         $this->assertEquals(900, $budget->cumulative);
         $this->assertEquals(1060, $budget->remaining);
@@ -142,7 +148,7 @@ class TotalsTest extends TestCase {
         $this->assertEquals(10, $budget->amount);
         $this->assertEquals(20, $budget->calculatedAmount);
         $this->assertEquals('flex', $budget->type);
-        $this->assertEquals("01/01/15", $budget->formattedStartingDate);
+        $this->assertEquals("01/02/15", $budget->formattedStartingDate);
         $this->assertEquals(-35, $budget->spent);
         $this->assertEquals(1500, $budget->received);
         $this->assertEquals(-15, $budget->spentBeforeStartingDate);
