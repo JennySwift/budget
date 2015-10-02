@@ -8,7 +8,6 @@
 
         $scope.filterTab = 'show';
         $scope.filter = FilterFactory.filter;
-        $scope.filterTotals = filterBasicTotals;
 
         $scope.runFilter = function () {
             $rootScope.$emit('runFilter');
@@ -22,17 +21,6 @@
             else {
                 $scope.$emit('getGraphTotals');
             }
-        });
-
-        $rootScope.$on('getFilterBasicTotals', function () {
-            FilterFactory.getBasicTotals($scope.filter)
-                .then(function (response) {
-                    $scope.filterTotals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
         });
 
     }

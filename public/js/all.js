@@ -13320,7 +13320,6 @@ var app = angular.module('budgetApp');
 
         $scope.filterTab = 'show';
         $scope.filter = FilterFactory.filter;
-        $scope.filterTotals = filterBasicTotals;
 
         $scope.runFilter = function () {
             $rootScope.$emit('runFilter');
@@ -13334,17 +13333,6 @@ var app = angular.module('budgetApp');
             else {
                 $scope.$emit('getGraphTotals');
             }
-        });
-
-        $rootScope.$on('getFilterBasicTotals', function () {
-            FilterFactory.getBasicTotals($scope.filter)
-                .then(function (response) {
-                    $scope.filterTotals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
         });
 
     }
@@ -15058,6 +15046,36 @@ angular.module('budgetApp')
                     $scope.filter[$field][$type] = "";
                     $rootScope.$emit('runFilter');
                 };
+
+            }
+        }
+    });
+
+angular.module('budgetApp')
+    .directive('filterTotalsDirective', function ($rootScope, FilterFactory) {
+        return {
+            scope: {
+                //filterTotals: '=filtertotals',
+                show: '=show',
+                filter: '=filter'
+            },
+            templateUrl: 'filter-totals-template',
+
+            link: function ($scope) {
+
+                $scope.filterTotals = filterBasicTotals;
+
+                $rootScope.$on('getFilterBasicTotals', function () {
+                    $rootScope.showLoading();
+                    FilterFactory.getBasicTotals($scope.filter)
+                        .then(function (response) {
+                            $scope.filterTotals = response.data;
+                            $rootScope.hideLoading();
+                        })
+                        .catch(function (response) {
+                            $rootScope.responseError(response);
+                        })
+                });
 
             }
         }

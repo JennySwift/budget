@@ -2,7 +2,12 @@
 
 <div ng-cloak ng-show="show.filter" id="filter" class="margin-bottom">
 
-    @include('templates.shared.filter-totals')
+{{--    @include('templates.shared.filter-totals')--}}
+    <filter-totals-directive
+            {{--filterTotals="filterTotals"--}}
+            show="show"
+            filter="filter">
+    </filter-totals-directive>
 
     <div class="btn-group">
         <button ng-click="filterTab = 'show'" class="btn btn-success">Show</button>
