@@ -1,8 +1,6 @@
 app.factory('FilterFactory', function ($http, $rootScope) {
     var $object = {};
 
-    console.log(filterBasicTotals);
-
     $object.resetFilter = function () {
         $object.filter = {
 

@@ -1,17 +1,9 @@
 <div class="main-content">
 
-    <totals-directive
+    <side-bar-totals-directive
             ng-show="show.basic_totals || show.budget_totals"
-            sideBarTotals="sideBarTotals"
-            totalsLoading="totalsLoading"
-            basicTotals="basicTotals"
-            fixedbudgettotals="fixedBudgetTotals"
-            flexbudgettotals="flexBudgetTotals"
-            remainingbalance="remainingBalance"
-            totalchanges="totalChanges"
-            provideFeedback="provideFeedback()"
             show="show">
-    </totals-directive>
+    </side-bar-totals-directive>
 
     <div ng-controller="TransactionsController" ng-show="tab === 'transactions'" class="flex-grow-2">
         {{--This line had to be inside the div or the scope property--}}

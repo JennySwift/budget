@@ -24,19 +24,9 @@ function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, E
 
     $rootScope.show = ShowFactory.defaults;
 
-    $rootScope.totalChanges = {};
-
-    $rootScope.clearTotalChanges = function () {
-        $rootScope.totalChanges = {};
-    };
-
     if (typeof env !== 'undefined') {
         $rootScope.env = env;
     }
-
-    $rootScope.clearTotalChanges = function () {
-        $rootScope.totalChanges = {};
-    };
 
     $rootScope.responseError = function (response) {
         $rootScope.$broadcast('provideFeedback', ErrorsFactory.responseError(response), 'error');
@@ -54,6 +44,7 @@ function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, E
         $(".main").css('display', 'block');
         $("footer, #navbar").css('display', 'flex');
         $("#page-loading").hide();
+        $rootScope.$emit('getSideBarTotals');
     });
 
     $rootScope.showLoading = function () {

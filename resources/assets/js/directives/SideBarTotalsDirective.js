@@ -2,29 +2,29 @@
     'use strict';
     angular
         .module('budgetApp')
-        .directive('totalsDirective', totals);
+        .directive('sideBarTotalsDirective', totals);
 
     function totals($rootScope, TotalsFactory) {
         return {
             restrict: 'EA',
             scope: {
-                "sideBarTotals": "=sidebartotals",
-                "totalsLoading": "=totalsloading",
-                "totalChanges": "=totalchanges",
-                "provideFeedback" : "&providefeedback",
                 "show": "=show"
             },
             templateUrl: 'totals-template',
             link: function($scope, elem, attrs) {
 
-                $scope.$emit('getSideBarTotals');
+                $scope.totalChanges = {};
+
+                $rootScope.clearTotalChanges = function () {
+                    $scope.totalChanges = {};
+                };
 
                 $rootScope.$on('getSideBarTotals', function () {
-                    $rootScope.totalsLoading = true;
+                    $scope.totalsLoading = true;
                     TotalsFactory.getSideBarTotals()
                         .then(function (response) {
-                            $rootScope.sideBarTotals = response.data.data;
-                            $rootScope.totalsLoading = false;
+                            $scope.sideBarTotals = response.data.data;
+                            $scope.totalsLoading = false;
                         })
                         .catch(function (response) {
                             $rootScope.responseError(response);
