@@ -63,6 +63,8 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
 
     $object.resetFilter();
 
+    $object.filterBasicTotals = filterBasicTotals;
+
     /**
      * Updates filter.display_from and filter.display_to values
      */

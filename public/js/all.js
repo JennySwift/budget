@@ -14067,6 +14067,8 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
 
     $object.resetFilter();
 
+    $object.filterBasicTotals = filterBasicTotals;
+
     /**
      * Updates filter.display_from and filter.display_to values
      */
@@ -14976,7 +14978,12 @@ angular.module('budgetApp')
 
             link: function ($scope) {
                 $scope.filter = FilterFactory.filter;
-                $scope.filterTotals = filterBasicTotals;
+                $scope.filterFactory = FilterFactory;
+
+                $scope.$watch('filterFactory.filterBasicTotals', function (newValue, oldValue, scope) {
+                    $scope.filterTotals = newValue;
+                });
+
 
                 $scope.resetFilter = function () {
                     FilterFactory.resetFilter();
@@ -15044,7 +15051,6 @@ angular.module('budgetApp')
     .directive('filterTotalsDirective', function ($rootScope, FilterFactory) {
         return {
             scope: {
-                //filterTotals: '=filtertotals',
                 show: '=show',
                 filter: '=filter'
             },
@@ -15052,12 +15058,13 @@ angular.module('budgetApp')
 
             link: function ($scope) {
 
-                $scope.filterTotals = filterBasicTotals;
+                $scope.filterTotals = FilterFactory.filterBasicTotals;
 
                 $rootScope.$on('getFilterBasicTotals', function () {
                     $rootScope.showLoading();
                     FilterFactory.getBasicTotals($scope.filter)
                         .then(function (response) {
+                            FilterFactory.filterBasicTotals = response.data;
                             $scope.filterTotals = response.data;
                             $rootScope.hideLoading();
                         })

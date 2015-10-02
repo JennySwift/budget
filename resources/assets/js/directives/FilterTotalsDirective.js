@@ -2,7 +2,6 @@ angular.module('budgetApp')
     .directive('filterTotalsDirective', function ($rootScope, FilterFactory) {
         return {
             scope: {
-                //filterTotals: '=filtertotals',
                 show: '=show',
                 filter: '=filter'
             },
@@ -10,12 +9,13 @@ angular.module('budgetApp')
 
             link: function ($scope) {
 
-                $scope.filterTotals = filterBasicTotals;
+                $scope.filterTotals = FilterFactory.filterBasicTotals;
 
                 $rootScope.$on('getFilterBasicTotals', function () {
                     $rootScope.showLoading();
                     FilterFactory.getBasicTotals($scope.filter)
                         .then(function (response) {
+                            FilterFactory.filterBasicTotals = response.data;
                             $scope.filterTotals = response.data;
                             $rootScope.hideLoading();
                         })

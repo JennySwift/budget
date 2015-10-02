@@ -8,7 +8,12 @@ angular.module('budgetApp')
 
             link: function ($scope) {
                 $scope.filter = FilterFactory.filter;
-                $scope.filterTotals = filterBasicTotals;
+                $scope.filterFactory = FilterFactory;
+
+                $scope.$watch('filterFactory.filterBasicTotals', function (newValue, oldValue, scope) {
+                    $scope.filterTotals = newValue;
+                });
+
 
                 $scope.resetFilter = function () {
                     FilterFactory.resetFilter();
