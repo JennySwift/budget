@@ -5,16 +5,9 @@
         .directive('filterDropdownsDirective', filterDropdown);
 
     /* @inject */
-    function filterDropdown($parse, $http) {
+    function filterDropdown() {
         return {
             restrict: 'A',
-            //scope: {
-            //    //"model": "=model",
-            //    //"id": "@id"
-            //    "types": "=types",
-            //    "path": "@path"
-            //},
-            //templateUrl: 'filter-dropdowns',
             scope: true,
             link: function($scope, elem, attrs) {
                 $scope.content = $(elem).find('.content');

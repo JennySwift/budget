@@ -2,28 +2,34 @@
     'use strict';
     angular
         .module('budgetApp')
-        .directive('totalsDirective', totals);
+        .directive('sideBarTotalsDirective', totals);
 
-    /* @inject */
-    function totals(SavingsFactory, FilterFactory) {
+    function totals($rootScope, TotalsFactory) {
         return {
             restrict: 'EA',
             scope: {
-                //"totals": "=totals",
-                "sideBarTotals": "=sidebartotals",
-                "totalsLoading": "=totalsloading",
-                //"basicTotals": "=basictotals",
-                //"fixedBudgetTotals": "=fixedbudgettotals",
-                //"flexBudgetTotals": "=flexbudgettotals",
-                //"remainingBalance": "=remainingbalance",
-                "totalChanges": "=totalchanges",
-                "provideFeedback" : "&providefeedback",
                 "show": "=show"
             },
-            //template: $('script#totals').html(),
             templateUrl: 'totals-template',
-            //scope: true,
             link: function($scope, elem, attrs) {
+
+                $scope.totalChanges = {};
+
+                $rootScope.clearTotalChanges = function () {
+                    $scope.totalChanges = {};
+                };
+
+                $rootScope.$on('getSideBarTotals', function () {
+                    $scope.totalsLoading = true;
+                    TotalsFactory.getSideBarTotals()
+                        .then(function (response) {
+                            $scope.sideBarTotals = response.data.data;
+                            $scope.totalsLoading = false;
+                        })
+                        .catch(function (response) {
+                            $rootScope.responseError(response);
+                        });
+                });
 
                 $scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
 

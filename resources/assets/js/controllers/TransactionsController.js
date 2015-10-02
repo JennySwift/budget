@@ -7,16 +7,38 @@
     function transactions ($rootScope, $scope, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
-        $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
+
+        $rootScope.$on('filterTransactions', function (event, filter) {
+            $scope.showLoading();
+            FilterFactory.getTransactions(FilterFactory.filter)
+                .then(function (response) {
+                    $scope.transactions = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        });
 
         $scope.updateReconciliation = function ($transaction) {
             $scope.clearTotalChanges();
             $scope.showLoading();
             TransactionsFactory.updateReconciliation($transaction)
                 .then(function (response) {
-                    $scope.getSideBarTotals();
-                    $scope.runFilter();
+                    $scope.$emit('getSideBarTotals');
+                    $rootScope.$emit('runFilter');
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.updateAllocationStatus = function () {
+            $scope.showLoading();
+            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
+                .then(function (response) {
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -38,7 +60,7 @@
             $scope.showLoading();
             TransactionsFactory.updateTransaction($scope.edit_transaction)
                 .then(function (response) {
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $rootScope.$broadcast('provideFeedback', 'Transaction updated');
                     $scope.show.edit_transaction = false;
                     $scope.totals = response.data;
@@ -80,10 +102,34 @@
             }
         };
 
-        $scope.updateAllocationStatus = function () {
-            $scope.showLoading();
-            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
+        $rootScope.$on('handleAllocationForNewTransaction', function (event, $transaction) {
+            FilterFactory.getTransactions(FilterFactory.filter)
                 .then(function (response) {
+                    $scope.hideLoading();
+                    $scope.transactions = response.data;
+                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
+                    if ($index !== -1) {
+                        //The transaction that was just entered is in the filtered transactions
+                        $scope.showAllocationPopup($scope.transactions[$index]);
+                        //$scope.transactions[$index] = $scope.allocationPopup;
+                    }
+                    else {
+                        $scope.showAllocationPopup($transaction);
+                    }
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        });
+
+        $scope.showAllocationPopup = function ($transaction) {
+            $scope.show.allocationPopup = true;
+            $scope.allocationPopup = $transaction;
+
+            $scope.showLoading();
+            TransactionsFactory.getAllocationTotals($transaction.id)
+                .then(function (response) {
+                    $scope.allocationPopup.totals = response.data;
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -95,10 +141,10 @@
             if (confirm("Are you sure?")) {
                 $scope.clearTotalChanges();
                 $scope.showLoading();
-                TransactionsFactory.deleteTransaction($transaction, $scope.filter)
+                TransactionsFactory.deleteTransaction($transaction, FilterFactory.filter)
                     .then(function (response) {
                         jsDeleteTransaction($transaction);
-                        $scope.getSideBarTotals();
+                        $scope.$emit('getSideBarTotals');
                         //Todo: get filter totals with separate request
                         $rootScope.$broadcast('provideFeedback', 'Transaction deleted');
                         $scope.hideLoading();

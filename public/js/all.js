@@ -12995,44 +12995,14 @@ app.config(function ($interpolateProvider) {
 
 app.run(runBlock);
 
-function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, ErrorsFactory) {
+function runBlock ($rootScope, UsersFactory, ShowFactory, ErrorsFactory) {
 
     $rootScope.show = ShowFactory.defaults;
-
-    $rootScope.totalChanges = {};
-
-    $rootScope.clearTotalChanges = function () {
-        $rootScope.totalChanges = {};
-    };
-
-    if (typeof env !== 'undefined') {
-        $rootScope.env = env;
-    }
-
-    $rootScope.clearTotalChanges = function () {
-        $rootScope.totalChanges = {};
-    };
 
     $rootScope.responseError = function (response) {
         $rootScope.$broadcast('provideFeedback', ErrorsFactory.responseError(response), 'error');
         $rootScope.hideLoading();
     };
-
-    $rootScope.getSideBarTotals = function () {
-        $rootScope.totalsLoading = true;
-        TotalsFactory.getSideBarTotals()
-            .then(function (response) {
-                $rootScope.sideBarTotals = response.data.data;
-                $rootScope.totalsLoading = false;
-            })
-            .catch(function (response) {
-                $rootScope.responseError(response);
-            });
-    };
-
-    if (typeof page !== 'undefined' && (page === 'home' || page === 'fixedBudgets' || page === 'flexBudgets' || page === 'unassignedBudgets')) {
-        $rootScope.getSideBarTotals();
-    }
 
     $rootScope.closePopup = function ($event, $popup) {
         var $target = $event.target;
@@ -13045,6 +13015,7 @@ function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, E
         $(".main").css('display', 'block');
         $("footer, #navbar").css('display', 'flex');
         $("#page-loading").hide();
+        $rootScope.$emit('getSideBarTotals');
     });
 
     $rootScope.showLoading = function () {
@@ -13215,7 +13186,7 @@ var app = angular.module('budgetApp');
             BudgetsFactory.insert($budget)
                 .then(function (response) {
                     jsInsertBudget(response);
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $rootScope.$broadcast('provideFeedback', 'Budget created');
 
                     if ($budget.type === 'fixed' && page === 'fixedBudgets') {
@@ -13259,7 +13230,7 @@ var app = angular.module('budgetApp');
             BudgetsFactory.update($scope.budget_popup)
                 .then(function (response) {
                     jsUpdateBudget(response);
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $scope.show.popups.budget = false;
                 })
                 .catch(function (response) {
@@ -13286,7 +13257,7 @@ var app = angular.module('budgetApp');
                 $scope.showLoading();
                 BudgetsFactory.destroy($budget)
                     .then(function (response) {
-                        $scope.getSideBarTotals();
+                        $scope.$emit('getSideBarTotals');
                         jsDeleteBudget($budget);
                         $scope.hideLoading();
                         $rootScope.$broadcast('provideFeedback', 'Budget deleted');
@@ -13332,163 +13303,28 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('FilterController', filter);
 
-    function filter ($scope, FilterFactory) {
+    function filter ($rootScope, $scope, FilterFactory) {
 
-        $scope.filterFactory = FilterFactory;
-        $scope.types = ["income", "expense", "transfer"];
         $scope.filterTab = 'show';
-        $scope.accounts = accounts_response;
+        $scope.filter = FilterFactory.filter;
 
-        //$scope.resetFilter = function () {
-        //    FilterFactory.resetFilter();
-        //};
+        $scope.runFilter = function () {
+            $rootScope.$emit('runFilter');
+        };
 
-        /**
-         * Watches
-         */
-
-        //$scope.$watch('filterFactory.filter_results.graph_totals', function (newValue, oldValue, scope) {
-        //    if (newValue) {
-        //        //This is running many times when it shouldn't
-        //        scope.graph_totals = newValue;
-        //        $scope.calculateGraphFigures();
-        //    }
-        //});
-
-        $scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $scope.runFilter();
+        $rootScope.$on('resetFilterInFilterController', function () {
+            $scope.filter = FilterFactory.filter;
         });
 
-        $scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $scope.runFilter();
-        });
-
-        $scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
-            if (newValue === oldValue) {
-                return;
-            }
-            $scope.runFilter();
-        });
-
-        //Todo: I might not need some of this code (not allowing offset to be less than 0)
-        // todo: since I disabled the button if that is the case
-        $scope.prevResults = function () {
-            //make it so the offset cannot be less than 0.
-            if ($scope.filter.offset - $scope.filter.num_to_fetch < 0) {
-                $scope.filter.offset = 0;
+        $rootScope.$on('runFilter', function (event, data) {
+            $rootScope.$emit('getFilterBasicTotals');
+            if ($scope.tab === 'transactions') {
+                $scope.$emit('filterTransactions', $scope.filter);
             }
             else {
-                $scope.filter.offset-= ($scope.filter.num_to_fetch * 1);
-                updateRange();
-                $scope.runFilter();
+                $scope.$emit('getGraphTotals');
             }
-        };
-
-        /**
-         * Updates filter.display_from and filter.display_to values
-         */
-        function updateRange () {
-            $scope.filter.display_from = $scope.filter.offset + 1;
-            $scope.filter.display_to = $scope.filter.offset + ($scope.filter.num_to_fetch * 1);
-        }
-
-        $scope.changeNumToFetch = function () {
-            updateRange();
-            $scope.runFilter();
-        };
-
-        $scope.nextResults = function () {
-            if ($scope.filter.offset + ($scope.filter.num_to_fetch * 1) > $scope.filterTotals.numTransactions) {
-                //stop it going past the end.
-                return;
-            }
-
-            $scope.filter.offset+= ($scope.filter.num_to_fetch * 1);
-            updateRange();
-            $scope.runFilter();
-        };
-
-        $scope.resetSearch = function () {
-            $("#search-type-select, #search-account-select, #search-reconciled-select").val("all");
-            $("#single-date-input, #from-date-input, #to-date-input, #search-descriptions-input, #search-merchants-input, #search-tags-input").val("");
-            $("#search-tag-location").html("");
-            $scope.filter(true);
-        };
-
-        $scope.filterDescriptionOrMerchant = function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $scope.resetOffset();
-            $scope.runFilter(true);
-        };
-
-        $scope.filterDate = function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $scope.runFilter();
-        };
-
-        $scope.filterTotal = function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $scope.runFilter();
-        };
-
-        /**
-         * $type is either 'in' or 'out'
-         * @param $field
-         * @param $type
-         */
-        $scope.clearFilterField = function ($field, $type) {
-            $scope.filter[$field][$type] = "";
-            $scope.runFilter();
-        };
-
-        /**
-         * $type1 is 'in' or 'out'.
-         * $type2 is 'and' or 'or'.
-         * @param $type1
-         * @param $type2
-         */
-        $scope.clearTagField = function ($type1, $type2) {
-            if ($type2) {
-                $scope.filter.budgets[$type1][$type2] = [];
-            }
-            else {
-                $scope.filter.budgets[$type1] = [];
-            }
-        };
-
-        /**
-         * $type is either 'in' or 'out'
-         * @param $field
-         * @param $type
-         */
-        $scope.clearDateField = function ($field, $type) {
-            $scope.filter[$field][$type]['user'] = "";
-            $scope.runFilter();
-        };
-
-        $scope.resetOffset = function () {
-            $scope.filter.offset = 0;
-        };
-
-        $scope.showContent = function (event) {
-            $(event.target).next().addClass('show-me').removeClass('hide');
-        };
-
-        $scope.hideContent = function (event) {
-            $(event.target).next().addClass('hide-me').removeClass('show');
-        };
+        });
 
     }
 
@@ -13534,12 +13370,13 @@ var app = angular.module('budgetApp');
         .module('budgetApp')
         .controller('HomeController', home);
 
-    function home ($scope, TransactionsFactory, FilterFactory) {
+    function home ($rootScope, $scope, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.page = 'home';
         $scope.budgets = budgets;
         $scope.colors = me.preferences.colors;
+
 
         if (env === 'local') {
             $scope.tab = 'transactions';
@@ -13556,79 +13393,12 @@ var app = angular.module('budgetApp');
         //after inserting transaction from newTransactionController
         $scope.transactions = transactions;
 
-        $scope.filter = FilterFactory.filter;
-        $scope.filterTotals = filterBasicTotals;
-
-        $scope.runFilter = function () {
-            $scope.getFilterBasicTotals();
-            if ($scope.tab === 'transactions') {
-                $scope.filterTransactions();
-            }
-            else {
-                $scope.getGraphTotals();
-            }
-        };
-
-        /**
-         * When this is needed:
-         * When filter is changed (FilterController)
-         * When new transaction is entered (NewTransactionController)
-         * When transaction is edited (TransactionsController)
-         *
-         * So if I put it in the FilterController, how will I update
-         * $scope.transactions in the TransactionsController when a
-         * new transaction is entered in the NewTransactionController?
-         */
-        $scope.filterTransactions = function () {
-            $scope.showLoading();
-            FilterFactory.getTransactions($scope.filter)
-                .then(function (response) {
-                    $scope.transactions = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        $scope.getFilterBasicTotals = function () {
-            FilterFactory.getBasicTotals($scope.filter)
-                .then(function (response) {
-                    $scope.filterTotals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        $scope.getGraphTotals = function () {
-            FilterFactory.getGraphTotals($scope.filter)
-                .then(function (response) {
-                    $scope.graphTotals = response.data;
-                    calculateGraphFigures();
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        /**
-         * This is here because it calls $scope.runFilter,
-         * and that method is in this file
-         */
-        $scope.resetFilter = function () {
-            $scope.filter = FilterFactory.resetFilter();
-            $scope.runFilter();
-        };
-
         $scope.transactionsTab = function () {
             $scope.tab = 'transactions';
             $scope.show.basic_totals = true;
             $scope.show.budget_totals = true;
             $scope.show.filter = false;
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         };
 
         $scope.graphsTab = function () {
@@ -13636,103 +13406,12 @@ var app = angular.module('budgetApp');
             $scope.show.basic_totals = false;
             $scope.show.budget_totals = false;
             $scope.show.filter = true;
-            $scope.runFilter();
+            $rootScope.$emit('runFilter');
         };
 
         if ($scope.tab === 'graphs') {
             $scope.graphsTab();
         }
-
-        /**
-         * This is here because it is called by $scope.runFilter,
-         * which is in this file.
-         */
-        function calculateGraphFigures () {
-            $scope.graphFigures = FilterFactory.calculateGraphFigures($scope.graphTotals);
-        }
-
-        /**
-         * Although related to a new transaction, this is here,
-         * not in NewTransactionController,
-         * because it uses $scope.transactions.
-         * @param $transaction
-         */
-        $scope.handleAllocationForNewTransaction = function ($transaction) {
-            FilterFactory.getTransactions($scope.filter)
-                .then(function (response) {
-                    $scope.hideLoading();
-                    $scope.transactions = response.data;
-                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
-                    if ($index !== -1) {
-                        //The transaction that was just entered is in the filtered transactions
-                        $scope.showAllocationPopup($scope.transactions[$index]);
-                        //$scope.transactions[$index] = $scope.allocationPopup;
-                    }
-                    else {
-                        $scope.showAllocationPopup($transaction);
-                    }
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        };
-
-        /**
-         * This is here because it is called by $scope.handleAllocationForNewTransaction,
-         * which is in this file
-         * @param $transaction
-         */
-        $scope.showAllocationPopup = function ($transaction) {
-            $scope.show.allocationPopup = true;
-            $scope.allocationPopup = $transaction;
-
-            $scope.showLoading();
-            TransactionsFactory.getAllocationTotals($transaction.id)
-                .then(function (response) {
-                    $scope.allocationPopup.totals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-        /**
-         * This should be in transactions controller but it wasn't firing for some reason
-         * @param $keycode
-         * @param $type
-         * @param $value
-         * @param $budget_id
-         */
-        $scope.updateAllocation = function ($keycode, $type, $value, $budget_id) {
-            if ($keycode === 13) {
-                $scope.showLoading();
-                TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
-                    .then(function (response) {
-                        $scope.allocationPopup.budgets = response.data.budgets;
-                        $scope.allocationPopup.totals = response.data.totals;
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-        };
-
-
-        /**
-         * This should be in transactions controller but it wasn't firing for some reason
-         */
-        $scope.updateAllocationStatus = function () {
-            $scope.showLoading();
-            TransactionsFactory.updateAllocationStatus($scope.allocationPopup.id, $scope.allocationPopup.allocated)
-                .then(function (response) {
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
 
     }
 
@@ -13799,14 +13478,14 @@ var app = angular.module('budgetApp');
                     $rootScope.$broadcast('provideFeedback', 'Transaction added');
                     clearNewTransactionFields();
                     $scope.new_transaction.dropdown = false;
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
 
                     if ($transaction.multipleBudgets) {
-                        $scope.handleAllocationForNewTransaction($transaction);
-                        $scope.getFilterBasicTotals();
+                        $scope.$emit('handleAllocationForNewTransaction', $transaction);
+                        $rootScope.$emit('getFilterBasicTotals');
                     }
                     else {
-                        $scope.runFilter();
+                        $rootScope.$emit('runFilter');
                     }
 
                     $scope.hideLoading();
@@ -13829,8 +13508,8 @@ var app = angular.module('budgetApp');
                 .then(function (response) {
                     $rootScope.$broadcast('provideFeedback', 'Transfer added');
                     clearNewTransactionFields();
-                    $scope.getSideBarTotals();
-                    $scope.runFilter();
+                    $scope.$emit('getSideBarTotals');
+                    $rootScope.$emit('runFilter');
                     $scope.new_transaction.dropdown = false;
 
                     //Todo: get filter stuff
@@ -13895,16 +13574,38 @@ var app = angular.module('budgetApp');
     function transactions ($rootScope, $scope, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
-        $scope.filterFactory = FilterFactory;
         $scope.accounts = accounts_response;
+
+        $rootScope.$on('filterTransactions', function (event, filter) {
+            $scope.showLoading();
+            FilterFactory.getTransactions(FilterFactory.filter)
+                .then(function (response) {
+                    $scope.transactions = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        });
 
         $scope.updateReconciliation = function ($transaction) {
             $scope.clearTotalChanges();
             $scope.showLoading();
             TransactionsFactory.updateReconciliation($transaction)
                 .then(function (response) {
-                    $scope.getSideBarTotals();
-                    $scope.runFilter();
+                    $scope.$emit('getSideBarTotals');
+                    $rootScope.$emit('runFilter');
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.updateAllocationStatus = function () {
+            $scope.showLoading();
+            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
+                .then(function (response) {
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -13926,7 +13627,7 @@ var app = angular.module('budgetApp');
             $scope.showLoading();
             TransactionsFactory.updateTransaction($scope.edit_transaction)
                 .then(function (response) {
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $rootScope.$broadcast('provideFeedback', 'Transaction updated');
                     $scope.show.edit_transaction = false;
                     $scope.totals = response.data;
@@ -13968,10 +13669,34 @@ var app = angular.module('budgetApp');
             }
         };
 
-        $scope.updateAllocationStatus = function () {
-            $scope.showLoading();
-            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
+        $rootScope.$on('handleAllocationForNewTransaction', function (event, $transaction) {
+            FilterFactory.getTransactions(FilterFactory.filter)
                 .then(function (response) {
+                    $scope.hideLoading();
+                    $scope.transactions = response.data;
+                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
+                    if ($index !== -1) {
+                        //The transaction that was just entered is in the filtered transactions
+                        $scope.showAllocationPopup($scope.transactions[$index]);
+                        //$scope.transactions[$index] = $scope.allocationPopup;
+                    }
+                    else {
+                        $scope.showAllocationPopup($transaction);
+                    }
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        });
+
+        $scope.showAllocationPopup = function ($transaction) {
+            $scope.show.allocationPopup = true;
+            $scope.allocationPopup = $transaction;
+
+            $scope.showLoading();
+            TransactionsFactory.getAllocationTotals($transaction.id)
+                .then(function (response) {
+                    $scope.allocationPopup.totals = response.data;
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -13983,10 +13708,10 @@ var app = angular.module('budgetApp');
             if (confirm("Are you sure?")) {
                 $scope.clearTotalChanges();
                 $scope.showLoading();
-                TransactionsFactory.deleteTransaction($transaction, $scope.filter)
+                TransactionsFactory.deleteTransaction($transaction, FilterFactory.filter)
                     .then(function (response) {
                         jsDeleteTransaction($transaction);
-                        $scope.getSideBarTotals();
+                        $scope.$emit('getSideBarTotals');
                         //Todo: get filter totals with separate request
                         $rootScope.$broadcast('provideFeedback', 'Transaction deleted');
                         $scope.hideLoading();
@@ -14277,7 +14002,7 @@ app.factory('ErrorsFactory', function ($q) {
 
     };
 });
-app.factory('FilterFactory', function ($http) {
+app.factory('FilterFactory', function ($http, $rootScope, $filter) {
     var $object = {};
 
     $object.resetFilter = function () {
@@ -14296,34 +14021,16 @@ app.factory('FilterFactory', function ($http) {
                 out: []
             },
             single_date: {
-                in: {
-                    user: "",
-                    sql: ""
-                },
-                out: {
-                    user: "",
-                    sql: ""
-                }
+                in: '',
+                out: ''
             },
             from_date: {
-                in: {
-                    user: "",
-                    sql: ""
-                },
-                out: {
-                    user: "",
-                    sql: ""
-                }
+                in: '',
+                out: ''
             },
             to_date: {
-                in: {
-                    user: "",
-                    sql: ""
-                },
-                out: {
-                    user: "",
-                    sql: ""
-                }
+                in: '',
+                out: ''
             },
             description: {
                 in: "",
@@ -14350,74 +14057,118 @@ app.factory('FilterFactory', function ($http) {
             display_from: 1,
             display_to: 30
         };
+
+        this.filter = $object.filter;
+
+        $rootScope.$emit('resetFilterInFilterController');
+
         return $object.filter;
     };
 
     $object.resetFilter();
 
-    $object.formatDates = function ($filter) {
-        if ($filter.single_date.in.user) {
-            $filter.single_date.in.sql = Date.parse($filter.single_date.in.user).toString('yyyy-MM-dd');
-        }
-        else {
-            $filter.single_date.in.sql = "";
-        }
-        if ($filter.single_date.out.user) {
-            $filter.single_date.out.sql = Date.parse($filter.single_date.out.user).toString('yyyy-MM-dd');
-        }
-        else {
-            $filter.single_date.out.sql = "";
-        }
-        if ($filter.from_date.in.user) {
-            $filter.from_date.in.sql = Date.parse($filter.from_date.in.user).toString('yyyy-MM-dd');
-        }
-        else {
-            $filter.from_date.in.sql = "";
-        }
-        if ($filter.from_date.out.user) {
-            $filter.from_date.out.sql = Date.parse($filter.from_date.out.user).toString('yyyy-MM-dd');
-        }
-        else {
-            $filter.from_date.out.sql = "";
-        }
-        if ($filter.to_date.in.user) {
-            $filter.to_date.in.sql = Date.parse($filter.to_date.in.user).toString('yyyy-MM-dd');
-        }
-        else {
-            $filter.to_date.in.sql = "";
-        }
-        if ($filter.to_date.out.user) {
-            $filter.to_date.out.sql = Date.parse($filter.to_date.out.user).toString('yyyy-MM-dd');
-        }
-        else {
-            $filter.to_date.out.sql = "";
+    $object.filterBasicTotals = filterBasicTotals;
+
+    /**
+     * Updates filter.display_from and filter.display_to values
+     */
+    $object.updateRange = function ($numToFetch) {
+        if ($numToFetch) {
+            this.filter.num_to_fetch = $numToFetch;
         }
 
-        return $filter;
+        this.filter.display_from = this.filter.offset + 1;
+        this.filter.display_to = this.filter.offset + (this.filter.num_to_fetch * 1);
     };
 
-    $object.getTransactions = function ($filter) {
-        $object.filter = $object.formatDates($filter);
+    //Todo: I might not need some of this code (not allowing offset to be less than 0)
+    // todo: since I disabled the button if that is the case
+    $object.prevResults = function () {
+        //make it so the offset cannot be less than 0.
+        if (this.filter.offset - this.filter.num_to_fetch < 0) {
+            this.filter.offset = 0;
+        }
+        else {
+            this.filter.offset-= (this.filter.num_to_fetch * 1);
+            this.updateRange();
+            $rootScope.$emit('runFilter');
+        }
+    };
+
+    $object.nextResults = function ($filterTotals) {
+        if (this.filter.offset + (this.filter.num_to_fetch * 1) > $filterTotals.numTransactions) {
+            //stop it going past the end.
+            return;
+        }
+
+        this.filter.offset+= (this.filter.num_to_fetch * 1);
+        this.updateRange();
+        $rootScope.$emit('runFilter');
+    };
+
+    $object.formatDates = function () {
+        if (this.filter.single_date.in) {
+            this.filter.single_date.in = $filter('formatDate')(this.filter.single_date.in);
+        }
+        else {
+            this.filter.single_date.in = "";
+        }
+        if (this.filter.single_date.out) {
+            this.filter.single_date.out = $filter('formatDate')(this.filter.single_date.out);
+        }
+        else {
+            this.filter.single_date.out = "";
+        }
+        if (this.filter.from_date.in) {
+            this.filter.from_date.in = $filter('formatDate')(this.filter.from_date.in);
+        }
+        else {
+            this.filter.from_date.in = "";
+        }
+        if (this.filter.from_date.out) {
+            this.filter.from_date.out = $filter('formatDate')(this.filter.from_date.out);
+        }
+        else {
+            this.filter.from_date.out.sql = "";
+        }
+        if (this.filter.to_date.in) {
+            this.filter.to_date.in = $filter('formatDate')(this.filter.to_date.in);
+        }
+        else {
+            this.filter.to_date.in = "";
+        }
+        if (this.filter.to_date.out) {
+            this.filter.to_date.out = $filter('formatDate')(this.filter.to_date.out);
+        }
+        else {
+            this.filter.to_date.out = "";
+        }
+
+        return this.filter;
+    };
+
+    $object.getTransactions = function () {
+        $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/transactions';
 
-        return $http.post($url, {'filter': $filter});
+        return $http.post($url, {'filter': $object.filter});
     };
 
-    $object.getBasicTotals = function ($filter) {
-        $object.filter = $object.formatDates($filter);
+    $object.getBasicTotals = function () {
+        $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/basicTotals';
 
-        return $http.post($url, {'filter': $filter});
+        return $http.post($url, {'filter': $object.filter});
     };
 
-    $object.getGraphTotals = function ($filter) {
-        $object.filter = $object.formatDates($filter);
+    $object.getGraphTotals = function () {
+        $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/graphTotals';
 
-        return $http.post($url, {'filter': $filter});
+        return $http.post($url, {'filter': $object.filter});
     };
 
     $object.calculateGraphFigures = function ($graphTotals) {
@@ -14612,14 +14363,14 @@ app.factory('ShowFactory', function () {
             tags: true,
             dlt: true,
             //components
-            new_transaction: true,
+            new_transaction: false,
             basic_totals: true,
             budget_totals: true,
             filter_totals: true,
             edit_transaction: false,
             edit_tag: false,
             budget: false,
-            filter: false,
+            filter: true,
             autocomplete: {
                 description: false,
                 merchant: false
@@ -14889,13 +14640,7 @@ app.factory('UsersFactory', function ($http) {
     function dropdown($parse, $http) {
         return {
             restrict: 'EA',
-            //scope: {
-            //    //"id": "@id",
-            //    //"selectedObject": "=selectedobject",
-            //    'url': '@url',
-            //    'showPopup': '=show'
-            //},
-            //templateUrl: 'templates/DropdownsTemplate.php',
+
             scope: true,
             link: function($scope, elem, attrs) {
                 $scope.animateIn = attrs.animateIn || 'flipInX';
@@ -14962,6 +14707,101 @@ angular.module('budgetApp')
     });
 
 
+angular.module('budgetApp')
+    .directive('filterAccountsDirective', function () {
+        return {
+            scope: {
+                'filter': '=filter',
+                'filterTab': '=filtertab',
+                'runFilter': '&runfilter'
+            },
+            templateUrl: 'filter-accounts-template',
+
+            link: function ($scope) {
+                $scope.accounts = accounts_response;
+            }
+        }
+    });
+
+angular.module('budgetApp')
+    .directive('filterDateDirective', function ($rootScope) {
+        return {
+            scope: {
+                'filter': '=filter',
+                'filterTab': '=filtertab',
+                'runFilter': '&runfilter'
+            },
+            templateUrl: 'filter-date-template',
+
+            link: function ($scope) {
+
+                $scope.filterDate = function ($keycode) {
+                    if ($keycode !== 13) {
+                        return false;
+                    }
+                    $rootScope.$emit('runFilter');
+                };
+
+                /**
+                 * $type is either 'in' or 'out'
+                 * @param $field
+                 * @param $type
+                 */
+                $scope.clearDateField = function ($field, $type) {
+                    $scope.filter[$field][$type] = "";
+                    $rootScope.$emit('runFilter');
+                };
+            }
+        }
+    });
+
+/**
+ * Much the same as FilterMerchantDirective
+ */
+angular.module('budgetApp')
+    .directive('filterDescriptionDirective', function ($rootScope) {
+        return {
+            scope: {
+                'filter': '=filter',
+                'filterTab': '=filtertab',
+                'runFilter': '&runfilter'
+            },
+            templateUrl: 'filter-description-template',
+
+            link: function ($scope) {
+
+                $scope.filterDescriptionOrMerchant = function ($keycode) {
+                    if ($keycode !== 13) {
+                        return false;
+                    }
+                    $scope.resetOffset();
+                    $rootScope.$emit('runFilter');
+                };
+
+                $scope.resetOffset = function () {
+                    $scope.filter.offset = 0;
+                };
+
+                /**
+                 * $type is either 'in' or 'out'
+                 *
+                 * @DO:
+                 * This method is duplicated in other parts of the filter, but
+                 * for some reason when I had it in my FilterController, both
+                 * parameters were undefined.
+                 *
+                 * @param $field
+                 * @param $type
+                 */
+                $scope.clearFilterField = function ($field, $type) {
+                    $scope.filter[$field][$type] = "";
+                    $rootScope.$emit('runFilter');
+                };
+
+            }
+        }
+    });
+
 ;(function(){
     'use strict';
     angular
@@ -14969,16 +14809,9 @@ angular.module('budgetApp')
         .directive('filterDropdownsDirective', filterDropdown);
 
     /* @inject */
-    function filterDropdown($parse, $http) {
+    function filterDropdown() {
         return {
             restrict: 'A',
-            //scope: {
-            //    //"model": "=model",
-            //    //"id": "@id"
-            //    "types": "=types",
-            //    "path": "@path"
-            //},
-            //templateUrl: 'filter-dropdowns',
             scope: true,
             link: function($scope, elem, attrs) {
                 $scope.content = $(elem).find('.content');
@@ -15012,6 +14845,373 @@ angular.module('budgetApp')
 }).call(this);
 
 
+angular.module('budgetApp')
+    .directive('graphsDirective', function ($rootScope, FilterFactory) {
+        return {
+            scope: {
+
+            },
+            templateUrl: 'graphs-template',
+
+            link: function ($scope) {
+
+                $rootScope.$on('getGraphTotals', function () {
+                    $rootScope.showLoading();
+                    FilterFactory.getGraphTotals(FilterFactory.filter)
+                        .then(function (response) {
+                            $scope.graphFigures = FilterFactory.calculateGraphFigures(response.data);
+                            $rootScope.hideLoading();
+                        })
+                        .catch(function (response) {
+                            $rootScope.responseError(response);
+                        })
+                });
+
+            }
+        }
+    });
+
+angular.module('budgetApp')
+    .directive('filterMerchantDirective', function ($rootScope) {
+        return {
+            scope: {
+                'filter': '=filter',
+                'filterTab': '=filtertab',
+                'runFilter': '&runfilter'
+            },
+            templateUrl: 'filter-merchant-template',
+
+            link: function ($scope) {
+
+                $scope.filterDescriptionOrMerchant = function ($keycode) {
+                    if ($keycode !== 13) {
+                        return false;
+                    }
+                    $scope.resetOffset();
+                    $rootScope.$emit('runFilter');
+                };
+
+                $scope.resetOffset = function () {
+                    $scope.filter.offset = 0;
+                };
+                
+                /**
+                 * $type is either 'in' or 'out'
+                 *
+                 * @DO:
+                 * This method is duplicated in other parts of the filter, but
+                 * for some reason when I had it in my FilterController, both
+                 * parameters were undefined.
+                 *
+                 * @param $field
+                 * @param $type
+                 */
+                $scope.clearFilterField = function ($field, $type) {
+                    $scope.filter[$field][$type] = "";
+                    $rootScope.$emit('runFilter');
+                };
+
+            }
+        }
+    });
+
+angular.module('budgetApp')
+    .directive('filterTagsDirective', function ($rootScope) {
+        return {
+            scope: {
+                'filter': '=filter',
+                'filterTab': '=filtertab',
+                'runFilter': '&runfilter',
+                'budgets': '=budgets'
+            },
+            templateUrl: 'filter-tags-template',
+
+            link: function ($scope) {
+
+                $scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
+                    if (newValue === oldValue) {
+                        return;
+                    }
+                    $rootScope.$emit('runFilter');
+                });
+
+                $scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
+                    if (newValue === oldValue) {
+                        return;
+                    }
+                    $rootScope.$emit('runFilter');
+                });
+
+                $scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
+                    if (newValue === oldValue) {
+                        return;
+                    }
+                    $rootScope.$emit('runFilter');
+                });
+
+                /**
+                 * $type1 is 'in' or 'out'.
+                 * $type2 is 'and' or 'or'.
+                 * @param $type1
+                 * @param $type2
+                 */
+                $scope.clearTagField = function ($type1, $type2) {
+                    if ($type2) {
+                        $scope.filter.budgets[$type1][$type2] = [];
+                    }
+                    else {
+                        $scope.filter.budgets[$type1] = [];
+                    }
+                };
+
+            }
+        }
+    });
+
+angular.module('budgetApp')
+    .directive('filterToolbarDirective', function ($rootScope, FilterFactory) {
+        return {
+            scope: {
+
+            },
+            templateUrl: 'filter-toolbar-template',
+
+            link: function ($scope) {
+                $scope.filter = FilterFactory.filter;
+                $scope.filterFactory = FilterFactory;
+
+                $scope.$watch('filterFactory.filterBasicTotals', function (newValue, oldValue, scope) {
+                    $scope.filterTotals = newValue;
+                });
+
+
+                $scope.resetFilter = function () {
+                    FilterFactory.resetFilter();
+                    $scope.filter = FilterFactory.filter;
+                    $rootScope.$emit('runFilter');
+                };
+
+                $scope.changeNumToFetch = function () {
+                    FilterFactory.updateRange($scope.filter.num_to_fetch);
+                    $rootScope.$emit('runFilter');
+                };
+
+                $scope.prevResults = function () {
+                    FilterFactory.prevResults();
+                };
+
+                $scope.nextResults = function () {
+                    FilterFactory.nextResults($scope.filterTotals.numTransactions);
+                };
+            }
+        }
+    });
+
+angular.module('budgetApp')
+    .directive('filterTotalDirective', function ($rootScope) {
+        return {
+            scope: {
+                'filter': '=filter',
+                'filterTab': '=filtertab',
+                'runFilter': '&runfilter'
+                //'clearFilterField': '&clearfilterfield'
+            },
+            templateUrl: 'filter-total-template',
+
+            link: function ($scope) {
+
+                $scope.filterTotal = function ($keycode) {
+                    if ($keycode !== 13) {
+                        return false;
+                    }
+                    $rootScope.$emit('runFilter');
+                };
+
+                /**
+                 * $type is either 'in' or 'out'
+                 *
+                 * @DO:
+                 * This method is duplicated in other parts of the filter, but
+                 * for some reason when I had it in my FilterController, both
+                 * parameters were undefined.
+                 *
+                 * @param $field
+                 * @param $type
+                 */
+                $scope.clearFilterField = function ($field, $type) {
+                    $scope.filter[$field][$type] = "";
+                    $rootScope.$emit('runFilter');
+                };
+
+            }
+        }
+    });
+
+angular.module('budgetApp')
+    .directive('filterTotalsDirective', function ($rootScope, FilterFactory) {
+        return {
+            scope: {
+                show: '=show',
+                filter: '=filter'
+            },
+            templateUrl: 'filter-totals-template',
+
+            link: function ($scope) {
+
+                $scope.filterTotals = FilterFactory.filterBasicTotals;
+
+                $rootScope.$on('getFilterBasicTotals', function () {
+                    $rootScope.showLoading();
+                    FilterFactory.getBasicTotals($scope.filter)
+                        .then(function (response) {
+                            FilterFactory.filterBasicTotals = response.data;
+                            $scope.filterTotals = response.data;
+                            $rootScope.hideLoading();
+                        })
+                        .catch(function (response) {
+                            $rootScope.responseError(response);
+                        })
+                });
+
+            }
+        }
+    });
+
+angular.module('budgetApp')
+    .directive('filterTypesDirective', function () {
+        return {
+            scope: {
+                'filter': '=filter',
+                'filterTab': '=filtertab',
+                'runFilter': '&runfilter'
+            },
+            templateUrl: 'filter-types-template',
+
+            link: function ($scope) {
+
+                $scope.types = ["income", "expense", "transfer"];
+
+            }
+        }
+    });
+
+;(function(){
+    'use strict';
+    angular
+        .module('budgetApp')
+        .directive('sideBarTotalsDirective', totals);
+
+    function totals($rootScope, TotalsFactory) {
+        return {
+            restrict: 'EA',
+            scope: {
+                "show": "=show"
+            },
+            templateUrl: 'totals-template',
+            link: function($scope, elem, attrs) {
+
+                $scope.totalChanges = {};
+
+                $rootScope.clearTotalChanges = function () {
+                    $scope.totalChanges = {};
+                };
+
+                $rootScope.$on('getSideBarTotals', function () {
+                    $scope.totalsLoading = true;
+                    TotalsFactory.getSideBarTotals()
+                        .then(function (response) {
+                            $scope.sideBarTotals = response.data.data;
+                            $scope.totalsLoading = false;
+                        })
+                        .catch(function (response) {
+                            $rootScope.responseError(response);
+                        });
+                });
+
+                $scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
+
+                    if (newValue && oldValue) {
+
+                        if (newValue.credit !== oldValue.credit) {
+                            $scope.totalChanges.credit = $scope.calculateDifference(newValue.credit, oldValue.credit);
+                        }
+
+                        if (newValue.debit !== oldValue.debit) {
+                            $scope.totalChanges.debit = $scope.calculateDifference(newValue.debit, oldValue.debit);
+                        }
+
+                        if (newValue.balance !== oldValue.balance) {
+                            $scope.totalChanges.balance = $scope.calculateDifference(newValue.balance, oldValue.balance);
+                        }
+
+                        if (newValue.reconciledSum !== oldValue.reconciledSum) {
+                            $scope.totalChanges.reconciledSum = $scope.calculateDifference(newValue.reconciledSum, oldValue.reconciledSum);
+                        }
+
+                        if (newValue.savings !== oldValue.savings) {
+                            $scope.totalChanges.savings = $scope.calculateDifference(newValue.savings, oldValue.savings);
+                        }
+
+                        if (newValue.expensesWithoutBudget !== oldValue.expensesWithoutBudget) {
+                            $scope.totalChanges.expensesWithoutBudget = $scope.calculateDifference(newValue.expensesWithoutBudget, oldValue.expensesWithoutBudget);
+                        }
+
+                        if (newValue.remainingFixedBudget !== oldValue.remainingFixedBudget) {
+                            $scope.totalChanges.remainingFixedBudget = $scope.calculateDifference(newValue.remainingFixedBudget, oldValue.remainingFixedBudget);
+                        }
+
+                        if (newValue.cumulativeFixedBudget !== oldValue.cumulativeFixedBudget) {
+                            $scope.totalChanges.cumulativeFixedBudget = $scope.calculateDifference(newValue.cumulativeFixedBudget, oldValue.cumulativeFixedBudget);
+                        }
+
+                        if (newValue.expensesWithFixedBudgetBeforeStartingDate !== oldValue.expensesWithFixedBudgetBeforeStartingDate) {
+                            $scope.totalChanges.expensesWithFixedBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetBeforeStartingDate, oldValue.expensesWithFixedBudgetBeforeStartingDate);
+                        }
+
+                        if (newValue.expensesWithFixedBudgetAfterStartingDate !== oldValue.expensesWithFixedBudgetAfterStartingDate) {
+                            $scope.totalChanges.expensesWithFixedBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetAfterStartingDate, oldValue.expensesWithFixedBudgetAfterStartingDate);
+                        }
+
+                        if (newValue.expensesWithFlexBudgetBeforeStartingDate !== oldValue.expensesWithFlexBudgetBeforeStartingDate) {
+                            $scope.totalChanges.expensesWithFlexBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetBeforeStartingDate, oldValue.expensesWithFlexBudgetBeforeStartingDate);
+                        }
+
+                        if (newValue.expensesWithFlexBudgetAfterStartingDate !== oldValue.expensesWithFlexBudgetAfterStartingDate) {
+                            $scope.totalChanges.expensesWithFlexBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetAfterStartingDate, oldValue.expensesWithFlexBudgetAfterStartingDate);
+                        }
+
+                        if (newValue.remainingBalance !== oldValue.remainingBalance) {
+                            $scope.totalChanges.remainingBalance = $scope.calculateDifference(newValue.remainingBalance, oldValue.remainingBalance);
+                        }
+
+                        scope.sideBarTotals = newValue;
+                    }
+                });
+
+                /**
+                 * End watches
+                 */
+
+                /**
+                 * @param newValue
+                 * @param oldValue
+                 * @returns {string}
+                 */
+                $scope.calculateDifference = function (newValue, oldValue) {
+                    var $diff = newValue - oldValue;
+                    return $diff.toFixed(2);
+                };
+
+                $scope.showSavingsTotalInput = function () {
+                    $scope.show.savings_total.input = true;
+                    $scope.show.savings_total.edit_btn = false;
+                };
+            }
+        };
+    }
+}).call(this);
+
+
 ;(function(){
     'use strict';
     angular
@@ -15019,7 +15219,7 @@ angular.module('budgetApp')
         .directive('tagAutocompleteDirective', tagAutocomplete);
 
     /* @inject */
-    function tagAutocomplete($sce, $rootScope) {
+    function tagAutocomplete($sce) {
         return {
             restrict: 'EA',
             scope: {
@@ -15207,120 +15407,8 @@ angular.module('budgetApp')
     'use strict';
     angular
         .module('budgetApp')
-        .directive('totalsDirective', totals);
-
-    /* @inject */
-    function totals(SavingsFactory, FilterFactory) {
-        return {
-            restrict: 'EA',
-            scope: {
-                //"totals": "=totals",
-                "sideBarTotals": "=sidebartotals",
-                "totalsLoading": "=totalsloading",
-                //"basicTotals": "=basictotals",
-                //"fixedBudgetTotals": "=fixedbudgettotals",
-                //"flexBudgetTotals": "=flexbudgettotals",
-                //"remainingBalance": "=remainingbalance",
-                "totalChanges": "=totalchanges",
-                "provideFeedback" : "&providefeedback",
-                "show": "=show"
-            },
-            //template: $('script#totals').html(),
-            templateUrl: 'totals-template',
-            //scope: true,
-            link: function($scope, elem, attrs) {
-
-                $scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
-
-                    if (newValue && oldValue) {
-
-                        if (newValue.credit !== oldValue.credit) {
-                            $scope.totalChanges.credit = $scope.calculateDifference(newValue.credit, oldValue.credit);
-                        }
-
-                        if (newValue.debit !== oldValue.debit) {
-                            $scope.totalChanges.debit = $scope.calculateDifference(newValue.debit, oldValue.debit);
-                        }
-
-                        if (newValue.balance !== oldValue.balance) {
-                            $scope.totalChanges.balance = $scope.calculateDifference(newValue.balance, oldValue.balance);
-                        }
-
-                        if (newValue.reconciledSum !== oldValue.reconciledSum) {
-                            $scope.totalChanges.reconciledSum = $scope.calculateDifference(newValue.reconciledSum, oldValue.reconciledSum);
-                        }
-
-                        if (newValue.savings !== oldValue.savings) {
-                            $scope.totalChanges.savings = $scope.calculateDifference(newValue.savings, oldValue.savings);
-                        }
-
-                        if (newValue.expensesWithoutBudget !== oldValue.expensesWithoutBudget) {
-                            $scope.totalChanges.expensesWithoutBudget = $scope.calculateDifference(newValue.expensesWithoutBudget, oldValue.expensesWithoutBudget);
-                        }
-
-                        if (newValue.remainingFixedBudget !== oldValue.remainingFixedBudget) {
-                            $scope.totalChanges.remainingFixedBudget = $scope.calculateDifference(newValue.remainingFixedBudget, oldValue.remainingFixedBudget);
-                        }
-
-                        if (newValue.cumulativeFixedBudget !== oldValue.cumulativeFixedBudget) {
-                            $scope.totalChanges.cumulativeFixedBudget = $scope.calculateDifference(newValue.cumulativeFixedBudget, oldValue.cumulativeFixedBudget);
-                        }
-
-                        if (newValue.expensesWithFixedBudgetBeforeStartingDate !== oldValue.expensesWithFixedBudgetBeforeStartingDate) {
-                            $scope.totalChanges.expensesWithFixedBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetBeforeStartingDate, oldValue.expensesWithFixedBudgetBeforeStartingDate);
-                        }
-
-                        if (newValue.expensesWithFixedBudgetAfterStartingDate !== oldValue.expensesWithFixedBudgetAfterStartingDate) {
-                            $scope.totalChanges.expensesWithFixedBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetAfterStartingDate, oldValue.expensesWithFixedBudgetAfterStartingDate);
-                        }
-
-                        if (newValue.expensesWithFlexBudgetBeforeStartingDate !== oldValue.expensesWithFlexBudgetBeforeStartingDate) {
-                            $scope.totalChanges.expensesWithFlexBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetBeforeStartingDate, oldValue.expensesWithFlexBudgetBeforeStartingDate);
-                        }
-
-                        if (newValue.expensesWithFlexBudgetAfterStartingDate !== oldValue.expensesWithFlexBudgetAfterStartingDate) {
-                            $scope.totalChanges.expensesWithFlexBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetAfterStartingDate, oldValue.expensesWithFlexBudgetAfterStartingDate);
-                        }
-
-                        if (newValue.remainingBalance !== oldValue.remainingBalance) {
-                            $scope.totalChanges.remainingBalance = $scope.calculateDifference(newValue.remainingBalance, oldValue.remainingBalance);
-                        }
-
-                        scope.sideBarTotals = newValue;
-                    }
-                });
-
-                /**
-                 * End watches
-                 */
-
-                /**
-                 * @param newValue
-                 * @param oldValue
-                 * @returns {string}
-                 */
-                $scope.calculateDifference = function (newValue, oldValue) {
-                    var $diff = newValue - oldValue;
-                    return $diff.toFixed(2);
-                };
-
-                $scope.showSavingsTotalInput = function () {
-                    $scope.show.savings_total.input = true;
-                    $scope.show.savings_total.edit_btn = false;
-                };
-            }
-        };
-    }
-}).call(this);
-
-
-;(function(){
-    'use strict';
-    angular
-        .module('budgetApp')
         .directive('transactionAutocompleteDirective', transactionAutocomplete);
 
-    /* @inject */
     function transactionAutocomplete(AutocompleteFactory, $sce, $http, $interval) {
         return {
             restrict: 'EA',

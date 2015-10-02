@@ -20,44 +20,14 @@ app.config(function ($interpolateProvider) {
 
 app.run(runBlock);
 
-function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, ErrorsFactory) {
+function runBlock ($rootScope, UsersFactory, ShowFactory, ErrorsFactory) {
 
     $rootScope.show = ShowFactory.defaults;
-
-    $rootScope.totalChanges = {};
-
-    $rootScope.clearTotalChanges = function () {
-        $rootScope.totalChanges = {};
-    };
-
-    if (typeof env !== 'undefined') {
-        $rootScope.env = env;
-    }
-
-    $rootScope.clearTotalChanges = function () {
-        $rootScope.totalChanges = {};
-    };
 
     $rootScope.responseError = function (response) {
         $rootScope.$broadcast('provideFeedback', ErrorsFactory.responseError(response), 'error');
         $rootScope.hideLoading();
     };
-
-    $rootScope.getSideBarTotals = function () {
-        $rootScope.totalsLoading = true;
-        TotalsFactory.getSideBarTotals()
-            .then(function (response) {
-                $rootScope.sideBarTotals = response.data.data;
-                $rootScope.totalsLoading = false;
-            })
-            .catch(function (response) {
-                $rootScope.responseError(response);
-            });
-    };
-
-    if (typeof page !== 'undefined' && (page === 'home' || page === 'fixedBudgets' || page === 'flexBudgets' || page === 'unassignedBudgets')) {
-        $rootScope.getSideBarTotals();
-    }
 
     $rootScope.closePopup = function ($event, $popup) {
         var $target = $event.target;
@@ -70,6 +40,7 @@ function runBlock ($rootScope, $sce, UsersFactory, TotalsFactory, ShowFactory, E
         $(".main").css('display', 'block');
         $("footer, #navbar").css('display', 'flex');
         $("#page-loading").hide();
+        $rootScope.$emit('getSideBarTotals');
     });
 
     $rootScope.showLoading = function () {

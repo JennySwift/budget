@@ -75,7 +75,7 @@
             BudgetsFactory.insert($budget)
                 .then(function (response) {
                     jsInsertBudget(response);
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $rootScope.$broadcast('provideFeedback', 'Budget created');
 
                     if ($budget.type === 'fixed' && page === 'fixedBudgets') {
@@ -119,7 +119,7 @@
             BudgetsFactory.update($scope.budget_popup)
                 .then(function (response) {
                     jsUpdateBudget(response);
-                    $scope.getSideBarTotals();
+                    $scope.$emit('getSideBarTotals');
                     $scope.show.popups.budget = false;
                 })
                 .catch(function (response) {
@@ -146,7 +146,7 @@
                 $scope.showLoading();
                 BudgetsFactory.destroy($budget)
                     .then(function (response) {
-                        $scope.getSideBarTotals();
+                        $scope.$emit('getSideBarTotals');
                         jsDeleteBudget($budget);
                         $scope.hideLoading();
                         $rootScope.$broadcast('provideFeedback', 'Budget deleted');
