@@ -11,8 +11,7 @@
             <div>date</div>
         </th>
         <th class="tooltipster" title="cumulative month number">
-            <div>Cumulative</div>
-            <div>month</div>
+            <div>Month</div>
             <div>number</div>
         </th>
         <th class="tooltipster" title="cumulative (amount * cumulative month number)">

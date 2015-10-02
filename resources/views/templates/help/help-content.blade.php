@@ -5,15 +5,16 @@
     <p>So he wanted to be able to specify in advance his predetermined expenses, and then for each of his remaining expense categories, to be able to specify a percentage of what he had remaining to spend on those.</p>
     <p>We call the 'predetermined' expenses 'fixed', and the others 'flex', i.e., flexible, because they are a percentage of what is remaining.</p>
 
-    <h2 id="tags-link">Tags</h2>
+    <h2 id="tags-link">Tags/Budgets</h2>
+    <p>To create budgets, delete them, or edit them, go to one of the pages from the budgets dropdown menu.</p>
+    <p>Please note that I have recently changed the way the tags and budgets work and haven't really decided yet on the appropriate terminology. Currently, the tags referred to below are now known as budgets, and 'tags without budgets' are known as 'unassigned budgets.'</p>
+
     <p>A tag is a category of something you spend or earn money on. For example, food or clothes. It is these tags that you specify a budget for. You choose the budget type (either fixed or flex).</p>
     <p>For a fixed budget, you specify the amount per month you need to spend on that tag.</p>
     <p>For a flex budget, you specify the percentage of what is remaining that you want to spend on that tag.</p>
     <p>You can specify a starting date for a tag.</p>
-    <p>For the tags with fixed budgets, the starting date is taken into account. The amount calculated (column C for 'cumulative') is the amount (column A) multipled by the month number (column CMN).</p>
+    <p>For the tags with fixed budgets, the starting date is taken into account. The amount calculated (the 'cumulative' column) is the amount column multiplied by the month number.</p>
     <p>We're not sure if the starting date for tags with flex budgets has a point yet. :)</p>
-    <p>To create tags, delete them, or edit their names, go to the tags page, from the <i class="fa fa-bars"></i> menu.</p>
-    <p>To give a budget to one of those tags, go to the budgets page. (Click on the <i class="fa fa-dollar"></i> in the menu.)</p>
     <p>The tables on this budgets page show you totals for each tag you have given a budget for.</p>
     <p>The fixed budgets table shows you, for each of those tags:</p>
     <ul>
@@ -75,8 +76,8 @@
     <p>Currently it is 10%, but it is planned to make that customisable.</p>
     <p>The action is reversed when an income transaction is deleted (and on other similar occasions).</p>
 
-    <h2 id="RB">RB</h2>
-    <p>RB is the remaining balance, before the flex budgets are calculated. It is the figure that the flex budgets are a percentage of.</p>
+    <h2 id="RB">Remaining Balance</h2>
+    <p>The remaining balance is the balance before the flex budgets are calculated. It is the figure that the flex budgets are a percentage of.</p>
     <p>It has been perhaps the trickiest and most important figure to figure out, since the flexible budgets depend on it, and the flexible budgets are the point of the app!</p>
     <p>We're still not sure if we have it right, but currently the formula is:</p>
     <ul>
@@ -84,20 +85,15 @@
         <li>- remaining fixed budget</li>
         <li>- total expenses with no associated budget</li>
         <li>- total spent on flex budgets before their starting dates</li>
-        <li>- total spent on flex budgets after their starting dates</li>
         <li>- total spent on fixed budgets before their starting dates</li>
         <li>- total spent on fixed budgets after their starting dates</li>
         <li>- savings</li>
     </ul>
 
-    <p>Update</p>
-    <p>Expenses with flex budget after starting date should not be in the formula (hence why I did RBWithoutEFLB at once point).</p>
-    <p>The reason I think: If the flex budget table tells the user they have $20 to spend on putt putt and $50 on clothes, then the user goes and plays the putt putt, that putt putt expense would cause the remaining balance to decrease, which would mean the user no longer had $50 to spend on clothes.</p>
-    <p>So I don't think RB needs to actually be displayed to the user. The important figures are the remaining columns in the flex budgets table I suppose.</p>
-
     <h2 id="totals">Totals</h2>
-    <p>A lot of the figures in the totals sidebar are probably unnecessary for users, but they have been helpful in getting the totals working and understanding what is going on. Hover the totals to see explanations of what they are (or to get confused :)). A lot of them were for figuring out RB. Some are just the same figures as in the budget table totals columns.</p>
-    <p>Probably the most relevant figures for the user are: credit, debit, RB, savings, and the R (remaining) columns in the budget tables, so the user can see how much they have left to spend on each tag.</p>
+    <p>A lot of the figures in the totals sidebar are probably unnecessary for users, but they have been helpful in getting the totals working and understanding what is going on. A lot of them were for figuring out the remaining balance. Some are just the same figures as in the budget table totals columns.</p>
+    <p>Probably the most relevant figures for the user are: credit, debit, remaining balance, savings, and the remaining columns in the budget tables, so the user can see how much they have left to spend on each tag.</p>
+    <p>When actions are made, the changes made to the totals are displayed in the 'changes' column.</p>
     <h2>This page</h2>
     <p>You can find this page again in the help menu.</p>
 </div>
