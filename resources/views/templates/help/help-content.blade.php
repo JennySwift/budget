@@ -94,6 +94,11 @@
     <p>A lot of the figures in the totals sidebar are probably unnecessary for users, but they have been helpful in getting the totals working and understanding what is going on. A lot of them were for figuring out the remaining balance. Some are just the same figures as in the budget table totals columns.</p>
     <p>Probably the most relevant figures for the user are: credit, debit, remaining balance, savings, and the remaining columns in the budget tables, so the user can see how much they have left to spend on each tag.</p>
     <p>When actions are made, the changes made to the totals are displayed in the 'changes' column.</p>
+
+    <h2 id="graphs-help">Graphs</h2>
+    <p>To see a visual representation of the transactions you have filtered, go to the home page and click on the 'graphs' tab. It is a pretty new feature.</p>
+
     <h2>This page</h2>
     <p>You can find this page again in the help menu.</p>
+
 </div>

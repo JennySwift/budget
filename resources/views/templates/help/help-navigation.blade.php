@@ -16,8 +16,9 @@
                     <li><a href="#reconciling">Reconciling</a></li>
                 </ul>
                 <li><a href="#savings">Savings</a></li>
-                <li><a href="#RB">RB</a></li>
+                <li><a href="#RB">Remaining Balance</a></li>
                 <li><a href="#totals">Totals</a></li>
+                <li><a href="#graphs-help">Graphs</a></li>
             </ul>
         </div>
     </div>
