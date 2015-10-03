@@ -14,8 +14,7 @@
 		    <option value="transfer">Transfer</option>
 		</select>
 		
-		<select ng-model="edit_transaction.account.id"
-                ng-change="fixEditTransactionAccount()"
+		<select ng-model="edit_transaction.account_id"
                 id="edit-transaction-account"
                 class="form-control">
 			        <option ng-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>

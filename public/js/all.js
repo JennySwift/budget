@@ -13428,7 +13428,7 @@ app.factory('ShowFactory', function () {
             edit_transaction: false,
             edit_tag: false,
             budget: false,
-            filter: true,
+            filter: false,
             autocomplete: {
                 description: false,
                 merchant: false
@@ -15270,6 +15270,11 @@ app.factory('NewTransactionFactory', function ($http) {
                 .then(function (response) {
                     $scope.$emit('getSideBarTotals');
                     $rootScope.$broadcast('provideFeedback', 'Transaction updated');
+
+                    //Update the transaction in the JS
+                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $scope.edit_transaction.id}));
+                    $scope.transactions[$index] = response.data.data;
+
                     $scope.show.edit_transaction = false;
                     $scope.totals = response.data;
                     $scope.hideLoading();
@@ -15283,17 +15288,17 @@ app.factory('NewTransactionFactory', function ($http) {
          * $scope.edit_transaction.account wasn't updating with ng-model,
          * so I'm doing it manually.
          */
-        $scope.fixEditTransactionAccount = function () {
-            $account_id = $("#edit-transaction-account").val();
-
-            $account_match = _.find($scope.accounts, function ($account) {
-                return $account.id === $account_id;
-            });
-            $account_name = $account_match.name;
-
-            $scope.edit_transaction.account.id = $account_id;
-            $scope.edit_transaction.account.name = $account_name;
-        };
+        //$scope.fixEditTransactionAccount = function () {
+        //    $account_id = $("#edit-transaction-account").val();
+        //
+        //    $account_match = _.find($scope.accounts, function ($account) {
+        //        return $account.id === $account_id;
+        //    });
+        //    $account_name = $account_match.name;
+        //
+        //    $scope.edit_transaction.account.id = $account_id;
+        //    $scope.edit_transaction.account.name = $account_name;
+        //};
 
         $scope.updateAllocation = function ($keycode, $type, $value, $budget_id) {
             if ($keycode === 13) {
