@@ -15,13 +15,23 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
     mix.sass('style.scss');
 
+    //mix.scripts([
+    //    'plugins/*.js',
+    //    'app.js',
+    //    'controllers/*.js',
+    //    'filters/*.js',
+    //    'factories/*.js',
+    //    'directives/*.js'
+    //], 'public/js/all.js');
+
     mix.scripts([
         'plugins/*.js',
-        'app.js',
-        'controllers/*.js',
-        'filters/*.js',
-        'factories/*.js',
-        'directives/*.js'
+        'shared/*.js',
+        'accounts/*.js',
+        'budgets/*.js',
+        'help/*.js',
+        'home/*.js',
+        'preferences/*.js'
     ], 'public/js/all.js');
 
     mix.stylesIn('resources/assets/css', 'public/css/plugins.css');
