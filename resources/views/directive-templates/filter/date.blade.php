@@ -13,7 +13,8 @@
                         ng-model="filter.single_date.in"
                         ng-keyup="filterDate($event.keyCode)"
                         type="text"
-                        placeholder="single date">
+                        placeholder="single date"
+                        formatted-date>
 
             <span class="input-group-btn">
                 <button
@@ -31,7 +32,8 @@
                         ng-model="filter.single_date.out"
                         ng-keyup="filterDate($event.keyCode)"
                         type="text"
-                        placeholder="single date">
+                        placeholder="single date"
+                        formatted-date>
 
             <span class="input-group-btn">
                 <button
@@ -49,7 +51,8 @@
                         ng-model="filter.from_date.in"
                         ng-keyup="filterDate($event.keyCode)"
                         type="text"
-                        placeholder="from a date">
+                        placeholder="from a date"
+                        formatted-date>
 
             <span class="input-group-btn">
                 <button
@@ -68,7 +71,8 @@
                         ng-model="filter.to_date.in"
                         ng-keyup="filterDate($event.keyCode)"
                         type="text"
-                        placeholder="to a date">
+                        placeholder="to a date"
+                        formatted-date>
 
             <span class="input-group-btn">
                 <button
