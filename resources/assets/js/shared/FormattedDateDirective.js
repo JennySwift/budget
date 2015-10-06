@@ -5,12 +5,12 @@ angular.module('budgetApp')
             require: '?ngModel',
             link: function (scope, element, attrs, ngModel) {
 
-                //element.on('keyup', function (event) {
-                //    if (Date.parse(ngModel.$viewValue)) {
-                //        ngModel.$modelValue = $filter('formatDate')(ngModel.$viewValue);
-                //
-                //    }
-                //});
+                element.on('keyup', function (event) {
+                    if (Date.parse(ngModel.$viewValue)) {
+                        ngModel.$modelValue = $filter('formatDate')(ngModel.$viewValue);
+                        ngModel.$render();
+                    }
+                });
 
             }
         };

@@ -16,6 +16,8 @@
 
         @include('templates.home.new-transaction')
 
+        <input ng-model="dateTest" type="text" formatted-date/>
+
     </div>
 
     @include('templates.home.main-content')
