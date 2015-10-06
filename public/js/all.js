@@ -14800,7 +14800,7 @@ app.factory('NewTransactionFactory', function ($http) {
         }
 
         if ($accounts.length > 0) {
-            $defaults.account_id = $accounts[0].id;
+            $defaults.account_id = $accounts[1].id;
             $defaults.from_account_id = $accounts[0].id;
             $defaults.to_account_id = $accounts[0].id;
         }
