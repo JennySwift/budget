@@ -16,6 +16,9 @@
 
         @include('templates.home.new-transaction')
 
+        <button ng-model="testBtn" id="test-btn">Test me!</button>
+        <input type="text" id="test-input"/>
+
     </div>
 
     @include('templates.home.main-content')
