@@ -36,6 +36,8 @@ class TransactionSeeder extends Seeder {
      */
     protected $mixedBudgetIds;
 
+    protected $date;
+
     /**
      *
      */

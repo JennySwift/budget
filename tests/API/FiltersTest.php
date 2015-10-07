@@ -199,7 +199,54 @@ class FiltersTest extends TestCase {
 
         $this->setBasicTotals($data);
 
-//        var_dump($this->basicTotals);
+        $this->assertArrayHasKey('credit', $this->basicTotals);
+        $this->assertArrayHasKey('debit', $this->basicTotals);
+        $this->assertArrayHasKey('creditIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('debitIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('balance', $this->basicTotals);
+        $this->assertArrayHasKey('reconciled', $this->basicTotals);
+        $this->assertArrayHasKey('numTransactions', $this->basicTotals);
+
+        $this->assertEquals(2350, $this->basicTotals['credit']);
+        $this->assertEquals(-160, $this->basicTotals['debit']);
+        $this->assertEquals(2450, $this->basicTotals['creditIncludingTransfers']);
+        $this->assertEquals(-260, $this->basicTotals['debitIncludingTransfers']);
+        $this->assertEquals(2190, $this->basicTotals['balance']);
+        $this->assertEquals(2025, $this->basicTotals['reconciled']);
+        $this->assertEquals(16, $this->basicTotals['numTransactions']);
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * Also checks the offset is working, and that the number of transactions
+     * returned matches the num_to_fetch.
+     * @test
+     */
+    public function it_checks_filter_totals_are_correct_when_num_to_fetch_is_low_enough_so_that_not_all_transactions_are_displayed()
+    {
+        $this->setFilterDefaults();
+        $this->setUser();
+
+        $filter = [
+            'num_to_fetch' => 4,
+            'offset' => 10
+        ];
+
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+
+        $this->setBasicTotals($data);
+        $this->setTransactions($data);
+
+        //Check the number of transactions returned matches the num_to_fetch
+        $this->assertCount(4, $this->transactions);
+
+        //Check the offset is working. The id should be 11 if no offset, 7 with offset 10.
+        $this->assertEquals(7, $this->transactions[0]['id']);
 
         $this->assertArrayHasKey('credit', $this->basicTotals);
         $this->assertArrayHasKey('debit', $this->basicTotals);
