@@ -49,7 +49,7 @@ class TotalsTest extends TestCase {
         $this->assertEquals(-160, $content->debit);
         $this->assertEquals(50, $content->savings);
         $this->assertEquals(2190, $content->balance);
-        // @TODO Make the reconciled fixed as well so we can ensure it works as expected
+        $this->assertEquals(1050, $content->reconciledSum);
         $this->assertEquals(-55, $content->expensesWithoutBudget);
         $this->assertEquals(200, $content->remainingBalance);
         $this->assertEquals(1960, $content->remainingFixedBudget);

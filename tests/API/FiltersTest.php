@@ -212,7 +212,7 @@ class FiltersTest extends TestCase {
         $this->assertEquals(2450, $this->basicTotals['creditIncludingTransfers']);
         $this->assertEquals(-260, $this->basicTotals['debitIncludingTransfers']);
         $this->assertEquals(2190, $this->basicTotals['balance']);
-        $this->assertEquals(2025, $this->basicTotals['reconciled']);
+        $this->assertEquals(1050, $this->basicTotals['reconciled']);
         $this->assertEquals(16, $this->basicTotals['numTransactions']);
 
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
@@ -245,8 +245,8 @@ class FiltersTest extends TestCase {
         //Check the number of transactions returned matches the num_to_fetch
         $this->assertCount(4, $this->transactions);
 
-        //Check the offset is working. The id should be 11 if no offset, 7 with offset 10.
-        $this->assertEquals(7, $this->transactions[0]['id']);
+        //Check the offset is working
+        $this->assertEquals(3, $this->transactions[0]['id']);
 
         $this->assertArrayHasKey('credit', $this->basicTotals);
         $this->assertArrayHasKey('debit', $this->basicTotals);
@@ -261,7 +261,7 @@ class FiltersTest extends TestCase {
         $this->assertEquals(2450, $this->basicTotals['creditIncludingTransfers']);
         $this->assertEquals(-260, $this->basicTotals['debitIncludingTransfers']);
         $this->assertEquals(2190, $this->basicTotals['balance']);
-        $this->assertEquals(2025, $this->basicTotals['reconciled']);
+        $this->assertEquals(1050, $this->basicTotals['reconciled']);
         $this->assertEquals(16, $this->basicTotals['numTransactions']);
 
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
