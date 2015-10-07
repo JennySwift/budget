@@ -121,7 +121,12 @@ class TransactionsController extends Controller
             $this->transactionsRepository->attachBudgets($transaction, $request->get('budgets'));
         }
 
-        return $this->responseOk($transaction);
+        $item = $this->createItem(
+            $transaction,
+            new TransactionTransformer
+        );
+
+        return $this->responseWithTransformer($item, Response::HTTP_CREATED);
     }
 
     /**

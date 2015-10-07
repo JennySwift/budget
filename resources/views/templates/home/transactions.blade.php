@@ -1,4 +1,4 @@
-<h3 ng-if="transactions.length === 0">You don't have any transactions yet.</h3>
+<h3 ng-if="transactions.length === 0">No transactions to show.</h3>
 
 <table ng-if="transactions.length > 0" id="transactions" class="">
 

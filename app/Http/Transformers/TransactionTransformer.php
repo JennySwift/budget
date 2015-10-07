@@ -17,7 +17,9 @@ class TransactionTransformer extends TransformerAbstract
     {
         return [
             'id' => $transaction->id,
+            'path' => $transaction->path,
             'date' => $transaction->date,
+            'userDate' => $transaction->userDate,
             'type' => $transaction->type,
             'description' => $transaction->description,
             'merchant' => $transaction->merchant,
@@ -25,6 +27,10 @@ class TransactionTransformer extends TransformerAbstract
             'reconciled' => $transaction->reconciled,
             'allocated' => $transaction->allocated,
             'account_id' => $transaction->account_id,
+            'account' => [
+                'id' => $transaction->account->id,
+                'name' => $transaction->account->name
+            ],
             'budgets' => $transaction->budgets,
             'multipleBudgets' => (bool) $transaction->multipleBudgets
         ];

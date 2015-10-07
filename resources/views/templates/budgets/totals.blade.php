@@ -1,12 +1,3 @@
-<totals-directive
-        {{--totals="totals"--}}
-        {{--basictotals="basicTotals"--}}
-        sideBarTotals="sideBarTotals"
-        totalsLoading="totalsLoading"
-        fixedbudgettotals="fixedBudgetTotals"
-        flexbudgettotals="flexBudgetTotals"
-        totalchanges="totalChanges"
-        {{--remainingbalance="remainingBalance"--}}
-        {{--getTotals="getTotals()"--}}
+<side-bar-totals-directive
         show="show">
-</totals-directive>
+</side-bar-totals-directive>

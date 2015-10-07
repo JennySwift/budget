@@ -1,4 +1,3 @@
-<!-- ==============================allocation============================== -->
 
 <div ng-show="show.allocationPopup" ng-cloak class="popup-outer">
     <div id="allocation-popup" class="popup-inner">
