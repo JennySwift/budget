@@ -23,7 +23,7 @@ app.factory('ShowFactory', function () {
             edit_transaction: false,
             edit_tag: false,
             budget: false,
-            filter: false,
+            filter: true,
             autocomplete: {
                 description: false,
                 merchant: false

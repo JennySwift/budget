@@ -49,9 +49,9 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
             },
             reconciled: "any",
             offset: 0,
-            num_to_fetch: 30,
+            num_to_fetch: 4,
             display_from: 1,
-            display_to: 30
+            display_to: 4
         };
 
         this.filter = $object.filter;
@@ -104,40 +104,40 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
 
     $object.formatDates = function () {
         if (this.filter.single_date.in) {
-            this.filter.single_date.in = $filter('formatDate')(this.filter.single_date.in);
+            this.filter.single_date.inSql = $filter('formatDate')(this.filter.single_date.in);
         }
         else {
-            this.filter.single_date.in = "";
+            this.filter.single_date.inSql = "";
         }
         if (this.filter.single_date.out) {
-            this.filter.single_date.out = $filter('formatDate')(this.filter.single_date.out);
+            this.filter.single_date.outSql = $filter('formatDate')(this.filter.single_date.out);
         }
         else {
-            this.filter.single_date.out = "";
+            this.filter.single_date.outSql = "";
         }
         if (this.filter.from_date.in) {
-            this.filter.from_date.in = $filter('formatDate')(this.filter.from_date.in);
+            this.filter.from_date.inSql = $filter('formatDate')(this.filter.from_date.in);
         }
         else {
-            this.filter.from_date.in = "";
+            this.filter.from_date.inSql = "";
         }
         if (this.filter.from_date.out) {
-            this.filter.from_date.out = $filter('formatDate')(this.filter.from_date.out);
+            this.filter.from_date.outSql = $filter('formatDate')(this.filter.from_date.out);
         }
         else {
-            this.filter.from_date.out.sql = "";
+            this.filter.from_date.outSql = "";
         }
         if (this.filter.to_date.in) {
-            this.filter.to_date.in = $filter('formatDate')(this.filter.to_date.in);
+            this.filter.to_date.inSql = $filter('formatDate')(this.filter.to_date.in);
         }
         else {
-            this.filter.to_date.in = "";
+            this.filter.to_date.inSql = "";
         }
         if (this.filter.to_date.out) {
-            this.filter.to_date.out = $filter('formatDate')(this.filter.to_date.out);
+            this.filter.to_date.outSql = $filter('formatDate')(this.filter.to_date.out);
         }
         else {
-            this.filter.to_date.out = "";
+            this.filter.to_date.outSql = "";
         }
 
         return this.filter;

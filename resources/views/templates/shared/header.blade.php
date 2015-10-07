@@ -16,6 +16,12 @@
 
         @include('templates.header.menu')
 
+        <li>
+            @include('templates.home.show-button')
+        </li>
+
+
+
         @include('templates.header.user')
 
         @include('templates.header.budgets')

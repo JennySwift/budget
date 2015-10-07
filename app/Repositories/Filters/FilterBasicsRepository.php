@@ -102,23 +102,23 @@ class FilterBasicsRepository {
     public function filterDates($query, $type, $value)
     {
         if ($type === "single_date") {
-            if ($value['in']) {
-                $query = $query->where('date', $value['in']);
+            if ($value['inSql']) {
+                $query = $query->where('date', $value['inSql']);
             }
-            if ($value['out']) {
-                $query = $query->where('date', '!=', $value['out']);
+            if ($value['outSql']) {
+                $query = $query->where('date', '!=', $value['outSql']);
             }
         }
 
         elseif ($type === "from_date") {
-            if ($value['in']) {
-                $query = $query->where('date', '>=', $value['in']);
+            if ($value['inSql']) {
+                $query = $query->where('date', '>=', $value['inSql']);
             }
         }
 
         elseif ($type === "to_date") {
-            if ($value['in']) {
-                $query = $query->where('date', '<=', $value['in']);
+            if ($value['inSql']) {
+                $query = $query->where('date', '<=', $value['inSql']);
             }
         }
 

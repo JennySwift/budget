@@ -1,6 +1,6 @@
 <script type="text/ng-template" id="filter-toolbar-template">
 
-    <div class="flex">
+    <div>
         <select
                 ng-model="filter.num_to_fetch"
                 ng-change="changeNumToFetch()"
@@ -16,9 +16,6 @@
 
         <span class="badge">[[filter.display_from]] to [[filter.display_to]] of [[filterTotals.numTransactions]]</span>
 
-    </div>
-
-    <div>
         <button
                 ng-click="prevResults()"
                 ng-disabled="filter.display_from <= 1"
@@ -38,11 +35,12 @@
         </button>
 
         <button
-                ng-click="resetFilter()"
-                id="reset-search"
-                class="btn btn-info">
-            Reset Filter
+            ng-click="resetFilter()"
+            id="reset-search"
+            class="btn btn-info">
+            Reset
         </button>
+
     </div>
 
 </script>

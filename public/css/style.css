@@ -402,13 +402,15 @@ caption {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
   margin: 25px 33px 18px 30px; }
+  #toolbar > * {
+    margin: 0px 5px; }
   #toolbar button:not(:last-child) {
     margin-right: 3px; }
   #toolbar .badge {
@@ -416,13 +418,6 @@ caption {
     margin-right: 20px; }
   #toolbar select {
     width: auto; }
-  #toolbar .toolbar-filter, #toolbar .flex {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center; }
   #toolbar .flex {
     -webkit-justify-content: flex-start;
     -ms-flex-pack: start;
@@ -899,12 +894,11 @@ caption {
   -webkit-animation: slideInRight 0.5s;
   animation: slideInRight 0.5s;
   position: fixed;
-  top: 110px;
+  top: 49px;
   right: 0px;
-  opacity: .8;
-  height: 600px;
+  height: 660px;
   overflow: scroll;
-  width: 275px;
+  width: 400px;
   overflow: scroll;
   padding: 8px;
   z-index: 9;
@@ -913,6 +907,17 @@ caption {
   #filter.ng-hide {
     -webkit-animation: bounceOutRight 2s;
     animation: bounceOutRight 2s; }
+  #filter .toolbar-filter {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 5px; }
+    #filter .toolbar-filter select {
+      width: 60px; }
+  #filter .flex {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
   #filter .btn-group {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -928,7 +933,8 @@ caption {
       padding: 10px 0;
       background: black;
       color: #CFCFCF;
-      cursor: pointer; }
+      cursor: pointer;
+      width: 235px; }
     #filter .section .content {
       display: none; }
       #filter .section .content label.disabled {

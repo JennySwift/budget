@@ -1,8 +1,11 @@
 #toolbar {
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
 	margin: 25px 33px 18px 30px;
+    > * {
+        margin: 0px 5px;
+    }
     button:not(:last-child) {
         margin-right: 3px;
     }
@@ -13,10 +16,10 @@
 	select {
 		width: auto;
 	}
-    .toolbar-filter, .flex {
-        display: flex;
-        align-items: center;
-    }
+//    .toolbar-filter, .flex {
+//        display: flex;
+//        align-items: center;
+//    }
     .flex {
         justify-content: flex-start;
     }
