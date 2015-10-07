@@ -6,24 +6,34 @@
                 Filter totals
             </li>
 
-            <li class="tooltipster list-group-item list-group-item-success" title="credit">
-                <span id="search_income_span" class="badge">[[filterTotals.income | number:2]]</span>
-                C:
+            <li class="tooltipster list-group-item list-group-item-success">
+                <span id="search_income_span" class="badge">[[filterTotals.credit | number:2]]</span>
+                Credit:
             </li>
 
-            <li class="tooltipster list-group-item list-group-item-danger" title="debit">
-                <span id="search_expenses_span" class="badge">[[filterTotals.expenses | number:2]]</span>
-                D:
+            <li class="tooltipster list-group-item list-group-item-danger">
+                <span id="search_expenses_span" class="badge">[[filterTotals.debit | number:2]]</span>
+                Debit:
+            </li>
+
+            <li class="tooltipster list-group-item list-group-item-success">
+                <span id="search_income_span" class="badge">[[filterTotals.creditIncludingTransfers | number:2]]</span>
+                Credit including transfers:
+            </li>
+
+            <li class="tooltipster list-group-item list-group-item-danger">
+                <span id="search_expenses_span" class="badge">[[filterTotals.debitIncludingTransfers | number:2]]</span>
+                Debit including transfers:
             </li>
 
             <li class="tooltipster list-group-item list-group-item-warning" title="balance">
                 <span id="search_total_span" class="badge">[[filterTotals.balance | number:2]]</span>
-                B:
+                Balance:
             </li>
 
             <li class="tooltipster list-group-item list-group-item-info" title="reconciled">
                 <span id="asr_span" class="badge">[[filterTotals.reconciled | number:2]]</span>
-                R:
+                Sum of reconciled transactions:
             </li>
 
             <li class="tooltipster list-group-item list-group-item-info" title="# of search results">
