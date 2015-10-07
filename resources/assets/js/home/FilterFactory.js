@@ -49,9 +49,9 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
             },
             reconciled: "any",
             offset: 0,
-            num_to_fetch: 4,
+            num_to_fetch: 30,
             display_from: 1,
-            display_to: 4
+            display_to: 30
         };
 
         this.filter = $object.filter;

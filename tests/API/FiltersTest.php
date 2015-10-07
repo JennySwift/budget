@@ -44,6 +44,7 @@ class FiltersTest extends TestCase {
      * @var
      */
     protected $transactions;
+    protected $basicTotals;
 
     /**
      * @VP:
@@ -59,16 +60,17 @@ class FiltersTest extends TestCase {
     /**
      *
      */
-    private function setProperties()
+    private function setUser()
     {
         $this->user = $this->logInUser();
     }
 
     /**
-     * Get the filter response
+     * Get the transactions
+     * @param $data
      * @return Response
      */
-    private function getResponse($data)
+    private function setTransactions($data)
     {
         $this->response = $this->apiCall('POST', '/api/filter/transactions', $data);
         $content = json_decode($this->response->getContent(), true);
@@ -76,9 +78,20 @@ class FiltersTest extends TestCase {
     }
 
     /**
+     * Get the basic filter totals
+     * @return Response
+     */
+    private function setBasicTotals($data)
+    {
+        $this->response = $this->apiCall('POST', '/api/filter/basicTotals', $data);
+        $content = json_decode($this->response->getContent(), true);
+        $this->basicTotals = $content;
+    }
+
+    /**
      * Set the default filter
      */
-    private function setDefaults()
+    private function setFilterDefaults()
     {
         $this->defaults = Config::get('filters.defaults');
     }
@@ -89,8 +102,8 @@ class FiltersTest extends TestCase {
  */
     public function num_budgets_filter_works_when_value_is_no_budgets()
     {
-        $this->setDefaults();
-        $this->setProperties();
+        $this->setFilterDefaults();
+        $this->setUser();
 
         $filter = [
             'numBudgets' => [
@@ -104,7 +117,7 @@ class FiltersTest extends TestCase {
         $data = [
             'filter' => $this->filter
         ];
-        $this->getResponse($data);
+        $this->setTransactions($data);
 
         //Check the budgets of all the transactions,
         //that there are no type 'fixed' or type 'flex.'
@@ -124,8 +137,8 @@ class FiltersTest extends TestCase {
      */
     public function it_checks_reconciled_filter_works_for_reconciled_transactions()
     {
-        $this->setDefaults();
-        $this->setProperties();
+        $this->setFilterDefaults();
+        $this->setUser();
 
         $filter = [
             'reconciled' => 'true'
@@ -136,7 +149,7 @@ class FiltersTest extends TestCase {
         $data = [
             'filter' => $this->filter
         ];
-        $this->getResponse($data);
+        $this->setTransactions($data);
 
         foreach ($this->transactions as $transaction) {
             $this->assertTrue($transaction['reconciled']);
@@ -151,8 +164,8 @@ class FiltersTest extends TestCase {
      */
     public function it_checks_reconciled_filter_works_for_unreconciled_transactions()
     {
-        $this->setDefaults();
-        $this->setProperties();
+        $this->setFilterDefaults();
+        $this->setUser();
 
         $filter = [
             'reconciled' => 'false'
@@ -163,11 +176,46 @@ class FiltersTest extends TestCase {
         $data = [
             'filter' => $this->filter
         ];
-        $this->getResponse($data);
+        $this->setTransactions($data);
 
         foreach ($this->transactions as $transaction) {
             $this->assertFalse($transaction['reconciled']);
         }
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_filter_totals_are_correct_with_default_filters()
+    {
+        $this->setFilterDefaults();
+        $this->setUser();
+
+        $data = [
+            'filter' => $this->defaults
+        ];
+
+        $this->setBasicTotals($data);
+
+//        var_dump($this->basicTotals);
+
+        $this->assertArrayHasKey('credit', $this->basicTotals);
+        $this->assertArrayHasKey('debit', $this->basicTotals);
+        $this->assertArrayHasKey('creditIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('debitIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('balance', $this->basicTotals);
+        $this->assertArrayHasKey('reconciled', $this->basicTotals);
+        $this->assertArrayHasKey('numTransactions', $this->basicTotals);
+
+        $this->assertEquals(2350, $this->basicTotals['credit']);
+        $this->assertEquals(-160, $this->basicTotals['debit']);
+        $this->assertEquals(2450, $this->basicTotals['creditIncludingTransfers']);
+        $this->assertEquals(-260, $this->basicTotals['debitIncludingTransfers']);
+        $this->assertEquals(2190, $this->basicTotals['balance']);
+        $this->assertEquals(2025, $this->basicTotals['reconciled']);
+        $this->assertEquals(16, $this->basicTotals['numTransactions']);
 
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
     }
