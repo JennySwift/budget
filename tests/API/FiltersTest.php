@@ -364,4 +364,59 @@ class FiltersTest extends TestCase {
 
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
     }
+
+    /**
+     * @test
+     */
+    public function it_checks_filter_totals_are_correct_with_from_and_to_date_filters_and_type_income_filter()
+    {
+        $this->setFilterDefaults();
+        $this->setUser();
+
+        $filter = [
+            'from_date' => [
+                'inSql' => '2013-02-01',
+                "outSql" => ""
+            ],
+            'to_date' => [
+                'inSql' => '2015-08-01',
+                "outSql" => ""
+            ],
+            'types' => [
+                'in' => ['income'],
+                'out' => []
+            ],
+
+        ];
+
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+
+        $this->setBasicTotals($data);
+        $this->setTransactions($data);
+
+        //Check the number of transactions returned is correct
+        $this->assertCount(3, $this->transactions);
+
+        $this->assertArrayHasKey('credit', $this->basicTotals);
+        $this->assertArrayHasKey('debit', $this->basicTotals);
+        $this->assertArrayHasKey('creditIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('debitIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('balance', $this->basicTotals);
+        $this->assertArrayHasKey('reconciled', $this->basicTotals);
+        $this->assertArrayHasKey('numTransactions', $this->basicTotals);
+
+        $this->assertEquals(900, $this->basicTotals['credit']);
+        $this->assertEquals(0, $this->basicTotals['debit']);
+        $this->assertEquals(900, $this->basicTotals['creditIncludingTransfers']);
+        $this->assertEquals(0, $this->basicTotals['debitIncludingTransfers']);
+        $this->assertEquals(900, $this->basicTotals['balance']);
+        $this->assertEquals(900, $this->basicTotals['reconciled']);
+        $this->assertEquals(3, $this->basicTotals['numTransactions']);
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
 }
