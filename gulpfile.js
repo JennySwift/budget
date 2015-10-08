@@ -30,7 +30,7 @@ elixir(function(mix) {
         'accounts/*.js',
         'budgets/*.js',
         'help/*.js',
-        'home/*.js',
+        'home/**/*.js',
         'preferences/*.js'
     ], 'public/js/all.js');
 
