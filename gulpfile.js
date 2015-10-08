@@ -26,7 +26,7 @@ elixir(function(mix) {
 
     mix.scripts([
         'plugins/*.js',
-        'shared/*.js',
+        'shared/**/*.js',
         'accounts/*.js',
         'budgets/*.js',
         'help/*.js',
