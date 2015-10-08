@@ -419,4 +419,264 @@ class FiltersTest extends TestCase {
 
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
     }
+
+    /**
+     * @test
+     */
+    public function it_checks_filter_totals_are_correct_with_from_and_to_date_filters_and_type_expense_filter_and__business_tag_filter()
+    {
+        $this->setFilterDefaults();
+        $this->setUser();
+
+        $filter = [
+            'from_date' => [
+                'inSql' => '2013-02-01',
+                "outSql" => ""
+            ],
+            'to_date' => [
+                'inSql' => '2015-08-01',
+                "outSql" => ""
+            ],
+            'types' => [
+                'in' => ['expense'],
+                'out' => []
+            ],
+            "budgets" => [
+                "in" => [
+                    "and" => [
+                        //business budget
+                        ['id' => 2]
+                    ],
+                    "or" => []
+                ],
+                "out" => []
+            ],
+
+        ];
+
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+
+        $this->setBasicTotals($data);
+        $this->setTransactions($data);
+
+        //Check the number of transactions returned is correct
+        $this->assertCount(2, $this->transactions);
+
+        $this->assertArrayHasKey('credit', $this->basicTotals);
+        $this->assertArrayHasKey('debit', $this->basicTotals);
+        $this->assertArrayHasKey('creditIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('debitIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('balance', $this->basicTotals);
+        $this->assertArrayHasKey('reconciled', $this->basicTotals);
+        $this->assertArrayHasKey('numTransactions', $this->basicTotals);
+
+        $this->assertEquals(0, $this->basicTotals['credit']);
+        $this->assertEquals(-40, $this->basicTotals['debit']);
+        $this->assertEquals(0, $this->basicTotals['creditIncludingTransfers']);
+        $this->assertEquals(-40, $this->basicTotals['debitIncludingTransfers']);
+        $this->assertEquals(-40, $this->basicTotals['balance']);
+        $this->assertEquals(0, $this->basicTotals['reconciled']);
+        $this->assertEquals(2, $this->basicTotals['numTransactions']);
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_filter_totals_are_correct_with_from_and_to_date_filters_and_type_expense_filter_and__busking_tag_filter()
+    {
+        $this->setFilterDefaults();
+        $this->setUser();
+
+        $filter = [
+            'from_date' => [
+                'inSql' => '2013-02-01',
+                "outSql" => ""
+            ],
+            'to_date' => [
+                'inSql' => '2015-08-01',
+                "outSql" => ""
+            ],
+            'types' => [
+                'in' => ['expense'],
+                'out' => []
+            ],
+            "budgets" => [
+                "in" => [
+                    "and" => [
+                        //busking budget
+                        ['id' => 4]
+                    ],
+                    "or" => []
+                ],
+                "out" => []
+            ],
+
+        ];
+
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+
+        $this->setBasicTotals($data);
+        $this->setTransactions($data);
+
+        //Check the number of transactions returned is correct
+        $this->assertCount(2, $this->transactions);
+
+        $this->assertArrayHasKey('credit', $this->basicTotals);
+        $this->assertArrayHasKey('debit', $this->basicTotals);
+        $this->assertArrayHasKey('creditIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('debitIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('balance', $this->basicTotals);
+        $this->assertArrayHasKey('reconciled', $this->basicTotals);
+        $this->assertArrayHasKey('numTransactions', $this->basicTotals);
+
+        $this->assertEquals(0, $this->basicTotals['credit']);
+        $this->assertEquals(-50, $this->basicTotals['debit']);
+        $this->assertEquals(0, $this->basicTotals['creditIncludingTransfers']);
+        $this->assertEquals(-50, $this->basicTotals['debitIncludingTransfers']);
+        $this->assertEquals(-50, $this->basicTotals['balance']);
+        $this->assertEquals(0, $this->basicTotals['reconciled']);
+        $this->assertEquals(2, $this->basicTotals['numTransactions']);
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_filter_totals_are_correct_with_from_and_to_date_filters_and_type_expense_filter_and__bank_fees_tag_filter()
+    {
+        $this->setFilterDefaults();
+        $this->setUser();
+
+        $filter = [
+            'from_date' => [
+                'inSql' => '2013-02-01',
+                "outSql" => ""
+            ],
+            'to_date' => [
+                'inSql' => '2015-08-01',
+                "outSql" => ""
+            ],
+            'types' => [
+                'in' => ['expense'],
+                'out' => []
+            ],
+            "budgets" => [
+                "in" => [
+                    "and" => [
+                        //bank fees budget
+                        ['id' => 1]
+                    ],
+                    "or" => []
+                ],
+                "out" => []
+            ],
+
+        ];
+
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+
+        $this->setBasicTotals($data);
+        $this->setTransactions($data);
+
+        //Check the number of transactions returned is correct
+        $this->assertCount(1, $this->transactions);
+
+        $this->assertArrayHasKey('credit', $this->basicTotals);
+        $this->assertArrayHasKey('debit', $this->basicTotals);
+        $this->assertArrayHasKey('creditIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('debitIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('balance', $this->basicTotals);
+        $this->assertArrayHasKey('reconciled', $this->basicTotals);
+        $this->assertArrayHasKey('numTransactions', $this->basicTotals);
+
+        $this->assertEquals(0, $this->basicTotals['credit']);
+        $this->assertEquals(-5, $this->basicTotals['debit']);
+        $this->assertEquals(0, $this->basicTotals['creditIncludingTransfers']);
+        $this->assertEquals(-5, $this->basicTotals['debitIncludingTransfers']);
+        $this->assertEquals(-5, $this->basicTotals['balance']);
+        $this->assertEquals(-5, $this->basicTotals['reconciled']);
+        $this->assertEquals(1, $this->basicTotals['numTransactions']);
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_filter_totals_are_correct_with_from_and_to_date_filters_and_type_income_filter_and__busking_tag_filter()
+    {
+        $this->setFilterDefaults();
+        $this->setUser();
+
+        $filter = [
+            'from_date' => [
+                'inSql' => '2013-02-01',
+                "outSql" => ""
+            ],
+            'to_date' => [
+                'inSql' => '2015-08-01',
+                "outSql" => ""
+            ],
+            'types' => [
+                'in' => ['income'],
+                'out' => []
+            ],
+            "budgets" => [
+                "in" => [
+                    "and" => [
+                        //busking budget
+                        ['id' => 4]
+                    ],
+                    "or" => []
+                ],
+                "out" => []
+            ],
+
+        ];
+
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+
+        $this->setBasicTotals($data);
+        $this->setTransactions($data);
+
+        //Check the number of transactions returned is correct
+        $this->assertCount(1, $this->transactions);
+
+        $this->assertArrayHasKey('credit', $this->basicTotals);
+        $this->assertArrayHasKey('debit', $this->basicTotals);
+        $this->assertArrayHasKey('creditIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('debitIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('balance', $this->basicTotals);
+        $this->assertArrayHasKey('reconciled', $this->basicTotals);
+        $this->assertArrayHasKey('numTransactions', $this->basicTotals);
+
+        $this->assertEquals(500, $this->basicTotals['credit']);
+        $this->assertEquals(0, $this->basicTotals['debit']);
+        $this->assertEquals(500, $this->basicTotals['creditIncludingTransfers']);
+        $this->assertEquals(0, $this->basicTotals['debitIncludingTransfers']);
+        $this->assertEquals(500, $this->basicTotals['balance']);
+        $this->assertEquals(500, $this->basicTotals['reconciled']);
+        $this->assertEquals(1, $this->basicTotals['numTransactions']);
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
 }
