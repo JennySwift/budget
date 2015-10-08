@@ -83,6 +83,7 @@ class FiltersTest extends TestCase {
      */
     private function setBasicTotals($data)
     {
+//        dd($data);
         $this->response = $this->apiCall('POST', '/api/filter/basicTotals', $data);
         $content = json_decode($this->response->getContent(), true);
         $this->basicTotals = $content;
@@ -263,6 +264,52 @@ class FiltersTest extends TestCase {
         $this->assertEquals(2190, $this->basicTotals['balance']);
         $this->assertEquals(1050, $this->basicTotals['reconciled']);
         $this->assertEquals(16, $this->basicTotals['numTransactions']);
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_filter_totals_are_correct_with_single_date_filter()
+    {
+        $this->setFilterDefaults();
+        $this->setUser();
+
+        $filter = [
+            'single_date' => [
+                'inSql' => '2015-08-01',
+                "outSql" => ""
+            ]
+        ];
+
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+
+        $this->setBasicTotals($data);
+        $this->setTransactions($data);
+
+        //Check the number of transactions returned is correct
+        $this->assertCount(4, $this->transactions);
+
+        $this->assertArrayHasKey('credit', $this->basicTotals);
+        $this->assertArrayHasKey('debit', $this->basicTotals);
+        $this->assertArrayHasKey('creditIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('debitIncludingTransfers', $this->basicTotals);
+        $this->assertArrayHasKey('balance', $this->basicTotals);
+        $this->assertArrayHasKey('reconciled', $this->basicTotals);
+        $this->assertArrayHasKey('numTransactions', $this->basicTotals);
+
+        $this->assertEquals(0, $this->basicTotals['credit']);
+        $this->assertEquals(-65, $this->basicTotals['debit']);
+        $this->assertEquals(0, $this->basicTotals['creditIncludingTransfers']);
+        $this->assertEquals(-65, $this->basicTotals['debitIncludingTransfers']);
+        $this->assertEquals(-65, $this->basicTotals['balance']);
+        $this->assertEquals(-5, $this->basicTotals['reconciled']);
+        $this->assertEquals(4, $this->basicTotals['numTransactions']);
 
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
     }
