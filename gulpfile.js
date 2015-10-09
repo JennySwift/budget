@@ -26,11 +26,11 @@ elixir(function(mix) {
 
     mix.scripts([
         'plugins/*.js',
-        'shared/*.js',
+        'shared/**/*.js',
         'accounts/*.js',
         'budgets/*.js',
         'help/*.js',
-        'home/*.js',
+        'home/**/*.js',
         'preferences/*.js'
     ], 'public/js/all.js');
 
