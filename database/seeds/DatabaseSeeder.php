@@ -2,6 +2,7 @@
 
 use App\Models\Account;
 use App\Models\Budget;
+use App\Models\FavouriteTransaction;
 use App\Models\Savings;
 use App\Models\Tag;
 use App\Models\Transaction;
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('BudgetSeeder');
 		$this->call('AccountSeeder');
 		$this->call('TransactionSeeder');
+		$this->call('FavouriteTransactionsSeeder');
 		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 		Model::reguard();
 	}
@@ -37,6 +39,7 @@ class DatabaseSeeder extends Seeder {
 		Budget::truncate();
 		Account::truncate();
 		Transaction::truncate();
+		FavouriteTransaction::truncate();
         DB::table('budgets_transactions')->truncate();
 	}
 

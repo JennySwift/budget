@@ -13044,6 +13044,301 @@ function runBlock ($rootScope, UsersFactory, ShowFactory, ErrorsFactory) {
 
 }
 
+app.factory('AutocompleteFactory', function ($http) {
+	var $object = {};
+
+	$object.duplicateCheck = function ($this, $transactions_without_duplicates) {
+		var $duplicate_counter = 0;
+		$($transactions_without_duplicates).each(function () {
+			if ($this.description === this.description && $this.merchant === this.merchant && $this.total === this.total && $this.type === this.type && $this.account === this.account) {
+				//it is a duplicate
+				$duplicate_counter += 1;
+			}
+		});
+		if ($duplicate_counter === 0) {
+			var $allocated_percent = $this.tags.allocated_percent;
+			var $allocated_fixed = null;
+			var $amount = $this.tags.amount;
+
+			if ($allocated_percent === null) {
+				$allocated_fixed = $amount;
+			}
+			$transactions_without_duplicates.push($this);
+		}
+	};
+	$object.removeDuplicates = function ($transactions) {
+		//for the transaction autocomplete
+		for (var i = 0; i < $transactions.length; i++) {
+			var $transaction = $transactions[i];
+			var $id = $transaction.id;
+			var $description = $transaction.description;
+			var $merchant = $transaction.merchant;
+			var $total = $transaction.total;
+			var $type = $transaction.type;
+			var $account = $transaction.account;
+			var $from_account = $transaction.from_account;
+			var $to_account = $transaction.to_account;
+
+			var $object_1;
+
+			if ($type === 'transfer') {
+				$object_1 = {
+					description: $description,
+					total: $total,
+					from_account: $from_account,
+					to_account: $to_account
+				};
+			}
+			else {
+				$object_1 = {
+					description: $description,
+					merchant: $merchant,
+					total: $total,
+					type: $type,
+					account: $account
+				};
+			}
+
+			//we have the properties that we don't want to be duplicates in an object. now we loop through the array again to make another object, then we can compare if the two objects are equal.
+			for (var j = 0; j < $transactions.length; j++) {
+				var $t = $transactions[j];
+				var $index = $transactions.indexOf($t);
+				var $t_id = $t.id;
+				var $t_description = $t.description;
+				var $t_merchant = $t.merchant;
+				var $t_total = $t.total;
+				var $t_type = $t.type;
+				var $t_account = $t.account;
+				var $t_from_account = $t.from_account;
+				var $t_to_account = $t.to_account;
+
+				var $object_2 = {};
+
+				if ($t_id !== $id && $t_type === $type) {
+					//they are the same type, and not the same transaction
+					if ($type === 'transfer') {
+						$object_2 = {
+							description: $t_description,
+							total: $t_total,
+							from_account: $t_from_account,
+							to_account: $t_to_account
+						};
+					}
+					else {
+						$object_2 = {
+							description: $t_description,
+							merchant: $t_merchant,
+							total: $t_total,
+							type: $t_type,
+							account: $t_account
+						};
+					}
+				}
+
+				if (_.isEqual($object_1, $object_2)) {
+					$transactions.splice($index, 1);
+				}				
+			}
+		}
+		
+		return $transactions;
+	};
+	$object.transferTransactions = function ($transactions) {
+		var $counter = 0;
+		var $from_account;
+		var $to_account;
+		var $total;
+		
+		$($transactions).each(function () {
+			var $index = $transactions.indexOf(this);
+			if (this.type === "transfer") {
+				$counter++;
+				if (this.total < 0) {
+					//this is a negative transfer
+					$from_account = this.account;
+				}
+				else if (this.total > 0) {
+					//this is a positive transfer
+					$to_account = this.account;
+					$total = this.total;
+				}
+				if ($counter % 2 === 1) {
+					//remove every second transfer transaction from the array
+					$transactions.splice($index, 1);
+				}
+				else if ($counter % 2 === 0) {
+					//keep the first of every second transfer transaction and combine the two transfers into one
+					this.from_account = $from_account;
+					this.to_account = $to_account;
+					this.account = {};
+					//so the total is positive
+					this.total = $total;
+				}
+			}
+		});
+		return $transactions;
+	};
+	return $object;
+});
+app.factory('ErrorsFactory', function ($q) {
+    return {
+
+        responseError: function (response) {
+
+            if(typeof response !== "undefined") {
+                var $message;
+
+                switch(response.status) {
+                    case 503:
+                        $message = 'Sorry, application under construction. Please try again later.';
+                        break;
+                    case 401:
+                        $message = 'You are not logged in';
+                        break;
+                    case 422:
+                        var html = "<ul>";
+                        angular.forEach(response.data, function(value, key) {
+                            var fieldName = key;
+                            angular.forEach(value, function(value) {
+                                html += '<li>'+value+'</li>';
+                            });
+                        });
+                        html += "</ul>";
+                        $message = html;
+                        break;
+                    default:
+                        $message = response.data.error;
+                        break;
+                }
+            }
+            else {
+                $message = 'There was an error';
+            }
+
+            return $message;
+
+            //return $q.reject(rejection);
+        }
+
+    };
+});
+app.factory('SavingsFactory', function ($http) {
+	return {
+		updateSavingsTotal: function () {
+			var $amount = $("#edited-savings-total").val().replace(',', '');
+			var $url = '/api/savings/set';
+			var $data = {
+				amount: $amount
+			};
+			
+			return $http.put($url, $data);
+		},
+		addFixedToSavings: function () {
+			var $amount_to_add = $("#add-fixed-to-savings").val();
+			var $url = '/api/savings/increase';
+			var $data = {
+				amount: $amount_to_add
+			};
+			$("#add-fixed-to-savings").val("");
+			
+			return $http.put($url, $data);
+		},
+		addPercentageToSavings: function () {
+			var $percentage_of_RB = $("#add-percentage-to-savings").val();
+			var $url = '/api/savings/increase';
+			var $data = {
+				amount: $percentage_of_RB,
+			};
+			$("#add-percentage-to-savings").val("");
+			
+			return $http.put($url, $data);
+		}
+	};
+});
+app.factory('ShowFactory', function () {
+    return {
+        defaults: {
+            newBudget: false,
+            popups: {},
+            allocationPopup: false,
+            actions: false,
+            status: false,
+            date: true,
+            description: true,
+            merchant: true,
+            total: true,
+            type: true,
+            account: true,
+            reconciled: true,
+            tags: true,
+            dlt: true,
+            //components
+            new_transaction: true,
+            basic_totals: true,
+            budget_totals: true,
+            filter_totals: true,
+            edit_transaction: false,
+            edit_tag: false,
+            budget: false,
+            filter: false,
+            autocomplete: {
+                description: false,
+                merchant: false
+            },
+            savings_total: {
+                input: false,
+                edit_btn: true
+            }
+
+        }
+
+    };
+});
+app.factory('TotalsFactory', function ($http) {
+    return {
+
+        /**
+         * Get all the totals
+         * @returns {*}
+         */
+        getTotals: function () {
+            var $url = '/api/totals';
+
+            return $http.get($url);
+        },
+        getSideBarTotals: function () {
+            var $url = '/api/totals/sidebar';
+
+            return $http.get($url);
+        },
+        getFixedBudgetTotals: function () {
+            var $url = '/api/totals/fixedBudget';
+
+            return $http.get($url);
+        },
+        getFlexBudgetTotals: function () {
+            var $url = '/api/totals/flexBudget';
+
+            return $http.get($url);
+        },
+        getUnassignedBudgetTotals: function () {
+            var $url = '/api/totals/unassignedBudget';
+
+            return $http.get($url);
+        }
+
+    };
+});
+app.factory('UsersFactory', function ($http) {
+    return {
+        deleteAccount: function ($user) {
+            var $url = $user.path;
+
+            return $http.delete($url);
+        }
+
+    };
+});
 ;(function(){
     'use strict';
     angular
@@ -13313,301 +13608,6 @@ angular.module('budgetApp')
 }).call(this);
 
 
-app.factory('AutocompleteFactory', function ($http) {
-	var $object = {};
-
-	$object.duplicateCheck = function ($this, $transactions_without_duplicates) {
-		var $duplicate_counter = 0;
-		$($transactions_without_duplicates).each(function () {
-			if ($this.description === this.description && $this.merchant === this.merchant && $this.total === this.total && $this.type === this.type && $this.account === this.account) {
-				//it is a duplicate
-				$duplicate_counter += 1;
-			}
-		});
-		if ($duplicate_counter === 0) {
-			var $allocated_percent = $this.tags.allocated_percent;
-			var $allocated_fixed = null;
-			var $amount = $this.tags.amount;
-
-			if ($allocated_percent === null) {
-				$allocated_fixed = $amount;
-			}
-			$transactions_without_duplicates.push($this);
-		}
-	};
-	$object.removeDuplicates = function ($transactions) {
-		//for the transaction autocomplete
-		for (var i = 0; i < $transactions.length; i++) {
-			var $transaction = $transactions[i];
-			var $id = $transaction.id;
-			var $description = $transaction.description;
-			var $merchant = $transaction.merchant;
-			var $total = $transaction.total;
-			var $type = $transaction.type;
-			var $account = $transaction.account;
-			var $from_account = $transaction.from_account;
-			var $to_account = $transaction.to_account;
-
-			var $object_1;
-
-			if ($type === 'transfer') {
-				$object_1 = {
-					description: $description,
-					total: $total,
-					from_account: $from_account,
-					to_account: $to_account
-				};
-			}
-			else {
-				$object_1 = {
-					description: $description,
-					merchant: $merchant,
-					total: $total,
-					type: $type,
-					account: $account
-				};
-			}
-
-			//we have the properties that we don't want to be duplicates in an object. now we loop through the array again to make another object, then we can compare if the two objects are equal.
-			for (var j = 0; j < $transactions.length; j++) {
-				var $t = $transactions[j];
-				var $index = $transactions.indexOf($t);
-				var $t_id = $t.id;
-				var $t_description = $t.description;
-				var $t_merchant = $t.merchant;
-				var $t_total = $t.total;
-				var $t_type = $t.type;
-				var $t_account = $t.account;
-				var $t_from_account = $t.from_account;
-				var $t_to_account = $t.to_account;
-
-				var $object_2 = {};
-
-				if ($t_id !== $id && $t_type === $type) {
-					//they are the same type, and not the same transaction
-					if ($type === 'transfer') {
-						$object_2 = {
-							description: $t_description,
-							total: $t_total,
-							from_account: $t_from_account,
-							to_account: $t_to_account
-						};
-					}
-					else {
-						$object_2 = {
-							description: $t_description,
-							merchant: $t_merchant,
-							total: $t_total,
-							type: $t_type,
-							account: $t_account
-						};
-					}
-				}
-
-				if (_.isEqual($object_1, $object_2)) {
-					$transactions.splice($index, 1);
-				}				
-			}
-		}
-		
-		return $transactions;
-	};
-	$object.transferTransactions = function ($transactions) {
-		var $counter = 0;
-		var $from_account;
-		var $to_account;
-		var $total;
-		
-		$($transactions).each(function () {
-			var $index = $transactions.indexOf(this);
-			if (this.type === "transfer") {
-				$counter++;
-				if (this.total < 0) {
-					//this is a negative transfer
-					$from_account = this.account;
-				}
-				else if (this.total > 0) {
-					//this is a positive transfer
-					$to_account = this.account;
-					$total = this.total;
-				}
-				if ($counter % 2 === 1) {
-					//remove every second transfer transaction from the array
-					$transactions.splice($index, 1);
-				}
-				else if ($counter % 2 === 0) {
-					//keep the first of every second transfer transaction and combine the two transfers into one
-					this.from_account = $from_account;
-					this.to_account = $to_account;
-					this.account = {};
-					//so the total is positive
-					this.total = $total;
-				}
-			}
-		});
-		return $transactions;
-	};
-	return $object;
-});
-app.factory('ErrorsFactory', function ($q) {
-    return {
-
-        responseError: function (response) {
-
-            if(typeof response !== "undefined") {
-                var $message;
-
-                switch(response.status) {
-                    case 503:
-                        $message = 'Sorry, application under construction. Please try again later.';
-                        break;
-                    case 401:
-                        $message = 'You are not logged in';
-                        break;
-                    case 422:
-                        var html = "<ul>";
-                        angular.forEach(response.data, function(value, key) {
-                            var fieldName = key;
-                            angular.forEach(value, function(value) {
-                                html += '<li>'+value+'</li>';
-                            });
-                        });
-                        html += "</ul>";
-                        $message = html;
-                        break;
-                    default:
-                        $message = response.data.error;
-                        break;
-                }
-            }
-            else {
-                $message = 'There was an error';
-            }
-
-            return $message;
-
-            //return $q.reject(rejection);
-        }
-
-    };
-});
-app.factory('SavingsFactory', function ($http) {
-	return {
-		updateSavingsTotal: function () {
-			var $amount = $("#edited-savings-total").val().replace(',', '');
-			var $url = '/api/savings/set';
-			var $data = {
-				amount: $amount
-			};
-			
-			return $http.put($url, $data);
-		},
-		addFixedToSavings: function () {
-			var $amount_to_add = $("#add-fixed-to-savings").val();
-			var $url = '/api/savings/increase';
-			var $data = {
-				amount: $amount_to_add
-			};
-			$("#add-fixed-to-savings").val("");
-			
-			return $http.put($url, $data);
-		},
-		addPercentageToSavings: function () {
-			var $percentage_of_RB = $("#add-percentage-to-savings").val();
-			var $url = '/api/savings/increase';
-			var $data = {
-				amount: $percentage_of_RB,
-			};
-			$("#add-percentage-to-savings").val("");
-			
-			return $http.put($url, $data);
-		}
-	};
-});
-app.factory('ShowFactory', function () {
-    return {
-        defaults: {
-            newBudget: false,
-            popups: {},
-            allocationPopup: false,
-            actions: false,
-            status: false,
-            date: true,
-            description: true,
-            merchant: true,
-            total: true,
-            type: true,
-            account: true,
-            reconciled: true,
-            tags: true,
-            dlt: true,
-            //components
-            new_transaction: false,
-            basic_totals: true,
-            budget_totals: true,
-            filter_totals: true,
-            edit_transaction: false,
-            edit_tag: false,
-            budget: false,
-            filter: true,
-            autocomplete: {
-                description: false,
-                merchant: false
-            },
-            savings_total: {
-                input: false,
-                edit_btn: true
-            }
-
-        }
-
-    };
-});
-app.factory('TotalsFactory', function ($http) {
-    return {
-
-        /**
-         * Get all the totals
-         * @returns {*}
-         */
-        getTotals: function () {
-            var $url = '/api/totals';
-
-            return $http.get($url);
-        },
-        getSideBarTotals: function () {
-            var $url = '/api/totals/sidebar';
-
-            return $http.get($url);
-        },
-        getFixedBudgetTotals: function () {
-            var $url = '/api/totals/fixedBudget';
-
-            return $http.get($url);
-        },
-        getFlexBudgetTotals: function () {
-            var $url = '/api/totals/flexBudget';
-
-            return $http.get($url);
-        },
-        getUnassignedBudgetTotals: function () {
-            var $url = '/api/totals/unassignedBudget';
-
-            return $http.get($url);
-        }
-
-    };
-});
-app.factory('UsersFactory', function ($http) {
-    return {
-        deleteAccount: function ($user) {
-            var $url = $user.path;
-
-            return $http.delete($url);
-        }
-
-    };
-});
 angular.module('budgetApp')
     .filter('formatDate', function ($rootScope) {
         return function (input) {
@@ -13718,6 +13718,62 @@ app.factory('AccountsFactory', function ($http) {
 
     };
 });
+var app = angular.module('budgetApp');
+
+(function () {
+
+    app.controller('FavouriteTransactionsController', function ($rootScope, $scope, FavouriteTransactionsFactory) {
+
+        $scope.favouriteTransactions = favouriteTransactions;
+        $scope.accounts = accounts;
+
+        $scope.insertFavouriteTransaction = function () {
+            $scope.showLoading();
+            FavouriteTransactionsFactory.insert($scope.newFavourite)
+                .then(function (response) {
+                    $scope.favouriteTransactions.push(response.data);
+                    $rootScope.$broadcast('provideFeedback', 'Favourite added');
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.deleteFavouriteTransaction = function ($favourite) {
+            if (confirm("Are you sure?")) {
+                $scope.showLoading();
+                FavouriteTransactionsFactory.destroy($favourite)
+                    .then(function (response) {
+                        $scope.favouriteTransactions = _.without($scope.favouriteTransactions, $favourite);
+                        $rootScope.$broadcast('provideFeedback', 'Favourite deleted');
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            }
+
+        };
+
+    });
+
+})();
+angular.module('budgetApp')
+    .factory('FavouriteTransactionsFactory', function ($http) {
+        return {
+            insert: function ($newFavourite) {
+                var $url = '/api/favouriteTransactions';
+
+                return $http.post($url, $newFavourite);
+            },
+            destroy: function ($favourite) {
+                var $url = '/api/favouriteTransactions/' + $favourite.id;
+
+                return $http.delete($url);
+            }
+        }
+    });
 (function () {
 
     angular
@@ -14607,385 +14663,6 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
 
     angular
         .module('budgetApp')
-        .controller('NewTransactionController', newTransaction);
-
-    function newTransaction ($rootScope, $scope, NewTransactionFactory, TransactionsFactory, FilterFactory) {
-
-        $scope.dropdown = {};
-        $scope.types = ["income", "expense", "transfer"];
-        $scope.accounts = accounts_response;
-        $scope.new_transaction = NewTransactionFactory.getDefaults(env, $scope.accounts);
-
-        function clearNewTransactionFields () {
-            $scope.new_transaction = NewTransactionFactory.clearFields(env, me, $scope.new_transaction);
-        }
-
-        /**
-         * Return true if there are errors.
-         * @returns {boolean}
-         */
-        function anyErrors () {
-            var $errorMessages = NewTransactionFactory.anyErrors($scope.new_transaction);
-
-            if ($errorMessages) {
-                for (var i = 0; i < $errorMessages.length; i++) {
-                    $rootScope.$broadcast('provideFeedback', $errorMessages[i], 'error');
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        /**
-         * Insert a new transaction
-         * @param $keycode
-         */
-        $scope.insertTransaction = function ($keycode) {
-            if ($keycode !== 13 || anyErrors()) {
-                return;
-            }
-
-            $scope.clearTotalChanges();
-
-            if ($scope.new_transaction.type === 'transfer') {
-                insertTransferTransactions();
-            }
-            else {
-                insertIncomeOrExpenseTransaction();
-            }
-        };
-
-        function insertIncomeOrExpenseTransaction () {
-            $scope.showLoading();
-            TransactionsFactory.insertIncomeOrExpenseTransaction($scope.new_transaction)
-                .then(function (response) {
-                    var $transaction = response.data.data;
-                    $rootScope.$broadcast('provideFeedback', 'Transaction added');
-                    clearNewTransactionFields();
-                    $scope.new_transaction.dropdown = false;
-                    $scope.$emit('getSideBarTotals');
-
-                    if ($transaction.multipleBudgets) {
-                        $scope.$emit('handleAllocationForNewTransaction', $transaction);
-                        $rootScope.$emit('getFilterBasicTotals');
-                    }
-                    else {
-                        $rootScope.$emit('runFilter');
-                    }
-
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        }
-
-        function insertTransferTransactions () {
-            insertTransferTransaction('from');
-            setTimeout(function(){
-                insertTransferTransaction('to');
-            }, 100);
-        }
-
-        function insertTransferTransaction ($direction) {
-            $scope.showLoading();
-            TransactionsFactory.insertTransferTransaction($scope.new_transaction, $direction)
-                .then(function (response) {
-                    $rootScope.$broadcast('provideFeedback', 'Transfer added');
-                    clearNewTransactionFields();
-                    $scope.$emit('getSideBarTotals');
-                    $rootScope.$emit('runFilter');
-                    $scope.new_transaction.dropdown = false;
-
-                    //Todo: get filter stuff
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        }
-    }
-
-})();
-app.factory('NewTransactionFactory', function ($http) {
-    var $object = {};
-
-    var $defaults = {
-        type: 'income',
-            account_id: 1,
-            date: {
-            entered: 'today'
-        },
-        merchant: '',
-            description: '',
-            reconciled: false,
-            multiple_budgets: false,
-            budgets: []
-    };
-
-    $object.getDefaults = function ($env, $accounts) {
-        //Fill in the new transaction fields if development environment
-        if ($env === 'local') {
-            $defaults.total = 10;
-            $defaults.type = 'expense';
-            $defaults.date.entered = 'today';
-            $defaults.merchant = 'some merchant';
-            $defaults.description = 'some description';
-            $defaults.budgets = [
-                {
-                    id: '2',
-                    name: 'business',
-                    type: 'fixed'
-                },
-                {
-                    id: '4',
-                    name: 'busking',
-                    type: 'flex'
-                }
-            ];
-        }
-
-        if ($accounts.length > 0) {
-            $defaults.account_id = $accounts[0].id;
-            $defaults.from_account_id = $accounts[0].id;
-            $defaults.to_account_id = $accounts[0].id;
-        }
-
-        return $defaults;
-    };
-
-    $object.clearFields = function (env, me, $newTransaction) {
-        if (env !== 'local') {
-            $newTransaction.budgets = [];
-        }
-
-        if (me.preferences.clearFields) {
-            $newTransaction.total = '';
-            $newTransaction.description = '';
-            $newTransaction.merchant = '';
-            $newTransaction.reconciled = false;
-            $newTransaction.multiple_budgets = false;
-        }
-
-        return $newTransaction;
-    };
-
-    $object.anyErrors = function ($newTransaction) {
-        var $messages = [];
-
-        if (!Date.parse($newTransaction.date.entered)) {
-            $messages.push('Date is not valid');
-        }
-        else {
-            $newTransaction.date.sql = Date.parse($newTransaction.date.entered).toString('yyyy-MM-dd');
-        }
-
-        if ($newTransaction.total === "") {
-            $messages.push('Total is required');
-        }
-        else if (!$.isNumeric($newTransaction.total)) {
-            $messages.push('Total is not a valid number');
-        }
-
-        if ($messages.length > 0) {
-            return $messages;
-        }
-
-        return false;
-    };
-
-    return $object;
-});
-;(function(){
-    'use strict';
-    angular
-        .module('budgetApp')
-        .directive('transactionAutocompleteDirective', transactionAutocomplete);
-
-    function transactionAutocomplete(AutocompleteFactory, $sce, $http, $interval) {
-        return {
-            restrict: 'EA',
-            scope: {
-                "dropdown": "=dropdown",
-                "placeholder": "@placeholder",
-                "typing": "=typing",
-                "new_transaction": "=newtransaction",
-                "fnOnEnter": "&fnonenter",
-                "showLoading": "&showloading",
-                "hideLoading": "&hideloading",
-                "loading": "=loading"
-            },
-            templateUrl: 'transaction-autocomplete-template',
-            link: function($scope, elem, attrs) {
-                $scope.results = {};
-
-                /**
-                 * Hide the dropdown and clear the input field
-                 */
-                $scope.hideAndClear = function () {
-                    $scope.hideDropdown();
-                    $scope.currentIndex = null;
-                    $('.highlight').removeClass('highlight');
-                };
-
-                $scope.hideDropdown = function () {
-                    $scope.dropdown = false;
-                };
-
-                $scope.highlightLetters = function ($response, $typing) {
-                    $typing = $typing.toLowerCase();
-
-                    for (var i = 0; i < $response.length; i++) {
-                        var $name = $response[i].name;
-                        var $index = $name.toLowerCase().indexOf($typing);
-                        var $substr = $name.substr($index, $typing.length);
-
-                        var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
-
-                        $response[i].html = $html;
-                    }
-                    return $response;
-                };
-
-                $scope.hoverItem = function(index) {
-                    $scope.currentIndex = index;
-                };
-
-                /**
-                 * Act on keypress for input field
-                 * @param $keycode
-                 * @returns {boolean}
-                 */
-                $scope.filter = function ($keycode) {
-                    if ($keycode === 13) {
-                        //enter is pressed
-                        if (!$scope.results[$scope.currentIndex]) {
-                            //We are not adding a tag. We are inserting the transaction.
-                            $scope.fnOnEnter();
-                            return;
-                        }
-                        //We are adding a tag
-                        $scope.chooseItem();
-
-                        //resetting the dropdown to show all the tags again after a tag has been added
-                        //$scope.results = $scope.tags;
-                    }
-                    else if ($keycode === 38) {
-                        //up arrow is pressed
-                        if ($scope.currentIndex > 0) {
-                            $scope.currentIndex--;
-                        }
-                    }
-                    else if ($keycode === 40) {
-                        //down arrow is pressed
-                        if ($scope.currentIndex + 1 < $scope.results.length) {
-                            $scope.currentIndex++;
-                        }
-                    }
-                    else {
-                        //Not enter, up or down arrow
-                        $scope.startCounting();
-                        $scope.currentIndex = 0;
-                        $scope.showDropdown();
-                    }
-                };
-
-                $scope.startCounting = function () {
-                    $interval.cancel($scope.interval);
-                    $scope.timeSinceKeyPress = 0;
-                    $scope.interval = $interval(function () {
-                        $scope.timeSinceKeyPress++;
-                        $scope.showDropdown();
-                    }, 500);
-                };
-
-                $scope.showDropdown = function () {
-                    $scope.dropdown = true;
-
-                    if ($scope.timeSinceKeyPress > 1) {
-                        $scope.results = $scope.highlightLetters($scope.searchDatabase(), $scope.typing);
-                        $interval.cancel($scope.interval);
-                    }
-                };
-
-                $scope.searchLocal = function () {
-                    var $results = _.filter($scope.tags, function ($tag) {
-                        return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
-                    });
-
-                    return $results;
-                };
-
-                //var $responseNum = 0;
-
-                /**
-                 * Query the database
-                 */
-                $scope.searchDatabase = function () {
-                    $scope.showLoading();
-                    var $data = {
-                        typing: $scope.typing,
-                        column: $scope.placeholder
-                    };
-
-                    return $http.post('/api/autocomplete/transaction', $data).
-                        success(function(response, status, headers, config) {
-                            $scope.results = AutocompleteFactory.transferTransactions(response);
-                            $scope.results = AutocompleteFactory.removeDuplicates($scope.results);
-                            $scope.hideLoading();
-                        }).
-                        error(function(data, status, headers, config) {
-                            console.log("There was an error");
-                        });
-                };
-
-                $scope.chooseItem = function ($index) {
-                    if ($index !== undefined) {
-                        //Item was chosen by clicking, not by pressing enter
-                        $scope.currentIndex = $index;
-                    }
-
-                    $scope.selectedItem = $scope.results[$scope.currentIndex];
-
-                    $scope.fillFields();
-
-                    $scope.hideAndClear();
-                };
-
-                $scope.fillFields = function () {
-                    if ($scope.placeholder === 'description') {
-                        $scope.typing = $scope.selectedItem.description;
-                        $scope.new_transaction.merchant = $scope.selectedItem.merchant;
-                    }
-                    else if ($scope.placeholder === 'merchant') {
-                        $scope.typing = $scope.selectedItem.merchant;
-                        $scope.new_transaction.description = $scope.selectedItem.description;
-                    }
-
-                    $scope.new_transaction.total = $scope.selectedItem.total;
-                    $scope.new_transaction.type = $scope.selectedItem.type;
-                    $scope.new_transaction.account_id = $scope.selectedItem.account.id;
-
-                    if ($scope.selectedItem.from_account && $scope.selectedItem.to_account) {
-                        $scope.new_transaction.from_account_id = $scope.selectedItem.from_account.id;
-                        $scope.new_transaction.to_account_id = $scope.selectedItem.to_account.id;
-                    }
-
-                    $scope.new_transaction.budgets = $scope.selectedItem.budgets;
-                };
-
-            }
-        };
-    }
-}).call(this);
-
-
-(function () {
-
-    angular
-        .module('budgetApp')
         .controller('HomeController', home);
 
     function home ($rootScope, $scope, TransactionsFactory, FilterFactory) {
@@ -15539,6 +15216,395 @@ app.factory('TransactionsFactory', function ($http) {
 
     return $object;
 });
+
+(function () {
+
+    angular
+        .module('budgetApp')
+        .controller('NewTransactionController', newTransaction);
+
+    function newTransaction ($rootScope, $scope, NewTransactionFactory, TransactionsFactory, FilterFactory) {
+
+        $scope.dropdown = {};
+        $scope.types = ["income", "expense", "transfer"];
+        $scope.accounts = accounts_response;
+        $scope.favouriteTransactions = favouriteTransactions;
+        $scope.new_transaction = NewTransactionFactory.getDefaults(env, $scope.accounts);
+
+        function clearNewTransactionFields () {
+            $scope.new_transaction = NewTransactionFactory.clearFields(env, me, $scope.new_transaction);
+        }
+
+        $scope.fillFields = function () {
+            $scope.new_transaction.description = $scope.selectedFavouriteTransaction.description;
+            $scope.new_transaction.merchant = $scope.selectedFavouriteTransaction.merchant;
+            $scope.new_transaction.total = $scope.selectedFavouriteTransaction.total;
+            $scope.new_transaction.type = $scope.selectedFavouriteTransaction.type;
+            $scope.new_transaction.account_id = $scope.selectedFavouriteTransaction.account_id;
+            //$scope.new_transaction.budgets = $scope.selectedFavouriteTransaction.budgets;
+        };
+
+        /**
+         * Return true if there are errors.
+         * @returns {boolean}
+         */
+        function anyErrors () {
+            var $errorMessages = NewTransactionFactory.anyErrors($scope.new_transaction);
+
+            if ($errorMessages) {
+                for (var i = 0; i < $errorMessages.length; i++) {
+                    $rootScope.$broadcast('provideFeedback', $errorMessages[i], 'error');
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * Insert a new transaction
+         * @param $keycode
+         */
+        $scope.insertTransaction = function ($keycode) {
+            if ($keycode !== 13 || anyErrors()) {
+                return;
+            }
+
+            $scope.clearTotalChanges();
+
+            if ($scope.new_transaction.type === 'transfer') {
+                insertTransferTransactions();
+            }
+            else {
+                insertIncomeOrExpenseTransaction();
+            }
+        };
+
+        function insertIncomeOrExpenseTransaction () {
+            $scope.showLoading();
+            TransactionsFactory.insertIncomeOrExpenseTransaction($scope.new_transaction)
+                .then(function (response) {
+                    var $transaction = response.data.data;
+                    $rootScope.$broadcast('provideFeedback', 'Transaction added');
+                    clearNewTransactionFields();
+                    $scope.new_transaction.dropdown = false;
+                    $scope.$emit('getSideBarTotals');
+
+                    if ($transaction.multipleBudgets) {
+                        $scope.$emit('handleAllocationForNewTransaction', $transaction);
+                        $rootScope.$emit('getFilterBasicTotals');
+                    }
+                    else {
+                        $rootScope.$emit('runFilter');
+                    }
+
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        }
+
+        function insertTransferTransactions () {
+            insertTransferTransaction('from');
+            setTimeout(function(){
+                insertTransferTransaction('to');
+            }, 100);
+        }
+
+        function insertTransferTransaction ($direction) {
+            $scope.showLoading();
+            TransactionsFactory.insertTransferTransaction($scope.new_transaction, $direction)
+                .then(function (response) {
+                    $rootScope.$broadcast('provideFeedback', 'Transfer added');
+                    clearNewTransactionFields();
+                    $scope.$emit('getSideBarTotals');
+                    $rootScope.$emit('runFilter');
+                    $scope.new_transaction.dropdown = false;
+
+                    //Todo: get filter stuff
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        }
+    }
+
+})();
+app.factory('NewTransactionFactory', function ($http) {
+    var $object = {};
+
+    var $defaults = {
+        type: 'income',
+            account_id: 1,
+            date: {
+            entered: 'today'
+        },
+        merchant: '',
+            description: '',
+            reconciled: false,
+            multiple_budgets: false,
+            budgets: []
+    };
+
+    $object.getDefaults = function ($env, $accounts) {
+        //Fill in the new transaction fields if development environment
+        if ($env === 'local') {
+            $defaults.total = 10;
+            $defaults.type = 'expense';
+            $defaults.date.entered = 'today';
+            $defaults.merchant = 'some merchant';
+            $defaults.description = 'some description';
+            $defaults.budgets = [
+                {
+                    id: '2',
+                    name: 'business',
+                    type: 'fixed'
+                },
+                {
+                    id: '4',
+                    name: 'busking',
+                    type: 'flex'
+                }
+            ];
+        }
+
+        if ($accounts.length > 0) {
+            $defaults.account_id = $accounts[0].id;
+            $defaults.from_account_id = $accounts[0].id;
+            $defaults.to_account_id = $accounts[0].id;
+        }
+
+        return $defaults;
+    };
+
+    $object.clearFields = function (env, me, $newTransaction) {
+        if (env !== 'local') {
+            $newTransaction.budgets = [];
+        }
+
+        if (me.preferences.clearFields) {
+            $newTransaction.total = '';
+            $newTransaction.description = '';
+            $newTransaction.merchant = '';
+            $newTransaction.reconciled = false;
+            $newTransaction.multiple_budgets = false;
+        }
+
+        return $newTransaction;
+    };
+
+    $object.anyErrors = function ($newTransaction) {
+        var $messages = [];
+
+        if (!Date.parse($newTransaction.date.entered)) {
+            $messages.push('Date is not valid');
+        }
+        else {
+            $newTransaction.date.sql = Date.parse($newTransaction.date.entered).toString('yyyy-MM-dd');
+        }
+
+        if ($newTransaction.total === "") {
+            $messages.push('Total is required');
+        }
+        else if (!$.isNumeric($newTransaction.total)) {
+            $messages.push('Total is not a valid number');
+        }
+
+        if ($messages.length > 0) {
+            return $messages;
+        }
+
+        return false;
+    };
+
+    return $object;
+});
+;(function(){
+    'use strict';
+    angular
+        .module('budgetApp')
+        .directive('transactionAutocompleteDirective', transactionAutocomplete);
+
+    function transactionAutocomplete(AutocompleteFactory, $sce, $http, $interval) {
+        return {
+            restrict: 'EA',
+            scope: {
+                "dropdown": "=dropdown",
+                "placeholder": "@placeholder",
+                "typing": "=typing",
+                "new_transaction": "=newtransaction",
+                "fnOnEnter": "&fnonenter",
+                "showLoading": "&showloading",
+                "hideLoading": "&hideloading",
+                "loading": "=loading"
+            },
+            templateUrl: 'transaction-autocomplete-template',
+            link: function($scope, elem, attrs) {
+                $scope.results = {};
+
+                /**
+                 * Hide the dropdown and clear the input field
+                 */
+                $scope.hideAndClear = function () {
+                    $scope.hideDropdown();
+                    $scope.currentIndex = null;
+                    $('.highlight').removeClass('highlight');
+                };
+
+                $scope.hideDropdown = function () {
+                    $scope.dropdown = false;
+                };
+
+                $scope.highlightLetters = function ($response, $typing) {
+                    $typing = $typing.toLowerCase();
+
+                    for (var i = 0; i < $response.length; i++) {
+                        var $name = $response[i].name;
+                        var $index = $name.toLowerCase().indexOf($typing);
+                        var $substr = $name.substr($index, $typing.length);
+
+                        var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
+
+                        $response[i].html = $html;
+                    }
+                    return $response;
+                };
+
+                $scope.hoverItem = function(index) {
+                    $scope.currentIndex = index;
+                };
+
+                /**
+                 * Act on keypress for input field
+                 * @param $keycode
+                 * @returns {boolean}
+                 */
+                $scope.filter = function ($keycode) {
+                    if ($keycode === 13) {
+                        //enter is pressed
+                        if (!$scope.results[$scope.currentIndex]) {
+                            //We are not adding a tag. We are inserting the transaction.
+                            $scope.fnOnEnter();
+                            return;
+                        }
+                        //We are adding a tag
+                        $scope.chooseItem();
+
+                        //resetting the dropdown to show all the tags again after a tag has been added
+                        //$scope.results = $scope.tags;
+                    }
+                    else if ($keycode === 38) {
+                        //up arrow is pressed
+                        if ($scope.currentIndex > 0) {
+                            $scope.currentIndex--;
+                        }
+                    }
+                    else if ($keycode === 40) {
+                        //down arrow is pressed
+                        if ($scope.currentIndex + 1 < $scope.results.length) {
+                            $scope.currentIndex++;
+                        }
+                    }
+                    else {
+                        //Not enter, up or down arrow
+                        $scope.startCounting();
+                        $scope.currentIndex = 0;
+                        $scope.showDropdown();
+                    }
+                };
+
+                $scope.startCounting = function () {
+                    $interval.cancel($scope.interval);
+                    $scope.timeSinceKeyPress = 0;
+                    $scope.interval = $interval(function () {
+                        $scope.timeSinceKeyPress++;
+                        $scope.showDropdown();
+                    }, 500);
+                };
+
+                $scope.showDropdown = function () {
+                    $scope.dropdown = true;
+
+                    if ($scope.timeSinceKeyPress > 1) {
+                        $scope.results = $scope.highlightLetters($scope.searchDatabase(), $scope.typing);
+                        $interval.cancel($scope.interval);
+                    }
+                };
+
+                $scope.searchLocal = function () {
+                    var $results = _.filter($scope.tags, function ($tag) {
+                        return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
+                    });
+
+                    return $results;
+                };
+
+                //var $responseNum = 0;
+
+                /**
+                 * Query the database
+                 */
+                $scope.searchDatabase = function () {
+                    $scope.showLoading();
+                    var $data = {
+                        typing: $scope.typing,
+                        column: $scope.placeholder
+                    };
+
+                    return $http.post('/api/autocomplete/transaction', $data).
+                        success(function(response, status, headers, config) {
+                            $scope.results = AutocompleteFactory.transferTransactions(response);
+                            $scope.results = AutocompleteFactory.removeDuplicates($scope.results);
+                            $scope.hideLoading();
+                        }).
+                        error(function(data, status, headers, config) {
+                            console.log("There was an error");
+                        });
+                };
+
+                $scope.chooseItem = function ($index) {
+                    if ($index !== undefined) {
+                        //Item was chosen by clicking, not by pressing enter
+                        $scope.currentIndex = $index;
+                    }
+
+                    $scope.selectedItem = $scope.results[$scope.currentIndex];
+
+                    $scope.fillFields();
+
+                    $scope.hideAndClear();
+                };
+
+                $scope.fillFields = function () {
+                    if ($scope.placeholder === 'description') {
+                        $scope.typing = $scope.selectedItem.description;
+                        $scope.new_transaction.merchant = $scope.selectedItem.merchant;
+                    }
+                    else if ($scope.placeholder === 'merchant') {
+                        $scope.typing = $scope.selectedItem.merchant;
+                        $scope.new_transaction.description = $scope.selectedItem.description;
+                    }
+
+                    $scope.new_transaction.total = $scope.selectedItem.total;
+                    $scope.new_transaction.type = $scope.selectedItem.type;
+                    $scope.new_transaction.account_id = $scope.selectedItem.account.id;
+
+                    if ($scope.selectedItem.from_account && $scope.selectedItem.to_account) {
+                        $scope.new_transaction.from_account_id = $scope.selectedItem.from_account.id;
+                        $scope.new_transaction.to_account_id = $scope.selectedItem.to_account.id;
+                    }
+
+                    $scope.new_transaction.budgets = $scope.selectedItem.budgets;
+                };
+
+            }
+        };
+    }
+}).call(this);
+
 
 (function () {
 

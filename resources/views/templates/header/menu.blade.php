@@ -12,5 +12,9 @@
             <a href="/preferences">Preferences</a>
         </li>
 
+        <li>
+            <a href="/favourite-transactions">Favourite transactions</a>
+        </li>
+
     </ul>
 </li>

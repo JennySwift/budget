@@ -1192,6 +1192,29 @@ caption {
     #transactions td .fa, #transactions th .fa {
       font-size: 9px; } }
 
+#favourite-transactions-page {
+  margin: 50px 50px; }
+  #favourite-transactions-page > * {
+    margin: 50px 50px; }
+  #favourite-transactions-page #new-favourite {
+    width: 500px;
+    margin: auto; }
+    #favourite-transactions-page #new-favourite h2 {
+      margin-bottom: 31px; }
+    #favourite-transactions-page #new-favourite > div {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      margin-bottom: 6px; }
+    #favourite-transactions-page #new-favourite select {
+      max-width: 300px; }
+  #favourite-transactions-page #favourite-transactions {
+    width: 500px;
+    margin: auto; }
+
 #budget #budget-toolbar {
   margin-top: 7px;
   margin-left: 5px; }

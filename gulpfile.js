@@ -28,6 +28,7 @@ elixir(function(mix) {
         'plugins/*.js',
         'shared/**/*.js',
         'accounts/*.js',
+        'favourite-transactions/*.js',
         'budgets/*.js',
         'help/*.js',
         'home/**/*.js',

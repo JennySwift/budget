@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Transformers\SidebarTotalTransformer;
 use App\Models\Account;
+use App\Models\FavouriteTransaction;
 use App\Models\Filter;
 use App\Repositories\Budgets\BudgetsRepository;
 use Auth, JavaScript;
@@ -44,6 +45,7 @@ class PagesController extends Controller {
 ////            //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),
             'budgets' => $this->budgetsRepository->getBudgets(),
+            'favouriteTransactions' => FavouriteTransaction::forCurrentUser()->get(),
             'transactions' => $filter->getTransactions(),
             'filterBasicTotals' => $filter->getBasicTotals(),
         ]);
@@ -105,6 +107,10 @@ class PagesController extends Controller {
         return view('pages/budgets/unassigned');
     }
 
+    /**
+     *
+     * @return \Illuminate\View\View
+     */
     public function preferences()
     {
         JavaScript::put([
@@ -112,6 +118,21 @@ class PagesController extends Controller {
         ]);
 
         return view('pages/preferences');
+    }
+
+    /**
+     *
+     * @return \Illuminate\View\View
+     */
+    public function favouriteTransactions()
+    {
+        JavaScript::put([
+            'me' => Auth::user(),
+            'favouriteTransactions' => FavouriteTransaction::forCurrentUser()->get(),
+            'accounts' => Account::getAccounts(),
+        ]);
+
+        return view('pages/favourite-transactions');
     }
 
     /**
