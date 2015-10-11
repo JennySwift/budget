@@ -7,7 +7,8 @@
     <select
         ng-options="item.name for item in favouriteTransactions"
         ng-model="selectedFavouriteTransaction"
-        ng-change="fillFields()">
+        ng-change="fillFields()"
+        class="form-control">
     </select>
 
     {{--<select--}}

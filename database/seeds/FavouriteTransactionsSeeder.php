@@ -14,17 +14,20 @@ class FavouriteTransactionsSeeder extends Seeder {
         [
             'name' => 'foreign currency fee',
             'type' => 'expense',
-            'description' => 'fee'
+            'description' => 'fee',
+            'budget_ids' => []
         ],
         [
             'name' => 'private coaching',
             'type' => 'expense',
-            'description' => 'coaching'
+            'description' => 'coaching',
+            'budget_ids' => [1,2]
         ],
         [
             'name' => 'groceries',
             'type' => 'expense',
-            'description' => 'food'
+            'description' => 'food',
+            'budget_ids' => [1]
 
         ]
     ];
@@ -34,14 +37,15 @@ class FavouriteTransactionsSeeder extends Seeder {
         $users = User::all();
         foreach($users as $user) {
             foreach ($this->favourites as $favourite) {
-                $favourite = new FavouriteTransaction([
+                $newFavourite = new FavouriteTransaction([
                     'name' => $favourite['name'],
                     'type' => $favourite['type'],
                     'description' => $favourite['description']
                 ]);
 
-                $favourite->user()->associate($user);
-                $favourite->save();
+                $newFavourite->user()->associate($user);
+                $newFavourite->save();
+                $newFavourite->budgets()->attach($favourite['budget_ids']);
             }
 
         }

@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder {
 		Account::truncate();
 		Transaction::truncate();
 		FavouriteTransaction::truncate();
+        DB::table('budgets_favourite_transactions')->truncate();
         DB::table('budgets_transactions')->truncate();
 	}
 

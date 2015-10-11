@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Transformers\FavouriteTransactionTransformer;
 use App\Models\Account;
 use App\Models\FavouriteTransaction;
 use Illuminate\Http\Request;
@@ -19,14 +20,15 @@ class FavouriteTransactionsController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['account_id', 'budgets']);
+        $data = $request->except(['account_id', 'budgets', 'budget_ids']);
 
         $favouriteTransaction = new FavouriteTransaction($data);
         $favouriteTransaction->account()->associate(Account::find($request->get('account_id')));
         $favouriteTransaction->user()->associate(Auth::user());
         $favouriteTransaction->save();
+        $favouriteTransaction->budgets()->attach($request->get('budget_ids'));
 
-        return $this->responseCreated($favouriteTransaction);
+        return $this->responseCreatedWithTransformer($favouriteTransaction, new FavouriteTransactionTransformer);
     }
 
     /**

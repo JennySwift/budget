@@ -4,6 +4,7 @@ use App\Exceptions\NotLoggedInException;
 use Carbon\Carbon;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
 use League\Fractal\Serializer\DataArraySerializer;
 use League\Fractal\TransformerAbstract;
 
@@ -165,5 +166,16 @@ function transform($resource)
 function createCollection($model, TransformerAbstract $transformer, $key = null)
 {
     return new Collection($model, $transformer, $key);
+}
+
+/**
+ * @param Model               $model
+ * @param TransformerAbstract $transformer
+ * @param null                $key
+ * @return Item
+ */
+function createItem($model, TransformerAbstract $transformer, $key = null)
+{
+    return new Item($model, $transformer, $key);
 }
 

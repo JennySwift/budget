@@ -1212,7 +1212,6 @@ caption {
     #favourite-transactions-page #new-favourite select {
       max-width: 300px; }
   #favourite-transactions-page #favourite-transactions {
-    width: 500px;
     margin: auto; }
 
 #budget #budget-toolbar {

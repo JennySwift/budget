@@ -8,6 +8,7 @@ use App\Models\Account;
 use App\Models\FavouriteTransaction;
 use App\Models\Filter;
 use App\Repositories\Budgets\BudgetsRepository;
+use App\Repositories\Transactions\FavouriteTransactionsRepository;
 use Auth, JavaScript;
 
 /**
@@ -20,14 +21,21 @@ class PagesController extends Controller {
      * @var BudgetsRepository
      */
     private $budgetsRepository;
+    /**
+     * @var FavouriteTransactionsRepository
+     */
+    private $favouriteTransactionsRepository;
 
     /**
      * Create a new controller instance.
+     * @param BudgetsRepository $budgetsRepository
+     * @param FavouriteTransactionsRepository $favouriteTransactionsRepository
      */
-    public function __construct(BudgetsRepository $budgetsRepository)
+    public function __construct(BudgetsRepository $budgetsRepository, FavouriteTransactionsRepository $favouriteTransactionsRepository)
     {
         $this->middleware('auth');
         $this->budgetsRepository = $budgetsRepository;
+        $this->favouriteTransactionsRepository = $favouriteTransactionsRepository;
     }
 
     /**
@@ -45,7 +53,7 @@ class PagesController extends Controller {
 ////            //It wouldn't work if I named it 'transactions', or 'totals'
             'accounts_response' => Account::getAccounts(),
             'budgets' => $this->budgetsRepository->getBudgets(),
-            'favouriteTransactions' => FavouriteTransaction::forCurrentUser()->get(),
+            'favouriteTransactions' => $this->favouriteTransactionsRepository->index(),
             'transactions' => $filter->getTransactions(),
             'filterBasicTotals' => $filter->getBasicTotals(),
         ]);
@@ -126,10 +134,12 @@ class PagesController extends Controller {
      */
     public function favouriteTransactions()
     {
+//        dd($this->favouriteTransactionsRepository->index());
         JavaScript::put([
             'me' => Auth::user(),
-            'favouriteTransactions' => FavouriteTransaction::forCurrentUser()->get(),
+            'favouriteTransactions' => $this->favouriteTransactionsRepository->index(),
             'accounts' => Account::getAccounts(),
+            'budgets' => $this->budgetsRepository->getBudgets(),
         ]);
 
         return view('pages/favourite-transactions');

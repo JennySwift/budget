@@ -21,8 +21,8 @@
             $scope.new_transaction.merchant = $scope.selectedFavouriteTransaction.merchant;
             $scope.new_transaction.total = $scope.selectedFavouriteTransaction.total;
             $scope.new_transaction.type = $scope.selectedFavouriteTransaction.type;
-            $scope.new_transaction.account_id = $scope.selectedFavouriteTransaction.account_id;
-            //$scope.new_transaction.budgets = $scope.selectedFavouriteTransaction.budgets;
+            $scope.new_transaction.account_id = $scope.selectedFavouriteTransaction.account.id;
+            $scope.new_transaction.budgets = $scope.selectedFavouriteTransaction.budgets;
         };
 
         /**

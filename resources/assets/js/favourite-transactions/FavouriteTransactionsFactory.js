@@ -4,6 +4,8 @@ angular.module('budgetApp')
             insert: function ($newFavourite) {
                 var $url = '/api/favouriteTransactions';
 
+                $newFavourite.budget_ids = _.pluck($newFavourite.budgets, 'id');
+
                 return $http.post($url, $newFavourite);
             },
             destroy: function ($favourite) {

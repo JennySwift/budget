@@ -11,7 +11,7 @@ class FavouriteTransaction extends Model
 
     protected $table = 'favourite_transactions';
 
-    protected $fillable = ['name', 'description', 'merchant', 'total'];
+    protected $fillable = ['name', 'description', 'merchant', 'total', 'type'];
 
     /**
      *
@@ -29,5 +29,15 @@ class FavouriteTransaction extends Model
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
+    }
+
+    /**
+     * Get budgets for one transaction, assigned or unassigned
+     * @return $this
+     */
+    public function budgets()
+    {
+        return $this->belongsToMany('App\Models\Budget', 'budgets_favourite_transactions')
+            ->orderBy('name', 'asc');
     }
 }

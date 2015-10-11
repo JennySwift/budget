@@ -49,6 +49,13 @@
                 </select>
             </div>
 
+            <tag-autocomplete-directive
+                    chosenTags="newFavourite.budgets"
+                    dropdown="newFavourite.dropdown"
+                    tags="budgets"
+                    multipleTags="true">
+            </tag-autocomplete-directive>
+
             <div>
                 <button
                         ng-click="insertFavouriteTransaction()"
@@ -61,12 +68,34 @@
 
         <div>
             <h2>Favourite transactions</h2>
-            <div
-                ng-repeat="favourite in favouriteTransactions"
-                id="favourite-transactions">
-                <span>[[favourite.name]]</span>
-                <button ng-click="deleteFavouriteTransaction(favourite)" class="btn-xs btn-danger">Delete</button>
-            </div>
+
+            <table id="favourite-transactions" >
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Merchant</th>
+                    <th>Total</th>
+                    <th>Account</th>
+                    <th>Tags</th>
+                    <th></th>
+                </tr>
+                
+                <tr ng-repeat="favourite in favouriteTransactions">
+                    <td>[[favourite.name]]</td>
+                    <td>[[favourite.type]]</td>
+                    <td>[[favourite.description]]</td>
+                    <td>[[favourite.merchant]]</td>
+                    <td>[[favourite.total]]</td>
+                    <td>[[favourite.account.name]]</td>
+                    <td>
+                        <span ng-repeat="budget in favourite.budgets" class="badge">[[budget.name]]</span>
+                    </td>
+                    <td><button ng-click="deleteFavouriteTransaction(favourite)" class="btn-xs btn-danger">Delete</button></td>
+
+                </tr>
+            </table>
+
         </div>
 
 

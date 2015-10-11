@@ -6,12 +6,16 @@ var app = angular.module('budgetApp');
 
         $scope.favouriteTransactions = favouriteTransactions;
         $scope.accounts = accounts;
+        $scope.budgets = budgets;
+        $scope.newFavourite = {
+          budgets: []
+        };
 
         $scope.insertFavouriteTransaction = function () {
             $scope.showLoading();
             FavouriteTransactionsFactory.insert($scope.newFavourite)
                 .then(function (response) {
-                    $scope.favouriteTransactions.push(response.data);
+                    $scope.favouriteTransactions.push(response.data.data);
                     $rootScope.$broadcast('provideFeedback', 'Favourite added');
                     $scope.hideLoading();
                 })
