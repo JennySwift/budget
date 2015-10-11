@@ -46,11 +46,8 @@ app.factory('NewTransactionFactory', function ($http) {
     };
 
     $object.clearFields = function (env, me, $newTransaction) {
-        if (env !== 'local') {
-            $newTransaction.budgets = [];
-        }
-
         if (me.preferences.clearFields) {
+            $newTransaction.budgets = [];
             $newTransaction.total = '';
             $newTransaction.description = '';
             $newTransaction.merchant = '';
