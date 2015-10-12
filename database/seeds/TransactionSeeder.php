@@ -322,7 +322,8 @@ class TransactionSeeder extends Seeder {
             'total' => $total,
             'reconciled' => $reconciled,
             'allocated' => 0,
-            'created_at' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s')
+            'created_at' => $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s'),
+            'minutes' => 90
         ]);
         $transaction->user()->associate($user);
         $transaction->save();

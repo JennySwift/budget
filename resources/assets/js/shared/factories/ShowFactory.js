@@ -12,11 +12,12 @@ app.factory('ShowFactory', function () {
             total: true,
             type: true,
             account: true,
+            duration: true,
             reconciled: true,
             tags: true,
             dlt: true,
             //components
-            new_transaction: true,
+            new_transaction: false,
             basic_totals: true,
             budget_totals: true,
             filter_totals: true,

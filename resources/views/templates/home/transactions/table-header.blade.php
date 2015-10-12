@@ -14,6 +14,8 @@
 
         <th ng-show="show.account">Account</th>
 
+        <th ng-show="show.duration">Duration</th>
+
         <th ng-show="show.reconciled" class="reconcile">R</th>
 
         <th ng-show="show.dlt">

@@ -76,7 +76,16 @@ class TransactionsController extends Controller
     public function store(Request $request)
     {
         $data = $request->only([
-            'date', 'type', 'direction', 'description', 'merchant', 'total', 'reconciled', 'account_id', 'budgets'
+            'date',
+            'type',
+            'direction',
+            'description',
+            'merchant',
+            'total',
+            'reconciled',
+            'account_id',
+            'budgets',
+            'minutes'
         ]);
 
         $transaction = $this->transactionsRepository->create($data);
@@ -100,7 +109,14 @@ class TransactionsController extends Controller
     {
         $data = array_filter(array_diff_assoc(
             $request->only([
-                'date', 'account_id', 'description', 'merchant', 'total', 'reconciled', 'allocated'
+                'date',
+                'account_id',
+                'description',
+                'merchant',
+                'total',
+                'reconciled',
+                'allocated',
+                'minutes'
             ]),
             $transaction->toArray()
         ), 'removeFalseKeepZero');

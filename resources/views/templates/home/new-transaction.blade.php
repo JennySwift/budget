@@ -42,6 +42,10 @@
 
     <div>
         @include('templates.home.new-transaction.tags')
+        @include('templates.home.new-transaction.duration')
+    </div>
+
+    <div>
         @include('templates.home.new-transaction.enter')
     </div>
 

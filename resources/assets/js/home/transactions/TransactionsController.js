@@ -4,7 +4,7 @@
         .module('budgetApp')
         .controller('TransactionsController', transactions);
 
-    function transactions ($rootScope, $scope, TransactionsFactory, FilterFactory) {
+    function transactions ($rootScope, $scope, $filter, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.accounts = accounts_response;
@@ -52,6 +52,7 @@
             // the difference if the total changes,
             // so I can remove the correct amount from savings if required.
             $scope.edit_transaction.original_total = $scope.edit_transaction.total;
+            $scope.edit_transaction.duration = $filter('formatDurationFilter')($scope.edit_transaction.minutes);
             $scope.show.edit_transaction = true;
         };
 

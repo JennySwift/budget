@@ -13196,6 +13196,26 @@ angular.module('budgetApp')
     });
 
 
+angular.module('budgetApp')
+    .directive('formattedDurationDirective', function ($filter) {
+        return {
+            restrict: 'A',
+            require: '?ngModel',
+            link: function (scope, element, attrs, ngModel) {
+
+                function formatDuration(input) {
+                    return $filter('formatDurationToMinutesFilter')(input);
+                }
+                ngModel.$parsers.push(formatDuration);
+
+            }
+        };
+
+    });
+
+
+
+
 ;(function(){
     'use strict';
     angular
@@ -13311,6 +13331,21 @@ angular.module('budgetApp')
         };
     }
 }).call(this);
+
+
+angular.module('budgetApp')
+    .filter('formatDate', function ($rootScope) {
+        return function (input) {
+            if (input) {
+                if (!Date.parse(input)) {
+                    $rootScope.$broadcast('provideFeedback', 'Date is invalid', 'error');
+                    return input;
+                } else {
+                    return Date.parse(input).toString('yyyy-MM-dd');
+                }
+            }
+        }
+    });
 
 
 app.factory('AutocompleteFactory', function ($http) {
@@ -13538,11 +13573,12 @@ app.factory('ShowFactory', function () {
             total: true,
             type: true,
             account: true,
+            duration: true,
             reconciled: true,
             tags: true,
             dlt: true,
             //components
-            new_transaction: true,
+            new_transaction: false,
             basic_totals: true,
             budget_totals: true,
             filter_totals: true,
@@ -13608,21 +13644,6 @@ app.factory('UsersFactory', function ($http) {
 
     };
 });
-angular.module('budgetApp')
-    .filter('formatDate', function ($rootScope) {
-        return function (input) {
-            if (input) {
-                if (!Date.parse(input)) {
-                    $rootScope.$broadcast('provideFeedback', 'Date is invalid', 'error');
-                    return input;
-                } else {
-                    return Date.parse(input).toString('yyyy-MM-dd');
-                }
-            }
-        }
-    });
-
-
 var app = angular.module('budgetApp');
 
 (function () {
@@ -14805,17 +14826,18 @@ app.factory('NewTransactionFactory', function ($http) {
             $defaults.date.entered = 'today';
             $defaults.merchant = 'some merchant';
             $defaults.description = 'some description';
+            $defaults.duration = '';
             $defaults.budgets = [
                 {
                     id: '2',
                     name: 'business',
                     type: 'fixed'
                 },
-                {
-                    id: '4',
-                    name: 'busking',
-                    type: 'flex'
-                }
+                //{
+                //    id: '4',
+                //    name: 'busking',
+                //    type: 'flex'
+                //}
             ];
         }
 
@@ -15294,13 +15316,38 @@ app.factory('NewTransactionFactory', function ($http) {
 }).call(this);
 
 
+angular.module('budgetApp')
+    .filter('formatDurationFilter', function () {
+        return function ($minutes) {
+
+            if (!$minutes) {
+                return '';
+            }
+
+            var $moment = moment.duration($minutes, 'minutes');
+            var $formattedDuration = $moment._data.hours + ':' + $moment._data.minutes;
+
+            return $formattedDuration;
+        }
+    });
+
+
+angular.module('budgetApp')
+    .filter('formatDurationToMinutesFilter', function () {
+        return function ($duration) {
+
+            return moment.duration($duration).asMinutes();
+        }
+    });
+
+
 (function () {
 
     angular
         .module('budgetApp')
         .controller('TransactionsController', transactions);
 
-    function transactions ($rootScope, $scope, TransactionsFactory, FilterFactory) {
+    function transactions ($rootScope, $scope, $filter, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.accounts = accounts_response;
@@ -15348,6 +15395,7 @@ app.factory('NewTransactionFactory', function ($http) {
             // the difference if the total changes,
             // so I can remove the correct amount from savings if required.
             $scope.edit_transaction.original_total = $scope.edit_transaction.total;
+            $scope.edit_transaction.duration = $filter('formatDurationFilter')($scope.edit_transaction.minutes);
             $scope.show.edit_transaction = true;
         };
 
@@ -15476,6 +15524,9 @@ app.factory('TransactionsFactory', function ($http) {
             $newTransaction.total*= -1;
         }
 
+        //Convert duration from HH:MM format to minutes
+        $newTransaction.minutes = moment.duration($newTransaction.duration).asMinutes();
+
         return $http.post($url, $newTransaction);
     };
 
@@ -15547,6 +15598,9 @@ app.factory('TransactionsFactory', function ($http) {
         if ($transaction.type === 'expense' && $transaction.total > 0) {
             $transaction.total = $transaction.total * -1;
         }
+
+        //Convert duration from HH:MM format to minutes
+        $transaction.minutes = moment.duration($transaction.duration).asMinutes();
 
         return $http.put($url, $transaction);
     };

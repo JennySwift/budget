@@ -82,6 +82,13 @@
 
             <div>
                 <label>
+                    <span>duration</span>
+                    <input ng-model="show.time" type="checkbox">
+                </label>
+            </div>
+
+            <div>
+                <label>
                     <span>reconciled</span>
                     <input ng-model="show.reconciled" type="checkbox">
                 </label>
