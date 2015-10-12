@@ -57,7 +57,7 @@
                 <button ng-click="updateTransactionSetup(transaction)" class="fa fa-pencil-square-o"></button>
             </td>
 
-            <td>
+            <td ng-show="show.allocated">
                 <button
                     ng-if="transaction.multipleBudgets"
                     ng-class="{'allocated, btn-success': transaction.allocated, 'not-allocated, btn-danger': !transaction.allocated}"

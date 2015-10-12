@@ -26,7 +26,7 @@
             <i class="fa fa-pencil-square-o"></i>
         </th>
 
-        <th>budgets</th>
+        <th ng-show="show.allocated">budgets</th>
 
     </tr>
 

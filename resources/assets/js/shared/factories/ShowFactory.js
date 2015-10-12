@@ -14,6 +14,7 @@ app.factory('ShowFactory', function () {
             account: true,
             duration: true,
             reconciled: true,
+            allocated: true,
             tags: true,
             dlt: true,
             //components
