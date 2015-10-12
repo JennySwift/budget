@@ -21,6 +21,6 @@
             ng-model="new_transaction.duration"
             ng-keyup="insertTransaction($event.keyCode)"
             class="mousetrap form-control"
-            placeholder="minutes"
+            placeholder="H:M"
             type='text'>
 </div>
