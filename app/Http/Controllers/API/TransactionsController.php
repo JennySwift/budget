@@ -132,8 +132,9 @@ class TransactionsController extends Controller
         $transaction->update($data);
         $transaction->save();
 
+        $transaction->budgets()->detach();
+
         if ($request->get('budgets')) {
-            $transaction->budgets()->detach();
             $this->transactionsRepository->attachBudgets($transaction, $request->get('budgets'));
         }
 
@@ -142,7 +143,7 @@ class TransactionsController extends Controller
             new TransactionTransformer
         );
 
-        return $this->responseWithTransformer($item, Response::HTTP_CREATED);
+        return $this->responseWithTransformer($item, Response::HTTP_OK);
     }
 
     /**

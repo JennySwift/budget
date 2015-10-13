@@ -4,6 +4,7 @@ use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 
 /**
  * Class TransactionsTest
@@ -99,45 +100,104 @@ class TransactionsTest extends TestCase {
      */
 
     /**
-     * //Todo
      * @test
      * @return void
      */
-//    public function it_updates_a_transaction()
-//    {
-//        $this->logInUser();
-//
-//        $budget = Budget::forCurrentUser()->where('type', '!=', 'unassigned')->first();
-//
-//        if ($budget->type == 'fixed') {
-//            $type = 'flex';
-//        }
-//        else if ($budget->type == 'flex') {
-//            $type = 'fixed';
-//        }
-//        else if ($budget->type == 'unassigned') {
-//            $type = 'unassigned';
-//        }
-//
-//        $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
-////            'type' => ($budget->type == "fixed")?'flex':'fixed',
-//            'type' => $type,
-//            'name' => 'jetskiing',
-//            'amount' => 123,
-//            'starting_date' => '2016-01-01'
-//        ]);
-//
-//        $content = json_decode($response->getContent(), true);
-//
-//        $this->assertEquals(200, $response->getStatusCode());
-//        $this->assertEquals($type, $content['type']);
-//        $this->assertEquals('jetskiing', $content['name']);
-//        $this->assertEquals('123', $content['amount']);
-//        $this->assertTrue(is_array($content['starting_date']));
-//        $this->assertArrayHasKey('date', $content['starting_date']);
-//        $date = Carbon::parse($content['starting_date']['date']);
-//        $this->assertEquals('2016-01-01', $date->format('Y-m-d'));
-//    }
+    public function it_updates_a_transaction()
+    {
+        $this->logInUser();
+
+        $transaction = Transaction::forCurrentUser()->first();
+
+        $data = [
+            'date' => '2015-10-01',
+            'account_id' => 1,
+            //Todo: make type updateable
+//            'type' => 'expense',
+            'description' => 'numbat',
+            'merchant' => 'frog',
+            'total' => 10.2,
+            'reconciled' => 0,
+            'allocated' => 0,
+            'minutes' => '5',
+            //Leave this empty because there was a bug once where the budgets for a transaction wouldn't empty
+            'budgets' => []
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+
+        $content = json_decode($response->getContent(), true)['data'];
+
+        //Check all the keys are there
+        $this->assertArrayHasKey('id', $content);
+        $this->assertArrayHasKey('path', $content);
+        $this->assertArrayHasKey('date', $content);
+        $this->assertArrayHasKey('userDate', $content);
+        $this->assertArrayHasKey('type', $content);
+        $this->assertArrayHasKey('description', $content);
+        $this->assertArrayHasKey('merchant', $content);
+        $this->assertArrayHasKey('total', $content);
+        $this->assertArrayHasKey('reconciled', $content);
+        $this->assertArrayHasKey('allocated', $content);
+        $this->assertArrayHasKey('account_id', $content);
+        $this->assertArrayHasKey('account', $content);
+        $this->assertArrayHasKey('budgets', $content);
+        $this->assertArrayHasKey('multipleBudgets', $content);
+        $this->assertArrayHasKey('minutes', $content);
+
+        //Check the transaction has the right data
+        $this->assertEquals(1, $content['id']);
+        $this->assertEquals('http://localhost/api/transactions/1', $content['path']);
+        $this->assertEquals('2015-10-01', $content['date']);
+        $this->assertEquals('01/10/15', $content['userDate']);
+//        $this->assertEquals('expense', $content['type']);
+        $this->assertEquals('numbat', $content['description']);
+        $this->assertEquals('frog', $content['merchant']);
+        $this->assertEquals(10.2, $content['total']);
+        $this->assertEquals(0, $content['reconciled']);
+        $this->assertEquals(0, $content['allocated']);
+        $this->assertEquals(1, $content['account_id']);
+
+        $this->assertEquals([
+            'id' => 1,
+            'name' => 'bank account'
+        ], $content['account']);
+
+        $this->assertEquals([], $content['budgets']);
+        $this->assertEquals(false, $content['multipleBudgets']);
+        $this->assertEquals(5, $content['minutes']);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_can_update_the_budgets_for_a_transaction()
+    {
+        $this->logInUser();
+
+        $transaction = Transaction::forCurrentUser()->first();
+
+        $data = [
+            'budgets' => [
+                ['id' => 3],
+                ['id' => 4]
+            ]
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+
+        $content = json_decode($response->getContent(), true)['data'];
+
+        $this->assertEquals(4, $content['budgets'][0]['id']);
+        $this->assertEquals(3, $content['budgets'][1]['id']);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
 
     /**
      * @test
