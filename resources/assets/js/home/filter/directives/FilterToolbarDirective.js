@@ -36,6 +36,20 @@ angular.module('budgetApp')
                 $scope.nextResults = function () {
                     FilterFactory.nextResults($scope.filterTotals.numTransactions);
                 };
+
+                $scope.saveFilter = function () {
+                    var $name = prompt('Please name your filter');
+                    $rootScope.showLoading();
+                    FilterFactory.saveFilter($name)
+                        .then(function (response) {
+                            $rootScope.$emit('newSavedFilter', response.data.data);
+                            $rootScope.$broadcast('provideFeedback', 'Filter saved');
+                            $rootScope.hideLoading();
+                        })
+                        .catch(function (response) {
+                            $rootScope.responseError(response);
+                        });
+                };
             }
         }
     });

@@ -16,6 +16,7 @@ Route::group(['namespace' => 'API', 'prefix' => 'api'], function(){
     require app_path('Http/Routes/filter.php');
     require app_path('Http/Routes/users.php');
     require app_path('Http/Routes/preferences.php');
+    require app_path('Http/Routes/savedFilters.php');
 });
 
 // Not so important routes

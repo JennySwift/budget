@@ -34,6 +34,11 @@
             }
         });
 
+        $rootScope.$on('newSavedFilter', function (event, savedFilter) {
+            $scope.savedFilters.push(savedFilter);
+            $preservedSavedFilters.push(savedFilter);
+        });
+
         /**
          * I am using the id and a clone, so that the savedFilter
          * doesn't change (with actions such as next/prev button clicks)

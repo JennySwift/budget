@@ -20,6 +20,8 @@ class SavedFilter extends Model
 
     protected $casts = ['filter' => 'json'];
 
+    protected $fillable = ['name', 'filter'];
+
     /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

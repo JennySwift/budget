@@ -41,6 +41,12 @@
             Reset
         </button>
 
+        <button
+            ng-click="saveFilter()"
+                class="btn btn-xs btn-success">
+            Save filter
+        </button>
+
     </div>
 
 </script>

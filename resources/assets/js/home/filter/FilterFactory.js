@@ -65,6 +65,17 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
 
     $object.filterBasicTotals = filterBasicTotals;
 
+    $object.saveFilter = function ($name) {
+        var $url = '/api/savedFilters';
+
+        var $data = {
+            name: $name,
+            filter: this.filter
+        };
+
+        return $http.post($url, $data);
+    };
+
     $object.chooseSavedFilter = function ($savedFilter) {
         this.filter = $savedFilter;
         $rootScope.$emit('setFilterInToolbarDirective');
