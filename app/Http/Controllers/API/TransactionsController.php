@@ -132,10 +132,13 @@ class TransactionsController extends Controller
         $transaction->update($data);
         $transaction->save();
 
-        $transaction->budgets()->detach();
+        $budgets = $request->get('budgets');
+        if (isset($budgets)) {
+            $transaction->budgets()->detach();
+        }
 
-        if ($request->get('budgets')) {
-            $this->transactionsRepository->attachBudgets($transaction, $request->get('budgets'));
+        if ($budgets) {
+            $this->transactionsRepository->attachBudgets($transaction, $budgets);
         }
 
         $item = $this->createItem(

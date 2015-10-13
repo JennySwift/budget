@@ -172,6 +172,72 @@ class TransactionsTest extends TestCase {
     }
 
     /**
+     * Among other things, check the budgets are still there after reconciling
+     * a transaction. (There was a bug that removed them when a transaction was
+     * reconciled.)
+     * @test
+     * @return void
+     */
+    public function it_reconciles_a_transaction()
+    {
+        $this->logInUser();
+
+        $transaction = Transaction::forCurrentUser()->find(13);
+
+        $data = [
+            'reconciled' => 1,
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+
+        $content = json_decode($response->getContent(), true)['data'];
+
+        //Check all the keys are there
+        $this->assertArrayHasKey('id', $content);
+        $this->assertArrayHasKey('path', $content);
+        $this->assertArrayHasKey('date', $content);
+        $this->assertArrayHasKey('userDate', $content);
+        $this->assertArrayHasKey('type', $content);
+        $this->assertArrayHasKey('description', $content);
+        $this->assertArrayHasKey('merchant', $content);
+        $this->assertArrayHasKey('total', $content);
+        $this->assertArrayHasKey('reconciled', $content);
+        $this->assertArrayHasKey('allocated', $content);
+        $this->assertArrayHasKey('account_id', $content);
+        $this->assertArrayHasKey('account', $content);
+        $this->assertArrayHasKey('budgets', $content);
+        $this->assertArrayHasKey('multipleBudgets', $content);
+        $this->assertArrayHasKey('minutes', $content);
+
+        //Check the transaction has the right data
+        $this->assertEquals(13, $content['id']);
+        $this->assertEquals('http://localhost/api/transactions/13', $content['path']);
+        $this->assertEquals('2015-09-01', $content['date']);
+        $this->assertEquals('01/09/15', $content['userDate']);
+        $this->assertEquals('income', $content['type']);
+//        $this->assertEquals('numbat', $content['description']);
+//        $this->assertEquals('frog', $content['merchant']);
+        $this->assertEquals(200, $content['total']);
+        $this->assertEquals(1, $content['reconciled']);
+        $this->assertEquals(0, $content['allocated']);
+        $this->assertEquals(2, $content['account_id']);
+
+        $this->assertEquals([
+            'id' => 2,
+            'name' => 'cash'
+        ], $content['account']);
+//        dd($content['budgets']);
+
+        $this->assertEquals(2, $content['budgets'][0]['id']);
+        $this->assertCount(1, $content['budgets']);
+        $this->assertEquals(false, $content['multipleBudgets']);
+        $this->assertEquals(90, $content['minutes']);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
      * @test
      * @return void
      */
