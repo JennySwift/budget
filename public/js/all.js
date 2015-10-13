@@ -13333,21 +13333,6 @@ angular.module('budgetApp')
 }).call(this);
 
 
-angular.module('budgetApp')
-    .filter('formatDate', function ($rootScope) {
-        return function (input) {
-            if (input) {
-                if (!Date.parse(input)) {
-                    $rootScope.$broadcast('provideFeedback', 'Date is invalid', 'error');
-                    return input;
-                } else {
-                    return Date.parse(input).toString('yyyy-MM-dd');
-                }
-            }
-        }
-    });
-
-
 app.factory('AutocompleteFactory', function ($http) {
 	var $object = {};
 
@@ -13645,6 +13630,21 @@ app.factory('UsersFactory', function ($http) {
 
     };
 });
+angular.module('budgetApp')
+    .filter('formatDate', function ($rootScope) {
+        return function (input) {
+            if (input) {
+                if (!Date.parse(input)) {
+                    $rootScope.$broadcast('provideFeedback', 'Date is invalid', 'error');
+                    return input;
+                } else {
+                    return Date.parse(input).toString('yyyy-MM-dd');
+                }
+            }
+        }
+    });
+
+
 var app = angular.module('budgetApp');
 
 (function () {
@@ -14351,6 +14351,9 @@ angular.module('budgetApp')
                     $scope.filterTotals = newValue;
                 });
 
+                $rootScope.$on('setFilterInToolbarDirective', function () {
+                    $scope.filter = FilterFactory.filter;
+                });
 
                 $scope.resetFilter = function () {
                     FilterFactory.resetFilter();
@@ -14472,6 +14475,13 @@ angular.module('budgetApp')
 
         $scope.filterTab = 'show';
         $scope.filter = FilterFactory.filter;
+        $scope.savedFilters = savedFilters;
+
+        //Doing this because $scope.savedFilters was updating when I didn't want it to.
+        //If the user hit the prev or next buttons, then used the saved filter again,
+        //the saved filter was modified and not the original saved filter.
+        //I think because I set the filter ng-model to the saved filter in the filter factory.
+        var $preservedSavedFilters = angular.copy(savedFilters);
 
         $scope.runFilter = function () {
             $rootScope.$emit('runFilter');
@@ -14490,6 +14500,20 @@ angular.module('budgetApp')
                 $scope.$emit('getGraphTotals');
             }
         });
+
+        /**
+         * I am using the id and a clone, so that the savedFilter
+         * doesn't change (with actions such as next/prev button clicks)
+         * unless deliberately saved again.
+         * @param $savedFilterClone
+         */
+        $scope.chooseSavedFilter = function ($savedFilter) {
+            var $preservedSavedFilter = _.findWhere($preservedSavedFilters, {id: $savedFilter.id});
+            var $clone = angular.copy($preservedSavedFilter);
+            FilterFactory.chooseSavedFilter($clone.filter);
+            $scope.filter = FilterFactory.filter;
+            $rootScope.$emit('runFilter');
+        };
 
     }
 
@@ -14560,6 +14584,11 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
     $object.resetFilter();
 
     $object.filterBasicTotals = filterBasicTotals;
+
+    $object.chooseSavedFilter = function ($savedFilter) {
+        this.filter = $savedFilter;
+        $rootScope.$emit('setFilterInToolbarDirective');
+    };
 
     /**
      * Updates filter.display_from and filter.display_to values

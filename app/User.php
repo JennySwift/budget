@@ -79,6 +79,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function filters()
+    {
+        return $this->hasMany('App\Models\SavedFilter');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function fixedBudgets()
     {
         return $this->hasMany('App\Models\Budget')->whereType('fixed');

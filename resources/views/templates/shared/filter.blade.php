@@ -14,6 +14,13 @@
         Hide tab
     </div>
 
+    <select ng-options="savedFilter as savedFilter.name for savedFilter in savedFilters"
+            ng-model="savedFilter"
+            ng-change="chooseSavedFilter(savedFilter)"
+            class="form-control">
+
+    </select>
+
     <div class="toolbar-filter">
         <filter-toolbar-directive></filter-toolbar-directive>
     </div>

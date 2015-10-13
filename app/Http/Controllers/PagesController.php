@@ -7,6 +7,7 @@ use App\Http\Transformers\SidebarTotalTransformer;
 use App\Models\Account;
 use App\Models\FavouriteTransaction;
 use App\Models\Filter;
+use App\Models\SavedFilter;
 use App\Repositories\Budgets\BudgetsRepository;
 use App\Repositories\Transactions\FavouriteTransactionsRepository;
 use Auth, JavaScript;
@@ -56,6 +57,7 @@ class PagesController extends Controller {
             'favouriteTransactions' => $this->favouriteTransactionsRepository->index(),
             'transactions' => $filter->getTransactions(),
             'filterBasicTotals' => $filter->getBasicTotals(),
+            'savedFilters' => SavedFilter::forCurrentUser()->get(),
         ]);
 
         return view('pages/home');

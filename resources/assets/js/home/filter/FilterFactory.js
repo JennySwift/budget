@@ -65,6 +65,11 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
 
     $object.filterBasicTotals = filterBasicTotals;
 
+    $object.chooseSavedFilter = function ($savedFilter) {
+        this.filter = $savedFilter;
+        $rootScope.$emit('setFilterInToolbarDirective');
+    };
+
     /**
      * Updates filter.display_from and filter.display_to values
      */

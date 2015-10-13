@@ -14,6 +14,9 @@ angular.module('budgetApp')
                     $scope.filterTotals = newValue;
                 });
 
+                $rootScope.$on('setFilterInToolbarDirective', function () {
+                    $scope.filter = FilterFactory.filter;
+                });
 
                 $scope.resetFilter = function () {
                     FilterFactory.resetFilter();
