@@ -142,6 +142,18 @@ function removeFalseKeepZero($value)
 }
 
 /**
+ * For array_filter(), when I don't want values that are 0 to be removed,
+ * or empty strings, for example, if a transaction has a description and they
+ * remove it, changing it to an empty string.
+ * @param $value
+ * @return bool
+ */
+function removeFalseKeepZeroAndEmptyStrings($value)
+{
+    return $value || is_numeric($value) || $value === '';
+}
+
+/**
  *
  * @param $resource
  */

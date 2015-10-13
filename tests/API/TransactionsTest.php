@@ -203,6 +203,30 @@ class TransactionsTest extends TestCase {
      * @test
      * @return void
      */
+    public function it_checks_the_description_for_a_transaction_can_be_removed()
+    {
+        $this->logInUser();
+
+        $transaction = Transaction::forCurrentUser()->first();
+
+        $data = [
+            'description' => ''
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+
+        $content = json_decode($response->getContent(), true)['data'];
+
+        $this->assertEquals('', $content['description']);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
     public function it_deletes_a_transaction()
     {
         $this->logInUser();

@@ -119,7 +119,7 @@ class TransactionsController extends Controller
                 'minutes'
             ]),
             $transaction->toArray()
-        ), 'removeFalseKeepZero');
+        ), 'removeFalseKeepZeroAndEmptyStrings');
 
 //        if(empty($data)) {
 //            return $this->responseNotModified();
