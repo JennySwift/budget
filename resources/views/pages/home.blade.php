@@ -23,6 +23,8 @@
 
     </div>
 
+    <h1>Just testing</h1>
+
     @include('templates.home.main-content')
 
     {{--<script id="totals">--}}
