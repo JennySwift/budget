@@ -14752,353 +14752,6 @@ angular.module('budgetApp')
 
         }
     });
-angular.module('budgetApp')
-    .filter('formatDurationFilter', function () {
-        return function ($minutes) {
-
-            if (!$minutes) {
-                return '';
-            }
-
-            var $moment = moment.duration($minutes, 'minutes');
-            var $formattedDuration = $moment._data.hours + ':' + $moment._data.minutes;
-
-            return $formattedDuration;
-        }
-    });
-
-
-angular.module('budgetApp')
-    .filter('formatDurationToMinutesFilter', function () {
-        return function ($duration) {
-
-            return moment.duration($duration).asMinutes();
-        }
-    });
-
-
-(function () {
-
-    angular
-        .module('budgetApp')
-        .controller('TransactionsController', transactions);
-
-    function transactions ($rootScope, $scope, $filter, TransactionsFactory, FilterFactory) {
-
-        $scope.transactionsFactory = TransactionsFactory;
-        $scope.accounts = accounts_response;
-
-        $rootScope.$on('filterTransactions', function (event, filter) {
-            $scope.showLoading();
-            FilterFactory.getTransactions(FilterFactory.filter)
-                .then(function (response) {
-                    $scope.transactions = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        });
-
-        $scope.updateReconciliation = function ($transaction) {
-            $scope.clearTotalChanges();
-            $scope.showLoading();
-            TransactionsFactory.updateReconciliation($transaction)
-                .then(function (response) {
-                    $scope.$emit('getSideBarTotals');
-                    $rootScope.$emit('runFilter');
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-        $scope.updateAllocationStatus = function () {
-            $scope.showLoading();
-            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
-                .then(function (response) {
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-        $scope.updateTransactionSetup = function ($transaction) {
-            $scope.edit_transaction = $transaction;
-            //save the original total so I can calculate
-            // the difference if the total changes,
-            // so I can remove the correct amount from savings if required.
-            $scope.edit_transaction.original_total = $scope.edit_transaction.total;
-            $scope.edit_transaction.duration = $filter('formatDurationFilter')($scope.edit_transaction.minutes);
-            $scope.show.edit_transaction = true;
-        };
-
-        $scope.updateTransaction = function () {
-            $scope.clearTotalChanges();
-            $scope.showLoading();
-            TransactionsFactory.updateTransaction($scope.edit_transaction)
-                .then(function (response) {
-                    $scope.$emit('getSideBarTotals');
-                    $rootScope.$broadcast('provideFeedback', 'Transaction updated');
-
-                    //Update the transaction in the JS
-                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $scope.edit_transaction.id}));
-                    $scope.transactions[$index] = response.data.data;
-
-                    $scope.show.edit_transaction = false;
-                    $scope.totals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-        /**
-         * $scope.edit_transaction.account wasn't updating with ng-model,
-         * so I'm doing it manually.
-         */
-        //$scope.fixEditTransactionAccount = function () {
-        //    $account_id = $("#edit-transaction-account").val();
-        //
-        //    $account_match = _.find($scope.accounts, function ($account) {
-        //        return $account.id === $account_id;
-        //    });
-        //    $account_name = $account_match.name;
-        //
-        //    $scope.edit_transaction.account.id = $account_id;
-        //    $scope.edit_transaction.account.name = $account_name;
-        //};
-
-        $scope.updateAllocation = function ($keycode, $type, $value, $budget_id) {
-            if ($keycode === 13) {
-                $scope.showLoading();
-                TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
-                    .then(function (response) {
-                        $scope.allocationPopup.budgets = response.data.budgets;
-                        $scope.allocationPopup.totals = response.data.totals;
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-        };
-
-        $rootScope.$on('handleAllocationForNewTransaction', function (event, $transaction) {
-            FilterFactory.getTransactions(FilterFactory.filter)
-                .then(function (response) {
-                    $scope.hideLoading();
-                    $scope.transactions = response.data;
-                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
-                    if ($index !== -1) {
-                        //The transaction that was just entered is in the filtered transactions
-                        $scope.showAllocationPopup($scope.transactions[$index]);
-                        //$scope.transactions[$index] = $scope.allocationPopup;
-                    }
-                    else {
-                        $scope.showAllocationPopup($transaction);
-                    }
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                })
-        });
-
-        $scope.showAllocationPopup = function ($transaction) {
-            $scope.show.allocationPopup = true;
-            $scope.allocationPopup = $transaction;
-
-            $scope.showLoading();
-            TransactionsFactory.getAllocationTotals($transaction.id)
-                .then(function (response) {
-                    $scope.allocationPopup.totals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        };
-
-        $scope.deleteTransaction = function ($transaction) {
-            if (confirm("Are you sure?")) {
-                $scope.clearTotalChanges();
-                $scope.showLoading();
-                TransactionsFactory.deleteTransaction($transaction, FilterFactory.filter)
-                    .then(function (response) {
-                        jsDeleteTransaction($transaction);
-                        $scope.$emit('getSideBarTotals');
-                        //Todo: get filter totals with separate request
-                        $rootScope.$broadcast('provideFeedback', 'Transaction deleted');
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-        };
-
-        function jsDeleteTransaction ($transaction) {
-          var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
-            $scope.transactions = _.without($scope.transactions, $scope.transactions[$index]);
-        }
-
-    }
-
-})();
-app.factory('TransactionsFactory', function ($http) {
-    var $object = {};
-    $object.totals = {};
-
-    $object.insertIncomeOrExpenseTransaction = function ($newTransaction) {
-        var $url = '/api/transactions';
-
-        if ($newTransaction.type === 'expense' && $newTransaction.total > 0) {
-            //transaction is an expense without the negative sign
-            $newTransaction.total*= -1;
-        }
-
-        //Convert duration from HH:MM format to minutes
-        $newTransaction.minutes = moment.duration($newTransaction.duration).asMinutes();
-
-        return $http.post($url, $newTransaction);
-    };
-
-    $object.insertTransferTransaction = function ($newTransaction, $direction) {
-        var $url = '/api/transactions';
-        var $data = $newTransaction;
-
-        $data.direction = $direction;
-
-        if ($direction === 'from') {
-            $data.account_id = $data.from_account_id;
-        }
-        else if ($direction === 'to') {
-            $data.account_id = $data.to_account_id;
-        }
-
-        return $http.post($url, $data);
-    };
-
-    $object.updateMassTags = function ($tag_array, $url, $tag_location) {
-        var $transaction_id;
-
-        var $tag_id_array = $tag_array.map(function (el) {
-            return el.tag_id;
-        });
-
-        $tag_id_array = JSON.stringify($tag_id_array);
-
-        $(".checked").each(function () {
-            $transaction_id = $(this).closest("tbody").attr('id');
-            var $url = 'api/update/massTags';
-            var $description = 'mass edit tags';
-            var $data = {
-                description: $description,
-                transaction_id: $transaction_id,
-                tag_id_array: $tag_id_array
-            };
-
-            return $http.post($url, $data);
-        });
-    };
-
-    $object.massEditDescription = function () {
-        var $transaction_id;
-        var $description = $("#mass-edit-description-input").val();
-        var $info = {
-            transaction_id: $transaction_id,
-            description: $description
-        };
-
-        $(".checked").each(function () {
-            $transaction_id = $(this).closest("tbody").attr('id');
-
-            var $url = 'api/update/massDescription';
-            var $data = {
-                info: $info
-            };
-
-            return $http.post($url, $data);
-        });
-    };
-
-    $object.updateTransaction = function ($transaction) {
-        var $url = $transaction.path;
-
-        $transaction.date = Date.parse($("#edit-transaction-date").val()).toString('yyyy-MM-dd');
-
-        //Make sure total is negative for an expense transaction
-        if ($transaction.type === 'expense' && $transaction.total > 0) {
-            $transaction.total = $transaction.total * -1;
-        }
-
-        //Convert duration from HH:MM format to minutes
-        $transaction.minutes = moment.duration($transaction.duration).asMinutes();
-
-        return $http.put($url, $transaction);
-    };
-
-    $object.updateReconciliation = function ($transaction) {
-        var $url = $transaction.path;
-        //So the reconciled value doesn't change the checkbox for the front-end
-        var $data = {reconciled: 0};
-
-        if ($transaction.reconciled) {
-            $data.reconciled = 1;
-        }
-
-        return $http.put($url, $data);
-    };
-
-    $object.deleteTransaction = function ($transaction) {
-        var $url = $transaction.path;
-
-        return $http.delete($url);
-    };
-
-    $object.massDelete = function () {
-        $(".checked").each(function () {
-            deleteTransaction($(this));
-        });
-    };
-
-    $object.getAllocationTotals = function ($transaction_id) {
-        var $url = 'api/select/allocationTotals';
-        var $data = {
-            transaction_id: $transaction_id
-        };
-
-        return $http.post($url, $data);
-    };
-
-    $object.updateAllocation = function ($type, $value, $transaction_id, $budget_id) {
-        var $url = 'api/updateAllocation';
-        var $data = {
-            type: $type,
-            value: $value,
-            transaction_id: $transaction_id,
-            budget_id: $budget_id
-        };
-
-        return $http.post($url, $data);
-    };
-
-    $object.updateAllocationStatus = function ($transaction) {
-        var $url = $transaction.path;
-        var $data = {
-            allocated: $transaction.allocated
-        };
-
-        return $http.put($url, $data);
-    };
-
-
-    return $object;
-});
-
 (function () {
 
     angular
@@ -15485,6 +15138,353 @@ app.factory('NewTransactionFactory', function ($http) {
     }
 }).call(this);
 
+
+angular.module('budgetApp')
+    .filter('formatDurationFilter', function () {
+        return function ($minutes) {
+
+            if (!$minutes) {
+                return '';
+            }
+
+            var $moment = moment.duration($minutes, 'minutes');
+            var $formattedDuration = $moment._data.hours + ':' + $moment._data.minutes;
+
+            return $formattedDuration;
+        }
+    });
+
+
+angular.module('budgetApp')
+    .filter('formatDurationToMinutesFilter', function () {
+        return function ($duration) {
+
+            return moment.duration($duration).asMinutes();
+        }
+    });
+
+
+(function () {
+
+    angular
+        .module('budgetApp')
+        .controller('TransactionsController', transactions);
+
+    function transactions ($rootScope, $scope, $filter, TransactionsFactory, FilterFactory) {
+
+        $scope.transactionsFactory = TransactionsFactory;
+        $scope.accounts = accounts_response;
+
+        $rootScope.$on('filterTransactions', function (event, filter) {
+            $scope.showLoading();
+            FilterFactory.getTransactions(FilterFactory.filter)
+                .then(function (response) {
+                    $scope.transactions = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        });
+
+        $scope.updateReconciliation = function ($transaction) {
+            $scope.clearTotalChanges();
+            $scope.showLoading();
+            TransactionsFactory.updateReconciliation($transaction)
+                .then(function (response) {
+                    $scope.$emit('getSideBarTotals');
+                    $rootScope.$emit('runFilter');
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.updateAllocationStatus = function () {
+            $scope.showLoading();
+            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
+                .then(function (response) {
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.updateTransactionSetup = function ($transaction) {
+            $scope.edit_transaction = $transaction;
+            //save the original total so I can calculate
+            // the difference if the total changes,
+            // so I can remove the correct amount from savings if required.
+            $scope.edit_transaction.original_total = $scope.edit_transaction.total;
+            $scope.edit_transaction.duration = $filter('formatDurationFilter')($scope.edit_transaction.minutes);
+            $scope.show.edit_transaction = true;
+        };
+
+        $scope.updateTransaction = function () {
+            $scope.clearTotalChanges();
+            $scope.showLoading();
+            TransactionsFactory.updateTransaction($scope.edit_transaction)
+                .then(function (response) {
+                    $scope.$emit('getSideBarTotals');
+                    $rootScope.$broadcast('provideFeedback', 'Transaction updated');
+
+                    //Update the transaction in the JS
+                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $scope.edit_transaction.id}));
+                    $scope.transactions[$index] = response.data.data;
+
+                    $scope.show.edit_transaction = false;
+                    $scope.totals = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        /**
+         * $scope.edit_transaction.account wasn't updating with ng-model,
+         * so I'm doing it manually.
+         */
+        //$scope.fixEditTransactionAccount = function () {
+        //    $account_id = $("#edit-transaction-account").val();
+        //
+        //    $account_match = _.find($scope.accounts, function ($account) {
+        //        return $account.id === $account_id;
+        //    });
+        //    $account_name = $account_match.name;
+        //
+        //    $scope.edit_transaction.account.id = $account_id;
+        //    $scope.edit_transaction.account.name = $account_name;
+        //};
+
+        $scope.updateAllocation = function ($keycode, $type, $value, $budget_id) {
+            if ($keycode === 13) {
+                $scope.showLoading();
+                TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
+                    .then(function (response) {
+                        $scope.allocationPopup.budgets = response.data.budgets;
+                        $scope.allocationPopup.totals = response.data.totals;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            }
+        };
+
+        $rootScope.$on('handleAllocationForNewTransaction', function (event, $transaction) {
+            FilterFactory.getTransactions(FilterFactory.filter)
+                .then(function (response) {
+                    $scope.hideLoading();
+                    $scope.transactions = response.data;
+                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
+                    if ($index !== -1) {
+                        //The transaction that was just entered is in the filtered transactions
+                        $scope.showAllocationPopup($scope.transactions[$index]);
+                        //$scope.transactions[$index] = $scope.allocationPopup;
+                    }
+                    else {
+                        $scope.showAllocationPopup($transaction);
+                    }
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                })
+        });
+
+        $scope.showAllocationPopup = function ($transaction) {
+            $scope.show.allocationPopup = true;
+            $scope.allocationPopup = $transaction;
+
+            $scope.showLoading();
+            TransactionsFactory.getAllocationTotals($transaction.id)
+                .then(function (response) {
+                    $scope.allocationPopup.totals = response.data;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.deleteTransaction = function ($transaction) {
+            if (confirm("Are you sure?")) {
+                $scope.clearTotalChanges();
+                $scope.showLoading();
+                TransactionsFactory.deleteTransaction($transaction, FilterFactory.filter)
+                    .then(function (response) {
+                        jsDeleteTransaction($transaction);
+                        $scope.$emit('getSideBarTotals');
+                        //Todo: get filter totals with separate request
+                        $rootScope.$broadcast('provideFeedback', 'Transaction deleted');
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            }
+        };
+
+        function jsDeleteTransaction ($transaction) {
+          var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
+            $scope.transactions = _.without($scope.transactions, $scope.transactions[$index]);
+        }
+
+    }
+
+})();
+app.factory('TransactionsFactory', function ($http) {
+    var $object = {};
+    $object.totals = {};
+
+    $object.insertIncomeOrExpenseTransaction = function ($newTransaction) {
+        var $url = '/api/transactions';
+
+        if ($newTransaction.type === 'expense' && $newTransaction.total > 0) {
+            //transaction is an expense without the negative sign
+            $newTransaction.total*= -1;
+        }
+
+        //Convert duration from HH:MM format to minutes
+        $newTransaction.minutes = moment.duration($newTransaction.duration).asMinutes();
+
+        return $http.post($url, $newTransaction);
+    };
+
+    $object.insertTransferTransaction = function ($newTransaction, $direction) {
+        var $url = '/api/transactions';
+        var $data = $newTransaction;
+
+        $data.direction = $direction;
+
+        if ($direction === 'from') {
+            $data.account_id = $data.from_account_id;
+        }
+        else if ($direction === 'to') {
+            $data.account_id = $data.to_account_id;
+        }
+
+        return $http.post($url, $data);
+    };
+
+    $object.updateMassTags = function ($tag_array, $url, $tag_location) {
+        var $transaction_id;
+
+        var $tag_id_array = $tag_array.map(function (el) {
+            return el.tag_id;
+        });
+
+        $tag_id_array = JSON.stringify($tag_id_array);
+
+        $(".checked").each(function () {
+            $transaction_id = $(this).closest("tbody").attr('id');
+            var $url = 'api/update/massTags';
+            var $description = 'mass edit tags';
+            var $data = {
+                description: $description,
+                transaction_id: $transaction_id,
+                tag_id_array: $tag_id_array
+            };
+
+            return $http.post($url, $data);
+        });
+    };
+
+    $object.massEditDescription = function () {
+        var $transaction_id;
+        var $description = $("#mass-edit-description-input").val();
+        var $info = {
+            transaction_id: $transaction_id,
+            description: $description
+        };
+
+        $(".checked").each(function () {
+            $transaction_id = $(this).closest("tbody").attr('id');
+
+            var $url = 'api/update/massDescription';
+            var $data = {
+                info: $info
+            };
+
+            return $http.post($url, $data);
+        });
+    };
+
+    $object.updateTransaction = function ($transaction) {
+        var $url = $transaction.path;
+
+        $transaction.date = Date.parse($("#edit-transaction-date").val()).toString('yyyy-MM-dd');
+
+        //Make sure total is negative for an expense transaction
+        if ($transaction.type === 'expense' && $transaction.total > 0) {
+            $transaction.total = $transaction.total * -1;
+        }
+
+        //Convert duration from HH:MM format to minutes
+        $transaction.minutes = moment.duration($transaction.duration).asMinutes();
+
+        return $http.put($url, $transaction);
+    };
+
+    $object.updateReconciliation = function ($transaction) {
+        var $url = $transaction.path;
+        //So the reconciled value doesn't change the checkbox for the front-end
+        var $data = {reconciled: 0};
+
+        if ($transaction.reconciled) {
+            $data.reconciled = 1;
+        }
+
+        return $http.put($url, $data);
+    };
+
+    $object.deleteTransaction = function ($transaction) {
+        var $url = $transaction.path;
+
+        return $http.delete($url);
+    };
+
+    $object.massDelete = function () {
+        $(".checked").each(function () {
+            deleteTransaction($(this));
+        });
+    };
+
+    $object.getAllocationTotals = function ($transaction_id) {
+        var $url = 'api/select/allocationTotals';
+        var $data = {
+            transaction_id: $transaction_id
+        };
+
+        return $http.post($url, $data);
+    };
+
+    $object.updateAllocation = function ($type, $value, $transaction_id, $budget_id) {
+        var $url = 'api/updateAllocation';
+        var $data = {
+            type: $type,
+            value: $value,
+            transaction_id: $transaction_id,
+            budget_id: $budget_id
+        };
+
+        return $http.post($url, $data);
+    };
+
+    $object.updateAllocationStatus = function ($transaction) {
+        var $url = $transaction.path;
+        var $data = {
+            allocated: $transaction.allocated
+        };
+
+        return $http.put($url, $data);
+    };
+
+
+    return $object;
+});
 
 (function () {
 
