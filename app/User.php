@@ -61,9 +61,27 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function favouriteTransactions()
+    {
+        return $this->hasMany('App\Models\FavouriteTransaction');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function accounts()
     {
         return $this->hasMany('App\Models\Account');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function filters()
+    {
+        return $this->hasMany('App\Models\SavedFilter');
     }
 
     /**

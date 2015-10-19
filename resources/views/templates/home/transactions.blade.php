@@ -41,6 +41,10 @@
 
             <td ng-show="show.account" class="max-width-md">[[transaction.account.name]]</td>
 
+            <td ng-show="show.duration">
+                <span ng-if="transaction.minutes">[[transaction.minutes | formatDurationFilter]]</span>
+            </td>
+
             <td ng-show="show.reconciled">
                 <input ng-model="transaction.reconciled" ng-change="updateReconciliation(transaction)" type="checkbox">
             </td>
@@ -53,7 +57,7 @@
                 <button ng-click="updateTransactionSetup(transaction)" class="fa fa-pencil-square-o"></button>
             </td>
 
-            <td>
+            <td ng-show="show.allocated">
                 <button
                     ng-if="transaction.multipleBudgets"
                     ng-class="{'allocated, btn-success': transaction.allocated, 'not-allocated, btn-danger': !transaction.allocated}"

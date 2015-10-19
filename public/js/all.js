@@ -13180,6 +13180,167 @@ app.factory('AutocompleteFactory', function ($http) {
 	};
 	return $object;
 });
+app.factory('ErrorsFactory', function ($q) {
+    return {
+
+        responseError: function (response) {
+
+            if(typeof response !== "undefined") {
+                var $message;
+
+                switch(response.status) {
+                    case 503:
+                        $message = 'Sorry, application under construction. Please try again later.';
+                        break;
+                    case 401:
+                        $message = 'You are not logged in';
+                        break;
+                    case 422:
+                        var html = "<ul>";
+                        angular.forEach(response.data, function(value, key) {
+                            var fieldName = key;
+                            angular.forEach(value, function(value) {
+                                html += '<li>'+value+'</li>';
+                            });
+                        });
+                        html += "</ul>";
+                        $message = html;
+                        break;
+                    default:
+                        $message = response.data.error;
+                        break;
+                }
+            }
+            else {
+                $message = 'There was an error';
+            }
+
+            return $message;
+
+            //return $q.reject(rejection);
+        }
+
+    };
+});
+app.factory('SavingsFactory', function ($http) {
+	return {
+		updateSavingsTotal: function () {
+			var $amount = $("#edited-savings-total").val().replace(',', '');
+			var $url = '/api/savings/set';
+			var $data = {
+				amount: $amount
+			};
+			
+			return $http.put($url, $data);
+		},
+		addFixedToSavings: function () {
+			var $amount_to_add = $("#add-fixed-to-savings").val();
+			var $url = '/api/savings/increase';
+			var $data = {
+				amount: $amount_to_add
+			};
+			$("#add-fixed-to-savings").val("");
+			
+			return $http.put($url, $data);
+		},
+		addPercentageToSavings: function () {
+			var $percentage_of_RB = $("#add-percentage-to-savings").val();
+			var $url = '/api/savings/increase';
+			var $data = {
+				amount: $percentage_of_RB,
+			};
+			$("#add-percentage-to-savings").val("");
+			
+			return $http.put($url, $data);
+		}
+	};
+});
+app.factory('ShowFactory', function () {
+    return {
+        defaults: {
+            newBudget: false,
+            popups: {},
+            allocationPopup: false,
+            actions: false,
+            status: false,
+            date: true,
+            description: true,
+            merchant: true,
+            total: true,
+            type: true,
+            account: true,
+            duration: true,
+            reconciled: true,
+            allocated: true,
+            tags: true,
+            dlt: true,
+            //components
+            new_transaction: false,
+            basic_totals: true,
+            budget_totals: true,
+            filter_totals: true,
+            edit_transaction: false,
+            edit_tag: false,
+            budget: false,
+            filter: false,
+            autocomplete: {
+                description: false,
+                merchant: false
+            },
+            savings_total: {
+                input: false,
+                edit_btn: true
+            }
+
+        }
+
+    };
+});
+app.factory('TotalsFactory', function ($http) {
+    return {
+
+        /**
+         * Get all the totals
+         * @returns {*}
+         */
+        getTotals: function () {
+            var $url = '/api/totals';
+
+            return $http.get($url);
+        },
+        getSideBarTotals: function () {
+            var $url = '/api/totals/sidebar';
+
+            return $http.get($url);
+        },
+        getFixedBudgetTotals: function () {
+            var $url = '/api/totals/fixedBudget';
+
+            return $http.get($url);
+        },
+        getFlexBudgetTotals: function () {
+            var $url = '/api/totals/flexBudget';
+
+            return $http.get($url);
+        },
+        getUnassignedBudgetTotals: function () {
+            var $url = '/api/totals/unassignedBudget';
+
+            return $http.get($url);
+        }
+
+    };
+});
+app.factory('UsersFactory', function ($http) {
+    return {
+        deleteAccount: function ($user) {
+            var $url = $user.path;
+
+            return $http.delete($url);
+        }
+
+    };
+});
 ;(function(){
     'use strict';
     angular
@@ -13288,48 +13449,6 @@ app.factory('AutocompleteFactory', function ($http) {
 }).call(this);
 
 
-app.factory('ErrorsFactory', function ($q) {
-    return {
-
-        responseError: function (response) {
-
-            if(typeof response !== "undefined") {
-                var $message;
-
-                switch(response.status) {
-                    case 503:
-                        $message = 'Sorry, application under construction. Please try again later.';
-                        break;
-                    case 401:
-                        $message = 'You are not logged in';
-                        break;
-                    case 422:
-                        var html = "<ul>";
-                        angular.forEach(response.data, function(value, key) {
-                            var fieldName = key;
-                            angular.forEach(value, function(value) {
-                                html += '<li>'+value+'</li>';
-                            });
-                        });
-                        html += "</ul>";
-                        $message = html;
-                        break;
-                    default:
-                        $message = response.data.error;
-                        break;
-                }
-            }
-            else {
-                $message = 'There was an error';
-            }
-
-            return $message;
-
-            //return $q.reject(rejection);
-        }
-
-    };
-});
 angular.module('budgetApp')
     .directive('feedbackDirective', function ($sce, $timeout) {
         return {
@@ -13356,92 +13475,47 @@ angular.module('budgetApp')
 
 
 angular.module('budgetApp')
-    .filter('formatDate', function ($rootScope) {
-        return function (input) {
-            if (input) {
-                if (!Date.parse(input)) {
-                    $rootScope.$broadcast('provideFeedback', 'Date is invalid', 'error');
-                    return input;
-                } else {
-                    return Date.parse(input).toString('yyyy-MM-dd');
-                }
+    .directive('formattedDate', function ($filter) {
+        return {
+            restrict: 'A',
+            require: '?ngModel',
+            link: function (scope, element, attrs, ngModel) {
+
+                element.on('keyup', function (event) {
+                    if (event.keyCode !== 13) {
+                        return false;
+                    }
+                    if (Date.parse(ngModel.$viewValue)) {
+                        ngModel.$modelValue = $filter('formatDate')(ngModel.$viewValue);
+                        ngModel.$render();
+                    }
+                });
+
             }
-        }
+        };
     });
 
 
-app.factory('SavingsFactory', function ($http) {
-	return {
-		updateSavingsTotal: function () {
-			var $amount = $("#edited-savings-total").val().replace(',', '');
-			var $url = '/api/savings/set';
-			var $data = {
-				amount: $amount
-			};
-			
-			return $http.put($url, $data);
-		},
-		addFixedToSavings: function () {
-			var $amount_to_add = $("#add-fixed-to-savings").val();
-			var $url = '/api/savings/increase';
-			var $data = {
-				amount: $amount_to_add
-			};
-			$("#add-fixed-to-savings").val("");
-			
-			return $http.put($url, $data);
-		},
-		addPercentageToSavings: function () {
-			var $percentage_of_RB = $("#add-percentage-to-savings").val();
-			var $url = '/api/savings/increase';
-			var $data = {
-				amount: $percentage_of_RB,
-			};
-			$("#add-percentage-to-savings").val("");
-			
-			return $http.put($url, $data);
-		}
-	};
-});
-app.factory('ShowFactory', function () {
-    return {
-        defaults: {
-            newBudget: false,
-            popups: {},
-            allocationPopup: false,
-            actions: false,
-            status: false,
-            date: true,
-            description: true,
-            merchant: true,
-            total: true,
-            type: true,
-            account: true,
-            reconciled: true,
-            tags: true,
-            dlt: true,
-            //components
-            new_transaction: false,
-            basic_totals: true,
-            budget_totals: true,
-            filter_totals: true,
-            edit_transaction: false,
-            edit_tag: false,
-            budget: false,
-            filter: false,
-            autocomplete: {
-                description: false,
-                merchant: false
-            },
-            savings_total: {
-                input: false,
-                edit_btn: true
+angular.module('budgetApp')
+    .directive('formattedDurationDirective', function ($filter) {
+        return {
+            restrict: 'A',
+            require: '?ngModel',
+            link: function (scope, element, attrs, ngModel) {
+
+                function formatDuration(input) {
+                    return $filter('formatDurationToMinutesFilter')(input);
+                }
+                ngModel.$parsers.push(formatDuration);
+
             }
+        };
 
-        }
+    });
 
-    };
-});
+
+
+
 ;(function(){
     'use strict';
     angular
@@ -13559,51 +13633,21 @@ app.factory('ShowFactory', function () {
 }).call(this);
 
 
-app.factory('TotalsFactory', function ($http) {
-    return {
-
-        /**
-         * Get all the totals
-         * @returns {*}
-         */
-        getTotals: function () {
-            var $url = '/api/totals';
-
-            return $http.get($url);
-        },
-        getSideBarTotals: function () {
-            var $url = '/api/totals/sidebar';
-
-            return $http.get($url);
-        },
-        getFixedBudgetTotals: function () {
-            var $url = '/api/totals/fixedBudget';
-
-            return $http.get($url);
-        },
-        getFlexBudgetTotals: function () {
-            var $url = '/api/totals/flexBudget';
-
-            return $http.get($url);
-        },
-        getUnassignedBudgetTotals: function () {
-            var $url = '/api/totals/unassignedBudget';
-
-            return $http.get($url);
+angular.module('budgetApp')
+    .filter('formatDate', function ($rootScope) {
+        return function (input) {
+            if (input) {
+                if (!Date.parse(input)) {
+                    $rootScope.$broadcast('provideFeedback', 'Date is invalid', 'error');
+                    return input;
+                } else {
+                    return Date.parse(input).toString('yyyy-MM-dd');
+                }
+            }
         }
+    });
 
-    };
-});
-app.factory('UsersFactory', function ($http) {
-    return {
-        deleteAccount: function ($user) {
-            var $url = $user.path;
 
-            return $http.delete($url);
-        }
-
-    };
-});
 var app = angular.module('budgetApp');
 
 (function () {
@@ -13699,6 +13743,68 @@ app.factory('AccountsFactory', function ($http) {
 
     };
 });
+var app = angular.module('budgetApp');
+
+(function () {
+
+    app.controller('FavouriteTransactionsController', function ($rootScope, $scope, FavouriteTransactionsFactory) {
+
+        $scope.favouriteTransactions = favouriteTransactions;
+        $scope.accounts = accounts;
+        $scope.budgets = budgets;
+        $scope.newFavourite = {
+          budgets: []
+        };
+
+        $scope.insertFavouriteTransaction = function () {
+            $scope.showLoading();
+            FavouriteTransactionsFactory.insert($scope.newFavourite)
+                .then(function (response) {
+                    $scope.favouriteTransactions.push(response.data.data);
+                    $rootScope.$broadcast('provideFeedback', 'Favourite added');
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        };
+
+        $scope.deleteFavouriteTransaction = function ($favourite) {
+            if (confirm("Are you sure?")) {
+                $scope.showLoading();
+                FavouriteTransactionsFactory.destroy($favourite)
+                    .then(function (response) {
+                        $scope.favouriteTransactions = _.without($scope.favouriteTransactions, $favourite);
+                        $rootScope.$broadcast('provideFeedback', 'Favourite deleted');
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            }
+
+        };
+
+    });
+
+})();
+angular.module('budgetApp')
+    .factory('FavouriteTransactionsFactory', function ($http) {
+        return {
+            insert: function ($newFavourite) {
+                var $url = '/api/favouriteTransactions';
+
+                $newFavourite.budget_ids = _.pluck($newFavourite.budgets, 'id');
+
+                return $http.post($url, $newFavourite);
+            },
+            destroy: function ($favourite) {
+                var $url = '/api/favouriteTransactions/' + $favourite.id;
+
+                return $http.delete($url);
+            }
+        }
+    });
 (function () {
 
     angular
@@ -13987,38 +14093,6 @@ angular.module('budgetApp')
         }
     });
 
-(function () {
-
-    angular
-        .module('budgetApp')
-        .controller('FilterController', filter);
-
-    function filter ($rootScope, $scope, FilterFactory) {
-
-        $scope.filterTab = 'show';
-        $scope.filter = FilterFactory.filter;
-
-        $scope.runFilter = function () {
-            $rootScope.$emit('runFilter');
-        };
-
-        $rootScope.$on('resetFilterInFilterController', function () {
-            $scope.filter = FilterFactory.filter;
-        });
-
-        $rootScope.$on('runFilter', function (event, data) {
-            $rootScope.$emit('getFilterBasicTotals');
-            if ($scope.tab === 'transactions') {
-                $scope.$emit('filterTransactions', $scope.filter);
-            }
-            else {
-                $scope.$emit('getGraphTotals');
-            }
-        });
-
-    }
-
-})();
 angular.module('budgetApp')
     .directive('filterDateDirective', function ($rootScope) {
         return {
@@ -14141,199 +14215,6 @@ angular.module('budgetApp')
 }).call(this);
 
 
-app.factory('FilterFactory', function ($http, $rootScope, $filter) {
-    var $object = {};
-
-    $object.resetFilter = function () {
-        $object.filter = {
-
-            total: {
-                in: "",
-                out: ""
-            },
-            types: {
-                in: [],
-                out: []
-            },
-            accounts: {
-                in: [],
-                out: []
-            },
-            single_date: {
-                in: '',
-                out: ''
-            },
-            from_date: {
-                in: '',
-                out: ''
-            },
-            to_date: {
-                in: '',
-                out: ''
-            },
-            description: {
-                in: "",
-                out: ""
-            },
-            merchant: {
-                in: "",
-                out: ""
-            },
-            budgets: {
-                in: {
-                    and: [],
-                    or: []
-                },
-                out: []
-            },
-            numBudgets: {
-                in: "all",
-                out: ""
-            },
-            reconciled: "any",
-            offset: 0,
-            num_to_fetch: 30,
-            display_from: 1,
-            display_to: 30
-        };
-
-        this.filter = $object.filter;
-
-        $rootScope.$emit('resetFilterInFilterController');
-
-        return $object.filter;
-    };
-
-    $object.resetFilter();
-
-    $object.filterBasicTotals = filterBasicTotals;
-
-    /**
-     * Updates filter.display_from and filter.display_to values
-     */
-    $object.updateRange = function ($numToFetch) {
-        if ($numToFetch) {
-            this.filter.num_to_fetch = $numToFetch;
-        }
-
-        this.filter.display_from = this.filter.offset + 1;
-        this.filter.display_to = this.filter.offset + (this.filter.num_to_fetch * 1);
-    };
-
-    //Todo: I might not need some of this code (not allowing offset to be less than 0)
-    // todo: since I disabled the button if that is the case
-    $object.prevResults = function () {
-        //make it so the offset cannot be less than 0.
-        if (this.filter.offset - this.filter.num_to_fetch < 0) {
-            this.filter.offset = 0;
-        }
-        else {
-            this.filter.offset-= (this.filter.num_to_fetch * 1);
-            this.updateRange();
-            $rootScope.$emit('runFilter');
-        }
-    };
-
-    $object.nextResults = function ($filterTotals) {
-        if (this.filter.offset + (this.filter.num_to_fetch * 1) > $filterTotals.numTransactions) {
-            //stop it going past the end.
-            return;
-        }
-
-        this.filter.offset+= (this.filter.num_to_fetch * 1);
-        this.updateRange();
-        $rootScope.$emit('runFilter');
-    };
-
-    $object.formatDates = function () {
-        if (this.filter.single_date.in) {
-            this.filter.single_date.in = $filter('formatDate')(this.filter.single_date.in);
-        }
-        else {
-            this.filter.single_date.in = "";
-        }
-        if (this.filter.single_date.out) {
-            this.filter.single_date.out = $filter('formatDate')(this.filter.single_date.out);
-        }
-        else {
-            this.filter.single_date.out = "";
-        }
-        if (this.filter.from_date.in) {
-            this.filter.from_date.in = $filter('formatDate')(this.filter.from_date.in);
-        }
-        else {
-            this.filter.from_date.in = "";
-        }
-        if (this.filter.from_date.out) {
-            this.filter.from_date.out = $filter('formatDate')(this.filter.from_date.out);
-        }
-        else {
-            this.filter.from_date.out.sql = "";
-        }
-        if (this.filter.to_date.in) {
-            this.filter.to_date.in = $filter('formatDate')(this.filter.to_date.in);
-        }
-        else {
-            this.filter.to_date.in = "";
-        }
-        if (this.filter.to_date.out) {
-            this.filter.to_date.out = $filter('formatDate')(this.filter.to_date.out);
-        }
-        else {
-            this.filter.to_date.out = "";
-        }
-
-        return this.filter;
-    };
-
-    $object.getTransactions = function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/transactions';
-
-        return $http.post($url, {'filter': $object.filter});
-    };
-
-    $object.getBasicTotals = function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/basicTotals';
-
-        return $http.post($url, {'filter': $object.filter});
-    };
-
-    $object.getGraphTotals = function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/graphTotals';
-
-        return $http.post($url, {'filter': $object.filter});
-    };
-
-    $object.calculateGraphFigures = function ($graphTotals) {
-        var $graphFigures = {
-            months: []
-        };
-
-        $($graphTotals.monthsTotals).each(function () {
-            var $expenses = this.expenses * -1;
-            var $max = $graphTotals.maxTotal;
-            var $num = 500 / $max;
-
-            $graphFigures.months.push({
-                incomeHeight: this.income * $num,
-                expensesHeight: $expenses * $num,
-                income: this.income,
-                expenses: this.expenses,
-                month: this.month
-            });
-        });
-
-        return $graphFigures;
-    };
-
-    return $object;
-});
 angular.module('budgetApp')
     .directive('graphsDirective', function ($rootScope, FilterFactory) {
         return {
@@ -14473,6 +14354,9 @@ angular.module('budgetApp')
                     $scope.filterTotals = newValue;
                 });
 
+                $rootScope.$on('setFilterInToolbarDirective', function () {
+                    $scope.filter = FilterFactory.filter;
+                });
 
                 $scope.resetFilter = function () {
                     FilterFactory.resetFilter();
@@ -14491,6 +14375,20 @@ angular.module('budgetApp')
 
                 $scope.nextResults = function () {
                     FilterFactory.nextResults($scope.filterTotals.numTransactions);
+                };
+
+                $scope.saveFilter = function () {
+                    var $name = prompt('Please name your filter');
+                    $rootScope.showLoading();
+                    FilterFactory.saveFilter($name)
+                        .then(function (response) {
+                            $rootScope.$emit('newSavedFilter', response.data.data);
+                            $rootScope.$broadcast('provideFeedback', 'Filter saved');
+                            $rootScope.hideLoading();
+                        })
+                        .catch(function (response) {
+                            $rootScope.responseError(response);
+                        });
                 };
             }
         }
@@ -14588,54 +14486,275 @@ angular.module('budgetApp')
 
     angular
         .module('budgetApp')
-        .controller('HomeController', home);
+        .controller('FilterController', filter);
 
-    function home ($rootScope, $scope, TransactionsFactory, FilterFactory) {
+    function filter ($rootScope, $scope, FilterFactory) {
 
-        $scope.transactionsFactory = TransactionsFactory;
-        $scope.page = 'home';
-        $scope.budgets = budgets;
-        $scope.colors = me.preferences.colors;
+        $scope.filterTab = 'show';
+        $scope.filter = FilterFactory.filter;
+        $scope.savedFilters = savedFilters;
 
+        //Doing this because $scope.savedFilters was updating when I didn't want it to.
+        //If the user hit the prev or next buttons, then used the saved filter again,
+        //the saved filter was modified and not the original saved filter.
+        //I think because I set the filter ng-model to the saved filter in the filter factory.
+        var $preservedSavedFilters = angular.copy(savedFilters);
 
-        if (env === 'local') {
-            $scope.tab = 'transactions';
-        }
-        else {
-            $scope.tab = 'transactions';
-        }
-
-        $scope.toggleFilter = function () {
-            $scope.show.filter = !$scope.show.filter;
-        };
-
-        //Putting this here so that transactions update
-        //after inserting transaction from newTransactionController
-        $scope.transactions = transactions;
-
-        $scope.transactionsTab = function () {
-            $scope.tab = 'transactions';
-            $scope.show.basic_totals = true;
-            $scope.show.budget_totals = true;
-            $scope.show.filter = false;
+        $scope.runFilter = function () {
             $rootScope.$emit('runFilter');
         };
 
-        $scope.graphsTab = function () {
-            $scope.tab = 'graphs';
-            $scope.show.basic_totals = false;
-            $scope.show.budget_totals = false;
-            $scope.show.filter = true;
+        $rootScope.$on('resetFilterInFilterController', function () {
+            $scope.filter = FilterFactory.filter;
+        });
+
+        $rootScope.$on('runFilter', function (event, data) {
+            $rootScope.$emit('getFilterBasicTotals');
+            if ($scope.tab === 'transactions') {
+                $scope.$emit('filterTransactions', $scope.filter);
+            }
+            else {
+                $scope.$emit('getGraphTotals');
+            }
+        });
+
+        $rootScope.$on('newSavedFilter', function (event, savedFilter) {
+            $scope.savedFilters.push(savedFilter);
+            $preservedSavedFilters.push(savedFilter);
+        });
+
+        /**
+         * I am using the id and a clone, so that the savedFilter
+         * doesn't change (with actions such as next/prev button clicks)
+         * unless deliberately saved again.
+         * @param $savedFilterClone
+         */
+        $scope.chooseSavedFilter = function ($savedFilter) {
+            var $preservedSavedFilter = _.findWhere($preservedSavedFilters, {id: $savedFilter.id});
+            var $clone = angular.copy($preservedSavedFilter);
+            FilterFactory.chooseSavedFilter($clone.filter);
+            $scope.filter = FilterFactory.filter;
             $rootScope.$emit('runFilter');
         };
-
-        if ($scope.tab === 'graphs') {
-            $scope.graphsTab();
-        }
 
     }
 
 })();
+app.factory('FilterFactory', function ($http, $rootScope, $filter) {
+    var $object = {};
+
+    $object.resetFilter = function () {
+        $object.filter = {
+
+            total: {
+                in: "",
+                out: ""
+            },
+            types: {
+                in: [],
+                out: []
+            },
+            accounts: {
+                in: [],
+                out: []
+            },
+            single_date: {
+                in: '',
+                out: ''
+            },
+            from_date: {
+                in: '',
+                out: ''
+            },
+            to_date: {
+                in: '',
+                out: ''
+            },
+            description: {
+                in: "",
+                out: ""
+            },
+            merchant: {
+                in: "",
+                out: ""
+            },
+            budgets: {
+                in: {
+                    and: [],
+                    or: []
+                },
+                out: []
+            },
+            numBudgets: {
+                in: "all",
+                out: ""
+            },
+            reconciled: "any",
+            offset: 0,
+            num_to_fetch: 30,
+            display_from: 1,
+            display_to: 30
+        };
+
+        this.filter = $object.filter;
+
+        $rootScope.$emit('resetFilterInFilterController');
+
+        return $object.filter;
+    };
+
+    $object.resetFilter();
+
+    $object.filterBasicTotals = filterBasicTotals;
+
+    $object.saveFilter = function ($name) {
+        var $url = '/api/savedFilters';
+
+        var $data = {
+            name: $name,
+            filter: this.filter
+        };
+
+        return $http.post($url, $data);
+    };
+
+    $object.chooseSavedFilter = function ($savedFilter) {
+        this.filter = $savedFilter;
+        $rootScope.$emit('setFilterInToolbarDirective');
+    };
+
+    /**
+     * Updates filter.display_from and filter.display_to values
+     */
+    $object.updateRange = function ($numToFetch) {
+        if ($numToFetch) {
+            this.filter.num_to_fetch = $numToFetch;
+        }
+
+        this.filter.display_from = this.filter.offset + 1;
+        this.filter.display_to = this.filter.offset + (this.filter.num_to_fetch * 1);
+    };
+
+    //Todo: I might not need some of this code (not allowing offset to be less than 0)
+    // todo: since I disabled the button if that is the case
+    $object.prevResults = function () {
+        //make it so the offset cannot be less than 0.
+        if (this.filter.offset - this.filter.num_to_fetch < 0) {
+            this.filter.offset = 0;
+        }
+        else {
+            this.filter.offset-= (this.filter.num_to_fetch * 1);
+            this.updateRange();
+            $rootScope.$emit('runFilter');
+        }
+    };
+
+    $object.nextResults = function ($filterTotals) {
+        if (this.filter.offset + (this.filter.num_to_fetch * 1) > $filterTotals.numTransactions) {
+            //stop it going past the end.
+            return;
+        }
+
+        this.filter.offset+= (this.filter.num_to_fetch * 1);
+        this.updateRange();
+        $rootScope.$emit('runFilter');
+    };
+
+    $object.formatDates = function () {
+        if (this.filter.single_date.in) {
+            this.filter.single_date.inSql = $filter('formatDate')(this.filter.single_date.in);
+        }
+        else {
+            this.filter.single_date.inSql = "";
+        }
+        if (this.filter.single_date.out) {
+            this.filter.single_date.outSql = $filter('formatDate')(this.filter.single_date.out);
+        }
+        else {
+            this.filter.single_date.outSql = "";
+        }
+        if (this.filter.from_date.in) {
+            this.filter.from_date.inSql = $filter('formatDate')(this.filter.from_date.in);
+        }
+        else {
+            this.filter.from_date.inSql = "";
+        }
+        if (this.filter.from_date.out) {
+            this.filter.from_date.outSql = $filter('formatDate')(this.filter.from_date.out);
+        }
+        else {
+            this.filter.from_date.outSql = "";
+        }
+        if (this.filter.to_date.in) {
+            this.filter.to_date.inSql = $filter('formatDate')(this.filter.to_date.in);
+        }
+        else {
+            this.filter.to_date.inSql = "";
+        }
+        if (this.filter.to_date.out) {
+            this.filter.to_date.outSql = $filter('formatDate')(this.filter.to_date.out);
+        }
+        else {
+            this.filter.to_date.outSql = "";
+        }
+
+        return this.filter;
+    };
+
+    $object.getTransactions = function () {
+        $object.filter = $object.formatDates($object.filter);
+
+        var $url = 'api/filter/transactions';
+
+        return $http.post($url, {'filter': $object.filter});
+    };
+
+    $object.getBasicTotals = function () {
+        $object.filter = $object.formatDates($object.filter);
+
+        var $url = 'api/filter/basicTotals';
+
+        return $http.post($url, {'filter': $object.filter});
+    };
+
+    $object.getGraphTotals = function () {
+        $object.filter = $object.formatDates($object.filter);
+
+        var $url = 'api/filter/graphTotals';
+
+        return $http.post($url, {'filter': $object.filter});
+    };
+
+    $object.calculateGraphFigures = function ($graphTotals) {
+        var $graphFigures = {
+            months: []
+        };
+
+        $($graphTotals.monthsTotals).each(function () {
+            var $expenses = this.debit * -1;
+            var $max = $graphTotals.maxTotal;
+            var $num = 500 / $max;
+
+            $graphFigures.months.push({
+                incomeHeight: this.credit * $num,
+                expensesHeight: $expenses * $num,
+                income: this.credit,
+                expenses: this.debit,
+                month: this.month
+            });
+        });
+
+        return $graphFigures;
+    };
+
+    return $object;
+});
+angular.module('budgetApp')
+    .factory('SavedFiltersFactory', function ($http) {
+        return {
+
+        }
+    });
 (function () {
 
     angular
@@ -14647,11 +14766,21 @@ angular.module('budgetApp')
         $scope.dropdown = {};
         $scope.types = ["income", "expense", "transfer"];
         $scope.accounts = accounts_response;
+        $scope.favouriteTransactions = favouriteTransactions;
         $scope.new_transaction = NewTransactionFactory.getDefaults(env, $scope.accounts);
 
         function clearNewTransactionFields () {
             $scope.new_transaction = NewTransactionFactory.clearFields(env, me, $scope.new_transaction);
         }
+
+        $scope.fillFields = function () {
+            $scope.new_transaction.description = $scope.selectedFavouriteTransaction.description;
+            $scope.new_transaction.merchant = $scope.selectedFavouriteTransaction.merchant;
+            $scope.new_transaction.total = $scope.selectedFavouriteTransaction.total;
+            $scope.new_transaction.type = $scope.selectedFavouriteTransaction.type;
+            $scope.new_transaction.account_id = $scope.selectedFavouriteTransaction.account.id;
+            $scope.new_transaction.budgets = $scope.selectedFavouriteTransaction.budgets;
+        };
 
         /**
          * Return true if there are errors.
@@ -14766,17 +14895,18 @@ app.factory('NewTransactionFactory', function ($http) {
             $defaults.date.entered = 'today';
             $defaults.merchant = 'some merchant';
             $defaults.description = 'some description';
+            $defaults.duration = '';
             $defaults.budgets = [
                 {
                     id: '2',
                     name: 'business',
                     type: 'fixed'
                 },
-                {
-                    id: '4',
-                    name: 'busking',
-                    type: 'flex'
-                }
+                //{
+                //    id: '4',
+                //    name: 'busking',
+                //    type: 'flex'
+                //}
             ];
         }
 
@@ -14790,11 +14920,8 @@ app.factory('NewTransactionFactory', function ($http) {
     };
 
     $object.clearFields = function (env, me, $newTransaction) {
-        if (env !== 'local') {
-            $newTransaction.budgets = [];
-        }
-
         if (me.preferences.clearFields) {
+            $newTransaction.budgets = [];
             $newTransaction.total = '';
             $newTransaction.description = '';
             $newTransaction.merchant = '';
@@ -14831,6 +14958,242 @@ app.factory('NewTransactionFactory', function ($http) {
 
     return $object;
 });
+;(function(){
+    'use strict';
+    angular
+        .module('budgetApp')
+        .directive('transactionAutocompleteDirective', transactionAutocomplete);
+
+    function transactionAutocomplete(AutocompleteFactory, $sce, $http, $interval) {
+        return {
+            restrict: 'EA',
+            scope: {
+                "dropdown": "=dropdown",
+                "placeholder": "@placeholder",
+                "typing": "=typing",
+                "new_transaction": "=newtransaction",
+                "fnOnEnter": "&fnonenter",
+                "showLoading": "&showloading",
+                "hideLoading": "&hideloading",
+                "loading": "=loading"
+            },
+            templateUrl: 'transaction-autocomplete-template',
+            link: function($scope, elem, attrs) {
+                $scope.results = {};
+
+                /**
+                 * Hide the dropdown and clear the input field
+                 */
+                $scope.hideAndClear = function () {
+                    $scope.hideDropdown();
+                    $scope.currentIndex = null;
+                    $('.highlight').removeClass('highlight');
+                };
+
+                $scope.hideDropdown = function () {
+                    $scope.dropdown = false;
+                };
+
+                $scope.highlightLetters = function ($response, $typing) {
+                    $typing = $typing.toLowerCase();
+
+                    for (var i = 0; i < $response.length; i++) {
+                        var $name = $response[i].name;
+                        var $index = $name.toLowerCase().indexOf($typing);
+                        var $substr = $name.substr($index, $typing.length);
+
+                        var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
+
+                        $response[i].html = $html;
+                    }
+                    return $response;
+                };
+
+                $scope.hoverItem = function(index) {
+                    $scope.currentIndex = index;
+                };
+
+                /**
+                 * Act on keypress for input field
+                 * @param $keycode
+                 * @returns {boolean}
+                 */
+                $scope.filter = function ($keycode) {
+                    if ($keycode === 13) {
+                        //enter is pressed
+                        if (!$scope.results[$scope.currentIndex]) {
+                            //We are not adding a tag. We are inserting the transaction.
+                            $scope.fnOnEnter();
+                            return;
+                        }
+                        //We are adding a tag
+                        $scope.chooseItem();
+
+                        //resetting the dropdown to show all the tags again after a tag has been added
+                        //$scope.results = $scope.tags;
+                    }
+                    else if ($keycode === 38) {
+                        //up arrow is pressed
+                        if ($scope.currentIndex > 0) {
+                            $scope.currentIndex--;
+                        }
+                    }
+                    else if ($keycode === 40) {
+                        //down arrow is pressed
+                        if ($scope.currentIndex + 1 < $scope.results.length) {
+                            $scope.currentIndex++;
+                        }
+                    }
+                    else {
+                        //Not enter, up or down arrow
+                        $scope.startCounting();
+                        $scope.currentIndex = 0;
+                        $scope.showDropdown();
+                    }
+                };
+
+                $scope.startCounting = function () {
+                    $interval.cancel($scope.interval);
+                    $scope.timeSinceKeyPress = 0;
+                    $scope.interval = $interval(function () {
+                        $scope.timeSinceKeyPress++;
+                        $scope.showDropdown();
+                    }, 500);
+                };
+
+                $scope.showDropdown = function () {
+                    $scope.dropdown = true;
+
+                    if ($scope.timeSinceKeyPress > 1) {
+                        $scope.results = $scope.highlightLetters($scope.searchDatabase(), $scope.typing);
+                        $interval.cancel($scope.interval);
+                    }
+                };
+
+                $scope.searchLocal = function () {
+                    var $results = _.filter($scope.tags, function ($tag) {
+                        return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
+                    });
+
+                    return $results;
+                };
+
+                //var $responseNum = 0;
+
+                /**
+                 * Query the database
+                 */
+                $scope.searchDatabase = function () {
+                    $scope.showLoading();
+                    var $data = {
+                        typing: $scope.typing,
+                        column: $scope.placeholder
+                    };
+
+                    return $http.post('/api/autocomplete/transaction', $data).
+                        success(function(response, status, headers, config) {
+                            $scope.results = AutocompleteFactory.transferTransactions(response);
+                            $scope.results = AutocompleteFactory.removeDuplicates($scope.results);
+                            $scope.hideLoading();
+                        }).
+                        error(function(data, status, headers, config) {
+                            console.log("There was an error");
+                        });
+                };
+
+                $scope.chooseItem = function ($index) {
+                    if ($index !== undefined) {
+                        //Item was chosen by clicking, not by pressing enter
+                        $scope.currentIndex = $index;
+                    }
+
+                    $scope.selectedItem = $scope.results[$scope.currentIndex];
+
+                    $scope.fillFields();
+
+                    $scope.hideAndClear();
+                };
+
+                $scope.fillFields = function () {
+                    if ($scope.placeholder === 'description') {
+                        $scope.typing = $scope.selectedItem.description;
+                        $scope.new_transaction.merchant = $scope.selectedItem.merchant;
+                    }
+                    else if ($scope.placeholder === 'merchant') {
+                        $scope.typing = $scope.selectedItem.merchant;
+                        $scope.new_transaction.description = $scope.selectedItem.description;
+                    }
+
+                    $scope.new_transaction.total = $scope.selectedItem.total;
+                    $scope.new_transaction.type = $scope.selectedItem.type;
+                    $scope.new_transaction.account_id = $scope.selectedItem.account.id;
+
+                    if ($scope.selectedItem.from_account && $scope.selectedItem.to_account) {
+                        $scope.new_transaction.from_account_id = $scope.selectedItem.from_account.id;
+                        $scope.new_transaction.to_account_id = $scope.selectedItem.to_account.id;
+                    }
+
+                    $scope.new_transaction.budgets = $scope.selectedItem.budgets;
+                };
+
+            }
+        };
+    }
+}).call(this);
+
+
+(function () {
+
+    angular
+        .module('budgetApp')
+        .controller('HomeController', home);
+
+    function home ($rootScope, $scope, TransactionsFactory, FilterFactory) {
+
+        $scope.transactionsFactory = TransactionsFactory;
+        $scope.page = 'home';
+        $scope.budgets = budgets;
+        $scope.colors = me.preferences.colors;
+
+
+        if (env === 'local') {
+            $scope.tab = 'transactions';
+        }
+        else {
+            $scope.tab = 'transactions';
+        }
+
+        $scope.toggleFilter = function () {
+            $scope.show.filter = !$scope.show.filter;
+        };
+
+        //Putting this here so that transactions update
+        //after inserting transaction from newTransactionController
+        $scope.transactions = transactions;
+
+        $scope.transactionsTab = function () {
+            $scope.tab = 'transactions';
+            $scope.show.basic_totals = true;
+            $scope.show.budget_totals = true;
+            $scope.show.filter = false;
+            $rootScope.$emit('runFilter');
+        };
+
+        $scope.graphsTab = function () {
+            $scope.tab = 'graphs';
+            $scope.show.basic_totals = false;
+            $scope.show.budget_totals = false;
+            $scope.show.filter = true;
+            $rootScope.$emit('runFilter');
+        };
+
+        if ($scope.tab === 'graphs') {
+            $scope.graphsTab();
+        }
+
+    }
+
+})();
 ;(function(){
     'use strict';
     angular
@@ -15022,188 +15385,29 @@ app.factory('NewTransactionFactory', function ($http) {
 }).call(this);
 
 
-;(function(){
-    'use strict';
-    angular
-        .module('budgetApp')
-        .directive('transactionAutocompleteDirective', transactionAutocomplete);
+angular.module('budgetApp')
+    .filter('formatDurationFilter', function () {
+        return function ($minutes) {
 
-    function transactionAutocomplete(AutocompleteFactory, $sce, $http, $interval) {
-        return {
-            restrict: 'EA',
-            scope: {
-                "dropdown": "=dropdown",
-                "placeholder": "@placeholder",
-                "typing": "=typing",
-                "new_transaction": "=newtransaction",
-                "fnOnEnter": "&fnonenter",
-                "showLoading": "&showloading",
-                "hideLoading": "&hideloading",
-                "loading": "=loading"
-            },
-            templateUrl: 'transaction-autocomplete-template',
-            link: function($scope, elem, attrs) {
-                $scope.results = {};
-
-                /**
-                 * Hide the dropdown and clear the input field
-                 */
-                $scope.hideAndClear = function () {
-                    $scope.hideDropdown();
-                    $scope.currentIndex = null;
-                    $('.highlight').removeClass('highlight');
-                };
-
-                $scope.hideDropdown = function () {
-                    $scope.dropdown = false;
-                };
-
-                $scope.highlightLetters = function ($response, $typing) {
-                    $typing = $typing.toLowerCase();
-
-                    for (var i = 0; i < $response.length; i++) {
-                        var $name = $response[i].name;
-                        var $index = $name.toLowerCase().indexOf($typing);
-                        var $substr = $name.substr($index, $typing.length);
-
-                        var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
-
-                        $response[i].html = $html;
-                    }
-                    return $response;
-                };
-
-                $scope.hoverItem = function(index) {
-                    $scope.currentIndex = index;
-                };
-
-                /**
-                 * Act on keypress for input field
-                 * @param $keycode
-                 * @returns {boolean}
-                 */
-                $scope.filter = function ($keycode) {
-                    if ($keycode === 13) {
-                        //enter is pressed
-                        if (!$scope.results[$scope.currentIndex]) {
-                            //We are not adding a tag. We are inserting the transaction.
-                            $scope.fnOnEnter();
-                            return;
-                        }
-                        //We are adding a tag
-                        $scope.chooseItem();
-
-                        //resetting the dropdown to show all the tags again after a tag has been added
-                        //$scope.results = $scope.tags;
-                    }
-                    else if ($keycode === 38) {
-                        //up arrow is pressed
-                        if ($scope.currentIndex > 0) {
-                            $scope.currentIndex--;
-                        }
-                    }
-                    else if ($keycode === 40) {
-                        //down arrow is pressed
-                        if ($scope.currentIndex + 1 < $scope.results.length) {
-                            $scope.currentIndex++;
-                        }
-                    }
-                    else {
-                        //Not enter, up or down arrow
-                        $scope.startCounting();
-                        $scope.currentIndex = 0;
-                        $scope.showDropdown();
-                    }
-                };
-
-                $scope.startCounting = function () {
-                    $interval.cancel($scope.interval);
-                    $scope.timeSinceKeyPress = 0;
-                    $scope.interval = $interval(function () {
-                        $scope.timeSinceKeyPress++;
-                        $scope.showDropdown();
-                    }, 500);
-                };
-
-                $scope.showDropdown = function () {
-                    $scope.dropdown = true;
-
-                    if ($scope.timeSinceKeyPress > 1) {
-                        $scope.results = $scope.highlightLetters($scope.searchDatabase(), $scope.typing);
-                        $interval.cancel($scope.interval);
-                    }
-                };
-
-                $scope.searchLocal = function () {
-                    var $results = _.filter($scope.tags, function ($tag) {
-                        return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
-                    });
-
-                    return $results;
-                };
-
-                //var $responseNum = 0;
-
-                /**
-                 * Query the database
-                 */
-                $scope.searchDatabase = function () {
-                    $scope.showLoading();
-                    var $data = {
-                        typing: $scope.typing,
-                        column: $scope.placeholder
-                    };
-
-                    return $http.post('/api/autocomplete/transaction', $data).
-                        success(function(response, status, headers, config) {
-                            $scope.results = AutocompleteFactory.transferTransactions(response);
-                            $scope.results = AutocompleteFactory.removeDuplicates($scope.results);
-                            $scope.hideLoading();
-                        }).
-                        error(function(data, status, headers, config) {
-                            console.log("There was an error");
-                        });
-                };
-
-                $scope.chooseItem = function ($index) {
-                    if ($index !== undefined) {
-                        //Item was chosen by clicking, not by pressing enter
-                        $scope.currentIndex = $index;
-                    }
-
-                    $scope.selectedItem = $scope.results[$scope.currentIndex];
-
-                    $scope.fillFields();
-
-                    $scope.hideAndClear();
-                };
-
-                $scope.fillFields = function () {
-                    if ($scope.placeholder === 'description') {
-                        $scope.typing = $scope.selectedItem.description;
-                        $scope.new_transaction.merchant = $scope.selectedItem.merchant;
-                    }
-                    else if ($scope.placeholder === 'merchant') {
-                        $scope.typing = $scope.selectedItem.merchant;
-                        $scope.new_transaction.description = $scope.selectedItem.description;
-                    }
-
-                    $scope.new_transaction.total = $scope.selectedItem.total;
-                    $scope.new_transaction.type = $scope.selectedItem.type;
-                    $scope.new_transaction.account_id = $scope.selectedItem.account.id;
-
-                    if ($scope.selectedItem.from_account && $scope.selectedItem.to_account) {
-                        $scope.new_transaction.from_account_id = $scope.selectedItem.from_account.id;
-                        $scope.new_transaction.to_account_id = $scope.selectedItem.to_account.id;
-                    }
-
-                    $scope.new_transaction.budgets = $scope.selectedItem.budgets;
-                };
-
+            if (!$minutes) {
+                return '';
             }
-        };
-    }
-}).call(this);
+
+            var $moment = moment.duration($minutes, 'minutes');
+            var $formattedDuration = $moment._data.hours + ':' + $moment._data.minutes;
+
+            return $formattedDuration;
+        }
+    });
+
+
+angular.module('budgetApp')
+    .filter('formatDurationToMinutesFilter', function () {
+        return function ($duration) {
+
+            return moment.duration($duration).asMinutes();
+        }
+    });
 
 
 (function () {
@@ -15212,7 +15416,7 @@ app.factory('NewTransactionFactory', function ($http) {
         .module('budgetApp')
         .controller('TransactionsController', transactions);
 
-    function transactions ($rootScope, $scope, TransactionsFactory, FilterFactory) {
+    function transactions ($rootScope, $scope, $filter, TransactionsFactory, FilterFactory) {
 
         $scope.transactionsFactory = TransactionsFactory;
         $scope.accounts = accounts_response;
@@ -15260,6 +15464,7 @@ app.factory('NewTransactionFactory', function ($http) {
             // the difference if the total changes,
             // so I can remove the correct amount from savings if required.
             $scope.edit_transaction.original_total = $scope.edit_transaction.total;
+            $scope.edit_transaction.duration = $filter('formatDurationFilter')($scope.edit_transaction.minutes);
             $scope.show.edit_transaction = true;
         };
 
@@ -15388,6 +15593,9 @@ app.factory('TransactionsFactory', function ($http) {
             $newTransaction.total*= -1;
         }
 
+        //Convert duration from HH:MM format to minutes
+        $newTransaction.minutes = moment.duration($newTransaction.duration).asMinutes();
+
         return $http.post($url, $newTransaction);
     };
 
@@ -15459,6 +15667,9 @@ app.factory('TransactionsFactory', function ($http) {
         if ($transaction.type === 'expense' && $transaction.total > 0) {
             $transaction.total = $transaction.total * -1;
         }
+
+        //Convert duration from HH:MM format to minutes
+        $transaction.minutes = moment.duration($transaction.duration).asMinutes();
 
         return $http.put($url, $transaction);
     };

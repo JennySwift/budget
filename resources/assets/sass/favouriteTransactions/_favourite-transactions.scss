@@ -1,0 +1,26 @@
+#favourite-transactions-page {
+    margin: 50px 50px;
+    > * {
+        margin: 50px 50px;
+    }
+
+    #new-favourite {
+        width: 500px;
+        margin: auto;
+        h2 {
+            margin-bottom: 31px;
+        }
+        > div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        select {
+            max-width: 300px;
+        }
+    }
+    #favourite-transactions {
+//        width: 500px;
+        margin: auto;
+    }
+}

@@ -2,6 +2,7 @@
 
 use App\Models\Account;
 use App\Models\Budget;
+use App\Models\FavouriteTransaction;
 use App\Models\Tag;
 use App\Models\Transaction;
 use App\Traits\ForCurrentUserTrait;
@@ -43,6 +44,11 @@ class RouteServiceProvider extends ServiceProvider {
         Route::bind('transactions', function($id)
         {
             return Transaction::forCurrentUser()->findOrFail($id);
+        });
+
+        Route::bind('favouriteTransactions', function($id)
+        {
+            return FavouriteTransaction::forCurrentUser()->findOrFail($id);
         });
 	}
 

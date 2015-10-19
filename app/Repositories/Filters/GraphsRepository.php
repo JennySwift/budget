@@ -68,8 +68,11 @@ class GraphsRepository {
 //        $maxIncome = max(collect($monthsTotals)->lists('income'));
 //        $maxExpenses = min(collect($monthsTotals)->lists('expenses')) * -1;
 
-        $maxIncome = max($this->getRawValues($monthsTotals, 'income'));
-        $maxExpenses = min($this->getRawValues($monthsTotals, 'expenses')) * -1;
+//        $maxIncome = max($this->getRawValues($monthsTotals, 'income'));
+
+        $maxIncome = max(array_pluck($monthsTotals, 'credit'));
+
+        $maxExpenses = min(array_pluck($monthsTotals, 'debit')) * -1;
 
         return max($maxIncome, $maxExpenses);
     }
@@ -96,15 +99,16 @@ class GraphsRepository {
     /**
      *
      */
-    private function getRawValues($array, $property)
-    {
-        $rawValues = [];
-
-        foreach ($array as $item) {
-            $rawValues[] = $item->{$property};
-        }
-
-        return $rawValues;
-    }
+//    private function getRawValues($array, $property)
+//    {
+//        $rawValues = [];
+//
+//        foreach ($array as $item) {
+//            dd($item);
+//            $rawValues[] = $item->{$property};
+//        }
+//
+//        return $rawValues;
+//    }
 
 }

@@ -19,16 +19,16 @@ return [
         "out" => []
     ],
     "single_date" => [
-        "in" => "",
-        "out" => "",
+        "inSql" => "",
+        "outSql" => "",
     ],
     "from_date" => [
-        "in" => "",
-        "out" => "",
+        "inSql" => "",
+        "outSql" => "",
     ],
     "to_date" => [
-        "in" => "",
-        "out" => "",
+        "inSql" => "",
+        "outSql" => "",
     ],
     "description" => [
         "in" => "",

@@ -2,9 +2,6 @@
 
     <div>
 
-        @include('templates.home.show-button')
-        @include('templates.home.actions-button')
-
         <button
             ng-if="!show.new_transaction"
             ng-click="show.new_transaction = !show.new_transaction"
@@ -35,11 +32,6 @@
                 class="btn">
                 Graphs
         </button>
-    </div>
-
-    <div class="toolbar-filter">
-        <filter-toolbar-directive></filter-toolbar-directive>
-
     </div>
     
 </div>

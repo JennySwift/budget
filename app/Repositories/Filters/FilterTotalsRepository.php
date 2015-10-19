@@ -20,26 +20,30 @@ class FilterTotalsRepository {
     {
         $transactions = $this->getTransactions($query);
 
-        $income = 0;
-        $expenses = 0;
+        $credit = 0;
+        $debit = 0;
+        $creditIncludingTransfers = 0;
+        $debitIncludingTransfers = 0;
         $totalReconciled = 0;
 
         foreach ($transactions as $transaction) {
             switch($transaction->type) {
                 case "income":
-                    $income += $transaction->total;
+                    $credit += $transaction->total;
+                    $creditIncludingTransfers += $transaction->total;
                     break;
 
                 case "expense":
-                    $expenses += $transaction->total;
+                    $debit += $transaction->total;
+                    $debitIncludingTransfers += $transaction->total;
                     break;
 
                 case "transfer":
                     if ($transaction->total > 0) {
-                        $income += $transaction->total;
+                        $creditIncludingTransfers += $transaction->total;
                     }
                     elseif ($transaction->total < 0) {
-                        $expenses += $transaction->total;
+                        $debitIncludingTransfers += $transaction->total;
                     }
 
                 default:
@@ -54,9 +58,11 @@ class FilterTotalsRepository {
         //todo: format these values again elsewhere. I need them unformatted here.
 
         return new FilterTotals(
-            $income,
-            $expenses,
-            $income + $expenses,
+            $credit,
+            $debit,
+            $creditIncludingTransfers,
+            $debitIncludingTransfers,
+            $creditIncludingTransfers + $debitIncludingTransfers,
             $totalReconciled,
             $this->countTransactions($query)
         );

@@ -12,7 +12,9 @@ app.factory('ShowFactory', function () {
             total: true,
             type: true,
             account: true,
+            duration: true,
             reconciled: true,
+            allocated: true,
             tags: true,
             dlt: true,
             //components

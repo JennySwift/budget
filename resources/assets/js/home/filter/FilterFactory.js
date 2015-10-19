@@ -65,6 +65,22 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
 
     $object.filterBasicTotals = filterBasicTotals;
 
+    $object.saveFilter = function ($name) {
+        var $url = '/api/savedFilters';
+
+        var $data = {
+            name: $name,
+            filter: this.filter
+        };
+
+        return $http.post($url, $data);
+    };
+
+    $object.chooseSavedFilter = function ($savedFilter) {
+        this.filter = $savedFilter;
+        $rootScope.$emit('setFilterInToolbarDirective');
+    };
+
     /**
      * Updates filter.display_from and filter.display_to values
      */
@@ -104,40 +120,40 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
 
     $object.formatDates = function () {
         if (this.filter.single_date.in) {
-            this.filter.single_date.in = $filter('formatDate')(this.filter.single_date.in);
+            this.filter.single_date.inSql = $filter('formatDate')(this.filter.single_date.in);
         }
         else {
-            this.filter.single_date.in = "";
+            this.filter.single_date.inSql = "";
         }
         if (this.filter.single_date.out) {
-            this.filter.single_date.out = $filter('formatDate')(this.filter.single_date.out);
+            this.filter.single_date.outSql = $filter('formatDate')(this.filter.single_date.out);
         }
         else {
-            this.filter.single_date.out = "";
+            this.filter.single_date.outSql = "";
         }
         if (this.filter.from_date.in) {
-            this.filter.from_date.in = $filter('formatDate')(this.filter.from_date.in);
+            this.filter.from_date.inSql = $filter('formatDate')(this.filter.from_date.in);
         }
         else {
-            this.filter.from_date.in = "";
+            this.filter.from_date.inSql = "";
         }
         if (this.filter.from_date.out) {
-            this.filter.from_date.out = $filter('formatDate')(this.filter.from_date.out);
+            this.filter.from_date.outSql = $filter('formatDate')(this.filter.from_date.out);
         }
         else {
-            this.filter.from_date.out.sql = "";
+            this.filter.from_date.outSql = "";
         }
         if (this.filter.to_date.in) {
-            this.filter.to_date.in = $filter('formatDate')(this.filter.to_date.in);
+            this.filter.to_date.inSql = $filter('formatDate')(this.filter.to_date.in);
         }
         else {
-            this.filter.to_date.in = "";
+            this.filter.to_date.inSql = "";
         }
         if (this.filter.to_date.out) {
-            this.filter.to_date.out = $filter('formatDate')(this.filter.to_date.out);
+            this.filter.to_date.outSql = $filter('formatDate')(this.filter.to_date.out);
         }
         else {
-            this.filter.to_date.out = "";
+            this.filter.to_date.outSql = "";
         }
 
         return this.filter;
@@ -173,15 +189,15 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
         };
 
         $($graphTotals.monthsTotals).each(function () {
-            var $expenses = this.expenses * -1;
+            var $expenses = this.debit * -1;
             var $max = $graphTotals.maxTotal;
             var $num = 500 / $max;
 
             $graphFigures.months.push({
-                incomeHeight: this.income * $num,
+                incomeHeight: this.credit * $num,
                 expensesHeight: $expenses * $num,
-                income: this.income,
-                expenses: this.expenses,
+                income: this.credit,
+                expenses: this.debit,
                 month: this.month
             });
         });

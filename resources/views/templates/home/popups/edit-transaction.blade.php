@@ -40,6 +40,12 @@
             </select>
 		</div>
 
+        <label>Duration</label>
+        <div>[[edit_transaction.minutes]]</div>
+        <input ng-model="edit_transaction.duration"
+               placeholder="duration"
+               type='text'>
+
         <div>
             <label>Reconciled</label>
 

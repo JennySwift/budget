@@ -11,17 +11,29 @@
     }
 
 	position: fixed;
-	top: 110px;
+	top: 49px;
 	right: 0px;
-	opacity: .8;
-	height: 600px;
+//	opacity: .8;
+	height: 660px;
     overflow: scroll;
-    width: 275px;
+    width: 400px;
 	overflow: scroll;
 	padding: 8px;
 	z-index: 9;
     box-shadow: -4px 4px 6px #777;
     background: white;
+
+    .toolbar-filter {
+        display: flex;
+        margin-bottom: 5px;
+        select {
+            width: 60px;
+        }
+    }
+
+    .flex {
+        display: flex;
+    }
 
     .btn-group {
         display: flex;
@@ -38,6 +50,7 @@
             background: black;
             color: #CFCFCF;
             cursor: pointer;
+            width: 235px;
         }
         .content {
             display: none;

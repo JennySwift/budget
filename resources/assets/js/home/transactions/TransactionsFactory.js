@@ -10,6 +10,9 @@ app.factory('TransactionsFactory', function ($http) {
             $newTransaction.total*= -1;
         }
 
+        //Convert duration from HH:MM format to minutes
+        $newTransaction.minutes = moment.duration($newTransaction.duration).asMinutes();
+
         return $http.post($url, $newTransaction);
     };
 
@@ -81,6 +84,9 @@ app.factory('TransactionsFactory', function ($http) {
         if ($transaction.type === 'expense' && $transaction.total > 0) {
             $transaction.total = $transaction.total * -1;
         }
+
+        //Convert duration from HH:MM format to minutes
+        $transaction.minutes = moment.duration($transaction.duration).asMinutes();
 
         return $http.put($url, $transaction);
     };

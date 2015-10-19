@@ -32,7 +32,8 @@ class TransactionTransformer extends TransformerAbstract
                 'name' => $transaction->account->name
             ],
             'budgets' => $transaction->budgets,
-            'multipleBudgets' => (bool) $transaction->multipleBudgets
+            'multipleBudgets' => (bool) $transaction->multipleBudgets,
+            'minutes' => $transaction->minutes
         ];
     }
 

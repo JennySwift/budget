@@ -54,6 +54,50 @@ abstract class Controller extends BaseController {
     }
 
     /**
+     * Return response ok code with transformed resource
+     * @param $resource
+     * @return mixed
+     */
+    public function responseOkWithTransformer($resource, $transformer)
+    {
+        //Transform
+        $resource = createItem($resource, $transformer);
+
+        return response(transform($resource), Response::HTTP_OK);
+    }
+
+    /**
+     * Return response created code with transformed resource
+     * @param $resource
+     * @return mixed
+     */
+    public function responseCreatedWithTransformer($resource, $transformer)
+    {
+        //Transform
+        $resource = createItem($resource, $transformer);
+
+        return response(transform($resource), Response::HTTP_CREATED);
+
+        /**
+         * @VP:
+         * Why do all this stuff when I could just do this:
+         * return response(transform($resource), Response::HTTP_CREATED);
+         */
+
+//        $manager = new Manager();
+//        $manager->setSerializer(new DataArraySerializer);
+//
+//        $manager->parseIncludes(request()->get('includes', []));
+//
+//        return response()->json(
+//            $manager->createData($resource)->toArray(),
+//            Response::HTTP_CREATED
+//        );
+    }
+
+
+
+    /**
      * Create a 204 - No content response
      * @return Response
      */

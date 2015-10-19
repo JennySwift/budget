@@ -22,17 +22,18 @@ app.factory('NewTransactionFactory', function ($http) {
             $defaults.date.entered = 'today';
             $defaults.merchant = 'some merchant';
             $defaults.description = 'some description';
+            $defaults.duration = '';
             $defaults.budgets = [
                 {
                     id: '2',
                     name: 'business',
                     type: 'fixed'
                 },
-                {
-                    id: '4',
-                    name: 'busking',
-                    type: 'flex'
-                }
+                //{
+                //    id: '4',
+                //    name: 'busking',
+                //    type: 'flex'
+                //}
             ];
         }
 
@@ -46,11 +47,8 @@ app.factory('NewTransactionFactory', function ($http) {
     };
 
     $object.clearFields = function (env, me, $newTransaction) {
-        if (env !== 'local') {
-            $newTransaction.budgets = [];
-        }
-
         if (me.preferences.clearFields) {
+            $newTransaction.budgets = [];
             $newTransaction.total = '';
             $newTransaction.description = '';
             $newTransaction.merchant = '';

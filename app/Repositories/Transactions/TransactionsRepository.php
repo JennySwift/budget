@@ -72,7 +72,6 @@ class TransactionsRepository
      */
     public function create(array $data)
     {
-//        Debugbar::info('data', $data);
         //Build transaction
         $transaction = $this->newTransaction($data);
 
@@ -151,6 +150,7 @@ class TransactionsRepository
             'total' => $data['total'],
             'type' => $data['type'],
             'reconciled' => $data['reconciled'],
+            'minutes' => $data['minutes']
         ]);
     }
 

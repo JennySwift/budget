@@ -14,6 +14,8 @@
 
         <th ng-show="show.account">Account</th>
 
+        <th ng-show="show.duration">Duration</th>
+
         <th ng-show="show.reconciled" class="reconcile">R</th>
 
         <th ng-show="show.dlt">
@@ -24,7 +26,7 @@
             <i class="fa fa-pencil-square-o"></i>
         </th>
 
-        <th>budgets</th>
+        <th ng-show="show.allocated">budgets</th>
 
     </tr>
 

@@ -76,7 +76,16 @@ class TransactionsController extends Controller
     public function store(Request $request)
     {
         $data = $request->only([
-            'date', 'type', 'direction', 'description', 'merchant', 'total', 'reconciled', 'account_id', 'budgets'
+            'date',
+            'type',
+            'direction',
+            'description',
+            'merchant',
+            'total',
+            'reconciled',
+            'account_id',
+            'budgets',
+            'minutes'
         ]);
 
         $transaction = $this->transactionsRepository->create($data);
@@ -100,10 +109,17 @@ class TransactionsController extends Controller
     {
         $data = array_filter(array_diff_assoc(
             $request->only([
-                'date', 'account_id', 'description', 'merchant', 'total', 'reconciled', 'allocated'
+                'date',
+                'account_id',
+                'description',
+                'merchant',
+                'total',
+                'reconciled',
+                'allocated',
+                'minutes'
             ]),
             $transaction->toArray()
-        ), 'removeFalseKeepZero');
+        ), 'removeFalseKeepZeroAndEmptyStrings');
 
 //        if(empty($data)) {
 //            return $this->responseNotModified();
@@ -116,9 +132,13 @@ class TransactionsController extends Controller
         $transaction->update($data);
         $transaction->save();
 
-        if ($request->get('budgets')) {
+        $budgets = $request->get('budgets');
+        if (isset($budgets)) {
             $transaction->budgets()->detach();
-            $this->transactionsRepository->attachBudgets($transaction, $request->get('budgets'));
+        }
+
+        if ($budgets) {
+            $this->transactionsRepository->attachBudgets($transaction, $budgets);
         }
 
         $item = $this->createItem(
@@ -126,7 +146,7 @@ class TransactionsController extends Controller
             new TransactionTransformer
         );
 
-        return $this->responseWithTransformer($item, Response::HTTP_CREATED);
+        return $this->responseWithTransformer($item, Response::HTTP_OK);
     }
 
     /**
