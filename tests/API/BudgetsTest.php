@@ -86,6 +86,26 @@ class BudgetsTest extends TestCase {
     }
 
     /**
+     * @test
+     * @return void
+     */
+    public function it_updates_an_unassigned_budget()
+    {
+        $this->logInUser();
+
+        $budget = Budget::forCurrentUser()->where('type', 'unassigned')->first();
+
+        $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
+            'name' => 'bananas'
+        ]);
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('bananas', $content['name']);
+    }
+
+    /**
      * A basic functional test example.
      * @test
      * @return void

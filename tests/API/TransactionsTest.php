@@ -191,7 +191,7 @@ class TransactionsTest extends TestCase {
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
 
         $content = json_decode($response->getContent(), true)['data'];
-
+        
         //Check all the keys are there
         $this->assertArrayHasKey('id', $content);
         $this->assertArrayHasKey('path', $content);
@@ -220,13 +220,13 @@ class TransactionsTest extends TestCase {
         $this->assertEquals(200, $content['total']);
         $this->assertEquals(1, $content['reconciled']);
         $this->assertEquals(0, $content['allocated']);
+        //Todo: This will error occasionally because account_id is random in the seeder
         $this->assertEquals(2, $content['account_id']);
 
         $this->assertEquals([
             'id' => 2,
             'name' => 'cash'
         ], $content['account']);
-//        dd($content['budgets']);
 
         $this->assertEquals(2, $content['budgets'][0]['id']);
         $this->assertCount(1, $content['budgets']);

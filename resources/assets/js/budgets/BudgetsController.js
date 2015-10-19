@@ -114,11 +114,14 @@
         $scope.updateBudget = function () {
             $scope.clearTotalChanges();
             $scope.showLoading();
-            $scope.budget_popup.sqlStartingDate = $scope.formatDate($scope.budget_popup.formattedStartingDate);
+            //$scope.budget_popup.sqlStartingDate = $scope.formatDate($scope.budget_popup.formattedStartingDate);
+            $scope.budget_popup.sqlStartingDate = $filter('formatDate')($scope.budget_popup.formattedStartingDate);
             //$scope.budget_popup.sqlStartingDate = $scope.budget_popup.formattedStartingDate;
             BudgetsFactory.update($scope.budget_popup)
                 .then(function (response) {
                     jsUpdateBudget(response);
+                    $scope.hideLoading();
+                    $rootScope.$broadcast('provideFeedback', 'Budget updated');
                     $scope.$emit('getSideBarTotals');
                     $scope.show.popups.budget = false;
                 })

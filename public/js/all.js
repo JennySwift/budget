@@ -13044,6 +13044,298 @@ function runBlock ($rootScope, UsersFactory, ShowFactory, ErrorsFactory) {
 
 }
 
+;(function(){
+    'use strict';
+    angular
+        .module('budgetApp')
+        .directive('checkbox', checkbox);
+
+    /* @inject */
+    function checkbox() {
+        return {
+            restrict: 'EA',
+            scope: {
+                "model": "=model",
+                "id": "@id"
+            },
+            templateUrl: 'checkboxes-template',
+            link: function($scope, elem, attrs) {
+                $scope.animateIn = attrs.animateIn || 'zoomIn';
+                $scope.animateOut = attrs.animateOut || 'zoomOut';
+                $scope.icon = $(elem).find('.label-icon');
+
+                $scope.toggleIcon = function () {
+                    if (!$scope.model) {
+                        //Input was checked and now it won't be
+                        $scope.hideIcon();
+                    }
+                    else {
+                        //Input was not checked and now it will be
+                        $scope.showIcon();
+                    }
+                };
+
+                $scope.hideIcon = function () {
+                    $($scope.icon).removeClass($scope.animateIn)
+                        .addClass($scope.animateOut);
+                };
+
+                $scope.showIcon = function () {
+                    $($scope.icon).css('display', 'flex')
+                        .removeClass($scope.animateOut)
+                        .addClass($scope.animateIn);
+                };
+
+                //Make the checkbox checked on page load if it should be
+                if ($scope.model === true) {
+                    $scope.showIcon();
+                }
+
+                $scope.$watch('model', function (newValue, oldValue) {
+                    $scope.toggleIcon();
+                });
+            }
+        };
+    }
+}).call(this);
+
+
+;(function(){
+    'use strict';
+    angular
+        .module('budgetApp')
+        .directive('dropdownsDirective', dropdown);
+
+    /* @inject */
+    function dropdown($parse, $http) {
+        return {
+            restrict: 'EA',
+
+            scope: true,
+            link: function($scope, elem, attrs) {
+                $scope.animateIn = attrs.animateIn || 'flipInX';
+                $scope.animateOut = attrs.animateOut || 'flipOutX';
+                var $content = $(elem).find('.dropdown-content');
+
+                $scope.toggleDropdown = function () {
+                    if ($($content).hasClass($scope.animateIn)) {
+                        $scope.hideDropdown();
+                    }
+                    else {
+                        $scope.showDropdown();
+                    }
+                };
+
+                //Todo: Why is this click firing twice?
+                $("body").on('click', function (event) {
+                    if (!elem[0].contains(event.target)) {
+                        $scope.hideDropdown();
+                    }
+                });
+
+                $scope.showDropdown = function () {
+                    $($content)
+                        .css('display', 'flex')
+                        .removeClass($scope.animateOut)
+                        .addClass($scope.animateIn);
+                };
+
+                $scope.hideDropdown = function () {
+                    $($content)
+                        .removeClass($scope.animateIn)
+                        .addClass($scope.animateOut);
+                        //.css('display', 'none');
+                };
+            }
+        };
+    }
+}).call(this);
+
+
+angular.module('budgetApp')
+    .directive('feedbackDirective', function ($sce, $timeout) {
+        return {
+            scope: {},
+            templateUrl: 'feedback-template',
+
+            link: function ($scope) {
+                $scope.feedbackMessages = [];
+                $scope.$on('provideFeedback', function (event, message, type) {
+                    var newMessage = {
+                        message: $sce.trustAsHtml(message),
+                        type: type
+                    };
+
+                    $scope.feedbackMessages.push(newMessage);
+
+                    $timeout(function () {
+                        $scope.feedbackMessages = _.without($scope.feedbackMessages, newMessage);
+                    }, 3000);
+                });
+            }
+        }
+    });
+
+
+angular.module('budgetApp')
+    .directive('formattedDate', function ($filter) {
+        return {
+            restrict: 'A',
+            require: '?ngModel',
+            link: function (scope, element, attrs, ngModel) {
+
+                element.on('keyup', function (event) {
+                    if (event.keyCode !== 13) {
+                        return false;
+                    }
+                    if (Date.parse(ngModel.$viewValue)) {
+                        ngModel.$modelValue = $filter('formatDate')(ngModel.$viewValue);
+                        ngModel.$render();
+                    }
+                });
+
+            }
+        };
+    });
+
+
+angular.module('budgetApp')
+    .directive('formattedDurationDirective', function ($filter) {
+        return {
+            restrict: 'A',
+            require: '?ngModel',
+            link: function (scope, element, attrs, ngModel) {
+
+                function formatDuration(input) {
+                    return $filter('formatDurationToMinutesFilter')(input);
+                }
+                ngModel.$parsers.push(formatDuration);
+
+            }
+        };
+
+    });
+
+
+
+
+;(function(){
+    'use strict';
+    angular
+        .module('budgetApp')
+        .directive('sideBarTotalsDirective', totals);
+
+    function totals($rootScope, TotalsFactory) {
+        return {
+            restrict: 'EA',
+            scope: {
+                "show": "=show"
+            },
+            templateUrl: 'totals-template',
+            link: function($scope, elem, attrs) {
+
+                $scope.totalChanges = {};
+
+                $rootScope.clearTotalChanges = function () {
+                    $scope.totalChanges = {};
+                };
+
+                $rootScope.$on('getSideBarTotals', function () {
+                    $scope.totalsLoading = true;
+                    TotalsFactory.getSideBarTotals()
+                        .then(function (response) {
+                            $scope.sideBarTotals = response.data.data;
+                            $scope.totalsLoading = false;
+                        })
+                        .catch(function (response) {
+                            $rootScope.responseError(response);
+                        });
+                });
+
+                $scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
+
+                    if (newValue && oldValue) {
+
+                        if (newValue.credit !== oldValue.credit) {
+                            $scope.totalChanges.credit = $scope.calculateDifference(newValue.credit, oldValue.credit);
+                        }
+
+                        if (newValue.debit !== oldValue.debit) {
+                            $scope.totalChanges.debit = $scope.calculateDifference(newValue.debit, oldValue.debit);
+                        }
+
+                        if (newValue.balance !== oldValue.balance) {
+                            $scope.totalChanges.balance = $scope.calculateDifference(newValue.balance, oldValue.balance);
+                        }
+
+                        if (newValue.reconciledSum !== oldValue.reconciledSum) {
+                            $scope.totalChanges.reconciledSum = $scope.calculateDifference(newValue.reconciledSum, oldValue.reconciledSum);
+                        }
+
+                        if (newValue.savings !== oldValue.savings) {
+                            $scope.totalChanges.savings = $scope.calculateDifference(newValue.savings, oldValue.savings);
+                        }
+
+                        if (newValue.expensesWithoutBudget !== oldValue.expensesWithoutBudget) {
+                            $scope.totalChanges.expensesWithoutBudget = $scope.calculateDifference(newValue.expensesWithoutBudget, oldValue.expensesWithoutBudget);
+                        }
+
+                        if (newValue.remainingFixedBudget !== oldValue.remainingFixedBudget) {
+                            $scope.totalChanges.remainingFixedBudget = $scope.calculateDifference(newValue.remainingFixedBudget, oldValue.remainingFixedBudget);
+                        }
+
+                        if (newValue.cumulativeFixedBudget !== oldValue.cumulativeFixedBudget) {
+                            $scope.totalChanges.cumulativeFixedBudget = $scope.calculateDifference(newValue.cumulativeFixedBudget, oldValue.cumulativeFixedBudget);
+                        }
+
+                        if (newValue.expensesWithFixedBudgetBeforeStartingDate !== oldValue.expensesWithFixedBudgetBeforeStartingDate) {
+                            $scope.totalChanges.expensesWithFixedBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetBeforeStartingDate, oldValue.expensesWithFixedBudgetBeforeStartingDate);
+                        }
+
+                        if (newValue.expensesWithFixedBudgetAfterStartingDate !== oldValue.expensesWithFixedBudgetAfterStartingDate) {
+                            $scope.totalChanges.expensesWithFixedBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetAfterStartingDate, oldValue.expensesWithFixedBudgetAfterStartingDate);
+                        }
+
+                        if (newValue.expensesWithFlexBudgetBeforeStartingDate !== oldValue.expensesWithFlexBudgetBeforeStartingDate) {
+                            $scope.totalChanges.expensesWithFlexBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetBeforeStartingDate, oldValue.expensesWithFlexBudgetBeforeStartingDate);
+                        }
+
+                        if (newValue.expensesWithFlexBudgetAfterStartingDate !== oldValue.expensesWithFlexBudgetAfterStartingDate) {
+                            $scope.totalChanges.expensesWithFlexBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetAfterStartingDate, oldValue.expensesWithFlexBudgetAfterStartingDate);
+                        }
+
+                        if (newValue.remainingBalance !== oldValue.remainingBalance) {
+                            $scope.totalChanges.remainingBalance = $scope.calculateDifference(newValue.remainingBalance, oldValue.remainingBalance);
+                        }
+
+                        scope.sideBarTotals = newValue;
+                    }
+                });
+
+                /**
+                 * End watches
+                 */
+
+                /**
+                 * @param newValue
+                 * @param oldValue
+                 * @returns {string}
+                 */
+                $scope.calculateDifference = function (newValue, oldValue) {
+                    var $diff = newValue - oldValue;
+                    return $diff.toFixed(2);
+                };
+
+                $scope.showSavingsTotalInput = function () {
+                    $scope.show.savings_total.input = true;
+                    $scope.show.savings_total.edit_btn = false;
+                };
+            }
+        };
+    }
+}).call(this);
+
+
 app.factory('AutocompleteFactory', function ($http) {
 	var $object = {};
 
@@ -13341,298 +13633,6 @@ app.factory('UsersFactory', function ($http) {
 
     };
 });
-;(function(){
-    'use strict';
-    angular
-        .module('budgetApp')
-        .directive('checkbox', checkbox);
-
-    /* @inject */
-    function checkbox() {
-        return {
-            restrict: 'EA',
-            scope: {
-                "model": "=model",
-                "id": "@id"
-            },
-            templateUrl: 'checkboxes-template',
-            link: function($scope, elem, attrs) {
-                $scope.animateIn = attrs.animateIn || 'zoomIn';
-                $scope.animateOut = attrs.animateOut || 'zoomOut';
-                $scope.icon = $(elem).find('.label-icon');
-
-                $scope.toggleIcon = function () {
-                    if (!$scope.model) {
-                        //Input was checked and now it won't be
-                        $scope.hideIcon();
-                    }
-                    else {
-                        //Input was not checked and now it will be
-                        $scope.showIcon();
-                    }
-                };
-
-                $scope.hideIcon = function () {
-                    $($scope.icon).removeClass($scope.animateIn)
-                        .addClass($scope.animateOut);
-                };
-
-                $scope.showIcon = function () {
-                    $($scope.icon).css('display', 'flex')
-                        .removeClass($scope.animateOut)
-                        .addClass($scope.animateIn);
-                };
-
-                //Make the checkbox checked on page load if it should be
-                if ($scope.model === true) {
-                    $scope.showIcon();
-                }
-
-                $scope.$watch('model', function (newValue, oldValue) {
-                    $scope.toggleIcon();
-                });
-            }
-        };
-    }
-}).call(this);
-
-
-;(function(){
-    'use strict';
-    angular
-        .module('budgetApp')
-        .directive('dropdownsDirective', dropdown);
-
-    /* @inject */
-    function dropdown($parse, $http) {
-        return {
-            restrict: 'EA',
-
-            scope: true,
-            link: function($scope, elem, attrs) {
-                $scope.animateIn = attrs.animateIn || 'flipInX';
-                $scope.animateOut = attrs.animateOut || 'flipOutX';
-                var $content = $(elem).find('.dropdown-content');
-
-                $scope.toggleDropdown = function () {
-                    if ($($content).hasClass($scope.animateIn)) {
-                        $scope.hideDropdown();
-                    }
-                    else {
-                        $scope.showDropdown();
-                    }
-                };
-
-                //Todo: Why is this click firing twice?
-                $("body").on('click', function (event) {
-                    if (!elem[0].contains(event.target)) {
-                        $scope.hideDropdown();
-                    }
-                });
-
-                $scope.showDropdown = function () {
-                    $($content)
-                        .css('display', 'flex')
-                        .removeClass($scope.animateOut)
-                        .addClass($scope.animateIn);
-                };
-
-                $scope.hideDropdown = function () {
-                    $($content)
-                        .removeClass($scope.animateIn)
-                        .addClass($scope.animateOut);
-                        //.css('display', 'none');
-                };
-            }
-        };
-    }
-}).call(this);
-
-
-angular.module('budgetApp')
-    .directive('feedbackDirective', function ($sce, $timeout) {
-        return {
-            scope: {},
-            templateUrl: 'feedback-template',
-
-            link: function ($scope) {
-                $scope.feedbackMessages = [];
-                $scope.$on('provideFeedback', function (event, message, type) {
-                    var newMessage = {
-                        message: $sce.trustAsHtml(message),
-                        type: type
-                    };
-
-                    $scope.feedbackMessages.push(newMessage);
-
-                    $timeout(function () {
-                        $scope.feedbackMessages = _.without($scope.feedbackMessages, newMessage);
-                    }, 3000);
-                });
-            }
-        }
-    });
-
-
-angular.module('budgetApp')
-    .directive('formattedDate', function ($filter) {
-        return {
-            restrict: 'A',
-            require: '?ngModel',
-            link: function (scope, element, attrs, ngModel) {
-
-                element.on('keyup', function (event) {
-                    if (event.keyCode !== 13) {
-                        return false;
-                    }
-                    if (Date.parse(ngModel.$viewValue)) {
-                        ngModel.$modelValue = $filter('formatDate')(ngModel.$viewValue);
-                        ngModel.$render();
-                    }
-                });
-
-            }
-        };
-    });
-
-
-angular.module('budgetApp')
-    .directive('formattedDurationDirective', function ($filter) {
-        return {
-            restrict: 'A',
-            require: '?ngModel',
-            link: function (scope, element, attrs, ngModel) {
-
-                function formatDuration(input) {
-                    return $filter('formatDurationToMinutesFilter')(input);
-                }
-                ngModel.$parsers.push(formatDuration);
-
-            }
-        };
-
-    });
-
-
-
-
-;(function(){
-    'use strict';
-    angular
-        .module('budgetApp')
-        .directive('sideBarTotalsDirective', totals);
-
-    function totals($rootScope, TotalsFactory) {
-        return {
-            restrict: 'EA',
-            scope: {
-                "show": "=show"
-            },
-            templateUrl: 'totals-template',
-            link: function($scope, elem, attrs) {
-
-                $scope.totalChanges = {};
-
-                $rootScope.clearTotalChanges = function () {
-                    $scope.totalChanges = {};
-                };
-
-                $rootScope.$on('getSideBarTotals', function () {
-                    $scope.totalsLoading = true;
-                    TotalsFactory.getSideBarTotals()
-                        .then(function (response) {
-                            $scope.sideBarTotals = response.data.data;
-                            $scope.totalsLoading = false;
-                        })
-                        .catch(function (response) {
-                            $rootScope.responseError(response);
-                        });
-                });
-
-                $scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
-
-                    if (newValue && oldValue) {
-
-                        if (newValue.credit !== oldValue.credit) {
-                            $scope.totalChanges.credit = $scope.calculateDifference(newValue.credit, oldValue.credit);
-                        }
-
-                        if (newValue.debit !== oldValue.debit) {
-                            $scope.totalChanges.debit = $scope.calculateDifference(newValue.debit, oldValue.debit);
-                        }
-
-                        if (newValue.balance !== oldValue.balance) {
-                            $scope.totalChanges.balance = $scope.calculateDifference(newValue.balance, oldValue.balance);
-                        }
-
-                        if (newValue.reconciledSum !== oldValue.reconciledSum) {
-                            $scope.totalChanges.reconciledSum = $scope.calculateDifference(newValue.reconciledSum, oldValue.reconciledSum);
-                        }
-
-                        if (newValue.savings !== oldValue.savings) {
-                            $scope.totalChanges.savings = $scope.calculateDifference(newValue.savings, oldValue.savings);
-                        }
-
-                        if (newValue.expensesWithoutBudget !== oldValue.expensesWithoutBudget) {
-                            $scope.totalChanges.expensesWithoutBudget = $scope.calculateDifference(newValue.expensesWithoutBudget, oldValue.expensesWithoutBudget);
-                        }
-
-                        if (newValue.remainingFixedBudget !== oldValue.remainingFixedBudget) {
-                            $scope.totalChanges.remainingFixedBudget = $scope.calculateDifference(newValue.remainingFixedBudget, oldValue.remainingFixedBudget);
-                        }
-
-                        if (newValue.cumulativeFixedBudget !== oldValue.cumulativeFixedBudget) {
-                            $scope.totalChanges.cumulativeFixedBudget = $scope.calculateDifference(newValue.cumulativeFixedBudget, oldValue.cumulativeFixedBudget);
-                        }
-
-                        if (newValue.expensesWithFixedBudgetBeforeStartingDate !== oldValue.expensesWithFixedBudgetBeforeStartingDate) {
-                            $scope.totalChanges.expensesWithFixedBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetBeforeStartingDate, oldValue.expensesWithFixedBudgetBeforeStartingDate);
-                        }
-
-                        if (newValue.expensesWithFixedBudgetAfterStartingDate !== oldValue.expensesWithFixedBudgetAfterStartingDate) {
-                            $scope.totalChanges.expensesWithFixedBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetAfterStartingDate, oldValue.expensesWithFixedBudgetAfterStartingDate);
-                        }
-
-                        if (newValue.expensesWithFlexBudgetBeforeStartingDate !== oldValue.expensesWithFlexBudgetBeforeStartingDate) {
-                            $scope.totalChanges.expensesWithFlexBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetBeforeStartingDate, oldValue.expensesWithFlexBudgetBeforeStartingDate);
-                        }
-
-                        if (newValue.expensesWithFlexBudgetAfterStartingDate !== oldValue.expensesWithFlexBudgetAfterStartingDate) {
-                            $scope.totalChanges.expensesWithFlexBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetAfterStartingDate, oldValue.expensesWithFlexBudgetAfterStartingDate);
-                        }
-
-                        if (newValue.remainingBalance !== oldValue.remainingBalance) {
-                            $scope.totalChanges.remainingBalance = $scope.calculateDifference(newValue.remainingBalance, oldValue.remainingBalance);
-                        }
-
-                        scope.sideBarTotals = newValue;
-                    }
-                });
-
-                /**
-                 * End watches
-                 */
-
-                /**
-                 * @param newValue
-                 * @param oldValue
-                 * @returns {string}
-                 */
-                $scope.calculateDifference = function (newValue, oldValue) {
-                    var $diff = newValue - oldValue;
-                    return $diff.toFixed(2);
-                };
-
-                $scope.showSavingsTotalInput = function () {
-                    $scope.show.savings_total.input = true;
-                    $scope.show.savings_total.edit_btn = false;
-                };
-            }
-        };
-    }
-}).call(this);
-
-
 angular.module('budgetApp')
     .filter('formatDate', function ($rootScope) {
         return function (input) {
@@ -13921,11 +13921,14 @@ angular.module('budgetApp')
         $scope.updateBudget = function () {
             $scope.clearTotalChanges();
             $scope.showLoading();
-            $scope.budget_popup.sqlStartingDate = $scope.formatDate($scope.budget_popup.formattedStartingDate);
+            //$scope.budget_popup.sqlStartingDate = $scope.formatDate($scope.budget_popup.formattedStartingDate);
+            $scope.budget_popup.sqlStartingDate = $filter('formatDate')($scope.budget_popup.formattedStartingDate);
             //$scope.budget_popup.sqlStartingDate = $scope.budget_popup.formattedStartingDate;
             BudgetsFactory.update($scope.budget_popup)
                 .then(function (response) {
                     jsUpdateBudget(response);
+                    $scope.hideLoading();
+                    $rootScope.$broadcast('provideFeedback', 'Budget updated');
                     $scope.$emit('getSideBarTotals');
                     $scope.show.popups.budget = false;
                 })
