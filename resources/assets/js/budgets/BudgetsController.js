@@ -69,28 +69,28 @@
 
             $scope.clearTotalChanges();
             $scope.showLoading();
-            //$budget.sql_starting_date = $scope.formatDate($budget.starting_date);
-            //$budget.sql_starting_date = $budget.starting_date;
             $budget.sql_starting_date = $filter('formatDate')($budget.starting_date);
             BudgetsFactory.insert($budget)
                 .then(function (response) {
                     jsInsertBudget(response);
                     $scope.$emit('getSideBarTotals');
                     $rootScope.$broadcast('provideFeedback', 'Budget created');
-
-                    if ($budget.type === 'fixed' && page === 'fixedBudgets') {
-                        $scope.getFixedBudgetTotals();
-                    }
-                    else if ($budget.type === 'flex' && page === 'flexBudgets') {
-                        $scope.getFlexBudgetTotals();
-                    }
-
+                    updateBudgetTableTotals($budget);
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
         };
+
+        function updateBudgetTableTotals($budget) {
+            if ($budget.type === 'fixed' && page === 'fixedBudgets') {
+                $scope.getFixedBudgetTotals();
+            }
+            else if ($budget.type === 'flex' && page === 'flexBudgets') {
+                $scope.getFlexBudgetTotals();
+            }
+        }
 
         /**
         * Add the budget to the JS array
@@ -114,12 +114,12 @@
         $scope.updateBudget = function () {
             $scope.clearTotalChanges();
             $scope.showLoading();
-            //$scope.budget_popup.sqlStartingDate = $scope.formatDate($scope.budget_popup.formattedStartingDate);
             $scope.budget_popup.sqlStartingDate = $filter('formatDate')($scope.budget_popup.formattedStartingDate);
-            //$scope.budget_popup.sqlStartingDate = $scope.budget_popup.formattedStartingDate;
             BudgetsFactory.update($scope.budget_popup)
                 .then(function (response) {
-                    jsUpdateBudget(response);
+                    var $budget = response.data.data;
+                    jsUpdateBudget($budget);
+                    updateBudgetTableTotals($budget);
                     $scope.hideLoading();
                     $rootScope.$broadcast('provideFeedback', 'Budget updated');
                     $scope.$emit('getSideBarTotals');
@@ -130,16 +130,15 @@
                 });
         };
 
-        function jsUpdateBudget (response) {
+        function jsUpdateBudget ($budget) {
             //todo: allow for if budget type is changed. I will have to remove the budget from the table it was in
-            var $budget = response.data;
             if ($budget.type === 'flex') {
-                var $index = _.indexOf($scope.flexBudgets, _.findWhere($scope.flexBudgets, {id: response.data.id}));
-                $scope.flexBudgets[$index] = response.data;
+                var $index = _.indexOf($scope.flexBudgets, _.findWhere($scope.flexBudgets, {id: $budget.id}));
+                $scope.flexBudgets[$index] = $budget;
             }
             else if ($budget.type === 'fixed') {
-                var $index = _.indexOf($scope.fixedBudgets, _.findWhere($scope.fixedBudgets, {id: response.data.id}));
-                $scope.fixedBudgets[$index] = response.data;
+                var $index = _.indexOf($scope.fixedBudgets, _.findWhere($scope.fixedBudgets, {id: $budget.id}));
+                $scope.fixedBudgets[$index] = $budget;
             }
         }
 
@@ -150,6 +149,7 @@
                 BudgetsFactory.destroy($budget)
                     .then(function (response) {
                         $scope.$emit('getSideBarTotals');
+                        updateBudgetTableTotals($budget);
                         jsDeleteBudget($budget);
                         $scope.hideLoading();
                         $rootScope.$broadcast('provideFeedback', 'Budget deleted');
