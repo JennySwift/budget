@@ -15442,7 +15442,7 @@ angular.module('budgetApp')
             TransactionsFactory.updateReconciliation($transaction)
                 .then(function (response) {
                     $scope.$emit('getSideBarTotals');
-                    $rootScope.$emit('runFilter');
+                    $rootScope.$emit('getFilterBasicTotals');
                     $scope.hideLoading();
                 })
                 .catch(function (response) {

@@ -27,7 +27,8 @@
             TransactionsFactory.updateReconciliation($transaction)
                 .then(function (response) {
                     $scope.$emit('getSideBarTotals');
-                    $rootScope.$emit('runFilter');
+                    $rootScope.$emit('getFilterBasicTotals');
+                    //Todo: Remove the transaction from the JS transactions depending on the filter
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
