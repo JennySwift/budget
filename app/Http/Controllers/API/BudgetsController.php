@@ -90,7 +90,7 @@ class BudgetsController extends Controller
         $remainingBalance = app('remaining-balance')->calculate();
         $budget->getCalculatedAmount($remainingBalance);
 
-        return $this->responseOk($budget);
+        return $this->responseOkWithTransformer($budget, new BudgetTransformer);
     }
 
     /**

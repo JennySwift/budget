@@ -17,6 +17,7 @@ class BudgetTransformer extends TransformerAbstract
     public function transform(Budget $budget)
     {
         return [
+            'id' => $budget->id,
             'path' => $budget->path,
             'name' => $budget->name,
             'amount' => $budget->amount,

@@ -27,7 +27,8 @@
             TransactionsFactory.updateReconciliation($transaction)
                 .then(function (response) {
                     $scope.$emit('getSideBarTotals');
-                    $rootScope.$emit('runFilter');
+                    $rootScope.$emit('getFilterBasicTotals');
+                    //Todo: Remove the transaction from the JS transactions depending on the filter
                     $scope.hideLoading();
                 })
                 .catch(function (response) {
@@ -63,6 +64,7 @@
                 .then(function (response) {
                     $scope.$emit('getSideBarTotals');
                     $rootScope.$broadcast('provideFeedback', 'Transaction updated');
+                    $rootScope.$emit('getFilterBasicTotals');
 
                     //Update the transaction in the JS
                     var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $scope.edit_transaction.id}));
@@ -151,7 +153,7 @@
                     .then(function (response) {
                         jsDeleteTransaction($transaction);
                         $scope.$emit('getSideBarTotals');
-                        //Todo: get filter totals with separate request
+                        $rootScope.$emit('getFilterBasicTotals');
                         $rootScope.$broadcast('provideFeedback', 'Transaction deleted');
                         $scope.hideLoading();
                     })
