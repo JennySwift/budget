@@ -189,15 +189,15 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
         };
 
         $($graphTotals.monthsTotals).each(function () {
-            var $expenses = this.expenses * -1;
+            var $expenses = this.debit * -1;
             var $max = $graphTotals.maxTotal;
             var $num = 500 / $max;
 
             $graphFigures.months.push({
-                incomeHeight: this.income * $num,
+                incomeHeight: this.credit * $num,
                 expensesHeight: $expenses * $num,
-                income: this.income,
-                expenses: this.expenses,
+                income: this.credit,
+                expenses: this.debit,
                 month: this.month
             });
         });

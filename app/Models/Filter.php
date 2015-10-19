@@ -147,7 +147,6 @@ class Filter implements Arrayable {
     {
         // Merge the argument with the defaults
         $this->filters = array_merge($this->defaults, $filters);
-
         $this->setQuery();
         $this->setGraphTotals();
         return $this->graphTotals;
