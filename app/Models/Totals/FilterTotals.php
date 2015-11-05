@@ -49,7 +49,7 @@ class FilterTotals implements Arrayable {
      * @param $balance
      * @param $reconciled
      * @param $numTransactions
-     * @VP: Why this error when I try to return the FilterTotal object in the FilterController:
+     * @VP: (less important) Why this error when I try to return the FilterTotal object in the FilterController:
      * The Response content must be a string or object implementing __toString(), "object" given.
      * Update: So I added a toArray method. But why couldn't the FilterController return an object?
      */
