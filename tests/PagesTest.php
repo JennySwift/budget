@@ -36,7 +36,7 @@ class PagesTest extends TestCase {
 
     /**
      * @test
-     * @VP:
+     * @VP: (less important)
      * Why is $time around .8 here whereas in Postman it is around 1400ms?
      */
     public function it_tests_the_page_load_speed_of_home_page()

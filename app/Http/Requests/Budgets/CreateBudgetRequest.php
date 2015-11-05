@@ -17,11 +17,12 @@ class CreateBudgetRequest extends Request {
 
 	/**
 	 * Get the validation rules that apply to the request.
-	 * @VP:
+
      * How would I write my own error message for the required thing here while
      * keeping the same message for when the required thing is used elsewhere?
      * Instead of "The :attribute field is required,"
      * I want: "The :attribute field is required when type is fixed or flex."
+     * This question was answered.
 	 * @return array
 	 */
 	public function rules()
