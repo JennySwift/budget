@@ -45,6 +45,8 @@ class BudgetsTest extends TestCase {
      */
 
     /**
+     * Each month I will need to change the starting date
+     * in order for the test to pass.
      * @test
      * @return void
      */
@@ -57,7 +59,7 @@ class BudgetsTest extends TestCase {
         $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
             'name' => 'jetskiing',
             'amount' => 10,
-            'starting_date' => '2016-01-01'
+            'starting_date' => '2016-02-01'
         ]);
 
         $content = json_decode($response->getContent(), true)['data'];
@@ -69,7 +71,7 @@ class BudgetsTest extends TestCase {
         $this->assertEquals(10, $content['amount']);
 //        $this->assertEquals(20, $content['calculatedAmount']);
         $this->assertEquals('fixed', $content['type']);
-        $this->assertEquals('01/01/16', $content['formattedStartingDate']);
+        $this->assertEquals('01/02/16', $content['formattedStartingDate']);
 
         $this->assertEquals(-70, $content['spent']);
         $this->assertEquals(300, $content['received']);

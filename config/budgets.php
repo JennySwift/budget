@@ -1,6 +1,6 @@
 <?php
 
-$startingDate = '2015-02-01';
+$startingDate = '2015-03-01';
 
 return [
     'types' => ['fixed', 'flex', 'unassigned'],
