@@ -1,6 +1,8 @@
 
 <ul id="navbar" style="z-index:1000">
 
+    <li><a href="http://jennyswiftcreations.com">jennyswiftcreations</a></li>
+
     @if (Auth::guest())
         <li>
             <a href="/auth/login">Login</a>
