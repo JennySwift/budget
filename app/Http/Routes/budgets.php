@@ -20,4 +20,4 @@ Route::get('fixedBudgets', 'BudgetsController@getFixedBudgets');
 //This is just so I can write a test for the flex budgets in TotalsTest.php
 Route::get('flexBudgets', 'BudgetsController@getFlexBudgets');
 
-Route::resource('budgets', 'BudgetsController', ['only' => ['store', 'show', 'update', 'destroy']]);
+Route::resource('budgets', 'BudgetsController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);

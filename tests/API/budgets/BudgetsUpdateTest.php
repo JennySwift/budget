@@ -1,48 +1,16 @@
 <?php
 
 use App\Models\Budget;
-use App\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class BudgetsTest extends TestCase {
-
+/**
+ * Each month, change starting date in config/budgets.php
+ * in order for tests to pass.
+ * Class BudgetsUpdateTest
+ */
+class BudgetsUpdateTest extends TestCase
+{
     use DatabaseTransactions;
-
-	/**
-	 * A basic functional test example.
-	 * @test
-	 * @return void
-	 */
-	public function it_creates_a_new_budget()
-	{
-        $this->logInUser();
-
-        $budget = [
-            'type' => 'fixed',
-            'name' => 'surf',
-            'amount' => 1000,
-            'starting_date' => '2015-01-01'
-        ];
-
-		$response = $this->apiCall('POST', '/api/budgets', $budget);
-        $content = json_decode($response->getContent(), true)['data'];
-
-		$this->assertEquals(201, $response->getStatusCode());
-        $this->assertArrayHasKey('type', $content);
-        $this->assertArrayHasKey('name', $content);
-        $this->assertArrayHasKey('amount', $content);
-        $this->assertArrayHasKey('formattedStartingDate', $content);
-        $this->assertEquals('fixed', $content['type']);
-        $this->assertEquals('surf', $content['name']);
-        $this->assertEquals(1000, $content['amount']);
-//        $this->assertTrue(is_array($content['starting_date']));
-//        $this->assertArrayHasKey('date', $content['starting_date']);
-	}
-
-    /**
-     * @TODO Test the validation for creating a budget
-     */
 
     /**
      * Each month I will need to change the starting date
@@ -59,11 +27,13 @@ class BudgetsTest extends TestCase {
         $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
             'name' => 'jetskiing',
             'amount' => 10,
-            'starting_date' => '2016-02-01'
+            'starting_date' => '2015-11-01'
         ]);
 
         $content = json_decode($response->getContent(), true)['data'];
 //        dd($content);
+
+        $this->checkBudgetKeysExist($content);
 
         $this->assertEquals(2, $content['id']);
         $this->assertEquals('http://localhost/api/budgets/2', $content['path']);
@@ -71,7 +41,7 @@ class BudgetsTest extends TestCase {
         $this->assertEquals(10, $content['amount']);
 //        $this->assertEquals(20, $content['calculatedAmount']);
         $this->assertEquals('fixed', $content['type']);
-        $this->assertEquals('01/02/16', $content['formattedStartingDate']);
+        $this->assertEquals('01/11/15', $content['formattedStartingDate']);
 
         $this->assertEquals(-70, $content['spent']);
         $this->assertEquals(300, $content['received']);
@@ -108,6 +78,8 @@ class BudgetsTest extends TestCase {
 
         $content = json_decode($response->getContent(), true)['data'];
 //        dd($content);
+
+        $this->checkBudgetKeysExist($content);
 
         $this->assertEquals(4, $content['id']);
         $this->assertEquals('http://localhost/api/budgets/4', $content['path']);
@@ -189,6 +161,8 @@ class BudgetsTest extends TestCase {
 
         $content = json_decode($response->getContent(), true)['data'];
 
+        $this->checkBudgetKeysExist($content);
+
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('bananas', $content['name']);
     }
@@ -209,31 +183,13 @@ class BudgetsTest extends TestCase {
             'amount' => $budget->amount
         ]);
 
-        $this->assertEquals(304, $response->getStatusCode());
         $this->seeInDatabase('budgets', [
             'user_id' => $this->user->id,
             'name' => $budget->name,
             'amount' => $budget->amount
         ]);
+
+        $this->assertEquals(304, $response->getStatusCode());
     }
 
-    /**
-     * A basic functional test example.
-     * @test
-     * @return void
-     */
-    public function it_deletes_a_budget()
-    {
-        $this->logInUser();
-
-        $budget = Budget::forCurrentUser()->first();
-
-        $response = $this->apiCall('DELETE', '/api/budgets/'.$budget->id);
-
-        $this->assertEquals(204, $response->getStatusCode());
-        $this->missingFromDatabase('budgets', [
-            'user_id' => $this->user->id,
-            'name' => $budget->name
-        ]);
-    }
 }

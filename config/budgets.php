@@ -1,6 +1,10 @@
 <?php
 
-$startingDate = '2015-03-01';
+/**
+ * This value needs to be 8 months ago in order for my tests to pass.
+ * So if it is now Jan 2016, $starting date should be in May 2015
+ */
+$startingDate = '2015-05-01';
 
 return [
     'types' => ['fixed', 'flex', 'unassigned'],

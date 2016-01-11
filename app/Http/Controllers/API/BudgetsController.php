@@ -36,6 +36,17 @@ class BudgetsController extends Controller
     }
 
     /**
+     * This method is only for the test at the moment
+     * @return Response
+     */
+    public function index()
+    {
+        $budgets = Budget::forCurrentUser()->get();
+        $budgets = $this->transform($this->createCollection($budgets, new BudgetTransformer))['data'];
+        return response($budgets, Response::HTTP_OK);
+    }
+
+    /**
      * Create a budget
      * POST api/budgets
      * @param CreateBudgetRequest $createBudgetRequest
@@ -81,7 +92,7 @@ class BudgetsController extends Controller
         $data = array_filter(array_diff_assoc($request->only(['name', 'type', 'amount', 'starting_date']), $budget->toArray()));
 
         if(empty($data)) {
-            return $this->responseNotModified();
+            return response($this->transform($this->createItem($budget, new BudgetTransformer)), Response::HTTP_NOT_MODIFIED);
         }
 
         $budget->update($data);

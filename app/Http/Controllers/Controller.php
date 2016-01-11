@@ -126,4 +126,37 @@ abstract class Controller extends BaseController {
         return new Item($model, $transformer, $key);
     }
 
+    /**
+     * For Fractal transformer
+     * @param $model
+     * @param TransformerAbstract $transformer
+     * @param null $key
+     * @return Collection
+     */
+    public function createCollection($model, TransformerAbstract $transformer, $key = null)
+    {
+        return new Collection($model, $transformer, $key);
+    }
+
+    /**
+     * For Fractal transformer
+     * @param $resource
+     * @return array
+     */
+    public function transform($resource)
+    {
+        $manager = new Manager();
+        $manager->setSerializer(new DataArraySerializer);
+
+//        $manager->parseIncludes(request()->get('includes', []));
+
+        //This seems to be causing an error with my __construct method in ProvidersController.php:
+        //'Call to a member function has() on null'
+//        if ($this->request->has('include')) {
+//            $manager->parseIncludes($this->request->include);
+//        }
+
+        return $manager->createData($resource)->toArray();
+    }
+
 }

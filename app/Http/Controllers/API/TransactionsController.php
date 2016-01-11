@@ -43,24 +43,6 @@ class TransactionsController extends Controller
         $this->savingsRepository = $savingsRepository;
     }
 
-    /**
-     * Delete a transaction, only if it belongs to the user
-     * @param Request $request
-     * @return Response
-     */
-    public function destroy($transaction)
-    {
-        $transaction->delete();
-
-        //Reverse the automatic insertion into savings if it is an income expense
-        if ($transaction->type === 'income') {
-            $savings = Savings::forCurrentUser()->first();
-            $savings->decrease($this->savingsRepository->calculateAmountToSubtract($transaction));
-        }
-
-        return $this->responseNoContent();
-    }
-
     public function show($transaction)
     {
         return $this->responseOk($transaction);
@@ -193,5 +175,24 @@ class TransactionsController extends Controller
         // It is good, but not ideal. Returning an AllocationTotal object that you could eventually use
         // with a transformer would be a good idea. But it is fine to keep like this if you want :)
         return $transaction->getAllocationTotals();
+    }
+
+    /**
+     * Delete a transaction, only if it belongs to the user
+     * @param Transaction $transaction
+     * @return Response
+     * @throws \Exception
+     */
+    public function destroy(Transaction $transaction)
+    {
+        $transaction->delete();
+
+        //Reverse the automatic insertion into savings if it is an income expense
+        if ($transaction->type === 'income') {
+            $savings = Savings::forCurrentUser()->first();
+            $savings->decrease($this->savingsRepository->calculateAmountToSubtract($transaction));
+        }
+
+        return $this->responseNoContent();
     }
 }
