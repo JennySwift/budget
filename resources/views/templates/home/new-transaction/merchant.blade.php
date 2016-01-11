@@ -26,6 +26,7 @@
     <transaction-autocomplete-directive
         dropdown="dropdown.merchant"
         placeholder="merchant"
+        id="new-transaction-merchant"
         typing="new_transaction.merchant"
         newTransaction="new_transaction"
         fnOnEnter="insertTransaction(13)"

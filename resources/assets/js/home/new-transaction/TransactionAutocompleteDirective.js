@@ -10,6 +10,7 @@
             scope: {
                 "dropdown": "=dropdown",
                 "placeholder": "@placeholder",
+                "id": "@id",
                 "typing": "=typing",
                 "new_transaction": "=newtransaction",
                 "fnOnEnter": "&fnonenter",
@@ -21,10 +22,15 @@
             link: function($scope, elem, attrs) {
                 $scope.results = {};
 
+                $scope.focus = function () {
+                    $scope.focused = true;
+                };
+
                 /**
                  * Hide the dropdown and clear the input field
                  */
                 $scope.hideAndClear = function () {
+                    $scope.focused = false;
                     $scope.hideDropdown();
                     $scope.currentIndex = null;
                     $('.highlight').removeClass('highlight');
@@ -59,6 +65,11 @@
                  * @returns {boolean}
                  */
                 $scope.filter = function ($keycode) {
+                    //$("#" + $scope.id).val('hi');
+                    //if (!$("#" + $scope.id).is(":focus")) {
+                    //    $scope.hideDropdown();
+                    //    return false;
+                    //}
                     if ($keycode === 13) {
                         //enter is pressed
                         if (!$scope.results[$scope.currentIndex]) {
@@ -84,7 +95,13 @@
                             $scope.currentIndex++;
                         }
                     }
+                    else if ($keycode === 9) {
+                        //tab is pressed
+                        //$scope.hideDropdown();
+                        //return false;
+                    }
                     else {
+                        console.log('focused');
                         //Not enter, up or down arrow
                         $scope.startCounting();
                         $scope.currentIndex = 0;
@@ -103,6 +120,13 @@
 
                 $scope.showDropdown = function () {
                     $scope.dropdown = true;
+
+                    if (!$scope.focused) {
+                        // The input is not focused anymore,
+                        // so the user is not interested in the autocomplete
+                        $scope.hideDropdown();
+                        return false;
+                    }
 
                     if ($scope.timeSinceKeyPress > 1) {
                         $scope.results = $scope.highlightLetters($scope.searchDatabase(), $scope.typing);

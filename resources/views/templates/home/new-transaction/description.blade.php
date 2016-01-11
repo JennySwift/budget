@@ -26,6 +26,7 @@
     <transaction-autocomplete-directive
         dropdown="dropdown.description"
         placeholder="description"
+        id="new-transaction-description"
         typing="new_transaction.description"
         newTransaction="new_transaction"
         fnOnEnter="insertTransaction(13)"

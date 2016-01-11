@@ -4,8 +4,10 @@
     <input
         ng-model="typing"
         ng-blur="hideAndClear()"
+        ng-focus="focus()"
         ng-keyup="filter($event.keyCode)"
         placeholder="[[placeholder]]"
+        id="[[id]]"
         class="form-control"
         type='text'>
 
