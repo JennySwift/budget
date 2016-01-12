@@ -1,10 +1,12 @@
 app.factory('PreferencesFactory', function ($http) {
     return {
-        savePreferences: function ($preferences) {
-            var $url = 'api/update/preferences';
-            var $data = $preferences;
+        savePreferences: function (preferences) {
+            var url = '/api/users/' + me.id;
+            var data = {
+                preferences: preferences
+            };
 
-            return $http.post($url, $data);
+            return $http.put(url, data);
         },
         insertOrUpdateDateFormat: function ($new_format) {
             var $url = 'api/insert/insertOrUpdateDateFormat';

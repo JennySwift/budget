@@ -13625,10 +13625,10 @@ app.factory('TotalsFactory', function ($http) {
 });
 app.factory('UsersFactory', function ($http) {
     return {
-        deleteAccount: function ($user) {
-            var $url = $user.path;
+        deleteAccount: function (user) {
+            var url = '/api/users/' + user.id;
 
-            return $http.delete($url);
+            return $http.delete(url);
         }
 
     };
@@ -14776,6 +14776,11 @@ angular.module('budgetApp')
             $scope.new_transaction = NewTransactionFactory.clearFields(env, me, $scope.new_transaction);
         }
 
+        /**
+         * This is not for the transaction autocomplete,
+         * which is in the TransactionAutocomplete directive.
+         * I think it is for the favourite transactions feature.
+         */
         $scope.fillFields = function () {
             $scope.new_transaction.description = $scope.selectedFavouriteTransaction.description;
             $scope.new_transaction.merchant = $scope.selectedFavouriteTransaction.merchant;
@@ -15151,7 +15156,15 @@ app.factory('NewTransactionFactory', function ($http) {
                         $scope.new_transaction.description = $scope.selectedItem.description;
                     }
 
-                    $scope.new_transaction.total = $scope.selectedItem.total;
+                    // If the user has the clearFields setting on,
+                    // only fill in the total if they haven't entered a total yet
+                    if (me.preferences.clearFields && $scope.new_transaction.total === '') {
+                        $scope.new_transaction.total = $scope.selectedItem.total;
+                    }
+                    else if (!me.preferences.clearFields) {
+                        $scope.new_transaction.total = $scope.selectedItem.total;
+                    }
+
                     $scope.new_transaction.type = $scope.selectedItem.type;
                     $scope.new_transaction.account_id = $scope.selectedItem.account.id;
 
@@ -15769,6 +15782,8 @@ app.factory('TransactionsFactory', function ($http) {
 
     function preferences ($rootScope, $scope, PreferencesFactory) {
 
+        $scope.me = me;
+
         $scope.colors = me.preferences.colors;
 
         $scope.$watchCollection('colors', function (newValue) {
@@ -15783,7 +15798,7 @@ app.factory('TransactionsFactory', function ($http) {
             PreferencesFactory.savePreferences($scope.me.preferences)
                 .then(function (response) {
                     $rootScope.$broadcast('provideFeedback', 'Preferences saved');
-                    //$scope. = response.data;
+                    $scope.me.preferences = response.data.preferences;
                 })
                 .catch(function (response) {
                     $scope.responseError(response);
@@ -15806,11 +15821,13 @@ app.factory('TransactionsFactory', function ($http) {
 })();
 app.factory('PreferencesFactory', function ($http) {
     return {
-        savePreferences: function ($preferences) {
-            var $url = 'api/update/preferences';
-            var $data = $preferences;
+        savePreferences: function (preferences) {
+            var url = '/api/users/' + me.id;
+            var data = {
+                preferences: preferences
+            };
 
-            return $http.post($url, $data);
+            return $http.put(url, data);
         },
         insertOrUpdateDateFormat: function ($new_format) {
             var $url = 'api/insert/insertOrUpdateDateFormat';

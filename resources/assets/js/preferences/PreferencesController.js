@@ -6,6 +6,8 @@
 
     function preferences ($rootScope, $scope, PreferencesFactory) {
 
+        $scope.me = me;
+
         $scope.colors = me.preferences.colors;
 
         $scope.$watchCollection('colors', function (newValue) {
@@ -20,7 +22,7 @@
             PreferencesFactory.savePreferences($scope.me.preferences)
                 .then(function (response) {
                     $rootScope.$broadcast('provideFeedback', 'Preferences saved');
-                    //$scope. = response.data;
+                    $scope.me.preferences = response.data.preferences;
                 })
                 .catch(function (response) {
                     $scope.responseError(response);

@@ -135,4 +135,14 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertArrayHasKey('unallocatedRemaining', $totals);
 	}
 
+	/**
+	 *
+	 * @param $preferences
+	 */
+	public function checkPreferencesKeysExist($preferences)
+	{
+		$this->assertArrayHasKey('clearFields', $preferences);
+		$this->assertArrayHasKey('colors', $preferences);
+	}
+
 }

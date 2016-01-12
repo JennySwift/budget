@@ -188,7 +188,15 @@
                         $scope.new_transaction.description = $scope.selectedItem.description;
                     }
 
-                    $scope.new_transaction.total = $scope.selectedItem.total;
+                    // If the user has the clearFields setting on,
+                    // only fill in the total if they haven't entered a total yet
+                    if (me.preferences.clearFields && $scope.new_transaction.total === '') {
+                        $scope.new_transaction.total = $scope.selectedItem.total;
+                    }
+                    else if (!me.preferences.clearFields) {
+                        $scope.new_transaction.total = $scope.selectedItem.total;
+                    }
+
                     $scope.new_transaction.type = $scope.selectedItem.type;
                     $scope.new_transaction.account_id = $scope.selectedItem.account.id;
 

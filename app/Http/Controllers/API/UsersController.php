@@ -5,9 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Exceptions\NotLoggedInException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Models\Preference;
 use App\User;
 use Auth;
 use Debugbar;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Class UsersController
@@ -15,6 +18,56 @@ use Debugbar;
  */
 class UsersController extends Controller
 {
+
+    /**
+     *
+     * @param Request $request
+     * @param User $user
+     * @return Response
+     */
+    public function update(Request $request)
+    {
+        // Create an array with the new fields merged
+//        $data = array_compare($user->toArray(), $request->only([
+//            'preferences'
+//        ]));
+//
+//        $user->update($data);
+
+        $user = Auth::user();
+        $user->preferences()->merge($request->get('preferences'));
+
+        return response($user, Response::HTTP_OK);
+    }
+
+    /**
+     *
+     * @return mixed
+     */
+    public function getDateFormat()
+    {
+        return Preference::forCurrentUser()
+            ->where('type', 'date_format')
+            ->pluck('value');
+    }
+
+    /**
+     *
+     * @param Request $request
+     */
+    public function insertOrUpdateDateFormat(Request $request)
+    {
+        $new_format = $request->get('new_format');
+
+        $preference = Preference::firstOrNew([
+            'type' => 'date_format',
+            'user_id' => Auth::user()->id
+        ]);
+
+        $preference->value = $new_format;
+        $preference->user()->associate(Auth::user());
+        $preference->save();
+    }
 
     /**
      * Delete the user's account

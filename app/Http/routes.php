@@ -14,8 +14,10 @@ Route::group(['namespace' => 'API', 'prefix' => 'api'], function(){
     require app_path('Http/Routes/favouriteTransactions.php');
     require app_path('Http/Routes/autocomplete.php');
     require app_path('Http/Routes/filter.php');
-    require app_path('Http/Routes/users.php');
-    require app_path('Http/Routes/preferences.php');
+
+    Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'destroy']]);
+    Route::post('insert/insertOrUpdateDateFormat', 'UsersController@insertOrUpdateDateFormat');
+
     require app_path('Http/Routes/savedFilters.php');
 });
 

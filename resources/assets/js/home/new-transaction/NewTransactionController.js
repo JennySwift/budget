@@ -16,6 +16,11 @@
             $scope.new_transaction = NewTransactionFactory.clearFields(env, me, $scope.new_transaction);
         }
 
+        /**
+         * This is not for the transaction autocomplete,
+         * which is in the TransactionAutocomplete directive.
+         * I think it is for the favourite transactions feature.
+         */
         $scope.fillFields = function () {
             $scope.new_transaction.description = $scope.selectedFavouriteTransaction.description;
             $scope.new_transaction.merchant = $scope.selectedFavouriteTransaction.merchant;
