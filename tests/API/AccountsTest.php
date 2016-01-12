@@ -3,13 +3,13 @@
 use App\Models\Account;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 
 class AccountsTest extends TestCase {
 
     use DatabaseTransactions;
 
 	/**
-	 * A basic functional test example.
 	 * @test
 	 * @return void
 	 */
@@ -22,16 +22,15 @@ class AccountsTest extends TestCase {
 		$response = $this->call('GET', '/api/accounts');
         $content = json_decode($response->getContent(), true);
 
-		$this->assertEquals(200, $response->getStatusCode());
-        $this->assertArrayHasKey('name', $content[0]);
-        $this->assertArrayHasKey('user_id', $content[0]);
-        $this->assertArrayHasKey('path', $content[0]);
+        $this->checkAccountKeysExist($content[0]);
+
         $this->assertContains($accounts->first()->name, $content[0]);
         $this->assertContains($accounts->get(1)->name, $content[1]);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 	}
 
     /**
-     * A basic functional test example.
      * @test
      * @return void
      */
@@ -44,17 +43,14 @@ class AccountsTest extends TestCase {
         $response = $this->call('GET', '/api/accounts/'.$account->id);
         $content = json_decode($response->getContent(), true);
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertArrayHasKey('name', $content);
-        $this->assertArrayHasKey('user_id', $content);
-        $this->assertArrayHasKey('path', $content);
-        $this->assertContains($account->name, $content);
-        $this->assertContains($account->path, $content);
+        $this->checkAccountKeysExist($content);
+
         $this->assertEquals($this->user->id, $content['user_id']);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
 	/**
-	 * A basic functional test example.
 	 * @test
 	 * @return void
 	 */
@@ -69,15 +65,14 @@ class AccountsTest extends TestCase {
         $response = $this->call('POST', '/api/accounts', $account);
         $content = json_decode($response->getContent(), true);
 
-        $this->assertEquals(201, $response->getStatusCode());
-        $this->assertArrayHasKey('name', $content);
-        $this->assertArrayHasKey('user_id', $content);
-        $this->assertArrayHasKey('path', $content);
-        $this->assertContains($account['name'], $content);
+        $this->checkAccountKeysExist($content);
+
+        $this->assertEquals('kangaroo', $content['name']);
+
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
 	}
 
     /**
-     * A basic functional test example.
      * @test
      * @return void
      */
@@ -99,7 +94,6 @@ class AccountsTest extends TestCase {
     }
 
     /**
-     * A basic functional test example.
      * @test
      * @return void
      */
@@ -114,15 +108,14 @@ class AccountsTest extends TestCase {
         ]);
         $content = json_decode($response->getContent(), true);
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertArrayHasKey('name', $content);
-        $this->assertArrayHasKey('user_id', $content);
-        $this->assertArrayHasKey('path', $content);
+        $this->checkAccountKeysExist($content);
+
         $this->assertEquals('numbat', $content['name']);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     /**
-     * A basic functional test example.
      * @test
      * @return void
      */
@@ -136,14 +129,10 @@ class AccountsTest extends TestCase {
         $account->user()->associate($this->user);
         $account->save();
 
-        $this->seeInDatabase('accounts', compact('name'));
-
         $response = $this->call('DELETE', '/api/accounts/'.$account->id);
         $this->assertEquals(204, $response->getStatusCode());
-        $this->missingFromDatabase('accounts', compact('name'));
 
-        // @TODO Test the 404 for the other methods as well (show, update)
-        $response = $this->call('DELETE', '/api/accounts/0');
+        $response = $this->call('DELETE', '/api/account/' . $account->id);
         $this->assertEquals(404, $response->getStatusCode());
     }
 }

@@ -33,8 +33,12 @@ class RouteServiceProvider extends ServiceProvider {
 	{
 		parent::boot($router);
 
-		$router->model('accounts', Account::class);
-//		$router->model('budgets', Budget::class);
+//		$router->model('accounts', Account::class);
+
+		Route::bind('accounts', function($id)
+		{
+			return Account::forCurrentUser()->findOrFail($id);
+		});
 
         Route::bind('budgets', function($id)
         {

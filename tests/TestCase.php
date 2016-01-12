@@ -145,4 +145,16 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertArrayHasKey('colors', $preferences);
 	}
 
+	/**
+	 *
+	 * @param $account
+	 */
+	public function checkAccountKeysExist($account)
+	{
+		$this->assertArrayHasKey('id', $account);
+		$this->assertArrayHasKey('user_id', $account);
+		$this->assertArrayHasKey('name', $account);
+//		$this->assertArrayHasKey('path', $account);
+	}
+
 }
