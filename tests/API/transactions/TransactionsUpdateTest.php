@@ -331,12 +331,11 @@ class TransactionsUpdateTest extends TestCase
         $this->assertEquals(200, $content['total']);
         $this->assertEquals(1, $content['reconciled']);
         $this->assertEquals(0, $content['allocated']);
-        //Todo: This will error occasionally because account_id is random in the seeder
-        $this->assertEquals(2, $content['account_id']);
+        $this->assertEquals(1, $content['account_id']);
 
         $this->assertEquals([
-            'id' => 2,
-            'name' => 'cash'
+            'id' => 1,
+            'name' => 'bank account'
         ], $content['account']);
 
         $this->assertEquals(2, $content['budgets'][0]['id']);

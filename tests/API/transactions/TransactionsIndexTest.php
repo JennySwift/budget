@@ -23,7 +23,7 @@ class TransactionsIndexTest extends TestCase
         $this->checkTransactionKeysExist($content[0]);
 
         foreach ($content as $transaction) {
-            $this->assertContains('e', $transaction['description']);
+            $this->assertContains('e', $transaction['description'], '', true);
         }
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -43,7 +43,7 @@ class TransactionsIndexTest extends TestCase
         $this->checkTransactionKeysExist($content[0]);
 
         foreach ($content as $transaction) {
-            $this->assertContains('e', $transaction['merchant']);
+            $this->assertContains('e', $transaction['merchant'], '', true);
         }
 
         $this->assertEquals(200, $response->getStatusCode());
