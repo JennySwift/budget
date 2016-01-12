@@ -15117,12 +15117,7 @@ app.factory('NewTransactionFactory', function ($http) {
                  */
                 $scope.searchDatabase = function () {
                     $scope.showLoading();
-                    var $data = {
-                        typing: $scope.typing,
-                        column: $scope.placeholder
-                    };
-
-                    return $http.post('/api/autocomplete/transaction', $data).
+                    return $http.get('/api/transactions?column=' + $scope.placeholder + '&typing=' + $scope.typing).
                         success(function(response, status, headers, config) {
                             $scope.results = AutocompleteFactory.transferTransactions(response);
                             $scope.results = AutocompleteFactory.removeDuplicates($scope.results);
@@ -15828,14 +15823,6 @@ app.factory('PreferencesFactory', function ($http) {
             };
 
             return $http.put(url, data);
-        },
-        insertOrUpdateDateFormat: function ($new_format) {
-            var $url = 'api/insert/insertOrUpdateDateFormat';
-            var $data = {
-                new_format: $new_format
-            };
-
-            return $http.post($url, $data);
         },
         updateColors: function ($colors) {
             var $url = 'api/update/colors';

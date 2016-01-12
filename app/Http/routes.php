@@ -6,19 +6,38 @@ require app_path('Http/Routes/pages.php');
 
 // API
 Route::group(['namespace' => 'API', 'prefix' => 'api'], function(){
-    require app_path('Http/Routes/accounts.php');
-    require app_path('Http/Routes/budgets.php');
-    require app_path('Http/Routes/savings.php');
-    require app_path('Http/Routes/totals.php');
-    require app_path('Http/Routes/transactions.php');
-    require app_path('Http/Routes/favouriteTransactions.php');
-    require app_path('Http/Routes/autocomplete.php');
-    require app_path('Http/Routes/filter.php');
-
+    Route::resource('accounts', 'AccountsController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
+    Route::resource('budgets', 'BudgetsController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
+    Route::resource('savedFilters', 'SavedFiltersController', ['only' => ['store']]);
+    Route::resource('transactions', 'TransactionsController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
+    Route::resource('favouriteTransactions', 'FavouriteTransactionsController', ['only' => ['store', 'destroy']]);
     Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'destroy']]);
-    Route::post('insert/insertOrUpdateDateFormat', 'UsersController@insertOrUpdateDateFormat');
 
-    require app_path('Http/Routes/savedFilters.php');
+    Route::group(['prefix' => 'savings'], function ()
+    {
+        Route::put('set', 'SavingsController@set');
+        Route::put('increase', 'SavingsController@increase');
+        Route::put('decrease', 'SavingsController@decrease');
+    });
+
+    Route::group(['prefix' => 'totals'], function ()
+    {
+        Route::get('/', 'TotalsController@all');
+        Route::get('sidebar', 'TotalsController@sidebar');
+        Route::get('fixedBudget', 'TotalsController@fixedBudget');
+        Route::get('flexBudget', 'TotalsController@flexBudget');
+        Route::get('unassignedBudget', 'TotalsController@unassignedBudget');
+    });
+
+    Route::group(['prefix' => 'filter'], function ()
+    {
+        Route::post('transactions', 'FilterController@transactions');
+        Route::post('basicTotals', 'FilterController@basicTotals');
+        Route::post('graphTotals', 'FilterController@graphTotals');
+    });
+
+    // Todo: Should be PUT /api/budgets/{budgets}/transactions/{transactions}
+    Route::post('updateAllocation', 'TransactionsController@updateAllocation');
 });
 
 // Not so important routes

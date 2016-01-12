@@ -37,11 +37,23 @@ class BudgetsController extends Controller
 
     /**
      * This method is only for the test at the moment
+     * @param Request $request
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $budgets = Budget::forCurrentUser()->get();
+        if ($request->has('fixed')) {
+            $budgets = Budget::forCurrentUser()->whereType('fixed')->get();
+        }
+        else if ($request->has('flex')) {
+//            $budgets = Budget::forCurrentUser()->whereType('flex')->get();
+            $remainingBalance = app('remaining-balance')->calculate();
+            return $remainingBalance->flexBudgetTotals->budgets['data'];
+        }
+        else {
+            $budgets = Budget::forCurrentUser()->get();
+        }
+
         $budgets = $this->transform($this->createCollection($budgets, new BudgetTransformer))['data'];
         return response($budgets, Response::HTTP_OK);
     }
@@ -116,33 +128,5 @@ class BudgetsController extends Controller
         $budget->delete();
 
         return response([], 204);
-    }
-
-    /**
-     * This is just so I can write a test for the fixed budgets in TotalsTest.php
-     */
-    public function getFixedBudgets()
-    {
-        $budgets = Budget::forCurrentUser()->whereType('fixed')->get();
-
-        //Transform budgets
-        $resource = createCollection($budgets, new BudgetTransformer);
-        return transform($resource);
-    }
-
-    /**
-     * This is just so I can write a test for the flex budgets in TotalsTest.php
-     */
-    public function getFlexBudgets()
-    {
-//        $budgets = Budget::forCurrentUser()->whereType('flex')->get();
-
-        $remainingBalance = app('remaining-balance')->calculate();
-        $budgets = $remainingBalance->flexBudgetTotals->budgets['data'];
-        return $budgets;
-
-        //Transform budgets
-//        $resource = createCollection($budgets, new BudgetTransformer);
-//        return transform($resource);
     }
 }

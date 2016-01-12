@@ -11,6 +11,9 @@ use DB;
 use Illuminate\Http\Request;
 
 /**
+ * Could use model binding for these routes
+ * so I don't have to fetch the savings each time.
+ * Route::put('increase/{savings}', 'SavingsController@increase');
  * Class SavingsController
  * @package App\Http\Controllers
  */

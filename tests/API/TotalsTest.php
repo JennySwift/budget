@@ -67,8 +67,8 @@ class TotalsTest extends TestCase {
     {
         $this->logInUser();
 
-        $response = $this->apiCall('GET', 'api/fixedBudgets');
-        $content = json_decode($response->getContent(), true)['data'];
+        $response = $this->apiCall('GET', 'api/budgets?fixed=true');
+        $content = json_decode($response->getContent(), true);
         $budget = $content[0];
 
         $this->checkBudgetKeysExist($budget);
@@ -100,10 +100,10 @@ class TotalsTest extends TestCase {
     {
         $this->logInUser();
 
-        $response = $this->apiCall('GET', 'api/flexBudgets');
+        $response = $this->apiCall('GET', 'api/budgets?flex=true');
         $content = json_decode($response->getContent(), true);
+//        dd($content);
 
-        $this->assertResponseOk();
         $budget = $content[0];
 //        dd($budget);
 
@@ -125,6 +125,8 @@ class TotalsTest extends TestCase {
         $this->assertEquals(null, $budget['cumulative']);
         $this->assertEquals(1000, $budget['remaining']);
         $this->assertEquals(6, $budget['transactionsCount']);
+
+        $this->assertResponseOk();
     }
 
     /**

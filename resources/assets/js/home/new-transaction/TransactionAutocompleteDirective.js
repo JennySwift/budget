@@ -149,12 +149,7 @@
                  */
                 $scope.searchDatabase = function () {
                     $scope.showLoading();
-                    var $data = {
-                        typing: $scope.typing,
-                        column: $scope.placeholder
-                    };
-
-                    return $http.post('/api/autocomplete/transaction', $data).
+                    return $http.get('/api/transactions?column=' + $scope.placeholder + '&typing=' + $scope.typing).
                         success(function(response, status, headers, config) {
                             $scope.results = AutocompleteFactory.transferTransactions(response);
                             $scope.results = AutocompleteFactory.removeDuplicates($scope.results);

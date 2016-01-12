@@ -43,10 +43,37 @@ class TransactionsController extends Controller
         $this->savingsRepository = $savingsRepository;
     }
 
-    public function show($transaction)
+    /**
+     * This is for the transaction autocomplete
+     * @param Request $request
+     * @return Response
+     */
+    public function index(Request $request)
     {
-        return $this->responseOk($transaction);
-//        return $this->responseWithTransformer($item, Response::HTTP_OK);
+        $transactions = Transaction::forCurrentUser()
+            ->where($request->get('column'), 'LIKE', '%' . $request->get('typing') . '%')
+            ->limit(50)
+            ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc')
+            ->with('account')
+            ->with('budgets')
+            ->get();
+
+        return response($transactions, Response::HTTP_OK);
+    }
+
+    /**
+     * Get allocation totals
+     * @param Transaction $transaction
+     * @return Response
+     */
+    public function show(Transaction $transaction)
+    {
+        // It is good, but not ideal. Returning an AllocationTotal object that you could eventually use
+        // with a transformer would be a good idea. But it is fine to keep like this if you want :)
+        return $transaction->getAllocationTotals();
+
+//        return $this->responseOk($transaction);
     }
 
     /**
@@ -165,7 +192,7 @@ class TransactionsController extends Controller
      * POST api/updateAllocation
      *
      * One route to update allocation for transactions linked to multiple budgets
-     * PUT api/budgets/{budgets}/transactions/{transactions} => ['type' => 'percent', 'amount' => 75]
+     * Should be PUT api/budgets/{budgets}/transactions/{transactions}
      *
      * @param Request $request
      * @return array
@@ -185,25 +212,9 @@ class TransactionsController extends Controller
         }
 
         return [
-//            "allocation_info" => $tag->getAllocationInfo($transaction, $tag),
             "budgets" => $transaction->budgets,
             "totals" => $transaction->getAllocationTotals()
         ];
-    }
-
-    /**
-     * Get allocation totals
-     * POST /select/allocationTotals
-     * @param Request $request
-     * @return array
-     */
-    public function getAllocationTotals(Request $request)
-    {
-        $transaction = Transaction::find($request->get('transaction_id'));
-
-        // It is good, but not ideal. Returning an AllocationTotal object that you could eventually use
-        // with a transformer would be a good idea. But it is fine to keep like this if you want :)
-        return $transaction->getAllocationTotals();
     }
 
     /**

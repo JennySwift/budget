@@ -196,24 +196,4 @@ class TransactionsRepository
         }
     }
 
-    /**
-     *
-     * @param $column
-     * @param $typing
-     * @return mixed
-     */
-    public function autocompleteTransaction($column, $typing)
-    {
-        $transactions = Transaction::forCurrentUser()
-            ->where($column, 'LIKE', $typing)
-            ->limit(50)
-            ->orderBy('date', 'desc')
-            ->orderBy('id', 'desc')
-            ->with('account')
-            ->with('budgets')
-            ->get();
-
-        return $transactions;
-    }
-
 }

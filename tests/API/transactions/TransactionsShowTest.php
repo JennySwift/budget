@@ -10,6 +10,8 @@ class TransactionsShowTest extends TestCase
 {
     use DatabaseTransactions;
 
+    //Todo Test show method (getting allocation totals)
+
     /**
      * @test
      */
