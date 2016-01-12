@@ -104,20 +104,6 @@ class Budget extends Model
     }
 
     /**
-     *
-     * @return string
-     */
-//    public function getCalculatedAmountAttribute()
-//    {
-//        if($this->isFlex()) {
-//            //dd($this->remainingBalance);
-//            //return $remainingBalance / 100 * $this->attributes['amount'];
-//        }
-//
-//        return NULL;
-//    }
-
-    /**
  *
  * @return string
  */

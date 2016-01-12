@@ -95,6 +95,7 @@ class Filter implements Arrayable {
     /**
      *
      * @param array $filters
+     * @return array
      */
     public function setFilter(array $filters = [])
     {

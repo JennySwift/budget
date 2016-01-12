@@ -5,12 +5,22 @@ namespace App\Models;
 use App\Traits\ForCurrentUserTrait;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class FavouriteTransaction
+ * @package App\Models
+ */
 class FavouriteTransaction extends Model
 {
     use ForCurrentUserTrait;
 
+    /**
+     * @var string
+     */
     protected $table = 'favourite_transactions';
 
+    /**
+     * @var array
+     */
     protected $fillable = ['name', 'description', 'merchant', 'total', 'type'];
 
     /**
