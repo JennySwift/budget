@@ -96,12 +96,41 @@ class TransactionsController extends Controller
                 'description',
                 'merchant',
                 'total',
+                'type',
                 'reconciled',
                 'allocated',
                 'minutes'
             ]),
             $transaction->toArray()
         ), 'removeFalseKeepZeroAndEmptyStrings');
+
+        //Make the total positive if the type has been changed from expense to income
+        if (isset($data['type']) && $transaction->type === 'expense' && $data['type'] === 'income') {
+            if (isset($data['total']) && $data['total'] < 0) {
+                //The user has changed the total as well as the type,
+                //but the total is negative and it should be positive
+                $data['total'] = $data['total'] * -1;
+            }
+            else {
+                //The user has changed the type but not the total
+                $transaction->total = $transaction->total * -1;
+                $transaction->save();
+            }
+        }
+
+        //Make the total negative if the type has been changed from income to expense
+        if (isset($data['type']) && $transaction->type === 'income' && $data['type'] === 'expense') {
+            if (isset($data['total']) && $data['total'] > 0) {
+                //The user has changed the total as well as the type,
+                //but the total is positive and it should be negative
+                $data['total'] = $data['total'] * -1;
+            }
+            else {
+                //The user has changed the type but not the total
+                $transaction->total = $transaction->total * -1;
+                $transaction->save();
+            }
+        }
 
 //        if(empty($data)) {
 //            return $this->responseNotModified();

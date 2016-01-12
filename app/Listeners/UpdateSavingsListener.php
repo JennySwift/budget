@@ -46,27 +46,48 @@ class UpdateSavingsListener
             case "TransactionWasUpdated":
                 $oldTotal = $event->oldTransaction->total;
 
-                if (!isset($event->newTransaction['total'])) {
+                if (!isset($event->newTransaction['total']) && !isset($event->newTransaction['type'])) {
                     return;
                 }
 
-                $newTotal = $event->newTransaction['total'];
+                if (isset($event->newTransaction['total'])) {
+                    $newTotal = $event->newTransaction['total'];
+                }
 
                 $savings = Savings::forCurrentUser()->first();
 
-                //Todo: Allow for the user to change the type of the transaction
+                if (isset($event->newTransaction['type']) && $event->oldTransaction->type !== $event->newTransaction['type']) {
+                    //The transaction type has changed
+                    if ($event->newTransaction['type'] === 'income') {
+                        //Increase the savings
+                        if (isset($event->newTransaction['total'])) {
+                            $savings->increase($event->newTransaction['total'] / 10);
+                        }
+                        else {
+                            $savings->increase($event->oldTransaction->total / 10);
+                        }
+                    }
+                    else if ($event->newTransaction['type'] === 'expense') {
+                        //Decrease the savings
+                        $savings->decrease($event->oldTransaction->total * -1 / 10);
+                    }
+                }
+                else {
+                    //The transaction type is the same
 
-                // If it is an income transaction, and if the total has decreased,
-                // remove a percentage from savings
-                if ($event->oldTransaction->type === 'income' && $newTotal < $oldTotal) {
-                    $savings->decrease($this->savingsRepository->calculateAfterDecrease($oldTotal, $newTotal));
+                    // If it is an income transaction, and if the total has decreased,
+                    // remove a percentage from savings
+                    if ($event->oldTransaction->type === 'income' && $newTotal < $oldTotal) {
+                        $savings->decrease($this->savingsRepository->calculateAfterDecrease($oldTotal, $newTotal));
+                    }
+
+                    // If it is an income transaction, and if the total has increased,
+                    // add a percentage to savings
+                    if ($event->oldTransaction->type === 'income' && $newTotal > $oldTotal) {
+                        $savings->increase($this->savingsRepository->calculateAfterIncrease($oldTotal, $newTotal));
+                    }
                 }
 
-                // If it is an income transaction, and if the total has increased,
-                // add a percentage to savings
-                if ($event->oldTransaction->type === 'income' && $newTotal > $oldTotal) {
-                    $savings->increase($this->savingsRepository->calculateAfterIncrease($oldTotal, $newTotal));
-                }
                 break;
             default:
         }

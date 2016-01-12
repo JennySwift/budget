@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Savings;
 use App\Models\Transaction;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
@@ -62,6 +63,236 @@ class TransactionsUpdateTest extends TestCase
         $this->assertEquals([], $content['budgets']);
         $this->assertEquals(false, $content['multipleBudgets']);
         $this->assertEquals(5, $content['minutes']);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_can_change_a_transaction_type_from_expense_to_income_and_increases_the_savings()
+    {
+        $this->logInUser();
+
+        $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
+
+        $transaction = Transaction::forCurrentUser()
+            ->where('type', 'expense')
+            ->first();
+
+        $data = [
+            'type' => 'income',
+//            'total' => 10.2,
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+        $content = json_decode($response->getContent(), true)['data'];
+//        dd($content);
+
+        $this->checkTransactionKeysExist($content);
+
+        //Check savings increased
+        $this->assertEquals('55.00', Savings::forCurrentUser()->first()->amount);
+        //Check the total is positive
+        $this->assertEquals('50', $content['total']);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_can_change_a_transaction_type_from_expense_to_income_and_increases_the_savings_and_changes_the_total()
+    {
+        $this->logInUser();
+
+        $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
+
+        $transaction = Transaction::forCurrentUser()
+            ->where('type', 'expense')
+            ->first();
+
+        $data = [
+            'type' => 'income',
+            'total' => 500,
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+        $content = json_decode($response->getContent(), true)['data'];
+//        dd($content);
+
+        $this->checkTransactionKeysExist($content);
+
+        //Check savings increased
+        $this->assertEquals('100.00', Savings::forCurrentUser()->first()->amount);
+        //Check the total is positive
+        $this->assertEquals('500', $content['total']);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_can_change_a_transaction_type_from_income_to_expense_and_decreases_the_savings()
+    {
+        $this->logInUser();
+
+        $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
+
+        $transaction = Transaction::forCurrentUser()
+            ->where('type', 'income')
+            ->first();
+
+        //Transaction total is 300
+
+        $data = [
+            'type' => 'expense',
+//            'total' => 10.2,
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+        $content = json_decode($response->getContent(), true)['data'];
+//        dd($content);
+
+        $this->checkTransactionKeysExist($content);
+
+        //Check savings decreased
+        $this->assertEquals('20.00', Savings::forCurrentUser()->first()->amount);
+        //Check the total is positive
+        $this->assertEquals('-300', $content['total']);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_decreases_the_savings_if_an_income_transaction_total_is_decreased()
+    {
+        $this->logInUser();
+
+        $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
+
+        $transaction = Transaction::forCurrentUser()
+            ->where('type', 'income')
+            ->first();
+
+        $data = [
+            //decrease total from 300 to 200
+            'total' => 200,
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+        $content = json_decode($response->getContent(), true)['data'];
+
+        $this->checkTransactionKeysExist($content);
+
+        //Check the savings decreased
+        $this->assertEquals('40.00', Savings::forCurrentUser()->first()->amount);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_increases_the_savings_if_an_income_transaction_total_is_increased()
+    {
+        $this->logInUser();
+
+        $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
+
+        $transaction = Transaction::forCurrentUser()
+            ->where('type', 'income')
+            ->first();
+
+        $data = [
+            //decrease total from 300 to 400
+            'total' => 400,
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+        $content = json_decode($response->getContent(), true)['data'];
+
+        $this->checkTransactionKeysExist($content);
+
+        //Check the savings increased
+        $this->assertEquals('60.00', Savings::forCurrentUser()->first()->amount);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_does_not_change_the_savings_if_an_expense_transaction_total_is_decreased()
+    {
+        $this->logInUser();
+
+        $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
+
+        $transaction = Transaction::forCurrentUser()
+            ->where('type', 'expense')
+            ->first();
+
+        $data = [
+            //decrease total from -50 to -40
+            'total' => -40,
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+        $content = json_decode($response->getContent(), true)['data'];
+
+        $this->checkTransactionKeysExist($content);
+
+        //Check the savings did not change
+        $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_does_not_change_the_savings_if_an_expense_transaction_total_is_increased()
+    {
+        $this->logInUser();
+
+        $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
+
+        $transaction = Transaction::forCurrentUser()
+            ->where('type', 'expense')
+            ->first();
+
+        $data = [
+            //increase total from -50 to -40
+            'total' => -60,
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+        $content = json_decode($response->getContent(), true)['data'];
+
+        $this->checkTransactionKeysExist($content);
+
+        //Check the savings did not change
+        $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
 
         //Check the status code
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
