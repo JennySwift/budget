@@ -111,7 +111,6 @@ class PagesController extends Controller {
             'me' => Auth::user(),
             'page' => 'unassignedBudgets',
             'unassignedBudgets' => $remainingBalance->unassignedBudgetTotals->budgets,
-//            'unassignedBudgetTotals' => $remainingBalance->unassignedBudgetTotals->toArray(),
         ]);
 
         return view('pages/budgets/unassigned');
@@ -136,7 +135,6 @@ class PagesController extends Controller {
      */
     public function favouriteTransactions()
     {
-//        dd($this->favouriteTransactionsRepository->index());
         JavaScript::put([
             'me' => Auth::user(),
             'favouriteTransactions' => $this->favouriteTransactionsRepository->index(),

@@ -31,7 +31,6 @@ class BudgetsController extends Controller
      */
     public function __construct(BudgetsRepository $budgetsRepository)
     {
-        $this->middleware('auth');
         $this->budgetsRepository = $budgetsRepository;
     }
 

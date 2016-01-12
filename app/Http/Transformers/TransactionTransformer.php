@@ -9,7 +9,6 @@ use League\Fractal\TransformerAbstract;
 class TransactionTransformer extends TransformerAbstract
 {
     /**
-     * Transform transaction response
      * @param Transaction $transaction
      * @return array
      */

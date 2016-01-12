@@ -20,14 +20,6 @@ class AccountsController extends Controller
 {
 
     /**
-     * Create a new controller instance.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * GET api/accounts
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
@@ -52,7 +44,6 @@ class AccountsController extends Controller
     }
 
     /**
-     * Demonstration of Model Binding :)
      * GET api/accounts/{accounts}
      * @param $account
      * @return Account

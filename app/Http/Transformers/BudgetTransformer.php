@@ -10,8 +10,8 @@ use League\Fractal\TransformerAbstract;
 class BudgetTransformer extends TransformerAbstract
 {
     /**
-     * Transform transaction response
-     * @param Transaction $transaction
+
+     * @param Budget $budget
      * @return array
      */
     public function transform(Budget $budget)

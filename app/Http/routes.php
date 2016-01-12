@@ -5,7 +5,7 @@ require app_path('Http/Routes/auth.php');
 require app_path('Http/Routes/pages.php');
 
 // API
-Route::group(['namespace' => 'API', 'prefix' => 'api'], function(){
+Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => 'auth'], function(){
     Route::resource('accounts', 'AccountsController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
     Route::resource('budgets', 'BudgetsController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
     Route::resource('savedFilters', 'SavedFiltersController', ['only' => ['store']]);
@@ -42,4 +42,3 @@ Route::group(['namespace' => 'API', 'prefix' => 'api'], function(){
 
 // Not so important routes
 require app_path('Http/Routes/tests.php');
-require app_path('Http/Routes/angular-directives.php');

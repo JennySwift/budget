@@ -25,7 +25,6 @@ class FilterController extends Controller
      */
     public function __construct(Filter $filter)
     {
-        $this->middleware('auth');
         $this->filter = $filter;
     }
 
