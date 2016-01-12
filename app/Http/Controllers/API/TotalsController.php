@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Transformers\SidebarTotalTransformer;
+use Illuminate\Http\Response;
 
 class TotalsController extends Controller
 {
@@ -34,7 +35,7 @@ class TotalsController extends Controller
 
         $resource = $this->createItem($remainingBalance, new SidebarTotalTransformer);
 
-        return $this->responseWithTransformer($resource, 200);
+        return $this->responseWithTransformer($resource, Response::HTTP_OK);
     }
 
     /**

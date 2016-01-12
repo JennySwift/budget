@@ -133,6 +133,7 @@ class TransactionsRepository
 
         $transaction->user()->associate(Auth::user());
         $transaction->save();
+
         return $transaction;
     }
 

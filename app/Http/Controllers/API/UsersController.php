@@ -52,7 +52,7 @@ class UsersController extends Controller
     }
 
     /**
-     *
+     * Not sure if I'm still using this
      * @param Request $request
      */
     public function insertOrUpdateDateFormat(Request $request)

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Events\TransactionWasCreated;
 use App\Events\TransactionWasUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -12,9 +11,6 @@ use App\Models\Savings;
 use App\Models\Transaction;
 use App\Repositories\Savings\SavingsRepository;
 use App\Repositories\Transactions\TransactionsRepository;
-use Auth;
-use DB;
-use Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -64,16 +60,19 @@ class TransactionsController extends Controller
 
     /**
      * Get allocation totals
+     *
+     * @JS:
+     * It is good, but not ideal.
+     * Returning an AllocationTotal object that you could eventually use
+     * with a transformer would be a good idea.
+     * But it is fine to keep like this if you want :)
+
      * @param Transaction $transaction
      * @return Response
      */
     public function show(Transaction $transaction)
     {
-        // It is good, but not ideal. Returning an AllocationTotal object that you could eventually use
-        // with a transformer would be a good idea. But it is fine to keep like this if you want :)
         return $transaction->getAllocationTotals();
-
-//        return $this->responseOk($transaction);
     }
 
     /**

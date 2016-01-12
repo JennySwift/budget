@@ -55,8 +55,6 @@ class FilterTotalsRepository {
             }
         }
 
-        //todo: format these values again elsewhere. I need them unformatted here.
-
         return new FilterTotals(
             $credit,
             $debit,

@@ -13,16 +13,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SavedFiltersController extends Controller
 {
+
     /**
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function store(Request $request)
     {
-        $filter = new SavedFilter($request->only('name', 'filter'));
+        $filter = new SavedFilter($request->only(['name', 'filter']));
         $filter->user()->associate(Auth::user());
         $filter->save();
+
         return $this->responseCreatedWithTransformer($filter, new SavedFilterTransformer);
     }
 }

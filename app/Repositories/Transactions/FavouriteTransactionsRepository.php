@@ -10,11 +10,14 @@ use App\Models\FavouriteTransaction;
 class FavouriteTransactionsRepository
 {
 
+    /**
+     *
+     * @return mixed
+     */
     public function index()
     {
         $favourites = FavouriteTransaction::forCurrentUser()->get();
 
-        //Transform
         $favourites = createCollection($favourites, new FavouriteTransactionTransformer());
         return transform($favourites)['data'];
     }

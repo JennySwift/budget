@@ -58,14 +58,18 @@ class BudgetsController extends Controller
     }
 
     /**
-     * Create a budget
-     * POST api/budgets
-     * @param CreateBudgetRequest $createBudgetRequest
-     * @return \Illuminate\Http\Response
+     * POST /api/budgets
+     * @param CreateBudgetRequest $request
+     * @return mixed
      */
-    public function store(CreateBudgetRequest $createBudgetRequest)
+    public function store(CreateBudgetRequest $request)
     {
-        $budget = new Budget($createBudgetRequest->only('type', 'name', 'amount', 'starting_date'));
+        $budget = new Budget($request->only([
+            'type',
+            'name',
+            'amount',
+            'starting_date'
+        ]));
         $budget->user()->associate(Auth::user());
         $budget->save();
 
@@ -83,24 +87,30 @@ class BudgetsController extends Controller
     }
 
     /**
-     * GET api/budgets{budgets}
+     * GET /api/budgets/{budgets}
+     * @param Budget $budget
+     * @return Response
      */
     public function show(Budget $budget)
     {
-        return $this->responseOk($budget);
+        $budget = $this->transform($this->createItem($budget, new BudgetTransformer))['data'];
+        return response($budget, Response::HTTP_OK);
     }
 
     /**
-     * Update the starting date for a budget
-     * PUT api/budgets/{budgets}
-     * @TODO Needs refactoring!!!!
+     * PUT /api/budgets/{budgets}
      * @param Request $request
      * @param budget $budget
      * @return array
      */
     public function update(Request $request, Budget $budget)
     {
-        $data = array_filter(array_diff_assoc($request->only(['name', 'type', 'amount', 'starting_date']), $budget->toArray()));
+        $data = array_filter(array_diff_assoc($request->only([
+            'name',
+            'type',
+            'amount',
+            'starting_date'
+        ]), $budget->toArray()));
 
         if(empty($data)) {
             return response($this->transform($this->createItem($budget, new BudgetTransformer)), Response::HTTP_NOT_MODIFIED);

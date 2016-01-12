@@ -96,19 +96,4 @@ class GraphsRepository {
         return $monthTotals;
     }
 
-    /**
-     *
-     */
-//    private function getRawValues($array, $property)
-//    {
-//        $rawValues = [];
-//
-//        foreach ($array as $item) {
-//            dd($item);
-//            $rawValues[] = $item->{$property};
-//        }
-//
-//        return $rawValues;
-//    }
-
 }

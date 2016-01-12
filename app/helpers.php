@@ -26,35 +26,7 @@ use League\Fractal\TransformerAbstract;
  */
 function array_compare(array $base, array $newItems)
 {
-//    dd($base);
     return array_merge($base, array_filter($newItems));
-}
-
-/**
- * Loop through an array, formatting each value
- * @param $array
- * @return array
- */
-function numberFormat($array)
-{
-    $formatted_array = array();
-    foreach ($array as $key => $value) {
-        $formatted_array[$key] = number_format($value, 2);
-    }
-
-    return $formatted_array;
-}
-
-/**
- * Loop through an object's properties, formatting each value
- * @param $totals
- */
-function numberFormatObject($totals)
-{
-    foreach ($totals as $key => $value) {
-        $totals->$key = number_format($value, 2);
-    }
-    return $totals;
 }
 
 /**

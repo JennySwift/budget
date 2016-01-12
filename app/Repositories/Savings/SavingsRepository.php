@@ -55,6 +55,7 @@ class SavingsRepository
      * Add an amount into savings.
      * For when an income transaction is added.
      * @param $transaction
+     * @return float
      */
     public static function calculateAfterIncomeAdded($transaction)
     {
