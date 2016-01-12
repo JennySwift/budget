@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Budget;
+use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -128,6 +129,35 @@ class FiltersTest extends TestCase {
                 $this->assertNotEquals('flex', $budget['type']);
             }
         }
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_checks_the_bug_fix_method_works()
+    {
+        $this->setFilterDefaults();
+        $this->setUser();
+
+        $filter = [
+            'bugFix' => 'true'
+        ];
+
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+        $this->setTransactions($data);
+
+
+//        foreach ($this->transactions as $transaction) {
+//            $transaction = Transaction::find($transaction['id']);
+//            dd($transaction);
+//        }
 
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
     }
