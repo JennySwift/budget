@@ -68,45 +68,29 @@ class TotalsTest extends TestCase {
         $this->logInUser();
 
         $response = $this->apiCall('GET', 'api/fixedBudgets');
-        $content = json_decode($response->getContent(), false)->data;
-
-        $this->assertResponseOk();
-
+        $content = json_decode($response->getContent(), true)['data'];
         $budget = $content[0];
 
-        // Check if every attribute is present
-        $this->assertObjectHasAttribute('path', $budget);
-        $this->assertObjectHasAttribute('name', $budget);
-        $this->assertObjectHasAttribute('amount', $budget);
-        $this->assertObjectHasAttribute('calculatedAmount', $budget);
-        $this->assertObjectHasAttribute('type', $budget);
-        $this->assertObjectHasAttribute('formattedStartingDate', $budget);
-        $this->assertObjectHasAttribute('spent', $budget);
-        $this->assertObjectHasAttribute('received', $budget);
-        $this->assertObjectHasAttribute('spentAfterStartingDate', $budget);
-        $this->assertObjectHasAttribute('spentBeforeStartingDate', $budget);
-        $this->assertObjectHasAttribute('receivedAfterStartingDate', $budget);
-        $this->assertObjectHasAttribute('cumulativeMonthNumber', $budget);
-        $this->assertObjectHasAttribute('cumulative', $budget);
-        $this->assertObjectHasAttribute('remaining', $budget);
-        $this->assertObjectHasAttribute('transactionsCount', $budget);
+        $this->checkBudgetKeysExist($budget);
 
         // Check if the values are correct according to our seeders!!
-        $this->assertEquals("http://localhost/api/budgets/2", $budget->path);
-        $this->assertEquals("business", $budget->name);
-        $this->assertEquals(100, $budget->amount);
-        $this->assertEquals(null, $budget->calculatedAmount);
-        $this->assertEquals('fixed', $budget->type);
-        $this->assertEquals("01/05/15", $budget->formattedStartingDate);
-        $this->assertEquals(-70, $budget->spent);
-        $this->assertEquals(300, $budget->received);
-        $this->assertEquals(-40, $budget->spentAfterStartingDate);
-        $this->assertEquals(-30, $budget->spentBeforeStartingDate);
-        $this->assertEquals(200, $budget->receivedAfterStartingDate);
-        $this->assertEquals(9, $budget->cumulativeMonthNumber);
-        $this->assertEquals(900, $budget->cumulative);
-        $this->assertEquals(1060, $budget->remaining);
-        $this->assertEquals(6, $budget->transactionsCount);
+        $this->assertEquals("http://localhost/api/budgets/2", $budget['path']);
+        $this->assertEquals("business", $budget['name']);
+        $this->assertEquals(100, $budget['amount']);
+        $this->assertEquals(null, $budget['calculatedAmount']);
+        $this->assertEquals('fixed', $budget['type']);
+        $this->assertEquals("01/05/15", $budget['formattedStartingDate']);
+        $this->assertEquals(-70, $budget['spent']);
+        $this->assertEquals(300, $budget['received']);
+        $this->assertEquals(-40, $budget['spentAfterStartingDate']);
+        $this->assertEquals(-30, $budget['spentBeforeStartingDate']);
+        $this->assertEquals(200, $budget['receivedAfterStartingDate']);
+        $this->assertEquals(9, $budget['cumulativeMonthNumber']);
+        $this->assertEquals(900, $budget['cumulative']);
+        $this->assertEquals(1060, $budget['remaining']);
+        $this->assertEquals(6, $budget['transactionsCount']);
+
+        $this->assertResponseOk();
     }
 
     /**
@@ -117,45 +101,30 @@ class TotalsTest extends TestCase {
         $this->logInUser();
 
         $response = $this->apiCall('GET', 'api/flexBudgets');
-        $content = json_decode($response->getContent(), false);
+        $content = json_decode($response->getContent(), true);
 
         $this->assertResponseOk();
         $budget = $content[0];
 //        dd($budget);
 
-        // Check if every attribute is present
-        $this->assertObjectHasAttribute('path', $budget);
-        $this->assertObjectHasAttribute('name', $budget);
-        $this->assertObjectHasAttribute('amount', $budget);
-        $this->assertObjectHasAttribute('calculatedAmount', $budget);
-        $this->assertObjectHasAttribute('type', $budget);
-        $this->assertObjectHasAttribute('formattedStartingDate', $budget);
-        $this->assertObjectHasAttribute('spent', $budget);
-        $this->assertObjectHasAttribute('received', $budget);
-        $this->assertObjectHasAttribute('spentAfterStartingDate', $budget);
-        $this->assertObjectHasAttribute('spentBeforeStartingDate', $budget);
-        $this->assertObjectHasAttribute('receivedAfterStartingDate', $budget);
-        $this->assertObjectHasAttribute('cumulativeMonthNumber', $budget);
-        $this->assertObjectHasAttribute('cumulative', $budget);
-        $this->assertObjectHasAttribute('remaining', $budget);
-        $this->assertObjectHasAttribute('transactionsCount', $budget);
+        $this->checkBudgetKeysExist($budget);
 
         // Check if the values are correct according to our seeders!!
-        $this->assertEquals("http://localhost/api/budgets/4", $budget->path);
-        $this->assertEquals("busking", $budget->name);
-        $this->assertEquals(10, $budget->amount);
-        $this->assertEquals(20, $budget->calculatedAmount);
-        $this->assertEquals('flex', $budget->type);
-        $this->assertEquals("01/05/15", $budget->formattedStartingDate);
-        $this->assertEquals(-35, $budget->spent);
-        $this->assertEquals(1500, $budget->received);
-        $this->assertEquals(-15, $budget->spentBeforeStartingDate);
-        $this->assertEquals(-20, $budget->spentAfterStartingDate);
-        $this->assertEquals(1000, $budget->receivedAfterStartingDate);
-        $this->assertEquals(9, $budget->cumulativeMonthNumber);
-        $this->assertEquals(null, $budget->cumulative);
-        $this->assertEquals(1000, $budget->remaining);
-        $this->assertEquals(6, $budget->transactionsCount);
+        $this->assertEquals("http://localhost/api/budgets/4", $budget['path']);
+        $this->assertEquals("busking", $budget['name']);
+        $this->assertEquals(10, $budget['amount']);
+        $this->assertEquals(20, $budget['calculatedAmount']);
+        $this->assertEquals('flex', $budget['type']);
+        $this->assertEquals("01/05/15", $budget['formattedStartingDate']);
+        $this->assertEquals(-35, $budget['spent']);
+        $this->assertEquals(1500, $budget['received']);
+        $this->assertEquals(-15, $budget['spentBeforeStartingDate']);
+        $this->assertEquals(-20, $budget['spentAfterStartingDate']);
+        $this->assertEquals(1000, $budget['receivedAfterStartingDate']);
+        $this->assertEquals(9, $budget['cumulativeMonthNumber']);
+        $this->assertEquals(null, $budget['cumulative']);
+        $this->assertEquals(1000, $budget['remaining']);
+        $this->assertEquals(6, $budget['transactionsCount']);
     }
 
     /**
@@ -166,25 +135,19 @@ class TotalsTest extends TestCase {
         $this->logInUser();
 
         $response = $this->apiCall('GET', 'api/totals/fixedBudget');
-        $totals = json_decode($response->getContent(), false);
+        $totals = json_decode($response->getContent(), true);
 
-        $this->assertResponseOk();
-
-        // Check if every attribute is present
-        $this->assertObjectHasAttribute('amount', $totals);
-        $this->assertObjectHasAttribute('remaining', $totals);
-        $this->assertObjectHasAttribute('cumulative', $totals);
-        $this->assertObjectHasAttribute('spentBeforeStartingDate', $totals);
-        $this->assertObjectHasAttribute('spentAfterStartingDate', $totals);
-        $this->assertObjectHasAttribute('receivedAfterStartingDate', $totals);
+        $this->checkTotalsKeysExist($totals);
 
         // Check if the values are correct according to our seeders!!
-        $this->assertEquals(200, $totals->amount);
-        $this->assertEquals(1800, $totals->cumulative);
-        $this->assertEquals(-30, $totals->spentBeforeStartingDate);
-        $this->assertEquals(-40, $totals->spentAfterStartingDate);
-        $this->assertEquals(200, $totals->receivedAfterStartingDate);
-        $this->assertEquals(1960, $totals->remaining);
+        $this->assertEquals(200, $totals['amount']);
+        $this->assertEquals(1800, $totals['cumulative']);
+        $this->assertEquals(-30, $totals['spentBeforeStartingDate']);
+        $this->assertEquals(-40, $totals['spentAfterStartingDate']);
+        $this->assertEquals(200, $totals['receivedAfterStartingDate']);
+        $this->assertEquals(1960, $totals['remaining']);
+
+        $this->assertResponseOk();
     }
 
     /**
@@ -195,43 +158,28 @@ class TotalsTest extends TestCase {
         $this->logInUser();
 
         $response = $this->apiCall('GET', 'api/totals/flexBudget');
-        $totals = json_decode($response->getContent(), false);
+        $totals = json_decode($response->getContent(), true);
 
         $this->assertResponseOk();
 //        dd($totals);
 
         // Check if every attribute is present
-        $this->assertObjectHasAttribute('allocatedAmount', $totals);
-        $this->assertObjectHasAttribute('allocatedRemaining', $totals);
-        $this->assertObjectHasAttribute('allocatedCalculatedAmount', $totals);
-        $this->assertObjectHasAttribute('spentBeforeStartingDate', $totals);
-        $this->assertObjectHasAttribute('spentAfterStartingDate', $totals);
-        $this->assertObjectHasAttribute('receivedAfterStartingDate', $totals);
-
-        $this->assertObjectHasAttribute('unallocatedAmount', $totals);
-        $this->assertObjectHasAttribute('allocatedPlusUnallocatedAmount', $totals);
-        $this->assertObjectHasAttribute('allocatedPlusUnallocatedCalculatedAmount', $totals);
-        $this->assertObjectHasAttribute('unallocatedCalculatedAmount', $totals);
-        $this->assertObjectHasAttribute('allocatedPlusUnallocatedRemaining', $totals);
-        $this->assertObjectHasAttribute('unallocatedRemaining', $totals);
+        $this->checkFlexBudgetTotalsKeysExist($totals);
 
         // Check if the values are correct according to our seeders!!
-        $this->assertEquals(20, $totals->allocatedAmount);
-        $this->assertEquals(1020, $totals->allocatedRemaining);
-        $this->assertEquals(40, $totals->allocatedCalculatedAmount);
-        $this->assertEquals(-15, $totals->spentBeforeStartingDate);
-        $this->assertEquals(-20, $totals->spentAfterStartingDate);
-        $this->assertEquals(1000, $totals->receivedAfterStartingDate);
+        $this->assertEquals(20, $totals['allocatedAmount']);
+        $this->assertEquals(1020, $totals['allocatedRemaining']);
+        $this->assertEquals(40, $totals['allocatedCalculatedAmount']);
+        $this->assertEquals(-15, $totals['spentBeforeStartingDate']);
+        $this->assertEquals(-20, $totals['spentAfterStartingDate']);
+        $this->assertEquals(1000, $totals['receivedAfterStartingDate']);
 
-        $this->assertEquals(80, $totals->unallocatedAmount);
-        $this->assertEquals(100, $totals->allocatedPlusUnallocatedAmount);
-        $this->assertEquals(200, $totals->allocatedPlusUnallocatedCalculatedAmount);
-        $this->assertEquals(160, $totals->unallocatedCalculatedAmount);
-        $this->assertEquals(1180, $totals->allocatedPlusUnallocatedRemaining);
-        $this->assertEquals(160, $totals->unallocatedRemaining);
+        $this->assertEquals(80, $totals['unallocatedAmount']);
+        $this->assertEquals(100, $totals['allocatedPlusUnallocatedAmount']);
+        $this->assertEquals(200, $totals['allocatedPlusUnallocatedCalculatedAmount']);
+        $this->assertEquals(160, $totals['unallocatedCalculatedAmount']);
+        $this->assertEquals(1180, $totals['allocatedPlusUnallocatedRemaining']);
+        $this->assertEquals(160, $totals['unallocatedRemaining']);
     }
-
-
-
 
 }

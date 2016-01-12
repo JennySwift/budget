@@ -78,4 +78,61 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertArrayHasKey('transactionsCount', $budget);
 	}
 
+	/**
+	 *
+	 * @param $transaction
+	 */
+	public function checkTransactionKeysExist($transaction)
+	{
+		$this->assertArrayHasKey('id', $transaction);
+		$this->assertArrayHasKey('path', $transaction);
+		$this->assertArrayHasKey('date', $transaction);
+		$this->assertArrayHasKey('userDate', $transaction);
+		$this->assertArrayHasKey('type', $transaction);
+		$this->assertArrayHasKey('description', $transaction);
+		$this->assertArrayHasKey('merchant', $transaction);
+		$this->assertArrayHasKey('total', $transaction);
+		$this->assertArrayHasKey('reconciled', $transaction);
+		$this->assertArrayHasKey('allocated', $transaction);
+		$this->assertArrayHasKey('account_id', $transaction);
+		$this->assertArrayHasKey('account', $transaction);
+		$this->assertArrayHasKey('budgets', $transaction);
+		$this->assertArrayHasKey('multipleBudgets', $transaction);
+		$this->assertArrayHasKey('minutes', $transaction);
+	}
+
+	/**
+	 *
+	 * @param $totals
+	 */
+	public function checkTotalsKeysExist($totals)
+	{
+		$this->assertArrayHasKey('amount', $totals);
+		$this->assertArrayHasKey('remaining', $totals);
+		$this->assertArrayHasKey('cumulative', $totals);
+		$this->assertArrayHasKey('spentBeforeStartingDate', $totals);
+		$this->assertArrayHasKey('spentAfterStartingDate', $totals);
+		$this->assertArrayHasKey('receivedAfterStartingDate', $totals);
+	}
+
+	/**
+	 *
+	 * @param $totals
+	 */
+	public function checkFlexBudgetTotalsKeysExist($totals)
+	{
+		$this->assertArrayHasKey('allocatedAmount', $totals);
+		$this->assertArrayHasKey('allocatedRemaining', $totals);
+		$this->assertArrayHasKey('allocatedCalculatedAmount', $totals);
+		$this->assertArrayHasKey('spentBeforeStartingDate', $totals);
+		$this->assertArrayHasKey('spentAfterStartingDate', $totals);
+		$this->assertArrayHasKey('receivedAfterStartingDate', $totals);
+		$this->assertArrayHasKey('unallocatedAmount', $totals);
+		$this->assertArrayHasKey('allocatedPlusUnallocatedAmount', $totals);
+		$this->assertArrayHasKey('allocatedPlusUnallocatedCalculatedAmount', $totals);
+		$this->assertArrayHasKey('unallocatedCalculatedAmount', $totals);
+		$this->assertArrayHasKey('allocatedPlusUnallocatedRemaining', $totals);
+		$this->assertArrayHasKey('unallocatedRemaining', $totals);
+	}
+
 }
