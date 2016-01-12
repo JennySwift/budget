@@ -119,6 +119,21 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	 *
 	 * @param $totals
 	 */
+	public function checkBasicTotalKeysExist($totals)
+	{
+		$this->assertArrayHasKey('credit', $totals);
+		$this->assertArrayHasKey('debit', $totals);
+		$this->assertArrayHasKey('creditIncludingTransfers', $totals);
+		$this->assertArrayHasKey('debitIncludingTransfers', $totals);
+		$this->assertArrayHasKey('balance', $totals);
+		$this->assertArrayHasKey('reconciled', $totals);
+		$this->assertArrayHasKey('numTransactions', $totals);
+	}
+
+	/**
+	 *
+	 * @param $totals
+	 */
 	public function checkFlexBudgetTotalsKeysExist($totals)
 	{
 		$this->assertArrayHasKey('allocatedAmount', $totals);
