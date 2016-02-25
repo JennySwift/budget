@@ -3,6 +3,7 @@
 
 @include('main.new-transaction-component')
 @include('main.home-page-component')
+@include('main.shared.navbar-component')
 
 {{--@include('directive-templates.feedback')--}}
 {{--@include('directive-templates.totals')--}}

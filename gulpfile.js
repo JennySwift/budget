@@ -17,7 +17,7 @@ elixir(function(mix) {
 
     mix.scripts([
         'plugins/*.js',
-        //'config.js',
+        'config.js',
         'shared/**/*.js',
         'accounts/*.js',
         'favourite-transactions/*.js',

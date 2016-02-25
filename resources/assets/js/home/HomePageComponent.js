@@ -6,29 +6,30 @@ var HomePage = Vue.component('home-page', {
             budgets: budgets,
             colors: me.preferences.colors,
             transactions: transactions,
-            tab: ''
+            tab: '',
+            show: {}
         };
     },
     components: {},
     methods: {
         toggleFilter: function () {
-            $scope.show.filter = !$scope.show.filter;
+            this.show.filter = !this.show.filter;
         },
 
         transactionsTab: function () {
-            $scope.tab = 'transactions';
-            $scope.show.basic_totals = true;
-            $scope.show.budget_totals = true;
-            $scope.show.filter = false;
-            $rootScope.$emit('runFilter');
+            this.tab = 'transactions';
+            this.show.basic_totals = true;
+            this.show.budget_totals = true;
+            this.show.filter = false;
+            $.event.trigger('run-filter');
         },
 
         graphsTab: function () {
-            $scope.tab = 'graphs';
-            $scope.show.basic_totals = false;
-            $scope.show.budget_totals = false;
-            $scope.show.filter = true;
-            $rootScope.$emit('runFilter');
+            this.tab = 'graphs';
+            this.show.basic_totals = false;
+            this.show.budget_totals = false;
+            this.show.filter = true;
+            $.event.trigger('run-filter');
         },
 
         setTab: function () {

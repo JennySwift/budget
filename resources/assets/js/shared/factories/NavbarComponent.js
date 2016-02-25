@@ -2,7 +2,8 @@ var Navbar = Vue.component('navbar', {
     template: '#navbar-template',
     data: function () {
         return {
-
+            show: {},
+            me: {}
         };
     },
     components: {},

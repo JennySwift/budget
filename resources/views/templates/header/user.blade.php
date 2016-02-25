@@ -3,7 +3,7 @@
         <?php echo Auth::user()->name; ?>
     </a>
     <a href="#" data-toggle="dropdown" class="gravatar-container">
-        <img v-src="[[me.gravatar]]" class="gravatar"/>
+        <img v-bind:src="me.gravatar" class="gravatar"/>
         <span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
