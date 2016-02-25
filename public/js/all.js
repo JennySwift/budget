@@ -23347,12 +23347,79 @@ var HomePage = Vue.component('home-page', {
     template: '#home-page-template',
     data: function () {
         return {
-
+            page: 'home',
+            budgets: budgets,
+            colors: me.preferences.colors,
+            transactions: transactions,
+            tab: ''
         };
     },
     components: {},
     methods: {
+        toggleFilter: function () {
+            $scope.show.filter = !$scope.show.filter;
+        },
 
+        transactionsTab: function () {
+            $scope.tab = 'transactions';
+            $scope.show.basic_totals = true;
+            $scope.show.budget_totals = true;
+            $scope.show.filter = false;
+            $rootScope.$emit('runFilter');
+        },
+
+        graphsTab: function () {
+            $scope.tab = 'graphs';
+            $scope.show.basic_totals = false;
+            $scope.show.budget_totals = false;
+            $scope.show.filter = true;
+            $rootScope.$emit('runFilter');
+        },
+
+        setTab: function () {
+            if (env === 'local') {
+                this.tab = 'transactions';
+            }
+            else {
+                this.tab = 'transactions';
+            }
+        }
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+        this.setTab();
+    }
+});
+var Filter = Vue.component('filter', {
+    template: '#filter-template',
+    data: function () {
+        return {
+            filterTab: 'show',
+            filter: FilterRepository.filter,
+            savedFilters: savedFilters
+        };
+    },
+    components: {},
+    methods: {
+        /**
+         * I am using the id and a clone, so that the savedFilter
+         * doesn't change (with actions such as next/prev button clicks)
+         * unless deliberately saved again.
+         * @param $savedFilterClone
+         */
+        chooseSavedFilter: function ($savedFilter) {
+            var $preservedSavedFilter = _.findWhere($preservedSavedFilters, {id: $savedFilter.id});
+            var $clone = angular.copy($preservedSavedFilter);
+            FilterFactory.chooseSavedFilter($clone.filter);
+            $scope.filter = FilterFactory.filter;
+            $rootScope.$emit('runFilter');
+        },
+
+        runFilter: function () {
+            $rootScope.$emit('runFilter');
+        },
     },
     props: [
         //data to be received from parent
@@ -23362,69 +23429,41 @@ var HomePage = Vue.component('home-page', {
     }
 });
 
-(function () {
 
-    angular
-        .module('budgetApp')
-        .controller('FilterController', filter);
 
-    function filter ($rootScope, $scope, FilterFactory) {
+//Doing this because $scope.savedFilters was updating when I didn't want it to.
+//If the user hit the prev or next buttons, then used the saved filter again,
+//the saved filter was modified and not the original saved filter.
+//I think because I set the filter ng-model to the saved filter in the filter factory.
+//var $preservedSavedFilters = angular.copy(savedFilters);
+//
+//
+//
+//$rootScope.$on('resetFilterInFilterController', function () {
+//    $scope.filter = FilterFactory.filter;
+//});
+//
+//$rootScope.$on('runFilter', function (event, data) {
+//    $rootScope.$emit('getFilterBasicTotals');
+//    if ($scope.tab === 'transactions') {
+//        $scope.$emit('filterTransactions', $scope.filter);
+//    }
+//    else {
+//        $scope.$emit('getGraphTotals');
+//    }
+//});
+//
+//$rootScope.$on('newSavedFilter', function (event, savedFilter) {
+//    $scope.savedFilters.push(savedFilter);
+//    $preservedSavedFilters.push(savedFilter);
+//});
 
-        $scope.filterTab = 'show';
-        $scope.filter = FilterFactory.filter;
-        $scope.savedFilters = savedFilters;
+var FilterRepository = {
 
-        //Doing this because $scope.savedFilters was updating when I didn't want it to.
-        //If the user hit the prev or next buttons, then used the saved filter again,
-        //the saved filter was modified and not the original saved filter.
-        //I think because I set the filter ng-model to the saved filter in the filter factory.
-        var $preservedSavedFilters = angular.copy(savedFilters);
+    //filterBasicTotals: basicFilterTotals,
 
-        $scope.runFilter = function () {
-            $rootScope.$emit('runFilter');
-        };
-
-        $rootScope.$on('resetFilterInFilterController', function () {
-            $scope.filter = FilterFactory.filter;
-        });
-
-        $rootScope.$on('runFilter', function (event, data) {
-            $rootScope.$emit('getFilterBasicTotals');
-            if ($scope.tab === 'transactions') {
-                $scope.$emit('filterTransactions', $scope.filter);
-            }
-            else {
-                $scope.$emit('getGraphTotals');
-            }
-        });
-
-        $rootScope.$on('newSavedFilter', function (event, savedFilter) {
-            $scope.savedFilters.push(savedFilter);
-            $preservedSavedFilters.push(savedFilter);
-        });
-
-        /**
-         * I am using the id and a clone, so that the savedFilter
-         * doesn't change (with actions such as next/prev button clicks)
-         * unless deliberately saved again.
-         * @param $savedFilterClone
-         */
-        $scope.chooseSavedFilter = function ($savedFilter) {
-            var $preservedSavedFilter = _.findWhere($preservedSavedFilters, {id: $savedFilter.id});
-            var $clone = angular.copy($preservedSavedFilter);
-            FilterFactory.chooseSavedFilter($clone.filter);
-            $scope.filter = FilterFactory.filter;
-            $rootScope.$emit('runFilter');
-        };
-
-    }
-
-})();
-app.factory('FilterFactory', function ($http, $rootScope, $filter) {
-    var $object = {};
-
-    $object.resetFilter = function () {
-        $object.filter = {
+    resetFilter: function () {
+        this.filter = {
 
             total: {
                 in: "",
@@ -23476,18 +23515,12 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
             display_to: 30
         };
 
-        this.filter = $object.filter;
+        $.event.trigger('reset-filter');
 
-        $rootScope.$emit('resetFilterInFilterController');
+        return this.filter;
+    },
 
-        return $object.filter;
-    };
-
-    $object.resetFilter();
-
-    $object.filterBasicTotals = filterBasicTotals;
-
-    $object.saveFilter = function ($name) {
+    saveFilter: function ($name) {
         var $url = '/api/savedFilters';
 
         var $data = {
@@ -23496,28 +23529,28 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
         };
 
         return $http.post($url, $data);
-    };
+    },
 
-    $object.chooseSavedFilter = function ($savedFilter) {
+    chooseSavedFilter: function ($savedFilter) {
         this.filter = $savedFilter;
         $rootScope.$emit('setFilterInToolbarDirective');
-    };
+    },
 
     /**
      * Updates filter.display_from and filter.display_to values
      */
-    $object.updateRange = function ($numToFetch) {
+    updateRange: function ($numToFetch) {
         if ($numToFetch) {
             this.filter.num_to_fetch = $numToFetch;
         }
 
         this.filter.display_from = this.filter.offset + 1;
         this.filter.display_to = this.filter.offset + (this.filter.num_to_fetch * 1);
-    };
+    },
 
     //Todo: I might not need some of this code (not allowing offset to be less than 0)
     // todo: since I disabled the button if that is the case
-    $object.prevResults = function () {
+    prevResults: function () {
         //make it so the offset cannot be less than 0.
         if (this.filter.offset - this.filter.num_to_fetch < 0) {
             this.filter.offset = 0;
@@ -23527,9 +23560,9 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
             this.updateRange();
             $rootScope.$emit('runFilter');
         }
-    };
+    },
 
-    $object.nextResults = function ($filterTotals) {
+    nextResults: function ($filterTotals) {
         if (this.filter.offset + (this.filter.num_to_fetch * 1) > $filterTotals.numTransactions) {
             //stop it going past the end.
             return;
@@ -23538,9 +23571,9 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
         this.filter.offset+= (this.filter.num_to_fetch * 1);
         this.updateRange();
         $rootScope.$emit('runFilter');
-    };
+    },
 
-    $object.formatDates = function () {
+    formatDates: function () {
         if (this.filter.single_date.in) {
             this.filter.single_date.inSql = $filter('formatDate')(this.filter.single_date.in);
         }
@@ -23579,33 +23612,33 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
         }
 
         return this.filter;
-    };
+    },
 
-    $object.getTransactions = function () {
+    getTransactions: function () {
         $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/transactions';
 
         return $http.post($url, {'filter': $object.filter});
-    };
+    },
 
-    $object.getBasicTotals = function () {
+    getBasicTotals: function () {
         $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/basicTotals';
 
         return $http.post($url, {'filter': $object.filter});
-    };
+    },
 
-    $object.getGraphTotals = function () {
+    getGraphTotals: function () {
         $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/graphTotals';
 
         return $http.post($url, {'filter': $object.filter});
-    };
+    },
 
-    $object.calculateGraphFigures = function ($graphTotals) {
+    calculateGraphFigures: function ($graphTotals) {
         var $graphFigures = {
             months: []
         };
@@ -23625,16 +23658,10 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
         });
 
         return $graphFigures;
-    };
+    },
+};
 
-    return $object;
-});
-angular.module('budgetApp')
-    .factory('SavedFiltersFactory', function ($http) {
-        return {
-
-        }
-    });
+FilterRepository.resetFilter();
 var NewTransaction = Vue.component('new-transaction', {
     template: '#new-transaction-template',
     data: function () {
@@ -24052,272 +24079,212 @@ var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
 });
 
 
-(function () {
-
-    angular
-        .module('budgetApp')
-        .controller('HomeController', home);
-
-    function home ($rootScope, $scope, TransactionsFactory, FilterFactory) {
-
-        $scope.transactionsFactory = TransactionsFactory;
-        $scope.page = 'home';
-        $scope.budgets = budgets;
-        $scope.colors = me.preferences.colors;
-
-
-        if (env === 'local') {
-            $scope.tab = 'transactions';
-        }
-        else {
-            $scope.tab = 'transactions';
-        }
-
-        $scope.toggleFilter = function () {
-            $scope.show.filter = !$scope.show.filter;
-        };
-
-        //Putting this here so that transactions update
-        //after inserting transaction from newTransactionController
-        $scope.transactions = transactions;
-
-        $scope.transactionsTab = function () {
-            $scope.tab = 'transactions';
-            $scope.show.basic_totals = true;
-            $scope.show.budget_totals = true;
-            $scope.show.filter = false;
-            $rootScope.$emit('runFilter');
-        };
-
-        $scope.graphsTab = function () {
-            $scope.tab = 'graphs';
-            $scope.show.basic_totals = false;
-            $scope.show.budget_totals = false;
-            $scope.show.filter = true;
-            $rootScope.$emit('runFilter');
-        };
-
-        if ($scope.tab === 'graphs') {
-            $scope.graphsTab();
-        }
-
-    }
-
-})();
-;(function(){
-    'use strict';
-    angular
-        .module('budgetApp')
-        .directive('tagAutocompleteDirective', tagAutocomplete);
-
-    /* @inject */
-    function tagAutocomplete($sce) {
+var BudgetAutocomplete = Vue.component('budget-autocomplete', {
+    template: '#budget-autocomplete-template',
+    data: function () {
         return {
-            restrict: 'EA',
-            scope: {
-                "chosenTags": "=chosentags",
-                "dropdown": "=dropdown",
-                "tags": "=tags",
-                "fnOnEnter": "&fnonenter",
-                "multipleTags": "=multipletags",
-                "model": "=model",
-                //"typing": "=modelname",
-                "id": "@id",
-                "focusOnEnter": "@focusonenter"
-            },
-            templateUrl: 'tag-autocomplete-template',
-            link: function($scope, elem, attrs) {
-                $scope.results = {};
-                $scope.messages = {};
-                //$scope.dropdown = true;
-
-                /**
-                 * Check for duplicate tags when adding a new tag to an array
-                 * @param $tag_id
-                 * @param $tag_array
-                 * @returns {boolean}
-                 */
-                $scope.duplicateTagCheck = function ($tag_id, $tag_array) {
-                    for (var i = 0; i < $tag_array.length; i++) {
-                        if ($tag_array[i].id === $tag_id) {
-                            return false; //it is a duplicate
-                        }
-                    }
-                    return true; //it is not a duplicate
-                };
-
-
-                $scope.chooseTag = function ($index) {
-                    if ($index !== undefined) {
-                        //Item was chosen by clicking, not by pressing enter
-                        $scope.currentIndex = $index;
-                    }
-
-                    if ($scope.multipleTags) {
-                        $scope.addTag();
-                    }
-                    else {
-                        $scope.fillField();
-                    }
-                };
-
-                /**
-                 * For if only one tag can be chosen
-                 */
-                $scope.fillField = function () {
-                    $scope.typing = $scope.results[$scope.currentIndex].name;
-                    $scope.model = $scope.results[$scope.currentIndex];
-                    if ($scope.focusOnEnter) {
-                        // Todo: This line doesn't work if tag is chosen with mouse click
-                        $("#" + $scope.focusOnEnter).focus();
-                    }
-                    $scope.hideAndClear();
-                };
-
-                /**
-                 * For if multiple tags can be chosen
-                 */
-                $scope.addTag = function () {
-                    var $tag_id = $scope.results[$scope.currentIndex].id;
-
-                    if (!$scope.duplicateTagCheck($tag_id, $scope.chosenTags)) {
-                        //$rootScope.$broadcast('provideFeedback', 'You have already entered that tag');
-                        $scope.hideAndClear();
-                        return;
-                    }
-
-                    $scope.chosenTags.push($scope.results[$scope.currentIndex]);
-                    $scope.hideAndClear();
-                };
-
-                /**
-                 * Hide the dropdown and clear the input field
-                 */
-                $scope.hideAndClear = function () {
-                    $scope.hideDropdown();
-
-                    if ($scope.multipleTags) {
-                        $scope.typing = '';
-                    }
-
-                    $scope.currentIndex = null;
-                    $('.highlight').removeClass('highlight');
-                };
-
-                $scope.hideDropdown = function () {
-                    $scope.dropdown = false;
-                };
-
-                $scope.highlightLetters = function ($response, $typing) {
-                    $typing = $typing.toLowerCase();
-
-                    for (var i = 0; i < $response.length; i++) {
-                        var $name = $response[i].name;
-                        var $index = $name.toLowerCase().indexOf($typing);
-                        var $substr = $name.substr($index, $typing.length);
-
-                        var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
-                        $response[i].html = $html;
-                    }
-
-                    return $response;
-                };
-
-                $scope.hoverItem = function(index) {
-                    $scope.currentIndex = index;
-                };
-
-                /**
-                 * Act on keypress for input field
-                 * @param $keycode
-                 * @returns {boolean}
-                 */
-                $scope.filterTags = function ($keycode) {
-                    if ($keycode === 13) {
-                        //enter is pressed
-                        //$scope.chooseItem();
-
-                        if (!$scope.results[$scope.currentIndex]) {
-                            //We are not adding a tag. We are inserting the transaction.
-                            $scope.fnOnEnter();
-                            return;
-                        }
-                        //We are choosing a tag
-                        $scope.chooseTag();
-
-                        //resetting the dropdown to show all the tags again after a tag has been added
-                        $scope.results = $scope.tags;
-                    }
-                    else if ($keycode === 38) {
-                        //up arrow is pressed
-                        if ($scope.currentIndex > 0) {
-                            $scope.currentIndex--;
-                        }
-                    }
-                    else if ($keycode === 40) {
-                        //down arrow is pressed
-                        if ($scope.currentIndex + 1 < $scope.results.length) {
-                            $scope.currentIndex++;
-                        }
-                    }
-                    else {
-                        //Not enter, up or down arrow
-                        $scope.currentIndex = 0;
-                        $scope.showDropdown();
-                    }
-                };
-
-                /**
-                 * Todo: when the new budget tag input is focused after entering a budget,
-                 * todo: I don't want the dropdown to show. I had a lot of trouble and need help though.
-                 */
-                $scope.showDropdown = function () {
-                    $scope.dropdown = true;
-                    if ($scope.typing) {
-                        $scope.results = $scope.highlightLetters($scope.searchLocal(), $scope.typing);
-                    }
-                };
-
-                $scope.searchLocal = function () {
-                    var $filtered_tags = _.filter($scope.tags, function ($tag) {
-                        return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
-                    });
-
-                    return $filtered_tags;
-                };
-
-                $scope.removeTag = function ($tag) {
-                    $scope.chosenTags = _.without($scope.chosenTags, $tag);
-                };
-            }
+            results: {},
+            messages: {}
         };
-    }
-}).call(this);
+    },
+    components: {},
+    methods: {
+        /**
+         * Check for duplicate tags when adding a new tag to an array
+         * @param $tag_id
+         * @param $tag_array
+         * @returns {boolean}
+         */
+        duplicateTagCheck: function ($tag_id, $tag_array) {
+            for (var i = 0; i < $tag_array.length; i++) {
+                if ($tag_array[i].id === $tag_id) {
+                    return false; //it is a duplicate
+                }
+            }
+            return true; //it is not a duplicate
+        },
 
 
-angular.module('budgetApp')
-    .filter('formatDurationFilter', function () {
-        return function ($minutes) {
-
-            if (!$minutes) {
-                return '';
+        chooseTag: function ($index) {
+            if ($index !== undefined) {
+                //Item was chosen by clicking, not by pressing enter
+                $scope.currentIndex = $index;
             }
 
-            var $moment = moment.duration($minutes, 'minutes');
-            var $formattedDuration = $moment._data.hours + ':' + $moment._data.minutes;
+            if ($scope.multipleTags) {
+                $scope.addTag();
+            }
+            else {
+                $scope.fillField();
+            }
+        },
 
-            return $formattedDuration;
-        }
-    });
+        /**
+         * For if only one tag can be chosen
+         */
+        fillField: function () {
+            $scope.typing = $scope.results[$scope.currentIndex].name;
+            $scope.model = $scope.results[$scope.currentIndex];
+            if ($scope.focusOnEnter) {
+                // Todo: This line doesn't work if tag is chosen with mouse click
+                $("#" + $scope.focusOnEnter).focus();
+            }
+            $scope.hideAndClear();
+        },
+
+        /**
+         * For if multiple tags can be chosen
+         */
+        addTag: function () {
+            var $tag_id = $scope.results[$scope.currentIndex].id;
+
+            if (!$scope.duplicateTagCheck($tag_id, $scope.chosenTags)) {
+                //$rootScope.$broadcast('provideFeedback', 'You have already entered that tag');
+                $scope.hideAndClear();
+                return;
+            }
+
+            $scope.chosenTags.push($scope.results[$scope.currentIndex]);
+            $scope.hideAndClear();
+        },
+
+        /**
+         * Hide the dropdown and clear the input field
+         */
+        hideAndClear: function () {
+            $scope.hideDropdown();
+
+            if ($scope.multipleTags) {
+                $scope.typing = '';
+            }
+
+            $scope.currentIndex = null;
+            $('.highlight').removeClass('highlight');
+        },
+
+        hideDropdown: function () {
+            $scope.dropdown = false;
+        },
+
+        highlightLetters: function ($response, $typing) {
+            $typing = $typing.toLowerCase();
+
+            for (var i = 0; i < $response.length; i++) {
+                var $name = $response[i].name;
+                var $index = $name.toLowerCase().indexOf($typing);
+                var $substr = $name.substr($index, $typing.length);
+
+                var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
+                $response[i].html = $html;
+            }
+
+            return $response;
+        },
+
+        hoverItem: function(index) {
+            $scope.currentIndex = index;
+        },
+
+        /**
+         * Act on keypress for input field
+         * @param $keycode
+         * @returns {boolean}
+         */
+        filterTags: function ($keycode) {
+            if ($keycode === 13) {
+                //enter is pressed
+                //$scope.chooseItem();
+
+                if (!$scope.results[$scope.currentIndex]) {
+                    //We are not adding a tag. We are inserting the transaction.
+                    $scope.fnOnEnter();
+                    return;
+                }
+                //We are choosing a tag
+                $scope.chooseTag();
+
+                //resetting the dropdown to show all the tags again after a tag has been added
+                $scope.results = $scope.tags;
+            }
+            else if ($keycode === 38) {
+                //up arrow is pressed
+                if ($scope.currentIndex > 0) {
+                    $scope.currentIndex--;
+                }
+            }
+            else if ($keycode === 40) {
+                //down arrow is pressed
+                if ($scope.currentIndex + 1 < $scope.results.length) {
+                    $scope.currentIndex++;
+                }
+            }
+            else {
+                //Not enter, up or down arrow
+                $scope.currentIndex = 0;
+                $scope.showDropdown();
+            }
+        },
+
+        /**
+         * Todo: when the new budget tag input is focused after entering a budget,
+         * todo: I don't want the dropdown to show. I had a lot of trouble and need help though.
+         */
+        showDropdown: function () {
+            $scope.dropdown = true;
+            if ($scope.typing) {
+                $scope.results = $scope.highlightLetters($scope.searchLocal(), $scope.typing);
+            }
+        },
+
+        searchLocal: function () {
+            var $filtered_tags = _.filter($scope.tags, function ($tag) {
+                return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
+            });
+
+            return $filtered_tags;
+        },
+
+        removeTag: function ($tag) {
+            $scope.chosenTags = _.without($scope.chosenTags, $tag);
+        },
+    },
+    props: [
+        'chosenBudgets',
+        'dropdown',
+        'budgets',
+        'fnOnEnter',
+        'multipleBudgets',
+        'model',
+        'id',
+        'focusOnEnter'
+    ],
+    ready: function () {
+
+    }
+});
+//angular.module('budgetApp')
+//    .filter('formatDurationFilter', function () {
+//        return function ($minutes) {
+//
+//            if (!$minutes) {
+//                return '';
+//            }
+//
+//            var $moment = moment.duration($minutes, 'minutes');
+//            var $formattedDuration = $moment._data.hours + ':' + $moment._data.minutes;
+//
+//            return $formattedDuration;
+//        }
+//    });
 
 
-angular.module('budgetApp')
-    .filter('formatDurationToMinutesFilter', function () {
-        return function ($duration) {
-
-            return moment.duration($duration).asMinutes();
-        }
-    });
+//angular.module('budgetApp')
+//    .filter('formatDurationToMinutesFilter', function () {
+//        return function ($duration) {
+//
+//            return moment.duration($duration).asMinutes();
+//        }
+//    });
 
 
 var Transactions = Vue.component('transactions', {
@@ -24498,11 +24465,10 @@ var Transactions = Vue.component('transactions', {
 //            $scope.responseError(response);
 //        })
 //});
-app.factory('TransactionsFactory', function ($http) {
-    var $object = {};
-    $object.totals = {};
+var TransactionsRepository = {
+    totals: {},
 
-    $object.insertIncomeOrExpenseTransaction = function ($newTransaction) {
+    insertIncomeOrExpenseTransaction: function ($newTransaction) {
         var $url = '/api/transactions';
 
         if ($newTransaction.type === 'expense' && $newTransaction.total > 0) {
@@ -24514,9 +24480,9 @@ app.factory('TransactionsFactory', function ($http) {
         $newTransaction.minutes = moment.duration($newTransaction.duration).asMinutes();
 
         return $http.post($url, $newTransaction);
-    };
+    },
 
-    $object.insertTransferTransaction = function ($newTransaction, $direction) {
+    insertTransferTransaction: function ($newTransaction, $direction) {
         var $url = '/api/transactions';
         var $data = $newTransaction;
 
@@ -24530,9 +24496,9 @@ app.factory('TransactionsFactory', function ($http) {
         }
 
         return $http.post($url, $data);
-    };
+    },
 
-    $object.updateMassTags = function ($tag_array, $url, $tag_location) {
+    updateMassTags: function ($tag_array, $url, $tag_location) {
         var $transaction_id;
 
         var $tag_id_array = $tag_array.map(function (el) {
@@ -24553,9 +24519,9 @@ app.factory('TransactionsFactory', function ($http) {
 
             return $http.post($url, $data);
         });
-    };
+    },
 
-    $object.massEditDescription = function () {
+    massEditDescription: function () {
         var $transaction_id;
         var $description = $("#mass-edit-description-input").val();
         var $info = {
@@ -24573,9 +24539,9 @@ app.factory('TransactionsFactory', function ($http) {
 
             return $http.post($url, $data);
         });
-    };
+    },
 
-    $object.updateTransaction = function ($transaction) {
+    updateTransaction: function ($transaction) {
         var $url = $transaction.path;
 
         $transaction.date = Date.parse($("#edit-transaction-date").val()).toString('yyyy-MM-dd');
@@ -24589,9 +24555,9 @@ app.factory('TransactionsFactory', function ($http) {
         $transaction.minutes = moment.duration($transaction.duration).asMinutes();
 
         return $http.put($url, $transaction);
-    };
+    },
 
-    $object.updateReconciliation = function ($transaction) {
+    updateReconciliation: function ($transaction) {
         var $url = $transaction.path;
         //So the reconciled value doesn't change the checkbox for the front-end
         var $data = {reconciled: 0};
@@ -24601,30 +24567,30 @@ app.factory('TransactionsFactory', function ($http) {
         }
 
         return $http.put($url, $data);
-    };
+    },
 
-    $object.deleteTransaction = function ($transaction) {
+    deleteTransaction: function ($transaction) {
         var $url = $transaction.path;
 
         return $http.delete($url);
-    };
+    },
 
-    $object.massDelete = function () {
+    massDelete: function () {
         $(".checked").each(function () {
             deleteTransaction($(this));
         });
-    };
+    },
 
-    $object.getAllocationTotals = function ($transaction_id) {
+    getAllocationTotals: function ($transaction_id) {
         var $url = 'api/select/allocationTotals';
         var $data = {
             transaction_id: $transaction_id
         };
 
         return $http.post($url, $data);
-    };
+    },
 
-    $object.updateAllocation = function ($type, $value, $transaction_id, $budget_id) {
+    updateAllocation: function ($type, $value, $transaction_id, $budget_id) {
         var $url = 'api/updateAllocation';
         var $data = {
             type: $type,
@@ -24634,42 +24600,30 @@ app.factory('TransactionsFactory', function ($http) {
         };
 
         return $http.post($url, $data);
-    };
+    },
 
-    $object.updateAllocationStatus = function ($transaction) {
+    updateAllocationStatus: function ($transaction) {
         var $url = $transaction.path;
         var $data = {
             allocated: $transaction.allocated
         };
 
         return $http.put($url, $data);
-    };
+    },
 
-
-    return $object;
-});
-
-(function () {
-
-    angular
-        .module('budgetApp')
-        .controller('PreferencesController', preferences);
-
-    function preferences ($rootScope, $scope, PreferencesFactory) {
-
-        $scope.me = me;
-
-        $scope.colors = me.preferences.colors;
-
-        $scope.$watchCollection('colors', function (newValue) {
-            $("#income-color-picker").val(newValue.income);
-            $("#expense-color-picker").val(newValue.expense);
-            $("#transfer-color-picker").val(newValue.transfer);
-        });
-
-        $scope.preferences = {};
-
-        $scope.savePreferences = function () {
+};
+var PreferencesPage = Vue.component('preferences-page', {
+    template: '#preferences-page-template',
+    data: function () {
+        return {
+            me: me,
+            colors: this.me.preferences.colors,
+            preferences: {}
+        };
+    },
+    components: {},
+    methods: {
+        savePreferences: function () {
             PreferencesFactory.savePreferences($scope.me.preferences)
                 .then(function (response) {
                     $rootScope.$broadcast('provideFeedback', 'Preferences saved');
@@ -24678,9 +24632,9 @@ app.factory('TransactionsFactory', function ($http) {
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
-        };
+        },
 
-        $scope.defaultColor = function ($type, $default_color) {
+        defaultColor: function ($type, $default_color) {
             if ($type === 'income') {
                 $scope.colors.income = $default_color;
             }
@@ -24690,32 +24644,41 @@ app.factory('TransactionsFactory', function ($http) {
             else if ($type === 'transfer') {
                 $scope.colors.transfer = $default_color;
             }
-        };
-    }
-
-})();
-app.factory('PreferencesFactory', function ($http) {
-    return {
-        savePreferences: function (preferences) {
-            var url = '/api/users/' + me.id;
-            var data = {
-                preferences: preferences
-            };
-
-            return $http.put(url, data);
         },
-        updateColors: function ($colors) {
-            var $url = 'api/update/colors';
-            var $description = 'colors';
-            var $data = {
-                description: $description,
-                colors: $colors
-            };
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
 
-            return $http.post($url, $data);
-        }
-    };
+    }
 });
+
+
+//$scope.$watchCollection('colors', function (newValue) {
+//    $("#income-color-picker").val(newValue.income);
+//    $("#expense-color-picker").val(newValue.expense);
+//    $("#transfer-color-picker").val(newValue.transfer);
+//});
+
+//savePreferences: function (preferences) {
+//    var url = '/api/users/' + me.id;
+//    var data = {
+//        preferences: preferences
+//    };
+//
+//    return $http.put(url, data);
+//},
+//updateColors: function ($colors) {
+//    var $url = 'api/update/colors';
+//    var $description = 'colors';
+//    var $data = {
+//        description: $description,
+//        colors: $colors
+//    };
+//
+//    return $http.post($url, $data);
+//}
 
 var App = Vue.component('app', {
 

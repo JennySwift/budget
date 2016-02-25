@@ -1,8 +1,9 @@
-app.factory('FilterFactory', function ($http, $rootScope, $filter) {
-    var $object = {};
+var FilterRepository = {
 
-    $object.resetFilter = function () {
-        $object.filter = {
+    //filterBasicTotals: basicFilterTotals,
+
+    resetFilter: function () {
+        this.filter = {
 
             total: {
                 in: "",
@@ -54,18 +55,12 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
             display_to: 30
         };
 
-        this.filter = $object.filter;
+        $.event.trigger('reset-filter');
 
-        $rootScope.$emit('resetFilterInFilterController');
+        return this.filter;
+    },
 
-        return $object.filter;
-    };
-
-    $object.resetFilter();
-
-    $object.filterBasicTotals = filterBasicTotals;
-
-    $object.saveFilter = function ($name) {
+    saveFilter: function ($name) {
         var $url = '/api/savedFilters';
 
         var $data = {
@@ -74,28 +69,28 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
         };
 
         return $http.post($url, $data);
-    };
+    },
 
-    $object.chooseSavedFilter = function ($savedFilter) {
+    chooseSavedFilter: function ($savedFilter) {
         this.filter = $savedFilter;
         $rootScope.$emit('setFilterInToolbarDirective');
-    };
+    },
 
     /**
      * Updates filter.display_from and filter.display_to values
      */
-    $object.updateRange = function ($numToFetch) {
+    updateRange: function ($numToFetch) {
         if ($numToFetch) {
             this.filter.num_to_fetch = $numToFetch;
         }
 
         this.filter.display_from = this.filter.offset + 1;
         this.filter.display_to = this.filter.offset + (this.filter.num_to_fetch * 1);
-    };
+    },
 
     //Todo: I might not need some of this code (not allowing offset to be less than 0)
     // todo: since I disabled the button if that is the case
-    $object.prevResults = function () {
+    prevResults: function () {
         //make it so the offset cannot be less than 0.
         if (this.filter.offset - this.filter.num_to_fetch < 0) {
             this.filter.offset = 0;
@@ -105,9 +100,9 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
             this.updateRange();
             $rootScope.$emit('runFilter');
         }
-    };
+    },
 
-    $object.nextResults = function ($filterTotals) {
+    nextResults: function ($filterTotals) {
         if (this.filter.offset + (this.filter.num_to_fetch * 1) > $filterTotals.numTransactions) {
             //stop it going past the end.
             return;
@@ -116,9 +111,9 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
         this.filter.offset+= (this.filter.num_to_fetch * 1);
         this.updateRange();
         $rootScope.$emit('runFilter');
-    };
+    },
 
-    $object.formatDates = function () {
+    formatDates: function () {
         if (this.filter.single_date.in) {
             this.filter.single_date.inSql = $filter('formatDate')(this.filter.single_date.in);
         }
@@ -157,33 +152,33 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
         }
 
         return this.filter;
-    };
+    },
 
-    $object.getTransactions = function () {
+    getTransactions: function () {
         $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/transactions';
 
         return $http.post($url, {'filter': $object.filter});
-    };
+    },
 
-    $object.getBasicTotals = function () {
+    getBasicTotals: function () {
         $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/basicTotals';
 
         return $http.post($url, {'filter': $object.filter});
-    };
+    },
 
-    $object.getGraphTotals = function () {
+    getGraphTotals: function () {
         $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/graphTotals';
 
         return $http.post($url, {'filter': $object.filter});
-    };
+    },
 
-    $object.calculateGraphFigures = function ($graphTotals) {
+    calculateGraphFigures: function ($graphTotals) {
         var $graphFigures = {
             months: []
         };
@@ -203,7 +198,7 @@ app.factory('FilterFactory', function ($http, $rootScope, $filter) {
         });
 
         return $graphFigures;
-    };
+    },
+};
 
-    return $object;
-});
+FilterRepository.resetFilter();
