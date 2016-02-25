@@ -22904,410 +22904,444 @@ var BudgetsPage = Vue.component('budgets-page', {
 //
 //    return $http.delete($url);
 //}
-angular.module('budgetApp')
-    .directive('filterAccountsDirective', function () {
+var AccountsFilter = Vue.component('accounts-filter', {
+    template: '#accounts-filter-template',
+    data: function () {
         return {
-            scope: {
-                'filter': '=filter',
-                'filterTab': '=filtertab',
-                'runFilter': '&runfilter'
-            },
-            templateUrl: 'filter-accounts-template',
-
-            link: function ($scope) {
-                $scope.accounts = accounts_response;
-            }
-        }
-    });
-
-angular.module('budgetApp')
-    .directive('filterDateDirective', function ($rootScope) {
-        return {
-            scope: {
-                'filter': '=filter',
-                'filterTab': '=filtertab',
-                'runFilter': '&runfilter'
-            },
-            templateUrl: 'filter-date-template',
-
-            link: function ($scope) {
-
-                $scope.filterDate = function ($keycode) {
-                    if ($keycode !== 13) {
-                        return false;
-                    }
-                    $rootScope.$emit('runFilter');
-                };
-
-                /**
-                 * $type is either 'in' or 'out'
-                 * @param $field
-                 * @param $type
-                 */
-                $scope.clearDateField = function ($field, $type) {
-                    $scope.filter[$field][$type] = "";
-                    $rootScope.$emit('runFilter');
-                };
-            }
-        }
-    });
-
-/**
- * Much the same as FilterMerchantDirective
- */
-angular.module('budgetApp')
-    .directive('filterDescriptionDirective', function ($rootScope) {
-        return {
-            scope: {
-                'filter': '=filter',
-                'filterTab': '=filtertab',
-                'runFilter': '&runfilter'
-            },
-            templateUrl: 'filter-description-template',
-
-            link: function ($scope) {
-
-                $scope.filterDescriptionOrMerchant = function ($keycode) {
-                    if ($keycode !== 13) {
-                        return false;
-                    }
-                    $scope.resetOffset();
-                    $rootScope.$emit('runFilter');
-                };
-
-                $scope.resetOffset = function () {
-                    $scope.filter.offset = 0;
-                };
-
-                /**
-                 * $type is either 'in' or 'out'
-                 *
-                 * @DO:
-                 * This method is duplicated in other parts of the filter, but
-                 * for some reason when I had it in my FilterController, both
-                 * parameters were undefined.
-                 *
-                 * @param $field
-                 * @param $type
-                 */
-                $scope.clearFilterField = function ($field, $type) {
-                    $scope.filter[$field][$type] = "";
-                    $rootScope.$emit('runFilter');
-                };
-
-            }
-        }
-    });
-
-;(function(){
-    'use strict';
-    angular
-        .module('budgetApp')
-        .directive('filterDropdownsDirective', filterDropdown);
-
-    /* @inject */
-    function filterDropdown() {
-        return {
-            restrict: 'A',
-            scope: true,
-            link: function($scope, elem, attrs) {
-                $scope.content = $(elem).find('.content');
-                var $h4 = $(elem).find('h4');
-
-                $($h4).on('click', function () {
-                    $scope.toggleContent();
-                });
-
-                $scope.toggleContent = function () {
-                    if ($scope.contentVisible) {
-                        $scope.hideContent();
-                    }
-                    else {
-                        $scope.showContent();
-                    }
-                };
-
-                $scope.showContent = function () {
-                    $scope.content.slideDown();
-                    $scope.contentVisible = true;
-                };
-
-                $scope.hideContent = function () {
-                    $scope.content.slideUp();
-                    $scope.contentVisible = false;
-                };
-            }
+            accounts: accounts_response
         };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
     }
-}).call(this);
-
-
-angular.module('budgetApp')
-    .directive('graphsDirective', function ($rootScope, FilterFactory) {
+});
+var BudgetsFilter = Vue.component('budgets-filter', {
+    template: '#tags-filter-template',
+    data: function () {
         return {
-            scope: {
 
-            },
-            templateUrl: 'graphs-template',
-
-            link: function ($scope) {
-
-                $rootScope.$on('getGraphTotals', function () {
-                    $rootScope.showLoading();
-                    FilterFactory.getGraphTotals(FilterFactory.filter)
-                        .then(function (response) {
-                            $scope.graphFigures = FilterFactory.calculateGraphFigures(response.data);
-                            $rootScope.hideLoading();
-                        })
-                        .catch(function (response) {
-                            $rootScope.responseError(response);
-                        })
-                });
-
+        };
+    },
+    components: {},
+    methods: {
+        /**
+         * $type1 is 'in' or 'out'.
+         * $type2 is 'and' or 'or'.
+         * @param $type1
+         * @param $type2
+         */
+        clearTagField: function ($type1, $type2) {
+            if ($type2) {
+                $scope.filter.budgets[$type1][$type2] = [];
+            }
+            else {
+                $scope.filter.budgets[$type1] = [];
             }
         }
-    });
 
-angular.module('budgetApp')
-    .directive('filterMerchantDirective', function ($rootScope) {
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter',
+        'budgets'
+    ],
+    ready: function () {
+
+    }
+});
+
+
+//$scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
+//    if (newValue === oldValue) {
+//        return;
+//    }
+//    $rootScope.$emit('runFilter');
+//});
+//
+//$scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
+//    if (newValue === oldValue) {
+//        return;
+//    }
+//    $rootScope.$emit('runFilter');
+//});
+//
+//$scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
+//    if (newValue === oldValue) {
+//        return;
+//    }
+//    $rootScope.$emit('runFilter');
+//});
+var DatesFilter = Vue.component('dates-filter', {
+    template: '#dates-filter-template',
+    data: function () {
         return {
-            scope: {
-                'filter': '=filter',
-                'filterTab': '=filtertab',
-                'runFilter': '&runfilter'
-            },
-            templateUrl: 'filter-merchant-template',
 
-            link: function ($scope) {
-
-                $scope.filterDescriptionOrMerchant = function ($keycode) {
-                    if ($keycode !== 13) {
-                        return false;
-                    }
-                    $scope.resetOffset();
-                    $rootScope.$emit('runFilter');
-                };
-
-                $scope.resetOffset = function () {
-                    $scope.filter.offset = 0;
-                };
-                
-                /**
-                 * $type is either 'in' or 'out'
-                 *
-                 * @DO:
-                 * This method is duplicated in other parts of the filter, but
-                 * for some reason when I had it in my FilterController, both
-                 * parameters were undefined.
-                 *
-                 * @param $field
-                 * @param $type
-                 */
-                $scope.clearFilterField = function ($field, $type) {
-                    $scope.filter[$field][$type] = "";
-                    $rootScope.$emit('runFilter');
-                };
-
+        };
+    },
+    components: {},
+    methods: {
+        filterDate: function ($keycode) {
+            if ($keycode !== 13) {
+                return false;
             }
-        }
-    });
+            $rootScope.$emit('runFilter');
+        },
 
-angular.module('budgetApp')
-    .directive('filterTagsDirective', function ($rootScope) {
+        /**
+         * $type is either 'in' or 'out'
+         * @param $field
+         * @param $type
+         */
+        clearDateField: function ($field, $type) {
+            $scope.filter[$field][$type] = "";
+            $rootScope.$emit('runFilter');
+        },
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
+    }
+});
+var DescriptionsFilter = Vue.component('descriptions-filter', {
+    template: '#descriptions-filter-template',
+    data: function () {
         return {
-            scope: {
-                'filter': '=filter',
-                'filterTab': '=filtertab',
-                'runFilter': '&runfilter',
-                'budgets': '=budgets'
-            },
-            templateUrl: 'filter-tags-template',
 
-            link: function ($scope) {
-
-                $scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
-                    if (newValue === oldValue) {
-                        return;
-                    }
-                    $rootScope.$emit('runFilter');
-                });
-
-                $scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
-                    if (newValue === oldValue) {
-                        return;
-                    }
-                    $rootScope.$emit('runFilter');
-                });
-
-                $scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
-                    if (newValue === oldValue) {
-                        return;
-                    }
-                    $rootScope.$emit('runFilter');
-                });
-
-                /**
-                 * $type1 is 'in' or 'out'.
-                 * $type2 is 'and' or 'or'.
-                 * @param $type1
-                 * @param $type2
-                 */
-                $scope.clearTagField = function ($type1, $type2) {
-                    if ($type2) {
-                        $scope.filter.budgets[$type1][$type2] = [];
-                    }
-                    else {
-                        $scope.filter.budgets[$type1] = [];
-                    }
-                };
-
+        };
+    },
+    components: {},
+    methods: {
+        filterDescriptionOrMerchant: function ($keycode) {
+            if ($keycode !== 13) {
+                return false;
             }
-        }
-    });
+            $scope.resetOffset();
+            $rootScope.$emit('runFilter');
+        },
 
-angular.module('budgetApp')
-    .directive('filterToolbarDirective', function ($rootScope, FilterFactory) {
+        resetOffset: function () {
+            $scope.filter.offset = 0;
+        },
+
+        /**
+         * $type is either 'in' or 'out'
+         *
+         * @DO:
+         * This method is duplicated in other parts of the filter, but
+         * for some reason when I had it in my FilterController, both
+         * parameters were undefined.
+         *
+         * @param $field
+         * @param $type
+         */
+        clearFilterField: function ($field, $type) {
+            $scope.filter[$field][$type] = "";
+            $rootScope.$emit('runFilter');
+        },
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
+    }
+});
+
+var DropdownForFilter = Vue.component('dropdown-for-filter', {
+    template: '#dropdown-for-filter-template',
+    data: function () {
         return {
-            scope: {
-
-            },
-            templateUrl: 'filter-toolbar-template',
-
-            link: function ($scope) {
-                $scope.filter = FilterFactory.filter;
-                $scope.filterFactory = FilterFactory;
-
-                $scope.$watch('filterFactory.filterBasicTotals', function (newValue, oldValue, scope) {
-                    $scope.filterTotals = newValue;
-                });
-
-                $rootScope.$on('setFilterInToolbarDirective', function () {
-                    $scope.filter = FilterFactory.filter;
-                });
-
-                $scope.resetFilter = function () {
-                    FilterFactory.resetFilter();
-                    $scope.filter = FilterFactory.filter;
-                    $rootScope.$emit('runFilter');
-                };
-
-                $scope.changeNumToFetch = function () {
-                    FilterFactory.updateRange($scope.filter.num_to_fetch);
-                    $rootScope.$emit('runFilter');
-                };
-
-                $scope.prevResults = function () {
-                    FilterFactory.prevResults();
-                };
-
-                $scope.nextResults = function () {
-                    FilterFactory.nextResults($scope.filterTotals.numTransactions);
-                };
-
-                $scope.saveFilter = function () {
-                    var $name = prompt('Please name your filter');
-                    $rootScope.showLoading();
-                    FilterFactory.saveFilter($name)
-                        .then(function (response) {
-                            $rootScope.$emit('newSavedFilter', response.data.data);
-                            $rootScope.$broadcast('provideFeedback', 'Filter saved');
-                            $rootScope.hideLoading();
-                        })
-                        .catch(function (response) {
-                            $rootScope.responseError(response);
-                        });
-                };
+            content: $(elem).find('.content')
+        };
+    },
+    components: {},
+    methods: {
+        toggleContent: function () {
+            if ($scope.contentVisible) {
+                $scope.hideContent();
             }
-        }
-    });
+            else {
+                $scope.showContent();
+            }
+        },
 
-angular.module('budgetApp')
-    .directive('filterTotalDirective', function ($rootScope) {
+        showContent: function () {
+            $scope.content.slideDown();
+            $scope.contentVisible = true;
+        },
+
+        hideContent: function () {
+            $scope.content.slideUp();
+            $scope.contentVisible = false;
+        },
+
+        listen: function () {
+            var $h4 = $(elem).find('h4');
+
+            $($h4).on('click', function () {
+                $scope.toggleContent();
+            });
+        }
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
+
+
+var Graphs = Vue.component('graphs', {
+    template: '#graphs-template',
+    data: function () {
         return {
-            scope: {
-                'filter': '=filter',
-                'filterTab': '=filtertab',
-                'runFilter': '&runfilter'
-                //'clearFilterField': '&clearfilterfield'
-            },
-            templateUrl: 'filter-total-template',
 
-            link: function ($scope) {
-
-                $scope.filterTotal = function ($keycode) {
-                    if ($keycode !== 13) {
-                        return false;
-                    }
-                    $rootScope.$emit('runFilter');
-                };
-
-                /**
-                 * $type is either 'in' or 'out'
-                 *
-                 * @DO:
-                 * This method is duplicated in other parts of the filter, but
-                 * for some reason when I had it in my FilterController, both
-                 * parameters were undefined.
-                 *
-                 * @param $field
-                 * @param $type
-                 */
-                $scope.clearFilterField = function ($field, $type) {
-                    $scope.filter[$field][$type] = "";
-                    $rootScope.$emit('runFilter');
-                };
-
-            }
+        };
+    },
+    components: {},
+    methods: {
+        listen: function () {
+            $(document).on('get-graph-totals', function (event) {
+                $rootScope.showLoading();
+                FilterFactory.getGraphTotals(FilterFactory.filter)
+                    .then(function (response) {
+                        $scope.graphFigures = FilterFactory.calculateGraphFigures(response.data);
+                        $rootScope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $rootScope.responseError(response);
+                    })
+            });
         }
-    });
-
-angular.module('budgetApp')
-    .directive('filterTotalsDirective', function ($rootScope, FilterFactory) {
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
+var MerchantsFilter = Vue.component('merchants-filter', {
+    template: '#merchants-filter-template',
+    data: function () {
         return {
-            scope: {
-                show: '=show',
-                filter: '=filter'
-            },
-            templateUrl: 'filter-totals-template',
 
-            link: function ($scope) {
+        };
+    },
+    components: {},
+    methods: {
+        filterDescriptionOrMerchant: function ($keycode) {
+            if ($keycode !== 13) {
+                return false;
+            }
+            $scope.resetOffset();
+            $rootScope.$emit('runFilter');
+        },
 
-                $scope.filterTotals = FilterFactory.filterBasicTotals;
+        resetOffset: function () {
+            $scope.filter.offset = 0;
+        },
 
-                $rootScope.$on('getFilterBasicTotals', function () {
-                    $rootScope.showLoading();
-                    FilterFactory.getBasicTotals($scope.filter)
-                        .then(function (response) {
-                            FilterFactory.filterBasicTotals = response.data;
-                            $scope.filterTotals = response.data;
-                            $rootScope.hideLoading();
-                        })
-                        .catch(function (response) {
-                            $rootScope.responseError(response);
-                        })
+        /**
+         * $type is either 'in' or 'out'
+         *
+         * @DO:
+         * This method is duplicated in other parts of the filter, but
+         * for some reason when I had it in my FilterController, both
+         * parameters were undefined.
+         *
+         * @param $field
+         * @param $type
+         */
+        clearFilterField: function ($field, $type) {
+            $scope.filter[$field][$type] = "";
+            $rootScope.$emit('runFilter');
+        },
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
+    }
+});
+
+var ToolbarForFilter = Vue.component('toolbar-for-filter', {
+    template: '#toolbar-for-filter-template',
+    data: function () {
+        return {
+            filter: FilterRepository.filter
+        };
+    },
+    components: {},
+    methods: {
+        resetFilter: function () {
+            FilterFactory.resetFilter();
+            $scope.filter = FilterFactory.filter;
+            $rootScope.$emit('runFilter');
+        },
+
+        changeNumToFetch: function () {
+            FilterFactory.updateRange($scope.filter.num_to_fetch);
+            $rootScope.$emit('runFilter');
+        },
+
+        prevResults: function () {
+            FilterFactory.prevResults();
+        },
+
+        nextResults: function () {
+            FilterFactory.nextResults($scope.filterTotals.numTransactions);
+        },
+
+        saveFilter: function () {
+            var $name = prompt('Please name your filter');
+            $rootScope.showLoading();
+            FilterFactory.saveFilter($name)
+                .then(function (response) {
+                    $rootScope.$emit('newSavedFilter', response.data.data);
+                    $rootScope.$broadcast('provideFeedback', 'Filter saved');
+                    $rootScope.hideLoading();
+                })
+                .catch(function (response) {
+                    $rootScope.responseError(response);
                 });
+        },
 
-            }
+        listen: function () {
+            var that = this;
+            $(document).on('set-filter-in-toolbar', function (event) {
+                that.filter = FilterFactory.filter;
+            });
         }
-    });
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
 
-angular.module('budgetApp')
-    .directive('filterTypesDirective', function () {
+//
+//$scope.$watch('filterFactory.filterBasicTotals', function (newValue, oldValue, scope) {
+//    $scope.filterTotals = newValue;
+//});
+var TotalsFilter = Vue.component('totals-filter', {
+    template: '#totals-filter-template',
+    data: function () {
         return {
-            scope: {
-                'filter': '=filter',
-                'filterTab': '=filtertab',
-                'runFilter': '&runfilter'
-            },
-            templateUrl: 'filter-types-template',
 
-            link: function ($scope) {
-
-                $scope.types = ["income", "expense", "transfer"];
-
+        };
+    },
+    components: {},
+    methods: {
+        filterTotal: function ($keycode) {
+            if ($keycode !== 13) {
+                return false;
             }
+            $rootScope.$emit('runFilter');
+        },
+
+        /**
+         * $type is either 'in' or 'out'
+         *
+         * @DO:
+         * This method is duplicated in other parts of the filter, but
+         * for some reason when I had it in my FilterController, both
+         * parameters were undefined.
+         *
+         * @param $field
+         * @param $type
+         */
+        clearFilterField: function ($field, $type) {
+            $scope.filter[$field][$type] = "";
+            $rootScope.$emit('runFilter');
+        },
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
+    }
+});
+var TotalsForFilter = Vue.component('totals-for-filter', {
+    template: '#totals-for-filter-template',
+    data: function () {
+        return {
+            filterTotals: FilterFactory.filterBasicTotals
+        };
+    },
+    components: {},
+    methods: {
+        listen: function () {
+            $(document).on('get-basic-filter-totals', function (event) {
+                FilterFactory.getBasicTotals($scope.filter)
+                    .then(function (response) {
+                        FilterFactory.filterBasicTotals = response.data;
+                        $scope.filterTotals = response.data;
+                        $rootScope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $rootScope.responseError(response);
+                    })
+            });
         }
-    });
+    },
+    props: [
+        'show',
+        'filter'
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
+var TypesFilter = Vue.component('types-filter', {
+    template: '#types-filter-template',
+    data: function () {
+        return {
+            types: ["income", "expense", "transfer"]
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
+    }
+});
+
+
 
 var HomePage = Vue.component('home-page', {
     template: '#home-page-template',
@@ -23815,215 +23849,207 @@ var NewTransactionRepository = {
         return false;
     }
 };
-;(function(){
-    'use strict';
-    angular
-        .module('budgetApp')
-        .directive('transactionAutocompleteDirective', transactionAutocomplete);
-
-    function transactionAutocomplete(AutocompleteFactory, $sce, $http, $interval) {
+var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
+    template: '#transaction-autocomplete-template',
+    data: function () {
         return {
-            restrict: 'EA',
-            scope: {
-                "dropdown": "=dropdown",
-                "placeholder": "@placeholder",
-                "id": "@id",
-                "typing": "=typing",
-                "new_transaction": "=newtransaction",
-                "fnOnEnter": "&fnonenter",
-                "showLoading": "&showloading",
-                "hideLoading": "&hideloading",
-                "loading": "=loading"
-            },
-            templateUrl: 'transaction-autocomplete-template',
-            link: function($scope, elem, attrs) {
-                $scope.results = {};
-
-                $scope.focus = function () {
-                    $scope.focused = true;
-                };
-
-                /**
-                 * Hide the dropdown and clear the input field
-                 */
-                $scope.hideAndClear = function () {
-                    $scope.focused = false;
-                    $scope.hideDropdown();
-                    $scope.currentIndex = null;
-                    $('.highlight').removeClass('highlight');
-                };
-
-                $scope.hideDropdown = function () {
-                    $scope.dropdown = false;
-                };
-
-                $scope.highlightLetters = function ($response, $typing) {
-                    $typing = $typing.toLowerCase();
-
-                    for (var i = 0; i < $response.length; i++) {
-                        var $name = $response[i].name;
-                        var $index = $name.toLowerCase().indexOf($typing);
-                        var $substr = $name.substr($index, $typing.length);
-
-                        var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
-
-                        $response[i].html = $html;
-                    }
-                    return $response;
-                };
-
-                $scope.hoverItem = function(index) {
-                    $scope.currentIndex = index;
-                };
-
-                /**
-                 * Act on keypress for input field
-                 * @param $keycode
-                 * @returns {boolean}
-                 */
-                $scope.filter = function ($keycode) {
-                    //$("#" + $scope.id).val('hi');
-                    //if (!$("#" + $scope.id).is(":focus")) {
-                    //    $scope.hideDropdown();
-                    //    return false;
-                    //}
-                    if ($keycode === 13) {
-                        //enter is pressed
-                        if (!$scope.results[$scope.currentIndex]) {
-                            //We are not adding a tag. We are inserting the transaction.
-                            $scope.fnOnEnter();
-                            return;
-                        }
-                        //We are adding a tag
-                        $scope.chooseItem();
-
-                        //resetting the dropdown to show all the tags again after a tag has been added
-                        //$scope.results = $scope.tags;
-                    }
-                    else if ($keycode === 38) {
-                        //up arrow is pressed
-                        if ($scope.currentIndex > 0) {
-                            $scope.currentIndex--;
-                        }
-                    }
-                    else if ($keycode === 40) {
-                        //down arrow is pressed
-                        if ($scope.currentIndex + 1 < $scope.results.length) {
-                            $scope.currentIndex++;
-                        }
-                    }
-                    else if ($keycode === 9) {
-                        //tab is pressed
-                        //$scope.hideDropdown();
-                        //return false;
-                    }
-                    else {
-                        console.log('focused');
-                        //Not enter, up or down arrow
-                        $scope.startCounting();
-                        $scope.currentIndex = 0;
-                        $scope.showDropdown();
-                    }
-                };
-
-                $scope.startCounting = function () {
-                    $interval.cancel($scope.interval);
-                    $scope.timeSinceKeyPress = 0;
-                    $scope.interval = $interval(function () {
-                        $scope.timeSinceKeyPress++;
-                        $scope.showDropdown();
-                    }, 500);
-                };
-
-                $scope.showDropdown = function () {
-                    $scope.dropdown = true;
-
-                    if (!$scope.focused) {
-                        // The input is not focused anymore,
-                        // so the user is not interested in the autocomplete
-                        $scope.hideDropdown();
-                        return false;
-                    }
-
-                    if ($scope.timeSinceKeyPress > 1) {
-                        $scope.results = $scope.highlightLetters($scope.searchDatabase(), $scope.typing);
-                        $interval.cancel($scope.interval);
-                    }
-                };
-
-                $scope.searchLocal = function () {
-                    var $results = _.filter($scope.tags, function ($tag) {
-                        return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
-                    });
-
-                    return $results;
-                };
-
-                //var $responseNum = 0;
-
-                /**
-                 * Query the database
-                 */
-                $scope.searchDatabase = function () {
-                    $scope.showLoading();
-                    return $http.get('/api/transactions?column=' + $scope.placeholder + '&typing=' + $scope.typing).
-                        success(function(response, status, headers, config) {
-                            $scope.results = AutocompleteFactory.transferTransactions(response);
-                            $scope.results = AutocompleteFactory.removeDuplicates($scope.results);
-                            $scope.hideLoading();
-                        }).
-                        error(function(data, status, headers, config) {
-                            console.log("There was an error");
-                        });
-                };
-
-                $scope.chooseItem = function ($index) {
-                    if ($index !== undefined) {
-                        //Item was chosen by clicking, not by pressing enter
-                        $scope.currentIndex = $index;
-                    }
-
-                    $scope.selectedItem = $scope.results[$scope.currentIndex];
-
-                    $scope.fillFields();
-
-                    $scope.hideAndClear();
-                };
-
-                $scope.fillFields = function () {
-                    if ($scope.placeholder === 'description') {
-                        $scope.typing = $scope.selectedItem.description;
-                        $scope.new_transaction.merchant = $scope.selectedItem.merchant;
-                    }
-                    else if ($scope.placeholder === 'merchant') {
-                        $scope.typing = $scope.selectedItem.merchant;
-                        $scope.new_transaction.description = $scope.selectedItem.description;
-                    }
-
-                    // If the user has the clearFields setting on,
-                    // only fill in the total if they haven't entered a total yet
-                    if (me.preferences.clearFields && $scope.new_transaction.total === '') {
-                        $scope.new_transaction.total = $scope.selectedItem.total;
-                    }
-                    else if (!me.preferences.clearFields) {
-                        $scope.new_transaction.total = $scope.selectedItem.total;
-                    }
-
-                    $scope.new_transaction.type = $scope.selectedItem.type;
-                    $scope.new_transaction.account_id = $scope.selectedItem.account.id;
-
-                    if ($scope.selectedItem.from_account && $scope.selectedItem.to_account) {
-                        $scope.new_transaction.from_account_id = $scope.selectedItem.from_account.id;
-                        $scope.new_transaction.to_account_id = $scope.selectedItem.to_account.id;
-                    }
-
-                    $scope.new_transaction.budgets = $scope.selectedItem.budgets;
-                };
-
-            }
+            results: []
         };
+    },
+    components: {},
+    methods: {
+        focus: function () {
+            $scope.focused = true;
+        },
+
+        /**
+         * Hide the dropdown and clear the input field
+         */
+        hideAndClear: function () {
+            $scope.focused = false;
+            $scope.hideDropdown();
+            $scope.currentIndex = null;
+            $('.highlight').removeClass('highlight');
+        },
+
+        hideDropdown: function () {
+            $scope.dropdown = false;
+        },
+
+        highlightLetters: function ($response, $typing) {
+            $typing = $typing.toLowerCase();
+
+            for (var i = 0; i < $response.length; i++) {
+                var $name = $response[i].name;
+                var $index = $name.toLowerCase().indexOf($typing);
+                var $substr = $name.substr($index, $typing.length);
+
+                var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
+
+                $response[i].html = $html;
+            }
+            return $response;
+        },
+
+        hoverItem: function(index) {
+            $scope.currentIndex = index;
+        },
+
+        /**
+         * Act on keypress for input field
+         * @param $keycode
+         * @returns {boolean}
+         */
+        filter: function ($keycode) {
+            if ($keycode === 13) {
+                //enter is pressed
+                if (!$scope.results[$scope.currentIndex]) {
+                    //We are not adding a tag. We are inserting the transaction.
+                    $scope.fnOnEnter();
+                    return;
+                }
+                //We are adding a tag
+                $scope.chooseItem();
+
+                //resetting the dropdown to show all the tags again after a tag has been added
+                //$scope.results = $scope.tags;
+            }
+            else if ($keycode === 38) {
+                //up arrow is pressed
+                if ($scope.currentIndex > 0) {
+                    $scope.currentIndex--;
+                }
+            }
+            else if ($keycode === 40) {
+                //down arrow is pressed
+                if ($scope.currentIndex + 1 < $scope.results.length) {
+                    $scope.currentIndex++;
+                }
+            }
+            else if ($keycode === 9) {
+                //tab is pressed
+                //$scope.hideDropdown();
+                //return false;
+            }
+            else {
+                console.log('focused');
+                //Not enter, up or down arrow
+                $scope.startCounting();
+                $scope.currentIndex = 0;
+                $scope.showDropdown();
+            }
+        },
+
+        startCounting: function () {
+            $interval.cancel($scope.interval);
+            $scope.timeSinceKeyPress = 0;
+            $scope.interval = $interval(function () {
+                $scope.timeSinceKeyPress++;
+                $scope.showDropdown();
+            }, 500);
+        },
+
+        fillFields: function () {
+            if ($scope.placeholder === 'description') {
+                $scope.typing = $scope.selectedItem.description;
+                $scope.new_transaction.merchant = $scope.selectedItem.merchant;
+            }
+            else if ($scope.placeholder === 'merchant') {
+                $scope.typing = $scope.selectedItem.merchant;
+                $scope.new_transaction.description = $scope.selectedItem.description;
+            }
+
+            // If the user has the clearFields setting on,
+            // only fill in the total if they haven't entered a total yet
+            if (me.preferences.clearFields && $scope.new_transaction.total === '') {
+                $scope.new_transaction.total = $scope.selectedItem.total;
+            }
+            else if (!me.preferences.clearFields) {
+                $scope.new_transaction.total = $scope.selectedItem.total;
+            }
+
+            $scope.new_transaction.type = $scope.selectedItem.type;
+            $scope.new_transaction.account_id = $scope.selectedItem.account.id;
+
+            if ($scope.selectedItem.from_account && $scope.selectedItem.to_account) {
+                $scope.new_transaction.from_account_id = $scope.selectedItem.from_account.id;
+                $scope.new_transaction.to_account_id = $scope.selectedItem.to_account.id;
+            }
+
+            $scope.new_transaction.budgets = $scope.selectedItem.budgets;
+        },
+
+        chooseItem: function ($index) {
+            if ($index !== undefined) {
+                //Item was chosen by clicking, not by pressing enter
+                $scope.currentIndex = $index;
+            }
+
+            $scope.selectedItem = $scope.results[$scope.currentIndex];
+
+            $scope.fillFields();
+
+            $scope.hideAndClear();
+        },
+
+        showDropdown: function () {
+            $scope.dropdown = true;
+
+            if (!$scope.focused) {
+                // The input is not focused anymore,
+                // so the user is not interested in the autocomplete
+                $scope.hideDropdown();
+                return false;
+            }
+
+            if ($scope.timeSinceKeyPress > 1) {
+                $scope.results = $scope.highlightLetters($scope.searchDatabase(), $scope.typing);
+                $interval.cancel($scope.interval);
+            }
+        },
+
+
+        searchLocal: function () {
+            var $results = _.filter($scope.tags, function ($tag) {
+                return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
+            });
+
+            return $results;
+        },
+
+        /**
+         * Query the database
+         */
+        searchDatabase: function () {
+            $scope.showLoading();
+            return $http.get('/api/transactions?column=' + $scope.placeholder + '&typing=' + $scope.typing).
+            success(function (response, status, headers, config) {
+                $scope.results = AutocompleteFactory.transferTransactions(response);
+                $scope.results = AutocompleteFactory.removeDuplicates($scope.results);
+                $scope.hideLoading();
+            }).
+            error(function (data, status, headers, config) {
+                console.log("There was an error");
+            });
+        },
+
+
+    },
+    props: [
+        'dropdown',
+        'placeholder',
+        'id',
+        'typing',
+        'newTransaction',
+        'fnOnEnter',
+        'showLoading',
+        'hideLoading',
+        'loading'
+    ],
+    ready: function () {
+
     }
-}).call(this);
+});
 
 
 (function () {
