@@ -1,36 +1,65 @@
-<div v-cloak v-show="new_transaction.type !== 'transfer'">
-    <label>Select an account</label>
-    <select
-        v-model="new_transaction.account_id"
-        v-on:keyup="insertTransaction($event.keyCode)"
-        class="form-control">
-        <option v-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
-    </select>
-</div>
+<div v-cloak v-show=" newTransaction.type !== 'transfer'">
 
-<div v-cloak v-show="new_transaction.type === 'transfer'">
-    <label for="" class="center">Select the account you are transferring money from</label>
+    <div class="form-group">
+        <label for="new-transaction-account">Account</label>
 
-    <select
-        v-model="new_transaction.from_account_id"
-        v-on:keyup="insertTransaction($event.keyCode)"
-        type="text"
-        id="transfer-from-account-select"
-        class="account-dropdown form-control">
-        <option v-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
-    </select>
+        <select
+            v-model="newTransactionAccount"
+            v-on:keyup.13="insertTransaction()"
+            id="new-transaction-account"
+            class="form-control"
+        >
+            <option
+                v-for="account in accounts"
+                v-bind:value="account"
+            >
+                @{{ account.name }}
+            </option>
+        </select>
+    </div>
 
 </div>
 
-<div v-cloak v-show="new_transaction.type === 'transfer'">
-    <label for="" class="center">Select the account you are transferring money to</label>
+<div v-cloak v-show=" newTransaction.type === 'transfer'">
 
-    <select
-        v-model="new_transaction.to_account_id"
-        v-on:keyup="insertTransaction($event.keyCode)"
-        type="text"
-        id="transfer-from-account-select"
-        class="account-dropdown form-control">
-        <option v-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
-    </select>
+    <div class="form-group">
+        <label for="new-transaction-from-account">Select the account your are transferring money from</label>
+
+        <select
+            v-model="newTransaction.fromAccount"
+            v-on:keyup.13="insertTransaction()"
+            id="new-transaction-from-account"
+            class="form-control"
+        >
+            <option
+                v-for="account in accounts"
+                v-bind:value="account"
+            >
+                @{{ account.name }}
+            </option>
+        </select>
+    </div>
+
+</div>
+
+<div v-cloak v-show=" newTransaction.type === 'transfer'">
+
+    <div class="form-group">
+        <label for="new-transaction-to-account">Select the account you are transferring money @stop</label>
+
+        <select
+            v-model="newTransaction.toAccount"
+            v-on:keyup.13="insertTransaction()"
+            id="new-transaction-to-account"
+            class="form-control"
+        >
+            <option
+                v-for="account in accounts"
+                v-bind:value="account"
+            >
+                @{{ account.name }}
+            </option>
+        </select>
+    </div>
+
 </div>

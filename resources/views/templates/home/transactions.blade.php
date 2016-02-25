@@ -60,7 +60,7 @@
             <td v-show="show.allocated">
                 <button
                     v-if="transaction.multipleBudgets"
-                    v-class="{'allocated, btn-success': transaction.allocated, 'not-allocated, btn-danger': !transaction.allocated}"
+                    v-bind:class="{'allocated, btn-success': transaction.allocated, 'not-allocated, btn-danger': !transaction.allocated}"
                     v-on:click="showAllocationPopup(transaction)">
                     allocate
                 </button>

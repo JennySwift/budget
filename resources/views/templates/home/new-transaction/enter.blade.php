@@ -1,6 +1,6 @@
 <div>
     <div class="help-row">
-        <button v-mousedown="insertTransaction(13)" tabindex="-1" id="add-transaction" class="btn btn-success">Add transaction</button>
+        <button v-on:mousedown="insertTransaction(13)" tabindex="-1" id="add-transaction" class="btn btn-success">Add transaction</button>
 
         <div dropdowns-directive class="dropdown-directive">
             <button v-on:click="toggleDropdown()" tabindex="-1" class="btn btn-info btn-xs">

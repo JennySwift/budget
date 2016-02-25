@@ -5,22 +5,29 @@
             id="new-transaction-container"
     >
 
-
-        {{--This div is so the is has same margin as other--}}
         <div
-                v-show="show.new_transaction"
-                v-bind:style="{color: colors[new_transaction.type]}"
+                v-show="show.newTransaction"
+                v-bind:style="{color: colors[newTransaction.type]}"
                 id="new-transaction"
         >
 
-            <label>Favourites</label>
+            <div class="form-group">
+                <label for="new-transaction-favourites">Favourites</label>
 
-            <select
-                    v-options="item.name for item in favouriteTransactions"
+                <select
                     v-model="selectedFavouriteTransaction"
                     v-on:change="fillFields()"
-                    class="form-control">
-            </select>
+                    id="new-transaction-favourites"
+                    class="form-control"
+                >
+                    <option
+                        v-for="favourite in favouriteTransactions"
+                        v-bind:value="favourite"
+                    >
+                        @{{ favourite.name }}
+                    </option>
+                </select>
+            </div>
 
             <div class="type">
                 @include('templates.home.new-transaction.type')

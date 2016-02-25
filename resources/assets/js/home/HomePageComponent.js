@@ -3,11 +3,12 @@ var HomePage = Vue.component('home-page', {
     data: function () {
         return {
             page: 'home',
-            budgets: budgets,
-            colors: me.preferences.colors,
-            transactions: transactions,
+            budgets: {},
+            colors: {},
+            transactions: {},
             tab: '',
-            show: {}
+            show: {},
+            env: ''
         };
     },
     components: {},
@@ -33,7 +34,7 @@ var HomePage = Vue.component('home-page', {
         },
 
         setTab: function () {
-            if (env === 'local') {
+            if (this.env === 'local') {
                 this.tab = 'transactions';
             }
             else {

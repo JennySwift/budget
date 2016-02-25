@@ -26,7 +26,7 @@
                         type="checkbox">
 
                 <label
-                        v-class="{'disabled': filter.accounts.out.indexOf(account.id) !== -1}"
+                        v-bind:class="{'disabled': filter.accounts.out.indexOf(account.id) !== -1}"
                         for="">
                     [[account.name]]
                 </label>
@@ -41,7 +41,7 @@
                         type="checkbox">
 
                 <label
-                        v-class="{'disabled': filter.accounts.in.indexOf(account.id) !== -1}"
+                        v-bind:class="{'disabled': filter.accounts.in.indexOf(account.id) !== -1}"
                         for="">
                     [[account.name]]
                 </label>

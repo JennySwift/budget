@@ -26,7 +26,7 @@
                         v-disabled="filter.types.out.indexOf(type) !== -1"
                         type="checkbox">
                 <label
-                        v-class="{'disabled': filter.types.out.indexOf(type) !== -1}"
+                        v-bind:class="{'disabled': filter.types.out.indexOf(type) !== -1}"
                         for="">
                     [[type]]
                 </label>
@@ -40,7 +40,7 @@
                         v-disabled="filter.types.in.indexOf(type) !== -1"
                         type="checkbox">
                 <label
-                        v-class="{'disabled': filter.types.in.indexOf(type) !== -1}"
+                        v-bind:class="{'disabled': filter.types.in.indexOf(type) !== -1}"
                         for="">
                     [[type]]
                 </label>

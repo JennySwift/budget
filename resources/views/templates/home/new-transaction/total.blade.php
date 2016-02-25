@@ -23,7 +23,7 @@
     </div>
 
     <input
-        v-model="new_transaction.total"
+        v-model="newTransaction.total"
         v-on:keyup="insertTransaction($event.keyCode)"
         class="total mousetrap form-control"
         placeholder="$"

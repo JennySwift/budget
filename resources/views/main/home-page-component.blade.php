@@ -5,7 +5,7 @@
 
         <new-transaction></new-transaction>
 
-        @include('templates.home.main-content')
+{{--        @include('templates.home.main-content')--}}
     </div>
 
 </script>

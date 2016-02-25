@@ -2,12 +2,12 @@
     {{--<div class="btn-group">--}}
         {{--<button--}}
                 {{--v-on:click="tab = 'fixed'"--}}
-                {{--v-class="{'selected': tab === 'fixed'}"--}}
+                {{--v-bind:class="{'selected': tab === 'fixed'}"--}}
                 {{--class="btn">Fixed Budgets--}}
         {{--</button>--}}
         {{--<button--}}
                 {{--v-on:click="tab = 'flex'"--}}
-                {{--v-class="{'selected': tab === 'flex'}"--}}
+                {{--v-bind:class="{'selected': tab === 'flex'}"--}}
                 {{--class="btn">--}}
             {{--Flex Budgets--}}
         {{--</button>--}}

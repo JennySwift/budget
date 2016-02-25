@@ -4,9 +4,16 @@ var NewTransaction = Vue.component('new-transaction', {
         return {
             dropdown: {},
             types: ["income", "expense", "transfer"],
-            accounts: accounts_response,
-            favouriteTransactions: favouriteTransactions,
-            new_transaction: NewTransactionRepository.getDefaults(env, this.accounts),
+            accounts: {},
+            favouriteTransactions: [],
+            newTransaction: {
+                date: {}
+            },
+            env: '',
+            show: {},
+            colors: {
+                newTransaction: {}
+            },
         };
     },
     components: {},
@@ -38,11 +45,11 @@ var NewTransaction = Vue.component('new-transaction', {
          * @returns {boolean}
          */
         anyErrors: function () {
-            var $errorMessages = NewTransactionRepository.anyErrors(this.new_transaction);
+            var $errorMessages = NewTransactionRepository.anyErrors(this.newTransaction);
 
             if ($errorMessages) {
                 for (var i = 0; i < $errorMessages.length; i++) {
-                    $rootScope.$broadcast('provideFeedback', $errorMessages[i], 'error');
+                    $.event.trigger('provide-feedback', [$errorMessages[i], 'error']);
                 }
 
                 return true;
@@ -56,7 +63,7 @@ var NewTransaction = Vue.component('new-transaction', {
          * @param $keycode
          */
         insertTransaction: function ($keycode) {
-            if ($keycode !== 13 || anyErrors()) {
+            if ($keycode !== 13 || this.anyErrors()) {
                 return;
             }
 
@@ -125,6 +132,6 @@ var NewTransaction = Vue.component('new-transaction', {
         //data to be received from parent
     ],
     ready: function () {
-
+        this.newTransaction = NewTransactionRepository.getDefaults(this.env, this.accounts)
     }
 });

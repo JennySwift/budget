@@ -18,8 +18,8 @@
     </div>
 
     <input
-            v-model="new_transaction.duration"
-            v-on:keyup="insertTransaction($event.keyCode)"
+            v-model="newTransaction.duration"
+            v-on:keyup.13="insertTransaction()"
             class="mousetrap form-control"
             placeholder="H:M"
             type='text'>

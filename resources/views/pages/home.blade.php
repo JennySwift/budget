@@ -9,13 +9,13 @@
 <body>
 
 <navbar></navbar>
-{{--<feedback></feedback>--}}
-{{--<loading></loading>--}}
+<feedback></feedback>
+<loading></loading>
 
 
-{{--<div class="container">--}}
-    {{--<router-view></router-view>--}}
-{{--</div>--}}
+<div class="container">
+    <router-view></router-view>
+</div>
 
 @include('main.shared.footer')
 

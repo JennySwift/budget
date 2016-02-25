@@ -4,6 +4,9 @@
 @include('main.new-transaction-component')
 @include('main.home-page-component')
 @include('main.shared.navbar-component')
+@include('main.shared.feedback-component')
+@include('main.shared.loading-component')
+@include('main.transaction-autocomplete-component')
 
 {{--@include('directive-templates.feedback')--}}
 {{--@include('directive-templates.totals')--}}

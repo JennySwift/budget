@@ -2,7 +2,7 @@
     @include('templates.home.new-transaction.date-help')
 
     <input
-        v-model="new_transaction.date.entered"
+        v-model="newTransaction.date.entered"
         v-on:keyup="insertTransaction($event.keyCode)"
         id="date"
         placeholder="date"

@@ -1,4 +1,4 @@
-<div v-if="new_transaction.type !== 'transfer'">
+<div v-if="newTransaction.type !== 'transfer'">
     <div class="help-row">
         <label>Add tags to your transaction (optional)</label>
 
@@ -19,12 +19,12 @@
         </div>
     </div>
 
-    <tag-autocomplete-directive
-        chosenTags="new_transaction.budgets"
-        dropdown="new_transaction.dropdown"
-        tags="budgets"
-        fnOnEnter="insertTransaction(13)"
-        multipleTags="true">
-    </tag-autocomplete-directive>
+    {{--<budget-autocomplete--}}
+        {{--chosenTags="new_transaction.budgets"--}}
+        {{--dropdown="new_transaction.dropdown"--}}
+        {{--tags="budgets"--}}
+        {{--fnOnEnter="insertTransaction(13)"--}}
+        {{--multipleTags="true">--}}
+    {{--</budget-autocomplete>--}}
 
 </div>

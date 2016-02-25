@@ -23,16 +23,17 @@
         </div>
     </div>
 
-    <transaction-autocomplete-directive
-        dropdown="dropdown.description"
-        placeholder="description"
-        id="new-transaction-description"
-        typing="new_transaction.description"
-        newTransaction="new_transaction"
-        fnOnEnter="insertTransaction(13)"
-        showLoading="showLoading()"
-        hideLoading="hideLoading()"
-        loading="loading">
-    </transaction-autocomplete-directive>
+    {{--<transaction-autocomplete--}}
+        {{--:dropdown="dropdown.description"--}}
+        {{--placeholder="description"--}}
+        {{--id="new-transaction-description"--}}
+        {{--:typing="newTransaction.description"--}}
+        {{--:newTransaction="newTransaction"--}}
+        {{--:fnOnEnter="insertTransaction(13)"--}}
+        {{--:showLoading="showLoading()"--}}
+        {{--:hideLoading="hideLoading()"--}}
+        {{--:loading="loading"--}}
+    {{-->--}}
+    {{--</transaction-autocomplete>--}}
 
 </div>

@@ -23,16 +23,17 @@
         </div>
     </div>
 
-    <transaction-autocomplete-directive
-        dropdown="dropdown.merchant"
-        placeholder="merchant"
-        id="new-transaction-merchant"
-        typing="new_transaction.merchant"
-        newTransaction="new_transaction"
-        fnOnEnter="insertTransaction(13)"
-        showLoading="showLoading()"
-        hideLoading="hideLoading()"
-        loading="loading">
-    </transaction-autocomplete-directive>
+    {{--<transaction-autocomplete--}}
+        {{--:dropdown="dropdown.merchant"--}}
+        {{--placeholder="merchant"--}}
+        {{--id="new-transaction-merchant"--}}
+        {{--:typing="newTransaction.merchant"--}}
+        {{--:newTransaction="newTransaction"--}}
+        {{--:fnOnEnter="insertTransaction(13)"--}}
+        {{--:showLoading="showLoading()"--}}
+        {{--:hideLoading="hideLoading()"--}}
+        {{--:loading="loading"--}}
+    {{-->--}}
+    {{--</transaction-autocomplete>--}}
 
 </div>

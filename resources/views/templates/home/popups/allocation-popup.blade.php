@@ -20,7 +20,7 @@
                     
                     <td>
                         <div>
-                            <span v-class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex'}" class="label label-default">[[budget.name]]</span>
+                            <span v-bind:class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex'}" class="label label-default">[[budget.name]]</span>
                         </div>
                     </td>
 

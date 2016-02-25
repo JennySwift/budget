@@ -37,12 +37,12 @@ var NewTransactionRepository = {
         }
     
         if ($accounts.length > 0) {
-            defaults.account_id = $accounts[0].id;
-            defaults.from_account_id = $accounts[0].id;
-            defaults.to_account_id = $accounts[0].id;
+            this.defaults.account_id = $accounts[0].id;
+            this.defaults.from_account_id = $accounts[0].id;
+            this.defaults.to_account_id = $accounts[0].id;
         }
     
-        return defaults;
+        return this.defaults;
     },
 
     clearFields: function (env, me, $newTransaction) {

@@ -2,7 +2,7 @@
 <!--    <label>Choose a transaction type</label>-->
 <!---->
 <!--    <select-->
-<!--        v-model="new_transaction.type"-->
+<!--        v-model="newTransaction.type"-->
 <!--        name=""-->
 <!--        v-on:keyup="insertTransaction($event.keyCode)"-->
 <!--        id="select_transaction_type"-->
@@ -14,7 +14,7 @@
 <!--</div>-->
 
 <div class="btn-group">
-    <button v-on:click="new_transaction.type = 'income'" v-bind:style="{background: colors.income}" class="btn">Credit</button>
-    <button v-on:click="new_transaction.type = 'expense'" v-bind:style="{background: colors.expense}" class="btn">Debit</button>
-    <button v-on:click="new_transaction.type = 'transfer'" v-bind:style="{background: colors.transfer}" class="btn">Transfer</button>
+    <button v-on:click="newTransaction.type = 'income'" v-bind:style="{background: colors.income}" class="btn">Credit</button>
+    <button v-on:click="newTransaction.type = 'expense'" v-bind:style="{background: colors.expense}" class="btn">Debit</button>
+    <button v-on:click="newTransaction.type = 'transfer'" v-bind:style="{background: colors.transfer}" class="btn">Transfer</button>
 </div>

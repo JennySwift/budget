@@ -19,9 +19,9 @@
         </div>
     </div>
 
-    <checkbox
-        model="new_transaction.reconciled"
-        id="new-transaction-reconciled">
-    </checkbox>
+    {{--<checkbox--}}
+        {{--model="new_transaction.reconciled"--}}
+        {{--id="new-transaction-reconciled">--}}
+    {{--</checkbox>--}}
 
 </div>
