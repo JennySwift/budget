@@ -27,7 +27,7 @@ class BudgetsUpdateTest extends TestCase
         $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
             'name' => 'jetskiing',
             'amount' => 10,
-            'starting_date' => '2015-11-01'
+            'starting_date' => '2015-12-01'
         ]);
 
         $content = json_decode($response->getContent(), true)['data'];
@@ -41,7 +41,7 @@ class BudgetsUpdateTest extends TestCase
         $this->assertEquals(10, $content['amount']);
 //        $this->assertEquals(20, $content['calculatedAmount']);
         $this->assertEquals('fixed', $content['type']);
-        $this->assertEquals('01/11/15', $content['formattedStartingDate']);
+        $this->assertEquals('01/12/15', $content['formattedStartingDate']);
 
         $this->assertEquals(-70, $content['spent']);
         $this->assertEquals(300, $content['received']);
