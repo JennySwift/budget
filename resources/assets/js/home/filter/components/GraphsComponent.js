@@ -2,7 +2,7 @@ var Graphs = Vue.component('graphs', {
     template: '#graphs-template',
     data: function () {
         return {
-
+            graphFigures: {}
         };
     },
     components: {},

@@ -1,5 +1,6 @@
-<script type="text/v-template" id="filter-toolbar-template">
+<script id="toolbar-for-filter-template" type="x-template">
 
+<div>
     <div>
         <select
                 v-model="filter.num_to_fetch"
@@ -14,7 +15,7 @@
             <option value="100">100</option>
         </select>
 
-        <span class="badge">[[filter.display_from]] to [[filter.display_to]] of [[filterTotals.numTransactions]]</span>
+        <span class="badge">@{{ filter.display_from }} to @{{ filter.display_to }} of @{{ filterTotals.numTransactions }}</span>
 
         <button
                 v-on:click="prevResults()"
@@ -35,18 +36,20 @@
         </button>
 
         <button
-            v-on:click="resetFilter()"
-            id="reset-search"
-            class="btn btn-info">
+                v-on:click="resetFilter()"
+                id="reset-search"
+                class="btn btn-info">
             Reset
         </button>
 
         <button
-            v-on:click="saveFilter()"
+                v-on:click="saveFilter()"
                 class="btn btn-xs btn-success">
             Save filter
         </button>
 
     </div>
+
+</div>
 
 </script>

@@ -1,4 +1,4 @@
-<script type="text/v-template" id="filter-total-template">
+<script id="totals-filter-template" type="x-template">
 
     <div filter-dropdowns-directive
          class="section">
@@ -9,7 +9,10 @@
 
             <span>Negative sign required for negative numbers</span>
 
-            <div v-show="filterTab === 'show'" class="group">
+            <div
+                    v-show="filterTab === 'show'"
+                    v-if="filter.total"
+                    class="group">
                 <input
                         v-model="filter.total.in"
                         v-on:keyup="filterTotal($event.keyCode)"
@@ -26,7 +29,10 @@
             </span>
             </div>
 
-            <div v-show="filterTab === 'hide'" class="group">
+            <div
+                    v-show="filterTab === 'hide'"
+                    v-if="filter.total"
+                    class="group">
                 <input
                         v-model="filter.total.out"
                         v-on:keyup="filterTotal($event.keyCode)"

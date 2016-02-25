@@ -41,7 +41,7 @@
         </th>
     </tr>
     <!-- table content -->
-    <tr v-repeat="budget in flexBudgets | orderBy: 'name'" class="budget_info_ul">
+    <tr v-for="budget in flexBudgets | orderBy: 'name'" class="budget_info_ul">
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">[[budget.name]]</td>
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="percent pointer">[[budget.amount]]</td>
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="amount pointer">[[budget.calculatedAmount | number:2]]</td>

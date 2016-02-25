@@ -18,19 +18,19 @@ var ShowRepository = {
         tags: true,
         dlt: true,
         //components
-        new_transaction: false,
-        basic_totals: true,
-        budget_totals: true,
-        filter_totals: true,
-        edit_transaction: false,
-        edit_tag: false,
+        newTransaction: false,
+        basicTotals: true,
+        budgetTotals: true,
+        filterTotals: true,
+        editTransaction: false,
+        editBudget: false,
         budget: false,
         filter: false,
         autocomplete: {
             description: false,
             merchant: false
         },
-        savings_total: {
+        savingsTotal: {
             input: false,
             edit_btn: true
         }

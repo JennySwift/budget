@@ -1,6 +1,6 @@
-<script type="text/v-template" id="filter-merchant-template">
+<script id="merchants-filter-template" type="x-template">
 
-
+<div>
     <div filter-dropdowns-directive
          class="section">
 
@@ -8,7 +8,11 @@
 
         <div class="content">
 
-            <div class="group" v-show="filterTab === 'show'">
+            <div
+                    v-show="filterTab === 'show'"
+                    v-if="filter.merchant"
+                    class="group"
+            >
                 <input
                         v-model="filter.merchant.in"
                         v-on:keyup="filterDescriptionOrMerchant($event.keyCode)"
@@ -25,7 +29,11 @@
 
             </div>
 
-            <div class="group" v-show="filterTab === 'hide'">
+            <div
+                    v-show="filterTab === 'hide'"
+                    v-if="filter.merchant"
+                    class="group"
+            >
                 <input
                         v-model="filter.merchant.out"
                         v-on:keyup="filterDescriptionOrMerchant($event.keyCode)"
@@ -44,5 +52,6 @@
         </div>
 
     </div>
+</div>
 
 </script>

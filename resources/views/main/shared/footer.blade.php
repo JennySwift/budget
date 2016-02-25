@@ -7,6 +7,20 @@
 @include('main.shared.feedback-component')
 @include('main.shared.loading-component')
 @include('main.transaction-autocomplete-component')
+@include('main.transactions-component')
+@include('main.filter.filter-component')
+
+{{--Filters--}}
+@include('main.filter.filter-component')
+@include('main.filter.graphs-component')
+@include('main.filter.accounts-filter-component')
+@include('main.filter.types-filter-component')
+@include('main.filter.totals-filter-component')
+@include('main.filter.descriptions-filter-component')
+@include('main.filter.merchants-filter-component')
+@include('main.filter.budgets-filter-component')
+@include('main.filter.dates-filter-component')
+@include('main.filter.totals-for-filter-component')
 
 {{--@include('directive-templates.feedback')--}}
 {{--@include('directive-templates.totals')--}}

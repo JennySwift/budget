@@ -1,5 +1,6 @@
-<script type="text/v-template" id="filter-totals-template">
+<script id="totals-for-filter-template" type="x-template">
 
+<div>
     <div v-show="show.filter_totals" id="filter-totals" class="col-sm-2">
         <ul class="list-group">
             <li class="list-group-item list-group-heading">
@@ -42,5 +43,6 @@
             </li>
         </ul>
     </div>
+</div>
 
 </script>

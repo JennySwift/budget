@@ -12,7 +12,7 @@
     </tr>
 
     <!-- table content -->
-    <tr v-repeat="budget in unassignedBudgets | orderBy: 'name'" class="budget_info_ul">
+    <tr v-for="budget in unassignedBudgets | orderBy: 'name'" class="budget_info_ul">
 
         <td v-on:click="showBudgetPopup(budget, 'unassigned')" class="pointer">[[budget.name]]</td>
 

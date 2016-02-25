@@ -1,4 +1,4 @@
-<script type="text/v-template" id="filter-date-template">
+<script id="dates-filter-template" type="x-template">
 
     <div filter-dropdowns-directive
          class="section">
@@ -7,18 +7,22 @@
 
         <div class="content">
 
-            <div v-show="filterTab === 'show'" class="group">
+            <div
+                    v-show="filterTab === 'show'"
+                    v-if="filter.singleDate"
+                    class="group"
+            >
 
                 <input
-                        v-model="filter.single_date.in"
-                        v-on:keyup="filterDate($event.keyCode)"
+                        v-model="filter.singleDate.in"
+                        v-on:keyup.13="filterDate()"
                         type="text"
                         placeholder="single date"
                         formatted-date>
 
             <span class="input-group-btn">
                 <button
-                        v-on:click="clearDateField('single_date', 'in')"
+                        v-on:click="clearDateField('singleDate', 'in')"
                         class="clear-search-button">
                     clear
                 </button>
@@ -26,18 +30,22 @@
 
             </div>
 
-            <div v-show="filterTab === 'hide'" class="group">
+            <div
+                    v-show="filterTab === 'hide'"
+                    v-if="filter.singleDate"
+                    class="group"
+            >
 
                 <input
-                        v-model="filter.single_date.out"
-                        v-on:keyup="filterDate($event.keyCode)"
+                        v-model="filter.singleDate.out"
+                        v-on:keyup.13="filterDate()"
                         type="text"
                         placeholder="single date"
                         formatted-date>
 
             <span class="input-group-btn">
                 <button
-                        v-on:click="clearDateField('single_date', 'out')"
+                        v-on:click="clearDateField('singleDate', 'out')"
                         class="clear-search-button">
                     clear
                 </button>
@@ -45,18 +53,22 @@
 
             </div>
 
-            <div v-show="filterTab === 'show'" class="group">
+            <div
+                v-show="filterTab === 'show'"
+                v-if="filter.fromDate"
+                class="group"
+            >
 
                 <input
-                        v-model="filter.from_date.in"
-                        v-on:keyup="filterDate($event.keyCode)"
+                        v-model="filter.fromDate.in"
+                        v-on:keyup.13="filterDate()"
                         type="text"
                         placeholder="from a date"
                         formatted-date>
 
             <span class="input-group-btn">
                 <button
-                        v-on:click="clearDateField('from_date', 'in')"
+                        v-on:click="clearDateField('fromDate', 'in')"
                         class="clear-search-button"
                         type="button">
                     clear
@@ -65,18 +77,22 @@
 
             </div>
 
-            <div v-show="filterTab === 'show'" class="group">
+            <div
+                    v-show="filterTab === 'show'"
+                    v-if="filter.toDate"
+                    class="group"
+            >
 
                 <input
-                        v-model="filter.to_date.in"
-                        v-on:keyup="filterDate($event.keyCode)"
+                        v-model="filter.toDate.in"
+                        v-on:keyup.13="filterDate()"
                         type="text"
                         placeholder="to a date"
                         formatted-date>
 
             <span class="input-group-btn">
                 <button
-                        v-on:click="clearDateField('to_date', 'in')"
+                        v-on:click="clearDateField('toDate', 'in')"
                         class="clear-search-button"
                         type="button">
                     clear

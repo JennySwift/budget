@@ -17,7 +17,7 @@
 		<select v-model="edit_transaction.account_id"
                 id="edit-transaction-account"
                 class="form-control">
-			        <option v-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
+			        <option v-for="account in accounts" value="[[account.id]]">[[account.name]]</option>
 		</select>
 		
 		<div v-show="edit_transaction.type === 'transfer'" class="col-xs-12">
@@ -26,7 +26,7 @@
                 type="text"
                 id="transfer-from-account-select"
                 class="form-control">
-                <option v-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
+                <option v-for="account in accounts" value="[[account.id]]">[[account.name]]</option>
             </select>
 		</div>
 		
@@ -36,7 +36,7 @@
                 type="text"
                 id="transfer-to-account-select"
                 class="form-control">
-                <option v-repeat="account in accounts" value="[[account.id]]">[[account.name]]</option>
+                <option v-for="account in accounts" value="[[account.id]]">[[account.name]]</option>
             </select>
 		</div>
 

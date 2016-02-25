@@ -42,7 +42,7 @@
     </tr>
 
     <!-- table content -->
-    <tr v-repeat="budget in fixedBudgets | orderBy: 'name'" class="budget_info_ul">
+    <tr v-for="budget in fixedBudgets | orderBy: 'name'" class="budget_info_ul">
 
         <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.name]]</td>
 

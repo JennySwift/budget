@@ -15,7 +15,7 @@
 
             <div v-show="dropdown" class="tag-dropdown">
                 <div
-                    v-repeat="budget in results"
+                    v-for="budget in results"
                     v-on:mousedown="chooseTag($index)"
                     v-on:mouseover="hoverItem($index)"
                     v-bind:class="{'selected': $index == currentIndex}"
@@ -33,7 +33,7 @@
         <div v-cloak v-show="chosenTags.length > 0" class="tag-display">
 
             <li
-                v-repeat="tag in chosenTags"
+                v-for="tag in chosenTags"
                 v-on:click="removeTag(tag)"
                 v-bind:class="{'tag-with-fixed-budget': tag.type === 'fixed', 'tag-with-flex-budget': tag.type === 'flex', 'tag-without-budget': tag.fixed_budget === null || tag.flex_budget === null}"
                 class="label label-default removable-tag">

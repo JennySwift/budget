@@ -7,15 +7,12 @@ var HomePage = Vue.component('home-page', {
             colors: {},
             transactions: {},
             tab: '',
-            show: {},
+            show: ShowRepository.defaults,
             env: ''
         };
     },
     components: {},
     methods: {
-        toggleFilter: function () {
-            this.show.filter = !this.show.filter;
-        },
 
         transactionsTab: function () {
             this.tab = 'transactions';

@@ -1,5 +1,6 @@
-<script type="text/v-template" id="filter-accounts-template">
+<script id="accounts-filter-template" type="x-template">
 
+<div>
     <div filter-dropdowns-directive
          class="section">
 
@@ -17,38 +18,40 @@
                 <label for="">none</label>
             </div>
 
-            <div v-show="filterTab === 'show'" v-repeat="account in accounts">
+            <div v-show="filterTab === 'show'" v-for="account in accounts">
                 <input
                         checklist-model="filter.accounts.in"
                         checklist-value="account.id"
                         checklist-change="runFilter()"
-                        v-disabled="filter.accounts.out.indexOf(account.id) !== -1"
+                        :disabled="filter.accounts.out.indexOf(account.id) !== -1"
                         type="checkbox">
 
                 <label
                         v-bind:class="{'disabled': filter.accounts.out.indexOf(account.id) !== -1}"
                         for="">
-                    [[account.name]]
+                    @{{ account.name }}
                 </label>
             </div>
 
-            <div v-show="filterTab === 'hide'" v-repeat="account in accounts">
+            <div v-show="filterTab === 'hide'" v-for="account in accounts">
                 <input
                         checklist-change="runFilter()"
                         checklist-model="filter.accounts.out"
                         checklist-value="account.id"
-                        v-disabled="filter.accounts.in.indexOf(account.id) !== -1"
+                        :disabled="filter.accounts.in.indexOf(account.id) !== -1"
                         type="checkbox">
 
                 <label
                         v-bind:class="{'disabled': filter.accounts.in.indexOf(account.id) !== -1}"
                         for="">
-                    [[account.name]]
+                    @{{ account.name }}
                 </label>
             </div>
 
         </div>
 
     </div>
+
+</div>
 
 </script>

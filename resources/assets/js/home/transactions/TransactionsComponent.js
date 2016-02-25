@@ -2,7 +2,7 @@ var Transactions = Vue.component('transactions', {
     template: '#transactions-template',
     data: function () {
         return {
-            accounts: accounts_response
+            accounts: []
         };
     },
     components: {},

@@ -15,7 +15,7 @@
     <div v-show="dropdown && !loading" id="@{{ placeholder }}-autocomplete" class="transactions-autocomplete">
         <table class="table table-bordered">
             <tbody
-                    v-repeat="transaction in results"
+                    v-for="transaction in results"
                     v-bind:style="{color: colors[transaction.type]}"
                     class="pointer"
                     v-on:mousedown="chooseItem($index)"
@@ -46,7 +46,7 @@
             <tr>
                 <td colspan="7">
                     <li
-                            v-repeat="budget in transaction.budgets"
+                            v-for="budget in transaction.budgets"
                             v-bind:class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex', 'tag-without-budget': budget.type === 'unassigned'}"
                             class="label label-default">
                         @{{ budget.name }}

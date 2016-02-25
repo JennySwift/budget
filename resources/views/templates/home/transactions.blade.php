@@ -5,7 +5,7 @@
     @include('templates.home.transactions.table-header')
 
     <tbody
-        v-repeat="transaction in transactions"
+        v-for="transaction in transactions"
         v-bind:style="{color: colors[transaction.type]}"
         id="[[transaction.id]]"
         class="add_to_search_total results-transaction-tbody [[transaction.type]]">

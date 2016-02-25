@@ -4,7 +4,8 @@ var Filter = Vue.component('filter', {
         return {
             filterTab: 'show',
             filter: FilterRepository.filter,
-            savedFilters: savedFilters
+            savedFilters: [],
+            showFilter: false
         };
     },
     components: {},
@@ -26,12 +27,22 @@ var Filter = Vue.component('filter', {
         runFilter: function () {
             $rootScope.$emit('runFilter');
         },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('toggle-filter', function (event) {
+                that.showFilter = !that.showFilter;
+            });
+        }
     },
     props: [
-        //data to be received from parent
+        'show'
     ],
     ready: function () {
-
+        this.listen();
     }
 });
 

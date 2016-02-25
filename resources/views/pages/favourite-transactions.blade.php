@@ -81,7 +81,7 @@
                     <th></th>
                 </tr>
                 
-                <tr v-repeat="favourite in favouriteTransactions">
+                <tr v-for="favourite in favouriteTransactions">
                     <td>[[favourite.name]]</td>
                     <td>[[favourite.type]]</td>
                     <td>[[favourite.description]]</td>
@@ -89,7 +89,7 @@
                     <td>[[favourite.total]]</td>
                     <td>[[favourite.account.name]]</td>
                     <td>
-                        <span v-repeat="budget in favourite.budgets" class="badge">[[budget.name]]</span>
+                        <span v-for="budget in favourite.budgets" class="badge">[[budget.name]]</span>
                     </td>
                     <td><button v-on:click="deleteFavouriteTransaction(favourite)" class="btn-xs btn-danger">Delete</button></td>
 

@@ -16,7 +16,7 @@
                 </tr>
 
                 <!-- table content -->
-                <tr v-repeat="budget in allocationPopup.budgets">
+                <tr v-for="budget in allocationPopup.budgets">
                     
                     <td>
                         <div>

@@ -30,7 +30,7 @@
         </div>
 
         <table class="">
-            <tr v-repeat="account in accounts | orderBy: 'name'">
+            <tr v-for="account in accounts | orderBy: 'name'">
                 <td
                     v-on:click="showEditAccountPopup(account)"
                     class="pointer">

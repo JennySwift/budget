@@ -1,6 +1,6 @@
 
 <table class="table table-bordered">
-    <tbody v-repeat="transaction in autocomplete.transactions" v-bind:style="{color: colors[transaction.type]}" v-on:mousedown="autocompleteTransaction(transaction)" class="pointer">
+    <tbody v-for="transaction in autocomplete.transactions" v-bind:style="{color: colors[transaction.type]}" v-on:mousedown="autocompleteTransaction(transaction)" class="pointer">
 
     <tr>
         <!-- <th>date</th> -->
@@ -26,7 +26,7 @@
 
     <tr>
         <td colspan="7">
-            <li v-repeat="tag in transaction.tags" v-bind:class="{'tag-with-budget': tag.budget !== null || tag.percent !== null, 'tag-without-budget': tag.budget === null || tag.percent === null}" class="label label-default" data-id="[[tag.id]]" data-allocated-percent="[[tag.allocated_percent]]" data-allocated-fixed="[[tag.allocated_fixed]]" data-amount="[[tag.amount]]">[[tag.name]]</li>
+            <li v-for="tag in transaction.tags" v-bind:class="{'tag-with-budget': tag.budget !== null || tag.percent !== null, 'tag-without-budget': tag.budget === null || tag.percent === null}" class="label label-default" data-id="[[tag.id]]" data-allocated-percent="[[tag.allocated_percent]]" data-allocated-fixed="[[tag.allocated_fixed]]" data-amount="[[tag.amount]]">[[tag.name]]</li>
         </td>
         <td colspan="1" class="budget-tag-info">[[transaction.allocate]]</td>
     </tr>

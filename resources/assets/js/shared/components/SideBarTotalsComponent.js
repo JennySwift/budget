@@ -10,7 +10,7 @@ var SideBarTotals = Vue.component('sidebar-totals', {
 
     },
     props: [
-        //data to be received from parent
+        'show'
     ],
     ready: function () {
 

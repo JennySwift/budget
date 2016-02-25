@@ -1,5 +1,5 @@
 var BudgetsFilter = Vue.component('budgets-filter', {
-    template: '#tags-filter-template',
+    template: '#budgets-filter-template',
     data: function () {
         return {
 
