@@ -1,17 +1,18 @@
-var app = angular.module('budgetApp');
-
-(function () {
-
-    app.controller('FavouriteTransactionsController', function ($rootScope, $scope, FavouriteTransactionsFactory) {
-
-        $scope.favouriteTransactions = favouriteTransactions;
-        $scope.accounts = accounts;
-        $scope.budgets = budgets;
-        $scope.newFavourite = {
-          budgets: []
+var FavouriteTransactions = Vue.component('favourite-transactions', {
+    template: '#favourite-transactions-template',
+    data: function () {
+        return {
+            favouriteTransactions: favouriteTransactions,
+            accounts: accounts,
+            budgets: budgets,
+            newFavourite: {
+                budgets: []
+            },
         };
-
-        $scope.insertFavouriteTransaction = function () {
+    },
+    components: {},
+    methods: {
+        insertFavouriteTransaction: function () {
             $scope.showLoading();
             FavouriteTransactionsFactory.insert($scope.newFavourite)
                 .then(function (response) {
@@ -22,9 +23,9 @@ var app = angular.module('budgetApp');
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
-        };
+        },
 
-        $scope.deleteFavouriteTransaction = function ($favourite) {
+        deleteFavouriteTransaction: function ($favourite) {
             if (confirm("Are you sure?")) {
                 $scope.showLoading();
                 FavouriteTransactionsFactory.destroy($favourite)
@@ -37,9 +38,25 @@ var app = angular.module('budgetApp');
                         $scope.responseError(response);
                     });
             }
+        },
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
 
-        };
+    }
+});
 
-    });
-
-})();
+//insert: function ($newFavourite) {
+//    var $url = '/api/favouriteTransactions';
+//
+//    $newFavourite.budget_ids = _.pluck($newFavourite.budgets, 'id');
+//
+//    return $http.post($url, $newFavourite);
+//},
+//destroy: function ($favourite) {
+//    var $url = '/api/favouriteTransactions/' + $favourite.id;
+//
+//    return $http.delete($url);
+//}

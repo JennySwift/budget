@@ -6,7 +6,7 @@
 
 @section('page-content')
 
-    <div ng-controller="UnassignedBudgetsController">
+    <div v-controller="UnassignedBudgetsController">
         @include('templates.budgets.popups.index')
 
         @include('templates.budgets.toolbar')

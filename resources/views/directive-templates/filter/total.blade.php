@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="filter-total-template">
+<script type="text/v-template" id="filter-total-template">
 
     <div filter-dropdowns-directive
          class="section">
@@ -9,16 +9,16 @@
 
             <span>Negative sign required for negative numbers</span>
 
-            <div ng-show="filterTab === 'show'" class="group">
+            <div v-show="filterTab === 'show'" class="group">
                 <input
-                        ng-model="filter.total.in"
-                        ng-keyup="filterTotal($event.keyCode)"
+                        v-model="filter.total.in"
+                        v-on:keyup="filterTotal($event.keyCode)"
                         type="text"
                         placeholder="amount">
 
             <span class="input-group-btn">
                 <button
-                        ng-click="clearFilterField('total', 'in')"
+                        v-on:click="clearFilterField('total', 'in')"
                         class="clear-search-button"
                         type="button">
                     clear
@@ -26,16 +26,16 @@
             </span>
             </div>
 
-            <div ng-show="filterTab === 'hide'" class="group">
+            <div v-show="filterTab === 'hide'" class="group">
                 <input
-                        ng-model="filter.total.out"
-                        ng-keyup="filterTotal($event.keyCode)"
+                        v-model="filter.total.out"
+                        v-on:keyup="filterTotal($event.keyCode)"
                         type="text"
                         placeholder="amount">
 
             <span class="input-group-btn">
                 <button
-                        ng-click="clearFilterField('total', 'out')"
+                        v-on:click="clearFilterField('total', 'out')"
                         class="clear-search-button"
                         type="button">
                     clear

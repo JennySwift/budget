@@ -1,70 +1,53 @@
-var app = angular.module('budgetApp', [
-    'checklist-model',
-    'ngAnimate'
-]);
 
-app.config(function ($interpolateProvider) {
-    //$routeProvider
-    //    .when('home', {controller: 'HomeController'})
-    //    .when('accounts', {controller: 'AccountsController'})
-    //    .when('budgets', {controller: 'BudgetsController'})
-    //    .when('help', {controller: 'HelpController'})
-    //    .when('preferences', {controller: 'PreferencesController'});
+var App = Vue.component('app', {
 
-    // register http interceptor
-    //$httpProvider.interceptors.push('ErrorHandler');
-
-    $interpolateProvider.startSymbol('[[');
-    $interpolateProvider.endSymbol(']]');
 });
 
-app.run(runBlock);
+var router = new VueRouter({
+    hashbang: false
+});
 
-function runBlock ($rootScope, UsersFactory, ShowFactory, ErrorsFactory) {
+router.map({
+    '/': {
+        component: HomePage,
+        //subRoutes: {
+        //    //default for if no id is specified
+        //    '/': {
+        //        component: Item
+        //    },
+        //    '/:id': {
+        //        component: Item
+        //    }
+        //}
+    }
+});
 
-    $rootScope.show = ShowFactory.defaults;
+router.start(App, 'body');
 
-    $rootScope.responseError = function (response) {
-        $rootScope.$broadcast('provideFeedback', ErrorsFactory.responseError(response), 'error');
-        $rootScope.hideLoading();
-    };
+//$rootScope.show = ShowFactory.defaults;
 
-    $rootScope.closePopup = function ($event, $popup) {
-        var $target = $event.target;
-        if ($target.className === 'popup-outer') {
-            $rootScope.show.popups[$popup] = false;
-        }
-    };
+$(window).load(function () {
+    $(".main").css('display', 'block');
+    $("footer, #navbar").css('display', 'flex');
+    $("#page-loading").hide();
+    //$rootScope.$emit('getSideBarTotals');
+});
 
-    $(window).load(function () {
-        $(".main").css('display', 'block');
-        $("footer, #navbar").css('display', 'flex');
-        $("#page-loading").hide();
-        $rootScope.$emit('getSideBarTotals');
-    });
+//$rootScope.deleteUser = function () {
+//    if (confirm("Do you really want to delete your account?")) {
+//        if (confirm("You are about to delete your account! You will no longer be able to use the budget app. Are you sure this is what you want?")) {
+//            $rootScope.showLoading();
+//            UsersFactory.deleteAccount(me)
+//                .then(function (response) {
+//                    $rootScope.$broadcast('provideFeedback', 'Your account has been deleted');
+//                    $rootScope.hideLoading();
+//                })
+//                .catch(function (response) {
+//                    $rootScope.responseError(response);
+//                });
+//        }
+//    }
+//};
 
-    $rootScope.showLoading = function () {
-        $rootScope.loading = true;
-    };
 
-    $rootScope.hideLoading = function () {
-        $rootScope.loading = false;
-    };
 
-    $rootScope.deleteUser = function () {
-        if (confirm("Do you really want to delete your account?")) {
-            if (confirm("You are about to delete your account! You will no longer be able to use the budget app. Are you sure this is what you want?")) {
-                $rootScope.showLoading();
-                UsersFactory.deleteAccount(me)
-                    .then(function (response) {
-                        $rootScope.$broadcast('provideFeedback', 'Your account has been deleted');
-                        $rootScope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $rootScope.responseError(response);
-                    });
-            }
-        }
-    };
-
-}

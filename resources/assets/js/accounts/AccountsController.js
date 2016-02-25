@@ -1,13 +1,14 @@
-var app = angular.module('budgetApp');
-
-(function () {
-
-    app.controller('AccountsController', function ($rootScope, $scope, $http, AccountsFactory) {
-
-        $scope.accounts = accounts;
-        $scope.edit_account_popup = {};
-
-        $scope.insertAccount = function ($keycode) {
+var AccountsPage = Vue.component('accounts-page', {
+    template: '#accounts-page-template',
+    data: function () {
+        return {
+            accounts: accounts,
+            edit_account_popup: {},
+        };
+    },
+    components: {},
+    methods: {
+        insertAccount: function ($keycode) {
             if ($keycode !== 13) {
                 return;
             }
@@ -23,14 +24,14 @@ var app = angular.module('budgetApp');
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
-        };
+        },
 
-        $scope.showEditAccountPopup = function ($account) {
+        showEditAccountPopup: function ($account) {
             $scope.edit_account_popup = $account;
             $scope.show.popups.edit_account = true;
-        };
+        },
 
-        $scope.updateAccount = function () {
+        updateAccount: function () {
             $scope.showLoading();
             AccountsFactory.updateAccountName($scope.edit_account_popup)
                 .then(function (response) {
@@ -43,9 +44,9 @@ var app = angular.module('budgetApp');
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
-        };
+        },
 
-        $scope.deleteAccount = function ($account) {
+        deleteAccount: function ($account) {
             if (confirm("Are you sure you want to delete this account?")) {
                 $scope.showLoading();
                 AccountsFactory.deleteAccount($account)
@@ -58,8 +59,12 @@ var app = angular.module('budgetApp');
                         $scope.responseError(response);
                     });
             }
-        };
+        },
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
 
-    });
-
-})();
+    }
+});

@@ -1,9 +1,9 @@
-<script type="text/ng-template" id="checkboxes-template">
+<script type="text/v-template" id="checkboxes-template">
 
     <div class="checkbox-animate">
 
         <input
-            ng-model="model"
+            v-model="model"
             type="checkbox"
             id="[[id]]-checkbox">
 

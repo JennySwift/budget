@@ -1,25 +1,25 @@
 
-<script type="text/ng-template" id="transaction-autocomplete-template">
+<script type="text/v-template" id="transaction-autocomplete-template">
 
     <input
-        ng-model="typing"
-        ng-blur="hideAndClear()"
-        ng-focus="focus()"
-        ng-keyup="filter($event.keyCode)"
+        v-model="typing"
+        v-blur="hideAndClear()"
+        v-focus="focus()"
+        v-on:keyup="filter($event.keyCode)"
         placeholder="[[placeholder]]"
         id="[[id]]"
         class="form-control"
         type='text'>
 
-    <div ng-show="dropdown && !loading" id="[[placeholder]]-autocomplete" class="transactions-autocomplete">
+    <div v-show="dropdown && !loading" id="[[placeholder]]-autocomplete" class="transactions-autocomplete">
         <table class="table table-bordered">
             <tbody
-                ng-repeat="transaction in results"
-                ng-style="{color: colors[transaction.type]}"
+                v-repeat="transaction in results"
+                v-bind:style="{color: colors[transaction.type]}"
                 class="pointer"
-                ng-mousedown="chooseItem($index)"
-                ng-mouseover="hoverItem($index)"
-                ng-class="{'selected': $index == currentIndex}"
+                v-mousedown="chooseItem($index)"
+                v-mouseover="hoverItem($index)"
+                v-class="{'selected': $index == currentIndex}"
                 class="dropdown-item">
 
                 <tr>
@@ -45,8 +45,8 @@
                 <tr>
                     <td colspan="7">
                         <li
-                            ng-repeat="budget in transaction.budgets"
-                            ng-class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex', 'tag-without-budget': budget.type === 'unassigned'}"
+                            v-repeat="budget in transaction.budgets"
+                            v-class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex', 'tag-without-budget': budget.type === 'unassigned'}"
                             class="label label-default">
                             [[budget.name]]
                         </li>

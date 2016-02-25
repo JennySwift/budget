@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="filter-accounts-template">
+<script type="text/v-template" id="filter-accounts-template">
 
     <div filter-dropdowns-directive
          class="section">
@@ -17,31 +17,31 @@
                 <label for="">none</label>
             </div>
 
-            <div ng-show="filterTab === 'show'" ng-repeat="account in accounts">
+            <div v-show="filterTab === 'show'" v-repeat="account in accounts">
                 <input
                         checklist-model="filter.accounts.in"
                         checklist-value="account.id"
                         checklist-change="runFilter()"
-                        ng-disabled="filter.accounts.out.indexOf(account.id) !== -1"
+                        v-disabled="filter.accounts.out.indexOf(account.id) !== -1"
                         type="checkbox">
 
                 <label
-                        ng-class="{'disabled': filter.accounts.out.indexOf(account.id) !== -1}"
+                        v-class="{'disabled': filter.accounts.out.indexOf(account.id) !== -1}"
                         for="">
                     [[account.name]]
                 </label>
             </div>
 
-            <div ng-show="filterTab === 'hide'" ng-repeat="account in accounts">
+            <div v-show="filterTab === 'hide'" v-repeat="account in accounts">
                 <input
                         checklist-change="runFilter()"
                         checklist-model="filter.accounts.out"
                         checklist-value="account.id"
-                        ng-disabled="filter.accounts.in.indexOf(account.id) !== -1"
+                        v-disabled="filter.accounts.in.indexOf(account.id) !== -1"
                         type="checkbox">
 
                 <label
-                        ng-class="{'disabled': filter.accounts.in.indexOf(account.id) !== -1}"
+                        v-class="{'disabled': filter.accounts.in.indexOf(account.id) !== -1}"
                         for="">
                     [[account.name]]
                 </label>

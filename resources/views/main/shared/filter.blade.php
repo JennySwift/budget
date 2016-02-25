@@ -1,22 +1,22 @@
 
 
-<div ng-cloak ng-show="show.filter" id="filter" class="margin-bottom">
+<div v-cloak v-show="show.filter" id="filter" class="margin-bottom">
 
     <div class="btn-group">
-        <button ng-click="filterTab = 'show'" class="btn btn-success">Show</button>
-        <button ng-click="filterTab = 'hide'" class="btn btn-danger">Hide</button>
+        <button v-on:click="filterTab = 'show'" class="btn btn-success">Show</button>
+        <button v-on:click="filterTab = 'hide'" class="btn btn-danger">Hide</button>
     </div>
 
-    <div ng-if="filterTab === 'show'">
+    <div v-if="filterTab === 'show'">
         Show tab
     </div>
-    <div ng-if="filterTab === 'hide'">
+    <div v-if="filterTab === 'hide'">
         Hide tab
     </div>
 
-    <select ng-options="savedFilter as savedFilter.name for savedFilter in savedFilters"
-            ng-model="savedFilter"
-            ng-change="chooseSavedFilter(savedFilter)"
+    <select v-options="savedFilter as savedFilter.name for savedFilter in savedFilters"
+            v-model="savedFilter"
+            v-on:change="chooseSavedFilter(savedFilter)"
             class="form-control">
 
     </select>
@@ -87,8 +87,8 @@
 
     {{--<label>bug fix</label>--}}
     {{--<input--}}
-        {{--ng-model="filter.bugFix"--}}
-        {{--ng-change="filterTransactions()"--}}
+        {{--v-model="filter.bugFix"--}}
+        {{--v-on:change="filterTransactions()"--}}
         {{--type="checkbox">--}}
 
 

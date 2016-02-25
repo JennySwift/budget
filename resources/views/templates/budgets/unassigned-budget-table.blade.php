@@ -12,12 +12,12 @@
     </tr>
 
     <!-- table content -->
-    <tr ng-repeat="budget in unassignedBudgets | orderBy: 'name'" class="budget_info_ul">
+    <tr v-repeat="budget in unassignedBudgets | orderBy: 'name'" class="budget_info_ul">
 
-        <td ng-click="showBudgetPopup(budget, 'unassigned')" class="pointer">[[budget.name]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'unassigned')" class="pointer">[[budget.name]]</td>
 
         <td>
-            <button ng-click="deleteBudget(budget)" class="btn btn-xs btn-danger">delete</button>
+            <button v-on:click="deleteBudget(budget)" class="btn btn-xs btn-danger">delete</button>
         </td>
 
     </tr>

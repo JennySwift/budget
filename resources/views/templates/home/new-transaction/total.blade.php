@@ -3,7 +3,7 @@
         <label>Enter the total</label>
 
         <div dropdowns-directive class="dropdown-directive">
-            <button ng-click="toggleDropdown()" tabindex="-1" class="btn btn-info btn-xs">
+            <button v-on:click="toggleDropdown()" tabindex="-1" class="btn btn-info btn-xs">
                 Help
                 <span class="caret"></span>
             </button>
@@ -23,8 +23,8 @@
     </div>
 
     <input
-        ng-model="new_transaction.total"
-        ng-keyup="insertTransaction($event.keyCode)"
+        v-model="new_transaction.total"
+        v-on:keyup="insertTransaction($event.keyCode)"
         class="total mousetrap form-control"
         placeholder="$"
         type='text'>

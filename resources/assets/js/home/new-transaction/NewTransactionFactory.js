@@ -1,29 +1,28 @@
-app.factory('NewTransactionFactory', function ($http) {
-    var $object = {};
+var NewTransactionRepository = {
 
-    var $defaults = {
+    defaults: {
         type: 'income',
-            account_id: 1,
-            date: {
+        account_id: 1,
+        date: {
             entered: 'today'
         },
         merchant: '',
-            description: '',
-            reconciled: false,
-            multiple_budgets: false,
-            budgets: []
-    };
+        description: '',
+        reconciled: false,
+        multiple_budgets: false,
+        budgets: []
+    },
 
-    $object.getDefaults = function ($env, $accounts) {
+    getDefaults: function ($env, $accounts) {
         //Fill in the new transaction fields if development environment
         if ($env === 'local') {
-            $defaults.total = 10;
-            $defaults.type = 'expense';
-            $defaults.date.entered = 'today';
-            $defaults.merchant = 'some merchant';
-            $defaults.description = 'some description';
-            $defaults.duration = '';
-            $defaults.budgets = [
+            defaults.total = 10;
+            defaults.type = 'expense';
+            defaults.date.entered = 'today';
+            defaults.merchant = 'some merchant';
+            defaults.description = 'some description';
+            defaults.duration = '';
+            defaults.budgets = [
                 {
                     id: '2',
                     name: 'business',
@@ -36,17 +35,17 @@ app.factory('NewTransactionFactory', function ($http) {
                 //}
             ];
         }
-
+    
         if ($accounts.length > 0) {
-            $defaults.account_id = $accounts[0].id;
-            $defaults.from_account_id = $accounts[0].id;
-            $defaults.to_account_id = $accounts[0].id;
+            defaults.account_id = $accounts[0].id;
+            defaults.from_account_id = $accounts[0].id;
+            defaults.to_account_id = $accounts[0].id;
         }
+    
+        return defaults;
+    },
 
-        return $defaults;
-    };
-
-    $object.clearFields = function (env, me, $newTransaction) {
+    clearFields: function (env, me, $newTransaction) {
         if (me.preferences.clearFields) {
             $newTransaction.budgets = [];
             $newTransaction.total = '';
@@ -57,9 +56,9 @@ app.factory('NewTransactionFactory', function ($http) {
         }
 
         return $newTransaction;
-    };
+    },
 
-    $object.anyErrors = function ($newTransaction) {
+    anyErrors: function ($newTransaction) {
         var $messages = [];
 
         if (!Date.parse($newTransaction.date.entered)) {
@@ -81,7 +80,5 @@ app.factory('NewTransactionFactory', function ($http) {
         }
 
         return false;
-    };
-
-    return $object;
-});
+    }
+};

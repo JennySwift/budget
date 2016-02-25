@@ -1,34 +1,24 @@
 
-@extends('layouts.master')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Budget App</title>
+    @include('main.shared.head-links')
+</head>
+<body>
 
-@section('controller', 'HomeController')
+@include('main.shared.header')
+{{--<feedback></feedback>--}}
+{{--<loading></loading>--}}
 
-@section('page-content')
 
-<div>
+{{--<div class="container">--}}
+    {{--<router-view></router-view>--}}
+{{--</div>--}}
 
-    @include('templates.home.toolbar')
+@include('main.shared.footer')
 
-    <div
-        ng-controller="NewTransactionController"
-        ng-show="tab === 'transactions'"
-        id="new-transaction-container">
+</body>
+</html>
 
-        @include('templates.home.new-transaction')
-
-        {{--<input ng-model="dateTest" type="text" formatted-date/>--}}
-
-        {{--<button ng-model="testBtn" id="test-btn">Test me!</button>--}}
-        {{--<input type="text" id="test-input"/>--}}
-
-    </div>
-
-    @include('templates.home.main-content')
-
-    {{--<script id="totals">--}}
-        {{--@include('directives.totals')--}}
-    {{--</script>--}}
-
-</div>
-
-@stop

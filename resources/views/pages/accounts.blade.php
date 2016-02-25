@@ -14,7 +14,7 @@
             <div class="flex">
 
                 <input
-                    ng-keyup="insertAccount($event.keyCode)"
+                    v-on:keyup="insertAccount($event.keyCode)"
                     type="text"
                     class="new_account_input font-size-sm center margin-bottom"
                     id="new_account_input"
@@ -22,7 +22,7 @@
                     name="name">
 
                 <div>
-                    <button ng-click="insertAccount(13)" class="btn btn-success">Create</button>
+                    <button v-on:click="insertAccount(13)" class="btn btn-success">Create</button>
                 </div>
 
             </div>
@@ -30,16 +30,16 @@
         </div>
 
         <table class="">
-            <tr ng-repeat="account in accounts | orderBy: 'name'">
+            <tr v-repeat="account in accounts | orderBy: 'name'">
                 <td
-                    ng-click="showEditAccountPopup(account)"
+                    v-on:click="showEditAccountPopup(account)"
                     class="pointer">
                     [[account.name]]
                 </td>
 
                 <td>
                     <button
-                        ng-click="deleteAccount(account)"
+                        v-on:click="deleteAccount(account)"
                         class="btn btn-default btn-danger btn-sm">
                         delete
                     </button>

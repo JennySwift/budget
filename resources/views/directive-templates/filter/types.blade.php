@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="filter-types-template">
+<script type="text/v-template" id="filter-types-template">
 
     <div filter-dropdowns-directive
          types="types"
@@ -18,29 +18,29 @@
                 <label for="">none</label>
             </div>
 
-            <div ng-show="filterTab === 'show'" ng-repeat="type in types">
+            <div v-show="filterTab === 'show'" v-repeat="type in types">
                 <input
                         checklist-model="filter.types.in"
                         checklist-value="type"
                         checklist-change="runFilter()"
-                        ng-disabled="filter.types.out.indexOf(type) !== -1"
+                        v-disabled="filter.types.out.indexOf(type) !== -1"
                         type="checkbox">
                 <label
-                        ng-class="{'disabled': filter.types.out.indexOf(type) !== -1}"
+                        v-class="{'disabled': filter.types.out.indexOf(type) !== -1}"
                         for="">
                     [[type]]
                 </label>
             </div>
 
-            <div ng-show="filterTab === 'hide'" ng-repeat="type in types">
+            <div v-show="filterTab === 'hide'" v-repeat="type in types">
                 <input
                         checklist-model="filter.types.out"
                         checklist-value="type"
                         checklist-change="runFilter()"
-                        ng-disabled="filter.types.in.indexOf(type) !== -1"
+                        v-disabled="filter.types.in.indexOf(type) !== -1"
                         type="checkbox">
                 <label
-                        ng-class="{'disabled': filter.types.in.indexOf(type) !== -1}"
+                        v-class="{'disabled': filter.types.in.indexOf(type) !== -1}"
                         for="">
                     [[type]]
                 </label>

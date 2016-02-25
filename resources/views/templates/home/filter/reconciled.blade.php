@@ -1,7 +1,7 @@
 
 
 <div filter-dropdowns-directive
-     ng-show="filterTab === 'show'"
+     v-show="filterTab === 'show'"
      class="section">
 
     <h4 class="center">reconciled</h4>
@@ -10,8 +10,8 @@
 
         <div>
             <input
-                ng-model="filter.reconciled"
-                ng-change="runFilter()"
+                v-model="filter.reconciled"
+                v-on:change="runFilter()"
                 type="radio"
                 name="status"
                 value="any">
@@ -20,8 +20,8 @@
 
         <div>
             <input
-                ng-model="filter.reconciled"
-                ng-change="runFilter()"
+                v-model="filter.reconciled"
+                v-on:change="runFilter()"
                 type="radio"
                 name="status"
                 value="true">
@@ -30,8 +30,8 @@
 
         <div>
             <input
-                ng-model="filter.reconciled"
-                ng-change="runFilter()"
+                v-model="filter.reconciled"
+                v-on:change="runFilter()"
                 type="radio"
                 name="status"
                 value="false">

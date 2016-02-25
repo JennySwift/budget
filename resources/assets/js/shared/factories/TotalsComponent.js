@@ -1,6 +1,12 @@
-app.factory('TotalsFactory', function ($http) {
-    return {
+var Totals = Vue.component('totals', {
+    template: '#totals-template',
+    data: function () {
+        return {
 
+        };
+    },
+    components: {},
+    methods: {
         /**
          * Get all the totals
          * @returns {*}
@@ -30,6 +36,11 @@ app.factory('TotalsFactory', function ($http) {
 
             return $http.get($url);
         }
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
 
-    };
+    }
 });

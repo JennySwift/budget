@@ -1,7 +1,7 @@
 
-<div ng-show="show.allocationPopup" ng-cloak class="popup-outer">
+<div v-show="show.allocationPopup" v-cloak class="popup-outer">
     <div id="allocation-popup" class="popup-inner">
-        <button ng-click="testing()">test</button>
+        <button v-on:click="testing()">test</button>
         <p class="width-100">The total for this transaction is <span class="bold">[[allocationPopup.total]]</span>. You have more than one budget associated with this transaction. Specify what percentage of [[allocation_popup.total]] you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
         
         <div id="allocation-table-container">
@@ -16,11 +16,11 @@
                 </tr>
 
                 <!-- table content -->
-                <tr ng-repeat="budget in allocationPopup.budgets">
+                <tr v-repeat="budget in allocationPopup.budgets">
                     
                     <td>
                         <div>
-                            <span ng-class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex'}" class="label label-default">[[budget.name]]</span>
+                            <span v-class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex'}" class="label label-default">[[budget.name]]</span>
                         </div>
                     </td>
 
@@ -28,18 +28,18 @@
                         <div class="editable">
 
                             <input
-                                ng-if="budget.editingAllocatedFixed"
-                                ng-keyup="updateAllocation($event.keyCode, 'fixed', budget.editedAllocatedFixed, budget.id)"
-                                ng-model="budget.editedAllocatedFixed" type="text">
+                                v-if="budget.editingAllocatedFixed"
+                                v-on:keyup="updateAllocation($event.keyCode, 'fixed', budget.editedAllocatedFixed, budget.id)"
+                                v-model="budget.editedAllocatedFixed" type="text">
 
                             <button
-                                ng-if="!budget.editingAllocatedFixed"
-                                ng-click="budget.editingAllocatedFixed = true"
+                                v-if="!budget.editingAllocatedFixed"
+                                v-on:click="budget.editingAllocatedFixed = true"
                                 class="edit">edit
                             </button>
 
                             <span
-                                ng-if="!budget.editingAllocatedFixed">
+                                v-if="!budget.editingAllocatedFixed">
                                 [[budget.pivot.allocated_fixed]]
                             </span>
                         </div>
@@ -48,18 +48,18 @@
                     <td>
                         <div class="editable">
                             <input
-                                ng-if="budget.editingAllocatedPercent"
-                                ng-keyup="updateAllocation($event.keyCode, 'percent', budget.editedAllocatedPercent, budget.id)"
-                                ng-model="budget.editedAllocatedPercent" type="text">
+                                v-if="budget.editingAllocatedPercent"
+                                v-on:keyup="updateAllocation($event.keyCode, 'percent', budget.editedAllocatedPercent, budget.id)"
+                                v-model="budget.editedAllocatedPercent" type="text">
 
                             <button
-                                ng-if="!budget.editingAllocatedPercent"
-                                ng-click="budget.editingAllocatedPercent = true"
+                                v-if="!budget.editingAllocatedPercent"
+                                v-on:click="budget.editingAllocatedPercent = true"
                                 class="edit">edit
                             </button>
 
                             <span
-                                ng-if="!budget.editingAllocatedPercent">
+                                v-if="!budget.editingAllocatedPercent">
                                 [[budget.pivot.allocated_percent]]
                             </span>
                         </div>
@@ -104,11 +104,11 @@
         <div class="center-contents">
             <div class="checkbox-wrapper">
                 <label for="allocate-checkbox">allocated</label>
-                <input ng-model="allocationPopup.allocated" ng-change="updateAllocationStatus()" type="checkbox">
+                <input v-model="allocationPopup.allocated" v-on:change="updateAllocationStatus()" type="checkbox">
             </div>
         </div>
 
         <!-- close button -->
-        <button ng-click="show.allocationPopup = false" class="close-modal">Close</button>
+        <button v-on:click="show.allocationPopup = false" class="close-modal">Close</button>
     </div>
 </div>

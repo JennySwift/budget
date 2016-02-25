@@ -1,7 +1,7 @@
 <div class="help-row">
 
     <div dropdowns-directive class="dropdown-directive">
-        <button ng-click="showDropdown()" class="btn btn-info btn-xs">
+        <button v-on:click="showDropdown()" class="btn btn-info btn-xs">
             Help
             <span class="caret"></span>
         </button>

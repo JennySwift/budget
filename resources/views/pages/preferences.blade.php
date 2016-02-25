@@ -7,7 +7,7 @@
 
     <div>
 
-        <div ng-controller="PreferencesController">
+        <div v-controller="PreferencesController">
             <h1>preferences</h1>
 
             <label>Clear fields upon entering new transaction</label>
@@ -28,7 +28,7 @@
 
                         <td>
                             <input
-                                ng-model="colors.income"
+                                v-model="colors.income"
                                 id="income-color-picker"
                                 class="color-picker"
                                 type="color">
@@ -36,7 +36,7 @@
 
                         <td>
                             <button
-                                ng-click="defaultColor('income', '#017d00')"
+                                v-on:click="defaultColor('income', '#017d00')"
                                 id="default-income-color-button"
                                 class="default-color-button btn btn-info">
                                 default
@@ -51,7 +51,7 @@
 
                         <td>
                             <input
-                                ng-model="colors.expense"
+                                v-model="colors.expense"
                                 id="expense-color-picker"
                                 class="color-picker"
                                 type="color">
@@ -59,7 +59,7 @@
 
                         <td>
                             <button
-                                ng-click="defaultColor('expense', '#fb5e52')"
+                                v-on:click="defaultColor('expense', '#fb5e52')"
                                 id="default-expense-color-button"
                                 class="default-color-button btn btn-info">
                                 default
@@ -75,7 +75,7 @@
 
                         <td>
                             <input
-                                ng-model="colors.transfer"
+                                v-model="colors.transfer"
                                 id="transfer-color-picker"
                                 class="color-picker"
                                 type="color">
@@ -83,7 +83,7 @@
 
                         <td>
                             <button
-                                ng-click="defaultColor('transfer', '#fca700')"
+                                v-on:click="defaultColor('transfer', '#fca700')"
                                 id="default-transfer-color-button"
                                 class="default-color-button btn btn-info">
                                 default
@@ -98,12 +98,12 @@
         <div>
             <div>Date format</div>
             <label>dd/mm/yy</label>
-            <input ng-model="preferences.date_format" type="radio" value="dd/mm/yy">
+            <input v-model="preferences.date_format" type="radio" value="dd/mm/yy">
             <label>dd/mm/yyyy</label>
-            <input ng-model="preferences.date_format" type="radio" value="dd/mm/yyyy">
+            <input v-model="preferences.date_format" type="radio" value="dd/mm/yyyy">
         </div>
 
-        <button ng-click="savePreferences()" class="btn btn-success">Save</button>
+        <button v-on:click="savePreferences()" class="btn btn-success">Save</button>
 
     </div>
 

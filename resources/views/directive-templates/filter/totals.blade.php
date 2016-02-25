@@ -1,6 +1,6 @@
-<script type="text/ng-template" id="filter-totals-template">
+<script type="text/v-template" id="filter-totals-template">
 
-    <div ng-show="show.filter_totals" id="filter-totals" class="col-sm-2">
+    <div v-show="show.filter_totals" id="filter-totals" class="col-sm-2">
         <ul class="list-group">
             <li class="list-group-item list-group-heading">
                 Filter totals

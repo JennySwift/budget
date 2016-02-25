@@ -3,15 +3,15 @@
     <div>
 
         <button
-            ng-if="!show.new_transaction"
-            ng-click="show.new_transaction = !show.new_transaction"
+            v-if="!show.new_transaction"
+            v-on:click="show.new_transaction = !show.new_transaction"
             class="btn btn-info">
             New transaction
         </button>
 
         <button
-            ng-if="show.new_transaction"
-            ng-click="show.new_transaction = !show.new_transaction"
+            v-if="show.new_transaction"
+            v-on:click="show.new_transaction = !show.new_transaction"
             class="btn btn-info">
             Hide new transaction
         </button>
@@ -20,15 +20,15 @@
 
     <div class="btn-group">
         <button
-                ng-click="transactionsTab()"
-                ng-class="{'selected': tab === 'transactions'}"
+                v-on:click="transactionsTab()"
+                v-class="{'selected': tab === 'transactions'}"
                 class="btn">
                 Transactions
         </button>
 
         <button
-                ng-click="graphsTab()"
-                ng-class="{'selected': tab === 'graphs'}"
+                v-on:click="graphsTab()"
+                v-class="{'selected': tab === 'graphs'}"
                 class="btn">
                 Graphs
         </button>

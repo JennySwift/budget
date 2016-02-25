@@ -2,7 +2,7 @@
     <label>Enter the transaction's date</label>
 
     <div dropdowns-directive class="dropdown-directive">
-        <button ng-click="toggleDropdown()" class="btn btn-info btn-xs">
+        <button v-on:click="toggleDropdown()" class="btn btn-info btn-xs">
             Help
             <span class="caret"></span>
         </button>

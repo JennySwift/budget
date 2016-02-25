@@ -1,9 +1,9 @@
-<script type="text/ng-template" id="filter-toolbar-template">
+<script type="text/v-template" id="filter-toolbar-template">
 
     <div>
         <select
-                ng-model="filter.num_to_fetch"
-                ng-change="changeNumToFetch()"
+                v-model="filter.num_to_fetch"
+                v-on:change="changeNumToFetch()"
                 class="form-control">
             <option value="2">2</option>
             <option value="4">4</option>
@@ -17,8 +17,8 @@
         <span class="badge">[[filter.display_from]] to [[filter.display_to]] of [[filterTotals.numTransactions]]</span>
 
         <button
-                ng-click="prevResults()"
-                ng-disabled="filter.display_from <= 1"
+                v-on:click="prevResults()"
+                v-disabled="filter.display_from <= 1"
                 type="button"
                 id="prev-results-button"
                 class="navigate-results-button btn btn-info">
@@ -26,8 +26,8 @@
         </button>
 
         <button
-                ng-click="nextResults()"
-                ng-disabled="filter.display_to >= filterTotals.numTransactions"
+                v-on:click="nextResults()"
+                v-disabled="filter.display_to >= filterTotals.numTransactions"
                 type="button"
                 id="next-results-button"
                 class="navigate-results-button btn btn-info">
@@ -35,14 +35,14 @@
         </button>
 
         <button
-            ng-click="resetFilter()"
+            v-on:click="resetFilter()"
             id="reset-search"
             class="btn btn-info">
             Reset
         </button>
 
         <button
-            ng-click="saveFilter()"
+            v-on:click="saveFilter()"
                 class="btn btn-xs btn-success">
             Save filter
         </button>

@@ -30,8 +30,8 @@
 
         @include('templates.header.help')
 
-        <li ng-if="page === 'home'">
-            <a ng-click="toggleFilter()" href="#" class="fa fa-search"></a>
+        <li v-if="page === 'home'">
+            <a v-on:click="toggleFilter()" href="#" class="fa fa-search"></a>
         </li>
 
     @endif

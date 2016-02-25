@@ -1,10 +1,10 @@
 
-<script type="text/ng-template" id="feedback-template">
+<script type="text/v-template" id="feedback-template">
     <div id="feedback">
         <div
-            ng-repeat="feedback in feedbackMessages track by $index"
-            ng-class="feedback.type"
-            ng-bind-html="feedback.message"
+            v-repeat="feedback in feedbackMessages track by $index"
+            v-class="feedback.type"
+            v-bind-html="feedback.message"
             class="feedback-message">
         </div>
     </div>

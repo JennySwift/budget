@@ -1,22 +1,22 @@
 
-<div ng-show="show.newBudget" class="new-entry">
+<div v-show="show.newBudget" class="new-entry">
     <h3>Create a new budget</h3>
-    <i ng-click="show.newBudget = false" class="close fa fa-times"></i>
+    <i v-on:click="show.newBudget = false" class="close fa fa-times"></i>
 
     <div class="flex">
 
         <div>
             <label>Enter a name</label>
 
-            <input ng-model="newBudget.name"
-                   ng-keyup="insertBudget($event.keyCode)"
+            <input v-model="newBudget.name"
+                   v-on:keyup="insertBudget($event.keyCode)"
                    type="text">
         </div>
 
         <div>
             <label>Select a budget type</label>
 
-            <select ng-model="newBudget.type" ng-keyup="insertBudget($event.keyCode)" class="form-control">
+            <select v-model="newBudget.type" v-on:keyup="insertBudget($event.keyCode)" class="form-control">
                 <option value="fixed">Fixed</option>
                 <option value="flex">Flex</option>
                 <option value="unassigned">Unassigned</option>
@@ -25,13 +25,13 @@
 
     </div>
 
-    <div ng-if="newBudget.type !== 'unassigned'" class="flex">
+    <div v-if="newBudget.type !== 'unassigned'" class="flex">
 
         <div>
             <label>Enter an an amount</label>
 
-            <input ng-model="newBudget.amount"
-                   ng-keyup="insertBudget($event.keyCode)"
+            <input v-model="newBudget.amount"
+                   v-on:keyup="insertBudget($event.keyCode)"
                    type="text">
         </div>
 
@@ -39,8 +39,8 @@
             <label>Enter a starting date</label>
 
             <input
-                ng-model="newBudget.starting_date"
-                ng-keyup="insertBudget($event.keyCode)"
+                v-model="newBudget.starting_date"
+                v-on:keyup="insertBudget($event.keyCode)"
                 type="text">
 
         </div>
@@ -48,7 +48,7 @@
     </div>
 
     <button
-        ng-click="insertBudget(13)"
+        v-on:click="insertBudget(13)"
         class="btn btn-success">
         Create Budget
     </button>

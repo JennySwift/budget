@@ -42,30 +42,30 @@
     </tr>
 
     <!-- table content -->
-    <tr ng-repeat="budget in fixedBudgets | orderBy: 'name'" class="budget_info_ul">
+    <tr v-repeat="budget in fixedBudgets | orderBy: 'name'" class="budget_info_ul">
 
-        <td ng-click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.name]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.name]]</td>
 
-        <td ng-click="showBudgetPopup(budget, 'fixed')" class="amount right pointer">[[budget.amount | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="amount right pointer">[[budget.amount | number:2]]</td>
 
-        <td ng-click="showBudgetPopup(budget, 'fixed')" class="CSD pointer">
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="CSD pointer">
             <span>[[budget.formattedStartingDate]]</span>
         </td>
 
-        <td ng-click="showBudgetPopup(budget, 'fixed')" class="month-number pointer">[[budget.cumulativeMonthNumber]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="month-number pointer">[[budget.cumulativeMonthNumber]]</td>
 
-        <td ng-click="showBudgetPopup(budget, 'fixed')" class="cumulative pointer">[[budget.cumulative | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="cumulative pointer">[[budget.cumulative | number:2]]</td>
 
-        <td ng-click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.spentBeforeStartingDate | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.spentBeforeStartingDate | number:2]]</td>
 
-        <td ng-click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.spentAfterStartingDate | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.spentAfterStartingDate | number:2]]</td>
 
-        <td ng-click="showBudgetPopup(budget, 'fixed')" class="received pointer">[[budget.receivedAfterStartingDate | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="received pointer">[[budget.receivedAfterStartingDate | number:2]]</td>
 
-        <td ng-click="showBudgetPopup(budget, 'fixed')" class="remaining pointer">[[budget.remaining | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="remaining pointer">[[budget.remaining | number:2]]</td>
 
         <td>
-            <button ng-click="deleteBudget(budget)" class="btn btn-xs btn-danger">delete</button>
+            <button v-on:click="deleteBudget(budget)" class="btn btn-xs btn-danger">delete</button>
         </td>
 
     </tr>

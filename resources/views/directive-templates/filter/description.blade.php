@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="filter-description-template">
+<script type="text/v-template" id="filter-description-template">
 
     <div filter-dropdowns-directive
          class="section">
@@ -7,16 +7,16 @@
 
         <div class="content">
 
-            <div class="group" ng-show="filterTab === 'show'">
+            <div class="group" v-show="filterTab === 'show'">
                 <input
-                        ng-model="filter.description.in"
-                        ng-keyup="filterDescriptionOrMerchant($event.keyCode)"
+                        v-model="filter.description.in"
+                        v-on:keyup="filterDescriptionOrMerchant($event.keyCode)"
                         type="text"
                         placeholder="description">
 
             <span class="input-group-btn">
                 <button
-                        ng-click="clearFilterField('description', 'in')"
+                        v-on:click="clearFilterField('description', 'in')"
                         class="clear-search-button">
                     clear
                 </button>
@@ -24,16 +24,16 @@
 
             </div>
 
-            <div class="group" ng-show="filterTab === 'hide'">
+            <div class="group" v-show="filterTab === 'hide'">
                 <input
-                        ng-model="filter.description.out"
-                        ng-keyup="filterDescriptionOrMerchant($event.keyCode)"
+                        v-model="filter.description.out"
+                        v-on:keyup="filterDescriptionOrMerchant($event.keyCode)"
                         type="text"
                         placeholder="description">
 
             <span class="input-group-btn">
                 <button
-                        ng-click="clearFilterField('description', 'out')"
+                        v-on:click="clearFilterField('description', 'out')"
                         class="clear-search-button">
                     clear
                 </button>

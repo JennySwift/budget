@@ -1,7 +1,6 @@
-app.factory('AutocompleteFactory', function ($http) {
-	var $object = {};
+var AutocompleteRepository = {
 
-	$object.duplicateCheck = function ($this, $transactions_without_duplicates) {
+	duplicateCheck: function ($this, $transactions_without_duplicates) {
 		var $duplicate_counter = 0;
 		$($transactions_without_duplicates).each(function () {
 			if ($this.description === this.description && $this.merchant === this.merchant && $this.total === this.total && $this.type === this.type && $this.account === this.account) {
@@ -19,8 +18,9 @@ app.factory('AutocompleteFactory', function ($http) {
 			}
 			$transactions_without_duplicates.push($this);
 		}
-	};
-	$object.removeDuplicates = function ($transactions) {
+	},
+
+	removeDuplicates: function ($transactions) {
 		//for the transaction autocomplete
 		for (var i = 0; i < $transactions.length; i++) {
 			var $transaction = $transactions[i];
@@ -91,18 +91,19 @@ app.factory('AutocompleteFactory', function ($http) {
 
 				if (_.isEqual($object_1, $object_2)) {
 					$transactions.splice($index, 1);
-				}				
+				}
 			}
 		}
-		
+
 		return $transactions;
-	};
-	$object.transferTransactions = function ($transactions) {
+	},
+
+	transferTransactions: function ($transactions) {
 		var $counter = 0;
 		var $from_account;
 		var $to_account;
 		var $total;
-		
+
 		$($transactions).each(function () {
 			var $index = $transactions.indexOf(this);
 			if (this.type === "transfer") {
@@ -131,6 +132,5 @@ app.factory('AutocompleteFactory', function ($http) {
 			}
 		});
 		return $transactions;
-	};
-	return $object;
-});
+	}
+};

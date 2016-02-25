@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en" class="" ng-app="budgetApp">
+<html lang="en" class="" v-app="budgetApp">
 
 <head>
     <meta charset="UTF-8">
@@ -17,13 +17,13 @@
 </head>
 
 <body>
-    @include('templates.shared.header')
+    @include('main.shared.header')
     <div class="main">
         @section('content')
         @show
     </div>
 
-    @include('templates.shared.real-footer')
+    @include('main.shared.real-footer')
 
 </body>
 
