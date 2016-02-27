@@ -15,6 +15,17 @@ class SavedFiltersController extends Controller
 {
 
     /**
+     * GET /api/savedFilters
+     * @return Response
+     */
+    public function index()
+    {
+        $savedFilters = SavedFilter::forCurrentUser()->get();
+        $savedFilters = $this->transform($this->createCollection($savedFilters, new SavedFilterTransformer))['data'];
+        return response($savedFilters, Response::HTTP_OK);
+    }
+
+    /**
      *
      * @param Request $request
      * @return mixed

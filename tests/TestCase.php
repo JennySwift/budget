@@ -115,6 +115,61 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertArrayHasKey('budgets', $transaction);
 	}
 
+	public function checkSavedFilterKeysExist($filter)
+	{
+		$this->assertArrayHasKey('id', $filter);
+		$this->assertArrayHasKey('name', $filter);
+		$this->assertArrayHasKey('filter', $filter);
+
+		$this->assertArrayHasKey('total', $filter['filter']);
+		$this->assertArrayHasKey('in', $filter['filter']['total']);
+		$this->assertArrayHasKey('out', $filter['filter']['total']);
+
+		$this->assertArrayHasKey('types', $filter['filter']);
+		$this->assertArrayHasKey('in', $filter['filter']['types']);
+		$this->assertArrayHasKey('out', $filter['filter']['types']);
+
+		$this->assertArrayHasKey('accounts', $filter['filter']);
+		$this->assertArrayHasKey('in', $filter['filter']['accounts']);
+		$this->assertArrayHasKey('out', $filter['filter']['accounts']);
+
+		$this->assertArrayHasKey('single_date', $filter['filter']);
+		$this->assertArrayHasKey('inSql', $filter['filter']['single_date']);
+		$this->assertArrayHasKey('outSql', $filter['filter']['single_date']);
+
+		$this->assertArrayHasKey('from_date', $filter['filter']);
+		$this->assertArrayHasKey('inSql', $filter['filter']['from_date']);
+		$this->assertArrayHasKey('outSql', $filter['filter']['from_date']);
+
+		$this->assertArrayHasKey('to_date', $filter['filter']);
+		$this->assertArrayHasKey('inSql', $filter['filter']['to_date']);
+		$this->assertArrayHasKey('outSql', $filter['filter']['to_date']);
+
+		$this->assertArrayHasKey('description', $filter['filter']);
+		$this->assertArrayHasKey('in', $filter['filter']['description']);
+		$this->assertArrayHasKey('out', $filter['filter']['description']);
+
+		$this->assertArrayHasKey('merchant', $filter['filter']);
+		$this->assertArrayHasKey('in', $filter['filter']['merchant']);
+		$this->assertArrayHasKey('out', $filter['filter']['merchant']);
+
+		$this->assertArrayHasKey('budgets', $filter['filter']);
+		$this->assertArrayHasKey('in', $filter['filter']['budgets']);
+		$this->assertArrayHasKey('and', $filter['filter']['budgets']['in']);
+		$this->assertArrayHasKey('or', $filter['filter']['budgets']['in']);
+		$this->assertArrayHasKey('out', $filter['filter']['budgets']);
+
+		$this->assertArrayHasKey('numBudgets', $filter['filter']);
+		$this->assertArrayHasKey('in', $filter['filter']['numBudgets']);
+		$this->assertArrayHasKey('out', $filter['filter']['numBudgets']);
+
+		$this->assertArrayHasKey('reconciled', $filter['filter']);
+		$this->assertArrayHasKey('offset', $filter['filter']);
+		$this->assertArrayHasKey('num_to_fetch', $filter['filter']);
+		$this->assertArrayHasKey('display_from', $filter['filter']);
+		$this->assertArrayHasKey('display_to', $filter['filter']);
+	}
+
 	/**
 	 *
 	 * @param $totals

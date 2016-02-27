@@ -10,6 +10,21 @@ var Filter = Vue.component('filter', {
     },
     components: {},
     methods: {
+
+        /**
+        *
+        */
+        getSavedFilters: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/savedFilters', function (response) {
+                this.savedFilters = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
         /**
          * I am using the id and a clone, so that the savedFilter
          * doesn't change (with actions such as next/prev button clicks)
@@ -43,6 +58,7 @@ var Filter = Vue.component('filter', {
     ],
     ready: function () {
         this.listen();
+        this.getSavedFilters();
     }
 });
 
