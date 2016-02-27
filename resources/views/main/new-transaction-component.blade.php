@@ -4,25 +4,23 @@
             v-show="tab === 'transactions'"
             id="new-transaction-container"
     >
-
         <div
-                v-show="show.newTransaction"
+                v-show="showNewTransaction"
                 v-bind:style="{color: colors[newTransaction.type]}"
                 id="new-transaction"
         >
-
             <div class="form-group">
                 <label for="new-transaction-favourites">Favourites</label>
 
                 <select
-                    v-model="selectedFavouriteTransaction"
-                    v-on:change="fillFields()"
-                    id="new-transaction-favourites"
-                    class="form-control"
+                        v-model="selectedFavouriteTransaction"
+                        v-on:change="fillFields()"
+                        id="new-transaction-favourites"
+                        class="form-control"
                 >
                     <option
-                        v-for="favourite in favouriteTransactions"
-                        v-bind:value="favourite"
+                            v-for="favourite in favouriteTransactions"
+                            v-bind:value="favourite"
                     >
                         @{{ favourite.name }}
                     </option>

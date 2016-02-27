@@ -6,7 +6,7 @@ var HomePage = Vue.component('home-page', {
             budgets: {},
             colors: {},
             transactions: {},
-            tab: '',
+            tab: 'transactions',
             show: ShowRepository.defaults,
             env: ''
         };
@@ -37,6 +37,13 @@ var HomePage = Vue.component('home-page', {
             else {
                 this.tab = 'transactions';
             }
+        },
+
+        /**
+         *
+         */
+        toggleNewTransaction: function () {
+            $.event.trigger('toggle-new-transaction');
         }
     },
     props: [

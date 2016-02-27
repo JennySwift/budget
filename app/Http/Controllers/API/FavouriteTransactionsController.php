@@ -16,7 +16,7 @@ class FavouriteTransactionsController extends Controller
 {
 
     /**
-     * GET /api/favourites
+     * GET /api/favouriteTransactions
      * @return Response
      */
     public function index()
@@ -25,6 +25,7 @@ class FavouriteTransactionsController extends Controller
         $favourites = $this->transform($this->createCollection($favourites, new FavouriteTransactionTransformer))['data'];
         return response($favourites, Response::HTTP_OK);
     }
+
     /**
      *
      * @param Request $request

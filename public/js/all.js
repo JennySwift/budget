@@ -23882,7 +23882,7 @@ var HomePage = Vue.component('home-page', {
             budgets: {},
             colors: {},
             transactions: {},
-            tab: '',
+            tab: 'transactions',
             show: ShowRepository.defaults,
             env: ''
         };
@@ -23913,6 +23913,13 @@ var HomePage = Vue.component('home-page', {
             else {
                 this.tab = 'transactions';
             }
+        },
+
+        /**
+         *
+         */
+        toggleNewTransaction: function () {
+            $.event.trigger('toggle-new-transaction');
         }
     },
     props: [
@@ -23995,14 +24002,14 @@ var NewTransaction = Vue.component('new-transaction', {
     data: function () {
         return {
             dropdown: {},
+            showNewTransaction: false,
             types: ["income", "expense", "transfer"],
-            accounts: {},
+            accounts: [],
             favouriteTransactions: [],
             newTransaction: {
                 date: {}
             },
             env: '',
-            show: {},
             colors: {
                 newTransaction: {}
             },
@@ -24010,6 +24017,34 @@ var NewTransaction = Vue.component('new-transaction', {
     },
     components: {},
     methods: {
+
+        /**
+        *
+        */
+        getAccounts: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/accounts', function (response) {
+                this.accounts = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+        *
+        */
+        getFavouriteTransactions: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/favouriteTransactions', function (response) {
+                this.favouriteTransactions = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
 
         /**
          *
@@ -24117,14 +24152,27 @@ var NewTransaction = Vue.component('new-transaction', {
                 .catch(function (response) {
                     this.responseError(response);
                 });
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('toggle-new-transaction', function (event) {
+                that.showNewTransaction = !that.showNewTransaction;
+            });
         }
 
     },
     props: [
-        //data to be received from parent
+        'tab'
     ],
     ready: function () {
-        this.newTransaction = NewTransactionRepository.getDefaults(this.env, this.accounts)
+        this.newTransaction = NewTransactionRepository.getDefaults(this.env, this.accounts);
+        this.getAccounts();
+        this.getFavouriteTransactions();
+        this.listen();
     }
 });
 var PreferencesPage = Vue.component('preferences-page', {

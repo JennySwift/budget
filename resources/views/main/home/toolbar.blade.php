@@ -3,15 +3,15 @@
     <div>
 
         <button
-            v-if="!show.new_transaction"
-            v-on:click="show.new_transaction = !show.new_transaction"
+            v-if="!show.newTransaction"
+            v-on:click="toggleNewTransaction()"
             class="btn btn-info">
             New transaction
         </button>
 
         <button
-            v-if="show.new_transaction"
-            v-on:click="show.new_transaction = !show.new_transaction"
+            v-if="show.newTransaction"
+            v-on:click="toggleNewTransaction()"
             class="btn btn-info">
             Hide new transaction
         </button>

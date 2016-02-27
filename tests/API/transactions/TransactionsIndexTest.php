@@ -29,6 +29,22 @@ class TransactionsIndexTest extends TestCase
      * @test
      * @return void
      */
+    public function it_gets_the_favourite_transactions()
+    {
+        $this->logInUser();
+        $response = $this->call('GET', '/api/favouriteTransactions');
+        $content = json_decode($response->getContent(), true);
+//          dd($content);
+
+        $this->checkFavouriteTransactionKeysExist($content[0]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
     public function it_autocompletes_the_transactions_by_description()
     {
         $this->logInUser();

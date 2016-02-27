@@ -24,8 +24,9 @@
 
     <input
         v-model="newTransaction.total"
-        v-on:keyup="insertTransaction($event.keyCode)"
+        v-on:keyup.13="insertTransaction()"
         class="total mousetrap form-control"
         placeholder="$"
-        type='text'>
+        type='text'
+    >
 </div>

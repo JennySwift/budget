@@ -3,7 +3,7 @@
 
     <input
         v-model="newTransaction.date.entered"
-        v-on:keyup="insertTransaction($event.keyCode)"
+        v-on:keyup.13="insertTransaction()"
         id="date"
         placeholder="date"
         type='text'

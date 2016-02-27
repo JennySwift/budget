@@ -3,7 +3,11 @@
     <div>
         @include('main.home.toolbar')
 
-        <new-transaction></new-transaction>
+        <new-transaction
+            :show="show"
+            :tab="tab"
+        >
+        </new-transaction>
 
         <div class="main-content">
 

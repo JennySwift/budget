@@ -103,6 +103,20 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 	/**
 	 *
+	 * @param $transaction
+	 */
+	public function checkFavouriteTransactionKeysExist($transaction)
+	{
+		$this->assertArrayHasKey('id', $transaction);
+		$this->assertArrayHasKey('description', $transaction);
+		$this->assertArrayHasKey('merchant', $transaction);
+		$this->assertArrayHasKey('total', $transaction);
+//		$this->assertArrayHasKey('account', $transaction);
+		$this->assertArrayHasKey('budgets', $transaction);
+	}
+
+	/**
+	 *
 	 * @param $totals
 	 */
 	public function checkTotalsKeysExist($totals)

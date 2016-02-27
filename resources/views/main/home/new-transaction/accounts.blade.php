@@ -45,7 +45,7 @@
 <div v-cloak v-show=" newTransaction.type === 'transfer'">
 
     <div class="form-group">
-        <label for="new-transaction-to-account">Select the account you are transferring money @stop</label>
+        <label for="new-transaction-to-account">Select the account you are transferring money to</label>
 
         <select
             v-model="newTransaction.toAccount"
