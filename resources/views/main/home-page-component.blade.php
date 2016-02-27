@@ -13,10 +13,13 @@
             {{-->--}}
             {{--</side-bar-totals>--}}
 
-            <transactions
-                :show="show"
-            >
-            </transactions>
+            <div class="flex-grow-2">
+                {{--@include('templates.home.popups.index')--}}
+                <transactions
+                        :show="show"
+                >
+                </transactions>
+            </div>
 
             <div v-show="tab === 'graphs'" class="flex-grow-2">
                 <graphs></graphs>

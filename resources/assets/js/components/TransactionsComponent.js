@@ -3,7 +3,19 @@ var Transactions = Vue.component('transactions', {
     data: function () {
         return {
             accounts: [],
-            transactions: []
+            transactions: [],
+            showStatus: false,
+            showDate: true,
+            showDescription: true,
+            showMerchant: true,
+            showTotal: true,
+            showType: true,
+            showAccount: true,
+            showDuration: true,
+            showReconciled: true,
+            showAllocated: true,
+            showBudgets: true,
+            showDelete: true,
         };
     },
     components: {},

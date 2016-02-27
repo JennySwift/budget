@@ -18,6 +18,7 @@
 @include('main.shared.loading-component')
 @include('main.transaction-autocomplete-component')
 @include('main.transactions-component')
+@include('main.transaction-component')
 @include('main.filter.filter-component')
 
 {{--Filters--}}
