@@ -33,6 +33,12 @@ class BudgetsController extends Controller
                 ->orderBy('name', 'asc')
                 ->get();
         }
+        else if ($request->has('unassigned')) {
+            $budgets = Budget::forCurrentUser()
+                ->whereType('unassigned')
+                ->orderBy('name', 'asc')
+                ->get();
+        }
         else if ($request->has('flex')) {
 //            $budgets = Budget::forCurrentUser()->whereType('flex')->get();
             $remainingBalance = app('remaining-balance')->calculate();
