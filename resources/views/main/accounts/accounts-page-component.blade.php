@@ -1,44 +1,30 @@
 <script id="accounts-page-template" type="x-template">
 
 <div>
-    @include('main.accounts.edit-account-popup')
+    <edit-account></edit-account>
 
     <div id="accounts">
 
         <div class="create-new-account">
             <label>Create a new account</label>
 
-            <div class="flex">
-
-                <input
-                        v-on:keyup="insertAccount($event.keyCode)"
-                        type="text"
-                        class="new_account_input font-size-sm center margin-bottom"
-                        id="new_account_input"
-                        placeholder="new account"
-                        name="name">
-
-                <div>
-                    <button v-on:click="insertAccount(13)" class="btn btn-success">Create</button>
-                </div>
-
-            </div>
+            <new-account></new-account>
 
         </div>
 
         <table class="">
-            <tr v-for="account in accounts | orderBy: 'name'">
+            <tr v-for="account in accounts | orderBy 'name'">
                 <td
                         v-on:click="showEditAccountPopup(account)"
                         class="pointer">
-                    [[account.name]]
+                    @{{ account.name }}
                 </td>
 
                 <td>
                     <button
                             v-on:click="deleteAccount(account)"
                             class="btn btn-default btn-danger btn-sm">
-                        delete
+                        Delete
                     </button>
                 </td>
             </tr>

@@ -23069,12 +23069,27 @@ var AccountsPage = Vue.component('accounts-page', {
     template: '#accounts-page-template',
     data: function () {
         return {
-            accounts: accounts,
+            accounts: [],
             edit_account_popup: {},
         };
     },
     components: {},
     methods: {
+
+        /**
+        *
+        */
+        getAccounts: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/accounts', function (response) {
+                this.accounts = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
         insertAccount: function ($keycode) {
             if ($keycode !== 13) {
                 return;
@@ -23132,7 +23147,7 @@ var AccountsPage = Vue.component('accounts-page', {
         //data to be received from parent
     ],
     ready: function () {
-
+        this.getAccounts();
     }
 });
 var BudgetAutocomplete = Vue.component('budget-autocomplete', {
@@ -23657,6 +23672,25 @@ var Dropdown = Vue.component('dropdown', {
 
 
 
+var EditAccount = Vue.component('edit-account', {
+    template: '#edit-account-template',
+    data: function () {
+        return {
+            selectedAccount: {}
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+
+    }
+});
+
 var EditBudgetPopup = Vue.component('edit-budget-popup', {
     template: '#edit-budget-popup-template',
     data: function () {
@@ -24055,6 +24089,25 @@ var Navbar = Vue.component('navbar', {
     },
     props: [
 
+    ],
+    ready: function () {
+
+    }
+});
+
+var NewAccount = Vue.component('new-account', {
+    template: '#new-account-template',
+    data: function () {
+        return {
+            newAccount: {}
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        //data to be received from parent
     ],
     ready: function () {
 

@@ -11,8 +11,13 @@
 @include('main.budgets.flex-budgets-page-component')
 @include('main.budgets.unassigned-budgets-page-component')
 
+{{--Budgets--}}
 @include('main.budgets.edit-budget-popup-component')
 @include('main.budgets.new-budget-component')
+
+{{--Accounts--}}
+@include('main.accounts.new-account-component')
+@include('main.accounts.edit-account-component')
 
 @include('main.new-transaction-component')
 @include('main.shared.navbar-component')
