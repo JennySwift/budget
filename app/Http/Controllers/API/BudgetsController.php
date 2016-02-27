@@ -21,20 +21,6 @@ class BudgetsController extends Controller
 {
 
     /**
-     * @var budgetsRepository
-     */
-    protected $budgetsRepository;
-
-    /**
-     * Create a new controller instance.
-     * @param BudgetsRepository $budgetsRepository
-     */
-    public function __construct(BudgetsRepository $budgetsRepository)
-    {
-        $this->budgetsRepository = $budgetsRepository;
-    }
-
-    /**
      * This method is only for the test at the moment
      * @param Request $request
      * @return Response

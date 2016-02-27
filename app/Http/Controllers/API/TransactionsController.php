@@ -47,14 +47,19 @@ class TransactionsController extends Controller
     public function index(Request $request)
     {
         $transactions = Transaction::forCurrentUser()
-            ->where($request->get('column'), 'LIKE', '%' . $request->get('typing') . '%')
             ->limit(50)
             ->orderBy('date', 'desc')
             ->orderBy('id', 'desc')
             ->with('account')
-            ->with('budgets')
-            ->get();
+            ->with('budgets');
 
+        if ($request->get('typing')) {
+            $transactions = $transactions->where($request->get('column'), 'LIKE', '%' . $request->get('typing') . '%');
+        }
+
+        $transactions = $transactions->get();
+
+        $transactions = $this->transform($this->createCollection($transactions, new TransactionTransformer))['data'];
         return response($transactions, Response::HTTP_OK);
     }
 

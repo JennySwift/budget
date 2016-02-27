@@ -22216,6 +22216,17 @@ var FilterRepository = {
 };
 
 FilterRepository.resetFilter();
+var HelpersRepository = {
+
+    /**
+     *
+     * @param response
+     */
+    handleResponseError: function (response) {
+        $.event.trigger('response-error', [response]);
+        $.event.trigger('hide-loading');
+    }
+};
 var NewTransactionRepository = {
 
     defaults: {
@@ -24503,11 +24514,27 @@ var Transactions = Vue.component('transactions', {
     template: '#transactions-template',
     data: function () {
         return {
-            accounts: []
+            accounts: [],
+            transactions: []
         };
     },
     components: {},
     methods: {
+
+        /**
+        *
+        */
+        getTransactions: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/transactions', function (response) {
+                this.transactions = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
         updateReconciliation: function ($transaction) {
             $scope.clearTotalChanges();
             $scope.showLoading();
@@ -24640,7 +24667,7 @@ var Transactions = Vue.component('transactions', {
         //data to be received from parent
     ],
     ready: function () {
-
+        this.getTransactions();
     }
 });
 
