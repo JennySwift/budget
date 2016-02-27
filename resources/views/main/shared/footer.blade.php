@@ -8,8 +8,8 @@
 @include('main.preferences-page-component')
 @include('main.budgets.fixed-budgets-page-component')
 @include('main.shared.totals-component')
-{{--@include('main.budgets.flex-budgets-page-component')--}}
-{{--@include('main.budgets.unassigned-budgets-page-component')--}}
+@include('main.budgets.flex-budgets-page-component')
+@include('main.budgets.unassigned-budgets-page-component')
 
 @include('main.budgets.edit-budget-popup-component')
 @include('main.budgets.new-budget-component')

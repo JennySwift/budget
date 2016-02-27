@@ -1,15 +1,18 @@
 <script id="flex-budgets-page-template" type="x-template">
 
 <div>
-    @include('main.budgets.edit-budget-popup-component')
+    <edit-budget-popup></edit-budget-popup>
 
     @include('main.budgets.toolbar')
 
-    @include('main.budgets.new-budget-component')
+   <new-budget></new-budget>
 
     <div id="budget-content">
 
-        @include('main.budgets.totals')
+        <totals
+                :show="show"
+        >
+        </totals>
 
         <div class="budget-table">
             @include('main.budgets.flex-budget-table')

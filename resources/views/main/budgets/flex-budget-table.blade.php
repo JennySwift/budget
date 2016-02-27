@@ -41,20 +41,20 @@
         </th>
     </tr>
     <!-- table content -->
-    <tr v-for="budget in flexBudgets | orderBy: 'name'" class="budget_info_ul">
-        <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">[[budget.name]]</td>
-        <td v-on:click="showBudgetPopup(budget, 'flex')" class="percent pointer">[[budget.amount]]</td>
-        <td v-on:click="showBudgetPopup(budget, 'flex')" class="amount pointer">[[budget.calculatedAmount | number:2]]</td>
+    <tr v-for="budget in flexBudgets | orderBy 'name'" class="budget_info_ul">
+        <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">@{{ budget.name }}</td>
+        <td v-on:click="showBudgetPopup(budget, 'flex')" class="percent pointer">@{{ budget.amount }}</td>
+        <td v-on:click="showBudgetPopup(budget, 'flex')" class="amount pointer">@{{ budget.calculatedAmount |  numberFilter 2 }}</td>
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="CSD pointer">
-            <span>[[budget.formattedStartingDate]]</span>
+            <span>@{{ budget.formattedStartingDate }}</span>
         </td>
-        <td v-on:click="showBudgetPopup(budget, 'flex')" class="month-number pointer">[[budget.cumulativeMonthNumber]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'flex')" class="month-number pointer">@{{ budget.cumulativeMonthNumber }}</td>
 
-        <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">[[budget.spentBeforeStartingDate | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">@{{ budget.spentBeforeStartingDate |  numberFilter 2 }}</td>
 
-        <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">[[budget.spentAfterStartingDate | number:2]]</td>
-        <td v-on:click="showBudgetPopup(budget, 'flex')" class="received pointer">[[budget.receivedAfterStartingDate | number:2]]</td>
-        <td v-on:click="showBudgetPopup(budget, 'flex')" class="remaining pointer">[[budget.remaining | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">@{{ budget.spentAfterStartingDate |  numberFilter 2 }}</td>
+        <td v-on:click="showBudgetPopup(budget, 'flex')" class="received pointer">@{{ budget.receivedAfterStartingDate |  numberFilter 2 }}</td>
+        <td v-on:click="showBudgetPopup(budget, 'flex')" class="remaining pointer">@{{ budget.remaining |  numberFilter 2 }}</td>
         <td>
             <button v-on:click="deleteBudget(budget)" class="btn btn-xs btn-danger">delete</button>
         </td>
@@ -62,40 +62,40 @@
     <!-- allocated -->
     <tr id="flex-budget-totals" class="budget_info_ul">
         <td>allocated</td>
-        <td>[[flexBudgetTotals.allocatedAmount | number:2]]</td>
-        <td>[[flexBudgetTotals.allocatedCalculatedAmount | number:2]]</td>
+        <td>@{{ flexBudgetTotals.allocatedAmount |  numberFilter 2 }}</td>
+        <td>@{{ flexBudgetTotals.allocatedCalculatedAmount |  numberFilter 2 }}</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
-        <td>[[flexBudgetTotals.allocatedRemaining | number:2]]</td>
+        <td>@{{ flexBudgetTotals.allocatedRemaining |  numberFilter 2 }}</td>
         <td>-</td>
     </tr>
     {{--unallocated--}}
     <tr id="flex-budget-unallocated" class="budget_info_ul">
         <td>unallocated</td>
-        <td>[[flexBudgetTotals.unallocatedAmount]]</td>
-        <td>[[flexBudgetTotals.unallocatedCalculatedAmount | number:2]]</td>
+        <td>@{{ flexBudgetTotals.unallocatedAmount }}</td>
+        <td>@{{ flexBudgetTotals.unallocatedCalculatedAmount |  numberFilter 2 }}</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
-        <td>[[flexBudgetTotals.unallocatedRemaining | number:2]]</td>
+        <td>@{{ flexBudgetTotals.unallocatedRemaining |  numberFilter 2 }}</td>
         <td>-</td>
     </tr>
     <!-- flex budget totals -->
     <tr id="flex-budget-totals" class="budget_info_ul totals">
         <td>totals</td>
-        <td>[[flexBudgetTotals.allocatedPlusUnallocatedAmount]]</td>
-        <td>[[flexBudgetTotals.allocatedPlusUnallocatedCalculatedAmount | number:2]]</td>
+        <td>@{{ flexBudgetTotals.allocatedPlusUnallocatedAmount }}</td>
+        <td>@{{ flexBudgetTotals.allocatedPlusUnallocatedCalculatedAmount |  numberFilter 2 }}</td>
         <td>-</td>
         <td>-</td>
-        <td>[[flexBudgetTotals.spentBeforeStartingDate | number:2]]</td>
-        <td>[[flexBudgetTotals.spentAfterStartingDate | number:2]]</td>
-        <td>[[flexBudgetTotals.receivedAfterStartingDate | number:2]]</td>
-        <td>[[flexBudgetTotals.allocatedPlusUnallocatedRemaining | number:2]]</td>
+        <td>@{{ flexBudgetTotals.spentBeforeStartingDate |  numberFilter 2 }}</td>
+        <td>@{{ flexBudgetTotals.spentAfterStartingDate |  numberFilter 2 }}</td>
+        <td>@{{ flexBudgetTotals.receivedAfterStartingDate |  numberFilter 2 }}</td>
+        <td>@{{ flexBudgetTotals.allocatedPlusUnallocatedRemaining |  numberFilter 2 }}</td>
         <td>-</td>
     </tr>
 </table>
