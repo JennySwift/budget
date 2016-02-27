@@ -1,5 +1,5 @@
 <div>
-    @include('templates.home.new-transaction.date-help')
+    @include('main.home.new-transaction.date-help')
 
     <input
         v-model="newTransaction.date.entered"

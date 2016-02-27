@@ -19,6 +19,12 @@ router.map({
         //        component: Item
         //    }
         //}
+    },
+    '/help': {
+        component: HelpPage
+    },
+    '/acounts': {
+        component: AccountsPage
     }
 });
 

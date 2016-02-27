@@ -144,34 +144,4 @@ class PagesController extends Controller {
 
         return view('pages/favourite-transactions');
     }
-
-    /**
-     * Show the application dashboard to the user.
-     * GET /accounts
-     * @return Response
-     */
-    public function accounts()
-    {
-        JavaScript::put([
-            'me' => Auth::user(),
-            'accounts' => Account::getAccounts(),
-        ]);
-
-        return view('pages/accounts');
-    }
-
-    /**
-     * Display a listing of the resource.
-     * GET /help
-     * @return Response
-     */
-    public function help()
-    {
-        JavaScript::put([
-            'me' => Auth::user(),
-        ]);
-
-        return view('pages/help');
-    }
-
 }

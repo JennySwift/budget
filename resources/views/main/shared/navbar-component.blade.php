@@ -20,7 +20,7 @@
             @include('templates.header.menu')
 
             <li>
-                @include('templates.home.show-button')
+                @include('main.home.show-button')
             </li>
 
 

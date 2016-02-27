@@ -1,8 +1,13 @@
 
 @include('main.shared.real-footer')
 
-@include('main.new-transaction-component')
+{{--Pages--}}
 @include('main.home-page-component')
+@include('main.help-page-component')
+@include('main.accounts-page-component')
+
+
+@include('main.new-transaction-component')
 @include('main.shared.navbar-component')
 @include('main.shared.feedback-component')
 @include('main.shared.loading-component')

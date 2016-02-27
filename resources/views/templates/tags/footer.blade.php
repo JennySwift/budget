@@ -1,1 +1,0 @@
-<script type="text/javascript" src="js/controllers/TagsController.js"></script>

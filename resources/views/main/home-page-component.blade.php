@@ -1,7 +1,7 @@
 <script id="home-page-template" type="x-template">
 
     <div>
-        @include('templates.home.toolbar')
+        @include('main.home.toolbar')
 
         <new-transaction></new-transaction>
 

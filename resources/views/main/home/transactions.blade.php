@@ -2,7 +2,7 @@
 
 <table v-if="transactions.length > 0" id="transactions" class="">
 
-    @include('templates.home.transactions.table-header')
+    @include('main.home.transactions.table-header')
 
     <tbody
         v-for="transaction in transactions"
@@ -68,7 +68,7 @@
 
         </tr>
 
-        @include('templates.home.transactions.tags')
+        @include('main.home.transactions.tags')
 
     </tbody>
 </table>

@@ -30,31 +30,31 @@
             </div>
 
             <div class="type">
-                @include('templates.home.new-transaction.type')
+                @include('main.home.new-transaction.type')
             </div>
 
             <div>
-                @include('templates.home.new-transaction.date')
-                @include('templates.home.new-transaction.total')
+                @include('main.home.new-transaction.date')
+                @include('main.home.new-transaction.total')
             </div>
 
             <div>
-                @include('templates.home.new-transaction.merchant')
-                @include('templates.home.new-transaction.description')
+                @include('main.home.new-transaction.merchant')
+                @include('main.home.new-transaction.description')
             </div>
 
             <div>
-                @include('templates.home.new-transaction.accounts')
-                @include('templates.home.new-transaction.reconcile')
+                @include('main.home.new-transaction.accounts')
+                @include('main.home.new-transaction.reconcile')
             </div>
 
             <div>
-                @include('templates.home.new-transaction.tags')
-                @include('templates.home.new-transaction.duration')
+                @include('main.home.new-transaction.tags')
+                @include('main.home.new-transaction.duration')
             </div>
 
             <div>
-                @include('templates.home.new-transaction.enter')
+                @include('main.home.new-transaction.enter')
             </div>
 
         </div>

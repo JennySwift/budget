@@ -94,8 +94,8 @@
                     clearFilterField="clearFilterField()">
                 </totals-filter>
 
-                @include('templates.home.filter.reconciled')
-                @include('templates.home.filter.num-budgets')
+                @include('main.home.filter.reconciled')
+                @include('main.home.filter.num-budgets')
             </div>
         </div>
 
