@@ -3,7 +3,8 @@ var Totals = Vue.component('totals', {
     data: function () {
         return {
             totalChanges: [],
-            sideBarTotals: []
+            sideBarTotals: [],
+            totalsLoading: false
         };
     },
     components: {},
@@ -23,12 +24,27 @@ var Totals = Vue.component('totals', {
          * Get all the totals
          * @returns {*}
          */
-        getTotals: function () {
-            var $url = '/api/totals';
+        //getTotals: function () {
+        //    var $url = '/api/totals';
+        //
+        //    return $http.get($url);
+        //},
 
-            return $http.get($url);
-        },
+        /**
+        *
+        */
         getSideBarTotals: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/totals/sidebar', function (response) {
+                this.sideBarTotals = response.data;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        getTotals: function () {
             var $url = '/api/totals/sidebar';
 
             return $http.get($url);
@@ -50,9 +66,9 @@ var Totals = Vue.component('totals', {
         }
     },
     props: [
-        //data to be received from parent
+        'show'
     ],
     ready: function () {
-
+        this.getSideBarTotals();
     }
 });

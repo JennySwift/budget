@@ -2,7 +2,8 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
     template: '#fixed-budgets-page-template',
     data: function () {
         return {
-            fixedBudgetTotals: []
+            fixedBudgetTotals: [],
+            show: ShowRepository.defaults,
         };
     },
     components: {},

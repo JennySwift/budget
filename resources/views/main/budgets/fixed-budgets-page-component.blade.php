@@ -8,7 +8,10 @@
 
     <div id="budget-content">
 
-        <totals></totals>
+        <totals
+            :show="show"
+        >
+        </totals>
 
         <div class="budget-table">
             @include('main.budgets.fixed-budget-table')

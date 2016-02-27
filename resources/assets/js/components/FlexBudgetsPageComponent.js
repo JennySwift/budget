@@ -2,7 +2,7 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
     template: '#flex-budgets-page-template',
     data: function () {
         return {
-
+            show: ShowRepository.defaults,
         };
     },
     components: {},

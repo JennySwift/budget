@@ -1,4 +1,4 @@
-<div v-show="showBasicTotals" id="remaining-balance-totals">
+<div v-show="show.basicTotals" id="remaining-balance-totals">
 
     <i v-if="totalsLoading" class="fa fa-spinner fa-pulse"></i>
 

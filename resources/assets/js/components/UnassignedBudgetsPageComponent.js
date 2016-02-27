@@ -2,7 +2,7 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
     template: '#unassigned-budgets-page-template',
     data: function () {
         return {
-
+            show: ShowRepository.defaults,
         };
     },
     components: {},

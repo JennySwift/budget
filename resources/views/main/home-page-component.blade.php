@@ -7,11 +7,10 @@
 
         <div class="main-content">
 
-            {{--<side-bar-totals--}}
-            {{--v-show="show.basicTotals || show.budgetTotals"--}}
-            {{--show="show"--}}
-            {{-->--}}
-            {{--</side-bar-totals>--}}
+            <totals
+            :show="show"
+            >
+            </totals>
 
             <div class="flex-grow-2">
                 {{--@include('templates.home.popups.index')--}}
