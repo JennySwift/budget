@@ -22225,6 +22225,19 @@ var HelpersRepository = {
     handleResponseError: function (response) {
         $.event.trigger('response-error', [response]);
         $.event.trigger('hide-loading');
+    },
+
+    /**
+     *
+     * @param number
+     * @param howManyDecimals
+     * @returns {number}
+     */
+    numberFilter: function (number, howManyDecimals) {
+        if (howManyDecimals === 2) {
+            var multiplyAndDivideBy = 100;
+            return Math.round(number * multiplyAndDivideBy) / multiplyAndDivideBy;
+        }
     }
 };
 var NewTransactionRepository = {
@@ -23628,6 +23641,26 @@ var Dropdown = Vue.component('dropdown', {
 
 
 
+var EditBudgetPopup = Vue.component('edit-budget-popup', {
+    template: '#edit-budget-popup-template',
+    data: function () {
+        return {
+            showPopup: false,
+            selectedBudget: {}
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+
+    }
+});
+
 var FavouriteTransactions = Vue.component('favourite-transactions', {
     template: '#favourite-transactions-template',
     data: function () {
@@ -23775,12 +23808,23 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
     template: '#fixed-budgets-page-template',
     data: function () {
         return {
-
+            fixedBudgetTotals: []
         };
     },
     components: {},
     methods: {
 
+    },
+    filters: {
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
     },
     props: [
         //data to be received from parent
@@ -23922,6 +23966,26 @@ var Navbar = Vue.component('navbar', {
     ],
     ready: function () {
 
+    }
+});
+
+var NewBudget = Vue.component('new-budget', {
+    template: '#new-budget-template',
+    data: function () {
+        return {
+            showNewBudget: false,
+            newBudget: {}
+        };
+    },
+    components: {},
+    methods: {
+        
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+        
     }
 });
 
@@ -24253,10 +24317,22 @@ var Totals = Vue.component('totals', {
     template: '#totals-template',
     data: function () {
         return {
-
+            totalChanges: [],
+            sideBarTotals: []
         };
     },
     components: {},
+    filters: {
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
+    },
     methods: {
         /**
          * Get all the totals
@@ -24533,10 +24609,7 @@ var Transaction = Vue.component('transaction', {
          * @returns {Number}
          */
         numberFilter: function (number, howManyDecimals) {
-            if (howManyDecimals === 2) {
-                var multiplyAndDivideBy = 100;
-                return Math.round(number * multiplyAndDivideBy) / multiplyAndDivideBy;
-            }
+            return HelpersRepository.numberFilter(number, howManyDecimals);
         }
     },
     props: [

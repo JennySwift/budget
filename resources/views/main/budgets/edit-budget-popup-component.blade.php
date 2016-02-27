@@ -1,8 +1,8 @@
 <script id="edit-budget-popup-template" type="x-template">
 
         <div
-                v-show="show.popups.budget"
-                v-on:click="closePopup($event, 'budget')"
+                v-show="showPopup"
+                v-on:click="closePopup($event)"
                 id="edit-budget"
                 class="popup-outer">
 
@@ -13,10 +13,10 @@
                         <label>Type (todo)</label>
 
                         <label v-show="selectedBudget.type !== 'unassigned'">Starting date</label>
-                        <input v-show="selectedBudget.type !== 'unassigned'" v-model="selectdBudget.formattedStartingDate" type="text">
+                        <input v-show="selectedBudget.type !== 'unassigned'" v-model="selectedBudget.formattedStartingDate" type="text">
 
                         <label v-show="selectedBudget.type !== 'unassigned'">Amount</label>
-                        <input v-show="selectedBudget.type !== 'unassigned'" v-model="selectdBudget.amount" type="text"/>
+                        <input v-show="selectedBudget.type !== 'unassigned'" v-model="selectedBudget.amount" type="text"/>
 
                         <div class="popup-buttons">
                                 <button v-on:click="show.popups.budget = false" class="btn btn-danger">Cancel</button>

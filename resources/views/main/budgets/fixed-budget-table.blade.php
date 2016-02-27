@@ -42,27 +42,27 @@
     </tr>
 
     <!-- table content -->
-    <tr v-for="budget in fixedBudgets | orderBy: 'name'" class="budget_info_ul">
+    <tr v-for="budget in fixedBudgets | orderBy 'name'" class="budget_info_ul">
 
-        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.name]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">@{{ budget.name }}</td>
 
-        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="amount right pointer">[[budget.amount | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="amount right pointer">@{{ budget.amount | numberFilter 2 }}</td>
 
         <td v-on:click="showBudgetPopup(budget, 'fixed')" class="CSD pointer">
-            <span>[[budget.formattedStartingDate]]</span>
+            <span>@{{ budget.formattedStartingDate }}</span>
         </td>
 
-        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="month-number pointer">[[budget.cumulativeMonthNumber]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="month-number pointer">@{{ budget.cumulativeMonthNumber }}</td>
 
-        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="cumulative pointer">[[budget.cumulative | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="cumulative pointer">@{{ budget.cumulative | numberFilter 2 }}</td>
 
-        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.spentBeforeStartingDate | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">@{{ budget.spentBeforeStartingDate | numberFilter 2 }}</td>
 
-        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">[[budget.spentAfterStartingDate | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">@{{ budget.spentAfterStartingDate | numberFilter 2 }}</td>
 
-        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="received pointer">[[budget.receivedAfterStartingDate | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="received pointer">@{{ budget.receivedAfterStartingDate | numberFilter 2 }}</td>
 
-        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="remaining pointer">[[budget.remaining | number:2]]</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="remaining pointer">@{{ budget.remaining | numberFilter 2 }}</td>
 
         <td>
             <button v-on:click="deleteBudget(budget)" class="btn btn-xs btn-danger">delete</button>
@@ -73,14 +73,14 @@
     <!-- fixed budget totals -->
     <tr id="fixed-budget-totals" class="budget_info_ul totals">
         <td>totals</td>
-        <td>[[fixedBudgetTotals.amount | number:2]]</td>
+        <td>@{{ fixedBudgetTotals.amount | numberFilter 2 }}</td>
         <td>-</td>
         <td>-</td>
-        <td>[[fixedBudgetTotals.cumulative | number:2]]</td>
-        <td>[[fixedBudgetTotals.spentBeforeStartingDate | number:2]]</td>
-        <td>[[fixedBudgetTotals.spentAfterStartingDate | number:2]]</td>
-        <td>[[fixedBudgetTotals.receivedAfterStartingDate | number:2]]</td>
-        <td>[[fixedBudgetTotals.remaining | number:2]]</td>
+        <td>@{{ fixedBudgetTotals.cumulative | numberFilter 2 }}</td>
+        <td>@{{ fixedBudgetTotals.spentBeforeStartingDate | numberFilter 2 }}</td>
+        <td>@{{ fixedBudgetTotals.spentAfterStartingDate | numberFilter 2 }}</td>
+        <td>@{{ fixedBudgetTotals.receivedAfterStartingDate | numberFilter 2 }}</td>
+        <td>@{{ fixedBudgetTotals.remaining | numberFilter 2 }}</td>
         <td>-</td>
     </tr>
 

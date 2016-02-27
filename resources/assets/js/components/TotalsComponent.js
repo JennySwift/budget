@@ -2,10 +2,22 @@ var Totals = Vue.component('totals', {
     template: '#totals-template',
     data: function () {
         return {
-
+            totalChanges: [],
+            sideBarTotals: []
         };
     },
     components: {},
+    filters: {
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
+    },
     methods: {
         /**
          * Get all the totals

@@ -4,7 +4,7 @@
     @include('main.budgets.edit-budget-popup-component')
 
     @include('main.budgets.toolbar')
-    @include('main.budgets.new-budget')
+    @include('main.budgets.new-budget-component')
 
     <div id="budget-content">
 

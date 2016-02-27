@@ -33,10 +33,7 @@ var Transaction = Vue.component('transaction', {
          * @returns {Number}
          */
         numberFilter: function (number, howManyDecimals) {
-            if (howManyDecimals === 2) {
-                var multiplyAndDivideBy = 100;
-                return Math.round(number * multiplyAndDivideBy) / multiplyAndDivideBy;
-            }
+            return HelpersRepository.numberFilter(number, howManyDecimals);
         }
     },
     props: [
