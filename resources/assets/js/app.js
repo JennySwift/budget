@@ -42,7 +42,7 @@ router.map({
         component: Graphs
     },
     '/favourite-transactions': {
-        component: FavouriteTransactions
+        component: FavouriteTransactionsPage
     }
 });
 
