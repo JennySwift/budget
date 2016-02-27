@@ -5,7 +5,7 @@
     </a>
     <ul class="dropdown-menu" role="menu">
         <li>
-            <a href="/help">Start here :)</a>
+            <a v-link="{path: '/help'}">Start here :)</a>
         </li>
     </ul>
 </li>

@@ -5,15 +5,15 @@
     <ul class="dropdown-menu" role="menu">
 
         <li>
-            <a href="/accounts">Accounts</a>
+            <a v-link="{path: '/accounts'}">Accounts</a>
         </li>
 
         <li>
-            <a href="/preferences">Preferences</a>
+            <a v-link="{path: '/preferences'}">Preferences</a>
         </li>
 
         <li>
-            <a href="/favourite-transactions">Favourite transactions</a>
+            <a v-link="{path: '/favourite-transactions'}">Favourite transactions</a>
         </li>
 
     </ul>

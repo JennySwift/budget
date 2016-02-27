@@ -2,7 +2,8 @@
 
 // Important application routes
 require app_path('Http/Routes/auth.php');
-require app_path('Http/Routes/pages.php');
+Route::get('/', 'PagesController@home');
+Route::get('/home', 'PagesController@home');
 
 // API
 Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => 'auth'], function(){

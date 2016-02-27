@@ -14,7 +14,11 @@
 
         @else
             <li>
-                <a href="/" class="fa fa-home"></a>
+                <a
+                    v-link="{path: '/'}"
+                    class="fa fa-home"
+                >
+                </a>
             </li>
 
             @include('templates.header.menu')
