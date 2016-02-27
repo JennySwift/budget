@@ -3,8 +3,7 @@ var PreferencesPage = Vue.component('preferences-page', {
     data: function () {
         return {
             me: me,
-            colors: this.me.preferences.colors,
-            preferences: {}
+            preferences: []
         };
     },
     components: {},

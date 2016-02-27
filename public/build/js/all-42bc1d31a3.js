@@ -23567,39 +23567,40 @@ var Checkbox = Vue.component('checkbox', {
     template: '#checkbox-template',
     data: function () {
         return {
-            animateIn: attrs.animateIn || 'zoomIn',
-            animateOut: attrs.animateOut || 'zoomOut',
-            icon: $(elem).find('.label-icon'),
+            //icon: $(elem).find('.label-icon'),
+            icon: ''
         };
     },
     components: {},
     methods: {
         toggleIcon: function () {
-            if (!$scope.model) {
+            if (!this.model) {
                 //Input was checked and now it won't be
-                $scope.hideIcon();
+                this.hideIcon();
             }
             else {
                 //Input was not checked and now it will be
-                $scope.showIcon();
+                this.showIcon();
             }
         },
 
         hideIcon: function () {
-            $($scope.icon).removeClass($scope.animateIn)
-                .addClass($scope.animateOut);
+            $(this.icon).removeClass(this.animateIn)
+                .addClass(this.animateOut);
         },
 
         showIcon: function () {
-            $($scope.icon).css('display', 'flex')
-                .removeClass($scope.animateOut)
-                .addClass($scope.animateIn);
+            $(this.icon).css('display', 'flex')
+                .removeClass(this.animateOut)
+                .addClass(this.animateIn);
         },
 
     },
     props: [
         'model',
-        'id'
+        'id',
+        'animateIn',
+        'animateOut'
     ],
     ready: function () {
 
@@ -23607,12 +23608,12 @@ var Checkbox = Vue.component('checkbox', {
 });
 
 ////Make the checkbox checked on page load if it should be
-//if ($scope.model === true) {
-//    $scope.showIcon();
+//if (this.model === true) {
+//    this.showIcon();
 //}
 //
-//$scope.$watch('model', function (newValue, oldValue) {
-//    $scope.toggleIcon();
+//this.$watch('model', function (newValue, oldValue) {
+//    this.toggleIcon();
 //});
 
 var Dropdown = Vue.component('dropdown', {
@@ -24317,8 +24318,7 @@ var PreferencesPage = Vue.component('preferences-page', {
     data: function () {
         return {
             me: me,
-            colors: this.me.preferences.colors,
-            preferences: {}
+            preferences: []
         };
     },
     components: {},

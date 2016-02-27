@@ -11,7 +11,7 @@ return [
     | you want to prepend all JavaScript variables to.
     |
     */
-    'bind_js_vars_to_this_view' => 'templates.shared.footer',
+    'bind_js_vars_to_this_view' => 'main.shared.footer',
 
     /*
     |--------------------------------------------------------------------------

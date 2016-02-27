@@ -1,6 +1,7 @@
 <script id="preferences-page-template" type="x-template">
 
-    <div v-controller="PreferencesController">
+<div>
+    <div>
         <h1>preferences</h1>
 
         <label>Clear fields upon entering new transaction</label>
@@ -21,7 +22,7 @@
 
                     <td>
                         <input
-                                v-model="colors.income"
+                                v-model="me.preferences.colors.income"
                                 id="income-color-picker"
                                 class="color-picker"
                                 type="color">
@@ -44,7 +45,7 @@
 
                     <td>
                         <input
-                                v-model="colors.expense"
+                                v-model="me.preferences.colors.expense"
                                 id="expense-color-picker"
                                 class="color-picker"
                                 type="color">
@@ -68,7 +69,7 @@
 
                     <td>
                         <input
-                                v-model="colors.transfer"
+                                v-model="me.preferences.colors.transfer"
                                 id="transfer-color-picker"
                                 class="color-picker"
                                 type="color">
@@ -98,6 +99,8 @@
 
     <button v-on:click="savePreferences()" class="btn btn-success">Save</button>
 
-    </div>
+</div>
+
+</div>
 
 </script>

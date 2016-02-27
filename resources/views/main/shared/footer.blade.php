@@ -21,6 +21,7 @@
 
 @include('main.new-transaction-component')
 @include('main.shared.navbar-component')
+@include('main.shared.checkbox-component')
 @include('main.shared.feedback-component')
 @include('main.shared.loading-component')
 @include('main.transaction-autocomplete-component')
