@@ -1,7 +1,7 @@
 <script id="accounts-page-template" type="x-template">
 
 <div>
-    @include('main.accounts.popups.index')
+    @include('main.accounts.edit-account-popup')
 
     <div id="accounts">
 

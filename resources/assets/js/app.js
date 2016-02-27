@@ -23,8 +23,26 @@ router.map({
     '/help': {
         component: HelpPage
     },
-    '/acounts': {
+    '/accounts': {
         component: AccountsPage
+    },
+    '/preferences': {
+        component: PreferencesPage
+    },
+    '/fixed-budgets': {
+        component: FixedBudgetsPage
+    },
+    '/flex-budgets': {
+        component: FlexBudgetsPage
+    },
+    '/unassigned-budgets': {
+        component: UnassignedBudgetsPage
+    },
+    '/graphs': {
+        component: Graphs
+    },
+    '/favourite-transactions': {
+        component: FavouriteTransactions
     }
 });
 

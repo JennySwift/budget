@@ -21876,383 +21876,6 @@ return this;}};
 
 !function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.VueResource=e():t.VueResource=e()}(this,function(){return function(t){function e(r){if(n[r])return n[r].exports;var o=n[r]={exports:{},id:r,loaded:!1};return t[r].call(o.exports,o,o.exports,e),o.loaded=!0,o.exports}var n={};return e.m=t,e.c=n,e.p="",e(0)}([function(t,e,n){function r(t){var e=n(1)(t);t.url=n(2)(e),t.http=n(3)(e),t.resource=n(7)(e),Object.defineProperties(t.prototype,{$url:{get:function(){return e.options(t.url,this,this.$options.url)}},$http:{get:function(){return e.options(t.http,this,this.$options.http)}},$resource:{get:function(){return t.resource.bind(this)}}})}window.Vue&&Vue.use(r),t.exports=r},function(t,e){t.exports=function(t){function e(t,r,o){for(var a in r)o&&(n.isPlainObject(r[a])||n.isArray(r[a]))?(n.isPlainObject(r[a])&&!n.isPlainObject(t[a])&&(t[a]={}),n.isArray(r[a])&&!n.isArray(t[a])&&(t[a]=[]),e(t[a],r[a],o)):void 0!==r[a]&&(t[a]=r[a])}var n=t.util.extend({},t.util);return n.isString=function(t){return"string"==typeof t},n.isFunction=function(t){return"function"==typeof t},n.options=function(t,e,r){return r=r||{},n.isFunction(r)&&(r=r.call(e)),n.extend(t.bind({vm:e,options:r}),t,{options:r})},n.each=function(t,e){var r,o;if("number"==typeof t.length)for(r=0;r<t.length;r++)e.call(t[r],t[r],r);else if(n.isObject(t))for(o in t)t.hasOwnProperty(o)&&e.call(t[o],t[o],o);return t},n.extend=function(t){var n,r=[],o=r.slice.call(arguments,1);return"boolean"==typeof t&&(n=t,t=o.shift()),o.forEach(function(r){e(t,r,n)}),t},n}},function(t,e){var n=document.documentMode,r=document.createElement("a");t.exports=function(t){function e(n,r){var o,i={},s={},u=n;return t.isPlainObject(u)||(u={url:n,params:r}),u=t.extend(!0,{},e.options,this.options,u),n=u.url.replace(/(\/?):([a-z]\w*)/gi,function(t,e,n){return u.params[n]?(i[n]=!0,e+a(u.params[n])):""}),t.isString(u.root)&&!n.match(/^(https?:)?\//)&&(n=u.root+"/"+n),t.each(u.params,function(t,e){i[e]||(s[e]=t)}),o=e.params(s),o&&(n+=(-1==n.indexOf("?")?"?":"&")+o),n}function o(e,n,r){var a,i=t.isArray(n),s=t.isPlainObject(n);t.each(n,function(n,u){a=t.isObject(n)||t.isArray(n),r&&(u=r+"["+(s||a?u:"")+"]"),!r&&i?e.add(n.name,n.value):a?o(e,n,u):e.add(u,n)})}function a(t){return i(t,!0).replace(/%26/gi,"&").replace(/%3D/gi,"=").replace(/%2B/gi,"+")}function i(t,e){return encodeURIComponent(t).replace(/%40/gi,"@").replace(/%3A/gi,":").replace(/%24/g,"$").replace(/%2C/gi,",").replace(/%20/g,e?"%20":"+")}return e.options={url:"",root:null,params:{}},e.params=function(e){var n=[];return n.add=function(e,n){t.isFunction(n)&&(n=n()),null===n&&(n=""),this.push(a(e)+"="+a(n))},o(n,e),n.join("&")},e.parse=function(t){return n&&(r.href=t,t=r.href),r.href=t,{href:r.href,protocol:r.protocol?r.protocol.replace(/:$/,""):"",port:r.port,host:r.host,hostname:r.hostname,pathname:"/"===r.pathname.charAt(0)?r.pathname:"/"+r.pathname,search:r.search?r.search.replace(/^\?/,""):"",hash:r.hash?r.hash.replace(/^#/,""):""}},t.url=e}},function(t,e,n){var r=n(4),o=n(6),a=n(5);t.exports=function(t){function e(a,u){var c;return t.isPlainObject(a)&&(u=a,a=""),u=t.extend({url:a},u),u=t.extend(!0,{},e.options,this.options,u),null===u.crossOrigin&&(u.crossOrigin=s(u.url)),u.method=u.method.toUpperCase(),u.headers=t.extend({},e.headers.common,u.crossOrigin?{}:e.headers.custom,e.headers[u.method.toLowerCase()],u.headers),t.isPlainObject(u.data)&&/^(GET|JSONP)$/i.test(u.method)&&(t.extend(u.params,u.data),delete u.data),u.emulateHTTP&&!u.crossOrigin&&/^(PUT|PATCH|DELETE)$/i.test(u.method)&&(u.headers["X-HTTP-Method-Override"]=u.method,u.method="POST"),u.emulateJSON&&t.isPlainObject(u.data)&&(u.headers["Content-Type"]="application/x-www-form-urlencoded",u.data=t.url.params(u.data)),t.isObject(u.data)&&/FormData/i.test(u.data.toString())&&delete u.headers["Content-Type"],t.isPlainObject(u.data)&&(u.data=JSON.stringify(u.data)),c=("JSONP"==u.method?o:r).call(this.vm,t,u),c=n(c.then(i,i),this.vm),u.success&&(c=c.success(u.success)),u.error&&(c=c.error(u.error)),c}function n(t,e){return t.success=function(r){return n(t.then(function(t){return r.call(e,t.data,t.status,t)||t}),e)},t.error=function(r){return n(t.then(void 0,function(t){return r.call(e,t.data,t.status,t)||t}),e)},t.always=function(r){var o=function(t){return r.call(e,t.data,t.status,t)||t};return n(t.then(o,o),e)},t}function i(t){try{t.data=JSON.parse(t.responseText)}catch(e){t.data=t.responseText}return t.ok?t:a.reject(t)}function s(e){var n=t.url.parse(e);return n.protocol!==u.protocol||n.host!==u.host}var u=t.url.parse(location.href),c={"Content-Type":"application/json;charset=utf-8"};return e.options={method:"get",params:{},data:"",xhr:null,jsonp:"callback",beforeSend:null,crossOrigin:null,emulateHTTP:!1,emulateJSON:!1},e.headers={put:c,post:c,patch:c,"delete":c,common:{Accept:"application/json, text/plain, */*"},custom:{"X-Requested-With":"XMLHttpRequest"}},["get","put","post","patch","delete","jsonp"].forEach(function(n){e[n]=function(e,r,o,a){return t.isFunction(r)&&(a=o,o=r,r=void 0),this(e,t.extend({method:n,data:r,success:o},a))}}),t.http=e}},function(t,e,n){var r=n(5),o=window.XDomainRequest;t.exports=function(t,e){var n,a=new XMLHttpRequest;return o&&e.crossOrigin&&(a=new XDomainRequest,e.headers={}),t.isPlainObject(e.xhr)&&t.extend(a,e.xhr),t.isFunction(e.beforeSend)&&e.beforeSend.call(this,a,e),n=new r(function(n,r){a.open(e.method,t.url(e),!0),t.each(e.headers,function(t,e){a.setRequestHeader(e,t)});var o=function(t){a.ok="load"===t.type,a.ok&&a.status&&(a.ok=a.status>=200&&a.status<300),(a.ok?n:r)(a)};a.onload=o,a.onabort=o,a.onerror=o,a.send(e.data)})}},function(t,e){function n(t){this.state=a,this.value=void 0,this.deferred=[];var e=this;try{t(function(t){e.resolve(t)},function(t){e.reject(t)})}catch(n){e.reject(n)}}var r=0,o=1,a=2;n.reject=function(t){return new n(function(e,n){n(t)})},n.resolve=function(t){return new n(function(e,n){e(t)})},n.all=function(t){return new n(function(e,n){function r(n){return function(r){a[n]=r,o+=1,o===t.length&&e(a)}}var o=0,a=[];0===t.length&&e(a);for(var i=0;i<t.length;i+=1)t[i].then(r(i),n)})},n.race=function(t){return new n(function(e,n){for(var r=0;r<t.length;r+=1)t[r].then(e,n)})};var i=n.prototype;i.resolve=function(t){var e=this;if(e.state===a){if(t===e)throw new TypeError("Promise settled with itself.");var n=!1;try{var o=t&&t.then;if(null!==t&&"object"==typeof t&&"function"==typeof o)return void o.call(t,function(t){n||e.resolve(t),n=!0},function(t){n||e.reject(t),n=!0})}catch(i){return void(n||e.reject(i))}e.state=r,e.value=t,e.notify()}},i.reject=function(t){var e=this;if(e.state===a){if(t===e)throw new TypeError("Promise settled with itself.");e.state=o,e.value=t,e.notify()}},i.notify=function(){var t=this;u(function(){if(t.state!==a)for(;t.deferred.length;){var e=t.deferred.shift(),n=e[0],i=e[1],s=e[2],u=e[3];try{t.state===r?s("function"==typeof n?n.call(void 0,t.value):t.value):t.state===o&&("function"==typeof i?s(i.call(void 0,t.value)):u(t.value))}catch(c){u(c)}}})},i["catch"]=function(t){return this.then(void 0,t)},i.then=function(t,e){var r=this;return new n(function(n,o){r.deferred.push([t,e,n,o]),r.notify()})};var s=[],u=function(t){s.push(t),1===s.length&&u.async()};if(u.run=function(){for(;s.length;)s[0](),s.shift()},window.MutationObserver){var c=document.createElement("div"),f=new MutationObserver(u.run);f.observe(c,{attributes:!0}),u.async=function(){c.setAttribute("x",0)}}else u.async=function(){setTimeout(u.run)};t.exports=window.Promise||n},function(t,e,n){var r=n(5);t.exports=function(t,e){var n,o,a="_jsonp"+Math.random().toString(36).substr(2),i={};return e.params[e.jsonp]=a,t.isFunction(e.beforeSend)&&e.beforeSend.call(this,{},e),new r(function(r,s){n=document.createElement("script"),n.src=t.url(e),n.type="text/javascript",n.async=!0,window[a]=function(t){o=t};var u=function(t){delete window[a],document.body.removeChild(n),"load"!==t.type||o||(t.type="error"),i.ok="error"!==t.type,i.status=i.ok?200:404,i.responseText=o?o:t.type,(i.ok?r:s)(i)};n.onload=u,n.onerror=u,document.body.appendChild(n)})}},function(t,e){t.exports=function(t){function e(r,o,a,i){var s=this,u={};return a=t.extend({},e.actions,a),t.each(a,function(e,a){e=t.extend(!0,{url:r,params:o||{}},i,e),u[a]=function(){return(s.$http||t.http)(n(e,arguments))}}),u}function n(e,n){var r,o,a,i=t.extend({},e),s={};switch(n.length){case 4:a=n[3],o=n[2];case 3:case 2:if(!t.isFunction(n[1])){s=n[0],r=n[1],o=n[2];break}if(t.isFunction(n[0])){o=n[0],a=n[1];break}o=n[1],a=n[2];case 1:t.isFunction(n[0])?o=n[0]:/^(POST|PUT|PATCH)$/i.test(i.method)?r=n[0]:s=n[0];break;case 0:break;default:throw"Expected up to 4 arguments [params, data, success, error], got "+n.length+" arguments"}return i.data=r,i.params=t.extend({},i.params,s),o&&(i.success=o),a&&(i.error=a),i}return e.actions={get:{method:"GET"},save:{method:"POST"},query:{method:"GET"},update:{method:"PUT"},remove:{method:"DELETE"},"delete":{method:"DELETE"}},t.resource=e}}])});
 Vue.config.debug = true;
-var Checkbox = Vue.component('checkbox', {
-    template: '#checkbox-template',
-    data: function () {
-        return {
-            animateIn: attrs.animateIn || 'zoomIn',
-            animateOut: attrs.animateOut || 'zoomOut',
-            icon: $(elem).find('.label-icon'),
-        };
-    },
-    components: {},
-    methods: {
-        toggleIcon: function () {
-            if (!$scope.model) {
-                //Input was checked and now it won't be
-                $scope.hideIcon();
-            }
-            else {
-                //Input was not checked and now it will be
-                $scope.showIcon();
-            }
-        },
-
-        hideIcon: function () {
-            $($scope.icon).removeClass($scope.animateIn)
-                .addClass($scope.animateOut);
-        },
-
-        showIcon: function () {
-            $($scope.icon).css('display', 'flex')
-                .removeClass($scope.animateOut)
-                .addClass($scope.animateIn);
-        },
-
-    },
-    props: [
-        'model',
-        'id'
-    ],
-    ready: function () {
-
-    }
-});
-
-////Make the checkbox checked on page load if it should be
-//if ($scope.model === true) {
-//    $scope.showIcon();
-//}
-//
-//$scope.$watch('model', function (newValue, oldValue) {
-//    $scope.toggleIcon();
-//});
-
-var Dropdown = Vue.component('dropdown', {
-    template: '#dropdown-template',
-    data: function () {
-        return {
-            animateIn: attrs.animateIn || 'flipInX',
-            animateOut: attrs.animateOut || 'flipOutX',
-            content: $(elem).find('.dropdown-content')
-        };
-    },
-    components: {},
-    methods: {
-        toggleDropdown: function () {
-            if ($($content).hasClass($scope.animateIn)) {
-                $scope.hideDropdown();
-            }
-            else {
-                $scope.showDropdown();
-            }
-        },
-
-        showDropdown: function () {
-            $($content)
-                .css('display', 'flex')
-                .removeClass($scope.animateOut)
-                .addClass($scope.animateIn);
-        },
-
-        hideDropdown: function () {
-            $($content)
-                .removeClass($scope.animateIn)
-                .addClass($scope.animateOut);
-            //.css('display', 'none');
-        },
-
-        listen: function () {
-            //Todo: Why is this click firing twice?
-            $("body").on('click', function (event) {
-                if (!elem[0].contains(event.target)) {
-                    $scope.hideDropdown();
-                }
-            });
-        },
-
-    },
-    props: [
-        //data to be received from parent
-    ],
-    ready: function () {
-        this.listen();
-    }
-});
-
-
-
-
-
-
-
-Vue.component('feedback', {
-    template: "#feedback-template",
-    data: function () {
-        return {
-            feedbackMessages: []
-        };
-    },
-    methods: {
-        listen: function () {
-            var that = this;
-            $(document).on('provide-feedback', function (event, message, type) {
-                that.provideFeedback(message, type);
-            });
-            $(document).on('response-error', function (event, response) {
-                that.provideFeedback(that.handleResponseError(response), 'error');
-            })
-        },
-        provideFeedback: function (message, type) {
-            var newMessage = {
-                message: message,
-                type: type
-            };
-
-            var that = this;
-
-            this.feedbackMessages.push(newMessage);
-
-            setTimeout(function () {
-                that.feedbackMessages = _.without(that.feedbackMessages, newMessage);
-            }, 3000);
-        },
-        handleResponseError: function (response) {
-            if (typeof response !== "undefined") {
-                var $message;
-
-                switch(response.status) {
-                    case 503:
-                        $message = 'Sorry, application under construction. Please try again later.';
-                        break;
-                    case 401:
-                        $message = 'You are not logged in';
-                        break;
-                    case 422:
-                        var html = "<ul>";
-
-                        for (var i = 0; i < response.length; i++) {
-                            var error = response[i];
-                            for (var j = 0; j < error.length; j++) {
-                                html += '<li>' + error[j] + '</li>';
-                            }
-                        }
-
-                        html += "</ul>";
-                        $message = html;
-                        break;
-                    default:
-                        $message = response.error;
-                        break;
-                }
-            }
-            else {
-                $message = 'There was an error';
-            }
-
-            return $message;
-
-        }
-    },
-    events: {
-        'provide-feedback': function (message, type) {
-            this.provideFeedback(message, type);
-        },
-        'response-error': function (response) {
-            this.provideFeedback(this.handleResponseError(response), 'error');
-        }
-    },
-    ready: function () {
-        this.listen();
-    },
-});
-//angular.module('budgetApp')
-//    .directive('formattedDate', function ($filter) {
-//        return {
-//            restrict: 'A',
-//            require: '?ngModel',
-//            link: function (scope, element, attrs, ngModel) {
-//
-//                element.on('keyup', function (event) {
-//                    if (event.keyCode !== 13) {
-//                        return false;
-//                    }
-//                    if (Date.parse(ngModel.$viewValue)) {
-//                        ngModel.$modelValue = $filter('formatDate')(ngModel.$viewValue);
-//                        ngModel.$render();
-//                    }
-//                });
-//
-//            }
-//        };
-//    });
-
-
-//angular.module('budgetApp')
-//    .directive('formattedDurationDirective', function ($filter) {
-//        return {
-//            restrict: 'A',
-//            require: '?ngModel',
-//            link: function (scope, element, attrs, ngModel) {
-//
-//                function formatDuration(input) {
-//                    return $filter('formatDurationToMinutesFilter')(input);
-//                }
-//                ngModel.$parsers.push(formatDuration);
-//
-//            }
-//        };
-//
-//    });
-
-
-
-
-Vue.component('loading', {
-    data: function () {
-        return {
-            showLoading: false
-        };
-    },
-    template: "#loading-template",
-    props: [
-        //'showLoading'
-    ],
-    methods: {
-        listen: function () {
-            var that = this;
-            $(document).on('show-loading', function (event, message, type) {
-                that.showLoading = true;
-            });
-            $(document).on('hide-loading', function (event, message, type) {
-                that.showLoading = false;
-            });
-        }
-    },
-    ready: function () {
-        this.listen();
-    }
-});
-var SideBarTotals = Vue.component('sidebar-totals', {
-    template: '#sidebar-totals-template',
-    data: function () {
-        return {
-
-        };
-    },
-    components: {},
-    methods: {
-
-    },
-    props: [
-        'show'
-    ],
-    ready: function () {
-
-    }
-});
-
-
-//
-//
-//$scope.totalChanges = {};
-//
-//$rootScope.clearTotalChanges = function () {
-//    $scope.totalChanges = {};
-//};
-//
-//$rootScope.$on('getSideBarTotals', function () {
-//    $scope.totalsLoading = true;
-//    TotalsFactory.getSideBarTotals()
-//        .then(function (response) {
-//            $scope.sideBarTotals = response.data.data;
-//            $scope.totalsLoading = false;
-//        })
-//        .catch(function (response) {
-//            $rootScope.responseError(response);
-//        });
-//});
-
-//$scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
-//
-//    if (newValue && oldValue) {
-//
-//        if (newValue.credit !== oldValue.credit) {
-//            $scope.totalChanges.credit = $scope.calculateDifference(newValue.credit, oldValue.credit);
-//        }
-//
-//        if (newValue.debit !== oldValue.debit) {
-//            $scope.totalChanges.debit = $scope.calculateDifference(newValue.debit, oldValue.debit);
-//        }
-//
-//        if (newValue.balance !== oldValue.balance) {
-//            $scope.totalChanges.balance = $scope.calculateDifference(newValue.balance, oldValue.balance);
-//        }
-//
-//        if (newValue.reconciledSum !== oldValue.reconciledSum) {
-//            $scope.totalChanges.reconciledSum = $scope.calculateDifference(newValue.reconciledSum, oldValue.reconciledSum);
-//        }
-//
-//        if (newValue.savings !== oldValue.savings) {
-//            $scope.totalChanges.savings = $scope.calculateDifference(newValue.savings, oldValue.savings);
-//        }
-//
-//        if (newValue.expensesWithoutBudget !== oldValue.expensesWithoutBudget) {
-//            $scope.totalChanges.expensesWithoutBudget = $scope.calculateDifference(newValue.expensesWithoutBudget, oldValue.expensesWithoutBudget);
-//        }
-//
-//        if (newValue.remainingFixedBudget !== oldValue.remainingFixedBudget) {
-//            $scope.totalChanges.remainingFixedBudget = $scope.calculateDifference(newValue.remainingFixedBudget, oldValue.remainingFixedBudget);
-//        }
-//
-//        if (newValue.cumulativeFixedBudget !== oldValue.cumulativeFixedBudget) {
-//            $scope.totalChanges.cumulativeFixedBudget = $scope.calculateDifference(newValue.cumulativeFixedBudget, oldValue.cumulativeFixedBudget);
-//        }
-//
-//        if (newValue.expensesWithFixedBudgetBeforeStartingDate !== oldValue.expensesWithFixedBudgetBeforeStartingDate) {
-//            $scope.totalChanges.expensesWithFixedBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetBeforeStartingDate, oldValue.expensesWithFixedBudgetBeforeStartingDate);
-//        }
-//
-//        if (newValue.expensesWithFixedBudgetAfterStartingDate !== oldValue.expensesWithFixedBudgetAfterStartingDate) {
-//            $scope.totalChanges.expensesWithFixedBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetAfterStartingDate, oldValue.expensesWithFixedBudgetAfterStartingDate);
-//        }
-//
-//        if (newValue.expensesWithFlexBudgetBeforeStartingDate !== oldValue.expensesWithFlexBudgetBeforeStartingDate) {
-//            $scope.totalChanges.expensesWithFlexBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetBeforeStartingDate, oldValue.expensesWithFlexBudgetBeforeStartingDate);
-//        }
-//
-//        if (newValue.expensesWithFlexBudgetAfterStartingDate !== oldValue.expensesWithFlexBudgetAfterStartingDate) {
-//            $scope.totalChanges.expensesWithFlexBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetAfterStartingDate, oldValue.expensesWithFlexBudgetAfterStartingDate);
-//        }
-//
-//        if (newValue.remainingBalance !== oldValue.remainingBalance) {
-//            $scope.totalChanges.remainingBalance = $scope.calculateDifference(newValue.remainingBalance, oldValue.remainingBalance);
-//        }
-//
-//        scope.sideBarTotals = newValue;
-//    }
-//});
-//
-///**
-// * End watches
-// */
-//
-///**
-// * @param newValue
-// * @param oldValue
-// * @returns {string}
-// */
-//$scope.calculateDifference = function (newValue, oldValue) {
-//    var $diff = newValue - oldValue;
-//    return $diff.toFixed(2);
-//};
-//
-//$scope.showSavingsTotalInput = function () {
-//    $scope.show.savings_total.input = true;
-//    $scope.show.savings_total.edit_btn = false;
-//};
-//
-
 var AutocompleteRepository = {
 
 	duplicateCheck: function ($this, $transactions_without_duplicates) {
@@ -22389,29 +22012,294 @@ var AutocompleteRepository = {
 		return $transactions;
 	}
 };
-var Navbar = Vue.component('navbar', {
-    template: '#navbar-template',
-    data: function () {
-        return {
-            me: {},
-            page: 'home',
-            show: {}
+var FilterRepository = {
+
+    //filterBasicTotals: basicFilterTotals,
+
+    resetFilter: function () {
+        this.filter = {
+
+            total: {
+                in: "",
+                out: ""
+            },
+            types: {
+                in: [],
+                out: []
+            },
+            accounts: {
+                in: [],
+                out: []
+            },
+            single_date: {
+                in: '',
+                out: ''
+            },
+            from_date: {
+                in: '',
+                out: ''
+            },
+            to_date: {
+                in: '',
+                out: ''
+            },
+            description: {
+                in: "",
+                out: ""
+            },
+            merchant: {
+                in: "",
+                out: ""
+            },
+            budgets: {
+                in: {
+                    and: [],
+                    or: []
+                },
+                out: []
+            },
+            numBudgets: {
+                in: "all",
+                out: ""
+            },
+            reconciled: "any",
+            offset: 0,
+            num_to_fetch: 30,
+            display_from: 1,
+            display_to: 30
         };
+
+        $.event.trigger('reset-filter');
+
+        return this.filter;
     },
-    components: {},
-    methods: {
-        toggleFilter: function () {
-            $.event.trigger('toggle-filter');
+
+    saveFilter: function ($name) {
+        var $url = '/api/savedFilters';
+
+        var $data = {
+            name: $name,
+            filter: this.filter
+        };
+
+        return $http.post($url, $data);
+    },
+
+    chooseSavedFilter: function ($savedFilter) {
+        this.filter = $savedFilter;
+        $rootScope.$emit('setFilterInToolbarDirective');
+    },
+
+    /**
+     * Updates filter.display_from and filter.display_to values
+     */
+    updateRange: function ($numToFetch) {
+        if ($numToFetch) {
+            this.filter.num_to_fetch = $numToFetch;
+        }
+
+        this.filter.display_from = this.filter.offset + 1;
+        this.filter.display_to = this.filter.offset + (this.filter.num_to_fetch * 1);
+    },
+
+    //Todo: I might not need some of this code (not allowing offset to be less than 0)
+    // todo: since I disabled the button if that is the case
+    prevResults: function () {
+        //make it so the offset cannot be less than 0.
+        if (this.filter.offset - this.filter.num_to_fetch < 0) {
+            this.filter.offset = 0;
+        }
+        else {
+            this.filter.offset-= (this.filter.num_to_fetch * 1);
+            this.updateRange();
+            $rootScope.$emit('runFilter');
+        }
+    },
+
+    nextResults: function ($filterTotals) {
+        if (this.filter.offset + (this.filter.num_to_fetch * 1) > $filterTotals.numTransactions) {
+            //stop it going past the end.
+            return;
+        }
+
+        this.filter.offset+= (this.filter.num_to_fetch * 1);
+        this.updateRange();
+        $rootScope.$emit('runFilter');
+    },
+
+    formatDates: function () {
+        if (this.filter.single_date.in) {
+            this.filter.single_date.inSql = $filter('formatDate')(this.filter.single_date.in);
+        }
+        else {
+            this.filter.single_date.inSql = "";
+        }
+        if (this.filter.single_date.out) {
+            this.filter.single_date.outSql = $filter('formatDate')(this.filter.single_date.out);
+        }
+        else {
+            this.filter.single_date.outSql = "";
+        }
+        if (this.filter.from_date.in) {
+            this.filter.from_date.inSql = $filter('formatDate')(this.filter.from_date.in);
+        }
+        else {
+            this.filter.from_date.inSql = "";
+        }
+        if (this.filter.from_date.out) {
+            this.filter.from_date.outSql = $filter('formatDate')(this.filter.from_date.out);
+        }
+        else {
+            this.filter.from_date.outSql = "";
+        }
+        if (this.filter.to_date.in) {
+            this.filter.to_date.inSql = $filter('formatDate')(this.filter.to_date.in);
+        }
+        else {
+            this.filter.to_date.inSql = "";
+        }
+        if (this.filter.to_date.out) {
+            this.filter.to_date.outSql = $filter('formatDate')(this.filter.to_date.out);
+        }
+        else {
+            this.filter.to_date.outSql = "";
+        }
+
+        return this.filter;
+    },
+
+    getTransactions: function () {
+        $object.filter = $object.formatDates($object.filter);
+
+        var $url = 'api/filter/transactions';
+
+        return $http.post($url, {'filter': $object.filter});
+    },
+
+    getBasicTotals: function () {
+        $object.filter = $object.formatDates($object.filter);
+
+        var $url = 'api/filter/basicTotals';
+
+        return $http.post($url, {'filter': $object.filter});
+    },
+
+    getGraphTotals: function () {
+        $object.filter = $object.formatDates($object.filter);
+
+        var $url = 'api/filter/graphTotals';
+
+        return $http.post($url, {'filter': $object.filter});
+    },
+
+    calculateGraphFigures: function ($graphTotals) {
+        var $graphFigures = {
+            months: []
+        };
+
+        $($graphTotals.monthsTotals).each(function () {
+            var $expenses = this.debit * -1;
+            var $max = $graphTotals.maxTotal;
+            var $num = 500 / $max;
+
+            $graphFigures.months.push({
+                incomeHeight: this.credit * $num,
+                expensesHeight: $expenses * $num,
+                income: this.credit,
+                expenses: this.debit,
+                month: this.month
+            });
+        });
+
+        return $graphFigures;
+    },
+};
+
+FilterRepository.resetFilter();
+var NewTransactionRepository = {
+
+    defaults: {
+        type: 'income',
+        account_id: 1,
+        date: {
+            entered: 'today'
         },
+        merchant: '',
+        description: '',
+        reconciled: false,
+        multiple_budgets: false,
+        budgets: []
     },
-    props: [
 
-    ],
-    ready: function () {
+    getDefaults: function ($env, $accounts) {
+        //Fill in the new transaction fields if development environment
+        if ($env === 'local') {
+            defaults.total = 10;
+            defaults.type = 'expense';
+            defaults.date.entered = 'today';
+            defaults.merchant = 'some merchant';
+            defaults.description = 'some description';
+            defaults.duration = '';
+            defaults.budgets = [
+                {
+                    id: '2',
+                    name: 'business',
+                    type: 'fixed'
+                },
+                //{
+                //    id: '4',
+                //    name: 'busking',
+                //    type: 'flex'
+                //}
+            ];
+        }
+    
+        if ($accounts.length > 0) {
+            this.defaults.account_id = $accounts[0].id;
+            this.defaults.from_account_id = $accounts[0].id;
+            this.defaults.to_account_id = $accounts[0].id;
+        }
+    
+        return this.defaults;
+    },
 
+    clearFields: function (env, me, $newTransaction) {
+        if (me.preferences.clearFields) {
+            $newTransaction.budgets = [];
+            $newTransaction.total = '';
+            $newTransaction.description = '';
+            $newTransaction.merchant = '';
+            $newTransaction.reconciled = false;
+            $newTransaction.multiple_budgets = false;
+        }
+
+        return $newTransaction;
+    },
+
+    anyErrors: function ($newTransaction) {
+        var $messages = [];
+
+        if (!Date.parse($newTransaction.date.entered)) {
+            $messages.push('Date is not valid');
+        }
+        else {
+            $newTransaction.date.sql = Date.parse($newTransaction.date.entered).toString('yyyy-MM-dd');
+        }
+
+        if ($newTransaction.total === "") {
+            $messages.push('Total is required');
+        }
+        else if (!$.isNumeric($newTransaction.total)) {
+            $messages.push('Total is not a valid number');
+        }
+
+        if ($messages.length > 0) {
+            return $messages;
+        }
+
+        return false;
     }
-});
-
+};
 var SavingsRepository = {
 
 	updateSavingsTotal: function () {
@@ -22486,429 +22374,153 @@ var ShowRepository = {
     }
 
 };
-var Totals = Vue.component('totals', {
-    template: '#totals-template',
-    data: function () {
-        return {
+var TransactionsRepository = {
+    totals: {},
 
-        };
-    },
-    components: {},
-    methods: {
-        /**
-         * Get all the totals
-         * @returns {*}
-         */
-        getTotals: function () {
-            var $url = '/api/totals';
+    insertIncomeOrExpenseTransaction: function ($newTransaction) {
+        var $url = '/api/transactions';
 
-            return $http.get($url);
-        },
-        getSideBarTotals: function () {
-            var $url = '/api/totals/sidebar';
-
-            return $http.get($url);
-        },
-        getFixedBudgetTotals: function () {
-            var $url = '/api/totals/fixedBudget';
-
-            return $http.get($url);
-        },
-        getFlexBudgetTotals: function () {
-            var $url = '/api/totals/flexBudget';
-
-            return $http.get($url);
-        },
-        getUnassignedBudgetTotals: function () {
-            var $url = '/api/totals/unassignedBudget';
-
-            return $http.get($url);
+        if ($newTransaction.type === 'expense' && $newTransaction.total > 0) {
+            //transaction is an expense without the negative sign
+            $newTransaction.total*= -1;
         }
+
+        //Convert duration from HH:MM format to minutes
+        $newTransaction.minutes = moment.duration($newTransaction.duration).asMinutes();
+
+        return $http.post($url, $newTransaction);
     },
-    props: [
-        //data to be received from parent
-    ],
-    ready: function () {
 
-    }
-});
-//angular.module('budgetApp')
-//    .filter('formatDate', function ($rootScope) {
-//        return function (input) {
-//            if (input) {
-//                if (!Date.parse(input)) {
-//                    $rootScope.$broadcast('provideFeedback', 'Date is invalid', 'error');
-//                    return input;
-//                } else {
-//                    return Date.parse(input).toString('yyyy-MM-dd');
-//                }
-//            }
-//        }
-//    });
+    insertTransferTransaction: function ($newTransaction, $direction) {
+        var $url = '/api/transactions';
+        var $data = $newTransaction;
 
+        $data.direction = $direction;
 
-var AccountsPage = Vue.component('accounts-page', {
-    template: '#accounts-page-template',
-    data: function () {
-        return {
-            accounts: accounts,
-            edit_account_popup: {},
+        if ($direction === 'from') {
+            $data.account_id = $data.from_account_id;
+        }
+        else if ($direction === 'to') {
+            $data.account_id = $data.to_account_id;
+        }
+
+        return $http.post($url, $data);
+    },
+
+    updateMassTags: function ($tag_array, $url, $tag_location) {
+        var $transaction_id;
+
+        var $tag_id_array = $tag_array.map(function (el) {
+            return el.tag_id;
+        });
+
+        $tag_id_array = JSON.stringify($tag_id_array);
+
+        $(".checked").each(function () {
+            $transaction_id = $(this).closest("tbody").attr('id');
+            var $url = 'api/update/massTags';
+            var $description = 'mass edit tags';
+            var $data = {
+                description: $description,
+                transaction_id: $transaction_id,
+                tag_id_array: $tag_id_array
+            };
+
+            return $http.post($url, $data);
+        });
+    },
+
+    massEditDescription: function () {
+        var $transaction_id;
+        var $description = $("#mass-edit-description-input").val();
+        var $info = {
+            transaction_id: $transaction_id,
+            description: $description
         };
+
+        $(".checked").each(function () {
+            $transaction_id = $(this).closest("tbody").attr('id');
+
+            var $url = 'api/update/massDescription';
+            var $data = {
+                info: $info
+            };
+
+            return $http.post($url, $data);
+        });
     },
-    components: {},
-    methods: {
-        insertAccount: function ($keycode) {
-            if ($keycode !== 13) {
-                return;
-            }
 
-            $scope.showLoading();
-            AccountsFactory.insertAccount()
-                .then(function (response) {
-                    $scope.accounts.push(response.data);
-                    $rootScope.$broadcast('provideFeedback', 'Account added');
-                    $("#new_account_input").val("");
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
+    updateTransaction: function ($transaction) {
+        var $url = $transaction.path;
 
-        showEditAccountPopup: function ($account) {
-            $scope.edit_account_popup = $account;
-            $scope.show.popups.edit_account = true;
-        },
+        $transaction.date = Date.parse($("#edit-transaction-date").val()).toString('yyyy-MM-dd');
 
-        updateAccount: function () {
-            $scope.showLoading();
-            AccountsFactory.updateAccountName($scope.edit_account_popup)
-                .then(function (response) {
-                    var $index = _.indexOf($scope.accounts, _.findWhere($scope.accounts, {id: $scope.edit_account_popup.id}));
-                    $scope.accounts[$index] = response.data;
-                    $rootScope.$broadcast('provideFeedback', 'Account edited');
-                    $scope.show.popups.edit_account = false;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
+        //Make sure total is negative for an expense transaction
+        if ($transaction.type === 'expense' && $transaction.total > 0) {
+            $transaction.total = $transaction.total * -1;
+        }
 
-        deleteAccount: function ($account) {
-            if (confirm("Are you sure you want to delete this account?")) {
-                $scope.showLoading();
-                AccountsFactory.deleteAccount($account)
-                    .then(function (response) {
-                        $scope.accounts = _.without($scope.accounts, $account);
-                        $rootScope.$broadcast('provideFeedback', 'Account deleted');
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-        },
+        //Convert duration from HH:MM format to minutes
+        $transaction.minutes = moment.duration($transaction.duration).asMinutes();
+
+        return $http.put($url, $transaction);
     },
-    props: [
-        //data to be received from parent
-    ],
-    ready: function () {
 
-    }
-});
-var FavouriteTransactions = Vue.component('favourite-transactions', {
-    template: '#favourite-transactions-template',
-    data: function () {
-        return {
-            favouriteTransactions: favouriteTransactions,
-            accounts: accounts,
-            budgets: budgets,
-            newFavourite: {
-                budgets: []
-            },
+    updateReconciliation: function ($transaction) {
+        var $url = $transaction.path;
+        //So the reconciled value doesn't change the checkbox for the front-end
+        var $data = {reconciled: 0};
+
+        if ($transaction.reconciled) {
+            $data.reconciled = 1;
+        }
+
+        return $http.put($url, $data);
+    },
+
+    deleteTransaction: function ($transaction) {
+        var $url = $transaction.path;
+
+        return $http.delete($url);
+    },
+
+    massDelete: function () {
+        $(".checked").each(function () {
+            deleteTransaction($(this));
+        });
+    },
+
+    getAllocationTotals: function ($transaction_id) {
+        var $url = 'api/select/allocationTotals';
+        var $data = {
+            transaction_id: $transaction_id
         };
+
+        return $http.post($url, $data);
     },
-    components: {},
-    methods: {
-        insertFavouriteTransaction: function () {
-            $scope.showLoading();
-            FavouriteTransactionsFactory.insert($scope.newFavourite)
-                .then(function (response) {
-                    $scope.favouriteTransactions.push(response.data.data);
-                    $rootScope.$broadcast('provideFeedback', 'Favourite added');
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
 
-        deleteFavouriteTransaction: function ($favourite) {
-            if (confirm("Are you sure?")) {
-                $scope.showLoading();
-                FavouriteTransactionsFactory.destroy($favourite)
-                    .then(function (response) {
-                        $scope.favouriteTransactions = _.without($scope.favouriteTransactions, $favourite);
-                        $rootScope.$broadcast('provideFeedback', 'Favourite deleted');
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-        },
-    },
-    props: [
-        //data to be received from parent
-    ],
-    ready: function () {
-
-    }
-});
-
-//insert: function ($newFavourite) {
-//    var $url = '/api/favouriteTransactions';
-//
-//    $newFavourite.budget_ids = _.pluck($newFavourite.budgets, 'id');
-//
-//    return $http.post($url, $newFavourite);
-//},
-//destroy: function ($favourite) {
-//    var $url = '/api/favouriteTransactions/' + $favourite.id;
-//
-//    return $http.delete($url);
-//}
-var BudgetsPage = Vue.component('budgets-page', {
-    template: '#budgets-page-template',
-    data: function () {
-        return {
-            showBasicTotals: true,
-            showBudgetTotals: true,
-            newBudget:  {
-                type: 'fixed'
-            }
+    updateAllocation: function ($type, $value, $transaction_id, $budget_id) {
+        var $url = 'api/updateAllocation';
+        var $data = {
+            type: $type,
+            value: $value,
+            transaction_id: $transaction_id,
+            budget_id: $budget_id
         };
+
+        return $http.post($url, $data);
     },
-    components: {},
-    methods: {
-        toggleNewBudget: function () {
-            $scope.show.newBudget = true;
-        },
 
-        listen: function () {
-            if (typeof fixedBudgets !== 'undefined') {
-                $scope.fixedBudgets = fixedBudgets;
-            }
+    updateAllocationStatus: function ($transaction) {
+        var $url = $transaction.path;
+        var $data = {
+            allocated: $transaction.allocated
+        };
 
-            if (typeof flexBudgets !== 'undefined') {
-                $scope.flexBudgets = flexBudgets;
-            }
-
-            if (typeof unassignedBudgets !== 'undefined') {
-                $scope.unassignedBudgets = unassignedBudgets;
-            }
-
-            if (page === 'fixedBudgets') {
-                $scope.fixedBudgetTotals = fixedBudgetTotals;
-
-                $scope.getFixedBudgetTotals = function () {
-                    $scope.showLoading();
-                    TotalsFactory.getFixedBudgetTotals()
-                        .then(function (response) {
-                            $scope.fixedBudgetTotals = response.data;
-                            $scope.hideLoading();
-                        })
-                        .catch(function (response) {
-                            $scope.responseError(response);
-                        });
-                };
-            }
-
-            else if (page === 'flexBudgets') {
-                $scope.flexBudgetTotals = flexBudgetTotals;
-
-                $scope.getFlexBudgetTotals = function () {
-                    $scope.showLoading();
-                    TotalsFactory.getFlexBudgetTotals()
-                        .then(function (response) {
-                            $scope.flexBudgetTotals = response.data;
-                            $scope.hideLoading();
-                        })
-                        .catch(function (response) {
-                            $scope.responseError(response);
-                        });
-                };
-            }
-        },
-
-        insertBudget: function ($keycode) {
-            if ($keycode !== 13) {
-                return;
-            }
-
-            var $budget = $scope.newBudget;
-
-            $scope.clearTotalChanges();
-            $scope.showLoading();
-            $budget.sql_starting_date = $filter('formatDate')($budget.starting_date);
-            BudgetsFactory.insert($budget)
-                .then(function (response) {
-                    jsInsertBudget(response);
-                    $scope.$emit('getSideBarTotals');
-                    $rootScope.$broadcast('provideFeedback', 'Budget created');
-                    updateBudgetTableTotals($budget);
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-        deleteBudget: function ($budget) {
-            $scope.showLoading();
-            if (confirm('You have ' + $budget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?')) {
-                $scope.showLoading();
-                BudgetsFactory.destroy($budget)
-                    .then(function (response) {
-                        $scope.$emit('getSideBarTotals');
-                        updateBudgetTableTotals($budget);
-                        jsDeleteBudget($budget);
-                        $scope.hideLoading();
-                        $rootScope.$broadcast('provideFeedback', 'Budget deleted');
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-            else {
-                $scope.hideLoading();
-            }
-        },
-
-        jsDeleteBudget: function ($budget) {
-            var $index;
-
-            if ($budget.type === 'fixed') {
-                $index = _.indexOf($scope.fixedBudgets, _.findWhere($scope.fixedBudgets, {id: $budget.id}));
-                $scope.fixedBudgets = _.without($scope.fixedBudgets, $budget);
-            }
-            else if ($budget.type === 'flex') {
-                $index = _.indexOf($scope.flexBudgets, _.findWhere($scope.flexBudgets, {id: $budget.id}));
-                $scope.flexBudgets = _.without($scope.flexBudgets, $budget);
-            }
-            else if ($budget.type === 'unassigned') {
-                $index = _.indexOf($scope.unassignedBudgets, _.findWhere($scope.unassignedBudgets, {id: $budget.id}));
-                $scope.unassignedBudgets = _.without($scope.unassignedBudgets, $budget);
-            }
-        },
-
-        showBudgetPopup: function ($tag, $type) {
-            $scope.budget_popup = $tag;
-            $scope.budget_popup.type = $type;
-            $scope.show.popups.budget = true;
-        },
-
-        /**
-         * For updating budget (name, type, amount, starting date) for an existing budget
-         */
-        updateBudget: function () {
-            $scope.clearTotalChanges();
-            $scope.showLoading();
-            $scope.budget_popup.sqlStartingDate = $filter('formatDate')($scope.budget_popup.formattedStartingDate);
-            BudgetsFactory.update($scope.budget_popup)
-                .then(function (response) {
-                    var $budget = response.data.data;
-                    jsUpdateBudget($budget);
-                    updateBudgetTableTotals($budget);
-                    $scope.hideLoading();
-                    $rootScope.$broadcast('provideFeedback', 'Budget updated');
-                    $scope.$emit('getSideBarTotals');
-                    $scope.show.popups.budget = false;
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-
-        jsUpdateBudget: function ($budget) {
-            //todo: allow for if budget type is changed. I will have to remove the budget from the table it was in
-            if ($budget.type === 'flex') {
-                var $index = _.indexOf($scope.flexBudgets, _.findWhere($scope.flexBudgets, {id: $budget.id}));
-                $scope.flexBudgets[$index] = $budget;
-            }
-            else if ($budget.type === 'fixed') {
-                var $index = _.indexOf($scope.fixedBudgets, _.findWhere($scope.fixedBudgets, {id: $budget.id}));
-                $scope.fixedBudgets[$index] = $budget;
-            }
-        },
-
-        updateBudgetTableTotal: function ($budget) {
-            if ($budget.type === 'fixed' && page === 'fixedBudgets') {
-                $scope.getFixedBudgetTotals();
-            }
-            else if ($budget.type === 'flex' && page === 'flexBudgets') {
-                $scope.getFlexBudgetTotals();
-            }
-        },
-
-        /**
-         * Add the budget to the JS array
-         */
-        jsInsertBudget: function (response) {
-            var $budget = response.data.data;
-            if ($budget.type === 'fixed' && page === 'fixedBudgets') {
-                $scope.fixedBudgets.push($budget);
-            }
-            else if ($budget.type === 'flex' && page === 'flexBudgets') {
-                $scope.flexBudgets.push($budget);
-            }
-            else if ($budget.type === 'unassigned' && page === 'unassignedBudgets') {
-                $scope.unassignedBudgets.push($budget);
-            }
-        },
-
-
+        return $http.put($url, $data);
     },
-    props: [
-        //data to be received from parent
-    ],
-    ready: function () {
-        this.listen();
-    }
-});
 
-//insert: function ($budget) {
-//    var $url = '/api/budgets';
-//
-//    var $data = {
-//        type: $budget.type,
-//        name: $budget.name,
-//        amount: $budget.amount,
-//        starting_date: $budget.sql_starting_date
-//    };
-//
-//    return $http.post($url, $data);
-//},
-//
-//update: function ($budget) {
-//    var $url = $budget.path;
-//
-//    var $data = {
-//        id: $budget.id,
-//        name: $budget.name,
-//        type: $budget.type,
-//        amount: $budget.amount,
-//        starting_date: $budget.sqlStartingDate
-//    };
-//
-//    return $http.put($url, $data);
-//},
-//
-//destroy: function ($budget) {
-//    var $url = $budget.path;
-//
-//    return $http.delete($url);
-//}
+};
 var AccountsFilter = Vue.component('accounts-filter', {
     template: '#accounts-filter-template',
     data: function () {
@@ -23113,6 +22725,83 @@ var DropdownForFilter = Vue.component('dropdown-for-filter', {
     }
 });
 
+
+var Filter = Vue.component('filter', {
+    template: '#filter-template',
+    data: function () {
+        return {
+            filterTab: 'show',
+            filter: FilterRepository.filter,
+            savedFilters: [],
+            showFilter: false
+        };
+    },
+    components: {},
+    methods: {
+        /**
+         * I am using the id and a clone, so that the savedFilter
+         * doesn't change (with actions such as next/prev button clicks)
+         * unless deliberately saved again.
+         * @param $savedFilterClone
+         */
+        chooseSavedFilter: function ($savedFilter) {
+            var $preservedSavedFilter = _.findWhere($preservedSavedFilters, {id: $savedFilter.id});
+            var $clone = angular.copy($preservedSavedFilter);
+            FilterFactory.chooseSavedFilter($clone.filter);
+            $scope.filter = FilterFactory.filter;
+            $rootScope.$emit('runFilter');
+        },
+
+        runFilter: function () {
+            $rootScope.$emit('runFilter');
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('toggle-filter', function (event) {
+                that.showFilter = !that.showFilter;
+            });
+        }
+    },
+    props: [
+        'show'
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
+
+
+
+//Doing this because $scope.savedFilters was updating when I didn't want it to.
+//If the user hit the prev or next buttons, then used the saved filter again,
+//the saved filter was modified and not the original saved filter.
+//I think because I set the filter ng-model to the saved filter in the filter factory.
+//var $preservedSavedFilters = angular.copy(savedFilters);
+//
+//
+//
+//$rootScope.$on('resetFilterInFilterController', function () {
+//    $scope.filter = FilterFactory.filter;
+//});
+//
+//$rootScope.$on('runFilter', function (event, data) {
+//    $rootScope.$emit('getFilterBasicTotals');
+//    if ($scope.tab === 'transactions') {
+//        $scope.$emit('filterTransactions', $scope.filter);
+//    }
+//    else {
+//        $scope.$emit('getGraphTotals');
+//    }
+//});
+//
+//$rootScope.$on('newSavedFilter', function (event, savedFilter) {
+//    $scope.savedFilters.push(savedFilter);
+//    $preservedSavedFilters.push(savedFilter);
+//});
 
 var Graphs = Vue.component('graphs', {
     template: '#graphs-template',
@@ -23348,6 +23037,799 @@ var TypesFilter = Vue.component('types-filter', {
 
 
 
+var AccountsPage = Vue.component('accounts-page', {
+    template: '#accounts-page-template',
+    data: function () {
+        return {
+            accounts: accounts,
+            edit_account_popup: {},
+        };
+    },
+    components: {},
+    methods: {
+        insertAccount: function ($keycode) {
+            if ($keycode !== 13) {
+                return;
+            }
+
+            $scope.showLoading();
+            AccountsFactory.insertAccount()
+                .then(function (response) {
+                    $scope.accounts.push(response.data);
+                    $rootScope.$broadcast('provideFeedback', 'Account added');
+                    $("#new_account_input").val("");
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        },
+
+        showEditAccountPopup: function ($account) {
+            $scope.edit_account_popup = $account;
+            $scope.show.popups.edit_account = true;
+        },
+
+        updateAccount: function () {
+            $scope.showLoading();
+            AccountsFactory.updateAccountName($scope.edit_account_popup)
+                .then(function (response) {
+                    var $index = _.indexOf($scope.accounts, _.findWhere($scope.accounts, {id: $scope.edit_account_popup.id}));
+                    $scope.accounts[$index] = response.data;
+                    $rootScope.$broadcast('provideFeedback', 'Account edited');
+                    $scope.show.popups.edit_account = false;
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        },
+
+        deleteAccount: function ($account) {
+            if (confirm("Are you sure you want to delete this account?")) {
+                $scope.showLoading();
+                AccountsFactory.deleteAccount($account)
+                    .then(function (response) {
+                        $scope.accounts = _.without($scope.accounts, $account);
+                        $rootScope.$broadcast('provideFeedback', 'Account deleted');
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            }
+        },
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+
+    }
+});
+var BudgetAutocomplete = Vue.component('budget-autocomplete', {
+    template: '#budget-autocomplete-template',
+    data: function () {
+        return {
+            results: {},
+            messages: {}
+        };
+    },
+    components: {},
+    methods: {
+        /**
+         * Check for duplicate tags when adding a new tag to an array
+         * @param $tag_id
+         * @param $tag_array
+         * @returns {boolean}
+         */
+        duplicateTagCheck: function ($tag_id, $tag_array) {
+            for (var i = 0; i < $tag_array.length; i++) {
+                if ($tag_array[i].id === $tag_id) {
+                    return false; //it is a duplicate
+                }
+            }
+            return true; //it is not a duplicate
+        },
+
+
+        chooseTag: function ($index) {
+            if ($index !== undefined) {
+                //Item was chosen by clicking, not by pressing enter
+                $scope.currentIndex = $index;
+            }
+
+            if ($scope.multipleTags) {
+                $scope.addTag();
+            }
+            else {
+                $scope.fillField();
+            }
+        },
+
+        /**
+         * For if only one tag can be chosen
+         */
+        fillField: function () {
+            $scope.typing = $scope.results[$scope.currentIndex].name;
+            $scope.model = $scope.results[$scope.currentIndex];
+            if ($scope.focusOnEnter) {
+                // Todo: This line doesn't work if tag is chosen with mouse click
+                $("#" + $scope.focusOnEnter).focus();
+            }
+            $scope.hideAndClear();
+        },
+
+        /**
+         * For if multiple tags can be chosen
+         */
+        addTag: function () {
+            var $tag_id = $scope.results[$scope.currentIndex].id;
+
+            if (!$scope.duplicateTagCheck($tag_id, $scope.chosenTags)) {
+                //$rootScope.$broadcast('provideFeedback', 'You have already entered that tag');
+                $scope.hideAndClear();
+                return;
+            }
+
+            $scope.chosenTags.push($scope.results[$scope.currentIndex]);
+            $scope.hideAndClear();
+        },
+
+        /**
+         * Hide the dropdown and clear the input field
+         */
+        hideAndClear: function () {
+            $scope.hideDropdown();
+
+            if ($scope.multipleTags) {
+                $scope.typing = '';
+            }
+
+            $scope.currentIndex = null;
+            $('.highlight').removeClass('highlight');
+        },
+
+        hideDropdown: function () {
+            $scope.dropdown = false;
+        },
+
+        highlightLetters: function ($response, $typing) {
+            $typing = $typing.toLowerCase();
+
+            for (var i = 0; i < $response.length; i++) {
+                var $name = $response[i].name;
+                var $index = $name.toLowerCase().indexOf($typing);
+                var $substr = $name.substr($index, $typing.length);
+
+                var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
+                $response[i].html = $html;
+            }
+
+            return $response;
+        },
+
+        hoverItem: function(index) {
+            $scope.currentIndex = index;
+        },
+
+        /**
+         * Act on keypress for input field
+         * @param $keycode
+         * @returns {boolean}
+         */
+        filterTags: function ($keycode) {
+            if ($keycode === 13) {
+                //enter is pressed
+                //$scope.chooseItem();
+
+                if (!$scope.results[$scope.currentIndex]) {
+                    //We are not adding a tag. We are inserting the transaction.
+                    $scope.fnOnEnter();
+                    return;
+                }
+                //We are choosing a tag
+                $scope.chooseTag();
+
+                //resetting the dropdown to show all the tags again after a tag has been added
+                $scope.results = $scope.tags;
+            }
+            else if ($keycode === 38) {
+                //up arrow is pressed
+                if ($scope.currentIndex > 0) {
+                    $scope.currentIndex--;
+                }
+            }
+            else if ($keycode === 40) {
+                //down arrow is pressed
+                if ($scope.currentIndex + 1 < $scope.results.length) {
+                    $scope.currentIndex++;
+                }
+            }
+            else {
+                //Not enter, up or down arrow
+                $scope.currentIndex = 0;
+                $scope.showDropdown();
+            }
+        },
+
+        /**
+         * Todo: when the new budget tag input is focused after entering a budget,
+         * todo: I don't want the dropdown to show. I had a lot of trouble and need help though.
+         */
+        showDropdown: function () {
+            $scope.dropdown = true;
+            if ($scope.typing) {
+                $scope.results = $scope.highlightLetters($scope.searchLocal(), $scope.typing);
+            }
+        },
+
+        searchLocal: function () {
+            var $filtered_tags = _.filter($scope.tags, function ($tag) {
+                return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
+            });
+
+            return $filtered_tags;
+        },
+
+        removeTag: function ($tag) {
+            $scope.chosenTags = _.without($scope.chosenTags, $tag);
+        },
+    },
+    props: [
+        'chosenBudgets',
+        'dropdown',
+        'budgets',
+        'fnOnEnter',
+        'multipleBudgets',
+        'model',
+        'id',
+        'focusOnEnter'
+    ],
+    ready: function () {
+
+    }
+});
+var BudgetsPage = Vue.component('budgets-page', {
+    template: '#budgets-page-template',
+    data: function () {
+        return {
+            showBasicTotals: true,
+            showBudgetTotals: true,
+            newBudget:  {
+                type: 'fixed'
+            }
+        };
+    },
+    components: {},
+    methods: {
+        toggleNewBudget: function () {
+            $scope.show.newBudget = true;
+        },
+
+        listen: function () {
+            if (typeof fixedBudgets !== 'undefined') {
+                $scope.fixedBudgets = fixedBudgets;
+            }
+
+            if (typeof flexBudgets !== 'undefined') {
+                $scope.flexBudgets = flexBudgets;
+            }
+
+            if (typeof unassignedBudgets !== 'undefined') {
+                $scope.unassignedBudgets = unassignedBudgets;
+            }
+
+            if (page === 'fixedBudgets') {
+                $scope.fixedBudgetTotals = fixedBudgetTotals;
+
+                $scope.getFixedBudgetTotals = function () {
+                    $scope.showLoading();
+                    TotalsFactory.getFixedBudgetTotals()
+                        .then(function (response) {
+                            $scope.fixedBudgetTotals = response.data;
+                            $scope.hideLoading();
+                        })
+                        .catch(function (response) {
+                            $scope.responseError(response);
+                        });
+                };
+            }
+
+            else if (page === 'flexBudgets') {
+                $scope.flexBudgetTotals = flexBudgetTotals;
+
+                $scope.getFlexBudgetTotals = function () {
+                    $scope.showLoading();
+                    TotalsFactory.getFlexBudgetTotals()
+                        .then(function (response) {
+                            $scope.flexBudgetTotals = response.data;
+                            $scope.hideLoading();
+                        })
+                        .catch(function (response) {
+                            $scope.responseError(response);
+                        });
+                };
+            }
+        },
+
+        insertBudget: function ($keycode) {
+            if ($keycode !== 13) {
+                return;
+            }
+
+            var $budget = $scope.newBudget;
+
+            $scope.clearTotalChanges();
+            $scope.showLoading();
+            $budget.sql_starting_date = $filter('formatDate')($budget.starting_date);
+            BudgetsFactory.insert($budget)
+                .then(function (response) {
+                    jsInsertBudget(response);
+                    $scope.$emit('getSideBarTotals');
+                    $rootScope.$broadcast('provideFeedback', 'Budget created');
+                    updateBudgetTableTotals($budget);
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        },
+        deleteBudget: function ($budget) {
+            $scope.showLoading();
+            if (confirm('You have ' + $budget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?')) {
+                $scope.showLoading();
+                BudgetsFactory.destroy($budget)
+                    .then(function (response) {
+                        $scope.$emit('getSideBarTotals');
+                        updateBudgetTableTotals($budget);
+                        jsDeleteBudget($budget);
+                        $scope.hideLoading();
+                        $rootScope.$broadcast('provideFeedback', 'Budget deleted');
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            }
+            else {
+                $scope.hideLoading();
+            }
+        },
+
+        jsDeleteBudget: function ($budget) {
+            var $index;
+
+            if ($budget.type === 'fixed') {
+                $index = _.indexOf($scope.fixedBudgets, _.findWhere($scope.fixedBudgets, {id: $budget.id}));
+                $scope.fixedBudgets = _.without($scope.fixedBudgets, $budget);
+            }
+            else if ($budget.type === 'flex') {
+                $index = _.indexOf($scope.flexBudgets, _.findWhere($scope.flexBudgets, {id: $budget.id}));
+                $scope.flexBudgets = _.without($scope.flexBudgets, $budget);
+            }
+            else if ($budget.type === 'unassigned') {
+                $index = _.indexOf($scope.unassignedBudgets, _.findWhere($scope.unassignedBudgets, {id: $budget.id}));
+                $scope.unassignedBudgets = _.without($scope.unassignedBudgets, $budget);
+            }
+        },
+
+        showBudgetPopup: function ($tag, $type) {
+            $scope.budget_popup = $tag;
+            $scope.budget_popup.type = $type;
+            $scope.show.popups.budget = true;
+        },
+
+        /**
+         * For updating budget (name, type, amount, starting date) for an existing budget
+         */
+        updateBudget: function () {
+            $scope.clearTotalChanges();
+            $scope.showLoading();
+            $scope.budget_popup.sqlStartingDate = $filter('formatDate')($scope.budget_popup.formattedStartingDate);
+            BudgetsFactory.update($scope.budget_popup)
+                .then(function (response) {
+                    var $budget = response.data.data;
+                    jsUpdateBudget($budget);
+                    updateBudgetTableTotals($budget);
+                    $scope.hideLoading();
+                    $rootScope.$broadcast('provideFeedback', 'Budget updated');
+                    $scope.$emit('getSideBarTotals');
+                    $scope.show.popups.budget = false;
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        },
+
+        jsUpdateBudget: function ($budget) {
+            //todo: allow for if budget type is changed. I will have to remove the budget from the table it was in
+            if ($budget.type === 'flex') {
+                var $index = _.indexOf($scope.flexBudgets, _.findWhere($scope.flexBudgets, {id: $budget.id}));
+                $scope.flexBudgets[$index] = $budget;
+            }
+            else if ($budget.type === 'fixed') {
+                var $index = _.indexOf($scope.fixedBudgets, _.findWhere($scope.fixedBudgets, {id: $budget.id}));
+                $scope.fixedBudgets[$index] = $budget;
+            }
+        },
+
+        updateBudgetTableTotal: function ($budget) {
+            if ($budget.type === 'fixed' && page === 'fixedBudgets') {
+                $scope.getFixedBudgetTotals();
+            }
+            else if ($budget.type === 'flex' && page === 'flexBudgets') {
+                $scope.getFlexBudgetTotals();
+            }
+        },
+
+        /**
+         * Add the budget to the JS array
+         */
+        jsInsertBudget: function (response) {
+            var $budget = response.data.data;
+            if ($budget.type === 'fixed' && page === 'fixedBudgets') {
+                $scope.fixedBudgets.push($budget);
+            }
+            else if ($budget.type === 'flex' && page === 'flexBudgets') {
+                $scope.flexBudgets.push($budget);
+            }
+            else if ($budget.type === 'unassigned' && page === 'unassignedBudgets') {
+                $scope.unassignedBudgets.push($budget);
+            }
+        },
+
+
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
+
+//insert: function ($budget) {
+//    var $url = '/api/budgets';
+//
+//    var $data = {
+//        type: $budget.type,
+//        name: $budget.name,
+//        amount: $budget.amount,
+//        starting_date: $budget.sql_starting_date
+//    };
+//
+//    return $http.post($url, $data);
+//},
+//
+//update: function ($budget) {
+//    var $url = $budget.path;
+//
+//    var $data = {
+//        id: $budget.id,
+//        name: $budget.name,
+//        type: $budget.type,
+//        amount: $budget.amount,
+//        starting_date: $budget.sqlStartingDate
+//    };
+//
+//    return $http.put($url, $data);
+//},
+//
+//destroy: function ($budget) {
+//    var $url = $budget.path;
+//
+//    return $http.delete($url);
+//}
+var Checkbox = Vue.component('checkbox', {
+    template: '#checkbox-template',
+    data: function () {
+        return {
+            animateIn: attrs.animateIn || 'zoomIn',
+            animateOut: attrs.animateOut || 'zoomOut',
+            icon: $(elem).find('.label-icon'),
+        };
+    },
+    components: {},
+    methods: {
+        toggleIcon: function () {
+            if (!$scope.model) {
+                //Input was checked and now it won't be
+                $scope.hideIcon();
+            }
+            else {
+                //Input was not checked and now it will be
+                $scope.showIcon();
+            }
+        },
+
+        hideIcon: function () {
+            $($scope.icon).removeClass($scope.animateIn)
+                .addClass($scope.animateOut);
+        },
+
+        showIcon: function () {
+            $($scope.icon).css('display', 'flex')
+                .removeClass($scope.animateOut)
+                .addClass($scope.animateIn);
+        },
+
+    },
+    props: [
+        'model',
+        'id'
+    ],
+    ready: function () {
+
+    }
+});
+
+////Make the checkbox checked on page load if it should be
+//if ($scope.model === true) {
+//    $scope.showIcon();
+//}
+//
+//$scope.$watch('model', function (newValue, oldValue) {
+//    $scope.toggleIcon();
+//});
+
+var Dropdown = Vue.component('dropdown', {
+    template: '#dropdown-template',
+    data: function () {
+        return {
+            animateIn: attrs.animateIn || 'flipInX',
+            animateOut: attrs.animateOut || 'flipOutX',
+            content: $(elem).find('.dropdown-content')
+        };
+    },
+    components: {},
+    methods: {
+        toggleDropdown: function () {
+            if ($($content).hasClass($scope.animateIn)) {
+                $scope.hideDropdown();
+            }
+            else {
+                $scope.showDropdown();
+            }
+        },
+
+        showDropdown: function () {
+            $($content)
+                .css('display', 'flex')
+                .removeClass($scope.animateOut)
+                .addClass($scope.animateIn);
+        },
+
+        hideDropdown: function () {
+            $($content)
+                .removeClass($scope.animateIn)
+                .addClass($scope.animateOut);
+            //.css('display', 'none');
+        },
+
+        listen: function () {
+            //Todo: Why is this click firing twice?
+            $("body").on('click', function (event) {
+                if (!elem[0].contains(event.target)) {
+                    $scope.hideDropdown();
+                }
+            });
+        },
+
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
+
+
+
+
+
+
+var FavouriteTransactions = Vue.component('favourite-transactions', {
+    template: '#favourite-transactions-template',
+    data: function () {
+        return {
+            favouriteTransactions: favouriteTransactions,
+            accounts: accounts,
+            budgets: budgets,
+            newFavourite: {
+                budgets: []
+            },
+        };
+    },
+    components: {},
+    methods: {
+        insertFavouriteTransaction: function () {
+            $scope.showLoading();
+            FavouriteTransactionsFactory.insert($scope.newFavourite)
+                .then(function (response) {
+                    $scope.favouriteTransactions.push(response.data.data);
+                    $rootScope.$broadcast('provideFeedback', 'Favourite added');
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        },
+
+        deleteFavouriteTransaction: function ($favourite) {
+            if (confirm("Are you sure?")) {
+                $scope.showLoading();
+                FavouriteTransactionsFactory.destroy($favourite)
+                    .then(function (response) {
+                        $scope.favouriteTransactions = _.without($scope.favouriteTransactions, $favourite);
+                        $rootScope.$broadcast('provideFeedback', 'Favourite deleted');
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            }
+        },
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+
+    }
+});
+
+//insert: function ($newFavourite) {
+//    var $url = '/api/favouriteTransactions';
+//
+//    $newFavourite.budget_ids = _.pluck($newFavourite.budgets, 'id');
+//
+//    return $http.post($url, $newFavourite);
+//},
+//destroy: function ($favourite) {
+//    var $url = '/api/favouriteTransactions/' + $favourite.id;
+//
+//    return $http.delete($url);
+//}
+
+Vue.component('feedback', {
+    template: "#feedback-template",
+    data: function () {
+        return {
+            feedbackMessages: []
+        };
+    },
+    methods: {
+        listen: function () {
+            var that = this;
+            $(document).on('provide-feedback', function (event, message, type) {
+                that.provideFeedback(message, type);
+            });
+            $(document).on('response-error', function (event, response) {
+                that.provideFeedback(that.handleResponseError(response), 'error');
+            })
+        },
+        provideFeedback: function (message, type) {
+            var newMessage = {
+                message: message,
+                type: type
+            };
+
+            var that = this;
+
+            this.feedbackMessages.push(newMessage);
+
+            setTimeout(function () {
+                that.feedbackMessages = _.without(that.feedbackMessages, newMessage);
+            }, 3000);
+        },
+        handleResponseError: function (response) {
+            if (typeof response !== "undefined") {
+                var $message;
+
+                switch(response.status) {
+                    case 503:
+                        $message = 'Sorry, application under construction. Please try again later.';
+                        break;
+                    case 401:
+                        $message = 'You are not logged in';
+                        break;
+                    case 422:
+                        var html = "<ul>";
+
+                        for (var i = 0; i < response.length; i++) {
+                            var error = response[i];
+                            for (var j = 0; j < error.length; j++) {
+                                html += '<li>' + error[j] + '</li>';
+                            }
+                        }
+
+                        html += "</ul>";
+                        $message = html;
+                        break;
+                    default:
+                        $message = response.error;
+                        break;
+                }
+            }
+            else {
+                $message = 'There was an error';
+            }
+
+            return $message;
+
+        }
+    },
+    events: {
+        'provide-feedback': function (message, type) {
+            this.provideFeedback(message, type);
+        },
+        'response-error': function (response) {
+            this.provideFeedback(this.handleResponseError(response), 'error');
+        }
+    },
+    ready: function () {
+        this.listen();
+    },
+});
+var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
+    template: '#fixed-budgets-page-template',
+    data: function () {
+        return {
+
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+
+    }
+});
+
+var FlexBudgetsPage = Vue.component('flex-budgets-page', {
+    template: '#flex-budgets-page-template',
+    data: function () {
+        return {
+
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+
+    }
+
+});
+
+var HelpPage = Vue.component('help-page', {
+    template: '#help-page-template',
+    data: function () {
+        return {
+
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+
+    }
+});
+
 var HomePage = Vue.component('home-page', {
     template: '#home-page-template',
     data: function () {
@@ -23396,287 +23878,54 @@ var HomePage = Vue.component('home-page', {
         this.setTab();
     }
 });
-var Filter = Vue.component('filter', {
-    template: '#filter-template',
+Vue.component('loading', {
     data: function () {
         return {
-            filterTab: 'show',
-            filter: FilterRepository.filter,
-            savedFilters: [],
-            showFilter: false
+            showLoading: false
         };
     },
-    components: {},
+    template: "#loading-template",
+    props: [
+        //'showLoading'
+    ],
     methods: {
-        /**
-         * I am using the id and a clone, so that the savedFilter
-         * doesn't change (with actions such as next/prev button clicks)
-         * unless deliberately saved again.
-         * @param $savedFilterClone
-         */
-        chooseSavedFilter: function ($savedFilter) {
-            var $preservedSavedFilter = _.findWhere($preservedSavedFilters, {id: $savedFilter.id});
-            var $clone = angular.copy($preservedSavedFilter);
-            FilterFactory.chooseSavedFilter($clone.filter);
-            $scope.filter = FilterFactory.filter;
-            $rootScope.$emit('runFilter');
-        },
-
-        runFilter: function () {
-            $rootScope.$emit('runFilter');
-        },
-
-        /**
-         *
-         */
         listen: function () {
             var that = this;
-            $(document).on('toggle-filter', function (event) {
-                that.showFilter = !that.showFilter;
+            $(document).on('show-loading', function (event, message, type) {
+                that.showLoading = true;
+            });
+            $(document).on('hide-loading', function (event, message, type) {
+                that.showLoading = false;
             });
         }
     },
-    props: [
-        'show'
-    ],
     ready: function () {
         this.listen();
     }
 });
-
-
-
-//Doing this because $scope.savedFilters was updating when I didn't want it to.
-//If the user hit the prev or next buttons, then used the saved filter again,
-//the saved filter was modified and not the original saved filter.
-//I think because I set the filter ng-model to the saved filter in the filter factory.
-//var $preservedSavedFilters = angular.copy(savedFilters);
-//
-//
-//
-//$rootScope.$on('resetFilterInFilterController', function () {
-//    $scope.filter = FilterFactory.filter;
-//});
-//
-//$rootScope.$on('runFilter', function (event, data) {
-//    $rootScope.$emit('getFilterBasicTotals');
-//    if ($scope.tab === 'transactions') {
-//        $scope.$emit('filterTransactions', $scope.filter);
-//    }
-//    else {
-//        $scope.$emit('getGraphTotals');
-//    }
-//});
-//
-//$rootScope.$on('newSavedFilter', function (event, savedFilter) {
-//    $scope.savedFilters.push(savedFilter);
-//    $preservedSavedFilters.push(savedFilter);
-//});
-
-var FilterRepository = {
-
-    //filterBasicTotals: basicFilterTotals,
-
-    resetFilter: function () {
-        this.filter = {
-
-            total: {
-                in: "",
-                out: ""
-            },
-            types: {
-                in: [],
-                out: []
-            },
-            accounts: {
-                in: [],
-                out: []
-            },
-            single_date: {
-                in: '',
-                out: ''
-            },
-            from_date: {
-                in: '',
-                out: ''
-            },
-            to_date: {
-                in: '',
-                out: ''
-            },
-            description: {
-                in: "",
-                out: ""
-            },
-            merchant: {
-                in: "",
-                out: ""
-            },
-            budgets: {
-                in: {
-                    and: [],
-                    or: []
-                },
-                out: []
-            },
-            numBudgets: {
-                in: "all",
-                out: ""
-            },
-            reconciled: "any",
-            offset: 0,
-            num_to_fetch: 30,
-            display_from: 1,
-            display_to: 30
+var Navbar = Vue.component('navbar', {
+    template: '#navbar-template',
+    data: function () {
+        return {
+            me: {},
+            page: 'home',
+            show: {}
         };
-
-        $.event.trigger('reset-filter');
-
-        return this.filter;
     },
-
-    saveFilter: function ($name) {
-        var $url = '/api/savedFilters';
-
-        var $data = {
-            name: $name,
-            filter: this.filter
-        };
-
-        return $http.post($url, $data);
+    components: {},
+    methods: {
+        toggleFilter: function () {
+            $.event.trigger('toggle-filter');
+        },
     },
+    props: [
 
-    chooseSavedFilter: function ($savedFilter) {
-        this.filter = $savedFilter;
-        $rootScope.$emit('setFilterInToolbarDirective');
-    },
+    ],
+    ready: function () {
 
-    /**
-     * Updates filter.display_from and filter.display_to values
-     */
-    updateRange: function ($numToFetch) {
-        if ($numToFetch) {
-            this.filter.num_to_fetch = $numToFetch;
-        }
+    }
+});
 
-        this.filter.display_from = this.filter.offset + 1;
-        this.filter.display_to = this.filter.offset + (this.filter.num_to_fetch * 1);
-    },
-
-    //Todo: I might not need some of this code (not allowing offset to be less than 0)
-    // todo: since I disabled the button if that is the case
-    prevResults: function () {
-        //make it so the offset cannot be less than 0.
-        if (this.filter.offset - this.filter.num_to_fetch < 0) {
-            this.filter.offset = 0;
-        }
-        else {
-            this.filter.offset-= (this.filter.num_to_fetch * 1);
-            this.updateRange();
-            $rootScope.$emit('runFilter');
-        }
-    },
-
-    nextResults: function ($filterTotals) {
-        if (this.filter.offset + (this.filter.num_to_fetch * 1) > $filterTotals.numTransactions) {
-            //stop it going past the end.
-            return;
-        }
-
-        this.filter.offset+= (this.filter.num_to_fetch * 1);
-        this.updateRange();
-        $rootScope.$emit('runFilter');
-    },
-
-    formatDates: function () {
-        if (this.filter.single_date.in) {
-            this.filter.single_date.inSql = $filter('formatDate')(this.filter.single_date.in);
-        }
-        else {
-            this.filter.single_date.inSql = "";
-        }
-        if (this.filter.single_date.out) {
-            this.filter.single_date.outSql = $filter('formatDate')(this.filter.single_date.out);
-        }
-        else {
-            this.filter.single_date.outSql = "";
-        }
-        if (this.filter.from_date.in) {
-            this.filter.from_date.inSql = $filter('formatDate')(this.filter.from_date.in);
-        }
-        else {
-            this.filter.from_date.inSql = "";
-        }
-        if (this.filter.from_date.out) {
-            this.filter.from_date.outSql = $filter('formatDate')(this.filter.from_date.out);
-        }
-        else {
-            this.filter.from_date.outSql = "";
-        }
-        if (this.filter.to_date.in) {
-            this.filter.to_date.inSql = $filter('formatDate')(this.filter.to_date.in);
-        }
-        else {
-            this.filter.to_date.inSql = "";
-        }
-        if (this.filter.to_date.out) {
-            this.filter.to_date.outSql = $filter('formatDate')(this.filter.to_date.out);
-        }
-        else {
-            this.filter.to_date.outSql = "";
-        }
-
-        return this.filter;
-    },
-
-    getTransactions: function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/transactions';
-
-        return $http.post($url, {'filter': $object.filter});
-    },
-
-    getBasicTotals: function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/basicTotals';
-
-        return $http.post($url, {'filter': $object.filter});
-    },
-
-    getGraphTotals: function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/graphTotals';
-
-        return $http.post($url, {'filter': $object.filter});
-    },
-
-    calculateGraphFigures: function ($graphTotals) {
-        var $graphFigures = {
-            months: []
-        };
-
-        $($graphTotals.monthsTotals).each(function () {
-            var $expenses = this.debit * -1;
-            var $max = $graphTotals.maxTotal;
-            var $num = 500 / $max;
-
-            $graphFigures.months.push({
-                incomeHeight: this.credit * $num,
-                expensesHeight: $expenses * $num,
-                income: this.credit,
-                expenses: this.debit,
-                month: this.month
-            });
-        });
-
-        return $graphFigures;
-    },
-};
-
-FilterRepository.resetFilter();
 var NewTransaction = Vue.component('new-transaction', {
     template: '#new-transaction-template',
     data: function () {
@@ -23814,90 +24063,239 @@ var NewTransaction = Vue.component('new-transaction', {
         this.newTransaction = NewTransactionRepository.getDefaults(this.env, this.accounts)
     }
 });
-var NewTransactionRepository = {
-
-    defaults: {
-        type: 'income',
-        account_id: 1,
-        date: {
-            entered: 'today'
+var PreferencesPage = Vue.component('preferences-page', {
+    template: '#preferences-page-template',
+    data: function () {
+        return {
+            me: me,
+            colors: this.me.preferences.colors,
+            preferences: {}
+        };
+    },
+    components: {},
+    methods: {
+        savePreferences: function () {
+            PreferencesFactory.savePreferences($scope.me.preferences)
+                .then(function (response) {
+                    $rootScope.$broadcast('provideFeedback', 'Preferences saved');
+                    $scope.me.preferences = response.data.preferences;
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
         },
-        merchant: '',
-        description: '',
-        reconciled: false,
-        multiple_budgets: false,
-        budgets: []
+
+        defaultColor: function ($type, $default_color) {
+            if ($type === 'income') {
+                $scope.colors.income = $default_color;
+            }
+            else if ($type === 'expense') {
+                $scope.colors.expense = $default_color;
+            }
+            else if ($type === 'transfer') {
+                $scope.colors.transfer = $default_color;
+            }
+        },
     },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
 
-    getDefaults: function ($env, $accounts) {
-        //Fill in the new transaction fields if development environment
-        if ($env === 'local') {
-            defaults.total = 10;
-            defaults.type = 'expense';
-            defaults.date.entered = 'today';
-            defaults.merchant = 'some merchant';
-            defaults.description = 'some description';
-            defaults.duration = '';
-            defaults.budgets = [
-                {
-                    id: '2',
-                    name: 'business',
-                    type: 'fixed'
-                },
-                //{
-                //    id: '4',
-                //    name: 'busking',
-                //    type: 'flex'
-                //}
-            ];
-        }
-    
-        if ($accounts.length > 0) {
-            this.defaults.account_id = $accounts[0].id;
-            this.defaults.from_account_id = $accounts[0].id;
-            this.defaults.to_account_id = $accounts[0].id;
-        }
-    
-        return this.defaults;
-    },
-
-    clearFields: function (env, me, $newTransaction) {
-        if (me.preferences.clearFields) {
-            $newTransaction.budgets = [];
-            $newTransaction.total = '';
-            $newTransaction.description = '';
-            $newTransaction.merchant = '';
-            $newTransaction.reconciled = false;
-            $newTransaction.multiple_budgets = false;
-        }
-
-        return $newTransaction;
-    },
-
-    anyErrors: function ($newTransaction) {
-        var $messages = [];
-
-        if (!Date.parse($newTransaction.date.entered)) {
-            $messages.push('Date is not valid');
-        }
-        else {
-            $newTransaction.date.sql = Date.parse($newTransaction.date.entered).toString('yyyy-MM-dd');
-        }
-
-        if ($newTransaction.total === "") {
-            $messages.push('Total is required');
-        }
-        else if (!$.isNumeric($newTransaction.total)) {
-            $messages.push('Total is not a valid number');
-        }
-
-        if ($messages.length > 0) {
-            return $messages;
-        }
-
-        return false;
     }
-};
+});
+
+
+//$scope.$watchCollection('colors', function (newValue) {
+//    $("#income-color-picker").val(newValue.income);
+//    $("#expense-color-picker").val(newValue.expense);
+//    $("#transfer-color-picker").val(newValue.transfer);
+//});
+
+//savePreferences: function (preferences) {
+//    var url = '/api/users/' + me.id;
+//    var data = {
+//        preferences: preferences
+//    };
+//
+//    return $http.put(url, data);
+//},
+//updateColors: function ($colors) {
+//    var $url = 'api/update/colors';
+//    var $description = 'colors';
+//    var $data = {
+//        description: $description,
+//        colors: $colors
+//    };
+//
+//    return $http.post($url, $data);
+//}
+var SideBarTotals = Vue.component('sidebar-totals', {
+    template: '#sidebar-totals-template',
+    data: function () {
+        return {
+
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'show'
+    ],
+    ready: function () {
+
+    }
+});
+
+
+//
+//
+//$scope.totalChanges = {};
+//
+//$rootScope.clearTotalChanges = function () {
+//    $scope.totalChanges = {};
+//};
+//
+//$rootScope.$on('getSideBarTotals', function () {
+//    $scope.totalsLoading = true;
+//    TotalsFactory.getSideBarTotals()
+//        .then(function (response) {
+//            $scope.sideBarTotals = response.data.data;
+//            $scope.totalsLoading = false;
+//        })
+//        .catch(function (response) {
+//            $rootScope.responseError(response);
+//        });
+//});
+
+//$scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
+//
+//    if (newValue && oldValue) {
+//
+//        if (newValue.credit !== oldValue.credit) {
+//            $scope.totalChanges.credit = $scope.calculateDifference(newValue.credit, oldValue.credit);
+//        }
+//
+//        if (newValue.debit !== oldValue.debit) {
+//            $scope.totalChanges.debit = $scope.calculateDifference(newValue.debit, oldValue.debit);
+//        }
+//
+//        if (newValue.balance !== oldValue.balance) {
+//            $scope.totalChanges.balance = $scope.calculateDifference(newValue.balance, oldValue.balance);
+//        }
+//
+//        if (newValue.reconciledSum !== oldValue.reconciledSum) {
+//            $scope.totalChanges.reconciledSum = $scope.calculateDifference(newValue.reconciledSum, oldValue.reconciledSum);
+//        }
+//
+//        if (newValue.savings !== oldValue.savings) {
+//            $scope.totalChanges.savings = $scope.calculateDifference(newValue.savings, oldValue.savings);
+//        }
+//
+//        if (newValue.expensesWithoutBudget !== oldValue.expensesWithoutBudget) {
+//            $scope.totalChanges.expensesWithoutBudget = $scope.calculateDifference(newValue.expensesWithoutBudget, oldValue.expensesWithoutBudget);
+//        }
+//
+//        if (newValue.remainingFixedBudget !== oldValue.remainingFixedBudget) {
+//            $scope.totalChanges.remainingFixedBudget = $scope.calculateDifference(newValue.remainingFixedBudget, oldValue.remainingFixedBudget);
+//        }
+//
+//        if (newValue.cumulativeFixedBudget !== oldValue.cumulativeFixedBudget) {
+//            $scope.totalChanges.cumulativeFixedBudget = $scope.calculateDifference(newValue.cumulativeFixedBudget, oldValue.cumulativeFixedBudget);
+//        }
+//
+//        if (newValue.expensesWithFixedBudgetBeforeStartingDate !== oldValue.expensesWithFixedBudgetBeforeStartingDate) {
+//            $scope.totalChanges.expensesWithFixedBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetBeforeStartingDate, oldValue.expensesWithFixedBudgetBeforeStartingDate);
+//        }
+//
+//        if (newValue.expensesWithFixedBudgetAfterStartingDate !== oldValue.expensesWithFixedBudgetAfterStartingDate) {
+//            $scope.totalChanges.expensesWithFixedBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetAfterStartingDate, oldValue.expensesWithFixedBudgetAfterStartingDate);
+//        }
+//
+//        if (newValue.expensesWithFlexBudgetBeforeStartingDate !== oldValue.expensesWithFlexBudgetBeforeStartingDate) {
+//            $scope.totalChanges.expensesWithFlexBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetBeforeStartingDate, oldValue.expensesWithFlexBudgetBeforeStartingDate);
+//        }
+//
+//        if (newValue.expensesWithFlexBudgetAfterStartingDate !== oldValue.expensesWithFlexBudgetAfterStartingDate) {
+//            $scope.totalChanges.expensesWithFlexBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetAfterStartingDate, oldValue.expensesWithFlexBudgetAfterStartingDate);
+//        }
+//
+//        if (newValue.remainingBalance !== oldValue.remainingBalance) {
+//            $scope.totalChanges.remainingBalance = $scope.calculateDifference(newValue.remainingBalance, oldValue.remainingBalance);
+//        }
+//
+//        scope.sideBarTotals = newValue;
+//    }
+//});
+//
+///**
+// * End watches
+// */
+//
+///**
+// * @param newValue
+// * @param oldValue
+// * @returns {string}
+// */
+//$scope.calculateDifference = function (newValue, oldValue) {
+//    var $diff = newValue - oldValue;
+//    return $diff.toFixed(2);
+//};
+//
+//$scope.showSavingsTotalInput = function () {
+//    $scope.show.savings_total.input = true;
+//    $scope.show.savings_total.edit_btn = false;
+//};
+//
+
+var Totals = Vue.component('totals', {
+    template: '#totals-template',
+    data: function () {
+        return {
+
+        };
+    },
+    components: {},
+    methods: {
+        /**
+         * Get all the totals
+         * @returns {*}
+         */
+        getTotals: function () {
+            var $url = '/api/totals';
+
+            return $http.get($url);
+        },
+        getSideBarTotals: function () {
+            var $url = '/api/totals/sidebar';
+
+            return $http.get($url);
+        },
+        getFixedBudgetTotals: function () {
+            var $url = '/api/totals/fixedBudget';
+
+            return $http.get($url);
+        },
+        getFlexBudgetTotals: function () {
+            var $url = '/api/totals/flexBudget';
+
+            return $http.get($url);
+        },
+        getUnassignedBudgetTotals: function () {
+            var $url = '/api/totals/unassignedBudget';
+
+            return $http.get($url);
+        }
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+
+    }
+});
 var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
     template: '#transaction-autocomplete-template',
     data: function () {
@@ -24101,214 +24499,6 @@ var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
 });
 
 
-var BudgetAutocomplete = Vue.component('budget-autocomplete', {
-    template: '#budget-autocomplete-template',
-    data: function () {
-        return {
-            results: {},
-            messages: {}
-        };
-    },
-    components: {},
-    methods: {
-        /**
-         * Check for duplicate tags when adding a new tag to an array
-         * @param $tag_id
-         * @param $tag_array
-         * @returns {boolean}
-         */
-        duplicateTagCheck: function ($tag_id, $tag_array) {
-            for (var i = 0; i < $tag_array.length; i++) {
-                if ($tag_array[i].id === $tag_id) {
-                    return false; //it is a duplicate
-                }
-            }
-            return true; //it is not a duplicate
-        },
-
-
-        chooseTag: function ($index) {
-            if ($index !== undefined) {
-                //Item was chosen by clicking, not by pressing enter
-                $scope.currentIndex = $index;
-            }
-
-            if ($scope.multipleTags) {
-                $scope.addTag();
-            }
-            else {
-                $scope.fillField();
-            }
-        },
-
-        /**
-         * For if only one tag can be chosen
-         */
-        fillField: function () {
-            $scope.typing = $scope.results[$scope.currentIndex].name;
-            $scope.model = $scope.results[$scope.currentIndex];
-            if ($scope.focusOnEnter) {
-                // Todo: This line doesn't work if tag is chosen with mouse click
-                $("#" + $scope.focusOnEnter).focus();
-            }
-            $scope.hideAndClear();
-        },
-
-        /**
-         * For if multiple tags can be chosen
-         */
-        addTag: function () {
-            var $tag_id = $scope.results[$scope.currentIndex].id;
-
-            if (!$scope.duplicateTagCheck($tag_id, $scope.chosenTags)) {
-                //$rootScope.$broadcast('provideFeedback', 'You have already entered that tag');
-                $scope.hideAndClear();
-                return;
-            }
-
-            $scope.chosenTags.push($scope.results[$scope.currentIndex]);
-            $scope.hideAndClear();
-        },
-
-        /**
-         * Hide the dropdown and clear the input field
-         */
-        hideAndClear: function () {
-            $scope.hideDropdown();
-
-            if ($scope.multipleTags) {
-                $scope.typing = '';
-            }
-
-            $scope.currentIndex = null;
-            $('.highlight').removeClass('highlight');
-        },
-
-        hideDropdown: function () {
-            $scope.dropdown = false;
-        },
-
-        highlightLetters: function ($response, $typing) {
-            $typing = $typing.toLowerCase();
-
-            for (var i = 0; i < $response.length; i++) {
-                var $name = $response[i].name;
-                var $index = $name.toLowerCase().indexOf($typing);
-                var $substr = $name.substr($index, $typing.length);
-
-                var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
-                $response[i].html = $html;
-            }
-
-            return $response;
-        },
-
-        hoverItem: function(index) {
-            $scope.currentIndex = index;
-        },
-
-        /**
-         * Act on keypress for input field
-         * @param $keycode
-         * @returns {boolean}
-         */
-        filterTags: function ($keycode) {
-            if ($keycode === 13) {
-                //enter is pressed
-                //$scope.chooseItem();
-
-                if (!$scope.results[$scope.currentIndex]) {
-                    //We are not adding a tag. We are inserting the transaction.
-                    $scope.fnOnEnter();
-                    return;
-                }
-                //We are choosing a tag
-                $scope.chooseTag();
-
-                //resetting the dropdown to show all the tags again after a tag has been added
-                $scope.results = $scope.tags;
-            }
-            else if ($keycode === 38) {
-                //up arrow is pressed
-                if ($scope.currentIndex > 0) {
-                    $scope.currentIndex--;
-                }
-            }
-            else if ($keycode === 40) {
-                //down arrow is pressed
-                if ($scope.currentIndex + 1 < $scope.results.length) {
-                    $scope.currentIndex++;
-                }
-            }
-            else {
-                //Not enter, up or down arrow
-                $scope.currentIndex = 0;
-                $scope.showDropdown();
-            }
-        },
-
-        /**
-         * Todo: when the new budget tag input is focused after entering a budget,
-         * todo: I don't want the dropdown to show. I had a lot of trouble and need help though.
-         */
-        showDropdown: function () {
-            $scope.dropdown = true;
-            if ($scope.typing) {
-                $scope.results = $scope.highlightLetters($scope.searchLocal(), $scope.typing);
-            }
-        },
-
-        searchLocal: function () {
-            var $filtered_tags = _.filter($scope.tags, function ($tag) {
-                return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
-            });
-
-            return $filtered_tags;
-        },
-
-        removeTag: function ($tag) {
-            $scope.chosenTags = _.without($scope.chosenTags, $tag);
-        },
-    },
-    props: [
-        'chosenBudgets',
-        'dropdown',
-        'budgets',
-        'fnOnEnter',
-        'multipleBudgets',
-        'model',
-        'id',
-        'focusOnEnter'
-    ],
-    ready: function () {
-
-    }
-});
-//angular.module('budgetApp')
-//    .filter('formatDurationFilter', function () {
-//        return function ($minutes) {
-//
-//            if (!$minutes) {
-//                return '';
-//            }
-//
-//            var $moment = moment.duration($minutes, 'minutes');
-//            var $formattedDuration = $moment._data.hours + ':' + $moment._data.minutes;
-//
-//            return $formattedDuration;
-//        }
-//    });
-
-
-//angular.module('budgetApp')
-//    .filter('formatDurationToMinutesFilter', function () {
-//        return function ($duration) {
-//
-//            return moment.duration($duration).asMinutes();
-//        }
-//    });
-
-
 var Transactions = Vue.component('transactions', {
     template: '#transactions-template',
     data: function () {
@@ -24487,186 +24677,16 @@ var Transactions = Vue.component('transactions', {
 //            $scope.responseError(response);
 //        })
 //});
-var TransactionsRepository = {
-    totals: {},
-
-    insertIncomeOrExpenseTransaction: function ($newTransaction) {
-        var $url = '/api/transactions';
-
-        if ($newTransaction.type === 'expense' && $newTransaction.total > 0) {
-            //transaction is an expense without the negative sign
-            $newTransaction.total*= -1;
-        }
-
-        //Convert duration from HH:MM format to minutes
-        $newTransaction.minutes = moment.duration($newTransaction.duration).asMinutes();
-
-        return $http.post($url, $newTransaction);
-    },
-
-    insertTransferTransaction: function ($newTransaction, $direction) {
-        var $url = '/api/transactions';
-        var $data = $newTransaction;
-
-        $data.direction = $direction;
-
-        if ($direction === 'from') {
-            $data.account_id = $data.from_account_id;
-        }
-        else if ($direction === 'to') {
-            $data.account_id = $data.to_account_id;
-        }
-
-        return $http.post($url, $data);
-    },
-
-    updateMassTags: function ($tag_array, $url, $tag_location) {
-        var $transaction_id;
-
-        var $tag_id_array = $tag_array.map(function (el) {
-            return el.tag_id;
-        });
-
-        $tag_id_array = JSON.stringify($tag_id_array);
-
-        $(".checked").each(function () {
-            $transaction_id = $(this).closest("tbody").attr('id');
-            var $url = 'api/update/massTags';
-            var $description = 'mass edit tags';
-            var $data = {
-                description: $description,
-                transaction_id: $transaction_id,
-                tag_id_array: $tag_id_array
-            };
-
-            return $http.post($url, $data);
-        });
-    },
-
-    massEditDescription: function () {
-        var $transaction_id;
-        var $description = $("#mass-edit-description-input").val();
-        var $info = {
-            transaction_id: $transaction_id,
-            description: $description
-        };
-
-        $(".checked").each(function () {
-            $transaction_id = $(this).closest("tbody").attr('id');
-
-            var $url = 'api/update/massDescription';
-            var $data = {
-                info: $info
-            };
-
-            return $http.post($url, $data);
-        });
-    },
-
-    updateTransaction: function ($transaction) {
-        var $url = $transaction.path;
-
-        $transaction.date = Date.parse($("#edit-transaction-date").val()).toString('yyyy-MM-dd');
-
-        //Make sure total is negative for an expense transaction
-        if ($transaction.type === 'expense' && $transaction.total > 0) {
-            $transaction.total = $transaction.total * -1;
-        }
-
-        //Convert duration from HH:MM format to minutes
-        $transaction.minutes = moment.duration($transaction.duration).asMinutes();
-
-        return $http.put($url, $transaction);
-    },
-
-    updateReconciliation: function ($transaction) {
-        var $url = $transaction.path;
-        //So the reconciled value doesn't change the checkbox for the front-end
-        var $data = {reconciled: 0};
-
-        if ($transaction.reconciled) {
-            $data.reconciled = 1;
-        }
-
-        return $http.put($url, $data);
-    },
-
-    deleteTransaction: function ($transaction) {
-        var $url = $transaction.path;
-
-        return $http.delete($url);
-    },
-
-    massDelete: function () {
-        $(".checked").each(function () {
-            deleteTransaction($(this));
-        });
-    },
-
-    getAllocationTotals: function ($transaction_id) {
-        var $url = 'api/select/allocationTotals';
-        var $data = {
-            transaction_id: $transaction_id
-        };
-
-        return $http.post($url, $data);
-    },
-
-    updateAllocation: function ($type, $value, $transaction_id, $budget_id) {
-        var $url = 'api/updateAllocation';
-        var $data = {
-            type: $type,
-            value: $value,
-            transaction_id: $transaction_id,
-            budget_id: $budget_id
-        };
-
-        return $http.post($url, $data);
-    },
-
-    updateAllocationStatus: function ($transaction) {
-        var $url = $transaction.path;
-        var $data = {
-            allocated: $transaction.allocated
-        };
-
-        return $http.put($url, $data);
-    },
-
-};
-var PreferencesPage = Vue.component('preferences-page', {
-    template: '#preferences-page-template',
+var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
+    template: '#unassigned-budgets-page-template',
     data: function () {
         return {
-            me: me,
-            colors: this.me.preferences.colors,
-            preferences: {}
+
         };
     },
     components: {},
     methods: {
-        savePreferences: function () {
-            PreferencesFactory.savePreferences($scope.me.preferences)
-                .then(function (response) {
-                    $rootScope.$broadcast('provideFeedback', 'Preferences saved');
-                    $scope.me.preferences = response.data.preferences;
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
 
-        defaultColor: function ($type, $default_color) {
-            if ($type === 'income') {
-                $scope.colors.income = $default_color;
-            }
-            else if ($type === 'expense') {
-                $scope.colors.expense = $default_color;
-            }
-            else if ($type === 'transfer') {
-                $scope.colors.transfer = $default_color;
-            }
-        },
     },
     props: [
         //data to be received from parent
@@ -24676,31 +24696,6 @@ var PreferencesPage = Vue.component('preferences-page', {
     }
 });
 
-
-//$scope.$watchCollection('colors', function (newValue) {
-//    $("#income-color-picker").val(newValue.income);
-//    $("#expense-color-picker").val(newValue.expense);
-//    $("#transfer-color-picker").val(newValue.transfer);
-//});
-
-//savePreferences: function (preferences) {
-//    var url = '/api/users/' + me.id;
-//    var data = {
-//        preferences: preferences
-//    };
-//
-//    return $http.put(url, data);
-//},
-//updateColors: function ($colors) {
-//    var $url = 'api/update/colors';
-//    var $description = 'colors';
-//    var $data = {
-//        description: $description,
-//        colors: $colors
-//    };
-//
-//    return $http.post($url, $data);
-//}
 
 var App = Vue.component('app', {
 
@@ -24726,8 +24721,26 @@ router.map({
     '/help': {
         component: HelpPage
     },
-    '/acounts': {
+    '/accounts': {
         component: AccountsPage
+    },
+    '/preferences': {
+        component: PreferencesPage
+    },
+    '/fixed-budgets': {
+        component: FixedBudgetsPage
+    },
+    '/flex-budgets': {
+        component: FlexBudgetsPage
+    },
+    '/unassigned-budgets': {
+        component: UnassignedBudgetsPage
+    },
+    '/graphs': {
+        component: Graphs
+    },
+    '/favourite-transactions': {
+        component: FavouriteTransactions
     }
 });
 

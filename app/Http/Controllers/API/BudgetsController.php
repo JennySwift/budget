@@ -42,7 +42,10 @@ class BudgetsController extends Controller
     public function index(Request $request)
     {
         if ($request->has('fixed')) {
-            $budgets = Budget::forCurrentUser()->whereType('fixed')->get();
+            $budgets = Budget::forCurrentUser()
+                ->whereType('fixed')
+                ->orderBy('name', 'asc')
+                ->get();
         }
         else if ($request->has('flex')) {
 //            $budgets = Budget::forCurrentUser()->whereType('flex')->get();
@@ -50,7 +53,9 @@ class BudgetsController extends Controller
             return $remainingBalance->flexBudgetTotals->budgets['data'];
         }
         else {
-            $budgets = Budget::forCurrentUser()->get();
+            $budgets = Budget::forCurrentUser()
+                ->orderBy('name', 'asc')
+                ->get();
         }
 
         $budgets = $this->transform($this->createCollection($budgets, new BudgetTransformer))['data'];

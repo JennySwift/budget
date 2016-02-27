@@ -1,7 +1,7 @@
 <script id="flex-budgets-page-template" type="x-template">
 
 <div>
-    @include('main.budgets.popups.index')
+    @include('main.budgets.edit-budget-popup-component')
 
     @include('main.budgets.toolbar')
 

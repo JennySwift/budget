@@ -19,17 +19,9 @@ elixir(function(mix) {
         'plugins/*.js',
         'config.js',
         'shared/**/*.js',
-        'accounts/*.js',
-        'favourite-transactions/*.js',
-        'budgets/*.js',
-        'help/*.js',
-        'home/**/*.js',
-        'preferences/*.js',
-        //'repositories/**/*.js',
-        //'components/**/*.js',
+        'repositories/**/*.js',
+        'components/**/*.js',
         'app.js',
-
-
     ], 'public/js/all.js');
 
     mix.version(["css/style.css", "js/all.js"]);

@@ -9,10 +9,22 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class FavouriteTransactionsController extends Controller
 {
+
+    /**
+     * GET /api/favourites
+     * @return Response
+     */
+    public function index()
+    {
+        $favourites = FavouriteTransaction::forCurrentUser()->get();
+        $favourites = $this->transform($this->createCollection($favourites, new FavouriteTransactionTransformer))['data'];
+        return response($favourites, Response::HTTP_OK);
+    }
     /**
      *
      * @param Request $request

@@ -3,9 +3,14 @@
 
 {{--Pages--}}
 @include('main.home-page-component')
-@include('main.help-page-component')
-@include('main.accounts-page-component')
+@include('main.help.help-page-component')
+@include('main.accounts.accounts-page-component')
+@include('main.preferences-page-component')
+@include('main.budgets.fixed-budgets-page-component')
+@include('main.budgets.flex-budgets-page-component')
+@include('main.budgets.unassigned-budgets-page-component')
 
+@include('main.budgets.edit-budget-popup-component')
 
 @include('main.new-transaction-component')
 @include('main.shared.navbar-component')

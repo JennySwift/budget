@@ -51,15 +51,4 @@ class Account extends Model
         return route('api.accounts.show', $this->id);
     }
 
-    /**
-     *
-     * @return mixed
-     */
-    public static function getAccounts()
-    {
-        return Account::where('user_id', Auth::user()->id)
-            ->orderBy('name', 'asc')
-            ->get();
-    }
-
 }

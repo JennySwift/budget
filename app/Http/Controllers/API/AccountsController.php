@@ -27,7 +27,7 @@ class AccountsController extends Controller
      */
     public function index()
     {
-        $accounts = Account::forCurrentUser()->get();
+        $accounts = Account::forCurrentUser()->orderBy('name', 'asc')->get();
         $accounts = $this->transform($this->createCollection($accounts, new AccountTransformer))['data'];
         return response($accounts, Response::HTTP_OK);
     }
