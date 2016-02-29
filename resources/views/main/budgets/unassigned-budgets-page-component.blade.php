@@ -1,7 +1,10 @@
 <script id="unassigned-budgets-page-template" type="x-template">
 
 <div>
-    <edit-budget-popup></edit-budget-popup>
+    <edit-budget-popup
+        :budgets.sync="unassignedBudgets"
+    >
+    </edit-budget-popup>
 
     @include('main.budgets.toolbar')
     <new-budget></new-budget>

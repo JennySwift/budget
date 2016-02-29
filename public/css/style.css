@@ -1311,21 +1311,6 @@ caption {
     width: 20px;
     font-size: 6px; }
 
-#edit-budget .popup-inner {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: 300px;
-  height: 400px; }
-  #edit-budget .popup-inner input {
-    margin-bottom: 15px; }
-
 #graphs {
   display: -webkit-flex;
   display: -ms-flexbox;

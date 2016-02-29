@@ -8,19 +8,76 @@
 
                 <div class="popup-inner">
                         <h3>Edit @{{ selectedBudget.name }}</h3>
-                        <label>Name</label>
-                        <input v-model="selectedBudget.name" type="text">
-                        <label>Type (todo)</label>
+                        
+                        <div class="form-group">
+                            <label for="selected-budget-name">Name</label>
+                            <input
+                                v-model="selectedBudget.name"
+                                type="text"
+                                id="selected-budget-name"
+                                name="selected-budget-name"
+                                placeholder="name"
+                                class="form-control"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="selected-budget-type">Type (to do)</label>
+                        
+                            <select
+                                v-model="selectedBudget.type"
+                                id="selected-budget-type"
+                                class="form-control"
+                            >
+                                <option
+                                    v-for="type in types"
+                                    v-bind:value="type"
+                                >
+                                    @{{ type }}
+                                </option>
+                            </select>
+                        </div>
 
-                        <label v-show="selectedBudget.type !== 'unassigned'">Starting date</label>
-                        <input v-show="selectedBudget.type !== 'unassigned'" v-model="selectedBudget.formattedStartingDate" type="text">
+                        <div v-show="selectedBudget.type !== 'unassigned'" class="form-group">
+                            <label for="selected-budget-starting-date">Starting date</label>
+                            <input
+                                v-model="selectedBudget.startingDate"
+                                type="text"
+                                id="selected-budget-starting-date"
+                                name="selected-budget-starting-date"
+                                placeholder="starting date"
+                                class="form-control"
+                            >
+                        </div>
 
-                        <label v-show="selectedBudget.type !== 'unassigned'">Amount</label>
-                        <input v-show="selectedBudget.type !== 'unassigned'" v-model="selectedBudget.amount" type="text"/>
+                        <div v-show="selectedBudget.type !== 'unassigned'" class="form-group">
+                                <label for="selected-budget-starting-date">Starting date</label>
+                                <input
+                                        v-model="selectedBudget.formattedStartingDate"
+                                        type="text"
+                                        id="selected-budget-starting-date"
+                                        name="selected-budget-starting-date"
+                                        placeholder="starting date"
+                                        class="form-control"
+                                >
+                        </div>
+                        
+                        <div v-show="selectedBudget.type !== 'unassigned'" class="form-group">
+                            <label for="selected-budget-amount">Amount</label>
+                            <input
+                                v-model="selectedBudget.amount"
+                                type="text"
+                                id="selected-budget-amount"
+                                name="selected-budget-amount"
+                                placeholder="amount"
+                                class="form-control"
+                            >
+                        </div>
 
-                        <div class="popup-buttons">
-                                <button v-on:click="show.popups.budget = false" class="btn btn-danger">Cancel</button>
-                                <button v-on:click="updateBudget()" class="btn btn-success">Save</button>
+                        <div class="buttons">
+                            <button v-on:click="showPopup = false" class="btn btn-default">Cancel</button>
+                            <button v-on:click="deleteBudget(budget)" class="btn btn-danger">Delete</button>
+                            <button v-on:click="updateBudget()" class="btn btn-success">Save</button>
                         </div>
                 </div>
 

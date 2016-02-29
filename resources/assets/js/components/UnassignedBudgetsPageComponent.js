@@ -21,6 +21,14 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
                     HelpersRepository.handleResponseError(response);
                 });
         },
+
+        /**
+         *
+         * @param budget
+         */
+        showBudgetPopup: function (budget) {
+            $.event.trigger('show-budget-popup', [budget]);
+        },
     },
     props: [
         //data to be received from parent

@@ -20,5 +20,14 @@ var HelpersRepository = {
             var multiplyAndDivideBy = 100;
             return Math.round(number * multiplyAndDivideBy) / multiplyAndDivideBy;
         }
-    }
+    },
+
+    /**
+     *
+     */
+    closePopup: function ($event, that) {
+        if ($event.target.className === 'popup-outer') {
+            that.showPopup = false;
+        }
+    },
 };

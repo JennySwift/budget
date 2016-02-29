@@ -22238,7 +22238,16 @@ var HelpersRepository = {
             var multiplyAndDivideBy = 100;
             return Math.round(number * multiplyAndDivideBy) / multiplyAndDivideBy;
         }
-    }
+    },
+
+    /**
+     *
+     */
+    closePopup: function ($event, that) {
+        if ($event.target.className === 'popup-outer') {
+            that.showPopup = false;
+        }
+    },
 };
 var NewTransactionRepository = {
 
@@ -23304,7 +23313,7 @@ var BudgetsPage = Vue.component('budgets-page', {
             $scope.show.newBudget = true;
         },
 
-        listen: function () {
+        initialize: function () {
             if (typeof fixedBudgets !== 'undefined') {
                 $scope.fixedBudgets = fixedBudgets;
             }
@@ -23350,6 +23359,25 @@ var BudgetsPage = Vue.component('budgets-page', {
             }
         },
 
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('update-budget-table-totals', function (event, budget) {
+                that.updateBudgetTableTotals(budget);
+            });
+        },
+
+        updateBudgetTableTotals: function (budget) {
+            if (budget.type === 'fixed' && page === 'fixedBudgets') {
+                $scope.getFixedBudgetTotals();
+            }
+            else if (budget.type === 'flex' && page === 'flexBudgets') {
+                $scope.getFlexBudgetTotals();
+            }
+        },
+
         insertBudget: function ($keycode) {
             if ($keycode !== 13) {
                 return;
@@ -23371,92 +23399,6 @@ var BudgetsPage = Vue.component('budgets-page', {
                 .catch(function (response) {
                     $scope.responseError(response);
                 });
-        },
-        deleteBudget: function ($budget) {
-            $scope.showLoading();
-            if (confirm('You have ' + $budget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?')) {
-                $scope.showLoading();
-                BudgetsFactory.destroy($budget)
-                    .then(function (response) {
-                        $scope.$emit('getSideBarTotals');
-                        updateBudgetTableTotals($budget);
-                        jsDeleteBudget($budget);
-                        $scope.hideLoading();
-                        $rootScope.$broadcast('provideFeedback', 'Budget deleted');
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-            else {
-                $scope.hideLoading();
-            }
-        },
-
-        jsDeleteBudget: function ($budget) {
-            var $index;
-
-            if ($budget.type === 'fixed') {
-                $index = _.indexOf($scope.fixedBudgets, _.findWhere($scope.fixedBudgets, {id: $budget.id}));
-                $scope.fixedBudgets = _.without($scope.fixedBudgets, $budget);
-            }
-            else if ($budget.type === 'flex') {
-                $index = _.indexOf($scope.flexBudgets, _.findWhere($scope.flexBudgets, {id: $budget.id}));
-                $scope.flexBudgets = _.without($scope.flexBudgets, $budget);
-            }
-            else if ($budget.type === 'unassigned') {
-                $index = _.indexOf($scope.unassignedBudgets, _.findWhere($scope.unassignedBudgets, {id: $budget.id}));
-                $scope.unassignedBudgets = _.without($scope.unassignedBudgets, $budget);
-            }
-        },
-
-        showBudgetPopup: function ($tag, $type) {
-            $scope.budget_popup = $tag;
-            $scope.budget_popup.type = $type;
-            $scope.show.popups.budget = true;
-        },
-
-        /**
-         * For updating budget (name, type, amount, starting date) for an existing budget
-         */
-        updateBudget: function () {
-            $scope.clearTotalChanges();
-            $scope.showLoading();
-            $scope.budget_popup.sqlStartingDate = $filter('formatDate')($scope.budget_popup.formattedStartingDate);
-            BudgetsFactory.update($scope.budget_popup)
-                .then(function (response) {
-                    var $budget = response.data.data;
-                    jsUpdateBudget($budget);
-                    updateBudgetTableTotals($budget);
-                    $scope.hideLoading();
-                    $rootScope.$broadcast('provideFeedback', 'Budget updated');
-                    $scope.$emit('getSideBarTotals');
-                    $scope.show.popups.budget = false;
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-
-        jsUpdateBudget: function ($budget) {
-            //todo: allow for if budget type is changed. I will have to remove the budget from the table it was in
-            if ($budget.type === 'flex') {
-                var $index = _.indexOf($scope.flexBudgets, _.findWhere($scope.flexBudgets, {id: $budget.id}));
-                $scope.flexBudgets[$index] = $budget;
-            }
-            else if ($budget.type === 'fixed') {
-                var $index = _.indexOf($scope.fixedBudgets, _.findWhere($scope.fixedBudgets, {id: $budget.id}));
-                $scope.fixedBudgets[$index] = $budget;
-            }
-        },
-
-        updateBudgetTableTotal: function ($budget) {
-            if ($budget.type === 'fixed' && page === 'fixedBudgets') {
-                $scope.getFixedBudgetTotals();
-            }
-            else if ($budget.type === 'flex' && page === 'flexBudgets') {
-                $scope.getFlexBudgetTotals();
-            }
         },
 
         /**
@@ -23482,6 +23424,7 @@ var BudgetsPage = Vue.component('budgets-page', {
     ],
     ready: function () {
         this.listen();
+        this.initialize();
     }
 });
 
@@ -23684,9 +23627,7 @@ var EditAccount = Vue.component('edit-account', {
          *
          */
         closePopup: function ($event) {
-            if ($event.target.className === 'popup-outer') {
-                this.showPopup = false;
-            }
+            HelpersRepository.closePopup($event, this);
         },
 
         /**
@@ -23713,18 +23654,86 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
     data: function () {
         return {
             showPopup: false,
-            selectedBudget: {}
+            selectedBudget: {},
         };
     },
     components: {},
     methods: {
 
+        /**
+        *
+        */
+        updateBudget: function (budget) {
+            $.event.trigger('show-loading');
+
+            var data = {
+                name: this.selectedBudget.name
+            };
+
+            $.event.trigger('clear-total-changes');
+
+            //$scope.budget_popup.sqlStartingDate = $filter('formatDate')($scope.budget_popup.formattedStartingDate);
+
+            this.$http.put('/api/budgets/' + this.selectedBudget.id, data, function (response) {
+                //todo: allow for if budget type is changed. I will have to remove the budget from the table it was in
+                var index = _.indexOf(this.budgets, _.findWhere(this.budgets, {id: this.selectedBudget.id}));
+                this.budgets[index] = response;
+                $.event.trigger('update-budget-table-totals', [response]);
+                $.event.trigger('get-sidebar-totals');
+                this.showPopup = false;
+                //this.budgets[index].name = response.name;
+                $.event.trigger('provide-feedback', ['Budget updated', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+        *
+        */
+        deleteBudget: function () {
+            if (confirm('You have ' + this.selectedBudget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?')) {
+                $.event.trigger('show-loading');
+                this.$http.delete('/api/budgets/' + this.selectedBudget.id, function (response) {
+                    $.event.trigger('get-sidebar-totals');
+                    this.budgets = _.without(this.budgets, this.selectedBudget);
+                    this.showPopup = false;
+                    //var index = _.indexOf(this.budgets, _.findWhere(this.budgets, {id: this.budget.id}));
+                    //this.budgets = _.without(this.budgets, this.budgets[index]);
+                    $.event.trigger('provide-feedback', ['Budget deleted', 'success']);
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+            }
+        },
+
+        /**
+         *
+         */
+        closePopup: function ($event) {
+            HelpersRepository.closePopup($event, this);
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('show-budget-popup', function (event, budget) {
+                that.selectedBudget = budget;
+                that.showPopup = true;
+            });
+        }
     },
     props: [
-        //data to be received from parent
+        'budgets'
     ],
     ready: function () {
-
+        this.listen();
     }
 });
 
@@ -24478,45 +24487,96 @@ var PreferencesPage = Vue.component('preferences-page', {
 //
 //    return $http.post($url, $data);
 //}
-var SideBarTotals = Vue.component('sidebar-totals', {
-    template: '#sidebar-totals-template',
+var Totals = Vue.component('totals', {
+    template: '#totals-template',
     data: function () {
         return {
-
+            totalChanges: {},
+            sideBarTotals: [],
+            totalsLoading: false
         };
     },
     components: {},
+    filters: {
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
+    },
     methods: {
+        /**
+         * Get all the totals
+         * @returns {*}
+         */
+        //getTotals: function () {
+        //    var $url = '/api/totals';
+        //
+        //    return $http.get($url);
+        //},
 
+        /**
+        *
+        */
+        getSideBarTotals: function () {
+            //$.event.trigger('show-loading');
+            this.totalsLoading = true;
+            this.$http.get('/api/totals/sidebar', function (response) {
+                this.sideBarTotals = response.data;
+                //$.event.trigger('hide-loading');
+                this.totalsLoading = false;
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        getTotals: function () {
+            var $url = '/api/totals/sidebar';
+
+            return $http.get($url);
+        },
+        getFixedBudgetTotals: function () {
+            var $url = '/api/totals/fixedBudget';
+
+            return $http.get($url);
+        },
+        getFlexBudgetTotals: function () {
+            var $url = '/api/totals/flexBudget';
+
+            return $http.get($url);
+        },
+        getUnassignedBudgetTotals: function () {
+            var $url = '/api/totals/unassignedBudget';
+
+            return $http.get($url);
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('get-sidebar-totals', function (event) {
+                that.getSideBarTotals();
+            });
+            $(document).on('clear-total-changes', function (event) {
+                that.totalChanges = {};
+            });
+        }
     },
     props: [
         'show'
     ],
     ready: function () {
-
+        this.getSideBarTotals();
+        this.listen();
     }
 });
-
-
-//
-//
-//$scope.totalChanges = {};
-//
-//$rootScope.clearTotalChanges = function () {
-//    $scope.totalChanges = {};
-//};
-//
-//$rootScope.$on('getSideBarTotals', function () {
-//    $scope.totalsLoading = true;
-//    TotalsFactory.getSideBarTotals()
-//        .then(function (response) {
-//            $scope.sideBarTotals = response.data.data;
-//            $scope.totalsLoading = false;
-//        })
-//        .catch(function (response) {
-//            $rootScope.responseError(response);
-//        });
-//});
 
 //$scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
 //
@@ -24598,80 +24658,6 @@ var SideBarTotals = Vue.component('sidebar-totals', {
 //};
 //
 
-var Totals = Vue.component('totals', {
-    template: '#totals-template',
-    data: function () {
-        return {
-            totalChanges: [],
-            sideBarTotals: [],
-            totalsLoading: false
-        };
-    },
-    components: {},
-    filters: {
-        /**
-         *
-         * @param number
-         * @param howManyDecimals
-         * @returns {Number}
-         */
-        numberFilter: function (number, howManyDecimals) {
-            return HelpersRepository.numberFilter(number, howManyDecimals);
-        }
-    },
-    methods: {
-        /**
-         * Get all the totals
-         * @returns {*}
-         */
-        //getTotals: function () {
-        //    var $url = '/api/totals';
-        //
-        //    return $http.get($url);
-        //},
-
-        /**
-        *
-        */
-        getSideBarTotals: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/totals/sidebar', function (response) {
-                this.sideBarTotals = response.data;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
-
-        getTotals: function () {
-            var $url = '/api/totals/sidebar';
-
-            return $http.get($url);
-        },
-        getFixedBudgetTotals: function () {
-            var $url = '/api/totals/fixedBudget';
-
-            return $http.get($url);
-        },
-        getFlexBudgetTotals: function () {
-            var $url = '/api/totals/flexBudget';
-
-            return $http.get($url);
-        },
-        getUnassignedBudgetTotals: function () {
-            var $url = '/api/totals/unassignedBudget';
-
-            return $http.get($url);
-        }
-    },
-    props: [
-        'show'
-    ],
-    ready: function () {
-        this.getSideBarTotals();
-    }
-});
 var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
     template: '#transaction-autocomplete-template',
     data: function () {
@@ -25161,6 +25147,14 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
                 .error(function (response) {
                     HelpersRepository.handleResponseError(response);
                 });
+        },
+
+        /**
+         *
+         * @param budget
+         */
+        showBudgetPopup: function (budget) {
+            $.event.trigger('show-budget-popup', [budget]);
         },
     },
     props: [

@@ -55,9 +55,7 @@ var EditAccount = Vue.component('edit-account', {
          *
          */
         closePopup: function ($event) {
-            if ($event.target.className === 'popup-outer') {
-                this.showPopup = false;
-            }
+            HelpersRepository.closePopup($event, this);
         },
 
         /**
