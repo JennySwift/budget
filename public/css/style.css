@@ -261,26 +261,45 @@ caption {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 999; }
+  z-index: 999;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
   .popup-outer .popup-inner {
-    position: relative;
     border-radius: 5px;
-    margin-top: 10%;
     background: white;
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
     overflow: scroll;
-    height: 500px;
-    padding: 25px; }
-    .popup-outer .popup-inner .popup-buttons {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      margin: 0px 3px; }
-
-#recipe-method, #edit-recipe-method {
-  background: lightgrey; }
+    max-height: 650px;
+    padding: 25px;
+    margin: 0 30px; }
+    .popup-outer .popup-inner .popup-title {
+      margin-bottom: 30px;
+      margin-top: 0; }
+    .popup-outer .popup-inner .buttons {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      width: 100%;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      margin-top: 30px; }
+      .popup-outer .popup-inner .buttons button {
+        margin: 0 5px; }
+    .popup-outer .popup-inner .top-btns {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      margin-bottom: 30px; }
 
 @media all and (min-width: 680px) {
   .popup-inner {
@@ -1535,18 +1554,5 @@ caption {
   #accounts tr td {
     font-size: 17px;
     height: 32px; }
-
-#edit-account-name .popup-inner {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: 300px;
-  height: 200px; }
 
 /*# sourceMappingURL=style.css.map */

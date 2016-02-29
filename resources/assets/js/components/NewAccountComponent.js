@@ -7,10 +7,28 @@ var NewAccount = Vue.component('new-account', {
     },
     components: {},
     methods: {
+        /**
+         *
+         */
+        insertAccount: function () {
+            $.event.trigger('show-loading');
+            var data = {
+                name: this.newAccount.name
+            };
 
+            this.$http.post('/api/accounts', data, function (response) {
+                    this.accounts.push(response);
+                    this.newAccount.name = '';
+                    $.event.trigger('provide-feedback', ['Account created', 'success']);
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+        },
     },
     props: [
-        //data to be received from parent
+        'accounts'
     ],
     ready: function () {
 

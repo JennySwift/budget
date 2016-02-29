@@ -23070,7 +23070,6 @@ var AccountsPage = Vue.component('accounts-page', {
     data: function () {
         return {
             accounts: [],
-            edit_account_popup: {},
         };
     },
     components: {},
@@ -23090,57 +23089,12 @@ var AccountsPage = Vue.component('accounts-page', {
             });
         },
 
-        insertAccount: function ($keycode) {
-            if ($keycode !== 13) {
-                return;
-            }
-
-            $scope.showLoading();
-            AccountsFactory.insertAccount()
-                .then(function (response) {
-                    $scope.accounts.push(response.data);
-                    $rootScope.$broadcast('provideFeedback', 'Account added');
-                    $("#new_account_input").val("");
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-
-        showEditAccountPopup: function ($account) {
-            $scope.edit_account_popup = $account;
-            $scope.show.popups.edit_account = true;
-        },
-
-        updateAccount: function () {
-            $scope.showLoading();
-            AccountsFactory.updateAccountName($scope.edit_account_popup)
-                .then(function (response) {
-                    var $index = _.indexOf($scope.accounts, _.findWhere($scope.accounts, {id: $scope.edit_account_popup.id}));
-                    $scope.accounts[$index] = response.data;
-                    $rootScope.$broadcast('provideFeedback', 'Account edited');
-                    $scope.show.popups.edit_account = false;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-
-        deleteAccount: function ($account) {
-            if (confirm("Are you sure you want to delete this account?")) {
-                $scope.showLoading();
-                AccountsFactory.deleteAccount($account)
-                    .then(function (response) {
-                        $scope.accounts = _.without($scope.accounts, $account);
-                        $rootScope.$broadcast('provideFeedback', 'Account deleted');
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
+        /**
+         *
+         * @param account
+         */
+        showEditAccountPopup: function (account) {
+            $.event.trigger('show-edit-account-popup', [account]);
         },
     },
     props: [
@@ -23677,18 +23631,80 @@ var EditAccount = Vue.component('edit-account', {
     template: '#edit-account-template',
     data: function () {
         return {
-            selectedAccount: {}
+            selectedAccount: {},
+            showPopup: false
         };
     },
     components: {},
     methods: {
 
+        /**
+        *
+        */
+        updateAccount: function (account) {
+            $.event.trigger('show-loading');
+
+            var data = {
+                name: this.selectedAccount.name
+            };
+
+            this.$http.put('/api/accounts/' + this.selectedAccount.id, data, function (response) {
+                var index = _.indexOf(this.accounts, _.findWhere(this.accounts, {id: this.selectedAccount.id}));
+                this.accounts[index] = response;
+                this.showPopup = false;
+                $.event.trigger('provide-feedback', ['Account updated', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+         *
+         */
+        deleteAccount: function () {
+            if (confirm("Are you sure?")) {
+                $.event.trigger('show-loading');
+                this.$http.delete('/api/accounts/' + this.selectedAccount.id, function (response) {
+                        this.accounts = _.without(this.accounts, this.selectedAccount);
+                        //var index = _.indexOf(this.accounts, _.findWhere(this.accounts, {id: this.account.id}));
+                        //this.accounts = _.without(this.accounts, this.accounts[index]);
+                        this.showPopup = false;
+                        $.event.trigger('provide-feedback', ['Account deleted', 'success']);
+                        $.event.trigger('hide-loading');
+                    })
+                    .error(function (response) {
+                        HelpersRepository.handleResponseError(response);
+                    });
+            }
+        },
+
+        /**
+         *
+         */
+        closePopup: function ($event) {
+            if ($event.target.className === 'popup-outer') {
+                this.showPopup = false;
+            }
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('show-edit-account-popup', function (event, account) {
+                that.selectedAccount = account;
+                that.showPopup = true;
+            });
+        }
     },
     props: [
-        //data to be received from parent
+        'accounts'
     ],
     ready: function () {
-
+        this.listen();
     }
 });
 
@@ -24151,10 +24167,28 @@ var NewAccount = Vue.component('new-account', {
     },
     components: {},
     methods: {
+        /**
+         *
+         */
+        insertAccount: function () {
+            $.event.trigger('show-loading');
+            var data = {
+                name: this.newAccount.name
+            };
 
+            this.$http.post('/api/accounts', data, function (response) {
+                    this.accounts.push(response);
+                    this.newAccount.name = '';
+                    $.event.trigger('provide-feedback', ['Account created', 'success']);
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+        },
     },
     props: [
-        //data to be received from parent
+        'accounts'
     ],
     ready: function () {
 

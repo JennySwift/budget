@@ -1,14 +1,20 @@
 <script id="accounts-page-template" type="x-template">
 
 <div>
-    <edit-account></edit-account>
+    <edit-account
+            :accounts.sync="accounts"
+    >
+    </edit-account>
 
     <div id="accounts">
 
         <div class="create-new-account">
             <label>Create a new account</label>
 
-            <new-account></new-account>
+            <new-account
+                    :accounts.sync="accounts"
+            >
+            </new-account>
 
         </div>
 
@@ -18,14 +24,6 @@
                         v-on:click="showEditAccountPopup(account)"
                         class="pointer">
                     @{{ account.name }}
-                </td>
-
-                <td>
-                    <button
-                            v-on:click="deleteAccount(account)"
-                            class="btn btn-default btn-danger btn-sm">
-                        Delete
-                    </button>
                 </td>
             </tr>
         </table>

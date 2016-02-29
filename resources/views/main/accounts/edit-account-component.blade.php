@@ -7,12 +7,24 @@
             class="popup-outer">
 
         <div class="popup-inner">
-            <label>Enter a new name for your account</label>
-            <input v-model="selectedAccount.name" type="text">
+            <h3>Edit @{{ selectedAccount.name }}</h3>
 
-            <div class="popup-buttons">
-                <button v-on:click="showPopup = false" class="btn btn-danger">Cancel</button>
+            <div class="form-group">
+                <label for="edit-account-name">Name</label>
+                <input
+                    v-model="selectedAccount.name"
+                    type="text"
+                    id="edit-account-name"
+                    name="edit-account-name"
+                    placeholder="name"
+                    class="form-control"
+                >
+            </div>
+
+            <div class="buttons">
+                <button v-on:click="showPopup = false" class="btn btn-default">Cancel</button>
                 <button v-on:click="updateAccount()" class="btn btn-success">Save</button>
+                <button v-on:click="deleteAccount(account)" class="btn btn-danger btn-sm">Delete</button>
             </div>
 
         </div>
