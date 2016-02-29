@@ -35,10 +35,6 @@
         </th>
 
         <th class="tooltipster" title="remaining">Remaining</th>
-
-        <th>
-            <i class="fa fa-times"></i>
-        </th>
     </tr>
     <!-- table content -->
     <tr v-for="budget in flexBudgets | orderBy 'name'" class="budget_info_ul">
@@ -55,9 +51,6 @@
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">@{{ budget.spentAfterStartingDate |  numberFilter 2 }}</td>
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="received pointer">@{{ budget.receivedAfterStartingDate |  numberFilter 2 }}</td>
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="remaining pointer">@{{ budget.remaining |  numberFilter 2 }}</td>
-        <td>
-            <button v-on:click="deleteBudget(budget)" class="btn btn-xs btn-danger">delete</button>
-        </td>
     </tr>
     <!-- allocated -->
     <tr id="flex-budget-totals" class="budget_info_ul">

@@ -16,12 +16,14 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
             $.event.trigger('show-loading');
 
             var data = {
-                name: this.selectedBudget.name
+                name: this.selectedBudget.name,
+                amount: this.selectedBudget.amount,
+                starting_date: this.selectedBudget.sqlStartingDate,
             };
 
             $.event.trigger('clear-total-changes');
 
-            //$scope.budget_popup.sqlStartingDate = $filter('formatDate')($scope.budget_popup.formattedStartingDate);
+            this.selectedBudget.sqlStartingDate = HelpersRepository.formatDate(this.selectedBudget.formattedStartingDate);
 
             this.$http.put('/api/budgets/' + this.selectedBudget.id, data, function (response) {
                 //todo: allow for if budget type is changed. I will have to remove the budget from the table it was in

@@ -39,18 +39,6 @@
                         </div>
 
                         <div v-show="selectedBudget.type !== 'unassigned'" class="form-group">
-                            <label for="selected-budget-starting-date">Starting date</label>
-                            <input
-                                v-model="selectedBudget.startingDate"
-                                type="text"
-                                id="selected-budget-starting-date"
-                                name="selected-budget-starting-date"
-                                placeholder="starting date"
-                                class="form-control"
-                            >
-                        </div>
-
-                        <div v-show="selectedBudget.type !== 'unassigned'" class="form-group">
                                 <label for="selected-budget-starting-date">Starting date</label>
                                 <input
                                         v-model="selectedBudget.formattedStartingDate"

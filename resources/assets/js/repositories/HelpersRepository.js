@@ -30,4 +30,20 @@ var HelpersRepository = {
             that.showPopup = false;
         }
     },
+
+    /**
+     *
+     * @param date
+     * @returns {*}
+     */
+    formatDate: function (date) {
+        if (date) {
+            if (!Date.parse(date)) {
+                $.event.trigger('provide-feedback', ['Date is invalid', 'error']);
+                return date;
+            } else {
+                return Date.parse(date).toString('yyyy-MM-dd');
+            }
+        }
+    }
 };

@@ -1,7 +1,10 @@
 <script id="flex-budgets-page-template" type="x-template">
 
 <div>
-    <edit-budget-popup></edit-budget-popup>
+    <edit-budget-popup
+            :budgets.sync="flexBudgets"
+    >
+    </edit-budget-popup>
 
     @include('main.budgets.toolbar')
 

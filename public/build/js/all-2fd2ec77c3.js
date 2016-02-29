@@ -22248,6 +22248,22 @@ var HelpersRepository = {
             that.showPopup = false;
         }
     },
+
+    /**
+     *
+     * @param date
+     * @returns {*}
+     */
+    formatDate: function (date) {
+        if (date) {
+            if (!Date.parse(date)) {
+                $.event.trigger('provide-feedback', ['Date is invalid', 'error']);
+                return date;
+            } else {
+                return Date.parse(date).toString('yyyy-MM-dd');
+            }
+        }
+    }
 };
 var NewTransactionRepository = {
 
@@ -23667,12 +23683,14 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
             $.event.trigger('show-loading');
 
             var data = {
-                name: this.selectedBudget.name
+                name: this.selectedBudget.name,
+                amount: this.selectedBudget.amount,
+                starting_date: this.selectedBudget.sqlStartingDate,
             };
 
             $.event.trigger('clear-total-changes');
 
-            //$scope.budget_popup.sqlStartingDate = $filter('formatDate')($scope.budget_popup.formattedStartingDate);
+            this.selectedBudget.sqlStartingDate = HelpersRepository.formatDate(this.selectedBudget.formattedStartingDate);
 
             this.$http.put('/api/budgets/' + this.selectedBudget.id, data, function (response) {
                 //todo: allow for if budget type is changed. I will have to remove the budget from the table it was in
@@ -23974,7 +23992,15 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
             .error(function (response) {
                 HelpersRepository.handleResponseError(response);
             });
-        }
+        },
+
+        /**
+         *
+         * @param budget
+         */
+        showBudgetPopup: function (budget) {
+            $.event.trigger('show-budget-popup', [budget]);
+        },
     },
     props: [
         //data to be received from parent
@@ -24033,7 +24059,15 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
                 .error(function (response) {
                     HelpersRepository.handleResponseError(response);
                 });
-        }
+        },
+
+        /**
+         *
+         * @param budget
+         */
+        showBudgetPopup: function (budget) {
+            $.event.trigger('show-budget-popup', [budget]);
+        },
     },
     props: [
         //data to be received from parent

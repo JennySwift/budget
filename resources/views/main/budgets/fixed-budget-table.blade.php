@@ -5,12 +5,12 @@
 
     <tr>
         <th>Name</th>
-        <th class="tooltipster" title="amount">Amount</th>
-        <th class="tooltipster" title="cumulative starting date">
+        <th>Amount</th>
+        <th>
             <div>Starting</div>
             <div>date</div>
         </th>
-        <th class="tooltipster" title="cumulative month number">
+        <th>
             <div>Month</div>
             <div>number</div>
         </th>
@@ -19,26 +19,22 @@
             <div>amount</div>
         </th>
 
-        <th class="tooltipster" title="spent before starting date">
+        <th>
             <div>Spent before</div>
             <div>starting date</div>
         </th>
 
-        <th class="tooltipster" title="spent after starting date">
+        <th>
             <div>Spent after</div>
             <div>starting date</div>
         </th>
 
-        <th class="tooltipster" title="received after starting date">
+        <th>
             <div>Received after</div>
             <div>starting date</div>
         </th>
 
         <th class="tooltipster" title="remaining  (cumulative + spent + received)">Remaining</th>
-
-        <th>
-            <i class="fa fa-times"></i>
-        </th>
     </tr>
 
     <!-- table content -->
@@ -64,10 +60,6 @@
 
         <td v-on:click="showBudgetPopup(budget, 'fixed')" class="remaining pointer">@{{ budget.remaining | numberFilter 2 }}</td>
 
-        <td>
-            <button v-on:click="deleteBudget(budget)" class="btn btn-xs btn-danger">delete</button>
-        </td>
-
     </tr>
 
     <!-- fixed budget totals -->
@@ -81,7 +73,6 @@
         <td>@{{ fixedBudgetTotals.spentAfterStartingDate | numberFilter 2 }}</td>
         <td>@{{ fixedBudgetTotals.receivedAfterStartingDate | numberFilter 2 }}</td>
         <td>@{{ fixedBudgetTotals.remaining | numberFilter 2 }}</td>
-        <td>-</td>
     </tr>
 
 </table>

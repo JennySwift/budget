@@ -46,7 +46,15 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
             .error(function (response) {
                 HelpersRepository.handleResponseError(response);
             });
-        }
+        },
+
+        /**
+         *
+         * @param budget
+         */
+        showBudgetPopup: function (budget) {
+            $.event.trigger('show-budget-popup', [budget]);
+        },
     },
     props: [
         //data to be received from parent
