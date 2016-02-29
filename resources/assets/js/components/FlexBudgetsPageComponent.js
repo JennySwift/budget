@@ -72,6 +72,7 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
     ready: function () {
         this.getFlexBudgets();
         this.getFlexBudgetTotals();
+        this.listen();
     }
 
 });

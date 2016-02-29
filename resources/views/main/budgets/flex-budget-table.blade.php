@@ -63,7 +63,6 @@
         <td>-</td>
         <td>-</td>
         <td>@{{ flexBudgetTotals.allocatedRemaining |  numberFilter 2 }}</td>
-        <td>-</td>
     </tr>
     {{--unallocated--}}
     <tr id="flex-budget-unallocated" class="budget_info_ul">
@@ -76,7 +75,6 @@
         <td>-</td>
         <td>-</td>
         <td>@{{ flexBudgetTotals.unallocatedRemaining |  numberFilter 2 }}</td>
-        <td>-</td>
     </tr>
     <!-- flex budget totals -->
     <tr id="flex-budget-totals" class="budget_info_ul totals">
@@ -89,6 +87,5 @@
         <td>@{{ flexBudgetTotals.spentAfterStartingDate |  numberFilter 2 }}</td>
         <td>@{{ flexBudgetTotals.receivedAfterStartingDate |  numberFilter 2 }}</td>
         <td>@{{ flexBudgetTotals.allocatedPlusUnallocatedRemaining |  numberFilter 2 }}</td>
-        <td>-</td>
     </tr>
 </table>
