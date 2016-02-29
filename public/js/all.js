@@ -23673,14 +23673,7 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
 
             this.$http.put('/api/budgets/' + this.selectedBudget.id, data, function (response) {
                 this.jsUpdateBudget(response.data);
-
-                if (this.page == 'fixedBudgets') {
-                    $.event.trigger('update-fixed-budget-table-totals');
-                }
-                else if (this.page == 'flexBudgets') {
-                    $.event.trigger('update-flex-budget-table-totals');
-                }
-
+                this.updateBudgetTableTotals();
                 $.event.trigger('get-sidebar-totals');
                 this.showPopup = false;
                 $.event.trigger('provide-feedback', ['Budget updated', 'success']);
@@ -23715,6 +23708,18 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
         },
 
         /**
+         *
+         */
+        updateBudgetTableTotals: function () {
+            if (this.page == 'fixedBudgets') {
+                $.event.trigger('update-fixed-budget-table-totals');
+            }
+            else if (this.page == 'flexBudgets') {
+                $.event.trigger('update-flex-budget-table-totals');
+            }
+        },
+
+        /**
         *
         */
         deleteBudget: function () {
@@ -23722,10 +23727,9 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
                 $.event.trigger('show-loading');
                 this.$http.delete('/api/budgets/' + this.selectedBudget.id, function (response) {
                     $.event.trigger('get-sidebar-totals');
+                    this.updateBudgetTableTotals();
                     this.budgets = _.without(this.budgets, this.selectedBudget);
                     this.showPopup = false;
-                    //var index = _.indexOf(this.budgets, _.findWhere(this.budgets, {id: this.budget.id}));
-                    //this.budgets = _.without(this.budgets, this.budgets[index]);
                     $.event.trigger('provide-feedback', ['Budget deleted', 'success']);
                     $.event.trigger('hide-loading');
                 })
