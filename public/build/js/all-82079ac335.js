@@ -23325,10 +23325,6 @@ var BudgetsPage = Vue.component('budgets-page', {
     },
     components: {},
     methods: {
-        toggleNewBudget: function () {
-            $scope.show.newBudget = true;
-        },
-
         initialize: function () {
             if (typeof fixedBudgets !== 'undefined') {
                 $scope.fixedBudgets = fixedBudgets;
@@ -23980,6 +23976,13 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         /**
          *
          */
+        toggleNewBudget: function () {
+            $.event.trigger('toggle-new-budget');
+        },
+
+        /**
+         *
+         */
         getFixedBudgets: function () {
             $.event.trigger('show-loading');
             this.$http.get('/api/budgets?fixed=true', function (response) {
@@ -24055,6 +24058,14 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         }
     },
     methods: {
+
+        /**
+         *
+         */
+        toggleNewBudget: function () {
+            $.event.trigger('toggle-new-budget');
+        },
+
         /**
          *
          */
@@ -24281,13 +24292,22 @@ var NewBudget = Vue.component('new-budget', {
     },
     components: {},
     methods: {
-        
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('toggle-new-budget', function (event) {
+                that.showNewBudget = !that.showNewBudget;
+            });
+        }
     },
     props: [
         //data to be received from parent
     ],
     ready: function () {
-        
+        this.listen();
     }
 });
 
@@ -25202,6 +25222,14 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
     },
     components: {},
     methods: {
+
+        /**
+         *
+         */
+        toggleNewBudget: function () {
+            $.event.trigger('toggle-new-budget');
+        },
+        
         /**
          *
          */

@@ -11,10 +11,6 @@ var BudgetsPage = Vue.component('budgets-page', {
     },
     components: {},
     methods: {
-        toggleNewBudget: function () {
-            $scope.show.newBudget = true;
-        },
-
         initialize: function () {
             if (typeof fixedBudgets !== 'undefined') {
                 $scope.fixedBudgets = fixedBudgets;

@@ -20,6 +20,14 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         }
     },
     methods: {
+
+        /**
+         *
+         */
+        toggleNewBudget: function () {
+            $.event.trigger('toggle-new-budget');
+        },
+
         /**
          *
          */

@@ -23,6 +23,13 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         /**
          *
          */
+        toggleNewBudget: function () {
+            $.event.trigger('toggle-new-budget');
+        },
+
+        /**
+         *
+         */
         getFixedBudgets: function () {
             $.event.trigger('show-loading');
             this.$http.get('/api/budgets?fixed=true', function (response) {
