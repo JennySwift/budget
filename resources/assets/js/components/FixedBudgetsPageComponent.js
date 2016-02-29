@@ -55,6 +55,16 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         showBudgetPopup: function (budget) {
             $.event.trigger('show-budget-popup', [budget]);
         },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('update-fixed-budget-table-totals', function (event, budget) {
+                that.getFixedBudgetTotals();
+            });
+        },
     },
     props: [
         //data to be received from parent
@@ -62,5 +72,6 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
     ready: function () {
         this.getFixedBudgets();
         this.getFixedBudgetTotals();
+        this.listen();
     }
 });

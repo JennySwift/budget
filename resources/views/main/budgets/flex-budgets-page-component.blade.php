@@ -3,6 +3,7 @@
 <div>
     <edit-budget-popup
             :budgets.sync="flexBudgets"
+            page="flexBudgets"
     >
     </edit-budget-popup>
 

@@ -23375,25 +23375,6 @@ var BudgetsPage = Vue.component('budgets-page', {
             }
         },
 
-        /**
-         *
-         */
-        listen: function () {
-            var that = this;
-            $(document).on('update-budget-table-totals', function (event, budget) {
-                that.updateBudgetTableTotals(budget);
-            });
-        },
-
-        updateBudgetTableTotals: function (budget) {
-            if (budget.type === 'fixed' && page === 'fixedBudgets') {
-                $scope.getFixedBudgetTotals();
-            }
-            else if (budget.type === 'flex' && page === 'flexBudgets') {
-                $scope.getFlexBudgetTotals();
-            }
-        },
-
         insertBudget: function ($keycode) {
             if ($keycode !== 13) {
                 return;
@@ -23685,27 +23666,52 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
             var data = {
                 name: this.selectedBudget.name,
                 amount: this.selectedBudget.amount,
-                starting_date: this.selectedBudget.sqlStartingDate,
+                starting_date: HelpersRepository.formatDate(this.selectedBudget.formattedStartingDate),
             };
 
             $.event.trigger('clear-total-changes');
 
-            this.selectedBudget.sqlStartingDate = HelpersRepository.formatDate(this.selectedBudget.formattedStartingDate);
-
             this.$http.put('/api/budgets/' + this.selectedBudget.id, data, function (response) {
-                //todo: allow for if budget type is changed. I will have to remove the budget from the table it was in
-                var index = _.indexOf(this.budgets, _.findWhere(this.budgets, {id: this.selectedBudget.id}));
-                this.budgets[index] = response;
-                $.event.trigger('update-budget-table-totals', [response]);
+                this.jsUpdateBudget(response.data);
+
+                if (this.page == 'fixedBudgets') {
+                    $.event.trigger('update-fixed-budget-table-totals');
+                }
+                else if (this.page == 'flexBudgets') {
+                    $.event.trigger('update-flex-budget-table-totals');
+                }
+
                 $.event.trigger('get-sidebar-totals');
                 this.showPopup = false;
-                //this.budgets[index].name = response.name;
                 $.event.trigger('provide-feedback', ['Budget updated', 'success']);
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {
                 HelpersRepository.handleResponseError(response);
             });
+        },
+
+        /**
+         * todo: allow for if budget type is changed. I will have to remove the budget from the table it was in
+         * @param budget
+         */
+        jsUpdateBudget: function (budget) {
+            var index = _.indexOf(this.budgets, _.findWhere(this.budgets, {id: this.selectedBudget.id}));
+            this.budgets[index].name = budget.name;
+            this.budgets[index].amount = budget.amount;
+            this.budgets[index].calculatedAmount = budget.calculatedAmount;
+            this.budgets[index].cumulative = budget.cumulative;
+            this.budgets[index].cumulativeMonthNumber = budget.cumulativeMonthNumber;
+            this.budgets[index].formattedStartingDate = budget.formattedStartingDate;
+            this.budgets[index].path = budget.path;
+            this.budgets[index].received = budget.received;
+            this.budgets[index].receivedAfterStartingDate = budget.receivedAfterStartingDate;
+            this.budgets[index].remaining = budget.remaining;
+            this.budgets[index].spent = budget.spent;
+            this.budgets[index].spentAfterStartingDate = budget.spentAfterStartingDate;
+            this.budgets[index].spentBeforeStartingDate = budget.spentBeforeStartingDate;
+            this.budgets[index].transactionsCount = budget.transactionsCount;
+            this.budgets[index].type = budget.type;
         },
 
         /**
@@ -23748,7 +23754,8 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
         }
     },
     props: [
-        'budgets'
+        'budgets',
+        'page'
     ],
     ready: function () {
         this.listen();
@@ -24001,6 +24008,16 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         showBudgetPopup: function (budget) {
             $.event.trigger('show-budget-popup', [budget]);
         },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('update-fixed-budget-table-totals', function (event, budget) {
+                that.getFixedBudgetTotals();
+            });
+        },
     },
     props: [
         //data to be received from parent
@@ -24008,6 +24025,7 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
     ready: function () {
         this.getFixedBudgets();
         this.getFixedBudgetTotals();
+        this.listen();
     }
 });
 
@@ -24053,12 +24071,12 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         getFlexBudgetTotals: function () {
             $.event.trigger('show-loading');
             this.$http.get('/api/totals/flexBudget', function (response) {
-                    this.flexBudgetTotals = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
+                this.flexBudgetTotals = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
         },
 
         /**
@@ -24067,6 +24085,16 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
          */
         showBudgetPopup: function (budget) {
             $.event.trigger('show-budget-popup', [budget]);
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('update-flex-budget-table-totals', function (event) {
+                that.getFlexBudgetTotals();
+            });
         },
     },
     props: [

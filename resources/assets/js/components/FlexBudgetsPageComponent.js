@@ -40,12 +40,12 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         getFlexBudgetTotals: function () {
             $.event.trigger('show-loading');
             this.$http.get('/api/totals/flexBudget', function (response) {
-                    this.flexBudgetTotals = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
+                this.flexBudgetTotals = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
         },
 
         /**
@@ -54,6 +54,16 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
          */
         showBudgetPopup: function (budget) {
             $.event.trigger('show-budget-popup', [budget]);
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('update-flex-budget-table-totals', function (event) {
+                that.getFlexBudgetTotals();
+            });
         },
     },
     props: [

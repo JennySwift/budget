@@ -61,25 +61,6 @@ var BudgetsPage = Vue.component('budgets-page', {
             }
         },
 
-        /**
-         *
-         */
-        listen: function () {
-            var that = this;
-            $(document).on('update-budget-table-totals', function (event, budget) {
-                that.updateBudgetTableTotals(budget);
-            });
-        },
-
-        updateBudgetTableTotals: function (budget) {
-            if (budget.type === 'fixed' && page === 'fixedBudgets') {
-                $scope.getFixedBudgetTotals();
-            }
-            else if (budget.type === 'flex' && page === 'flexBudgets') {
-                $scope.getFlexBudgetTotals();
-            }
-        },
-
         insertBudget: function ($keycode) {
             if ($keycode !== 13) {
                 return;
