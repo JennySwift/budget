@@ -63,5 +63,9 @@
     .flex {
         display: flex;
         justify-content: space-between;
+        align-items: flex-end;
+        .form-group {
+            margin-bottom: 0;
+        }
     }
 }

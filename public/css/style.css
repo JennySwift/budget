@@ -167,7 +167,12 @@ caption {
       display: flex;
       -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
-      justify-content: space-between; }
+      justify-content: space-between;
+      -webkit-align-items: flex-end;
+      -ms-flex-align: end;
+      align-items: flex-end; }
+      #tags .create-new-tag .flex .form-group {
+        margin-bottom: 0; }
   #tags table {
     padding: 20px 0 20px 20px; }
     #tags table tr td {
@@ -1508,7 +1513,12 @@ caption {
       display: flex;
       -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
-      justify-content: space-between; }
+      justify-content: space-between;
+      -webkit-align-items: flex-end;
+      -ms-flex-align: end;
+      align-items: flex-end; }
+      #tags .create-new-tag .flex .form-group {
+        margin-bottom: 0; }
   #tags table {
     padding: 20px 0 20px 20px; }
     #tags table tr td {
@@ -1546,7 +1556,12 @@ caption {
       display: flex;
       -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
-      justify-content: space-between; }
+      justify-content: space-between;
+      -webkit-align-items: flex-end;
+      -ms-flex-align: end;
+      align-items: flex-end; }
+      #accounts .create-new-account .flex .form-group {
+        margin-bottom: 0; }
   #accounts tr .btn-danger {
     visibility: hidden; }
   #accounts tr:hover .btn-danger {
