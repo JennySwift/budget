@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Budget;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
@@ -37,6 +38,34 @@ class BudgetsStoreTest extends TestCase
 //        $this->assertArrayHasKey('date', $content['starting_date']);
 
         $this->assertEquals(201, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_cannot_create_a_budget_with_the_same_name_for_the_same_user()
+    {
+        DB::beginTransaction();
+        $this->logInUser();
+
+        $budget = [
+            'type' => 'fixed',
+            'name' => 'groceries',
+            'amount' => 1000,
+            'starting_date' => '2015-01-01'
+        ];
+
+        $response = $this->apiCall('POST', '/api/budgets', $budget);
+        $content = json_decode($response->getContent(), true);
+
+
+        $this->assertArrayHasKey('name', $content);
+
+        $this->assertEquals('The name has already been taken.', $content['name'][0]);
+        $this->assertEquals(422, $response->getStatusCode());
+
+        DB::rollBack();
     }
 
 }

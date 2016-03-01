@@ -1,58 +1,74 @@
 <script id="new-budget-template" type="x-template">
 
-    <div v-show="showNewBudget" class="new-entry">
+    <div v-show="showNewBudget" class="new-budget">
         <h3>Create a new budget</h3>
         <i v-on:click="showNewBudget = false" class="close fa fa-times"></i>
 
-        <div class="flex">
-
-            <div>
-                <label>Enter a name</label>
-
-                <input v-model="newBudget.name"
-                       v-on:keyup="insertBudget($event.keyCode)"
-                       type="text">
-            </div>
-
-            <div>
-                <label>Select a budget type</label>
-
-                <select v-model="newBudget.type" v-on:keyup="insertBudget($event.keyCode)" class="form-control">
-                    <option value="fixed">Fixed</option>
-                    <option value="flex">Flex</option>
-                    <option value="unassigned">Unassigned</option>
-                </select>
-            </div>
-
+        <div class="form-group">
+            <label for="new-budget-name">Name</label>
+            <input
+                    v-model="newBudget.name"
+                    v-on:keyup.13="insertBudget()"
+                    type="text"
+                    id="new-budget-name"
+                    name="new-budget-name"
+                    placeholder="name"
+                    class="form-control"
+            >
         </div>
 
-        <div v-if="newBudget.type !== 'unassigned'" class="flex">
+        <div class="form-group">
+            <label for="new-budget-type">Type</label>
 
-            <div>
-                <label>Enter an an amount</label>
-
-                <input v-model="newBudget.amount"
-                       v-on:keyup="insertBudget($event.keyCode)"
-                       type="text">
-            </div>
-
-            <div>
-                <label>Enter a starting date</label>
-
-                <input
-                        v-model="newBudget.starting_date"
-                        v-on:keyup="insertBudget($event.keyCode)"
-                        type="text">
-
-            </div>
-
+            <select
+                    v-model="newBudget.type"
+                    v-on:keyup.13="insertBudget()"
+                    id="new-budget-type"
+                    class="form-control"
+            >
+                <option
+                        v-for="type in types"
+                        v-bind:value="type"
+                >
+                    @{{ type }}
+                </option>
+            </select>
         </div>
 
-        <button
-                v-on:click="insertBudget(13)"
-                class="btn btn-success">
-            Create Budget
-        </button>
+        <div v-if="newBudget.type !== 'unassigned'" class="form-group">
+            <label for="new-budget-amount">Amount</label>
+            <input
+                v-model="newBudget.amount"
+                v-on:keyup.13="insertBudget()"
+                type="text"
+                id="new-budget-amount"
+                name="new-budget-amount"
+                placeholder="amount"
+                class="form-control"
+            >
+        </div>
+
+        <div v-if="newBudget.type !== 'unassigned'" class="form-group">
+            <label for="new-budget-starting-date">Starting date</label>
+            <input
+                v-model="newBudget.startingDate"
+                v-on:keyup.13="insertBudget()"
+                type="text"
+                id="new-budget-starting-date"
+                name="new-budget-starting-date"
+                placeholder="starting date"
+                class="form-control"
+            >
+        </div>
+
+        <div class="form-group">
+            <button
+                    v-on:click="insertBudget()"
+                    class="btn btn-success"
+            >
+                Create Budget
+            </button>
+        </div>
 
     </div>
 

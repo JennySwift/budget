@@ -15,7 +15,7 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
         toggleNewBudget: function () {
             $.event.trigger('toggle-new-budget');
         },
-        
+
         /**
          *
          */

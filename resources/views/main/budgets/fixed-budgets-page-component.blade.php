@@ -9,7 +9,11 @@
 
     @include('main.budgets.toolbar')
 
-    <new-budget></new-budget>
+    <new-budget
+        :budgets.sync="fixedBudgets"
+        page="fixedBudgets"
+    >
+    </new-budget>
 
     <div id="budget-content">
 

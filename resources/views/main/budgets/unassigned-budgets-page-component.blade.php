@@ -7,7 +7,12 @@
     </edit-budget-popup>
 
     @include('main.budgets.toolbar')
-    <new-budget></new-budget>
+
+    <new-budget
+            :budgets.sync="unassignedBudgets"
+            page="unassignedBudgets"
+    >
+    </new-budget>
 
     <div id="budget-content">
 

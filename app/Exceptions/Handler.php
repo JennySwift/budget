@@ -77,7 +77,7 @@ class Handler extends ExceptionHandler {
 			], Response::HTTP_BAD_REQUEST);
 		}
 
-	    return parent::render($request, $e);
+		return parent::render($request, $e);
 	}
 
 }

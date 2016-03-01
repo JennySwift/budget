@@ -22220,10 +22220,11 @@ var HelpersRepository = {
 
     /**
      *
-     * @param response
+     * @param data
+     * @param status
      */
-    handleResponseError: function (response) {
-        $.event.trigger('response-error', [response]);
+    handleResponseError: function (data, status, response) {
+        $.event.trigger('response-error', [data, status, response]);
         $.event.trigger('hide-loading');
     },
 
@@ -23312,147 +23313,6 @@ var BudgetAutocomplete = Vue.component('budget-autocomplete', {
 
     }
 });
-var BudgetsPage = Vue.component('budgets-page', {
-    template: '#budgets-page-template',
-    data: function () {
-        return {
-            showBasicTotals: true,
-            showBudgetTotals: true,
-            newBudget:  {
-                type: 'fixed'
-            }
-        };
-    },
-    components: {},
-    methods: {
-        initialize: function () {
-            if (typeof fixedBudgets !== 'undefined') {
-                $scope.fixedBudgets = fixedBudgets;
-            }
-
-            if (typeof flexBudgets !== 'undefined') {
-                $scope.flexBudgets = flexBudgets;
-            }
-
-            if (typeof unassignedBudgets !== 'undefined') {
-                $scope.unassignedBudgets = unassignedBudgets;
-            }
-
-            if (page === 'fixedBudgets') {
-                $scope.fixedBudgetTotals = fixedBudgetTotals;
-
-                $scope.getFixedBudgetTotals = function () {
-                    $scope.showLoading();
-                    TotalsFactory.getFixedBudgetTotals()
-                        .then(function (response) {
-                            $scope.fixedBudgetTotals = response.data;
-                            $scope.hideLoading();
-                        })
-                        .catch(function (response) {
-                            $scope.responseError(response);
-                        });
-                };
-            }
-
-            else if (page === 'flexBudgets') {
-                $scope.flexBudgetTotals = flexBudgetTotals;
-
-                $scope.getFlexBudgetTotals = function () {
-                    $scope.showLoading();
-                    TotalsFactory.getFlexBudgetTotals()
-                        .then(function (response) {
-                            $scope.flexBudgetTotals = response.data;
-                            $scope.hideLoading();
-                        })
-                        .catch(function (response) {
-                            $scope.responseError(response);
-                        });
-                };
-            }
-        },
-
-        insertBudget: function ($keycode) {
-            if ($keycode !== 13) {
-                return;
-            }
-
-            var $budget = $scope.newBudget;
-
-            $scope.clearTotalChanges();
-            $scope.showLoading();
-            $budget.sql_starting_date = $filter('formatDate')($budget.starting_date);
-            BudgetsFactory.insert($budget)
-                .then(function (response) {
-                    jsInsertBudget(response);
-                    $scope.$emit('getSideBarTotals');
-                    $rootScope.$broadcast('provideFeedback', 'Budget created');
-                    updateBudgetTableTotals($budget);
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-
-        /**
-         * Add the budget to the JS array
-         */
-        jsInsertBudget: function (response) {
-            var $budget = response.data.data;
-            if ($budget.type === 'fixed' && page === 'fixedBudgets') {
-                $scope.fixedBudgets.push($budget);
-            }
-            else if ($budget.type === 'flex' && page === 'flexBudgets') {
-                $scope.flexBudgets.push($budget);
-            }
-            else if ($budget.type === 'unassigned' && page === 'unassignedBudgets') {
-                $scope.unassignedBudgets.push($budget);
-            }
-        },
-
-
-    },
-    props: [
-        //data to be received from parent
-    ],
-    ready: function () {
-        this.listen();
-        this.initialize();
-    }
-});
-
-//insert: function ($budget) {
-//    var $url = '/api/budgets';
-//
-//    var $data = {
-//        type: $budget.type,
-//        name: $budget.name,
-//        amount: $budget.amount,
-//        starting_date: $budget.sql_starting_date
-//    };
-//
-//    return $http.post($url, $data);
-//},
-//
-//update: function ($budget) {
-//    var $url = $budget.path;
-//
-//    var $data = {
-//        id: $budget.id,
-//        name: $budget.name,
-//        type: $budget.type,
-//        amount: $budget.amount,
-//        starting_date: $budget.sqlStartingDate
-//    };
-//
-//    return $http.put($url, $data);
-//},
-//
-//destroy: function ($budget) {
-//    var $url = $budget.path;
-//
-//    return $http.delete($url);
-//}
 var Checkbox = Vue.component('checkbox', {
     template: '#checkbox-template',
     data: function () {
@@ -23879,18 +23739,19 @@ Vue.component('feedback', {
         };
     },
     methods: {
-        listen: function () {
-            var that = this;
-            $(document).on('provide-feedback', function (event, message, type) {
-                that.provideFeedback(message, type);
-            });
-            $(document).on('response-error', function (event, response) {
-                that.provideFeedback(that.handleResponseError(response), 'error');
-            })
-        },
-        provideFeedback: function (message, type) {
+
+        /**
+         *
+         * @param messages
+         * @param type
+         */
+        provideFeedback: function (messages, type) {
+            if (typeof messages === 'string') {
+                messages = [messages];
+            }
+
             var newMessage = {
-                message: message,
+                messages: messages,
                 type: type
             };
 
@@ -23902,42 +23763,95 @@ Vue.component('feedback', {
                 that.feedbackMessages = _.without(that.feedbackMessages, newMessage);
             }, 3000);
         },
-        handleResponseError: function (response) {
-            if (typeof response !== "undefined") {
-                var $message;
 
-                switch(response.status) {
-                    case 503:
-                        $message = 'Sorry, application under construction. Please try again later.';
-                        break;
-                    case 401:
-                        $message = 'You are not logged in';
-                        break;
-                    case 422:
-                        var html = "<ul>";
+        /**
+         *
+         * @param data
+         * @param status
+         * @returns {*}
+         */
+        handleResponseError: function (data, status, response) {
+            if (typeof data !== "undefined") {
+                var messages = [];
 
-                        for (var i = 0; i < response.length; i++) {
-                            var error = response[i];
-                            for (var j = 0; j < error.length; j++) {
-                                html += '<li>' + error[j] + '</li>';
-                            }
-                        }
-
-                        html += "</ul>";
-                        $message = html;
-                        break;
-                    default:
-                        $message = response.error;
-                        break;
+                if (data.status) {
+                    switch(data.status) {
+                        case 503:
+                            messages.push('Sorry, application under construction. Please try again later.');
+                            break;
+                        case 401:
+                            messages.push('You are not logged in');
+                            break;
+                        case 422:
+                            messages = this.setMessagesFrom422Status(data);
+                            break;
+                        default:
+                            messages.push(data.error);
+                            break;
+                    }
+                }
+                else if (status) {
+                    if (status === 422) {
+                        messages = this.setMessagesFrom422Status(data);
+                    }
                 }
             }
             else {
-                $message = 'There was an error';
+                messages.push('There was an error');
             }
 
-            return $message;
+            return messages;
 
-        }
+        },
+
+        /**
+         *
+         * @returns {string}
+         */
+        setMessagesFrom422Status: function (data) {
+            var messages = [];
+
+            //for (var i = 0; i < data.length; i++) {
+            //    var error = data[i];
+            //    for (var j = 0; j < error.length; j++) {
+            //        html += '<li>' + error[j] + '</li>';
+            //    }
+            //}
+
+            //for (var prop in data) {
+            //    for (var j = 0; j < prop.length; j++) {
+            //        html += '<li>' + prop[j] + '</li>';
+            //    }
+            //}
+
+            $.each(data, function (key, value) {
+                var error = this;
+                for (var j = 0; j < error.length; j++) {
+                    messages.push(error[j]);
+                }
+            });
+
+            //$(data).each(function (error) {
+            //    //var error = this;
+            //    for (var j = 0; j < error.length; j++) {
+            //        html += '<li>' + error[j] + '</li>';
+            //    }
+            //});
+            return messages;
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('provide-feedback', function (event, message, type) {
+                that.provideFeedback(message, type);
+            });
+            $(document).on('response-error', function (event, data, status, response) {
+                that.provideFeedback(that.handleResponseError(data, status, response), 'error');
+            })
+        },
     },
     events: {
         'provide-feedback': function (message, type) {
@@ -24287,11 +24201,50 @@ var NewBudget = Vue.component('new-budget', {
     data: function () {
         return {
             showNewBudget: false,
-            newBudget: {}
+            newBudget: {},
+            types: ['fixed', 'flex', 'unassigned']
         };
     },
     components: {},
     methods: {
+
+        /**
+        *
+        */
+        insertBudget: function () {
+            $.event.trigger('show-loading');
+            var data = {
+                name: this.newBudget.name,
+                type: this.newBudget.type,
+                amount: this.newBudget.amount,
+                starting_date: HelpersRepository.formatDate(this.newBudget.startingDate),
+            };
+
+            $.event.trigger('clear-total-changes');
+
+            this.$http.post('/api/budgets', data, function (response) {
+                this.budgets.push(response.data);
+                $.event.trigger('get-sidebar-totals');
+                this.updateBudgetTableTotals();
+                $.event.trigger('provide-feedback', ['Budget created', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (data, status, response) {
+                HelpersRepository.handleResponseError(data, status, response);
+            });
+        },
+
+        /**
+         *
+         */
+        updateBudgetTableTotals: function () {
+            if (this.page == 'fixedBudgets') {
+                $.event.trigger('update-fixed-budget-table-totals');
+            }
+            else if (this.page == 'flexBudgets') {
+                $.event.trigger('update-flex-budget-table-totals');
+            }
+        },
 
         /**
          *
@@ -24304,7 +24257,8 @@ var NewBudget = Vue.component('new-budget', {
         }
     },
     props: [
-        //data to be received from parent
+        'page',
+        'budgets'
     ],
     ready: function () {
         this.listen();
@@ -25229,7 +25183,7 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
         toggleNewBudget: function () {
             $.event.trigger('toggle-new-budget');
         },
-        
+
         /**
          *
          */

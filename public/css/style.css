@@ -185,16 +185,6 @@ caption {
     #tags table tr:hover .btn-danger {
       visibility: visible; }
 
-.error_message {
-  font-size: 17px;
-  position: fixed;
-  text-align: center;
-  top: 52px;
-  width: 100%;
-  background: #ff6666;
-  padding: 3px 8px;
-  cursor: pointer; }
-
 #feedback {
   position: fixed;
   right: 11px;
@@ -1248,34 +1238,6 @@ caption {
       background: #5cb85c;
       color: white; }
 
-#budget .new-entry {
-  max-width: 433px;
-  margin: auto;
-  border-radius: 4px;
-  box-shadow: 3px 3px 5px #777;
-  margin-bottom: 34px;
-  margin-top: 20px;
-  padding: 10px 15px;
-  border: 1px solid #777;
-  position: relative; }
-  #budget .new-entry .close {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    font-size: 20px;
-    color: #d9534f;
-    cursor: pointer; }
-  #budget .new-entry label {
-    display: block; }
-  #budget .new-entry input, #budget .new-entry select {
-    margin-bottom: 10px; }
-  #budget .new-entry .flex {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex; }
-    #budget .new-entry .flex div:first-child {
-      margin-right: 20px; }
-
 #budget #budget-content {
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1310,6 +1272,34 @@ caption {
   #budget #budget-content .edit {
     width: 20px;
     font-size: 6px; }
+
+.new-budget {
+  max-width: 433px;
+  margin: auto;
+  border-radius: 4px;
+  box-shadow: 3px 3px 5px #777;
+  margin-bottom: 34px;
+  margin-top: 20px;
+  padding: 10px 15px;
+  border: 1px solid #777;
+  position: relative; }
+  .new-budget .close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+    color: #d9534f;
+    cursor: pointer; }
+  .new-budget label {
+    display: block; }
+  .new-budget input, .new-budget select {
+    margin-bottom: 10px; }
+  .new-budget .flex {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
+    .new-budget .flex div:first-child {
+      margin-right: 20px; }
 
 #graphs {
   display: -webkit-flex;
