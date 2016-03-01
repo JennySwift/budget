@@ -4,7 +4,7 @@
 
     <div v-show="show.basicTotals || show.budgetTotals" class="col-sm-2">
         @include('main.shared.totals.remaining-balance')
-        {{--@include('main.shared.totals.other')--}}
+        @include('main.shared.totals.other')
     </div>
 </div>
 

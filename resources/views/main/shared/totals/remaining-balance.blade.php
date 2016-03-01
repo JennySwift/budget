@@ -1,6 +1,8 @@
 <div v-show="show.basicTotals" id="remaining-balance-totals">
 
     <i v-if="totalsLoading" class="fa fa-spinner fa-pulse"></i>
+    
+{{--    <pre>@{{$data.totalChanges | json}}</pre>--}}
 
     <table class="totals">
 

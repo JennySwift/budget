@@ -22412,6 +22412,30 @@ var ShowRepository = {
     }
 
 };
+var TotalsRepository = {
+
+    /**
+     *
+     * @returns {{remainingBalance: number, remainingFixedBudget: number, cumulativeFixedBudget: number, credit: number, debit: number, balance: number, reconciledSum: number, expensesWithoutBudget: number, savings: number, expensesWithFixedBudgetBeforeStartingDate: number, expensesWithFixedBudgetAfterStartingDate: number, expensesWithFlexBudgetBeforeStartingDate: number, expensesWithFlexBudgetAfterStartingDate: number}}
+     */
+    resetTotalChanges: function () {
+        return {
+            remainingBalance: 0,
+            remainingFixedBudget: 0,
+            cumulativeFixedBudget: 0,
+            credit: 0,
+            debit: 0,
+            balance: 0,
+            reconciledSum: 0,
+            expensesWithoutBudget: 0,
+            savings: 0,
+            expensesWithFixedBudgetBeforeStartingDate: 0,
+            expensesWithFixedBudgetAfterStartingDate: 0,
+            expensesWithFlexBudgetBeforeStartingDate: 0,
+            expensesWithFlexBudgetAfterStartingDate: 0,
+        };
+    }
+};
 var TransactionsRepository = {
     totals: {},
 
@@ -24535,12 +24559,73 @@ var Totals = Vue.component('totals', {
     template: '#totals-template',
     data: function () {
         return {
-            totalChanges: {},
+            totalChanges: TotalsRepository.resetTotalChanges(),
             sideBarTotals: [],
             totalsLoading: false
         };
     },
     components: {},
+    watch: {
+        'sideBarTotals': function (newValue, oldValue) {
+            //Just checking it's not on page load with this if check, otherwise values will be NaN
+            if (newValue && (oldValue.remainingBalance || oldValue.remainingBalance === 0)) {
+
+                if (newValue.credit !== oldValue.credit) {
+                    this.totalChanges.credit = this.calculateDifference(newValue.credit, oldValue.credit);
+                }
+
+                if (newValue.debit !== oldValue.debit) {
+                    this.totalChanges.debit = this.calculateDifference(newValue.debit, oldValue.debit);
+                }
+
+                if (newValue.balance !== oldValue.balance) {
+                    this.totalChanges.balance = this.calculateDifference(newValue.balance, oldValue.balance);
+                }
+
+                if (newValue.reconciledSum !== oldValue.reconciledSum) {
+                    this.totalChanges.reconciledSum = this.calculateDifference(newValue.reconciledSum, oldValue.reconciledSum);
+                }
+
+                if (newValue.savings !== oldValue.savings) {
+                    this.totalChanges.savings = this.calculateDifference(newValue.savings, oldValue.savings);
+                }
+
+                if (newValue.expensesWithoutBudget !== oldValue.expensesWithoutBudget) {
+                    this.totalChanges.expensesWithoutBudget = this.calculateDifference(newValue.expensesWithoutBudget, oldValue.expensesWithoutBudget);
+                }
+
+                if (newValue.remainingFixedBudget !== oldValue.remainingFixedBudget) {
+                    this.totalChanges.remainingFixedBudget = this.calculateDifference(newValue.remainingFixedBudget, oldValue.remainingFixedBudget);
+                }
+
+                if (newValue.cumulativeFixedBudget !== oldValue.cumulativeFixedBudget) {
+                    this.totalChanges.cumulativeFixedBudget = this.calculateDifference(newValue.cumulativeFixedBudget, oldValue.cumulativeFixedBudget);
+                }
+
+                if (newValue.expensesWithFixedBudgetBeforeStartingDate !== oldValue.expensesWithFixedBudgetBeforeStartingDate) {
+                    this.totalChanges.expensesWithFixedBudgetBeforeStartingDate = this.calculateDifference(newValue.expensesWithFixedBudgetBeforeStartingDate, oldValue.expensesWithFixedBudgetBeforeStartingDate);
+                }
+
+                if (newValue.expensesWithFixedBudgetAfterStartingDate !== oldValue.expensesWithFixedBudgetAfterStartingDate) {
+                    this.totalChanges.expensesWithFixedBudgetAfterStartingDate = this.calculateDifference(newValue.expensesWithFixedBudgetAfterStartingDate, oldValue.expensesWithFixedBudgetAfterStartingDate);
+                }
+
+                if (newValue.expensesWithFlexBudgetBeforeStartingDate !== oldValue.expensesWithFlexBudgetBeforeStartingDate) {
+                    this.totalChanges.expensesWithFlexBudgetBeforeStartingDate = this.calculateDifference(newValue.expensesWithFlexBudgetBeforeStartingDate, oldValue.expensesWithFlexBudgetBeforeStartingDate);
+                }
+
+                if (newValue.expensesWithFlexBudgetAfterStartingDate !== oldValue.expensesWithFlexBudgetAfterStartingDate) {
+                    this.totalChanges.expensesWithFlexBudgetAfterStartingDate = this.calculateDifference(newValue.expensesWithFlexBudgetAfterStartingDate, oldValue.expensesWithFlexBudgetAfterStartingDate);
+                }
+
+                if (newValue.remainingBalance !== oldValue.remainingBalance) {
+                    this.totalChanges.remainingBalance = this.calculateDifference(newValue.remainingBalance, oldValue.remainingBalance);
+                }
+
+                this.sideBarTotals = newValue;
+            }
+        }
+    },
     filters: {
         /**
          *
@@ -24601,6 +24686,16 @@ var Totals = Vue.component('totals', {
         },
 
         /**
+         * @param newValue
+         * @param oldValue
+         * @returns {string}
+         */
+        calculateDifference: function (newValue, oldValue) {
+            var diff = newValue - oldValue;
+            return diff.toFixed(2);
+        },
+
+        /**
          *
          */
         listen: function () {
@@ -24609,7 +24704,7 @@ var Totals = Vue.component('totals', {
                 that.getSideBarTotals();
             });
             $(document).on('clear-total-changes', function (event) {
-                that.totalChanges = {};
+                that.totalChanges = TotalsRepository.resetTotalChanges();
             });
         }
     },
@@ -24622,79 +24717,12 @@ var Totals = Vue.component('totals', {
     }
 });
 
-//$scope.$watch('sideBarTotals', function (newValue, oldValue, scope) {
-//
-//    if (newValue && oldValue) {
-//
-//        if (newValue.credit !== oldValue.credit) {
-//            $scope.totalChanges.credit = $scope.calculateDifference(newValue.credit, oldValue.credit);
-//        }
-//
-//        if (newValue.debit !== oldValue.debit) {
-//            $scope.totalChanges.debit = $scope.calculateDifference(newValue.debit, oldValue.debit);
-//        }
-//
-//        if (newValue.balance !== oldValue.balance) {
-//            $scope.totalChanges.balance = $scope.calculateDifference(newValue.balance, oldValue.balance);
-//        }
-//
-//        if (newValue.reconciledSum !== oldValue.reconciledSum) {
-//            $scope.totalChanges.reconciledSum = $scope.calculateDifference(newValue.reconciledSum, oldValue.reconciledSum);
-//        }
-//
-//        if (newValue.savings !== oldValue.savings) {
-//            $scope.totalChanges.savings = $scope.calculateDifference(newValue.savings, oldValue.savings);
-//        }
-//
-//        if (newValue.expensesWithoutBudget !== oldValue.expensesWithoutBudget) {
-//            $scope.totalChanges.expensesWithoutBudget = $scope.calculateDifference(newValue.expensesWithoutBudget, oldValue.expensesWithoutBudget);
-//        }
-//
-//        if (newValue.remainingFixedBudget !== oldValue.remainingFixedBudget) {
-//            $scope.totalChanges.remainingFixedBudget = $scope.calculateDifference(newValue.remainingFixedBudget, oldValue.remainingFixedBudget);
-//        }
-//
-//        if (newValue.cumulativeFixedBudget !== oldValue.cumulativeFixedBudget) {
-//            $scope.totalChanges.cumulativeFixedBudget = $scope.calculateDifference(newValue.cumulativeFixedBudget, oldValue.cumulativeFixedBudget);
-//        }
-//
-//        if (newValue.expensesWithFixedBudgetBeforeStartingDate !== oldValue.expensesWithFixedBudgetBeforeStartingDate) {
-//            $scope.totalChanges.expensesWithFixedBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetBeforeStartingDate, oldValue.expensesWithFixedBudgetBeforeStartingDate);
-//        }
-//
-//        if (newValue.expensesWithFixedBudgetAfterStartingDate !== oldValue.expensesWithFixedBudgetAfterStartingDate) {
-//            $scope.totalChanges.expensesWithFixedBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFixedBudgetAfterStartingDate, oldValue.expensesWithFixedBudgetAfterStartingDate);
-//        }
-//
-//        if (newValue.expensesWithFlexBudgetBeforeStartingDate !== oldValue.expensesWithFlexBudgetBeforeStartingDate) {
-//            $scope.totalChanges.expensesWithFlexBudgetBeforeStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetBeforeStartingDate, oldValue.expensesWithFlexBudgetBeforeStartingDate);
-//        }
-//
-//        if (newValue.expensesWithFlexBudgetAfterStartingDate !== oldValue.expensesWithFlexBudgetAfterStartingDate) {
-//            $scope.totalChanges.expensesWithFlexBudgetAfterStartingDate = $scope.calculateDifference(newValue.expensesWithFlexBudgetAfterStartingDate, oldValue.expensesWithFlexBudgetAfterStartingDate);
-//        }
-//
-//        if (newValue.remainingBalance !== oldValue.remainingBalance) {
-//            $scope.totalChanges.remainingBalance = $scope.calculateDifference(newValue.remainingBalance, oldValue.remainingBalance);
-//        }
-//
-//        scope.sideBarTotals = newValue;
-//    }
-//});
 //
 ///**
 // * End watches
 // */
 //
-///**
-// * @param newValue
-// * @param oldValue
-// * @returns {string}
-// */
-//$scope.calculateDifference = function (newValue, oldValue) {
-//    var $diff = newValue - oldValue;
-//    return $diff.toFixed(2);
-//};
+
 //
 //$scope.showSavingsTotalInput = function () {
 //    $scope.show.savings_total.input = true;
