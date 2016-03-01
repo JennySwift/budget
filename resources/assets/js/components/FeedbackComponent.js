@@ -86,12 +86,6 @@ Vue.component('feedback', {
             //    }
             //}
 
-            //for (var prop in data) {
-            //    for (var j = 0; j < prop.length; j++) {
-            //        html += '<li>' + prop[j] + '</li>';
-            //    }
-            //}
-
             $.each(data, function (key, value) {
                 var error = this;
                 for (var j = 0; j < error.length; j++) {
@@ -99,12 +93,6 @@ Vue.component('feedback', {
                 }
             });
 
-            //$(data).each(function (error) {
-            //    //var error = this;
-            //    for (var j = 0; j < error.length; j++) {
-            //        html += '<li>' + error[j] + '</li>';
-            //    }
-            //});
             return messages;
         },
 

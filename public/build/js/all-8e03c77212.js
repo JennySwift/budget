@@ -23818,12 +23818,6 @@ Vue.component('feedback', {
             //    }
             //}
 
-            //for (var prop in data) {
-            //    for (var j = 0; j < prop.length; j++) {
-            //        html += '<li>' + prop[j] + '</li>';
-            //    }
-            //}
-
             $.each(data, function (key, value) {
                 var error = this;
                 for (var j = 0; j < error.length; j++) {
@@ -23831,12 +23825,6 @@ Vue.component('feedback', {
                 }
             });
 
-            //$(data).each(function (error) {
-            //    //var error = this;
-            //    for (var j = 0; j < error.length; j++) {
-            //        html += '<li>' + error[j] + '</li>';
-            //    }
-            //});
             return messages;
         },
 
@@ -24223,7 +24211,7 @@ var NewBudget = Vue.component('new-budget', {
             $.event.trigger('clear-total-changes');
 
             this.$http.post('/api/budgets', data, function (response) {
-                this.budgets.push(response.data);
+                this.jsInsertBudget(response);
                 $.event.trigger('get-sidebar-totals');
                 this.updateBudgetTableTotals();
                 $.event.trigger('provide-feedback', ['Budget created', 'success']);
@@ -24232,6 +24220,21 @@ var NewBudget = Vue.component('new-budget', {
             .error(function (data, status, response) {
                 HelpersRepository.handleResponseError(data, status, response);
             });
+        },
+
+        /**
+         * If the type of the new budget created matches the budget page the user is on, add it to the budgets on that page
+         */
+        jsInsertBudget: function (response) {
+            if (this.page === 'fixedBudgets' && this.newBudget.type === 'fixed') {
+                this.budgets.push(response.data);
+            }
+            else if (this.page === 'flexBudgets' && this.newBudget.type === 'flex') {
+                this.budgets.push(response.data);
+            }
+            else if (this.page === 'unassignedBudgets' && this.newBudget.type === 'unassigned') {
+                this.budgets.push(response.data);
+            }
         },
 
         /**
