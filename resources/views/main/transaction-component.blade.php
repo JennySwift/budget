@@ -86,7 +86,7 @@
         
         </tr>
         
-{{--        @include('main.home.transactions.tags')--}}
+        @include('main.home.transactions.budgets')
 
     </tbody>
 
