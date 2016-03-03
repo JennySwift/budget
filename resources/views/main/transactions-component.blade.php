@@ -5,7 +5,7 @@
     <h3 v-if="transactions.length === 0">No transactions to show.</h3>
 
     <edit-transaction-popup
-        :transaction.sync="transactions"
+        :transactions.sync="transactions"
         :accounts="accounts"
     >
     </edit-transaction-popup>

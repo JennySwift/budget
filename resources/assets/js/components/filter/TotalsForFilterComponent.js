@@ -28,7 +28,7 @@ var TotalsForFilter = Vue.component('totals-for-filter', {
         listen: function () {
             var that = this;
             $(document).on('get-basic-filter-totals', function (event) {
-                that.getBasicFilterTotals();
+                //that.getBasicFilterTotals();
             });
         }
     },

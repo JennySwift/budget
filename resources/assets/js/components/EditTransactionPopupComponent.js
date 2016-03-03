@@ -51,8 +51,9 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
                 $.event.trigger('get-basic-filter-totals');
                 this.$http.delete('/api/transactions/' + this.selectedTransaction.id, function (response) {
                     this.transactions = _.without(this.transactions, this.selectedTransaction);
-                    //var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.transaction.id}));
+                    //var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.selectedTransaction.id}));
                     //this.transactions = _.without(this.transactions, this.transactions[index]);
+                    this.showPopup = false;
                     $.event.trigger('provide-feedback', ['Transaction deleted', 'success']);
                     $.event.trigger('hide-loading');
                 })
@@ -88,7 +89,8 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
         }
     },
     props: [
-        'accounts'
+        'accounts',
+        'transactions'
     ],
     ready: function () {
         this.listen();
