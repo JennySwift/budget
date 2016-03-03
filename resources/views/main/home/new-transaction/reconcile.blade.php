@@ -1,7 +1,7 @@
 <div class="reconcile">
 
     <div class="help-row">
-        <label>Check this box if your transaction is reconciled</label>
+        <label for="new-transaction-reconciled">Check this box if your transaction is reconciled</label>
 
         <div dropdowns-directive class="dropdown-directive">
             <button v-on:click="toggleDropdown()" tabindex="-1" class="btn btn-info btn-xs">
@@ -18,6 +18,8 @@
             </div>
         </div>
     </div>
+
+    <input v-model="newTransaction.reconciled" id="new-transaction-reconciled" type="checkbox">
 
     {{--<checkbox--}}
         {{--model="new_transaction.reconciled"--}}
