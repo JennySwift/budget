@@ -23501,51 +23501,55 @@ var Checkbox = Vue.component('checkbox', {
 //});
 
 var Dropdown = Vue.component('dropdown', {
-    template: '#dropdown-template',
+    //template: '#dropdown-template',
     data: function () {
         return {
-            animateIn: attrs.animateIn || 'flipInX',
-            animateOut: attrs.animateOut || 'flipOutX',
-            content: $(elem).find('.dropdown-content')
+
         };
     },
     components: {},
     methods: {
         toggleDropdown: function () {
-            if ($($content).hasClass($scope.animateIn)) {
-                $scope.hideDropdown();
+            if ($(this.$el).find('.dropdown-content').hasClass(this.animateInClass)) {
+                this.hideDropdown();
             }
             else {
-                $scope.showDropdown();
+                this.showDropdown();
             }
         },
 
         showDropdown: function () {
-            $($content)
+            $(this.$el).find('.dropdown-content')
                 .css('display', 'flex')
-                .removeClass($scope.animateOut)
-                .addClass($scope.animateIn);
+                .removeClass(this.animateOutClass)
+                .addClass(this.animateInClass);
         },
 
         hideDropdown: function () {
-            $($content)
-                .removeClass($scope.animateIn)
-                .addClass($scope.animateOut);
+            $(this.$el).find('.dropdown-content')
+                .removeClass(this.animateInClass)
+                .addClass(this.animateOutClass);
             //.css('display', 'none');
         },
 
+        /**
+         *
+         */
         listen: function () {
+            var that = this;
             //Todo: Why is this click firing twice?
             $("body").on('click', function (event) {
-                if (!elem[0].contains(event.target)) {
-                    $scope.hideDropdown();
+                console.log(that.$el);
+                if (!that.$el.contains(event.target)) {
+                    that.hideDropdown();
                 }
             });
         },
 
     },
     props: [
-        //data to be received from parent
+        'animateInClass',
+        'animateOutClass'
     ],
     ready: function () {
         this.listen();
