@@ -29,6 +29,7 @@
                 :show-budgets="showBudgets"
                 :show-delete="showDelete"
                 v-for="transaction in transactions"
+                :transactions.sync="transactions"
                 :transaction="transaction"
                 v-bind:style="{color: me.preferences.colors[transaction.type]}"
                 :id="transaction.id"

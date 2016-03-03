@@ -34,6 +34,20 @@ var HelpersRepository = {
 
     /**
      *
+     * @param boolean
+     * @returns {*}
+     */
+    convertBooleanToInteger: function (boolean) {
+        if (boolean) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    },
+
+    /**
+     *
      * @param date
      * @returns {*}
      */

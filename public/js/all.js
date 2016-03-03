@@ -22250,6 +22250,20 @@ var HelpersRepository = {
 
     /**
      *
+     * @param boolean
+     * @returns {*}
+     */
+    convertBooleanToInteger: function (boolean) {
+        if (boolean) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    },
+
+    /**
+     *
      * @param date
      * @returns {*}
      */
@@ -22458,7 +22472,7 @@ var TransactionsRepository = {
             description: transaction.description,
             merchant: transaction.merchant,
             total: transaction.total,
-            reconciled: transaction.reconciled,
+            reconciled: HelpersRepository.convertBooleanToInteger(transaction.reconciled),
             allocated: transaction.allocated,
             minutes: transaction.minutes,
             budgets: transaction.budgets,
@@ -25150,13 +25164,13 @@ var Transaction = Vue.component('transaction', {
         updateTransaction: function () {
             $.event.trigger('show-loading');
 
-            var data = TransactionsRepository.setFields(transaction);
+            var data = TransactionsRepository.setFields(this.transaction);
             
             $.event.trigger('clear-total-changes');
 
             this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
                 var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.transaction.id}));
-                this.transactions[index] = response;
+                this.transactions[index].reconciled = response.data.reconciled;
                 $.event.trigger('get-sidebar-totals');
                 $.event.trigger('get-basic-filter-totals');
                 //this.transactions[index].name = response.name;
@@ -25206,6 +25220,7 @@ var Transaction = Vue.component('transaction', {
         }
     },
     props: [
+        'transactions',
         'transaction',
         'showStatus',
         'showDate',

@@ -13,7 +13,7 @@ var TransactionsRepository = {
             description: transaction.description,
             merchant: transaction.merchant,
             total: transaction.total,
-            reconciled: transaction.reconciled,
+            reconciled: HelpersRepository.convertBooleanToInteger(transaction.reconciled),
             allocated: transaction.allocated,
             minutes: transaction.minutes,
             budgets: transaction.budgets,

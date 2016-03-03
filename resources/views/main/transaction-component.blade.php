@@ -67,7 +67,7 @@
         
             <td v-show="showReconciled"
             >
-                <input v-model="transaction.reconciled" v-on:change="updateReconciliation(transaction)" type="checkbox">
+                <input v-model="transaction.reconciled" v-on:change="updateTransaction()" type="checkbox">
             </td>
         
             <tdv-show="showAllocated">
