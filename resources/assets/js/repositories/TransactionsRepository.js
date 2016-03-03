@@ -8,8 +8,8 @@ var TransactionsRepository = {
      */
     setFields: function (transaction) {
         return {
-            date: transaction.date,
-            account_id: transaction.account_id,
+            date: HelpersRepository.formatDate(transaction.userDate),
+            account_id: transaction.account.id,
             description: transaction.description,
             merchant: transaction.merchant,
             total: transaction.total,

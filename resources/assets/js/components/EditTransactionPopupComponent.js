@@ -20,20 +20,21 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
         updateTransaction: function () {
             $.event.trigger('show-loading');
 
-            var data = TransactionsRepository.setFields(transaction);
+            var data = TransactionsRepository.setFields(this.selectedTransaction);
 
             $.event.trigger('clear-total-changes');
 
-            this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
-                    var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.transaction.id}));
-                    this.transactions[index] = response;
-                    $.event.trigger('get-sidebar-totals');
-                    $.event.trigger('get-basic-filter-totals');
-                    $.event.trigger('run-filter');
-                    //this.transactions[index].name = response.name;
-                    //Todo: Remove the transaction from the JS transactions depending on the filter
-                    $.event.trigger('provide-feedback', ['Transaction updated', 'success']);
-                    $.event.trigger('hide-loading');
+            this.$http.put('/api/transactions/' + this.selectedTransaction.id, data, function (response) {
+                var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.selectedTransaction.id}));
+                this.transactions[index] = response;
+                $.event.trigger('get-sidebar-totals');
+                $.event.trigger('get-basic-filter-totals');
+                $.event.trigger('run-filter');
+                this.showPopup = false;
+                //this.transactions[index].name = response.name;
+                //Todo: Remove the transaction from the JS transactions depending on the filter
+                $.event.trigger('provide-feedback', ['Transaction updated', 'success']);
+                $.event.trigger('hide-loading');
                 })
                 .error(function (response) {
                     HelpersRepository.handleResponseError(response);
