@@ -4,8 +4,8 @@ var HomePage = Vue.component('home-page', {
         return {
             page: 'home',
             budgets: {},
+            transactions: [],
             colors: {},
-            transactions: {},
             tab: 'transactions',
             show: ShowRepository.defaults,
             env: ''
@@ -13,6 +13,20 @@ var HomePage = Vue.component('home-page', {
     },
     components: {},
     methods: {
+
+        /**
+         *
+         */
+        getTransactions: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/transactions', function (response) {
+                    this.transactions = response;
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+        },
 
         transactionsTab: function () {
             this.tab = 'transactions';
@@ -51,5 +65,6 @@ var HomePage = Vue.component('home-page', {
     ],
     ready: function () {
         this.setTab();
+        this.getTransactions();
     }
 });

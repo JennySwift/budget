@@ -6,6 +6,7 @@
         <new-transaction
             :show="show"
             :tab="tab"
+            :transactions.sync="transactions"
         >
         </new-transaction>
 
@@ -20,6 +21,7 @@
                 {{--@include('templates.home.popups.index')--}}
                 <transactions
                         :show="show"
+                        :transactions.sync="transactions"
                 >
                 </transactions>
             </div>

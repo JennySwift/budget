@@ -22302,16 +22302,22 @@ var NewTransactionRepository = {
         budgets: []
     },
 
-    getDefaults: function ($env, $accounts) {
+    /**
+     *
+     * @param env
+     * @param accounts
+     * @returns {NewTransactionRepository.defaults|{type, account_id, date, merchant, description, reconciled, multiple_budgets, budgets}}
+     */
+    getDefaults: function (env, accounts) {
         //Fill in the new transaction fields if development environment
-        if ($env === 'local') {
-            defaults.total = 10;
-            defaults.type = 'expense';
-            defaults.date.entered = 'today';
-            defaults.merchant = 'some merchant';
-            defaults.description = 'some description';
-            defaults.duration = '';
-            defaults.budgets = [
+        if (env === 'local') {
+            this.defaults.total = 10;
+            this.defaults.type = 'expense';
+            this.defaults.date.entered = 'today';
+            this.defaults.merchant = 'some merchant';
+            this.defaults.description = 'some description';
+            this.defaults.duration = '';
+            this.defaults.budgets = [
                 {
                     id: '2',
                     name: 'business',
@@ -22325,26 +22331,33 @@ var NewTransactionRepository = {
             ];
         }
     
-        if ($accounts.length > 0) {
-            this.defaults.account_id = $accounts[0].id;
-            this.defaults.from_account_id = $accounts[0].id;
-            this.defaults.to_account_id = $accounts[0].id;
+        if (accounts.length > 0) {
+            this.defaults.account_id = accounts[0].id;
+            this.defaults.from_account_id = accounts[0].id;
+            this.defaults.to_account_id = accounts[0].id;
         }
     
         return this.defaults;
     },
 
-    clearFields: function (env, me, $newTransaction) {
+    /**
+     *
+     * @param env
+     * @param me
+     * @param newTransaction
+     * @returns {*}
+     */
+    clearFields: function (env, me, newTransaction) {
         if (me.preferences.clearFields) {
-            $newTransaction.budgets = [];
-            $newTransaction.total = '';
-            $newTransaction.description = '';
-            $newTransaction.merchant = '';
-            $newTransaction.reconciled = false;
-            $newTransaction.multiple_budgets = false;
+            newTransaction.budgets = [];
+            newTransaction.total = '';
+            newTransaction.description = '';
+            newTransaction.merchant = '';
+            newTransaction.reconciled = false;
+            newTransaction.multipleBudgets = false;
         }
 
-        return $newTransaction;
+        return newTransaction;
     },
 
     anyErrors: function ($newTransaction) {
@@ -22466,7 +22479,7 @@ var TransactionsRepository = {
      * @returns {{date: (*|newTransaction.date|{}|NewTransactionRepository.defaults.date|{entered}|string), account_id: (*|number), description: *, merchant: *, total: *, reconciled: (*|number|string|boolean), allocated: *, minutes: *, budgets: *}}
      */
     setFields: function (transaction) {
-        return {
+        var data = {
             date: HelpersRepository.formatDate(transaction.userDate),
             account_id: transaction.account.id,
             description: transaction.description,
@@ -22474,39 +22487,17 @@ var TransactionsRepository = {
             total: transaction.total,
             reconciled: HelpersRepository.convertBooleanToInteger(transaction.reconciled),
             allocated: transaction.allocated,
-            minutes: transaction.minutes,
+            //Convert duration from HH:MM format to minutes
+            minutes: moment.duration(transaction.duration).asMinutes(),
             budgets: transaction.budgets,
         }
-    },
 
-    insertIncomeOrExpenseTransaction: function ($newTransaction) {
-        var $url = '/api/transactions';
-
-        if ($newTransaction.type === 'expense' && $newTransaction.total > 0) {
+        if (transaction.type === 'expense' && transaction.total > 0) {
             //transaction is an expense without the negative sign
-            $newTransaction.total*= -1;
+            data.total*= -1;
         }
 
-        //Convert duration from HH:MM format to minutes
-        $newTransaction.minutes = moment.duration($newTransaction.duration).asMinutes();
-
-        return $http.post($url, $newTransaction);
-    },
-
-    insertTransferTransaction: function ($newTransaction, $direction) {
-        var $url = '/api/transactions';
-        var $data = $newTransaction;
-
-        $data.direction = $direction;
-
-        if ($direction === 'from') {
-            $data.account_id = $data.from_account_id;
-        }
-        else if ($direction === 'to') {
-            $data.account_id = $data.to_account_id;
-        }
-
-        return $http.post($url, $data);
+        return data;
     },
 
     updateMassTags: function ($tag_array, $url, $tag_location) {
@@ -22566,24 +22557,6 @@ var TransactionsRepository = {
         $transaction.minutes = moment.duration($transaction.duration).asMinutes();
 
         return $http.put($url, $transaction);
-    },
-
-    updateReconciliation: function ($transaction) {
-        var $url = $transaction.path;
-        //So the reconciled value doesn't change the checkbox for the front-end
-        var $data = {reconciled: 0};
-
-        if ($transaction.reconciled) {
-            $data.reconciled = 1;
-        }
-
-        return $http.put($url, $data);
-    },
-
-    deleteTransaction: function ($transaction) {
-        var $url = $transaction.path;
-
-        return $http.delete($url);
     },
 
     massDelete: function () {
@@ -24322,8 +24295,8 @@ var HomePage = Vue.component('home-page', {
         return {
             page: 'home',
             budgets: {},
+            transactions: [],
             colors: {},
-            transactions: {},
             tab: 'transactions',
             show: ShowRepository.defaults,
             env: ''
@@ -24331,6 +24304,20 @@ var HomePage = Vue.component('home-page', {
     },
     components: {},
     methods: {
+
+        /**
+         *
+         */
+        getTransactions: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/transactions', function (response) {
+                    this.transactions = response;
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+        },
 
         transactionsTab: function () {
             this.tab = 'transactions';
@@ -24369,6 +24356,7 @@ var HomePage = Vue.component('home-page', {
     ],
     ready: function () {
         this.setTab();
+        this.getTransactions();
     }
 });
 Vue.component('loading', {
@@ -24563,15 +24551,17 @@ var NewTransaction = Vue.component('new-transaction', {
     template: '#new-transaction-template',
     data: function () {
         return {
+            me: me,
             dropdown: {},
             showNewTransaction: false,
             types: ["income", "expense", "transfer"],
             accounts: [],
             favouriteTransactions: [],
             newTransaction: {
-                date: {}
+                date: {},
+                type: 'income'
             },
-            env: '',
+            env: env,
             colors: {
                 newTransaction: {}
             },
@@ -24612,7 +24602,7 @@ var NewTransaction = Vue.component('new-transaction', {
          *
          */
         clearNewTransactionFields: function () {
-            this.new_transaction = NewTransactionRepository.clearFields(env, me, this.new_transaction);
+            this.newTransaction = NewTransactionRepository.clearFields(env, me, this.newTransaction);
         },
 
         /**
@@ -24621,12 +24611,12 @@ var NewTransaction = Vue.component('new-transaction', {
          * I think it is for the favourite transactions feature.
          */
         fillFields: function () {
-            this.new_transaction.description = this.selectedFavouriteTransaction.description;
-            this.new_transaction.merchant = this.selectedFavouriteTransaction.merchant;
-            this.new_transaction.total = this.selectedFavouriteTransaction.total;
-            this.new_transaction.type = this.selectedFavouriteTransaction.type;
-            this.new_transaction.account_id = this.selectedFavouriteTransaction.account.id;
-            this.new_transaction.budgets = this.selectedFavouriteTransaction.budgets;
+            this.newTransaction.description = this.selectedFavouriteTransaction.description;
+            this.newTransaction.merchant = this.selectedFavouriteTransaction.merchant;
+            this.newTransaction.total = this.selectedFavouriteTransaction.total;
+            this.newTransaction.type = this.selectedFavouriteTransaction.type;
+            this.newTransaction.account_id = this.selectedFavouriteTransaction.account.id;
+            this.newTransaction.budgets = this.selectedFavouriteTransaction.budgets;
         },
 
         /**
@@ -24634,11 +24624,11 @@ var NewTransaction = Vue.component('new-transaction', {
          * @returns {boolean}
          */
         anyErrors: function () {
-            var $errorMessages = NewTransactionRepository.anyErrors(this.newTransaction);
+            var errorMessages = NewTransactionRepository.anyErrors(this.newTransaction);
 
-            if ($errorMessages) {
-                for (var i = 0; i < $errorMessages.length; i++) {
-                    $.event.trigger('provide-feedback', [$errorMessages[i], 'error']);
+            if (errorMessages) {
+                for (var i = 0; i < errorMessages.length; i++) {
+                    $.event.trigger('provide-feedback', [errorMessages[i], 'error']);
                 }
 
                 return true;
@@ -24649,70 +24639,96 @@ var NewTransaction = Vue.component('new-transaction', {
 
         /**
          * Insert a new transaction
-         * @param $keycode
          */
-        insertTransaction: function ($keycode) {
-            if ($keycode !== 13 || this.anyErrors()) {
-                return;
-            }
+        insertTransaction: function () {
+            if (!this.anyErrors()) {
+                this.clearTotalChanges();
 
-            this.clearTotalChanges();
-
-            if (this.new_transaction.type === 'transfer') {
-                insertTransferTransactions();
-            }
-            else {
-                insertIncomeOrExpenseTransaction();
+                if (this.newTransaction.type === 'transfer') {
+                    this.insertTransferTransactions();
+                }
+                else {
+                    this.insertIncomeOrExpenseTransaction();
+                }
             }
         },
 
+        /**
+        *
+        */
         insertIncomeOrExpenseTransaction: function () {
-            this.showLoading();
-            TransactionsFactory.insertIncomeOrExpenseTransaction(this.new_transaction)
-                .then(function (response) {
-                    var $transaction = response.data.data;
-                    $rootScope.$broadcast('provideFeedback', 'Transaction added');
-                    clearNewTransactionFields();
-                    this.new_transaction.dropdown = false;
-                    this.$emit('getSideBarTotals');
+            $.event.trigger('show-loading');
 
-                    if ($transaction.multipleBudgets) {
-                        this.$emit('handleAllocationForNewTransaction', $transaction);
-                        $rootScope.$emit('getFilterBasicTotals');
-                    }
-                    else {
-                        $rootScope.$emit('runFilter');
-                    }
+            var data = TransactionsRepository.setFields(this.newTransaction);
 
-                    this.hideLoading();
-                })
-                .catch(function (response) {
-                    this.responseError(response);
-                });
+            this.$http.post('/api/transactions', data, function (response) {
+                this.transactions.push(response);
+                $.event.trigger('get-sidebar-totals');
+                this.clearNewTransactionFields();
+                //this.newTransaction.dropdown = false;
+
+                if (response.multipleBudgets) {
+                    $.event.trigger('transaction-created-with-multiple-budgets', [response]);
+                    $.event.trigger('get-basic-filter-totals');
+                }
+                else {
+                    $.event.trigger('run-filter');
+                }
+
+                $.event.trigger('provide-feedback', ['Transaction created', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
         },
 
+        /**
+         *
+         */
         insertTransferTransactions: function () {
-            insertTransferTransaction('from');
+            this.insertTransferTransaction('from');
             setTimeout(function(){
-                insertTransferTransaction('to');
+                this.insertTransferTransaction('to');
             }, 100);
         },
 
-        insertTransferTransaction: function ($direction) {
-            this.showLoading();
-            TransactionsFactory.insertTransferTransaction(this.new_transaction, $direction)
-                .then(function (response) {
-                    $rootScope.$broadcast('provideFeedback', 'Transfer added');
-                    clearNewTransactionFields();
-                    this.$emit('getSideBarTotals');
-                    $rootScope.$emit('runFilter');
-                    this.new_transaction.dropdown = false;
+        /**
+         *
+         */
+        insertTransferTransaction: function (direction) {
+            $.event.trigger('show-loading');
 
-                    //Todo: get filter stuff
-                    this.hideLoading();
+            var data = TransactionsRepository.setFields(this.newTransaction);
+
+            data.direction = direction;
+
+            if (direction === 'from') {
+                data.account_id = data.from_account_id;
+            }
+            else if ($direction === 'to') {
+                data.account_id = data.to_account_id;
+            }
+
+            this.$http.post('/api/transactions', data, function (response) {
+                    this.transactions.push(response);
+                    $.event.trigger('get-sidebar-totals');
+                    this.clearNewTransactionFields();
+                    //this.newTransaction.dropdown = false;
+
+                    if (response.multipleBudgets) {
+                        $.event.trigger('transaction-created-with-multiple-budgets', [response]);
+                        $.event.trigger('get-basic-filter-totals');
+                    }
+                    else {
+                        $.event.trigger('run-filter');
+                    }
+
+                    $.event.trigger('provide-feedback', ['Transfer created', 'success']);
+                    $.event.trigger('hide-loading');
                 })
-                .catch(function (response) {
-                    this.responseError(response);
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
                 });
         },
 
@@ -24728,7 +24744,8 @@ var NewTransaction = Vue.component('new-transaction', {
 
     },
     props: [
-        'tab'
+        'tab',
+        'transactions'
     ],
     ready: function () {
         this.newTransaction = NewTransactionRepository.getDefaults(this.env, this.accounts);
@@ -25279,7 +25296,6 @@ var Transactions = Vue.component('transactions', {
         return {
             me: me,
             accounts: [],
-            transactions: [],
             showStatus: false,
             showDate: true,
             showDescription: true,
@@ -25296,20 +25312,6 @@ var Transactions = Vue.component('transactions', {
     },
     components: {},
     methods: {
-
-        /**
-        *
-        */
-        getTransactions: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/transactions', function (response) {
-                this.transactions = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
 
         /**
         *
@@ -25334,10 +25336,9 @@ var Transactions = Vue.component('transactions', {
         }
     },
     props: [
-        //data to be received from parent
+        'transactions'
     ],
     ready: function () {
-        this.getTransactions();
         this.getAccounts();
     }
 });
@@ -25356,7 +25357,7 @@ var Transactions = Vue.component('transactions', {
 //
 //
 //
-//$rootScope.$on('handleAllocationForNewTransaction', function (event, $transaction) {
+//$rootScope.$on('transaction-created-with-multiple-budgets', function (event, $transaction) {
 //    FilterFactory.getTransactions(FilterFactory.filter)
 //        .then(function (response) {
 //            $scope.hideLoading();

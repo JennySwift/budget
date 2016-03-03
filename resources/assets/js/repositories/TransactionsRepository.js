@@ -7,7 +7,7 @@ var TransactionsRepository = {
      * @returns {{date: (*|newTransaction.date|{}|NewTransactionRepository.defaults.date|{entered}|string), account_id: (*|number), description: *, merchant: *, total: *, reconciled: (*|number|string|boolean), allocated: *, minutes: *, budgets: *}}
      */
     setFields: function (transaction) {
-        return {
+        var data = {
             date: HelpersRepository.formatDate(transaction.userDate),
             account_id: transaction.account.id,
             description: transaction.description,
@@ -15,39 +15,17 @@ var TransactionsRepository = {
             total: transaction.total,
             reconciled: HelpersRepository.convertBooleanToInteger(transaction.reconciled),
             allocated: transaction.allocated,
-            minutes: transaction.minutes,
+            //Convert duration from HH:MM format to minutes
+            minutes: moment.duration(transaction.duration).asMinutes(),
             budgets: transaction.budgets,
         }
-    },
 
-    insertIncomeOrExpenseTransaction: function ($newTransaction) {
-        var $url = '/api/transactions';
-
-        if ($newTransaction.type === 'expense' && $newTransaction.total > 0) {
+        if (transaction.type === 'expense' && transaction.total > 0) {
             //transaction is an expense without the negative sign
-            $newTransaction.total*= -1;
+            data.total*= -1;
         }
 
-        //Convert duration from HH:MM format to minutes
-        $newTransaction.minutes = moment.duration($newTransaction.duration).asMinutes();
-
-        return $http.post($url, $newTransaction);
-    },
-
-    insertTransferTransaction: function ($newTransaction, $direction) {
-        var $url = '/api/transactions';
-        var $data = $newTransaction;
-
-        $data.direction = $direction;
-
-        if ($direction === 'from') {
-            $data.account_id = $data.from_account_id;
-        }
-        else if ($direction === 'to') {
-            $data.account_id = $data.to_account_id;
-        }
-
-        return $http.post($url, $data);
+        return data;
     },
 
     updateMassTags: function ($tag_array, $url, $tag_location) {
@@ -107,24 +85,6 @@ var TransactionsRepository = {
         $transaction.minutes = moment.duration($transaction.duration).asMinutes();
 
         return $http.put($url, $transaction);
-    },
-
-    updateReconciliation: function ($transaction) {
-        var $url = $transaction.path;
-        //So the reconciled value doesn't change the checkbox for the front-end
-        var $data = {reconciled: 0};
-
-        if ($transaction.reconciled) {
-            $data.reconciled = 1;
-        }
-
-        return $http.put($url, $data);
-    },
-
-    deleteTransaction: function ($transaction) {
-        var $url = $transaction.path;
-
-        return $http.delete($url);
     },
 
     massDelete: function () {

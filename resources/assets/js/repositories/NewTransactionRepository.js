@@ -13,16 +13,22 @@ var NewTransactionRepository = {
         budgets: []
     },
 
-    getDefaults: function ($env, $accounts) {
+    /**
+     *
+     * @param env
+     * @param accounts
+     * @returns {NewTransactionRepository.defaults|{type, account_id, date, merchant, description, reconciled, multiple_budgets, budgets}}
+     */
+    getDefaults: function (env, accounts) {
         //Fill in the new transaction fields if development environment
-        if ($env === 'local') {
-            defaults.total = 10;
-            defaults.type = 'expense';
-            defaults.date.entered = 'today';
-            defaults.merchant = 'some merchant';
-            defaults.description = 'some description';
-            defaults.duration = '';
-            defaults.budgets = [
+        if (env === 'local') {
+            this.defaults.total = 10;
+            this.defaults.type = 'expense';
+            this.defaults.date.entered = 'today';
+            this.defaults.merchant = 'some merchant';
+            this.defaults.description = 'some description';
+            this.defaults.duration = '';
+            this.defaults.budgets = [
                 {
                     id: '2',
                     name: 'business',
@@ -36,26 +42,33 @@ var NewTransactionRepository = {
             ];
         }
     
-        if ($accounts.length > 0) {
-            this.defaults.account_id = $accounts[0].id;
-            this.defaults.from_account_id = $accounts[0].id;
-            this.defaults.to_account_id = $accounts[0].id;
+        if (accounts.length > 0) {
+            this.defaults.account_id = accounts[0].id;
+            this.defaults.from_account_id = accounts[0].id;
+            this.defaults.to_account_id = accounts[0].id;
         }
     
         return this.defaults;
     },
 
-    clearFields: function (env, me, $newTransaction) {
+    /**
+     *
+     * @param env
+     * @param me
+     * @param newTransaction
+     * @returns {*}
+     */
+    clearFields: function (env, me, newTransaction) {
         if (me.preferences.clearFields) {
-            $newTransaction.budgets = [];
-            $newTransaction.total = '';
-            $newTransaction.description = '';
-            $newTransaction.merchant = '';
-            $newTransaction.reconciled = false;
-            $newTransaction.multiple_budgets = false;
+            newTransaction.budgets = [];
+            newTransaction.total = '';
+            newTransaction.description = '';
+            newTransaction.merchant = '';
+            newTransaction.reconciled = false;
+            newTransaction.multipleBudgets = false;
         }
 
-        return $newTransaction;
+        return newTransaction;
     },
 
     anyErrors: function ($newTransaction) {

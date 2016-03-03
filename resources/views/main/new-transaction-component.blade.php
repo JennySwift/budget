@@ -6,9 +6,10 @@
     >
         <div
                 v-show="showNewTransaction"
-                v-bind:style="{color: colors[newTransaction.type]}"
+                v-bind:style="{color: me.preferences.colors[newTransaction.type]}"
                 id="new-transaction"
         >
+
             <div class="form-group">
                 <label for="new-transaction-favourites">Favourites</label>
 

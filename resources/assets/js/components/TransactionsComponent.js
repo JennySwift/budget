@@ -4,7 +4,6 @@ var Transactions = Vue.component('transactions', {
         return {
             me: me,
             accounts: [],
-            transactions: [],
             showStatus: false,
             showDate: true,
             showDescription: true,
@@ -21,20 +20,6 @@ var Transactions = Vue.component('transactions', {
     },
     components: {},
     methods: {
-
-        /**
-        *
-        */
-        getTransactions: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/transactions', function (response) {
-                this.transactions = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
 
         /**
         *
@@ -59,10 +44,9 @@ var Transactions = Vue.component('transactions', {
         }
     },
     props: [
-        //data to be received from parent
+        'transactions'
     ],
     ready: function () {
-        this.getTransactions();
         this.getAccounts();
     }
 });
@@ -81,7 +65,7 @@ var Transactions = Vue.component('transactions', {
 //
 //
 //
-//$rootScope.$on('handleAllocationForNewTransaction', function (event, $transaction) {
+//$rootScope.$on('transaction-created-with-multiple-budgets', function (event, $transaction) {
 //    FilterFactory.getTransactions(FilterFactory.filter)
 //        .then(function (response) {
 //            $scope.hideLoading();
