@@ -133,7 +133,7 @@
 			    >
 			</div>
 
-			<div class="form-group">
+			<div class="form-group reconciled">
 				<label for="selected-transaction-reconciled">Reconciled</label>
 				<input v-model="selectedTransaction.reconciled" type="checkbox">
 			</div>

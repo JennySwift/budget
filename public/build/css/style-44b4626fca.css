@@ -1009,6 +1009,17 @@ caption {
 .select, #description_autocomplete tbody.select {
   background: #6D84B4; }
 
+#edit-transaction .reconciled {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  #edit-transaction .reconciled label {
+    margin-bottom: 0;
+    margin-right: 2px; }
+
 #new-transaction-container {
   display: -webkit-flex;
   display: -ms-flexbox;
