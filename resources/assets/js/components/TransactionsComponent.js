@@ -37,6 +37,20 @@ var Transactions = Vue.component('transactions', {
         },
 
         /**
+        *
+        */
+        getAccounts: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/accounts', function (response) {
+                this.accounts = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
          *
          * @param transaction
          */
@@ -49,6 +63,7 @@ var Transactions = Vue.component('transactions', {
     ],
     ready: function () {
         this.getTransactions();
+        this.getAccounts();
     }
 });
 

@@ -3,7 +3,12 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
     data: function () {
         return {
             showPopup: false,
-            selectedTransaction: {}
+            selectedTransaction: {},
+            types: [
+                {value: 'income', name: 'credit'},
+                {value: 'expense', name: 'debit'},
+                {value: 'transfer', name: 'transfer'},
+            ]
         };
     },
     components: {},
@@ -83,7 +88,7 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
         }
     },
     props: [
-        //data to be received from parent
+        'accounts'
     ],
     ready: function () {
         this.listen();

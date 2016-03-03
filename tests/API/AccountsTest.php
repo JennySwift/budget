@@ -31,6 +31,25 @@ class AccountsTest extends TestCase {
 	}
 
     /**
+     * @todo: check the accounts belong to the user
+     * @test
+     * @return void
+     */
+    public function it_gets_the_accounts()
+    {
+        $this->logInUser();
+        $response = $this->call('GET', '/api/accounts');
+        $content = json_decode($response->getContent(), true);
+//      dd($content);
+
+        $this->checkAccountKeysExist($content[0]);
+
+        $this->assertEquals('bank account', $content[0]['name']);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
      * @test
      * @return void
      */

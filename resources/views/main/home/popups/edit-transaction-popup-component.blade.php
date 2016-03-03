@@ -66,9 +66,9 @@
 			    >
 			        <option
 			            v-for="type in types"
-			            v-bind:value="type"
+			            v-bind:value="type.value"
 			        >
-			            @{{ type }}
+			            @{{ type.name }}
 			        </option>
 			    </select>
 			</div>
@@ -90,49 +90,53 @@
 			    </select>
 			</div>
 
-			<div v-show="selectedTransaction.type === 'transfer'" class="col-xs-12">
-				<select
-						v-model="selectedTransaction.fromAccount"
-						id="selected-transaction-from-account"
-						class="form-control"
-				>
-					<option
-							v-for="account in accounts"
-							v-bind:value="account"
-					>
-						@{{ account.name }}
-					</option>
-				</select>
-			</div>
-
-			<div v-show="selectedTransaction.type === 'transfer'" class="col-xs-12">
-				<select
-						v-model="selectedTransaction.toAccount"
-						id="selected-transaction-to-account"
-						class="form-control"
-				>
-					<option
-							v-for="account in accounts"
-							v-bind:value="account"
-					>
-						@{{ account.name }}
-					</option>
-				</select>
-			</div>
-
-			{{--<label>Duration</label>--}}
-			{{--<div>@{{ selectedTransaction.minutes }}</div>--}}
-			{{--<input v-model="selectedTransaction.duration"--}}
-				   {{--placeholder="duration"--}}
-				   {{--type='text'>--}}
-
-			{{--<div>--}}
-				{{--<label>Reconciled</label>--}}
-
-				{{--<checkbox--}}
-						{{--model="selectedTransaction.reconciled">--}}
-				{{--</checkbox>--}}
+			{{--<div v-show="selectedTransaction.type === 'transfer'" class="col-xs-12">--}}
+				{{--<select--}}
+						{{--v-model="selectedTransaction.from_account"--}}
+						{{--id="selected-transaction-from-account"--}}
+						{{--class="form-control"--}}
+				{{-->--}}
+					{{--<option--}}
+							{{--v-for="account in accounts"--}}
+							{{--v-bind:value="account"--}}
+					{{-->--}}
+						{{--@{{ account.name }}--}}
+					{{--</option>--}}
+				{{--</select>--}}
 			{{--</div>--}}
+
+			{{--<div v-show="selectedTransaction.type === 'transfer'" class="col-xs-12">--}}
+				{{--<select--}}
+						{{--v-model="selectedTransaction.to_account"--}}
+						{{--id="selected-transaction-to-account"--}}
+						{{--class="form-control"--}}
+				{{-->--}}
+					{{--<option--}}
+							{{--v-for="account in accounts"--}}
+							{{--v-bind:value="account"--}}
+					{{-->--}}
+						{{--@{{ account.name }}--}}
+					{{--</option>--}}
+				{{--</select>--}}
+			{{--</div>--}}
+
+			<div class="form-group">
+			    <label for="selected-transaction-duration">Duration</label>
+{{--				<div>@{{ selectedTransaction.minutes }}</div>--}}
+			    <input
+			        v-model="selectedTransaction.duration"
+			        type="text"
+			        id="selected-transaction-duration"
+			        name="selected-transaction-duration"
+			        placeholder="duration"
+			        class="form-control"
+			    >
+			</div>
+
+			<div class="form-group">
+				<label for="selected-transaction-reconciled">Reconciled</label>
+				<input v-model="selectedTransaction.reconciled" type="checkbox">
+			</div>
 
 			{{--<tag-autocomplete-directive--}}
 					{{--v-if="selectedTransaction.type !== 'transfer'"--}}

@@ -18,7 +18,7 @@ class AccountTransformer extends TransformerAbstract
     {
         $array = [
             'id' => $account->id,
-            'user_id' => $account->user->id,
+//            'user_id' => $account->user->id,
             'name' => $account->name,
         ];
 
