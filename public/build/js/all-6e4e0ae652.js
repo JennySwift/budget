@@ -22292,13 +22292,11 @@ var NewTransactionRepository = {
     defaults: {
         type: 'income',
         account_id: 1,
-        date: {
-            entered: 'today'
-        },
+        userDate: 'today',
         merchant: '',
         description: '',
         reconciled: false,
-        multiple_budgets: false,
+        multipleBudgets: false,
         budgets: []
     },
 
@@ -22313,7 +22311,7 @@ var NewTransactionRepository = {
         if (env === 'local') {
             this.defaults.total = 10;
             this.defaults.type = 'expense';
-            this.defaults.date.entered = 'today';
+            this.defaults.userDate = 'today';
             this.defaults.merchant = 'some merchant';
             this.defaults.description = 'some description';
             this.defaults.duration = '';
@@ -22360,25 +22358,31 @@ var NewTransactionRepository = {
         return newTransaction;
     },
 
-    anyErrors: function ($newTransaction) {
-        var $messages = [];
 
-        if (!Date.parse($newTransaction.date.entered)) {
-            $messages.push('Date is not valid');
+    /**
+     *
+     * @param newTransaction
+     * @returns {*}
+     */
+    anyErrors: function (newTransaction) {
+        var messages = [];
+
+        //if (!Date.parse(newTransaction.userDate)) {
+        //    messages.push('Date is not valid');
+        //}
+        //else {
+        //    newTransaction.date = Date.parse(newTransaction.userDate).toString('yyyy-MM-dd');
+        //}
+
+        if (newTransaction.total === "") {
+            messages.push('Total is required');
         }
-        else {
-            $newTransaction.date.sql = Date.parse($newTransaction.date.entered).toString('yyyy-MM-dd');
+        else if (!$.isNumeric(newTransaction.total)) {
+            messages.push('Total is not a valid number');
         }
 
-        if ($newTransaction.total === "") {
-            $messages.push('Total is required');
-        }
-        else if (!$.isNumeric($newTransaction.total)) {
-            $messages.push('Total is not a valid number');
-        }
-
-        if ($messages.length > 0) {
-            return $messages;
+        if (messages.length > 0) {
+            return messages;
         }
 
         return false;
@@ -22482,6 +22486,7 @@ var TransactionsRepository = {
         var data = {
             date: HelpersRepository.formatDate(transaction.userDate),
             account_id: transaction.account.id,
+            type: transaction.type,
             description: transaction.description,
             merchant: transaction.merchant,
             total: transaction.total,
@@ -24559,7 +24564,8 @@ var NewTransaction = Vue.component('new-transaction', {
             favouriteTransactions: [],
             newTransaction: {
                 date: {},
-                type: 'income'
+                type: 'income',
+                account: {}
             },
             env: env,
             colors: {
@@ -24577,6 +24583,7 @@ var NewTransaction = Vue.component('new-transaction', {
             $.event.trigger('show-loading');
             this.$http.get('/api/accounts', function (response) {
                 this.accounts = response;
+                this.newTransaction.account = this.accounts[0];
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {
@@ -24642,7 +24649,7 @@ var NewTransaction = Vue.component('new-transaction', {
          */
         insertTransaction: function () {
             if (!this.anyErrors()) {
-                this.clearTotalChanges();
+                $.event.trigger('clear-total-changes');
 
                 if (this.newTransaction.type === 'transfer') {
                     this.insertTransferTransactions();
@@ -24662,13 +24669,13 @@ var NewTransaction = Vue.component('new-transaction', {
             var data = TransactionsRepository.setFields(this.newTransaction);
 
             this.$http.post('/api/transactions', data, function (response) {
-                this.transactions.push(response);
+                this.transactions.push(response.data);
                 $.event.trigger('get-sidebar-totals');
                 this.clearNewTransactionFields();
                 //this.newTransaction.dropdown = false;
 
                 if (response.multipleBudgets) {
-                    $.event.trigger('transaction-created-with-multiple-budgets', [response]);
+                    $.event.trigger('transaction-created-with-multiple-budgets', [response.data]);
                     $.event.trigger('get-basic-filter-totals');
                 }
                 else {
@@ -24711,13 +24718,13 @@ var NewTransaction = Vue.component('new-transaction', {
             }
 
             this.$http.post('/api/transactions', data, function (response) {
-                    this.transactions.push(response);
+                    this.transactions.push(response.data);
                     $.event.trigger('get-sidebar-totals');
                     this.clearNewTransactionFields();
                     //this.newTransaction.dropdown = false;
 
                     if (response.multipleBudgets) {
-                        $.event.trigger('transaction-created-with-multiple-budgets', [response]);
+                        $.event.trigger('transaction-created-with-multiple-budgets', [response.data]);
                         $.event.trigger('get-basic-filter-totals');
                     }
                     else {

@@ -4,7 +4,7 @@
         <label for="new-transaction-account">Account</label>
 
         <select
-            v-model="newTransactionAccount"
+            v-model="newTransaction.account"
             v-on:keyup.13="insertTransaction()"
             id="new-transaction-account"
             class="form-control"

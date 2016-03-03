@@ -10,6 +10,7 @@ var TransactionsRepository = {
         var data = {
             date: HelpersRepository.formatDate(transaction.userDate),
             account_id: transaction.account.id,
+            type: transaction.type,
             description: transaction.description,
             merchant: transaction.merchant,
             total: transaction.total,

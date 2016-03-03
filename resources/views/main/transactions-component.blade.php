@@ -15,6 +15,7 @@
         @include('main.home.transactions.table-header')
 
         <tbody
+                v-for="transaction in transactions | orderBy 'date' -1"
                 is="transaction"
                 :show-status="showStatus"
                 :show-date="showDate"
@@ -28,7 +29,6 @@
                 :show-allocated="showAllocated"
                 :show-budgets="showBudgets"
                 :show-delete="showDelete"
-                v-for="transaction in transactions"
                 :transactions.sync="transactions"
                 :transaction="transaction"
                 v-bind:style="{color: me.preferences.colors[transaction.type]}"

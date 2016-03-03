@@ -1,4 +1,5 @@
 <tr
+    v-if="transaction.budgets"
     v-show="showBudgets && transaction.budgets.length > 0"
     class="tag-location-container">
 

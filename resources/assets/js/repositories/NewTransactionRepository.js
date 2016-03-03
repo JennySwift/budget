@@ -3,13 +3,11 @@ var NewTransactionRepository = {
     defaults: {
         type: 'income',
         account_id: 1,
-        date: {
-            entered: 'today'
-        },
+        userDate: 'today',
         merchant: '',
         description: '',
         reconciled: false,
-        multiple_budgets: false,
+        multipleBudgets: false,
         budgets: []
     },
 
@@ -24,7 +22,7 @@ var NewTransactionRepository = {
         if (env === 'local') {
             this.defaults.total = 10;
             this.defaults.type = 'expense';
-            this.defaults.date.entered = 'today';
+            this.defaults.userDate = 'today';
             this.defaults.merchant = 'some merchant';
             this.defaults.description = 'some description';
             this.defaults.duration = '';
@@ -71,25 +69,31 @@ var NewTransactionRepository = {
         return newTransaction;
     },
 
-    anyErrors: function ($newTransaction) {
-        var $messages = [];
 
-        if (!Date.parse($newTransaction.date.entered)) {
-            $messages.push('Date is not valid');
+    /**
+     *
+     * @param newTransaction
+     * @returns {*}
+     */
+    anyErrors: function (newTransaction) {
+        var messages = [];
+
+        //if (!Date.parse(newTransaction.userDate)) {
+        //    messages.push('Date is not valid');
+        //}
+        //else {
+        //    newTransaction.date = Date.parse(newTransaction.userDate).toString('yyyy-MM-dd');
+        //}
+
+        if (newTransaction.total === "") {
+            messages.push('Total is required');
         }
-        else {
-            $newTransaction.date.sql = Date.parse($newTransaction.date.entered).toString('yyyy-MM-dd');
+        else if (!$.isNumeric(newTransaction.total)) {
+            messages.push('Total is not a valid number');
         }
 
-        if ($newTransaction.total === "") {
-            $messages.push('Total is required');
-        }
-        else if (!$.isNumeric($newTransaction.total)) {
-            $messages.push('Total is not a valid number');
-        }
-
-        if ($messages.length > 0) {
-            return $messages;
+        if (messages.length > 0) {
+            return messages;
         }
 
         return false;

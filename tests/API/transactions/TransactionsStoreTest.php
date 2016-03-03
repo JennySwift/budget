@@ -21,7 +21,7 @@ class TransactionsStoreTest extends TestCase
         $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
 
         $transaction = [
-            'date' => ['sql' => '2015-01-01'],
+            'date' => '2015-01-01',
             'account_id' => 1,
             'type' => 'income',
             'description' => 'interesting description',
@@ -90,7 +90,7 @@ class TransactionsStoreTest extends TestCase
         $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
 
         $transaction = [
-            'date' => ['sql' => '2015-01-01'],
+            'date' => '2015-01-01',
             'account_id' => 1,
             'type' => 'expense',
             'description' => 'interesting description',

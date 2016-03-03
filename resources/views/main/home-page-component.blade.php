@@ -9,7 +9,7 @@
             :transactions.sync="transactions"
         >
         </new-transaction>
-
+        
         <div class="main-content">
 
             <totals

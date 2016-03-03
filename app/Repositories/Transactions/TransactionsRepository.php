@@ -145,7 +145,7 @@ class TransactionsRepository
     private function newTransaction($data)
     {
         return new Transaction([
-            'date' => $data['date']['sql'],
+            'date' => $data['date'],
             'description' => $data['description'],
             'merchant' => $data['merchant'],
             'total' => $data['total'],

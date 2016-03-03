@@ -10,7 +10,8 @@ var NewTransaction = Vue.component('new-transaction', {
             favouriteTransactions: [],
             newTransaction: {
                 date: {},
-                type: 'income'
+                type: 'income',
+                account: {}
             },
             env: env,
             colors: {
@@ -28,6 +29,7 @@ var NewTransaction = Vue.component('new-transaction', {
             $.event.trigger('show-loading');
             this.$http.get('/api/accounts', function (response) {
                 this.accounts = response;
+                this.newTransaction.account = this.accounts[0];
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {
@@ -93,7 +95,7 @@ var NewTransaction = Vue.component('new-transaction', {
          */
         insertTransaction: function () {
             if (!this.anyErrors()) {
-                this.clearTotalChanges();
+                $.event.trigger('clear-total-changes');
 
                 if (this.newTransaction.type === 'transfer') {
                     this.insertTransferTransactions();
@@ -113,13 +115,13 @@ var NewTransaction = Vue.component('new-transaction', {
             var data = TransactionsRepository.setFields(this.newTransaction);
 
             this.$http.post('/api/transactions', data, function (response) {
-                this.transactions.push(response);
+                this.transactions.push(response.data);
                 $.event.trigger('get-sidebar-totals');
                 this.clearNewTransactionFields();
                 //this.newTransaction.dropdown = false;
 
                 if (response.multipleBudgets) {
-                    $.event.trigger('transaction-created-with-multiple-budgets', [response]);
+                    $.event.trigger('transaction-created-with-multiple-budgets', [response.data]);
                     $.event.trigger('get-basic-filter-totals');
                 }
                 else {
@@ -162,13 +164,13 @@ var NewTransaction = Vue.component('new-transaction', {
             }
 
             this.$http.post('/api/transactions', data, function (response) {
-                    this.transactions.push(response);
+                    this.transactions.push(response.data);
                     $.event.trigger('get-sidebar-totals');
                     this.clearNewTransactionFields();
                     //this.newTransaction.dropdown = false;
 
                     if (response.multipleBudgets) {
-                        $.event.trigger('transaction-created-with-multiple-budgets', [response]);
+                        $.event.trigger('transaction-created-with-multiple-budgets', [response.data]);
                         $.event.trigger('get-basic-filter-totals');
                     }
                     else {
