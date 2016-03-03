@@ -1,6 +1,25 @@
 var TransactionsRepository = {
     totals: {},
 
+    /**
+     *
+     * @param transaction
+     * @returns {{date: (*|newTransaction.date|{}|NewTransactionRepository.defaults.date|{entered}|string), account_id: (*|number), description: *, merchant: *, total: *, reconciled: (*|number|string|boolean), allocated: *, minutes: *, budgets: *}}
+     */
+    setFields: function (transaction) {
+        return {
+            date: transaction.date,
+            account_id: transaction.account_id,
+            description: transaction.description,
+            merchant: transaction.merchant,
+            total: transaction.total,
+            reconciled: transaction.reconciled,
+            allocated: transaction.allocated,
+            minutes: transaction.minutes,
+            budgets: transaction.budgets,
+        }
+    },
+
     insertIncomeOrExpenseTransaction: function ($newTransaction) {
         var $url = '/api/transactions';
 

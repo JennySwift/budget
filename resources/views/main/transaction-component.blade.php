@@ -4,9 +4,19 @@
 
         <tr class="results_inner_div">
         
-            <td v-show="showDate">@{{ transaction.userDate }}</td>
+            <td
+                v-show="showDate"
+                v-on:click="showEditTransactionPopup(transaction)"
+                class="pointer"
+            >
+                @{{ transaction.userDate }}
+            </td>
         
-            <td v-show="showDescription" class="description">
+            <td
+                v-show="showDescription"
+                v-on:click="showEditTransactionPopup(transaction)"
+                class="description pointer"
+            >
                 <div>
                     <div>@{{ transaction.description }}</div>
                 </div>
@@ -16,7 +26,11 @@
                 </div>
             </td>
         
-            <td v-show="showMerchant" class="merchant">
+            <td
+                v-show="showMerchant"
+                v-on:click="showEditTransactionPopup(transaction)"
+                class="merchant pointer"
+            >
                 <div>
                     <div>@{{ transaction.merchant }}</div>
                 </div>
@@ -26,30 +40,37 @@
                 </div>
             </td>
         
-            <td v-show="showTotal">
+            <td
+                v-show="showTotal"
+                v-on:click="showEditTransactionPopup(transaction)"
+                class="pointer"
+            >
                 {{--<span class="badge badge-@{{ transaction.type }}">@{{ transaction.total }}</span>--}}
                 @{{ transaction.total | numberFilter 2 }}
             </td>
         
-            <td v-show="showAccount" class="max-width-md">@{{ transaction.account.name }}</td>
+            <td
+                v-show="showAccount"
+                v-on:click="showEditTransactionPopup(transaction)"
+                class="max-width-md pointer"
+            >
+                @{{ transaction.account.name }}
+            </td>
         
-            <td v-show="showDuration">
+            <td
+                v-show="showDuration"
+                v-on:click="showEditTransactionPopup(transaction)"
+                class="pointer"
+            >
                 <span v-if="transaction.minutes">@{{ transaction.minutes | formatDurationFilter }}</span>
             </td>
         
-            <td v-show="showReconciled">
+            <td v-show="showReconciled"
+            >
                 <input v-model="transaction.reconciled" v-on:change="updateReconciliation(transaction)" type="checkbox">
             </td>
         
-            <td v-show="showDelete" v-on:click="deleteTransaction(transaction)" class="pointer">
-                <i class="fa fa-times"></i>
-            </td>
-        
-            <td>
-                <button v-on:click="updateTransactionSetup(transaction)" class="fa fa-pencil-square-o"></button>
-            </td>
-        
-            <td v-show="showAllocated">
+            <tdv-show="showAllocated">
                 <button
                         v-if="transaction.multipleBudgets"
                         v-bind:class="{

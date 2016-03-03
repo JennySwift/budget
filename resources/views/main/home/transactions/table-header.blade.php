@@ -18,14 +18,6 @@
 
         <th v-show="showReconciled" class="reconcile">R</th>
 
-        <th v-show="showDelete">
-            <i class="fa fa-times"></i>
-        </th>
-
-        <th>
-            <i class="fa fa-pencil-square-o"></i>
-        </th>
-
         <th v-show="showAllocated">budgets</th>
 
     </tr>

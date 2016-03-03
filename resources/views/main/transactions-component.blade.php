@@ -4,6 +4,11 @@
 
     <h3 v-if="transactions.length === 0">No transactions to show.</h3>
 
+    <edit-transaction-popup
+        :transaction.sync="transactions"
+    >
+    </edit-transaction-popup>
+
     <table v-if="transactions.length > 0" id="transactions" class="">
 
         @include('main.home.transactions.table-header')

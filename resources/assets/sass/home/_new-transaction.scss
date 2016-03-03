@@ -30,14 +30,6 @@
     }
 }
 
-#edit-transaction {
-	padding: 22px;
-    @include transaction_popup;
-    input {
-        margin-bottom: 4px;
-    }
-}
-
 // @media all and (min-width: 300px) {
 // 	#new-transaction, #edit-transaction {
 // 		flex-direction: row;

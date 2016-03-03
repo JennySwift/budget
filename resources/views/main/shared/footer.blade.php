@@ -45,6 +45,10 @@
 @include('main.filter.dates-filter-component')
 @include('main.filter.totals-for-filter-component')
 
+{{--Transactions--}}
+@include('main.home.popups.edit-transaction-popup-component')
+@include('main.home.popups.allocation-popup-component')
+
 {{--@include('directive-templates.feedback')--}}
 {{--@include('directive-templates.totals')--}}
 {{--@include('directive-templates.tag-autocomplete')--}}

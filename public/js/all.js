@@ -22264,6 +22264,15 @@ var HelpersRepository = {
                 return Date.parse(date).toString('yyyy-MM-dd');
             }
         }
+    },
+
+    /**
+     *
+     * @param duration
+     * @returns {*}
+     */
+    formatDurationToMinutes: function (duration) {
+        return moment.duration(duration).asMinutes();
     }
 };
 var NewTransactionRepository = {
@@ -22438,6 +22447,25 @@ var TotalsRepository = {
 };
 var TransactionsRepository = {
     totals: {},
+
+    /**
+     *
+     * @param transaction
+     * @returns {{date: (*|newTransaction.date|{}|NewTransactionRepository.defaults.date|{entered}|string), account_id: (*|number), description: *, merchant: *, total: *, reconciled: (*|number|string|boolean), allocated: *, minutes: *, budgets: *}}
+     */
+    setFields: function (transaction) {
+        return {
+            date: transaction.date,
+            account_id: transaction.account_id,
+            description: transaction.description,
+            merchant: transaction.merchant,
+            total: transaction.total,
+            reconciled: transaction.reconciled,
+            allocated: transaction.allocated,
+            minutes: transaction.minutes,
+            budgets: transaction.budgets,
+        }
+    },
 
     insertIncomeOrExpenseTransaction: function ($newTransaction) {
         var $url = '/api/transactions';
@@ -23154,6 +23182,70 @@ var AccountsPage = Vue.component('accounts-page', {
         this.getAccounts();
     }
 });
+var AllocationPopup = Vue.component('allocation-popup', {
+    template: '#allocation-popup-template',
+    data: function () {
+        return {
+            transaction: {}
+        };
+    },
+    components: {},
+    methods: {
+
+        updateAllocation: function ($keycode, $type, $value, $budget_id) {
+            if ($keycode === 13) {
+                $scope.showLoading();
+                TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
+                    .then(function (response) {
+                        $scope.allocationPopup.budgets = response.data.budgets;
+                        $scope.allocationPopup.totals = response.data.totals;
+                        $scope.hideLoading();
+                    })
+                    .catch(function (response) {
+                        $scope.responseError(response);
+                    });
+            }
+        },
+
+        updateAllocationStatus: function () {
+            $scope.showLoading();
+            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
+                .then(function (response) {
+                    $scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        },
+
+
+        /**
+         *
+         */
+        closePopup: function ($event) {
+            HelpersRepository.closePopup($event, this);
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('show-allocation-popup', function (event, transaction) {
+                that.transaction = transaction;
+                that.showPopup = true;
+                //todo: Get allocation totals
+            });
+        }
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
+
 var BudgetAutocomplete = Vue.component('budget-autocomplete', {
     template: '#budget-autocomplete-template',
     data: function () {
@@ -23640,6 +23732,98 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
     props: [
         'budgets',
         'page'
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
+
+var EditTransactionPopup = Vue.component('edit-transaction-popup', {
+    template: '#edit-transaction-popup-template',
+    data: function () {
+        return {
+            showPopup: false,
+            selectedTransaction: {}
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        updateTransaction: function () {
+            $.event.trigger('show-loading');
+
+            var data = TransactionsRepository.setFields(transaction);
+
+            $.event.trigger('clear-total-changes');
+
+            this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
+                    var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.transaction.id}));
+                    this.transactions[index] = response;
+                    $.event.trigger('get-sidebar-totals');
+                    $.event.trigger('get-basic-filter-totals');
+                    $.event.trigger('run-filter');
+                    //this.transactions[index].name = response.name;
+                    //Todo: Remove the transaction from the JS transactions depending on the filter
+                    $.event.trigger('provide-feedback', ['Transaction updated', 'success']);
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+        },
+        
+        /**
+        *
+        */
+        deleteTransaction: function () {
+            if (confirm("Are you sure?")) {
+                $.event.trigger('show-loading');
+                $.event.trigger('clear-total-changes');
+                $.event.trigger('get-sidebar-totals');
+                $.event.trigger('get-basic-filter-totals');
+                this.$http.delete('/api/transactions/' + this.selectedTransaction.id, function (response) {
+                    this.transactions = _.without(this.transactions, this.selectedTransaction);
+                    //var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.transaction.id}));
+                    //this.transactions = _.without(this.transactions, this.transactions[index]);
+                    $.event.trigger('provide-feedback', ['Transaction deleted', 'success']);
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+            }
+        },
+
+        /**
+         *
+         */
+        closePopup: function ($event) {
+            HelpersRepository.closePopup($event, this);
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('show-edit-transaction-popup', function (event, transaction) {
+                that.selectedTransaction = transaction;
+
+                //save the original total so I can calculate
+                // the difference if the total changes,
+                // so I can remove the correct amount from savings if required.
+                that.selectedTransaction.originalTotal = that.selectedTransaction.total;
+                that.selectedTransaction.duration = HelpersRepository.formatDurationToMinutes(that.selectedTransaction.minutes);
+
+                that.showPopup = true;
+            });
+        }
+    },
+    props: [
+        //data to be received from parent
     ],
     ready: function () {
         this.listen();
@@ -24943,6 +25127,39 @@ var Transaction = Vue.component('transaction', {
     components: {},
     methods: {
 
+        /**
+        *
+        */
+        updateTransaction: function () {
+            $.event.trigger('show-loading');
+
+            var data = TransactionsRepository.setFields(transaction);
+            
+            $.event.trigger('clear-total-changes');
+
+            this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
+                var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.transaction.id}));
+                this.transactions[index] = response;
+                $.event.trigger('get-sidebar-totals');
+                $.event.trigger('get-basic-filter-totals');
+                //this.transactions[index].name = response.name;
+                //Todo: Remove the transaction from the JS transactions depending on the filter
+                $.event.trigger('provide-feedback', ['Transaction updated', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+         *
+         * @param transaction
+         */
+        showEditTransactionPopup: function (transaction) {
+            $.event.trigger('show-edit-transaction-popup', [transaction]);
+        },
+
     },
     filters: {
         /**
@@ -25029,133 +25246,13 @@ var Transactions = Vue.component('transactions', {
             });
         },
 
-        updateReconciliation: function ($transaction) {
-            $scope.clearTotalChanges();
-            $scope.showLoading();
-            TransactionsFactory.updateReconciliation($transaction)
-                .then(function (response) {
-                    $scope.$emit('getSideBarTotals');
-                    $rootScope.$emit('getFilterBasicTotals');
-                    //Todo: Remove the transaction from the JS transactions depending on the filter
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-
-        updateAllocationStatus: function () {
-            $scope.showLoading();
-            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
-                .then(function (response) {
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-
-        updateTransactionSetup: function ($transaction) {
-            $scope.edit_transaction = $transaction;
-            //save the original total so I can calculate
-            // the difference if the total changes,
-            // so I can remove the correct amount from savings if required.
-            $scope.edit_transaction.original_total = $scope.edit_transaction.total;
-            $scope.edit_transaction.duration = $filter('formatDurationFilter')($scope.edit_transaction.minutes);
-            $scope.show.edit_transaction = true;
-        },
-
-        updateTransaction: function () {
-            $scope.clearTotalChanges();
-            $scope.showLoading();
-            TransactionsFactory.updateTransaction($scope.edit_transaction)
-                .then(function (response) {
-                    $scope.$emit('getSideBarTotals');
-                    $rootScope.$broadcast('provideFeedback', 'Transaction updated');
-                    $rootScope.$emit('getFilterBasicTotals');
-
-                    //Update the transaction in the JS
-                    var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $scope.edit_transaction.id}));
-                    $scope.transactions[$index] = response.data.data;
-
-                    $scope.show.edit_transaction = false;
-                    $scope.totals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-
         /**
-         * $scope.edit_transaction.account wasn't updating with ng-model,
-         * so I'm doing it manually.
+         *
+         * @param transaction
          */
-        //$scope.fixEditTransactionAccount = function () {
-        //    $account_id = $("#edit-transaction-account").val();
-        //
-        //    $account_match = _.find($scope.accounts, function ($account) {
-        //        return $account.id === $account_id;
-        //    });
-        //    $account_name = $account_match.name;
-        //
-        //    $scope.edit_transaction.account.id = $account_id;
-        //    $scope.edit_transaction.account.name = $account_name;
-        //};
-
-        updateAllocation: function ($keycode, $type, $value, $budget_id) {
-            if ($keycode === 13) {
-                $scope.showLoading();
-                TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
-                    .then(function (response) {
-                        $scope.allocationPopup.budgets = response.data.budgets;
-                        $scope.allocationPopup.totals = response.data.totals;
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-        },
-
-        showAllocationPopup: function ($transaction) {
-            $scope.show.allocationPopup = true;
-            $scope.allocationPopup = $transaction;
-
-            $scope.showLoading();
-            TransactionsFactory.getAllocationTotals($transaction.id)
-                .then(function (response) {
-                    $scope.allocationPopup.totals = response.data;
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-
-        deleteTransaction: function ($transaction) {
-            if (confirm("Are you sure?")) {
-                $scope.clearTotalChanges();
-                $scope.showLoading();
-                TransactionsFactory.deleteTransaction($transaction, FilterFactory.filter)
-                    .then(function (response) {
-                        jsDeleteTransaction($transaction);
-                        $scope.$emit('getSideBarTotals');
-                        $rootScope.$emit('getFilterBasicTotals');
-                        $rootScope.$broadcast('provideFeedback', 'Transaction deleted');
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-        },
-
-        jsDeleteTransaction: function ($transaction) {
-            var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
-            $scope.transactions = _.without($scope.transactions, $scope.transactions[$index]);
+        showAllocationPopup: function (transaction) {
+            $.event.trigger('show-allocation-popup', [transaction]);
         }
-
     },
     props: [
         //data to be received from parent

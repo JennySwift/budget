@@ -46,5 +46,14 @@ var HelpersRepository = {
                 return Date.parse(date).toString('yyyy-MM-dd');
             }
         }
+    },
+
+    /**
+     *
+     * @param duration
+     * @returns {*}
+     */
+    formatDurationToMinutes: function (duration) {
+        return moment.duration(duration).asMinutes();
     }
 };
