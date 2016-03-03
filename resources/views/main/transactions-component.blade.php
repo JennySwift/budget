@@ -24,7 +24,7 @@
                 :show-delete="showDelete"
                 v-for="transaction in transactions"
                 :transaction="transaction"
-                {{--v-bind:style="{color: colors[transaction.type]}"--}}
+                v-bind:style="{color: me.preferences.colors[transaction.type]}"
                 :id="transaction.id"
                 class="add_to_search_total results-transaction-tbody @{{ transaction.type }}">
         </tbody>
