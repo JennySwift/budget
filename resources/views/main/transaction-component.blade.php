@@ -70,7 +70,7 @@
                 <input v-model="transaction.reconciled" v-on:change="updateTransaction()" type="checkbox">
             </td>
         
-            <tdv-show="showAllocated">
+            <td v-show="showAllocated">
                 <button
                         v-if="transaction.multipleBudgets"
                         v-bind:class="{
@@ -79,6 +79,7 @@
                             'not-allocated': !transaction.allocated,
                             'btn-danger': !transaction.allocated,
                         }"
+                        class="btn btn-sm"
                         v-on:click="showAllocationPopup(transaction)">
                     allocate
                 </button>

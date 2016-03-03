@@ -18,7 +18,7 @@
 
         <th v-show="showReconciled" class="reconcile">R</th>
 
-        <th v-show="showAllocated">budgets</th>
+        <th v-show="showAllocated">Allocation</th>
 
     </tr>
 
