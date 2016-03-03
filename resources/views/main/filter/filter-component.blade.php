@@ -38,37 +38,37 @@
 
         <div class="flex">
             <totals-for-filter
-                    show="show"
-                    filter="filter"
+                    :show="show"
+                    :filter="filter"
             >
             </totals-for-filter>
 
             <div>
                 <accounts-filter
-                        filter="filter"
-                        filterTab="filterTab"
-                        runFilter="runFilter()"
+                        :filter="filter"
+                        :filterTab="filterTab"
+                        :runFilter="runFilter()"
                 >
                 </accounts-filter>
 
                 <types-filter
-                        filter="filter"
-                        filterTab="filterTab"
-                        runFilter="runFilter()"
+                        :filter="filter"
+                        :filterTab="filterTab"
+                        :runFilter="runFilter()"
                 >
                 </types-filter>
 
                 <descriptions-filter
-                        filter="filter"
-                        filterTab="filterTab"
-                        runFilter="runFilter()"
+                        :filter="filter"
+                        :filterTab="filterTab"
+                        :runFilter="runFilter()"
                 >
                 </descriptions-filter>
 
                 <merchants-filter
-                        filter="filter"
-                        filterTab="filterTab"
-                        runFilter="runFilter()"
+                        :filter="filter"
+                        :filterTab="filterTab"
+                        :runFilter="runFilter()"
                 >
                 </merchants-filter>
 
@@ -81,17 +81,17 @@
                 </budgets-filter>
 
                 <dates-filter
-                        filter="filter"
-                        filterTab="filterTab"
-                        runFilter="runFilter()"
+                        :filter="filter"
+                        :filterTab="filterTab"
+                        :runFilter="runFilter()"
                 >
                 </dates-filter>
 
                 <totals-filter
-                        filter="filter"
-                        filterTab="filterTab"
-                        runFilter="runFilter()">
-                    clearFilterField="clearFilterField()">
+                        :filter="filter"
+                        :filterTab="filterTab"
+                        :runFilter="runFilter()">
+                        :clearFilterField="clearFilterField()">
                 </totals-filter>
 
                 @include('main.home.filter.reconciled')

@@ -1,7 +1,5 @@
 var FilterRepository = {
 
-    //filterBasicTotals: basicFilterTotals,
-
     resetFilter: function () {
         this.filter = {
 

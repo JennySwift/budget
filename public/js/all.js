@@ -22014,8 +22014,6 @@ var AutocompleteRepository = {
 };
 var FilterRepository = {
 
-    //filterBasicTotals: basicFilterTotals,
-
     resetFilter: function () {
         this.filter = {
 
@@ -22857,8 +22855,11 @@ var Filter = Vue.component('filter', {
             $rootScope.$emit('runFilter');
         },
 
+        /**
+         * 
+         */
         runFilter: function () {
-            $rootScope.$emit('runFilter');
+            $.event.trigger('run-filter');
         },
 
         /**
@@ -22866,9 +22867,35 @@ var Filter = Vue.component('filter', {
          */
         listen: function () {
             var that = this;
+
             $(document).on('toggle-filter', function (event) {
                 that.showFilter = !that.showFilter;
             });
+
+            $(document).on('run-filter', function (event, data) {
+                $.event.trigger('get-basic-filter-totals');
+                if ($scope.tab === 'transactions') {
+                    $.event.trigger('filter-transactions', [that.filter]);
+                }
+                else {
+                    $.event.trigger('get-graph-totals');
+                }
+            });
+
+            $(document).on('reset-filter', function (event) {
+                that.filter = FilterRepository.filter;
+            });
+
+            $(document).on('saved-filter-created', function (event) {
+                //Doing this because $scope.savedFilters was updating when I didn't want it to.
+                //If the user hit the prev or next buttons, then used the saved filter again,
+                //the saved filter was modified and not the original saved filter.
+                //I think because I set the filter ng-model to the saved filter in the filter factory.
+                //var preservedSavedFilters = angular.copy(savedFilters);
+                this.savedFilters.push(savedFilter);
+                //preservedSavedFilters.push(savedFilter);
+            });
+            
         }
     },
     props: [
@@ -22879,35 +22906,6 @@ var Filter = Vue.component('filter', {
         this.getSavedFilters();
     }
 });
-
-
-
-//Doing this because $scope.savedFilters was updating when I didn't want it to.
-//If the user hit the prev or next buttons, then used the saved filter again,
-//the saved filter was modified and not the original saved filter.
-//I think because I set the filter ng-model to the saved filter in the filter factory.
-//var $preservedSavedFilters = angular.copy(savedFilters);
-//
-//
-//
-//$rootScope.$on('resetFilterInFilterController', function () {
-//    $scope.filter = FilterFactory.filter;
-//});
-//
-//$rootScope.$on('runFilter', function (event, data) {
-//    $rootScope.$emit('getFilterBasicTotals');
-//    if ($scope.tab === 'transactions') {
-//        $scope.$emit('filterTransactions', $scope.filter);
-//    }
-//    else {
-//        $scope.$emit('getGraphTotals');
-//    }
-//});
-//
-//$rootScope.$on('newSavedFilter', function (event, savedFilter) {
-//    $scope.savedFilters.push(savedFilter);
-//    $preservedSavedFilters.push(savedFilter);
-//});
 
 var Graphs = Vue.component('graphs', {
     template: '#graphs-template',
@@ -23093,22 +23091,33 @@ var TotalsForFilter = Vue.component('totals-for-filter', {
     template: '#totals-for-filter-template',
     data: function () {
         return {
-            filterTotals: FilterRepository.filterBasicTotals
+            basicFilterTotals: {}
         };
     },
     components: {},
     methods: {
+
+        /**
+        * Todo: should be GET not POST
+        */
+        getBasicFilterTotals: function () {
+            $.event.trigger('show-loading');
+            this.$http.post('/api/filter/basicTotals', this.filter, function (response) {
+                this.basicFilterTotals = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+         *
+         */
         listen: function () {
+            var that = this;
             $(document).on('get-basic-filter-totals', function (event) {
-                FilterFactory.getBasicTotals($scope.filter)
-                    .then(function (response) {
-                        FilterFactory.filterBasicTotals = response.data;
-                        $scope.filterTotals = response.data;
-                        $rootScope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $rootScope.responseError(response);
-                    })
+                that.getBasicFilterTotals();
             });
         }
     },
