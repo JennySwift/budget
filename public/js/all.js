@@ -23273,174 +23273,191 @@ var BudgetAutocomplete = Vue.component('budget-autocomplete', {
     template: '#budget-autocomplete-template',
     data: function () {
         return {
-            results: {},
-            messages: {}
+            results: [],
+            messages: {},
+            currentIndex: 0,
+            typing: '',
+            showDropdown: false
         };
     },
     components: {},
     methods: {
+
         /**
-         * Check for duplicate tags when adding a new tag to an array
-         * @param $tag_id
-         * @param $tag_array
+         * Check for duplicate budgets when adding a new budget to an array
+         * @param budgetId
+         * @param budgetArray
          * @returns {boolean}
          */
-        duplicateTagCheck: function ($tag_id, $tag_array) {
-            for (var i = 0; i < $tag_array.length; i++) {
-                if ($tag_array[i].id === $tag_id) {
+        duplicateBudgetCheck: function (budgetId, budgetArray) {
+            for (var i = 0; i < budgetArray.length; i++) {
+                if (budgetArray[i].id === budgetId) {
                     return false; //it is a duplicate
                 }
             }
             return true; //it is not a duplicate
         },
 
-
-        chooseTag: function ($index) {
-            if ($index !== undefined) {
+        /**
+         *
+         * @param index
+         */
+        chooseBudget: function (index) {
+            if (index !== undefined) {
                 //Item was chosen by clicking, not by pressing enter
-                $scope.currentIndex = $index;
+                this.currentIndex = index;
             }
 
-            if ($scope.multipleTags) {
-                $scope.addTag();
+            if (this.multipleBudgets) {
+                this.addBudget();
             }
             else {
-                $scope.fillField();
+                this.fillField();
             }
         },
 
         /**
-         * For if only one tag can be chosen
+         * For if only one budget can be chosen
          */
         fillField: function () {
-            $scope.typing = $scope.results[$scope.currentIndex].name;
-            $scope.model = $scope.results[$scope.currentIndex];
-            if ($scope.focusOnEnter) {
-                // Todo: This line doesn't work if tag is chosen with mouse click
-                $("#" + $scope.focusOnEnter).focus();
+            this.typing = this.results[this.currentIndex].name;
+            this.model = this.results[this.currentIndex];
+            if (this.focusOnEnter) {
+                // Todo: This line doesn't work if budget is chosen with mouse click
+                $("#" + this.focusOnEnter).focus();
             }
-            $scope.hideAndClear();
+            this.hideAndClear();
         },
 
         /**
-         * For if multiple tags can be chosen
+         * For if multiple budgets can be chosen
          */
-        addTag: function () {
-            var $tag_id = $scope.results[$scope.currentIndex].id;
+        addBudget: function () {
+            var budgetId = this.results[this.currentIndex].id;
 
-            if (!$scope.duplicateTagCheck($tag_id, $scope.chosenTags)) {
-                //$rootScope.$broadcast('provideFeedback', 'You have already entered that tag');
-                $scope.hideAndClear();
+            if (!this.duplicateBudgetCheck(budgetId, this.chosenBudgets)) {
+                //$rootScope.$broadcast('provideFeedback', 'You have already entered that budget');
+                this.hideAndClear();
                 return;
             }
 
-            $scope.chosenTags.push($scope.results[$scope.currentIndex]);
-            $scope.hideAndClear();
+            this.chosenBudgets.push(this.results[this.currentIndex]);
+            this.hideAndClear();
         },
 
         /**
          * Hide the dropdown and clear the input field
          */
         hideAndClear: function () {
-            $scope.hideDropdown();
+            this.showDropdown = false;
 
-            if ($scope.multipleTags) {
-                $scope.typing = '';
+            if (this.multipleBudgets) {
+                this.typing = '';
             }
 
-            $scope.currentIndex = null;
+            this.currentIndex = null;
             $('.highlight').removeClass('highlight');
         },
 
-        hideDropdown: function () {
-            $scope.dropdown = false;
-        },
+        /**
+         *
+         * @param response
+         * @param typing
+         * @returns {*}
+         */
+        highlightLetters: function (response, typing) {
+            typing = typing.toLowerCase();
 
-        highlightLetters: function ($response, $typing) {
-            $typing = $typing.toLowerCase();
+            for (var i = 0; i < response.length; i++) {
+                var name = response[i].name;
+                var index = name.toLowerCase().indexOf(typing);
+                var substr = name.substr(index, typing.length);
 
-            for (var i = 0; i < $response.length; i++) {
-                var $name = $response[i].name;
-                var $index = $name.toLowerCase().indexOf($typing);
-                var $substr = $name.substr($index, $typing.length);
-
-                var $html = $sce.trustAsHtml($name.replace($substr, '<span class="highlight">' + $substr + '</span>'));
-                $response[i].html = $html;
+                //var html = $sce.trustAsHtml(name.replace(substr, '<span class="highlight">' + substr + '</span>'));
+                var html = name.replace(substr, '<span class="highlight">' + substr + '</span>');
+                response[i].html = html;
             }
 
-            return $response;
+            return response;
         },
 
+        /**
+         *
+         * @param index
+         */
         hoverItem: function(index) {
-            $scope.currentIndex = index;
+            this.currentIndex = index;
         },
 
         /**
          * Act on keypress for input field
-         * @param $keycode
+         * @param keycode
          * @returns {boolean}
          */
-        filterTags: function ($keycode) {
-            if ($keycode === 13) {
+        filterBudgets: function (keycode) {
+            if (keycode === 13) {
                 //enter is pressed
-                //$scope.chooseItem();
+                //this.chooseItem();
 
-                if (!$scope.results[$scope.currentIndex]) {
-                    //We are not adding a tag. We are inserting the transaction.
-                    $scope.fnOnEnter();
+                if (!this.results[this.currentIndex]) {
+                    //We are not adding a budget. We are inserting the transaction.
+                    this.fnOnEnter();
                     return;
                 }
-                //We are choosing a tag
-                $scope.chooseTag();
+                //We are choosing a budget
+                this.chooseBudget();
 
-                //resetting the dropdown to show all the tags again after a tag has been added
-                $scope.results = $scope.tags;
+                //resetting the dropdown to show all the budgets again after a budget has been added
+                this.results = this.budgets;
             }
-            else if ($keycode === 38) {
+            else if (keycode === 38) {
                 //up arrow is pressed
-                if ($scope.currentIndex > 0) {
-                    $scope.currentIndex--;
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
                 }
             }
-            else if ($keycode === 40) {
+            else if (keycode === 40) {
                 //down arrow is pressed
-                if ($scope.currentIndex + 1 < $scope.results.length) {
-                    $scope.currentIndex++;
+                if (this.currentIndex + 1 < this.results.length) {
+                    this.currentIndex++;
                 }
             }
             else {
                 //Not enter, up or down arrow
-                $scope.currentIndex = 0;
-                $scope.showDropdown();
+                this.currentIndex = 0;
+                // Todo: when the new budget budget input is focused after entering a budget,
+                // todo: I don't want the dropdown to show. I had a lot of trouble and need help though.
+                this.showDropdown = true;
+                if (this.typing) {
+                    this.results = this.highlightLetters(this.searchLocal(), this.typing);
+                }
             }
         },
 
         /**
-         * Todo: when the new budget tag input is focused after entering a budget,
-         * todo: I don't want the dropdown to show. I had a lot of trouble and need help though.
+         *
+         * @returns {*}
          */
-        showDropdown: function () {
-            $scope.dropdown = true;
-            if ($scope.typing) {
-                $scope.results = $scope.highlightLetters($scope.searchLocal(), $scope.typing);
-            }
-        },
-
         searchLocal: function () {
-            var $filtered_tags = _.filter($scope.tags, function ($tag) {
-                return $tag.name.toLowerCase().indexOf($scope.typing.toLowerCase()) !== -1;
+            var that = this;
+            var filteredBudgets = _.filter(this.budgets, function (budget) {
+                return budget.name.toLowerCase().indexOf(that.typing.toLowerCase()) !== -1;
             });
 
-            return $filtered_tags;
+            return filteredBudgets;
         },
 
-        removeTag: function ($tag) {
-            $scope.chosenTags = _.without($scope.chosenTags, $tag);
+        /**
+         *
+         * @param budget
+         */
+        removeBudget: function (budget) {
+            this.chosenBudgets = _.without(this.chosenBudgets, budget);
         },
     },
     props: [
         'chosenBudgets',
-        'dropdown',
+        //'dropdown',
         'budgets',
         'fnOnEnter',
         'multipleBudgets',
@@ -23771,11 +23788,26 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
                 {value: 'income', name: 'credit'},
                 {value: 'expense', name: 'debit'},
                 {value: 'transfer', name: 'transfer'},
-            ]
+            ],
+            budgets: []
         };
     },
     components: {},
     methods: {
+
+        /**
+        *
+        */
+        getBudgets: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/budgets', function (response) {
+                this.budgets = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
 
         /**
          *
@@ -23858,6 +23890,7 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
     ],
     ready: function () {
         this.listen();
+        this.getBudgets();
     }
 });
 

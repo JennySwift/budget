@@ -8,11 +8,26 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
                 {value: 'income', name: 'credit'},
                 {value: 'expense', name: 'debit'},
                 {value: 'transfer', name: 'transfer'},
-            ]
+            ],
+            budgets: []
         };
     },
     components: {},
     methods: {
+
+        /**
+        *
+        */
+        getBudgets: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/budgets', function (response) {
+                this.budgets = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
 
         /**
          *
@@ -95,5 +110,6 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
     ],
     ready: function () {
         this.listen();
+        this.getBudgets();
     }
 });

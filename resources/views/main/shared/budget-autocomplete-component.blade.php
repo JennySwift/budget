@@ -1,25 +1,25 @@
 <script id="budget-autocomplete-template" type="x-template">
 
-    <div class="tag-wrapper">
-        <div class="tag-input-wrapper">
+    <div class="budget-wrapper">
+        <div class="budget-input-wrapper">
 
             <input
                     v-model="typing"
-                    v-on:focus="showDropdown()"
-                    v-on:blur="hideDropdown()"
-                    v-on:keyup="filterTags($event.keyCode)"
-                    placeholder="tags"
+                    v-on:focus="showDropdown = true"
+                    v-on:blur="showDropdown = false"
+                    v-on:keyup="filterBudgets($event.keyCode)"
+                    placeholder="budgets"
                     type='text'
                     id="@{{ id }}-input">
 
-            <div v-show="dropdown" class="tag-dropdown">
+            <div v-show="showDropdown" class="budget-dropdown">
                 <div
                         v-for="budget in results"
-                        v-on:mousedown="chooseTag($index)"
+                        v-on:mousedown="chooseBudget($index)"
                         v-on:mouseover="hoverItem($index)"
                         v-bind:class="{'selected': $index == currentIndex}"
                         class="dropdown-item">
-                    <div v-bind-html="budget.html"></div>
+                    <div v-html="budget.html"></div>
                     <div>
                         <span class="label label-default @{{ budget.type }}-label">@{{ budget.type }}</span>
                     </div>
@@ -28,15 +28,20 @@
 
         </div>
 
-
-        <div v-cloak v-show="chosenTags.length > 0" class="tag-display">
+        <div v-cloak v-if="chosenBudgets" v-show="chosenBudgets.length > 0" class="budget-display">
 
             <li
-                    v-for="tag in chosenTags"
-                    v-on:click="removeTag(tag)"
-                    v-bind:class="{'tag-with-fixed-budget': tag.type === 'fixed', 'tag-with-flex-budget': tag.type === 'flex', 'tag-without-budget': tag.fixed_budget === null || tag.flex_budget === null}"
-                    class="label label-default removable-tag">
-                @{{ tag.name }}
+                    v-for="budget in chosenBudgets"
+                    v-on:click="removeBudget(budget)"
+                    v-bind:class="{
+                        'tag-with-fixed-budget': budget.type === 'fixed',
+                        'tag-with-flex-budget': budget.type === 'flex',
+                        'tag-without-budget': budget.type === 'unassigned'
+                    }"
+                    class="label label-default removable-budget"
+            >
+                <span>@{{ budget.name }}</span>
+                <span class="type">@{{ budget.type }}</span>
                 <i class="fa fa-times"></i>
             </li>
 

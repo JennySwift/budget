@@ -8,26 +8,6 @@
 	}
 }
 
-.tag-with-budget {
-    background: green;
-}
-
-.tag-with-fixed-budget {
-    background: $primary;
-    &:after {
-        content: ' fixed';
-        font-size: 6px;
-    }
-}
-
-.tag-with-flex-budget {
-    background: $warning;
-    &:after {
-        content: ' flex';
-        font-size: 6px;
-    }
-}
-
 .list-group {
     //To prevent funny corners when I give it a box-shadow
     border-radius: 5px;

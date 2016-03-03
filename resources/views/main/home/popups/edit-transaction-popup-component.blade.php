@@ -138,13 +138,14 @@
 				<input v-model="selectedTransaction.reconciled" type="checkbox">
 			</div>
 
-			{{--<tag-autocomplete-directive--}}
-					{{--v-if="selectedTransaction.type !== 'transfer'"--}}
-					{{--chosenTags="selectedTransaction.budgets"--}}
+			<budget-autocomplete
+					v-if="selectedTransaction.type !== 'transfer'"
+					:chosen-budgets="selectedTransaction.budgets"
 					{{--dropdown="selectedTransaction.dropdown"--}}
-					{{--tags="budgets"--}}
-					{{--multipleTags="true">--}}
-			{{--</tag-autocomplete-directive>--}}
+					:budgets="budgets"
+					multiple-budgets="true"
+			>
+			</budget-autocomplete>
 
 			<div class="buttons">
 				<button v-on:click="showPopup = false" class="btn btn-default">Cancel</button>

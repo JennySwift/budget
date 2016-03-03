@@ -1,10 +1,10 @@
-.tag-wrapper {
+.budget-wrapper {
     width: 100%;
-    .tag-input-wrapper {
+    .budget-input-wrapper {
         input {
             width: 100%;
         }
-        .tag-dropdown {
+        .budget-dropdown {
             max-height: 200px;
             overflow: scroll;
             cursor: pointer;
@@ -51,12 +51,12 @@
 
         }
     }
-    .tag-display {
+    .budget-display {
         height: 34px;
-        .removable-tag {
+        .removable-budget {
             cursor: pointer;
             transition: all, .3s, ease;
-            position: relative;
+            //position: relative;
             &:hover {
                 padding: .4em 1.6em .4em;
                 .fa-times {
@@ -65,8 +65,8 @@
             }
             .fa-times {
                 font-size: 10px;
-                position: relative;
-                left: 8px;
+                //position: relative;
+                //left: 8px;
                 display: none;
             }
         }

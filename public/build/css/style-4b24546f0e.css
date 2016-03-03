@@ -185,6 +185,22 @@ caption {
     #tags table tr:hover .btn-danger {
       visibility: visible; }
 
+.tag-with-budget {
+  background: green; }
+
+.tag-with-fixed-budget {
+  background: #337ab7; }
+  .tag-with-fixed-budget .type {
+    font-size: 6px; }
+
+.tag-with-flex-budget {
+  background: #fca700; }
+  .tag-with-flex-budget .type {
+    font-size: 6px; }
+
+.tag-without-budget .type {
+  font-size: 6px; }
+
 #feedback {
   position: fixed;
   right: 11px;
@@ -618,15 +634,15 @@ caption {
   -ms-flex-align: center;
   align-items: center; }
 
-.tag-wrapper {
+.budget-wrapper {
   width: 100%; }
-  .tag-wrapper .tag-input-wrapper input {
+  .budget-wrapper .budget-input-wrapper input {
     width: 100%; }
-  .tag-wrapper .tag-input-wrapper .tag-dropdown {
+  .budget-wrapper .budget-input-wrapper .budget-dropdown {
     max-height: 200px;
     overflow: scroll;
     cursor: pointer; }
-    .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item {
+    .budget-wrapper .budget-input-wrapper .budget-dropdown .dropdown-item {
       padding: 4px 0;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -634,33 +650,30 @@ caption {
       -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
       justify-content: space-between; }
-      .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .highlight {
+      .budget-wrapper .budget-input-wrapper .budget-dropdown .dropdown-item .highlight {
         background-color: #337ab7;
         color: #ffffff;
         font-weight: bold;
         padding: 2px;
         border-radius: 4px; }
-      .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item.selected {
+      .budget-wrapper .budget-input-wrapper .budget-dropdown .dropdown-item.selected {
         background-color: #5bc0de;
         color: #ffffff; }
-      .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .fixed-label {
+      .budget-wrapper .budget-input-wrapper .budget-dropdown .dropdown-item .fixed-label {
         background: #337ab7; }
-      .tag-wrapper .tag-input-wrapper .tag-dropdown .dropdown-item .flex-label {
+      .budget-wrapper .budget-input-wrapper .budget-dropdown .dropdown-item .flex-label {
         background: #fca700; }
-  .tag-wrapper .tag-display {
+  .budget-wrapper .budget-display {
     height: 34px; }
-    .tag-wrapper .tag-display .removable-tag {
+    .budget-wrapper .budget-display .removable-budget {
       cursor: pointer;
-      transition: all, 0.3s, ease;
-      position: relative; }
-      .tag-wrapper .tag-display .removable-tag:hover {
+      transition: all, 0.3s, ease; }
+      .budget-wrapper .budget-display .removable-budget:hover {
         padding: 0.4em 1.6em 0.4em; }
-        .tag-wrapper .tag-display .removable-tag:hover .fa-times {
+        .budget-wrapper .budget-display .removable-budget:hover .fa-times {
           display: inline; }
-      .tag-wrapper .tag-display .removable-tag .fa-times {
+      .budget-wrapper .budget-display .removable-budget .fa-times {
         font-size: 10px;
-        position: relative;
-        left: 8px;
         display: none; }
 
 .pointer {
@@ -668,21 +681,6 @@ caption {
 
 .hover-parent > *:hover {
   background: #b5b5b5; }
-
-.tag-with-budget {
-  background: green; }
-
-.tag-with-fixed-budget {
-  background: #337ab7; }
-  .tag-with-fixed-budget:after {
-    content: ' fixed';
-    font-size: 6px; }
-
-.tag-with-flex-budget {
-  background: #fca700; }
-  .tag-with-flex-budget:after {
-    content: ' flex';
-    font-size: 6px; }
 
 .list-group {
   border-radius: 5px; }
@@ -1133,6 +1131,8 @@ caption {
     #transactions .tag-location-container td {
       padding: 9px 0px 2px 0px;
       height: 24px; }
+    #transactions .tag-location-container .type {
+      font-size: 6px; }
   #transactions .results_inner_div td {
     border-top: 1px solid #777; }
 
@@ -1444,6 +1444,22 @@ caption {
       visibility: hidden; }
     #tags table tr:hover .btn-danger {
       visibility: visible; }
+
+.tag-with-budget {
+  background: green; }
+
+.tag-with-fixed-budget {
+  background: #337ab7; }
+  .tag-with-fixed-budget .type {
+    font-size: 6px; }
+
+.tag-with-flex-budget {
+  background: #fca700; }
+  .tag-with-flex-budget .type {
+    font-size: 6px; }
+
+.tag-without-budget .type {
+  font-size: 6px; }
 
 #accounts {
   display: -webkit-flex;
