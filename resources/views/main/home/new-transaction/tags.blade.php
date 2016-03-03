@@ -19,12 +19,12 @@
         </div>
     </div>
 
-    {{--<budget-autocomplete--}}
-        {{--chosenTags="new_transaction.budgets"--}}
-        {{--dropdown="new_transaction.dropdown"--}}
-        {{--tags="budgets"--}}
-        {{--fnOnEnter="insertTransaction(13)"--}}
-        {{--multipleTags="true">--}}
-    {{--</budget-autocomplete>--}}
+    <budget-autocomplete
+            :chosen-budgets.sync="newTransaction.budgets"
+            :budgets="budgets"
+            multiple-budgets="true"
+            :function-on-enter="insertTransaction"
+    >
+    </budget-autocomplete>
 
 </div>

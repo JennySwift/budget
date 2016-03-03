@@ -3,7 +3,7 @@ var HomePage = Vue.component('home-page', {
     data: function () {
         return {
             page: 'home',
-            budgets: {},
+            budgets: [],
             transactions: [],
             colors: {},
             tab: 'transactions',
@@ -26,6 +26,20 @@ var HomePage = Vue.component('home-page', {
                 .error(function (response) {
                     HelpersRepository.handleResponseError(response);
                 });
+        },
+
+        /**
+        *
+        */
+        getBudgets: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/budgets', function (response) {
+                this.budgets = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
         },
 
         transactionsTab: function () {
@@ -66,5 +80,6 @@ var HomePage = Vue.component('home-page', {
     ready: function () {
         this.setTab();
         this.getTransactions();
+        this.getBudgets();
     }
 });

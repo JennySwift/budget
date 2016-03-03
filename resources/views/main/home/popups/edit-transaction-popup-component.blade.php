@@ -141,7 +141,6 @@
 			<budget-autocomplete
 					v-if="selectedTransaction.type !== 'transfer'"
 					:chosen-budgets.sync="selectedTransaction.budgets"
-					{{--dropdown="selectedTransaction.dropdown"--}}
 					:budgets="budgets"
 					multiple-budgets="true"
 			>

@@ -7,6 +7,7 @@
             :show="show"
             :tab="tab"
             :transactions.sync="transactions"
+            :budgets="budgets"
         >
         </new-transaction>
 

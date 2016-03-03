@@ -32,7 +32,7 @@
         id="new-transaction-merchant"
         :typing="newTransaction.merchant"
         :new-transaction.sync="newTransaction"
-        :fn-on-enter="insertTransaction"
+        :function-on-enter="insertTransaction"
     >
     </transaction-autocomplete>
 

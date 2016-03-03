@@ -130,7 +130,7 @@ var BudgetAutocomplete = Vue.component('budget-autocomplete', {
 
                 if (!this.results[this.currentIndex]) {
                     //We are not adding a budget. We are inserting the transaction.
-                    this.fnOnEnter();
+                    this.functionOnEnter();
                     return;
                 }
                 //We are choosing a budget
@@ -188,7 +188,7 @@ var BudgetAutocomplete = Vue.component('budget-autocomplete', {
         'chosenBudgets',
         //'dropdown',
         'budgets',
-        'fnOnEnter',
+        'functionOnEnter',
         'multipleBudgets',
         'model',
         'id',

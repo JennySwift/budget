@@ -198,7 +198,8 @@ var NewTransaction = Vue.component('new-transaction', {
     },
     props: [
         'tab',
-        'transactions'
+        'transactions',
+        'budgets'
     ],
     ready: function () {
         this.newTransaction = NewTransactionRepository.getDefaults(this.env, this.accounts);
