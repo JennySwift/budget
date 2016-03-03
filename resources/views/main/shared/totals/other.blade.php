@@ -1,4 +1,4 @@
-<div v-show="show.budget_totals">
+<div v-show="show.budgetTotals">
 
     <table class="totals">
 
