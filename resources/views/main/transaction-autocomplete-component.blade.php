@@ -6,17 +6,17 @@
             v-model="typing"
             v-on:blur="hideAndClear()"
             v-on:focus="focus()"
-            v-on:keyup="filter($event.keyCode)"
+            v-on:keyup="respondToKeyup($event.keyCode)"
             placeholder="@{{ placeholder }}"
             id="@{{ id }}"
             class="form-control"
             type='text'>
 
-    <div v-show="dropdown && !loading" id="@{{ placeholder }}-autocomplete" class="transactions-autocomplete">
+    <div v-show="showDropdown && !loading" id="@{{ placeholder }}-autocomplete" class="transactions-autocomplete">
         <table class="table table-bordered">
             <tbody
                     v-for="transaction in results"
-                    v-bind:style="{color: colors[transaction.type]}"
+                    v-bind:style="{color: me.preferences.colors[transaction.type]}"
                     class="pointer"
                     v-on:mousedown="chooseItem($index)"
                     v-on:mouseover="hoverItem($index)"
@@ -38,9 +38,15 @@
                 <td class="merchant">@{{ transaction.merchant }}</td>
                 <td class="total">@{{ transaction.total }}</td>
                 <td class="type">@{{ transaction.type }}</td>
-                <td data-id="@{{ transaction.account.name }}" class="account">@{{ transaction.account.name }}</td>
-                <td>@{{ transaction.from_account.name }}</td>
-                <td>@{{ transaction.to_account.name }}</td>
+
+                <td v-if="transaction.account" class="account">@{{ transaction.account.name }}</td>
+                <td v-else class="account"></td>
+
+                <td v-if="transaction.fromAccount">@{{ transaction.fromAccount.name }}</td>
+                <td v-else></td>
+
+                <td v-if="transaction.toAccount">@{{ transaction.toAccount.name }}</td>
+                <td v-else></td>
             </tr>
 
             <tr>
@@ -52,7 +58,7 @@
                         @{{ budget.name }}
                     </li>
                 </td>
-                <td colspan="1" class="budget-tag-info">@{{ transaction.allocate }}</td>
+                {{--<td colspan="1" class="budget-tag-info">@{{ transaction.allocate }}</td>--}}
             </tr>
 
             </tbody>

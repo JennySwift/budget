@@ -27,17 +27,13 @@
         </div>
     </div>
 
-    {{--<transaction-autocomplete--}}
-        {{--:dropdown="dropdown.merchant"--}}
-        {{--placeholder="merchant"--}}
-        {{--id="new-transaction-merchant"--}}
-        {{--:typing="newTransaction.merchant"--}}
-        {{--:newTransaction="newTransaction"--}}
-        {{--:fnOnEnter="insertTransaction(13)"--}}
-        {{--:showLoading="showLoading()"--}}
-        {{--:hideLoading="hideLoading()"--}}
-        {{--:loading="loading"--}}
-    {{-->--}}
-    {{--</transaction-autocomplete>--}}
+    <transaction-autocomplete
+        placeholder="merchant"
+        id="new-transaction-merchant"
+        :typing="newTransaction.merchant"
+        :new-transaction.sync="newTransaction"
+        :fn-on-enter="insertTransaction"
+    >
+    </transaction-autocomplete>
 
 </div>

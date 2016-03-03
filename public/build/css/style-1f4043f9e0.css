@@ -750,7 +750,8 @@ caption {
   display: block; }
 
 .selected {
-  background: #6D84B4; }
+  background: #6D84B4;
+  color: white !important; }
 
 .absolute {
   position: absolute; }
@@ -1071,13 +1072,15 @@ caption {
           left: 0; }
         #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete#description-autocomplete {
           right: 0; }
-        #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete td, #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete th {
-          max-width: 57px;
-          font-size: 13px;
-          padding: 0;
-          overflow: scroll; }
-        #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete .selected {
-          color: #ffffff; }
+        #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete table {
+          border-radius: 0; }
+          #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete table td, #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete table th {
+            max-width: 57px;
+            font-size: 13px;
+            padding: 0;
+            border-radius: 0; }
+          #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete table .selected {
+            color: #ffffff; }
     #new-transaction-container #new-transaction .btn-wrapper {
       width: 100%;
       display: -webkit-flex;
