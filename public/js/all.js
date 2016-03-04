@@ -24953,15 +24953,20 @@ var PreferencesPage = Vue.component('preferences-page', {
             });
         },
 
-        defaultColor: function ($type, $default_color) {
-            if ($type === 'income') {
-                $scope.colors.income = $default_color;
+        /**
+         *
+         * @param type
+         * @param defaultColor
+         */
+        defaultColor: function (type, defaultColor) {
+            if (type === 'income') {
+                this.me.preferences.colors.income = defaultColor;
             }
-            else if ($type === 'expense') {
-                $scope.colors.expense = $default_color;
+            else if (type === 'expense') {
+                this.me.preferences.colors.expense = defaultColor;
             }
-            else if ($type === 'transfer') {
-                $scope.colors.transfer = $default_color;
+            else if (type === 'transfer') {
+                this.me.preferences.colors.transfer = defaultColor;
             }
         },
     },
