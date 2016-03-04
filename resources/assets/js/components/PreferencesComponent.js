@@ -8,15 +8,32 @@ var PreferencesPage = Vue.component('preferences-page', {
     },
     components: {},
     methods: {
-        savePreferences: function () {
-            PreferencesFactory.savePreferences($scope.me.preferences)
-                .then(function (response) {
-                    $rootScope.$broadcast('provideFeedback', 'Preferences saved');
-                    $scope.me.preferences = response.data.preferences;
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
+
+        /**
+        *
+        */
+        updatePreferences: function () {
+            $.event.trigger('show-loading');
+
+            var data = {
+                preferences: {
+                    clearFields: this.me.preferences.clearFields,
+                    colors: [
+                        {income: this.me.preferences.colors.income},
+                        {expense: this.me.preferences.colors.expense},
+                        {transfer: this.me.preferences.colors.transfer},
+                    ]
+                }
+            };
+
+            this.$http.put('/api/users/' + me.id, data, function (response) {
+                this.me.preferences = response.preferences;
+                $.event.trigger('provide-feedback', ['Preferences updated', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
         },
 
         defaultColor: function ($type, $default_color) {
@@ -46,14 +63,6 @@ var PreferencesPage = Vue.component('preferences-page', {
 //    $("#transfer-color-picker").val(newValue.transfer);
 //});
 
-//savePreferences: function (preferences) {
-//    var url = '/api/users/' + me.id;
-//    var data = {
-//        preferences: preferences
-//    };
-//
-//    return $http.put(url, data);
-//},
 //updateColors: function ($colors) {
 //    var $url = 'api/update/colors';
 //    var $description = 'colors';

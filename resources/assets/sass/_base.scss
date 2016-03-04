@@ -83,7 +83,7 @@ select {
     }
 }
 
-input {
+input[type="text"] {
 	background: #fff;
 	border: 1px solid #ccc;
 	border-radius: 4px;
@@ -99,8 +99,8 @@ input {
 }
 
 input[type="checkbox"] {
-	height: 34px;
-	width: 34px;
+	//height: 34px;
+	//width: 34px;
 	margin: 0;
 }
 

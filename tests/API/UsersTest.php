@@ -21,7 +21,12 @@ class UsersTest extends TestCase
 
         $response = $this->call('PUT', '/api/users/'.$this->user->id, [
             'preferences' => [
-                'clearFields' => true
+                'clearFields' => true,
+                'colors' => [
+                    'income' => 'pink',
+                    'expense' => 'blue',
+                    'transfer' => 'purple'
+                ]
             ]
         ]);
         $preferences = json_decode($response->getContent(), true)['preferences'];
@@ -30,6 +35,9 @@ class UsersTest extends TestCase
         $this->checkPreferencesKeysExist($preferences);
 
         $this->assertTrue($preferences['clearFields']);
+        $this->assertEquals('pink', $preferences['colors']['income']);
+        $this->assertEquals('blue', $preferences['colors']['expense']);
+        $this->assertEquals('purple', $preferences['colors']['transfer']);
 
         $this->assertEquals(200, $response->getStatusCode());
 
