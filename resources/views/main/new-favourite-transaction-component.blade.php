@@ -1,13 +1,14 @@
 <script id="new-favourite-transaction-template" type="x-template">
 
     <div id="new-favourite">
-        <h2>Create a new favourite transaction</h2>
+        <h3>Create a new favourite transaction</h3>
 
         <div class="form-group">
             <label for="new-favourite-name">Name</label>
             <input
                 v-model="newFavourite.name"
-                v-on:keyup.13="insertFavouriteTransaction()"
+                {{--v-on:keyup.13="insertFavouriteTransaction()"--}}
+                v-on:focus="showFields = true"
                 type="text"
                 id="new-favourite-name"
                 name="new-favourite-name"
@@ -16,16 +17,25 @@
             >
         </div>
 
-        <div>
-            <label>Type</label>
-            <select v-model="newFavourite.type" v-on:keyup.13="insertFavouriteTransaction()" class="form-control">
-                <option value="income">Credit</option>
-                <option value="expense">Debit</option>
-                {{--<option value="transfer">Transfer</option>--}}
+        <div v-show="showFields" class="form-group">
+            <label for="new-favourite-type">Type</label>
+
+            <select
+                v-model="newFavourite.type"
+                v-on:keyup.13="insertFavouriteTransaction()"
+                id="new-favourite-type"
+                class="form-control"
+            >
+                <option
+                    v-for="type in types"
+                    v-bind:value="type.value"
+                >
+                    @{{ type.name }}
+                </option>
             </select>
         </div>
 
-        <div class="form-group">
+        <div v-show="showFields" class="form-group">
             <label for="new-favourite-description">Description</label>
             <input
                 v-model="newFavourite.description"
@@ -38,7 +48,7 @@
             >
         </div>
 
-        <div class="form-group">
+        <div v-show="showFields" class="form-group">
             <label for="new-favourite-merchant">Merchant</label>
             <input
                 v-model="newFavourite.merchant"
@@ -51,7 +61,7 @@
             >
         </div>
 
-       <div class="form-group">
+       <div v-show="showFields" class="form-group">
            <label for="new-favourite-total">Total</label>
            <input
                v-model="newFavourite.total"
@@ -64,7 +74,7 @@
            >
        </div>
 
-        <div class="form-group">
+        <div v-show="showFields" class="form-group">
             <label for="new-favourite-transaction-account">Account</label>
 
             <select
@@ -82,20 +92,31 @@
             </select>
         </div>
 
-        <budget-autocomplete
-                :chosen-budgets.sync="newFavourite.budgets"
-                :budgets="budgets"
-                multiple-budgets="true"
-                :function-on-enter="insertFavouriteTransaction"
-        >
-        </budget-autocomplete>
+        <div v-show="showFields" class="form-group">
+            <label>Budgets</label>
 
-        <div>
-            <button
-                    v-on:click="insertFavouriteTransaction()"
-                    class="btn btn-success">
-                Add new favourite
-            </button>
+            <budget-autocomplete
+                    :chosen-budgets.sync="newFavourite.budgets"
+                    :budgets="budgets"
+                    multiple-budgets="true"
+                    :function-on-enter="insertFavouriteTransaction"
+            >
+            </budget-autocomplete>
+        </div>
+
+        <div v-show="showFields" class="form-group">
+            <div class="buttons">
+                <button
+                        v-on:click="showFields = false"
+                        class="btn btn-default">
+                    Cancel
+                </button>
+                <button
+                        v-on:click="insertFavouriteTransaction()"
+                        class="btn btn-success">
+                    Add new favourite
+                </button>
+            </div>
         </div>
 
     </div>

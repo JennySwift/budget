@@ -1168,16 +1168,6 @@ caption {
     margin: auto; }
     #favourite-transactions-page #new-favourite h2 {
       margin-bottom: 31px; }
-    #favourite-transactions-page #new-favourite > div {
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-      justify-content: space-between;
-      margin-bottom: 6px; }
-    #favourite-transactions-page #new-favourite select {
-      max-width: 300px; }
   #favourite-transactions-page #favourite-transactions {
     margin: auto; }
     #favourite-transactions-page #favourite-transactions .budgets {

@@ -3,9 +3,19 @@ var NewFavouriteTransaction = Vue.component('new-favourite-transaction', {
     data: function () {
         return {
             newFavourite: {
-                account: this.accounts[0],
-                budgets: []
-            }
+                account: {},
+                budgets: [],
+                type: 'expense'
+            },
+            showFields: false,
+            types: [
+                {
+                    name: 'credit', value: 'income',
+                },
+                {
+                    name: 'debit', value: 'expense',
+                }
+            ]
         };
     },
     components: {},
@@ -20,6 +30,8 @@ var NewFavouriteTransaction = Vue.component('new-favourite-transaction', {
 
             this.$http.post('/api/favouriteTransactions', data, function (response) {
                     this.favouriteTransactions.push(response);
+                    this.showFields = false;
+                    this.emptyFields();
                     $.event.trigger('provide-feedback', ['Favourite created', 'success']);
                     $.event.trigger('hide-loading');
                 })
@@ -27,6 +39,27 @@ var NewFavouriteTransaction = Vue.component('new-favourite-transaction', {
                     HelpersRepository.handleResponseError(response);
                 });
         },
+
+        /**
+         * 
+         */
+        emptyFields: function () {
+            this.newFavourite.name = '';
+            this.newFavourite.description = '';
+            this.newFavourite.merchant = '';
+            this.newFavourite.total = '';
+            this.newFavourite.budgets = [];
+        },
+
+        /**
+         * Set the default new favourite account to the first account, when the accounts are loaded
+         */
+        setNewFavouriteAccount: function () {
+            var that = this;
+            setTimeout(function () {
+                that.newFavourite.account = that.accounts[0];
+            }, 500);
+        }
     },
     props: [
         'budgets',
@@ -34,6 +67,6 @@ var NewFavouriteTransaction = Vue.component('new-favourite-transaction', {
         'accounts'
     ],
     ready: function () {
-
+        this.setNewFavouriteAccount();
     }
 });
