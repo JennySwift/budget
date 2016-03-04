@@ -168,6 +168,12 @@ caption {
       font-size: 17px; }
   #navbar .show-dropdown a[disabled=true] {
     cursor: not-allowed; }
+  #navbar .show-dropdown .disabled {
+    color: #777;
+    font-weight: bold;
+    text-align: center; }
+    #navbar .show-dropdown .disabled:hover {
+      background: white; }
 
 #tags {
   margin-bottom: 20px; }

@@ -57,6 +57,14 @@
         a[disabled=true] {
             cursor: not-allowed;
         }
+        .disabled {
+            color: #777;
+            font-weight: bold;
+            text-align: center;
+            &:hover {
+                background: white;
+            }
+        }
     }
 }
 

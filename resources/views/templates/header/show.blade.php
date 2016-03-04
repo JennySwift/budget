@@ -5,6 +5,42 @@
     </a>
     <ul class="dropdown-menu" role="menu">
 
+        <li>
+            <a class="disabled">Totals</a>
+        </li>
+
+        {{--Basic totals--}}
+        <li>
+            <a
+                    v-on:click="show.basicTotals = !show.basicTotals"
+                    href="#"
+            >
+                <span>Basic Totals</span>
+                <i
+                        v-show="show.basicTotals"
+                        class="fa fa-check"></i>
+            </a>
+        </li>
+
+        {{--Budget totals--}}
+        <li>
+            <a
+                    v-on:click="show.budgetTotals = !show.budgetTotals"
+                    href="#"
+            >
+                <span>Remaining Balance Totals</span>
+                <i
+                        v-show="show.budgetTotals"
+                        class="fa fa-check"></i>
+            </a>
+        </li>
+
+        <li role="separator" class="divider"></li>
+
+        <li>
+            <a class="disabled">Transaction Fields</a>
+        </li>
+
         {{--All--}}
         <li>
             <a
