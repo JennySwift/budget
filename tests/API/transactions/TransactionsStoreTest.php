@@ -29,6 +29,7 @@ class TransactionsStoreTest extends TestCase
             'total' => 5,
             'reconciled' => 0,
             'allocated' => 0,
+            'minutes' => 70,
             'budgets' => [
                 ['id' => 2, 'name' => 'business'],
                 ['id' => 4, 'name' => 'busking']
@@ -72,6 +73,7 @@ class TransactionsStoreTest extends TestCase
         $this->assertEquals('5', $content['total']);
         $this->assertEquals(0, $content['reconciled']);
         $this->assertEquals(0, $content['allocated']);
+        $this->assertEquals(70, $content['minutes']);
         $this->assertEquals('business', $content['budgets'][0]['name']);
         $this->assertEquals('busking', $content['budgets'][1]['name']);
 

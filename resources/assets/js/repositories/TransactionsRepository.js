@@ -17,9 +17,9 @@ var TransactionsRepository = {
             reconciled: HelpersRepository.convertBooleanToInteger(transaction.reconciled),
             allocated: transaction.allocated,
             //Convert duration from HH:MM format to minutes
-            minutes: moment.duration(transaction.duration).asMinutes(),
+            minutes: HelpersRepository.formatDurationToMinutes(transaction.duration),
             budgets: transaction.budgets,
-        }
+        };
 
         if (transaction.type === 'expense' && transaction.total > 0) {
             //transaction is an expense without the negative sign

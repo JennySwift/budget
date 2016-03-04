@@ -22517,9 +22517,9 @@ var TransactionsRepository = {
             reconciled: HelpersRepository.convertBooleanToInteger(transaction.reconciled),
             allocated: transaction.allocated,
             //Convert duration from HH:MM format to minutes
-            minutes: moment.duration(transaction.duration).asMinutes(),
+            minutes: HelpersRepository.formatDurationToMinutes(transaction.duration),
             budgets: transaction.budgets,
-        }
+        };
 
         if (transaction.type === 'expense' && transaction.total > 0) {
             //transaction is an expense without the negative sign
@@ -25116,7 +25116,7 @@ var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
                 //enter is pressed
                 if (!this.results[this.currentIndex]) {
                     //We are not choosing a transaction. We are inserting the transaction.
-                    this.fnOnEnter();
+                    this.functionOnEnter();
                     return;
                 }
                 this.chooseItem();
@@ -25243,7 +25243,7 @@ var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
         'id',
         'typing',
         'newTransaction',
-        'fnOnEnter'
+        'functionOnEnter'
     ],
     ready: function () {
 

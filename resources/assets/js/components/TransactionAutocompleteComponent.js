@@ -70,7 +70,7 @@ var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
                 //enter is pressed
                 if (!this.results[this.currentIndex]) {
                     //We are not choosing a transaction. We are inserting the transaction.
-                    this.fnOnEnter();
+                    this.functionOnEnter();
                     return;
                 }
                 this.chooseItem();
@@ -197,7 +197,7 @@ var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
         'id',
         'typing',
         'newTransaction',
-        'fnOnEnter'
+        'functionOnEnter'
     ],
     ready: function () {
 
