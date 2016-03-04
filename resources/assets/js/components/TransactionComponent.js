@@ -49,14 +49,7 @@ var Transaction = Vue.component('transaction', {
          * @returns {*}
          */
         formatDurationFilter: function (minutes) {
-            if (minutes) {
-                return '';
-            }
-
-            var moment = moment.duration(minutes, 'minutes');
-            var formattedDuration = moment._data.hours + ':' + moment._data.minutes;
-
-            return formattedDuration;
+            return HelpersRepository.formatDurationToHoursAndMinutes(minutes);
         },
 
         /**

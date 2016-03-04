@@ -22285,7 +22285,31 @@ var HelpersRepository = {
      */
     formatDurationToMinutes: function (duration) {
         return moment.duration(duration).asMinutes();
-    }
+    },
+
+    /**
+     *
+     * @param minutes
+     * @returns {*}
+     */
+    formatDurationToHoursAndMinutes: function (minutes) {
+        if (!minutes && minutes != 0) {
+            return '-';
+        }
+
+        var hours = Math.floor(minutes / 60);
+        if (hours < 10) {
+            hours = '0' + hours;
+        }
+
+        minutes = minutes % 60;
+        if (minutes < 10) {
+            minutes = '0' + minutes;
+        }
+
+        return hours + ':' + minutes;
+    },
+
 };
 var NewTransactionRepository = {
 
@@ -23537,9 +23561,7 @@ var Dropdown = Vue.component('dropdown', {
          */
         listen: function () {
             var that = this;
-            //Todo: Why is this click firing twice?
             $("body").on('click', function (event) {
-                console.log(that.$el);
                 if (!that.$el.contains(event.target)) {
                     that.hideDropdown();
                 }
@@ -25280,14 +25302,7 @@ var Transaction = Vue.component('transaction', {
          * @returns {*}
          */
         formatDurationFilter: function (minutes) {
-            if (minutes) {
-                return '';
-            }
-
-            var moment = moment.duration(minutes, 'minutes');
-            var formattedDuration = moment._data.hours + ':' + moment._data.minutes;
-
-            return formattedDuration;
+            return HelpersRepository.formatDurationToHoursAndMinutes(minutes);
         },
 
         /**

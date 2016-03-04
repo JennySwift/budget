@@ -35,9 +35,7 @@ var Dropdown = Vue.component('dropdown', {
          */
         listen: function () {
             var that = this;
-            //Todo: Why is this click firing twice?
             $("body").on('click', function (event) {
-                console.log(that.$el);
                 if (!that.$el.contains(event.target)) {
                     that.hideDropdown();
                 }
