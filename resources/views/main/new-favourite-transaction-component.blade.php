@@ -7,6 +7,7 @@
             <label for="new-favourite-name">Name</label>
             <input
                 v-model="newFavourite.name"
+                v-on:keyup.13="insertFavouriteTransaction()"
                 type="text"
                 id="new-favourite-name"
                 name="new-favourite-name"
@@ -17,7 +18,7 @@
 
         <div>
             <label>Type</label>
-            <select v-model="newFavourite.type" class="form-control">
+            <select v-model="newFavourite.type" v-on:keyup.13="insertFavouriteTransaction()" class="form-control">
                 <option value="income">Credit</option>
                 <option value="expense">Debit</option>
                 {{--<option value="transfer">Transfer</option>--}}
@@ -28,6 +29,7 @@
             <label for="new-favourite-description">Description</label>
             <input
                 v-model="newFavourite.description"
+                v-on:keyup.13="insertFavouriteTransaction()"
                 type="text"
                 id="new-favourite-description"
                 name="new-favourite-description"
@@ -40,6 +42,7 @@
             <label for="new-favourite-merchant">Merchant</label>
             <input
                 v-model="newFavourite.merchant"
+                v-on:keyup.13="insertFavouriteTransaction()"
                 type="text"
                 id="new-favourite-merchant"
                 name="new-favourite-merchant"
@@ -52,6 +55,7 @@
            <label for="new-favourite-total">Total</label>
            <input
                v-model="newFavourite.total"
+               v-on:keyup.13="insertFavouriteTransaction()"
                type="text"
                id="new-favourite-total"
                name="new-favourite-total"
@@ -65,6 +69,7 @@
 
             <select
                     v-model="newFavourite.account"
+                    v-on:keyup.13="insertFavouriteTransaction()"
                     id="new-favourite-transaction-account"
                     class="form-control"
             >

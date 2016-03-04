@@ -3,7 +3,12 @@
     <div id="favourite-transactions-page">
 
 
-        <new-favourite-transaction></new-favourite-transaction>
+        <new-favourite-transaction
+                :budgets="budgets"
+                :favourite-transactions.sync="favouriteTransactions"
+                :accounts="accounts"
+        >
+        </new-favourite-transaction>
 
         <div>
             <h2>Favourite transactions</h2>

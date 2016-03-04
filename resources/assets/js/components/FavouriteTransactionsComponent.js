@@ -55,40 +55,6 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
             });
         },
 
-        /**
-        *
-        */
-        insertFavouriteTransaction: function () {
-            $.event.trigger('show-loading');
-            var data = {
-                name: this.newFavourite.name
-            };
-
-            $newFavourite.budget_ids = _.pluck($newFavourite.budgets, 'id');
-
-            this.$http.post('/api/favouriteTransactions', data, function (response) {
-                this.favouriteTransactions.push(response);
-                $.event.trigger('provide-feedback', ['Favourite created', 'success']);
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
-
-        insertFavouriteTransaction: function () {
-            $scope.showLoading();
-            FavouriteTransactionsFactory.insert($scope.newFavourite)
-                .then(function (response) {
-                    $scope.favouriteTransactions.push(response.data.data);
-                    $rootScope.$broadcast('provideFeedback', 'Favourite added');
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-
         deleteFavouriteTransaction: function ($favourite) {
             if (confirm("Are you sure?")) {
                 $scope.showLoading();

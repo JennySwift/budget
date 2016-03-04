@@ -22012,6 +22012,30 @@ var AutocompleteRepository = {
 		return $transactions;
 	}
 };
+var FavouriteTransactionsRepository = {
+
+    /**
+     *
+     * @param favouriteTransaction
+     * @returns {{name: *, type: *, description: *, merchant: *, total: *, budget_ids}}
+     */
+    setFields: function (favouriteTransaction) {
+        var data = {
+            name: favouriteTransaction.name,
+            type: favouriteTransaction.type,
+            description: favouriteTransaction.description,
+            merchant: favouriteTransaction.merchant,
+            total: favouriteTransaction.total,
+            budget_ids: _.pluck(favouriteTransaction.budgets, 'id')
+        };
+
+        if (favouriteTransaction.account) {
+            data.account_id = favouriteTransaction.account.id;
+        }
+
+        return data;
+    }
+};
 var FilterRepository = {
 
     resetFilter: function () {
@@ -23953,40 +23977,6 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
             });
         },
 
-        /**
-        *
-        */
-        insertFavouriteTransaction: function () {
-            $.event.trigger('show-loading');
-            var data = {
-                name: this.newFavourite.name
-            };
-
-            $newFavourite.budget_ids = _.pluck($newFavourite.budgets, 'id');
-
-            this.$http.post('/api/favouriteTransactions', data, function (response) {
-                this.favouriteTransactions.push(response);
-                $.event.trigger('provide-feedback', ['Favourite created', 'success']);
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
-
-        insertFavouriteTransaction: function () {
-            $scope.showLoading();
-            FavouriteTransactionsFactory.insert($scope.newFavourite)
-                .then(function (response) {
-                    $scope.favouriteTransactions.push(response.data.data);
-                    $rootScope.$broadcast('provideFeedback', 'Favourite added');
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
-        },
-
         deleteFavouriteTransaction: function ($favourite) {
             if (confirm("Are you sure?")) {
                 $scope.showLoading();
@@ -24589,15 +24579,36 @@ var NewFavouriteTransaction = Vue.component('new-favourite-transaction', {
     template: '#new-favourite-transaction-template',
     data: function () {
         return {
-            newFavourite: {}
+            newFavourite: {
+                account: this.accounts[0],
+                budgets: []
+            }
         };
     },
     components: {},
     methods: {
 
+        /**
+         *
+         */
+        insertFavouriteTransaction: function () {
+            $.event.trigger('show-loading');
+            var data = FavouriteTransactionsRepository.setFields(this.newFavourite);
+
+            this.$http.post('/api/favouriteTransactions', data, function (response) {
+                    this.favouriteTransactions.push(response);
+                    $.event.trigger('provide-feedback', ['Favourite created', 'success']);
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+        },
     },
     props: [
-        //data to be received from parent
+        'budgets',
+        'favouriteTransactions',
+        'accounts'
     ],
     ready: function () {
 
