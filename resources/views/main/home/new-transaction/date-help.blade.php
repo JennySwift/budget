@@ -1,14 +1,6 @@
 <div class="help-row">
     <label>Enter the transaction's date</label>
 
-    {{--<dropdown--}}
-            {{--inline-tempate--}}
-            {{--animateInClass="flipInX"--}}
-            {{--animateOutClass="flipOutX"--}}
-            {{--class="dropdown-directive"--}}
-    {{-->--}}
-    {{--</dropdown>--}}
-
     <dropdown
             inline-template
             animate-in-class="flipInX"

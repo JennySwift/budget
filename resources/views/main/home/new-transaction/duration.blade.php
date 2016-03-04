@@ -3,18 +3,29 @@
         <label>Duration (optional)
         </label>
 
-        <div dropdowns-directive class="dropdown-directive">
-            <button v-on:click="toggleDropdown()" tabindex="-1" class="btn btn-info btn-xs">
-                Help
-                <span class="caret"></span>
-            </button>
+        <dropdown
+                inline-template
+                animate-in-class="flipInX"
+                animate-out-class="flipOutX"
+                class="dropdown-directive"
+        >
+            
+            <div>
 
-            <div class="dropdown-content animated">
-                <div class="help">
-                    <div>Enter the duration in H:M format.</div>
+                <button v-on:click="toggleDropdown()" tabindex="-1" class="btn btn-info btn-xs">
+                    Help
+                    <span class="caret"></span>
+                </button>
+
+                <div class="dropdown-content animated">
+                    <div class="help">
+                        <div>Enter the duration in H:M format.</div>
+                    </div>
                 </div>
+                
             </div>
-        </div>
+            
+        </dropdown>
     </div>
 
     <input
