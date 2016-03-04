@@ -152,6 +152,20 @@ caption {
       #navbar .gravatar-li .gravatar-container .gravatar {
         border-radius: 8px;
         height: 32px; }
+  #navbar .show-dropdown a {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    #navbar .show-dropdown a span:first-child {
+      margin-right: 17px; }
+    #navbar .show-dropdown a .fa-check {
+      font-size: 17px; }
 
 #tags {
   margin-bottom: 20px; }

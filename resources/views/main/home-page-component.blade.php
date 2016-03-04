@@ -14,7 +14,7 @@
         <div class="main-content">
 
             <totals
-            :show="show"
+                :show="show"
             >
             </totals>
 
@@ -22,6 +22,7 @@
                 {{--@include('templates.home.popups.index')--}}
                 <transactions
                         :show="show"
+                        :transaction-properties-to-show="transactionPropertiesToShow",
                         :transactions.sync="transactions"
                 >
                 </transactions>

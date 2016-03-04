@@ -8,13 +8,22 @@
 </head>
 <body>
 
-<navbar></navbar>
+<navbar
+    :show.sync="show",
+    :transaction-properties-to-show.sync="transactionPropertiesToShow",
+>
+</navbar>
+
 <feedback></feedback>
 <loading></loading>
 
 
 <div class="main">
-    <router-view></router-view>
+    <router-view
+        :show="show"
+        :transaction-properties-to-show="transactionPropertiesToShow"
+    >
+    </router-view>
 </div>
 
 @include('main.shared.footer')

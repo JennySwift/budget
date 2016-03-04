@@ -7,7 +7,6 @@ var HomePage = Vue.component('home-page', {
             transactions: [],
             colors: {},
             tab: 'transactions',
-            show: ShowRepository.defaults,
             env: ''
         };
     },
@@ -75,7 +74,8 @@ var HomePage = Vue.component('home-page', {
         }
     },
     props: [
-        //data to be received from parent
+        'show',
+        'transactionPropertiesToShow'
     ],
     ready: function () {
         this.setTab();

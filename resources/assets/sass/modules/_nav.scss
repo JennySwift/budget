@@ -42,6 +42,19 @@
             }
         }
     }
+    .show-dropdown {
+        a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            span:first-child {
+                margin-right: 17px;
+            }
+            .fa-check {
+                font-size: 17px;
+            }
+        }
+    }
 }
 
 //

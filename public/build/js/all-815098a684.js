@@ -22471,28 +22471,36 @@ var SavingsRepository = {
 var ShowRepository = {
 
     defaults: {
-        newBudget: false,
-        popups: {},
-        allocationPopup: false,
-        actions: false,
-        //components
-        newTransaction: false,
         basicTotals: true,
         budgetTotals: true,
         filterTotals: true,
-        editTransaction: false,
-        editBudget: false,
         budget: false,
         filter: false,
-        autocomplete: {
-            description: false,
-            merchant: false
-        },
         savingsTotal: {
             input: false,
             edit_btn: true
         }
+    },
 
+    /**
+     *
+     * @returns {{status: boolean, date: boolean, description: boolean, merchant: boolean, total: boolean, type: boolean, account: boolean, duration: boolean, reconciled: boolean, allocated: boolean, budgets: boolean}}
+     */
+    setTransactionDefaults: function () {
+        return {
+            all: true,
+            status: true,
+            date: true,
+            description: true,
+            merchant: true,
+            total: true,
+            type: true,
+            account: true,
+            duration: true,
+            reconciled: true,
+            allocated: true,
+            budgets: true
+        }
     }
 
 };
@@ -24335,7 +24343,6 @@ var HomePage = Vue.component('home-page', {
             transactions: [],
             colors: {},
             tab: 'transactions',
-            show: ShowRepository.defaults,
             env: ''
         };
     },
@@ -24403,7 +24410,8 @@ var HomePage = Vue.component('home-page', {
         }
     },
     props: [
-        //data to be received from parent
+        'show',
+        'transactionPropertiesToShow'
     ],
     ready: function () {
         this.setTab();
@@ -24442,7 +24450,6 @@ var Navbar = Vue.component('navbar', {
         return {
             me: {},
             page: 'home',
-            show: {}
         };
     },
     components: {},
@@ -24450,9 +24457,52 @@ var Navbar = Vue.component('navbar', {
         toggleFilter: function () {
             $.event.trigger('toggle-filter');
         },
+
+        /**
+         *
+         */
+        showAllTransactionProperties: function () {
+            this.transactionPropertiesToShow = ShowRepository.setTransactionDefaults();
+        },
+
+        /**
+         *
+         * @param property
+         */
+        toggleTransactionProperty: function (property) {
+            this.transactionPropertiesToShow[property] = !this.transactionPropertiesToShow[property];
+            this.transactionPropertiesToShow.all = this.calculateIfAllTransactionPropertiesAreShown();
+        },
+
+        /**
+         *
+         * @returns {*}
+         */
+        calculateIfAllTransactionPropertiesAreShown: function () {
+            var that = this;
+            var allShown = true;
+            $.each(this.transactionPropertiesToShow, function (key, value) {
+                if (key !== 'all' && !value) {
+                    allShown = false;
+                }
+            });
+
+            return allShown;
+
+            //var hiddenProperties = _.filter(that.transactionPropertiesToShow, function (property) {
+            //    return property == false;
+            //});
+            //
+            //if (hiddenProperties.length > 0) {
+            //    return false;
+            //}
+            //
+            //return true;
+        }
     },
     props: [
-
+        'show',
+        'transactionPropertiesToShow'
     ],
     ready: function () {
 
@@ -25321,6 +25371,26 @@ var Transaction = Vue.component('transaction', {
         };
     },
     components: {},
+    filters: {
+        /**
+         *
+         * @param minutes
+         * @returns {*}
+         */
+        formatDurationFilter: function (minutes) {
+            return HelpersRepository.formatDurationToHoursAndMinutes(minutes);
+        },
+
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
+    },
     methods: {
 
         /**
@@ -25355,46 +25425,22 @@ var Transaction = Vue.component('transaction', {
         showEditTransactionPopup: function (transaction) {
             $.event.trigger('show-edit-transaction-popup', [transaction]);
         },
+        
+        //listen: function () {
+        //    var that = this;
+        //    $(document).on('toggle-transaction-property', function (event, property) {
+        //        that[property] = !that[property];
+        //    });
+        //}
 
-    },
-    filters: {
-        /**
-         *
-         * @param minutes
-         * @returns {*}
-         */
-        formatDurationFilter: function (minutes) {
-            return HelpersRepository.formatDurationToHoursAndMinutes(minutes);
-        },
-
-        /**
-         *
-         * @param number
-         * @param howManyDecimals
-         * @returns {Number}
-         */
-        numberFilter: function (number, howManyDecimals) {
-            return HelpersRepository.numberFilter(number, howManyDecimals);
-        }
     },
     props: [
         'transactions',
         'transaction',
-        'showStatus',
-        'showDate',
-        'showDescription',
-        'showMerchant',
-        'showTotal',
-        'showType',
-        'showAccount',
-        'showDuration',
-        'showReconciled',
-        'showAllocated',
-        'showBudgets',
-        'showDelete',
+        'transactionPropertiesToShow'
     ],
     ready: function () {
-
+        //this.listen();
     }
 });
 
@@ -25444,7 +25490,8 @@ var Transactions = Vue.component('transactions', {
         }
     },
     props: [
-        'transactions'
+        'transactions',
+        'transactionPropertiesToShow'
     ],
     ready: function () {
         this.getAccounts();
@@ -25534,7 +25581,12 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
 
 
 var App = Vue.component('app', {
-
+    data: function () {
+        return {
+            show: ShowRepository.defaults,
+            transactionPropertiesToShow: ShowRepository.setTransactionDefaults()
+        };
+    },
 });
 
 var router = new VueRouter({

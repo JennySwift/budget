@@ -23,11 +23,7 @@
 
             @include('templates.header.menu')
 
-            <li>
-                @include('main.home.show-button')
-            </li>
-
-
+            @include('templates.header.show')
 
             @include('templates.header.user')
 

@@ -2,23 +2,23 @@
 
     <tr>
 
-        <th v-show="showDate">Date</th>
+        <th v-show="transactionPropertiesToShow.date">Date</th>
 
-        <th v-show="showDescription">Description</th>
+        <th v-show="transactionPropertiesToShow.description">Description</th>
 
-        <th v-show="showMerchant">Merchant</th>
+        <th v-show="transactionPropertiesToShow.merchant">Merchant</th>
 
-        <th v-show="showTotal">
+        <th v-show="transactionPropertiesToShow.total">
             <span class="total fa fa-dollar"></span>
         </th>
 
-        <th v-show="showAccount">Account</th>
+        <th v-show="transactionPropertiesToShow.account">Account</th>
 
-        <th v-show="showDuration">Duration</th>
+        <th v-show="transactionPropertiesToShow.duration">Duration</th>
 
-        <th v-show="showReconciled" class="reconcile">R</th>
+        <th v-show="transactionPropertiesToShow.reconciled" class="reconcile">R</th>
 
-        <th v-show="showAllocated">Allocation</th>
+        <th v-show="transactionPropertiesToShow.allocated">Allocation</th>
 
     </tr>
 

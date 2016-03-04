@@ -1,6 +1,6 @@
 <tr
     v-if="transaction.budgets"
-    v-show="showBudgets && transaction.budgets.length > 0"
+    v-show="transactionPropertiesToShow.budgets && transaction.budgets.length > 0"
     class="tag-location-container">
 
     <td colspan="9">

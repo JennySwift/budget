@@ -1,6 +1,11 @@
 
 var App = Vue.component('app', {
-
+    data: function () {
+        return {
+            show: ShowRepository.defaults,
+            transactionPropertiesToShow: ShowRepository.setTransactionDefaults()
+        };
+    },
 });
 
 var router = new VueRouter({

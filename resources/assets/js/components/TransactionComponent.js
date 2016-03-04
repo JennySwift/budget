@@ -6,6 +6,26 @@ var Transaction = Vue.component('transaction', {
         };
     },
     components: {},
+    filters: {
+        /**
+         *
+         * @param minutes
+         * @returns {*}
+         */
+        formatDurationFilter: function (minutes) {
+            return HelpersRepository.formatDurationToHoursAndMinutes(minutes);
+        },
+
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
+    },
     methods: {
 
         /**
@@ -40,45 +60,21 @@ var Transaction = Vue.component('transaction', {
         showEditTransactionPopup: function (transaction) {
             $.event.trigger('show-edit-transaction-popup', [transaction]);
         },
+        
+        //listen: function () {
+        //    var that = this;
+        //    $(document).on('toggle-transaction-property', function (event, property) {
+        //        that[property] = !that[property];
+        //    });
+        //}
 
-    },
-    filters: {
-        /**
-         *
-         * @param minutes
-         * @returns {*}
-         */
-        formatDurationFilter: function (minutes) {
-            return HelpersRepository.formatDurationToHoursAndMinutes(minutes);
-        },
-
-        /**
-         *
-         * @param number
-         * @param howManyDecimals
-         * @returns {Number}
-         */
-        numberFilter: function (number, howManyDecimals) {
-            return HelpersRepository.numberFilter(number, howManyDecimals);
-        }
     },
     props: [
         'transactions',
         'transaction',
-        'showStatus',
-        'showDate',
-        'showDescription',
-        'showMerchant',
-        'showTotal',
-        'showType',
-        'showAccount',
-        'showDuration',
-        'showReconciled',
-        'showAllocated',
-        'showBudgets',
-        'showDelete',
+        'transactionPropertiesToShow'
     ],
     ready: function () {
-
+        //this.listen();
     }
 });

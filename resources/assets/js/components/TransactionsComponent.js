@@ -44,7 +44,8 @@ var Transactions = Vue.component('transactions', {
         }
     },
     props: [
-        'transactions'
+        'transactions',
+        'transactionPropertiesToShow'
     ],
     ready: function () {
         this.getAccounts();
