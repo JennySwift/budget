@@ -1539,7 +1539,10 @@ caption {
     #preferences-page .clear-fields-container label {
       margin-bottom: 0;
       margin-right: 5px; }
-  #preferences-page table {
-    border-radius: none; }
+  #preferences-page .colors {
+    max-width: 260px;
+    margin: auto; }
+    #preferences-page .colors .color {
+      margin-bottom: 20px; }
 
 /*# sourceMappingURL=style.css.map */

@@ -8,7 +8,24 @@
             margin-right: 5px;
         }
     }
-    table {
-        border-radius: none;
+    //table {
+    //    border-radius: none;
+    //    td {
+    //        border: none;
+    //    }
+    //    max-width: 312px;
+    //}
+    .colors {
+        max-width: 260px;
+        margin: auto;
+        .color {
+            margin-bottom: 20px;
+            //.flex {
+            //    display: flex;
+            //    button {
+            //        margin-left: 15px;
+            //    }
+            //}
+        }
     }
 }

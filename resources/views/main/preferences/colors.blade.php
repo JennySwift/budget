@@ -2,76 +2,91 @@
 
     <h3 class="center">Choose your colours</h3>
 
-    <table class="table table-bordered">
+    <div class="colors">
 
-        <tr>
-            <td>
-                <label for="income-color-picker">income</label>
-            </td>
+        <div class="color">
 
-            <td>
-                <input
-                        v-model="me.preferences.colors.income"
-                        id="income-color-picker"
-                        class="color-picker"
-                        type="color">
-            </td>
+            <div class="form-group">
+                <label for="income-color-picker">Income</label>
 
-            <td>
-                <button
-                        v-on:click="defaultColor('income', '#017d00')"
-                        id="default-income-color-button"
-                        class="default-color-button btn btn-info">
-                    default
-                </button>
-            </td>
-        </tr>
+                <div class="input-group">
+                    <input
+                            v-model="me.preferences.colors.income"
+                            type="color"
+                            id="income-color-picker"
+                            name="income-color-picker"
+                            placeholder="income"
+                            class="form-control"
+                    >
 
-        <tr>
-            <td>
-                <label for="expense-color-picker">expense</label>
-            </td>
+                    <span class="input-group-btn">
+                        <button
+                                v-on:click="defaultColor('income', '#017d00')"
+                                class="default-color-button btn btn-default">
+                            Default
+                        </button>
+                    </span>
+                </div>
 
-            <td>
-                <input
-                        v-model="me.preferences.colors.expense"
-                        id="expense-color-picker"
-                        class="color-picker"
-                        type="color">
-            </td>
+            </div>
 
-            <td>
-                <button
-                        v-on:click="defaultColor('expense', '#fb5e52')"
-                        id="default-expense-color-button"
-                        class="default-color-button btn btn-info">
-                    default
-                </button>
-            </td>
+        </div>
 
-        </tr>
+        <div class="color">
 
-        <tr>
-            <td>
-                <label for="transfer-color-picker">transfer</label>
-            </td>
+            <div class="form-group">
+                <label for="expense-color-picker">Expense</label>
 
-            <td>
-                <input
-                        v-model="me.preferences.colors.transfer"
-                        id="transfer-color-picker"
-                        class="color-picker"
-                        type="color">
-            </td>
+                <div class="input-group">
+                    <input
+                            v-model="me.preferences.colors.expense"
+                            type="color"
+                            id="expense-color-picker"
+                            name="expense-color-picker"
+                            placeholder="expense"
+                            class="form-control"
+                    >
+                    <span class="input-group-btn">
+                        <button
+                                v-on:click="defaultColor('expense', '#fb5e52')"
+                                class="default-color-button btn btn-default">
+                            Default
+                        </button>
+                    </span>
+                </div>
 
-            <td>
-                <button
-                        v-on:click="defaultColor('transfer', '#fca700')"
-                        id="default-transfer-color-button"
-                        class="default-color-button btn btn-info">
-                    default
-                </button>
-            </td>
-        </tr>
-    </table>
+
+            </div>
+
+        </div>
+
+        <div class="color">
+
+            <div class="form-group">
+                <label for="transfer-color-picker">Transfer</label>
+
+                <div class="input-group">
+                    <input
+                            v-model="me.preferences.colors.transfer"
+                            type="color"
+                            id="transfer-color-picker"
+                            name="transfer-color-picker"
+                            placeholder="transfer"
+                            class="form-control"
+                    >
+                    <span class="input-group-btn">
+                        <button
+                                v-on:click="defaultColor('transfer', '#fca700')"
+                                class="default-color-button btn btn-default">
+                            Default
+                        </button>
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
