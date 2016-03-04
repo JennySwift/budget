@@ -7,7 +7,8 @@ return [
             "expense" => "#fb5e52",
             "transfer" => "#fca700"
         ],
-        "clearFields" => false
+        "clearFields" => false,
+        "dateFormat" => "dd/mm/yy"
     ]
 
 ];

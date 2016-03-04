@@ -229,6 +229,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	{
 		$this->assertArrayHasKey('clearFields', $preferences);
 		$this->assertArrayHasKey('colors', $preferences);
+		$this->assertArrayHasKey('dateFormat', $preferences);
 	}
 
 	/**

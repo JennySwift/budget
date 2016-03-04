@@ -26,7 +26,8 @@ class UsersTest extends TestCase
                     'income' => 'pink',
                     'expense' => 'blue',
                     'transfer' => 'purple'
-                ]
+                ],
+                'dateFormat' => 'dd/mm/yyyy'
             ]
         ]);
         $preferences = json_decode($response->getContent(), true)['preferences'];
@@ -38,6 +39,7 @@ class UsersTest extends TestCase
         $this->assertEquals('pink', $preferences['colors']['income']);
         $this->assertEquals('blue', $preferences['colors']['expense']);
         $this->assertEquals('purple', $preferences['colors']['transfer']);
+        $this->assertEquals('dd/mm/yyyy', $preferences['dateFormat']);
 
         $this->assertEquals(200, $response->getStatusCode());
 

@@ -4,7 +4,7 @@
 
     <h1>Preferences</h1>
     
-    <pre>@{{$data.me.preferences.colors | json}}</pre>
+    <pre>@{{$data.me.preferences.dateFormat | json}}</pre>
 
     <div class="form-group clear-fields-container">
         <label for="clear-fields">Clear fields upon entering new transaction</label>
@@ -17,10 +17,12 @@
 
     <div>
         <div>Date format</div>
+
         <label>dd/mm/yy</label>
-        <input v-model="preferences.dateFormat" type="radio" value="dd/mm/yy">
+        <input v-model="me.preferences.dateFormat" type="radio" value="dd/mm/yy">
+
         <label>dd/mm/yyyy</label>
-        <input v-model="preferences.dateFormat" type="radio" value="dd/mm/yyyy">
+        <input v-model="me.preferences.dateFormat" type="radio" value="dd/mm/yyyy">
     </div>
 
     <div>

@@ -106,7 +106,6 @@ input[type="checkbox"] {
 
 table {
     border-collapse: separate;
-    border-radius: 18px;
     text-align: center;
     th {
         border-radius: 18px;
@@ -120,6 +119,9 @@ table {
             display: flex;
             align-items: center;
         }
+    }
+    &.table-rounded {
+        border-radius: 18px;
     }
 }
 

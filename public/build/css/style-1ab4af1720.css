@@ -85,7 +85,6 @@ input[type="checkbox"] {
 
 table {
   border-collapse: separate;
-  border-radius: 18px;
   text-align: center; }
   table th {
     border-radius: 18px;
@@ -101,6 +100,8 @@ table {
       -webkit-align-items: center;
       -ms-flex-align: center;
       align-items: center; }
+  table.table-rounded {
+    border-radius: 18px; }
 
 caption {
   padding: 8px;
@@ -1538,5 +1539,7 @@ caption {
     #preferences-page .clear-fields-container label {
       margin-bottom: 0;
       margin-right: 5px; }
+  #preferences-page table {
+    border-radius: none; }
 
 /*# sourceMappingURL=style.css.map */

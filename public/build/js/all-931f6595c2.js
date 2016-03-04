@@ -24939,7 +24939,8 @@ var PreferencesPage = Vue.component('preferences-page', {
                         income: this.me.preferences.colors.income,
                         expense: this.me.preferences.colors.expense,
                         transfer: this.me.preferences.colors.transfer
-                    }
+                    },
+                    dateFormat: this.me.preferences.dateFormat
                 }
             };
 
