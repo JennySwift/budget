@@ -23601,7 +23601,7 @@ var Dropdown = Vue.component('dropdown', {
         listen: function () {
             var that = this;
             $("body").on('click', function (event) {
-                if (!that.$el.contains(event.target)) {
+                if (!that.$el || !that.$el.contains(event.target)) {
                     that.hideDropdown();
                 }
             });
