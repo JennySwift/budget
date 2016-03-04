@@ -54,6 +54,9 @@
                 font-size: 17px;
             }
         }
+        a[disabled=true] {
+            cursor: not-allowed;
+        }
     }
 }
 

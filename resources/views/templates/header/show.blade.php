@@ -9,6 +9,7 @@
         <li>
             <a
                     v-on:click="showAllTransactionProperties()"
+                    :disabled="transactionPropertiesToShow.all"
                     href="#"
             >
                 <span>All</span>

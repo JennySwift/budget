@@ -166,6 +166,8 @@ caption {
       margin-right: 17px; }
     #navbar .show-dropdown a .fa-check {
       font-size: 17px; }
+  #navbar .show-dropdown a[disabled=true] {
+    cursor: not-allowed; }
 
 #tags {
   margin-bottom: 20px; }
