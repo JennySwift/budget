@@ -87,15 +87,29 @@ class FavouriteTransactionsController extends Controller
     }
 
     /**
-     *
-     * @param FavouriteTransaction $favouriteTransaction
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
+     * DELETE /api/favouriteTransactions/{favouriteTransactions}
+     * @param FavouriteTransaction $favourite=
+     * @return Response
      */
-    public function destroy(FavouriteTransaction $favouriteTransaction)
+    public function destroy(FavouriteTransaction $favourite)
     {
-        $favouriteTransaction->delete();
-        return $this->responseNoContent();
+        try {
+            $favourite->delete();
+            return response([], Response::HTTP_NO_CONTENT);
+        }
+        catch (\Exception $e) {
+            //Integrity constraint violation
+            if ($e->getCode() === '23000') {
+                $message = 'FavouriteTransaction could not be deleted. It is in use.';
+            }
+            else {
+                $message = 'There was an error';
+            }
+            return response([
+                'error' => $message,
+                'status' => Response::HTTP_BAD_REQUEST
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
 }

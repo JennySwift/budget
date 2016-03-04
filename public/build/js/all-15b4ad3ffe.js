@@ -23977,20 +23977,25 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
             });
         },
 
-        deleteFavouriteTransaction: function ($favourite) {
+        /**
+        *
+        */
+        deleteFavouriteTransaction: function (favourite) {
             if (confirm("Are you sure?")) {
-                $scope.showLoading();
-                FavouriteTransactionsFactory.destroy($favourite)
-                    .then(function (response) {
-                        $scope.favouriteTransactions = _.without($scope.favouriteTransactions, $favourite);
-                        $rootScope.$broadcast('provideFeedback', 'Favourite deleted');
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
+                $.event.trigger('show-loading');
+                this.$http.delete('/api/favouriteTransactions/' + favourite.id, function (response) {
+                    this.favouriteTransactions = _.without(this.favouriteTransactions, favourite);
+                    //var index = _.indexOf(this.favourites, _.findWhere(this.favourites, {id: this.favourite.id}));
+                    //this.favourites = _.without(this.favourites, this.favourites[index]);
+                    $.event.trigger('provide-feedback', ['Favourite transaction deleted', 'success']);
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
             }
         },
+
     },
     props: [
         //data to be received from parent
@@ -24618,7 +24623,7 @@ var NewFavouriteTransaction = Vue.component('new-favourite-transaction', {
         },
 
         /**
-         * 
+         *
          */
         emptyFields: function () {
             this.newFavourite.name = '';

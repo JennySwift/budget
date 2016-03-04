@@ -41,7 +41,7 @@ var NewFavouriteTransaction = Vue.component('new-favourite-transaction', {
         },
 
         /**
-         * 
+         *
          */
         emptyFields: function () {
             this.newFavourite.name = '';
