@@ -22923,9 +22923,9 @@ var Filter = Vue.component('filter', {
         listen: function () {
             var that = this;
 
-            //$(document).on('toggle-filter', function (event) {
-            //    that.showFilter = !that.showFilter;
-            //});
+            $(document).on('toggle-filter', function (event) {
+                that.showFilter = !that.showFilter;
+            });
             //
             //$(document).on('run-filter', function (event, data) {
             //    $.event.trigger('get-basic-filter-totals');

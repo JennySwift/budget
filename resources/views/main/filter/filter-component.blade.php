@@ -1,6 +1,12 @@
 <script id="filter-template" type="x-template">
 
-    <div v-cloak v-show="showFilter" id="filter" class="margin-bottom">
+    <div
+        v-cloak
+        v-show="showFilter"
+        transition="filter"
+        id="filter"
+        class="margin-bottom"
+    >
 
         <div class="btn-group">
             <button v-on:click="filterTab = 'show'" class="btn btn-success">Show</button>

@@ -940,7 +940,7 @@ caption {
   z-index: 9;
   box-shadow: -4px 4px 6px #777;
   background: white; }
-  #filter.ng-hide {
+  #filter.filter-leave {
     -webkit-animation: bounceOutRight 2s;
     animation: bounceOutRight 2s; }
   #filter .toolbar-filter {

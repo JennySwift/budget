@@ -6,7 +6,7 @@
 #filter {
     //animation
     animation: slideInRight .5s;
-    &.ng-hide {
+    &.filter-leave {
         animation: bounceOutRight 2s;
     }
 
