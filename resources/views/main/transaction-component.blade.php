@@ -9,7 +9,7 @@
                 v-on:click="showEditTransactionPopup(transaction)"
                 class="pointer"
             >
-                @{{ transaction.userDate }}
+                @{{ transaction.date | formatDateForUser}}
             </td>
 
             <td

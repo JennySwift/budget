@@ -8,7 +8,7 @@ return [
             "transfer" => "#fca700"
         ],
         "clearFields" => false,
-        "dateFormat" => "dd/mm/yy"
+        "dateFormat" => "DD/MM/YY"
     ]
 
 ];

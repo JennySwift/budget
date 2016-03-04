@@ -64,6 +64,15 @@ var HelpersRepository = {
 
     /**
      *
+     * @param date
+     * @returns {*|String}
+     */
+    formatDateForUser: function (date, format) {
+        return moment(date, 'YYYY-MM-DD').format(format);
+    },
+
+    /**
+     *
      * @param duration
      * @returns {*}
      */

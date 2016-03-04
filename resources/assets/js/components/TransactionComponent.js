@@ -24,6 +24,15 @@ var Transaction = Vue.component('transaction', {
          */
         numberFilter: function (number, howManyDecimals) {
             return HelpersRepository.numberFilter(number, howManyDecimals);
+        },
+
+        /**
+         *
+         * @param date
+         * @returns {*|String}
+         */
+        formatDateForUser: function (date) {
+            return HelpersRepository.formatDateForUser(date, me.preferences.dateFormat);
         }
     },
     methods: {

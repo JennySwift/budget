@@ -22304,6 +22304,15 @@ var HelpersRepository = {
 
     /**
      *
+     * @param date
+     * @returns {*|String}
+     */
+    formatDateForUser: function (date, format) {
+        return moment(date, 'YYYY-MM-DD').format(format);
+    },
+
+    /**
+     *
      * @param duration
      * @returns {*}
      */
@@ -25404,6 +25413,15 @@ var Transaction = Vue.component('transaction', {
          */
         numberFilter: function (number, howManyDecimals) {
             return HelpersRepository.numberFilter(number, howManyDecimals);
+        },
+
+        /**
+         *
+         * @param date
+         * @returns {*|String}
+         */
+        formatDateForUser: function (date) {
+            return HelpersRepository.formatDateForUser(date, me.preferences.dateFormat);
         }
     },
     methods: {

@@ -20,15 +20,15 @@
 
     <div class="formats">
         <div class="form-group">
-            
+
             <div>
-                <label>dd/mm/yy</label>
-                <input v-model="me.preferences.dateFormat" type="radio" value="dd/mm/yy">
+                <label>DD/MM/YY</label>
+                <input v-model="me.preferences.dateFormat" type="radio" value="DD/MM/YY">
             </div>
 
             <div>
-                <label>dd/mm/yyyy</label>
-                <input v-model="me.preferences.dateFormat" type="radio" value="dd/mm/yyyy">
+                <label>DD/MM/YYYY</label>
+                <input v-model="me.preferences.dateFormat" type="radio" value="DD/MM/YYYY">
             </div>
 
         </div>
