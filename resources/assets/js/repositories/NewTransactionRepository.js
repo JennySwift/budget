@@ -1,9 +1,10 @@
 var NewTransactionRepository = {
 
     defaults: {
-        type: 'income',
-        account_id: 1,
         userDate: 'today',
+        type: 'expense',
+        duration: '',
+        total: '',
         merchant: '',
         description: '',
         reconciled: false,
@@ -21,11 +22,8 @@ var NewTransactionRepository = {
         //Fill in the new transaction fields if development environment
         if (env === 'local') {
             this.defaults.total = 10;
-            this.defaults.type = 'expense';
-            this.defaults.userDate = 'today';
             this.defaults.merchant = 'some merchant';
             this.defaults.description = 'some description';
-            this.defaults.duration = '';
             this.defaults.budgets = [
                 {
                     id: '2',
@@ -41,11 +39,11 @@ var NewTransactionRepository = {
         }
     
         if (accounts.length > 0) {
-            this.defaults.account_id = accounts[0].id;
-            this.defaults.from_account_id = accounts[0].id;
-            this.defaults.to_account_id = accounts[0].id;
+            this.defaults.account = accounts[0];
+            this.defaults.fromAccount = accounts[0];
+            this.defaults.toAccount = accounts[0];
         }
-    
+
         return this.defaults;
     },
 

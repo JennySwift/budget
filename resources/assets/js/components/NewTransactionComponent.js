@@ -8,11 +8,12 @@ var NewTransaction = Vue.component('new-transaction', {
             types: ["income", "expense", "transfer"],
             accounts: [],
             favouriteTransactions: [],
-            newTransaction: {
-                date: {},
-                type: 'income',
-                account: {}
-            },
+            newTransaction: {},
+            //newTransaction: {
+            //    date: {},
+            //    type: 'income',
+            //    account: {}
+            //},
             env: env,
             colors: {
                 newTransaction: {}
@@ -29,7 +30,8 @@ var NewTransaction = Vue.component('new-transaction', {
             $.event.trigger('show-loading');
             this.$http.get('/api/accounts', function (response) {
                 this.accounts = response;
-                this.newTransaction.account = this.accounts[0];
+                this.newTransaction = NewTransactionRepository.getDefaults(this.env, this.accounts);
+                //this.newTransaction.account = this.accounts[0];
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {
@@ -202,7 +204,6 @@ var NewTransaction = Vue.component('new-transaction', {
         'budgets'
     ],
     ready: function () {
-        this.newTransaction = NewTransactionRepository.getDefaults(this.env, this.accounts);
         this.getAccounts();
         this.getFavouriteTransactions();
         this.listen();

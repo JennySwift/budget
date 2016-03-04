@@ -2,6 +2,7 @@
 <script id="transaction-autocomplete-template" type="x-template">
 
 <div>
+    
     <input
             v-model="typing"
             v-on:blur="hideAndClear()"

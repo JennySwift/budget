@@ -41,7 +41,7 @@
     <transaction-autocomplete
             placeholder="description"
             id="new-transaction-description"
-            :typing="newTransaction.description"
+            :typing.sync="newTransaction.description"
             :new-transaction.sync="newTransaction"
             :function-on-enter="insertTransaction"
     >

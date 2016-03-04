@@ -41,9 +41,9 @@
     <transaction-autocomplete
         placeholder="merchant"
         id="new-transaction-merchant"
-        :typing="newTransaction.merchant"
+        :typing.sync="newTransaction.merchant"
         :new-transaction.sync="newTransaction"
-        :fn-on-nter="insertTransaction"
+        :function-on-enter="insertTransaction"
     >
     </transaction-autocomplete>
 

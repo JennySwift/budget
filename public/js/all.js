@@ -22314,9 +22314,10 @@ var HelpersRepository = {
 var NewTransactionRepository = {
 
     defaults: {
-        type: 'income',
-        account_id: 1,
         userDate: 'today',
+        type: 'expense',
+        duration: '',
+        total: '',
         merchant: '',
         description: '',
         reconciled: false,
@@ -22334,11 +22335,8 @@ var NewTransactionRepository = {
         //Fill in the new transaction fields if development environment
         if (env === 'local') {
             this.defaults.total = 10;
-            this.defaults.type = 'expense';
-            this.defaults.userDate = 'today';
             this.defaults.merchant = 'some merchant';
             this.defaults.description = 'some description';
-            this.defaults.duration = '';
             this.defaults.budgets = [
                 {
                     id: '2',
@@ -22354,11 +22352,11 @@ var NewTransactionRepository = {
         }
     
         if (accounts.length > 0) {
-            this.defaults.account_id = accounts[0].id;
-            this.defaults.from_account_id = accounts[0].id;
-            this.defaults.to_account_id = accounts[0].id;
+            this.defaults.account = accounts[0];
+            this.defaults.fromAccount = accounts[0];
+            this.defaults.toAccount = accounts[0];
         }
-    
+
         return this.defaults;
     },
 
@@ -24603,11 +24601,12 @@ var NewTransaction = Vue.component('new-transaction', {
             types: ["income", "expense", "transfer"],
             accounts: [],
             favouriteTransactions: [],
-            newTransaction: {
-                date: {},
-                type: 'income',
-                account: {}
-            },
+            newTransaction: {},
+            //newTransaction: {
+            //    date: {},
+            //    type: 'income',
+            //    account: {}
+            //},
             env: env,
             colors: {
                 newTransaction: {}
@@ -24624,7 +24623,8 @@ var NewTransaction = Vue.component('new-transaction', {
             $.event.trigger('show-loading');
             this.$http.get('/api/accounts', function (response) {
                 this.accounts = response;
-                this.newTransaction.account = this.accounts[0];
+                this.newTransaction = NewTransactionRepository.getDefaults(this.env, this.accounts);
+                //this.newTransaction.account = this.accounts[0];
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {
@@ -24797,7 +24797,6 @@ var NewTransaction = Vue.component('new-transaction', {
         'budgets'
     ],
     ready: function () {
-        this.newTransaction = NewTransactionRepository.getDefaults(this.env, this.accounts);
         this.getAccounts();
         this.getFavouriteTransactions();
         this.listen();
