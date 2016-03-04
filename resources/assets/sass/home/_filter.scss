@@ -35,12 +35,35 @@
         display: flex;
     }
 
-    .btn-group {
+    .nav-tabs {
         display: flex;
-        button {
+        > li {
             flex-grow: 1;
+            text-align: center;
+        }
+        a:focus {
+            outline: none;
+        }
+        .show-tab.active {
+            a {
+                background: $success;
+                color: white;
+            }
+
+        }
+        .hide-tab.active {
+            a {
+                background: $danger;
+                color: white;
+            }
         }
     }
+    //.btn-group {
+    //    display: flex;
+    //    button {
+    //        flex-grow: 1;
+    //    }
+    //}
 
     .section {
         margin: 8px;

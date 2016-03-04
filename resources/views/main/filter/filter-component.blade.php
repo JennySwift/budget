@@ -8,17 +8,29 @@
         class="margin-bottom"
     >
 
-        <div class="btn-group">
-            <button v-on:click="filterTab = 'show'" class="btn btn-success">Show</button>
-            <button v-on:click="filterTab = 'hide'" class="btn btn-danger">Hide</button>
-        </div>
+        <ul class="nav nav-tabs">
+            <li
+                role="presentation"
+                v-on:click="filterTab = 'show'"
+                v-bind:class="{'active': filterTab === 'show'}"
+                class="show-tab"
+            >
+                <a href="#">
+                    Show
+                </a>
+            </li>
 
-        <div v-if="filterTab === 'show'">
-            Show tab
-        </div>
-        <div v-if="filterTab === 'hide'">
-            Hide tab
-        </div>
+            <li
+                role="presentation"
+                v-on:click="filterTab = 'hide'"
+                v-bind:class="{'active': filterTab === 'hide'}"
+                class="hide-tab"
+            >
+                <a href="#">
+                    Hide
+                </a>
+            </li>
+        </ul>
 
         <div class="form-group">
             <label for="saved-filter">Saved Filters</label>

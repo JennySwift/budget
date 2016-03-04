@@ -954,14 +954,23 @@ caption {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex; }
-  #filter .btn-group {
+  #filter .nav-tabs {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex; }
-    #filter .btn-group button {
+    #filter .nav-tabs > li {
       -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
-      flex-grow: 1; }
+      flex-grow: 1;
+      text-align: center; }
+    #filter .nav-tabs a:focus {
+      outline: none; }
+    #filter .nav-tabs .show-tab.active a {
+      background: #5cb85c;
+      color: white; }
+    #filter .nav-tabs .hide-tab.active a {
+      background: #d9534f;
+      color: white; }
   #filter .section {
     margin: 8px; }
     #filter .section h4 {
