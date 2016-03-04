@@ -1180,6 +1180,8 @@ caption {
       max-width: 300px; }
   #favourite-transactions-page #favourite-transactions {
     margin: auto; }
+    #favourite-transactions-page #favourite-transactions .budgets {
+      text-align: left; }
 
 #budget #budget-toolbar {
   margin-top: 7px;

@@ -32,9 +32,22 @@
                     <td>@{{ favourite.merchant }}</td>
                     <td>@{{ favourite.total }}</td>
                     <td><span v-if="favourite.account">@{{ favourite.account.name }}</span></td>
-                    <td>
-                        <span v-for="budget in favourite.budgets" class="badge">@{{ budget.name }}</span>
+
+                    <td class="budgets">
+                        <li
+                            v-for="budget in favourite.budgets"
+                            v-bind:class="{
+                                'tag-with-fixed-budget': budget.type === 'fixed',
+                                'tag-with-flex-budget': budget.type === 'flex',
+                                'tag-without-budget': budget.type === 'unassigned'
+                            }"
+                            class="label label-default"
+                        >
+                            <span>@{{ budget.name }}</span>
+                            <span class="type">@{{ budget.type }}</span>
+                        </li>
                     </td>
+
                     <td><button v-on:click="deleteFavouriteTransaction(favourite)" class="btn-xs btn-danger">Delete</button></td>
 
                 </tr>
