@@ -48,7 +48,7 @@
             </div>
 
             <div>
-                @include('main.home.new-transaction.tags')
+                @include('main.home.new-transaction.budgets')
                 @include('main.home.new-transaction.duration')
             </div>
 

@@ -3,9 +3,16 @@
     <div id="new-favourite">
         <h2>Create a new favourite transaction</h2>
 
-        <div>
-            <label>Name your new favourite transaction</label>
-            <input v-model="newFavourite.name" type="text" placeholder="name"/>
+        <div class="form-group">
+            <label for="new-favourite-name">Name</label>
+            <input
+                v-model="newFavourite.name"
+                type="text"
+                id="new-favourite-name"
+                name="new-favourite-name"
+                placeholder="name"
+                class="form-control"
+            >
         </div>
 
         <div>
@@ -17,47 +24,66 @@
             </select>
         </div>
 
-        <div>
-            <label>Description</label>
-            <input v-model="newFavourite.description" type="text" placeholder="description"/>
+        <div class="form-group">
+            <label for="new-favourite-description">Description</label>
+            <input
+                v-model="newFavourite.description"
+                type="text"
+                id="new-favourite-description"
+                name="new-favourite-description"
+                placeholder="description"
+                class="form-control"
+            >
         </div>
 
-        <div>
-            <label>Merchant</label>
-            <input v-model="newFavourite.merchant" type="text" placeholder="merchant"/>
+        <div class="form-group">
+            <label for="new-favourite-merchant">Merchant</label>
+            <input
+                v-model="newFavourite.merchant"
+                type="text"
+                id="new-favourite-merchant"
+                name="new-favourite-merchant"
+                placeholder="merchant"
+                class="form-control"
+            >
         </div>
 
-        <div>
-            <label>Total</label>
-            <input v-model="newFavourite.total" type="text" placeholder="total"/>
-        </div>
+       <div class="form-group">
+           <label for="new-favourite-total">Total</label>
+           <input
+               v-model="newFavourite.total"
+               type="text"
+               id="new-favourite-total"
+               name="new-favourite-total"
+               placeholder="total"
+               class="form-control"
+           >
+       </div>
 
-        <div>
-            <div class="form-group">
-                <label for="new-favourite-transaction-account">Account</label>
+        <div class="form-group">
+            <label for="new-favourite-transaction-account">Account</label>
 
-                <select
-                        v-model="newFavourite.account"
-                        id="new-favourite-transaction-account"
-                        class="form-control"
+            <select
+                    v-model="newFavourite.account"
+                    id="new-favourite-transaction-account"
+                    class="form-control"
+            >
+                <option
+                        v-for="account in accounts"
+                        v-bind:value="account"
                 >
-                    <option
-                            v-for="account in accounts"
-                            v-bind:value="account"
-                    >
-                        @{{ account.name }}
-                    </option>
-                </select>
-            </div>
-
+                    @{{ account.name }}
+                </option>
+            </select>
         </div>
 
-        {{--<budget-autocomplete--}}
-        {{--chosenTags="newFavourite.budgets"--}}
-        {{--dropdown="newFavourite.dropdown"--}}
-        {{--tags="budgets"--}}
-        {{--multipleTags="true">--}}
-        {{--</budget-autocomplete>--}}
+        <budget-autocomplete
+                :chosen-budgets.sync="newFavourite.budgets"
+                :budgets="budgets"
+                multiple-budgets="true"
+                :function-on-enter="insertFavouriteTransaction"
+        >
+        </budget-autocomplete>
 
         <div>
             <button

@@ -27,21 +27,31 @@ class FavouriteTransactionsController extends Controller
     }
 
     /**
-     *
+     * POST /api/favouriteTransactions
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
-        $data = $request->except(['account_id', 'budgets', 'budget_ids']);
+        $favourite = new FavouriteTransaction($request->only([
+            'name',
+            'type',
+            'description',
+            'merchant',
+            'total'
+        ]));
 
-        $favouriteTransaction = new FavouriteTransaction($data);
-        $favouriteTransaction->account()->associate(Account::find($request->get('account_id')));
-        $favouriteTransaction->user()->associate(Auth::user());
-        $favouriteTransaction->save();
-        $favouriteTransaction->budgets()->attach($request->get('budget_ids'));
+        $favourite->user()->associate(Auth::user());
+        $favourite->account()->associate(Account::find($request->get('account_id')));
 
-        return $this->responseCreatedWithTransformer($favouriteTransaction, new FavouriteTransactionTransformer);
+        $favourite->save();
+
+        foreach ($request->get('budget_ids') as $id) {
+            $favourite->budgets()->attach($id);
+        }
+
+        $favourite = $this->transform($this->createItem($favourite, new FavouriteTransactionTransformer))['data'];
+        return response($favourite, Response::HTTP_CREATED);
     }
 
     /**

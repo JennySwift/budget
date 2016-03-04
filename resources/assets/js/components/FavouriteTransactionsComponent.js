@@ -55,6 +55,26 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
             });
         },
 
+        /**
+        *
+        */
+        insertFavouriteTransaction: function () {
+            $.event.trigger('show-loading');
+            var data = {
+                name: this.newFavourite.name
+            };
+
+            $newFavourite.budget_ids = _.pluck($newFavourite.budgets, 'id');
+
+            this.$http.post('/api/favouriteTransactions', data, function (response) {
+                this.favouriteTransactions.push(response);
+                $.event.trigger('provide-feedback', ['Favourite created', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
 
         insertFavouriteTransaction: function () {
             $scope.showLoading();
@@ -94,13 +114,6 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
     }
 });
 
-//insert: function ($newFavourite) {
-//    var $url = '/api/favouriteTransactions';
-//
-//    $newFavourite.budget_ids = _.pluck($newFavourite.budgets, 'id');
-//
-//    return $http.post($url, $newFavourite);
-//},
 //destroy: function ($favourite) {
 //    var $url = '/api/favouriteTransactions/' + $favourite.id;
 //

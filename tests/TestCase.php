@@ -108,10 +108,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	public function checkFavouriteTransactionKeysExist($transaction)
 	{
 		$this->assertArrayHasKey('id', $transaction);
+		$this->assertArrayHasKey('name', $transaction);
+		$this->assertArrayHasKey('type', $transaction);
 		$this->assertArrayHasKey('description', $transaction);
 		$this->assertArrayHasKey('merchant', $transaction);
 		$this->assertArrayHasKey('total', $transaction);
-//		$this->assertArrayHasKey('account', $transaction);
+		$this->assertArrayHasKey('account', $transaction);
 		$this->assertArrayHasKey('budgets', $transaction);
 	}
 
