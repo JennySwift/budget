@@ -23,7 +23,10 @@
         }
         &:hover {
             > a {
-                font-size: 25px;
+                font-size: 19px;
+                &.fa {
+                    font-size: 25px;
+                }
             }
         }
     }
@@ -31,7 +34,7 @@
         color: #337ab7;
     }
     .gravatar-li {
-        min-width: 160px;
+        //min-width: 160px;
         .gravatar-container {
             margin-left: 5px;
             display: flex;

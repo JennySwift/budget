@@ -24448,7 +24448,7 @@ var Navbar = Vue.component('navbar', {
     template: '#navbar-template',
     data: function () {
         return {
-            me: {},
+            me: me,
             page: 'home',
         };
     },

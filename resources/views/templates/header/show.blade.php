@@ -1,9 +1,9 @@
-<li id="menu-dropdown" class="dropdown show-dropdown">
+<li id="menu-dropdown" class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         Show
         <span class="caret"></span>
     </a>
-    <ul class="dropdown-menu" role="menu">
+    <ul class="dropdown-menu show-dropdown" role="menu">
 
         <li>
             <a class="disabled">Totals</a>

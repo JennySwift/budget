@@ -136,22 +136,22 @@ caption {
     #navbar > li > a {
       transition: all 0.5s ease; }
     #navbar > li:hover > a {
-      font-size: 25px; }
+      font-size: 19px; }
+      #navbar > li:hover > a.fa {
+        font-size: 25px; }
   #navbar a {
     color: #337ab7; }
-  #navbar .gravatar-li {
-    min-width: 160px; }
-    #navbar .gravatar-li .gravatar-container {
-      margin-left: 5px;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-align-items: center;
-      -ms-flex-align: center;
-      align-items: center; }
-      #navbar .gravatar-li .gravatar-container .gravatar {
-        border-radius: 8px;
-        height: 32px; }
+  #navbar .gravatar-li .gravatar-container {
+    margin-left: 5px;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    #navbar .gravatar-li .gravatar-container .gravatar {
+      border-radius: 8px;
+      height: 32px; }
   #navbar .show-dropdown a {
     display: -webkit-flex;
     display: -ms-flexbox;
