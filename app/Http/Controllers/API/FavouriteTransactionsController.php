@@ -55,6 +55,38 @@ class FavouriteTransactionsController extends Controller
     }
 
     /**
+    * UPDATE /api/favouritesTransactions/{favouriteTransactions}
+    * @param Request $request
+    * @param FavouriteTransaction $favourite
+    * @return Response
+    */
+    public function update(Request $request, FavouriteTransaction $favourite)
+    {
+        // Create an array with the new fields merged
+        $data = array_compare($favourite->toArray(), $request->only([
+            'name',
+            'type',
+            'description',
+            'merchant',
+            'total'
+        ]));
+
+        $favourite->update($data);
+
+        if ($request->has('account_id')) {
+            $favourite->account()->associate(Account::findOrFail($request->get('account_id')));
+            $favourite->save();
+        }
+
+        if ($request->has('budget_ids')) {
+            $favourite->budgets()->sync($request->get('budget_ids'));
+        }
+
+        $favourite = $this->transform($this->createItem($favourite, new FavouriteTransactionTransformer))['data'];
+        return response($favourite, Response::HTTP_OK);
+    }
+
+    /**
      *
      * @param FavouriteTransaction $favouriteTransaction
      * @return \Illuminate\Http\Response
