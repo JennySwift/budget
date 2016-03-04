@@ -24602,6 +24602,7 @@ var NewTransaction = Vue.component('new-transaction', {
             accounts: [],
             favouriteTransactions: [],
             newTransaction: {},
+            selectedFavouriteTransaction: {},
             //newTransaction: {
             //    date: {},
             //    type: 'income',
@@ -24663,7 +24664,7 @@ var NewTransaction = Vue.component('new-transaction', {
             this.newTransaction.merchant = this.selectedFavouriteTransaction.merchant;
             this.newTransaction.total = this.selectedFavouriteTransaction.total;
             this.newTransaction.type = this.selectedFavouriteTransaction.type;
-            this.newTransaction.account_id = this.selectedFavouriteTransaction.account.id;
+            this.newTransaction.account = this.selectedFavouriteTransaction.account;
             this.newTransaction.budgets = this.selectedFavouriteTransaction.budgets;
         },
 
