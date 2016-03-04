@@ -1540,9 +1540,20 @@ caption {
       margin-bottom: 0;
       margin-right: 5px; }
   #preferences-page .colors {
-    max-width: 260px;
+    max-width: 301px;
     margin: auto; }
     #preferences-page .colors .color {
       margin-bottom: 20px; }
+  #preferences-page .new-transaction {
+    margin: auto;
+    max-width: 301px; }
+  #preferences-page .formats {
+    margin: auto;
+    max-width: 301px; }
+  #preferences-page > .form-group {
+    margin: auto;
+    max-width: 301px; }
+    #preferences-page > .form-group button {
+      width: 100%; }
 
 /*# sourceMappingURL=style.css.map */

@@ -6,20 +6,32 @@
 
     @include('main.preferences.colors')
 
-    <div class="form-group clear-fields-container">
-        <label for="clear-fields">Clear fields upon entering new transaction</label>
+    <h3>New Transaction</h3>
 
-        <input v-model="me.preferences.clearFields" type="checkbox" id="clear-fields">
+    <div class="new-transaction">
+        <div class="form-group clear-fields-container">
+            <label for="clear-fields">Clear fields upon entering new transaction</label>
+
+            <input v-model="me.preferences.clearFields" type="checkbox" id="clear-fields">
+        </div>
     </div>
 
-    <div class="form-group">
-        <div>Date format</div>
+    <h3>Date Format</h3>
 
-        <label>dd/mm/yy</label>
-        <input v-model="me.preferences.dateFormat" type="radio" value="dd/mm/yy">
+    <div class="formats">
+        <div class="form-group">
+            
+            <div>
+                <label>dd/mm/yy</label>
+                <input v-model="me.preferences.dateFormat" type="radio" value="dd/mm/yy">
+            </div>
 
-        <label>dd/mm/yyyy</label>
-        <input v-model="me.preferences.dateFormat" type="radio" value="dd/mm/yyyy">
+            <div>
+                <label>dd/mm/yyyy</label>
+                <input v-model="me.preferences.dateFormat" type="radio" value="dd/mm/yyyy">
+            </div>
+
+        </div>
     </div>
 
     <div class="form-group">

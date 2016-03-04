@@ -8,6 +8,9 @@
             margin-right: 5px;
         }
     }
+    //> * {
+    //    margin: auto;
+    //}
     //table {
     //    border-radius: none;
     //    td {
@@ -16,7 +19,7 @@
     //    max-width: 312px;
     //}
     .colors {
-        max-width: 260px;
+        max-width: $preferencesWidth;
         margin: auto;
         .color {
             margin-bottom: 20px;
@@ -26,6 +29,21 @@
             //        margin-left: 15px;
             //    }
             //}
+        }
+    }
+    .new-transaction {
+        margin: auto;
+        max-width: $preferencesWidth;
+    }
+    .formats {
+        margin: auto;
+        max-width: $preferencesWidth;
+    }
+    > .form-group {
+        margin: auto;
+        max-width: $preferencesWidth;
+        button {
+            width: 100%;
         }
     }
 }
