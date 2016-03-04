@@ -3,6 +3,8 @@
 <div id="preferences-page">
 
     <h1>Preferences</h1>
+    
+    <pre>@{{$data.me.preferences.colors | json}}</pre>
 
     <div class="form-group clear-fields-container">
         <label for="clear-fields">Clear fields upon entering new transaction</label>

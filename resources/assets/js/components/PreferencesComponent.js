@@ -18,11 +18,11 @@ var PreferencesPage = Vue.component('preferences-page', {
             var data = {
                 preferences: {
                     clearFields: this.me.preferences.clearFields,
-                    colors: [
-                        {income: this.me.preferences.colors.income},
-                        {expense: this.me.preferences.colors.expense},
-                        {transfer: this.me.preferences.colors.transfer},
-                    ]
+                    colors: {
+                        income: this.me.preferences.colors.income,
+                        expense: this.me.preferences.colors.expense,
+                        transfer: this.me.preferences.colors.transfer
+                    }
                 }
             };
 
