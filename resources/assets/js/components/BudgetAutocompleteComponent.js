@@ -71,6 +71,7 @@ var BudgetAutocomplete = Vue.component('budget-autocomplete', {
             }
 
             this.chosenBudgets.push(this.results[this.currentIndex]);
+            this.$dispatch('budget-chosen');
             this.hideAndClear();
         },
 
@@ -182,6 +183,7 @@ var BudgetAutocomplete = Vue.component('budget-autocomplete', {
          */
         removeBudget: function (budget) {
             this.chosenBudgets = _.without(this.chosenBudgets, budget);
+            this.$dispatch('budget-removed');
         },
     },
     props: [

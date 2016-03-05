@@ -22615,13 +22615,14 @@ var BudgetsFilter = Vue.component('budgets-filter', {
          * @param type1
          * @param type2
          */
-        clearTagField: function (type1, type2) {
+        clearBudgetField: function (type1, type2) {
             if (type2) {
                 this.filter.budgets[type1][type2] = [];
             }
             else {
                 this.filter.budgets[type1] = [];
             }
+            this.runFilter();
         }
 
     },
@@ -22633,6 +22634,14 @@ var BudgetsFilter = Vue.component('budgets-filter', {
     ],
     ready: function () {
 
+    },
+    events: {
+        'budget-chosen': function () {
+            this.runFilter();
+        },
+        'budget-removed': function () {
+            this.runFilter();
+        }
     }
 });
 
@@ -23380,6 +23389,7 @@ var BudgetAutocomplete = Vue.component('budget-autocomplete', {
             }
 
             this.chosenBudgets.push(this.results[this.currentIndex]);
+            this.$dispatch('budget-chosen');
             this.hideAndClear();
         },
 
@@ -23491,6 +23501,7 @@ var BudgetAutocomplete = Vue.component('budget-autocomplete', {
          */
         removeBudget: function (budget) {
             this.chosenBudgets = _.without(this.chosenBudgets, budget);
+            this.$dispatch('budget-removed');
         },
     },
     props: [

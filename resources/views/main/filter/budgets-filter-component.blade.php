@@ -26,7 +26,7 @@
                         </budget-autocomplete>
 
                         <span class="input-group-btn">
-                            <button v-on:click="clearTagField('in', 'and')" class="clear-search-button btn btn-default">clear</button>
+                            <button v-on:click="clearBudgetField('in', 'and')" class="clear-search-button btn btn-default">clear</button>
                         </span>
                     </div>
 
@@ -47,7 +47,7 @@
                         >
                         </budget-autocomplete>
                         <span class="input-group-btn">
-                            <button v-on:click="clearTagField('in', 'or')" class="clear-search-button btn btn-default">clear</button>
+                            <button v-on:click="clearBudgetField('in', 'or')" class="clear-search-button btn btn-default">clear</button>
                         </span>
                     </div>
 
@@ -70,7 +70,7 @@
                     </budget-autocomplete>
 
                     <span class="input-group-btn">
-                        <button v-on:click="clearTagField('out')" class="clear-search-button btn btn-default">clear</button>
+                        <button v-on:click="clearBudgetField('out')" class="clear-search-button btn btn-default">clear</button>
                     </span>
 
                 </div>
