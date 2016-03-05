@@ -50,14 +50,17 @@
             </select>
         </div>
 
-        <div class="toolbar-filter">
-            {{--<filter-toolbar-directive></filter-toolbar-directive>--}}
-        </div>
+        <toolbar-for-filter
+            :filter="filter"
+            :filter-totals="filterTotals"
+        >
+        </toolbar-for-filter>
 
         <div>
             <totals-for-filter
                     :show="show"
                     :filter="filter"
+                    :filter-totals="filterTotals"
             >
             </totals-for-filter>
 

@@ -79,7 +79,7 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
         }
     },
     props: [
-        //data to be received from parent
+        'filterTotals'
     ],
     ready: function () {
         this.listen();

@@ -1,11 +1,11 @@
 <script id="toolbar-for-filter-template" type="x-template">
 
-<div>
-    <div>
+    <div class="toolbar-filter">
         <select
-                v-model="filter.num_to_fetch"
+                v-model="filter.numToFetch"
                 v-on:change="changeNumToFetch()"
-                class="form-control">
+                class="form-control"
+        >
             <option value="2">2</option>
             <option value="4">4</option>
             <option value="10">10</option>
@@ -15,11 +15,11 @@
             <option value="100">100</option>
         </select>
 
-        <span class="badge">@{{ filter.display_from }} to @{{ filter.display_to }} of @{{ filterTotals.numTransactions }}</span>
+        <span class="badge">@{{ filter.displayFrom }} to @{{ filter.displayTo }} of @{{ filterTotals.numTransactions }}</span>
 
         <button
                 v-on:click="prevResults()"
-                v-disabled="filter.display_from <= 1"
+                :disabled="filter.displayFrom <= 1"
                 type="button"
                 id="prev-results-button"
                 class="navigate-results-button btn btn-info">
@@ -28,7 +28,7 @@
 
         <button
                 v-on:click="nextResults()"
-                v-disabled="filter.display_to >= filterTotals.numTransactions"
+                :disabled="filter.displayTo >= filterTotals.numTransactions"
                 type="button"
                 id="next-results-button"
                 class="navigate-results-button btn btn-info">
@@ -49,7 +49,5 @@
         </button>
 
     </div>
-
-</div>
 
 </script>

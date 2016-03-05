@@ -4,7 +4,8 @@ var Filter = Vue.component('filter', {
         return {
             filterTab: 'show',
             filter: FilterRepository.filter,
-            showFilter: false
+            showFilter: false,
+            filterTotals: {}
         };
     },
     components: {},
@@ -25,6 +26,27 @@ var Filter = Vue.component('filter', {
         clearFilterField: function (field, type) {
             this.filter[field][type] = "";
             this.runFilter();
+        },
+
+        /**
+         * This is here, not in the TotalsForFilterComponent, because the ToolbarForFilterComponent also needs the totals
+         * Todo: should be GET not POST
+         */
+        getBasicFilterTotals: function () {
+            this.filter = FilterRepository.formatDates(FilterRepository.filter);
+
+            var data = {
+                filter: this.filter
+            };
+
+            $.event.trigger('show-loading');
+            this.$http.post('/api/filter/basicTotals', data, function (response) {
+                    this.filterTotals = response;
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
         },
 
         /**
@@ -50,6 +72,10 @@ var Filter = Vue.component('filter', {
             $(document).on('reset-filter', function (event) {
                 that.filter = FilterRepository.filter;
             });
+
+            $(document).on('get-basic-filter-totals', function (event) {
+                that.getBasicFilterTotals();
+            });
         }
     },
     props: [
@@ -59,5 +85,6 @@ var Filter = Vue.component('filter', {
     ],
     ready: function () {
         this.listen();
+        this.getBasicFilterTotals();
     }
 });
