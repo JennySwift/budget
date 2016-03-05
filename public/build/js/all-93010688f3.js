@@ -23079,7 +23079,7 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
             }
             else {
                 this.filter.offset-= (this.filter.numToFetch * 1);
-                FilterRepository.updateRange();
+                this.updateRange();
                 this.runFilter();
             }
         },
