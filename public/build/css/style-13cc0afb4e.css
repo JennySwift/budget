@@ -1000,16 +1000,13 @@ caption {
     display: flex; }
   #filter .tag-input-wrapper input {
     width: auto; }
-  #filter .accounts > div, #filter .types > div, #filter .status > div, #filter .budget > div {
+  #filter .accounts > div, #filter .types > div, #filter .status > div {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center; }
-  #filter input[type="radio"] {
-    width: 27px;
-    margin-right: 7px; }
 
 .main-content {
   display: -webkit-flex;
