@@ -14,7 +14,7 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
         resetFilter: function () {
             FilterRepository.resetFilter();
             this.filter = FilterRepository.filter;
-            $.event.trigger('run-filter');
+            this.runFilter();
         },
 
         /**
@@ -22,47 +22,51 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
          */
         changeNumToFetch: function () {
             FilterRepository.updateRange(this.filter.numToFetch);
-            $.event.trigger('run-filter');
+            this.runFilter();
         },
 
         /**
-         *
+         * Todo: I might not need some of this code (not allowing offset to be less than 0)
+         * since I disabled the button if that is the case
          */
         prevResults: function () {
-            FilterRepository.prevResults();
+            //make it so the offset cannot be less than 0.
+            if (this.filter.offset - this.filter.numToFetch < 0) {
+                this.filter.offset = 0;
+            }
+            else {
+                this.filter.offset-= (this.filter.numToFetch * 1);
+                FilterRepository.updateRange();
+                this.runFilter();
+            }
         },
 
         /**
          *
          */
         nextResults: function () {
-            FilterRepository.nextResults(this.filterTotals.numTransactions);
-        },
+            if (this.filter.offset + (this.filter.numToFetch * 1) > this.filterTotals.numTransactions) {
+                //stop it going past the end.
+                return;
+            }
 
+            this.filter.offset+= (this.filter.numToFetch * 1);
+            this.updateRange();
+            this.runFilter();
+        },
 
         /**
-        *
-        */
-        insertFilter: function () {
-            var name = prompt('Please name your filter');
+         * Updates filter.displayFrom and filter.displayTo values
+         */
+        updateRange: function (numToFetch) {
+            if (numToFetch) {
+                this.filter.numToFetch = numToFetch;
+            }
 
-            $.event.trigger('show-loading');
-
-            var data = {
-                name: name,
-                filter: this.filter
-            };
-
-            this.$http.post('/api/savedFilters', data, function (response) {
-                this.savedFilters.push(response);
-                $.event.trigger('new-saved-filter');
-                $.event.trigger('provide-feedback', ['Filter created', 'success']);
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
+            this.filter.displayFrom = this.filter.offset + 1;
+            this.filter.displayTo = this.filter.offset + (this.filter.numToFetch * 1);
         },
+
 
         /**
          *

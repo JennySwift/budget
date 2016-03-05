@@ -58,48 +58,6 @@ var FilterRepository = {
         return this.filter;
     },
 
-    chooseSavedFilter: function ($savedFilter) {
-        this.filter = $savedFilter;
-        $rootScope.$emit('setFilterInToolbarDirective');
-    },
-
-    /**
-     * Updates filter.displayFrom and filter.displayTo values
-     */
-    updateRange: function ($numToFetch) {
-        if ($numToFetch) {
-            this.filter.numToFetch = $numToFetch;
-        }
-
-        this.filter.displayFrom = this.filter.offset + 1;
-        this.filter.displayTo = this.filter.offset + (this.filter.numToFetch * 1);
-    },
-
-    //Todo: I might not need some of this code (not allowing offset to be less than 0)
-    // todo: since I disabled the button if that is the case
-    prevResults: function () {
-        //make it so the offset cannot be less than 0.
-        if (this.filter.offset - this.filter.numToFetch < 0) {
-            this.filter.offset = 0;
-        }
-        else {
-            this.filter.offset-= (this.filter.numToFetch * 1);
-            this.updateRange();
-            $rootScope.$emit('runFilter');
-        }
-    },
-
-    nextResults: function ($filterTotals) {
-        if (this.filter.offset + (this.filter.numToFetch * 1) > $filterTotals.numTransactions) {
-            //stop it going past the end.
-            return;
-        }
-
-        this.filter.offset+= (this.filter.numToFetch * 1);
-        this.updateRange();
-        $rootScope.$emit('runFilter');
-    },
-
     formatDates: function () {
         if (this.filter.singleDate.in) {
             this.filter.singleDate.inSql = $filter('formatDate')(this.filter.singleDate.in);
@@ -141,35 +99,6 @@ var FilterRepository = {
         return this.filter;
     },
 
-    getBasicTotals: function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/basicTotals';
-
-        return $http.post($url, {'filter': $object.filter});
-    },
-
-    calculateGraphFigures: function ($graphTotals) {
-        var $graphFigures = {
-            months: []
-        };
-
-        $($graphTotals.monthsTotals).each(function () {
-            var $expenses = this.debit * -1;
-            var $max = $graphTotals.maxTotal;
-            var $num = 500 / $max;
-
-            $graphFigures.months.push({
-                incomeHeight: this.credit * $num,
-                expensesHeight: $expenses * $num,
-                income: this.credit,
-                expenses: this.debit,
-                month: this.month
-            });
-        });
-
-        return $graphFigures;
-    },
 };
 
 FilterRepository.resetFilter();

@@ -80,6 +80,7 @@
                         :filter="filter"
                         :filter-tab="filterTab"
                         :run-filter="runFilter()"
+                        :clear-filter-field="clearFilterField"
                 >
                 </descriptions-filter>
 
@@ -87,6 +88,7 @@
                         :filter="filter"
                         :filter-tab="filterTab"
                         :run-filter="runFilter()"
+                        :clear-filter-field="clearFilterField"
                 >
                 </merchants-filter>
 
@@ -102,6 +104,7 @@
                         :filter="filter"
                         :filter-tab="filterTab"
                         :run-filter="runFilter()"
+                        :clear-filter-field="clearFilterField"
                 >
                 </dates-filter>
 
@@ -109,7 +112,8 @@
                         :filter="filter"
                         :filter-tab="filterTab"
                         :run-filter="runFilter()">
-                        :clearFilterField="clearFilterField()">
+                        :clear-filter-field="clearFilterField"
+                >
                 </totals-filter>
 
                 <reconciled-filter

@@ -22096,48 +22096,6 @@ var FilterRepository = {
         return this.filter;
     },
 
-    chooseSavedFilter: function ($savedFilter) {
-        this.filter = $savedFilter;
-        $rootScope.$emit('setFilterInToolbarDirective');
-    },
-
-    /**
-     * Updates filter.displayFrom and filter.displayTo values
-     */
-    updateRange: function ($numToFetch) {
-        if ($numToFetch) {
-            this.filter.numToFetch = $numToFetch;
-        }
-
-        this.filter.displayFrom = this.filter.offset + 1;
-        this.filter.displayTo = this.filter.offset + (this.filter.numToFetch * 1);
-    },
-
-    //Todo: I might not need some of this code (not allowing offset to be less than 0)
-    // todo: since I disabled the button if that is the case
-    prevResults: function () {
-        //make it so the offset cannot be less than 0.
-        if (this.filter.offset - this.filter.numToFetch < 0) {
-            this.filter.offset = 0;
-        }
-        else {
-            this.filter.offset-= (this.filter.numToFetch * 1);
-            this.updateRange();
-            $rootScope.$emit('runFilter');
-        }
-    },
-
-    nextResults: function ($filterTotals) {
-        if (this.filter.offset + (this.filter.numToFetch * 1) > $filterTotals.numTransactions) {
-            //stop it going past the end.
-            return;
-        }
-
-        this.filter.offset+= (this.filter.numToFetch * 1);
-        this.updateRange();
-        $rootScope.$emit('runFilter');
-    },
-
     formatDates: function () {
         if (this.filter.singleDate.in) {
             this.filter.singleDate.inSql = $filter('formatDate')(this.filter.singleDate.in);
@@ -22179,35 +22137,6 @@ var FilterRepository = {
         return this.filter;
     },
 
-    getBasicTotals: function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/basicTotals';
-
-        return $http.post($url, {'filter': $object.filter});
-    },
-
-    calculateGraphFigures: function ($graphTotals) {
-        var $graphFigures = {
-            months: []
-        };
-
-        $($graphTotals.monthsTotals).each(function () {
-            var $expenses = this.debit * -1;
-            var $max = $graphTotals.maxTotal;
-            var $num = 500 / $max;
-
-            $graphFigures.months.push({
-                incomeHeight: this.credit * $num,
-                expensesHeight: $expenses * $num,
-                income: this.credit,
-                expenses: this.debit,
-                month: this.month
-            });
-        });
-
-        return $graphFigures;
-    },
 };
 
 FilterRepository.resetFilter();
@@ -22738,27 +22667,12 @@ var DatesFilter = Vue.component('dates-filter', {
     components: {},
     methods: {
 
-        /**
-         *
-         */
-        filterDate: function () {
-            $.event.trigger('run-filter');
-        },
-
-        /**
-         * type is either 'in' or 'out'
-         * @param field
-         * @param type
-         */
-        clearDateField: function (field, type) {
-            this.filter[field][type] = "";
-            $.event.trigger('run-filter');
-        },
     },
     props: [
         'filter',
         'filterTab',
-        'runFilter'
+        'runFilter',
+        'clearFilterField'
     ],
     ready: function () {
 
@@ -22779,7 +22693,7 @@ var DescriptionsFilter = Vue.component('descriptions-filter', {
          */
         filterDescriptionOrMerchant: function () {
             this.resetOffset();
-            $.event.trigger('run-filter');
+            this.runFilter();
         },
 
         /**
@@ -22787,22 +22701,6 @@ var DescriptionsFilter = Vue.component('descriptions-filter', {
          */
         resetOffset: function () {
             this.filter.offset = 0;
-        },
-
-        /**
-         * $type is either 'in' or 'out'
-         *
-         * @DO:
-         * This method is duplicated in other parts of the filter, but
-         * for some reason when I had it in my FilterController, both
-         * parameters were undefined.
-         *
-         * @param field
-         * @param type
-         */
-        clearFilterField: function (field, type) {
-            this.filter[field][type] = "";
-            $.event.trigger('run-filter');
         },
 
     },
@@ -22822,7 +22720,6 @@ var Filter = Vue.component('filter', {
         return {
             filterTab: 'show',
             filter: FilterRepository.filter,
-            savedFilters: [],
             showFilter: false
         };
     },
@@ -22830,38 +22727,20 @@ var Filter = Vue.component('filter', {
     methods: {
 
         /**
-        *
-        */
-        getSavedFilters: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/savedFilters', function (response) {
-                this.savedFilters = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
-
-        /**
-         * I am using the id and a clone, so that the savedFilter
-         * doesn't change (with actions such as next/prev button clicks)
-         * unless deliberately saved again.
-         * @param savedFilter
-         */
-        chooseSavedFilter: function (savedFilter) {
-            var preservedSavedFilter = _.findWhere(preservedSavedFilters, {id: savedFilter.id});
-            var clone = JSON.parse(JSON.stringify(preservedSavedFilter));
-            FilterRepository.chooseSavedFilter(clone.filter);
-            this.filter = FilterRepository.filter;
-            $.event.trigger('run-filter');
-        },
-
-        /**
          * 
          */
         runFilter: function () {
             $.event.trigger('run-filter');
+        },
+
+        /**
+         *
+         * @param field
+         * @param type - either 'in' or 'out'
+         */
+        clearFilterField: function (field, type) {
+            this.filter[field][type] = "";
+            this.runFilter();
         },
 
         /**
@@ -22887,17 +22766,6 @@ var Filter = Vue.component('filter', {
             $(document).on('reset-filter', function (event) {
                 that.filter = FilterRepository.filter;
             });
-
-            $(document).on('saved-filter-created', function (event) {
-                //Doing this because $scope.savedFilters was updating when I didn't want it to.
-                //If the user hit the prev or next buttons, then used the saved filter again,
-                //the saved filter was modified and not the original saved filter.
-                //I think because I set the filter ng-model to the saved filter in the filter factory.
-                var preservedSavedFilters = JSON.parse(JSON.stringify(savedFilters));;
-                this.savedFilters.push(savedFilter);
-                preservedSavedFilters.push(savedFilter);
-            });
-            
         }
     },
     props: [
@@ -22907,7 +22775,6 @@ var Filter = Vue.component('filter', {
     ],
     ready: function () {
         this.listen();
-        this.getSavedFilters();
     }
 });
 
@@ -22937,12 +22804,34 @@ var Graphs = Vue.component('graphs', {
             };
 
             this.$http.post('/api/filter/graphTotals', data, function (response) {
-                this.graphFigures = FilterRepository.calculateGraphFigures(response);
+                this.graphFigures = this.calculateGraphFigures(response);
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {
                 HelpersRepository.handleResponseError(response);
             });
+        },
+
+        calculateGraphFigures: function (graphTotals) {
+            var graphFigures = {
+                months: []
+            };
+
+            $(graphTotals.monthsTotals).each(function () {
+                var expenses = this.debit * -1;
+                var max = graphTotals.maxTotal;
+                var num = 500 / max;
+
+                graphFigures.months.push({
+                    incomeHeight: this.credit * num,
+                    expensesHeight: expenses * num,
+                    income: this.credit,
+                    expenses: this.debit,
+                    month: this.month
+                });
+            });
+
+            return graphFigures;
         },
 
         /**
@@ -22977,7 +22866,7 @@ var MerchantsFilter = Vue.component('merchants-filter', {
          */
         filterDescriptionOrMerchant: function () {
             this.resetOffset();
-            $.event.trigger('run-filter');
+            this.runFilter();
         },
 
         /**
@@ -22986,27 +22875,12 @@ var MerchantsFilter = Vue.component('merchants-filter', {
         resetOffset: function () {
             this.filter.offset = 0;
         },
-
-        /**
-         * type is either 'in' or 'out'
-         *
-         * @DO:
-         * This method is duplicated in other parts of the filter, but
-         * for some reason when I had it in my FilterController, both
-         * parameters were undefined.
-         *
-         * @param field
-         * @param type
-         */
-        clearFilterField: function (field, type) {
-            this.filter[field][type] = "";
-            $.event.trigger('run-filter');
-        },
     },
     props: [
         'filter',
         'filterTab',
-        'runFilter'
+        'runFilter',
+        'clearFilterField'
     ],
     ready: function () {
 
@@ -23053,6 +22927,92 @@ var ReconciledFilter = Vue.component('reconciled-filter', {
 
     }
 });
+var SavedFilters = Vue.component('saved-filters', {
+    template: '#saved-filters-template',
+    data: function () {
+        return {
+            savedFilters: []
+        };
+    },
+    components: {},
+    methods: {
+        /**
+         *
+         */
+        getSavedFilters: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/savedFilters', function (response) {
+                    this.savedFilters = response;
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+        },
+
+        /**
+         * I am using the id and a clone, so that the savedFilter
+         * doesn't change (with actions such as next/prev button clicks)
+         * unless deliberately saved again.
+         * @param savedFilter
+         */
+        chooseSavedFilter: function (savedFilter) {
+            var preservedSavedFilter = _.findWhere(preservedSavedFilters, {id: savedFilter.id});
+            var clone = JSON.parse(JSON.stringify(preservedSavedFilter));
+            this.filter = clone.filter;
+            $.event.trigger('set-filter-in-toolbar');
+            $.event.trigger('run-filter');
+        },
+
+        /**
+         *
+         */
+        insertSavedFilter: function () {
+            var name = prompt('Please name your filter');
+
+            $.event.trigger('show-loading');
+
+            var data = {
+                name: name,
+                filter: this.filter
+            };
+
+            this.$http.post('/api/savedFilters', data, function (response) {
+                    this.savedFilters.push(response);
+                    $.event.trigger('new-saved-filter');
+                    $.event.trigger('provide-feedback', ['Filter created', 'success']);
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('saved-filter-created', function (event, savedFilter) {
+                //Doing this because $scope.savedFilters was updating when I didn't want it to.
+                //If the user hit the prev or next buttons, then used the saved filter again,
+                //the saved filter was modified and not the original saved filter.
+                //I think because I set the filter ng-model to the saved filter in the filter factory.
+                var preservedSavedFilters = JSON.parse(JSON.stringify(that.savedFilters));;
+                that.savedFilters.push(savedFilter);
+                preservedSavedFilters.push(savedFilter);
+            });
+        }
+    },
+    props: [
+        //data to be received from parent
+    ],
+    ready: function () {
+        this.getSavedFilters();
+        this.listen();
+    }
+});
+
 var ToolbarForFilter = Vue.component('toolbar-for-filter', {
     template: '#toolbar-for-filter-template',
     data: function () {
@@ -23069,7 +23029,7 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
         resetFilter: function () {
             FilterRepository.resetFilter();
             this.filter = FilterRepository.filter;
-            $.event.trigger('run-filter');
+            this.runFilter();
         },
 
         /**
@@ -23077,47 +23037,51 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
          */
         changeNumToFetch: function () {
             FilterRepository.updateRange(this.filter.numToFetch);
-            $.event.trigger('run-filter');
+            this.runFilter();
         },
 
         /**
-         *
+         * Todo: I might not need some of this code (not allowing offset to be less than 0)
+         * since I disabled the button if that is the case
          */
         prevResults: function () {
-            FilterRepository.prevResults();
+            //make it so the offset cannot be less than 0.
+            if (this.filter.offset - this.filter.numToFetch < 0) {
+                this.filter.offset = 0;
+            }
+            else {
+                this.filter.offset-= (this.filter.numToFetch * 1);
+                FilterRepository.updateRange();
+                this.runFilter();
+            }
         },
 
         /**
          *
          */
         nextResults: function () {
-            FilterRepository.nextResults(this.filterTotals.numTransactions);
-        },
+            if (this.filter.offset + (this.filter.numToFetch * 1) > this.filterTotals.numTransactions) {
+                //stop it going past the end.
+                return;
+            }
 
+            this.filter.offset+= (this.filter.numToFetch * 1);
+            this.updateRange();
+            this.runFilter();
+        },
 
         /**
-        *
-        */
-        insertFilter: function () {
-            var name = prompt('Please name your filter');
+         * Updates filter.displayFrom and filter.displayTo values
+         */
+        updateRange: function (numToFetch) {
+            if (numToFetch) {
+                this.filter.numToFetch = numToFetch;
+            }
 
-            $.event.trigger('show-loading');
-
-            var data = {
-                name: name,
-                filter: this.filter
-            };
-
-            this.$http.post('/api/savedFilters', data, function (response) {
-                this.savedFilters.push(response);
-                $.event.trigger('new-saved-filter');
-                $.event.trigger('provide-feedback', ['Filter created', 'success']);
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
+            this.filter.displayFrom = this.filter.offset + 1;
+            this.filter.displayTo = this.filter.offset + (this.filter.numToFetch * 1);
         },
+
 
         /**
          *
@@ -23151,34 +23115,12 @@ var TotalsFilter = Vue.component('totals-filter', {
     components: {},
     methods: {
 
-        /**
-         *
-         */
-        filterTotal: function () {
-            $.event.trigger('run-filter');
-        },
-
-        /**
-         * type is either 'in' or 'out'
-         *
-         * @DO:
-         * This method is duplicated in other parts of the filter, but
-         * for some reason when I had it in my FilterController, both
-         * parameters were undefined.
-         *
-         * @param field
-         * @param type
-         */
-        clearFilterField: function (field, type) {
-            this.filter[field][type] = "";
-            $.event.trigger('run-filter');
-        },
-
     },
     props: [
         'filter',
         'filterTab',
-        'runFilter'
+        'runFilter',
+        'clearFilterField'
     ],
     ready: function () {
 
@@ -23203,8 +23145,14 @@ var TotalsForFilter = Vue.component('totals-for-filter', {
         * Todo: should be GET not POST
         */
         getBasicFilterTotals: function () {
+            this.filter = FilterRepository.formatDates(FilterRepository.filter);
+
+            var data = {
+                filter: this.filter
+            };
+
             $.event.trigger('show-loading');
-            this.$http.post('/api/filter/basicTotals', this.filter, function (response) {
+            this.$http.post('/api/filter/basicTotals', data, function (response) {
                 this.filterTotals = response;
                 $.event.trigger('hide-loading');
             })
@@ -23219,7 +23167,7 @@ var TotalsForFilter = Vue.component('totals-for-filter', {
         listen: function () {
             var that = this;
             $(document).on('get-basic-filter-totals', function (event) {
-                //that.getBasicFilterTotals();
+                that.getBasicFilterTotals();
             });
         }
     },

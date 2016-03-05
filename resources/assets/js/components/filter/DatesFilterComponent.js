@@ -8,27 +8,12 @@ var DatesFilter = Vue.component('dates-filter', {
     components: {},
     methods: {
 
-        /**
-         *
-         */
-        filterDate: function () {
-            $.event.trigger('run-filter');
-        },
-
-        /**
-         * type is either 'in' or 'out'
-         * @param field
-         * @param type
-         */
-        clearDateField: function (field, type) {
-            this.filter[field][type] = "";
-            $.event.trigger('run-filter');
-        },
     },
     props: [
         'filter',
         'filterTab',
-        'runFilter'
+        'runFilter',
+        'clearFilterField'
     ],
     ready: function () {
 

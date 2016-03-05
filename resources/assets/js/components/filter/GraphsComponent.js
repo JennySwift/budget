@@ -24,12 +24,34 @@ var Graphs = Vue.component('graphs', {
             };
 
             this.$http.post('/api/filter/graphTotals', data, function (response) {
-                this.graphFigures = FilterRepository.calculateGraphFigures(response);
+                this.graphFigures = this.calculateGraphFigures(response);
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {
                 HelpersRepository.handleResponseError(response);
             });
+        },
+
+        calculateGraphFigures: function (graphTotals) {
+            var graphFigures = {
+                months: []
+            };
+
+            $(graphTotals.monthsTotals).each(function () {
+                var expenses = this.debit * -1;
+                var max = graphTotals.maxTotal;
+                var num = 500 / max;
+
+                graphFigures.months.push({
+                    incomeHeight: this.credit * num,
+                    expensesHeight: expenses * num,
+                    income: this.credit,
+                    expenses: this.debit,
+                    month: this.month
+                });
+            });
+
+            return graphFigures;
         },
 
         /**

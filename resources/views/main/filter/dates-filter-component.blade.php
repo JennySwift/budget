@@ -22,7 +22,7 @@
                 >
                     <input
                             v-model="filter.singleDate.in"
-                            v-on:keyup.13="filterDate()"
+                            v-on:keyup.13="runFilter()"
                             type="text"
                             id="filter-single-date-in"
                             name="filter-single-date-in"
@@ -54,7 +54,7 @@
                 >
                     <input
                             v-model="filter.singleDate.out"
-                            v-on:keyup.13="filterDate()"
+                            v-on:keyup.13="runFilter()"
                             type="text"
                             id="filter-single-date-out"
                             name="filter-single-date-out"
@@ -86,7 +86,7 @@
                 >
                     <input
                             v-model="filter.fromDate.out"
-                            v-on:keyup.13="filterDate()"
+                            v-on:keyup.13="runFilter()"
                             type="text"
                             id="filter-from-date-in"
                             name="filter-from-date-in"
@@ -118,7 +118,7 @@
                 >
                     <input
                             v-model="filter.toDate.in"
-                            v-on:keyup.13="filterDate()"
+                            v-on:keyup.13="runFilter()"
                             type="text"
                             id="filter-to-date-in"
                             name="filter-to-date-in"
