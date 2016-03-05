@@ -2,7 +2,8 @@ var TypesFilter = Vue.component('types-filter', {
     template: '#types-filter-template',
     data: function () {
         return {
-            types: ["income", "expense", "transfer"]
+            types: ["income", "expense", "transfer"],
+            showContent: false
         };
     },
     components: {},

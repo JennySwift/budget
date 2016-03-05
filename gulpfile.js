@@ -21,6 +21,7 @@ elixir(function(mix) {
         'shared/**/*.js',
         'repositories/**/*.js',
         'components/**/*.js',
+        'directives/**/*.js',
         'app.js',
     ], 'public/js/all.js');
 

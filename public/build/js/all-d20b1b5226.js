@@ -22668,32 +22668,11 @@ var AccountsFilter = Vue.component('accounts-filter', {
     template: '#accounts-filter-template',
     data: function () {
         return {
-            accounts: [],
-            contentVisible: false
+            accounts: []
         };
     },
     components: {},
     methods: {
-
-        toggleContent: function () {
-            if (this.contentVisible) {
-                this.hideContent();
-            }
-            else {
-                this.showContent();
-            }
-        },
-
-        showContent: function () {
-            $(this.$el).find('.content').slideDown();
-            this.contentVisible = true;
-        },
-
-        hideContent: function () {
-            $(this.$el).find('.content').slideUp();
-            this.contentVisible = false;
-        },
-
 
     },
     props: [
@@ -22846,38 +22825,47 @@ var DescriptionsFilter = Vue.component('descriptions-filter', {
 });
 
 var DropdownForFilter = Vue.component('dropdown-for-filter', {
-    template: '#dropdown-for-filter-template',
+    //template: '#dropdown-for-filter-template',
     data: function () {
         return {
-            content: $(elem).find('.content')
+            showContent: false
         };
     },
     components: {},
     methods: {
+
+        /**
+         *
+         */
         toggleContent: function () {
-            if ($scope.contentVisible) {
-                $scope.hideContent();
-            }
-            else {
-                $scope.showContent();
-            }
+            this.showContent = !this.showContent;
         },
 
+        /**
+         *
+         */
         showContent: function () {
-            $scope.content.slideDown();
-            $scope.contentVisible = true;
+            //$(this.$el).find('.content').slideDown();
+            this.showContent = true;
         },
 
+        /**
+         *
+         */
         hideContent: function () {
-            $scope.content.slideUp();
-            $scope.contentVisible = false;
+            //$(this.$el).find('.content').slideUp();
+            this.showContent = false;
         },
 
+        /**
+         *
+         */
         listen: function () {
-            var $h4 = $(elem).find('h4');
+            var that = this;
+            var h4 = $(this.$el).find('h4');
 
-            $($h4).on('click', function () {
-                $scope.toggleContent();
+            $(h4).on('click', function () {
+                that.toggleContent();
             });
         }
     },
@@ -23209,8 +23197,7 @@ var TypesFilter = Vue.component('types-filter', {
     template: '#types-filter-template',
     data: function () {
         return {
-            types: ["income", "expense", "transfer"],
-            showContent: false
+            types: ["income", "expense", "transfer"]
         };
     },
     components: {},
@@ -23228,6 +23215,91 @@ var TypesFilter = Vue.component('types-filter', {
 });
 
 
+
+var AccordionItem = Vue.component('accordion-item', {
+    data: function () {
+        return {
+            showText: false,
+            accordion: ''
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        setAccordionHeight: function () {
+            var height = $(window).height() - 50;
+            this.accordion.height(height);
+        },
+
+        /**
+         * Remove underlines and underline the appropriate heading
+         * @param heading
+         */
+        setUnderlines: function (heading) {
+            $('.expanded').removeClass('expanded');
+            if (this.showText) {
+                heading.addClass('expanded');
+            }
+        },
+
+        /**
+         *
+         */
+        scroll: function () {
+            // Doing this here rather than on page load so that on page load
+            // there isn't extra scrolling space at the bottom when all items are collapsed
+            this.setAccordionHeight();
+            var scrollTop = this.accordion.position().top - 13;
+
+            //If all items are collapsed, scroll to the top of the page
+            if (this.accordion.find('.expanded').length == 0) {
+                scrollTop = 0;
+            }
+
+            setTimeout(function () {
+                $('.scrollbar-container').animate({scrollTop: scrollTop}, 700);
+
+            }, 100);
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            var heading = $(this.$el).find('h5');
+            this.accordion = $(this.$el).closest('.accordion');
+
+            heading.on('click', function (e) {
+                e.preventDefault();
+
+                $.event.trigger('closeItems', [that]);
+
+                that.showText = !that.showText;
+                that.setUnderlines(heading);
+
+                if (that.autoScroll) {
+                    that.scroll();
+                }
+            });
+
+            $(document).on('closeItems', function (event, item) {
+                if (that !== item) {
+                    that.showText = false;
+                }
+            });
+        }
+    },
+    props: [
+        'autoScroll'
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
 
 var AccountsPage = Vue.component('accounts-page', {
     template: '#accounts-page-template',
@@ -25634,30 +25706,6 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
     }
 });
 
-Vue.directive('slide', {
-  bind: function () {
-      console.log('bind');
-    // do preparation work
-    // e.g. add event listeners or expensive stuff
-    // that needs to be run only once
-  },
-  update: function (newValue, oldValue) {
-      console.log('update');
-      if (newValue) {
-          $(this.el).find('.content').slideDown();
-      }
-      else {
-          $(this.el).find('.content').slideUp();
-      }
-
-    // do something based on the updated value
-    // this will also be called for the initial value
-  },
-  unbind: function () {
-    // do clean up work
-    // e.g. remove event listeners added in bind()
-  }
-});
 
 var App = Vue.component('app', {
     data: function () {

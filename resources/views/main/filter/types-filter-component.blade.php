@@ -1,10 +1,8 @@
 <script id="types-filter-template" type="x-template">
 
-    <div filter-dropdowns-directive
-         types="types"
-         class="section">
+    <div v-slide="showContent" class="section">
 
-        <h4 class="center">types</h4>
+        <h4 v-on:click="showContent = !showContent" class="center">types</h4>
 
         <div class="types transition content">
 

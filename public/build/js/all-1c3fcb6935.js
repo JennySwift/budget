@@ -22668,11 +22668,32 @@ var AccountsFilter = Vue.component('accounts-filter', {
     template: '#accounts-filter-template',
     data: function () {
         return {
-            accounts: []
+            accounts: [],
+            contentVisible: false
         };
     },
     components: {},
     methods: {
+
+        toggleContent: function () {
+            if (this.contentVisible) {
+                this.hideContent();
+            }
+            else {
+                this.showContent();
+            }
+        },
+
+        showContent: function () {
+            $(this.$el).find('.content').slideDown();
+            this.contentVisible = true;
+        },
+
+        hideContent: function () {
+            $(this.$el).find('.content').slideUp();
+            this.contentVisible = false;
+        },
+
 
     },
     props: [
@@ -23188,7 +23209,8 @@ var TypesFilter = Vue.component('types-filter', {
     template: '#types-filter-template',
     data: function () {
         return {
-            types: ["income", "expense", "transfer"]
+            types: ["income", "expense", "transfer"],
+            showContent: false
         };
     },
     components: {},
@@ -25612,6 +25634,30 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
     }
 });
 
+Vue.directive('slide', {
+  bind: function () {
+      console.log('bind');
+    // do preparation work
+    // e.g. add event listeners or expensive stuff
+    // that needs to be run only once
+  },
+  update: function (newValue, oldValue) {
+      console.log('update');
+      if (newValue) {
+          $(this.el).find('.content').slideDown();
+      }
+      else {
+          $(this.el).find('.content').slideUp();
+      }
+
+    // do something based on the updated value
+    // this will also be called for the initial value
+  },
+  unbind: function () {
+    // do clean up work
+    // e.g. remove event listeners added in bind()
+  }
+});
 
 var App = Vue.component('app', {
     data: function () {

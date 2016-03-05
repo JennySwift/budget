@@ -1,10 +1,8 @@
 <script id="accounts-filter-template" type="x-template">
 
-<div>
-    <div filter-dropdowns-directive
-         class="section">
+    <div class="section">
 
-        <h4 class="center">accounts</h4>
+        <h4 v-on:click="toggleContent()" class="center">accounts</h4>
 
         <div class="accounts content">
 
@@ -51,7 +49,5 @@
         </div>
 
     </div>
-
-</div>
 
 </script>
