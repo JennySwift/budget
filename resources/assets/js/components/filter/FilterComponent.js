@@ -84,6 +84,7 @@ var Filter = Vue.component('filter', {
     },
     props: [
         'show',
+        'budgets'
     ],
     ready: function () {
         this.listen();

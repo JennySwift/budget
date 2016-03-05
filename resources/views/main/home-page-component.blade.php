@@ -34,6 +34,7 @@
 
             <filter
                 :show="show"
+                :budgets="budgets"
             ></filter>
 
         </div>

@@ -758,6 +758,16 @@ caption {
   .checkbox-container input {
     margin-right: 5px; }
 
+.input-btn-container {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .input-btn-container input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+  .input-btn-container .input-group-btn {
+    width: auto; }
+
 .btn-group .btn {
   margin: 0 -2px;
   border-radius: 0px; }
