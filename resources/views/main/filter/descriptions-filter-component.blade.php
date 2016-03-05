@@ -7,44 +7,63 @@
         <div class="content">
 
             <div
-                    class="group"
-                    v-if="filter.description"
-                    v-show="filterTab === 'show'"
+                v-if="filter.description"
+                v-show="filterTab === 'show'"
+                class="form-group"
             >
-                <input
-                        v-model="filter.description.in"
-                        v-on:keyup="filterDescriptionOrMerchant($event.keyCode)"
-                        type="text"
-                        placeholder="description">
+                <label for="filter-description-in">Filter description in</label>
 
-            <span class="input-group-btn">
-                <button
-                        v-on:click="clearFilterField('description', 'in')"
-                        class="clear-search-button">
-                    clear
-                </button>
-            </span>
+                <div class="input-group">
+                    <input
+                            v-model="filter.description.in"
+                            v-on:keyup.13="filterDescriptionOrMerchant()"
+                            type="text"
+                            id="filter-description-in"
+                            name="filter-description-in"
+                            placeholder="description"
+                            class="form-control"
+                    >
+
+                    <span class="input-group-btn">
+                        <button
+                                v-on:click="clearFilterField('description', 'in')"
+                                class="clear-search-button btn btn-default">
+                            clear
+                        </button>
+                    </span>
+                </div>
 
             </div>
 
+
+
             <div
-                    class="group"
                     v-if="filter.description"
                     v-show="filterTab === 'hide'"
+                    class="form-group"
             >
-                <input
-                        v-model="filter.description.out"
-                        v-on:keyup.13="filterDescriptionOrMerchant()"
-                        type="text"
-                        placeholder="description">
+                <label for="filter-description-in">Filter description out</label>
 
-            <span class="input-group-btn">
-                <button
-                        v-on:click="clearFilterField('description', 'out')"
-                        class="clear-search-button">
-                    clear
-                </button>
-            </span>
+                <div class="input-group">
+                    <input
+                            v-model="filter.description.out"
+                            v-on:keyup.13="filterDescriptionOrMerchant()"
+                            type="text"
+                            id="filter-description-out"
+                            name="filter-description-out"
+                            placeholder="description"
+                            class="form-control"
+                    >
+
+                    <span class="input-group-btn">
+                        <button
+                                v-on:click="clearFilterField('description', 'out')"
+                                class="clear-search-button btn btn-default">
+                            clear
+                        </button>
+                    </span>
+                </div>
+
             </div>
 
         </div>

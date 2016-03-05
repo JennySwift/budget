@@ -54,7 +54,7 @@
             {{--<filter-toolbar-directive></filter-toolbar-directive>--}}
         </div>
 
-        <div class="flex">
+        <div>
             <totals-for-filter
                     :show="show"
                     :filter="filter"

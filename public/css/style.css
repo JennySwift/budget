@@ -978,10 +978,13 @@ caption {
       padding: 10px 0;
       background: black;
       color: #CFCFCF;
-      cursor: pointer;
-      width: 235px; }
+      cursor: pointer; }
     #filter .section .content {
-      display: none; }
+      display: none;
+      padding-top: 15px; }
+      #filter .section .content .form-group {
+        margin-bottom: 0;
+        padding-bottom: 15px; }
       #filter .section .content label.disabled {
         position: relative; }
         #filter .section .content label.disabled:after {

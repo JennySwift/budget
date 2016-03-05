@@ -25656,13 +25656,11 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
 
 Vue.directive('slide', {
   bind: function () {
-      console.log('bind');
     // do preparation work
     // e.g. add event listeners or expensive stuff
     // that needs to be run only once
   },
   update: function (newValue, oldValue) {
-      console.log('update');
       if (newValue) {
           $(this.el).find('.content').slideDown();
       }
