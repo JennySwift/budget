@@ -32,23 +32,7 @@
             </li>
         </ul>
 
-        <div class="form-group">
-            <label for="saved-filter">Saved Filters</label>
-
-            <select
-                v-model="savedFilter"
-                v-on:change="chooseSavedFilter(savedFilter)"
-                id="saved-filter"
-                class="form-control"
-            >
-                <option
-                    v-for="savedFilter in savedFilters"
-                    v-bind:value="savedFilter"
-                >
-                    @{{ savedFilter.name }}
-                </option>
-            </select>
-        </div>
+        <saved-filters></saved-filters>
 
         <toolbar-for-filter
             :filter="filter"

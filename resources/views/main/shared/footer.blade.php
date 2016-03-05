@@ -45,6 +45,7 @@
 @include('main.filter.budgets-filter-component')
 @include('main.filter.dates-filter-component')
 @include('main.filter.num-budgets-filter-component')
+@include('main.filter.saved-filters-component')
 @include('main.filter.reconciled-filter-component')
 @include('main.filter.totals-for-filter-component')
 @include('main.filter.toolbar-for-filter-component')
