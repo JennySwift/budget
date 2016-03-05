@@ -6,6 +6,11 @@ var Graphs = Vue.component('graphs', {
         };
     },
     components: {},
+    filters: {
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
+    },
     methods: {
 
         /**

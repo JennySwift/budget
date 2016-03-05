@@ -22927,6 +22927,11 @@ var Graphs = Vue.component('graphs', {
         };
     },
     components: {},
+    filters: {
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
+    },
     methods: {
 
         /**
@@ -23191,10 +23196,15 @@ var TotalsForFilter = Vue.component('totals-for-filter', {
     template: '#totals-for-filter-template',
     data: function () {
         return {
-            basicFilterTotals: {}
+            filterTotals: {}
         };
     },
     components: {},
+    filters: {
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
+    },
     methods: {
 
         /**
@@ -23203,7 +23213,7 @@ var TotalsForFilter = Vue.component('totals-for-filter', {
         getBasicFilterTotals: function () {
             $.event.trigger('show-loading');
             this.$http.post('/api/filter/basicTotals', this.filter, function (response) {
-                this.basicFilterTotals = response;
+                this.filterTotals = response;
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {

@@ -10,7 +10,7 @@
                         id="debit">
 
                     <div class="span-container">
-                        <span v-if="month.expenses < 0" class="badge">@{{ month.expenses | number:2 }}</span>
+                        <span v-if="month.expenses < 0" class="badge">@{{ month.expenses | numberFilter 2 }}</span>
                     </div>
 
                 </div>
@@ -20,7 +20,7 @@
                         id="credit">
 
                     <div class="span-container">
-                        <span v-if="month.income > 0" class="badge">@{{ month.income | number:2 }}</span>
+                        <span v-if="month.income > 0" class="badge">@{{ month.income | numberFilter 2 }}</span>
                     </div>
 
                 </div>
