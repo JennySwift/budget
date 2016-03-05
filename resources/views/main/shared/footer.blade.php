@@ -44,6 +44,8 @@
 @include('main.filter.merchants-filter-component')
 @include('main.filter.budgets-filter-component')
 @include('main.filter.dates-filter-component')
+@include('main.filter.num-budgets-filter-component')
+@include('main.filter.reconciled-filter-component')
 @include('main.filter.totals-for-filter-component')
 
 {{--Transactions--}}

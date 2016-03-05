@@ -1,10 +1,9 @@
 <script id="merchants-filter-template" type="x-template">
 
 <div>
-    <div filter-dropdowns-directive
-         class="section">
+    <div v-slide="showContent" class="section">
 
-        <h4 class="center">merchant</h4>
+        <h4 v-on:click="showContent = !showContent" class="center">merchant</h4>
 
         <div class="content">
 

@@ -1,13 +1,17 @@
 <script id="budgets-filter-template" type="x-template">
 
 <div>
-    <div filter-dropdowns-directive
-         class="section">
+    <div
+        v-slide="showContent"
+        class="section"
+    >
 
-        <h4 class="center">tags</h4>
+        <h4 v-on:click="showContent = !showContent" class="center">tags</h4>
 
         <div class="content">
+
             <div v-show="filterTab === 'show'">
+
                 <div>Transactions will contain all of the tags entered here</div>
 
                 <div class="group">

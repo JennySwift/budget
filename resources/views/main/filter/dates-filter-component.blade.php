@@ -1,9 +1,11 @@
 <script id="dates-filter-template" type="x-template">
 
-    <div filter-dropdowns-directive
-         class="section">
+    <div
+        v-slide="showContent"
+        class="section"
+    >
 
-        <h4 class="center">date</h4>
+        <h4 v-on:click="showContent = !showContent" class="center">date</h4>
 
         <div class="content">
 

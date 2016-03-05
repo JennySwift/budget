@@ -65,55 +65,67 @@
                 <accounts-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :runFilter="runFilter()"
+                        :run-filter="runFilter()"
                 >
                 </accounts-filter>
 
                 <types-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :runFilter="runFilter()"
+                        :run-filter="runFilter()"
                 >
                 </types-filter>
 
                 <descriptions-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :runFilter="runFilter()"
+                        :run-filter="runFilter()"
                 >
                 </descriptions-filter>
 
                 <merchants-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :runFilter="runFilter()"
+                        :run-filter="runFilter()"
                 >
                 </merchants-filter>
 
                 <budgets-filter
-                        filter="filter"
-                        filterTab="filterTab"
-                        runFilter="runFilter()"
-                        budgets="budgets"
+                        :filter="filter"
+                        :filter-tab="filterTab"
+                        :run-filter="runFilter()"
+                        :budgets="budgets"
                 >
                 </budgets-filter>
 
                 <dates-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :runFilter="runFilter()"
+                        :run-filter="runFilter()"
                 >
                 </dates-filter>
 
                 <totals-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :runFilter="runFilter()">
+                        :run-filter="runFilter()">
                         :clearFilterField="clearFilterField()">
                 </totals-filter>
 
-                @include('main.home.filter.reconciled')
-                @include('main.home.filter.num-budgets')
+                <reconciled-filter
+                        :filter="filter"
+                        :filter-tab="filterTab"
+                        :run-filter="runFilter()"
+                >
+                </reconciled-filter>
+
+                <num-budgets-filter
+                        :filter="filter"
+                        :filter-tab="filterTab"
+                        :run-filter="runFilter()"
+                >
+                </num-budgets-filter>
+
             </div>
         </div>
 

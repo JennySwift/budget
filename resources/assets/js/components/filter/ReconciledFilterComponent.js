@@ -1,8 +1,7 @@
-var AccountsFilter = Vue.component('accounts-filter', {
-    template: '#accounts-filter-template',
+var ReconciledFilter = Vue.component('reconciled-filter', {
+    template: '#reconciled-filter-template',
     data: function () {
         return {
-            accounts: [],
             showContent: false
         };
     },

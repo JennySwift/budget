@@ -1,9 +1,8 @@
 <script id="totals-filter-template" type="x-template">
 
-    <div filter-dropdowns-directive
-         class="section">
+    <div v-slide="showContent" class="section">
 
-        <h4 class="center">amount</h4>
+        <h4 v-on:click="showContent = !showContent" class="center">amount</h4>
 
         <div class="content">
 

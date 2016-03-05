@@ -1,8 +1,8 @@
 <script id="accounts-filter-template" type="x-template">
 
-    <div class="section">
+    <div v-slide="showContent" class="section">
 
-        <h4 v-on:click="toggleContent()" class="center">accounts</h4>
+        <h4 v-on:click="showContent = !showContent" class="center">accounts</h4>
 
         <div class="accounts content">
 

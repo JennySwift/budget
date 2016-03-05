@@ -2,7 +2,7 @@ var DatesFilter = Vue.component('dates-filter', {
     template: '#dates-filter-template',
     data: function () {
         return {
-
+            showContent: false
         };
     },
     components: {},

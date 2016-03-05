@@ -22053,15 +22053,15 @@ var FilterRepository = {
                 in: [],
                 out: []
             },
-            single_date: {
+            singleDate: {
                 in: '',
                 out: ''
             },
-            from_date: {
+            fromDate: {
                 in: '',
                 out: ''
             },
-            to_date: {
+            toDate: {
                 in: '',
                 out: ''
             },
@@ -22086,9 +22086,9 @@ var FilterRepository = {
             },
             reconciled: "any",
             offset: 0,
-            num_to_fetch: 30,
-            display_from: 1,
-            display_to: 30
+            numToFetch: 30,
+            displayFrom: 1,
+            displayTo: 30
         };
 
         $.event.trigger('reset-filter');
@@ -22113,78 +22113,78 @@ var FilterRepository = {
     },
 
     /**
-     * Updates filter.display_from and filter.display_to values
+     * Updates filter.displayFrom and filter.displayTo values
      */
     updateRange: function ($numToFetch) {
         if ($numToFetch) {
-            this.filter.num_to_fetch = $numToFetch;
+            this.filter.numToFetch = $numToFetch;
         }
 
-        this.filter.display_from = this.filter.offset + 1;
-        this.filter.display_to = this.filter.offset + (this.filter.num_to_fetch * 1);
+        this.filter.displayFrom = this.filter.offset + 1;
+        this.filter.displayTo = this.filter.offset + (this.filter.numToFetch * 1);
     },
 
     //Todo: I might not need some of this code (not allowing offset to be less than 0)
     // todo: since I disabled the button if that is the case
     prevResults: function () {
         //make it so the offset cannot be less than 0.
-        if (this.filter.offset - this.filter.num_to_fetch < 0) {
+        if (this.filter.offset - this.filter.numToFetch < 0) {
             this.filter.offset = 0;
         }
         else {
-            this.filter.offset-= (this.filter.num_to_fetch * 1);
+            this.filter.offset-= (this.filter.numToFetch * 1);
             this.updateRange();
             $rootScope.$emit('runFilter');
         }
     },
 
     nextResults: function ($filterTotals) {
-        if (this.filter.offset + (this.filter.num_to_fetch * 1) > $filterTotals.numTransactions) {
+        if (this.filter.offset + (this.filter.numToFetch * 1) > $filterTotals.numTransactions) {
             //stop it going past the end.
             return;
         }
 
-        this.filter.offset+= (this.filter.num_to_fetch * 1);
+        this.filter.offset+= (this.filter.numToFetch * 1);
         this.updateRange();
         $rootScope.$emit('runFilter');
     },
 
     formatDates: function () {
-        if (this.filter.single_date.in) {
-            this.filter.single_date.inSql = $filter('formatDate')(this.filter.single_date.in);
+        if (this.filter.singleDate.in) {
+            this.filter.singleDate.inSql = $filter('formatDate')(this.filter.singleDate.in);
         }
         else {
-            this.filter.single_date.inSql = "";
+            this.filter.singleDate.inSql = "";
         }
-        if (this.filter.single_date.out) {
-            this.filter.single_date.outSql = $filter('formatDate')(this.filter.single_date.out);
-        }
-        else {
-            this.filter.single_date.outSql = "";
-        }
-        if (this.filter.from_date.in) {
-            this.filter.from_date.inSql = $filter('formatDate')(this.filter.from_date.in);
+        if (this.filter.singleDate.out) {
+            this.filter.singleDate.outSql = $filter('formatDate')(this.filter.singleDate.out);
         }
         else {
-            this.filter.from_date.inSql = "";
+            this.filter.singleDate.outSql = "";
         }
-        if (this.filter.from_date.out) {
-            this.filter.from_date.outSql = $filter('formatDate')(this.filter.from_date.out);
-        }
-        else {
-            this.filter.from_date.outSql = "";
-        }
-        if (this.filter.to_date.in) {
-            this.filter.to_date.inSql = $filter('formatDate')(this.filter.to_date.in);
+        if (this.filter.fromDate.in) {
+            this.filter.fromDate.inSql = $filter('formatDate')(this.filter.fromDate.in);
         }
         else {
-            this.filter.to_date.inSql = "";
+            this.filter.fromDate.inSql = "";
         }
-        if (this.filter.to_date.out) {
-            this.filter.to_date.outSql = $filter('formatDate')(this.filter.to_date.out);
+        if (this.filter.fromDate.out) {
+            this.filter.fromDate.outSql = $filter('formatDate')(this.filter.fromDate.out);
         }
         else {
-            this.filter.to_date.outSql = "";
+            this.filter.fromDate.outSql = "";
+        }
+        if (this.filter.toDate.in) {
+            this.filter.toDate.inSql = $filter('formatDate')(this.filter.toDate.in);
+        }
+        else {
+            this.filter.toDate.inSql = "";
+        }
+        if (this.filter.toDate.out) {
+            this.filter.toDate.outSql = $filter('formatDate')(this.filter.toDate.out);
+        }
+        else {
+            this.filter.toDate.outSql = "";
         }
 
         return this.filter;
@@ -22669,31 +22669,11 @@ var AccountsFilter = Vue.component('accounts-filter', {
     data: function () {
         return {
             accounts: [],
-            contentVisible: false
+            showContent: false
         };
     },
     components: {},
     methods: {
-
-        toggleContent: function () {
-            if (this.contentVisible) {
-                this.hideContent();
-            }
-            else {
-                this.showContent();
-            }
-        },
-
-        showContent: function () {
-            $(this.$el).find('.content').slideDown();
-            this.contentVisible = true;
-        },
-
-        hideContent: function () {
-            $(this.$el).find('.content').slideUp();
-            this.contentVisible = false;
-        },
-
 
     },
     props: [
@@ -22709,7 +22689,7 @@ var BudgetsFilter = Vue.component('budgets-filter', {
     template: '#budgets-filter-template',
     data: function () {
         return {
-
+            showContent: false
         };
     },
     components: {},
@@ -22766,7 +22746,7 @@ var DatesFilter = Vue.component('dates-filter', {
     template: '#dates-filter-template',
     data: function () {
         return {
-
+            showContent: false
         };
     },
     components: {},
@@ -23017,7 +22997,7 @@ var MerchantsFilter = Vue.component('merchants-filter', {
     template: '#merchants-filter-template',
     data: function () {
         return {
-
+            showContent: false
         };
     },
     components: {},
@@ -23060,6 +23040,46 @@ var MerchantsFilter = Vue.component('merchants-filter', {
     }
 });
 
+var NumBudgetsFilter = Vue.component('num-budgets-filter', {
+    template: '#num-budgets-filter-template',
+    data: function () {
+        return {
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
+    }
+});
+var ReconciledFilter = Vue.component('reconciled-filter', {
+    template: '#reconciled-filter-template',
+    data: function () {
+        return {
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
+    }
+});
 var ToolbarForFilter = Vue.component('toolbar-for-filter', {
     template: '#toolbar-for-filter-template',
     data: function () {
@@ -23125,7 +23145,7 @@ var TotalsFilter = Vue.component('totals-filter', {
     template: '#totals-filter-template',
     data: function () {
         return {
-
+            showContent: false
         };
     },
     components: {},

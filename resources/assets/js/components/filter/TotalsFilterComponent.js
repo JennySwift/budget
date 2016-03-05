@@ -2,7 +2,7 @@ var TotalsFilter = Vue.component('totals-filter', {
     template: '#totals-filter-template',
     data: function () {
         return {
-
+            showContent: false
         };
     },
     components: {},

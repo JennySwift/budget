@@ -1,8 +1,7 @@
-var AccountsFilter = Vue.component('accounts-filter', {
-    template: '#accounts-filter-template',
+var NumBudgetsFilter = Vue.component('num-budgets-filter', {
+    template: '#num-budgets-filter-template',
     data: function () {
         return {
-            accounts: [],
             showContent: false
         };
     },

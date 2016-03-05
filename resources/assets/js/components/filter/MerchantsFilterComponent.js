@@ -2,7 +2,7 @@ var MerchantsFilter = Vue.component('merchants-filter', {
     template: '#merchants-filter-template',
     data: function () {
         return {
-
+            showContent: false
         };
     },
     components: {},
