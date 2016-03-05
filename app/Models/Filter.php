@@ -267,7 +267,7 @@ class Filter implements Arrayable {
         $this->transactions = $query->orderBy('date', 'desc')
                      ->orderBy('id', 'desc')
                      ->skip($this->filters['offset'])
-                     ->take($this->filters['num_to_fetch'])
+                     ->take($this->filters['numToFetch'])
                      ->with('budgets')
                      ->with('account')
                      ->get();

@@ -167,9 +167,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 		$this->assertArrayHasKey('reconciled', $filter['filter']);
 		$this->assertArrayHasKey('offset', $filter['filter']);
-		$this->assertArrayHasKey('num_to_fetch', $filter['filter']);
-		$this->assertArrayHasKey('display_from', $filter['filter']);
-		$this->assertArrayHasKey('display_to', $filter['filter']);
+		$this->assertArrayHasKey('numToFetch', $filter['filter']);
+		$this->assertArrayHasKey('displayFrom', $filter['filter']);
+		$this->assertArrayHasKey('displayTo', $filter['filter']);
 	}
 
 	/**

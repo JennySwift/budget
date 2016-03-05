@@ -968,7 +968,7 @@ caption {
     -webkit-animation: bounceOutRight 2s;
     animation: bounceOutRight 2s; }
   #filter .toolbar-filter {
-    margin-bottom: 5px; }
+    margin-bottom: 12px; }
     #filter .toolbar-filter select {
       width: 60px; }
   #filter .flex {
@@ -978,7 +978,8 @@ caption {
   #filter .nav-tabs {
     display: -webkit-flex;
     display: -ms-flexbox;
-    display: flex; }
+    display: flex;
+    margin-bottom: 10px; }
     #filter .nav-tabs > li {
       -webkit-flex-grow: 1;
       -ms-flex-positive: 1;

@@ -28,8 +28,8 @@ class FilterSeeder extends Seeder {
                         'out' => []
                     ],
                     //These values needed for the JS
-                    'display_from' => 1,
-                    'display_to' => 30
+                    'displayFrom' => 1,
+                    'displayTo' => 30
                 ]
             ],
             [
@@ -44,10 +44,10 @@ class FilterSeeder extends Seeder {
                         'out' => []
                     ],
                     'offset' => 2,
-                    'num_to_fetch' => 2,
+                    'numToFetch' => 2,
                     //These values needed for the JS
-                    'display_from' => 3,
-                    'display_to' => 4
+                    'displayFrom' => 3,
+                    'displayTo' => 4
                 ]
             ]
         ];

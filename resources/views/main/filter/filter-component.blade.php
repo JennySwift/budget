@@ -37,6 +37,7 @@
         <toolbar-for-filter
             :filter="filter"
             :filter-totals="filterTotals"
+            :run-filter="runFilter"
         >
         </toolbar-for-filter>
 

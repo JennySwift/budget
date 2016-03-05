@@ -22086,9 +22086,9 @@ var FilterRepository = {
             },
             reconciled: "any",
             offset: 0,
-            num_to_fetch: 30,
-            display_from: 1,
-            display_to: 30
+            numToFetch: 30,
+            displayFrom: 1,
+            displayTo: 30
         };
 
         $.event.trigger('reset-filter');
@@ -22113,38 +22113,38 @@ var FilterRepository = {
     },
 
     /**
-     * Updates filter.display_from and filter.display_to values
+     * Updates filter.displayFrom and filter.displayTo values
      */
     updateRange: function ($numToFetch) {
         if ($numToFetch) {
-            this.filter.num_to_fetch = $numToFetch;
+            this.filter.numToFetch = $numToFetch;
         }
 
-        this.filter.display_from = this.filter.offset + 1;
-        this.filter.display_to = this.filter.offset + (this.filter.num_to_fetch * 1);
+        this.filter.displayFrom = this.filter.offset + 1;
+        this.filter.displayTo = this.filter.offset + (this.filter.numToFetch * 1);
     },
 
     //Todo: I might not need some of this code (not allowing offset to be less than 0)
     // todo: since I disabled the button if that is the case
     prevResults: function () {
         //make it so the offset cannot be less than 0.
-        if (this.filter.offset - this.filter.num_to_fetch < 0) {
+        if (this.filter.offset - this.filter.numToFetch < 0) {
             this.filter.offset = 0;
         }
         else {
-            this.filter.offset-= (this.filter.num_to_fetch * 1);
+            this.filter.offset-= (this.filter.numToFetch * 1);
             this.updateRange();
             $rootScope.$emit('runFilter');
         }
     },
 
     nextResults: function ($filterTotals) {
-        if (this.filter.offset + (this.filter.num_to_fetch * 1) > $filterTotals.numTransactions) {
+        if (this.filter.offset + (this.filter.numToFetch * 1) > $filterTotals.numTransactions) {
             //stop it going past the end.
             return;
         }
 
-        this.filter.offset+= (this.filter.num_to_fetch * 1);
+        this.filter.offset+= (this.filter.numToFetch * 1);
         this.updateRange();
         $rootScope.$emit('runFilter');
     },
@@ -23064,7 +23064,7 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
         },
 
         changeNumToFetch: function () {
-            FilterFactory.updateRange($scope.filter.num_to_fetch);
+            FilterFactory.updateRange($scope.filter.numToFetch);
             $rootScope.$emit('runFilter');
         },
 

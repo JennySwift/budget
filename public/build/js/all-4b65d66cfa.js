@@ -23064,7 +23064,7 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
          *
          */
         changeNumToFetch: function () {
-            FilterRepository.updateRange(this.filter.numToFetch);
+            this.updateRange(this.filter.numToFetch);
             this.runFilter();
         },
 
@@ -23122,7 +23122,8 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
         }
     },
     props: [
-        'filterTotals'
+        'filterTotals',
+        'runFilter'
     ],
     ready: function () {
         this.listen();

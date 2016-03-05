@@ -39,7 +39,7 @@ class FilterTotalsTest extends FiltersTest
 
     /**
      * Also checks the offset is working, and that the number of transactions
-     * returned matches the num_to_fetch.
+     * returned matches the numToFetch.
      * @test
      */
     public function it_checks_filter_totals_are_correct_when_num_to_fetch_is_low_enough_so_that_not_all_transactions_are_displayed()
@@ -48,7 +48,7 @@ class FilterTotalsTest extends FiltersTest
         $this->logInUser();
 
         $filter = [
-            'num_to_fetch' => 4,
+            'numToFetch' => 4,
             'offset' => 10
         ];
 
@@ -61,7 +61,7 @@ class FilterTotalsTest extends FiltersTest
         $this->setBasicTotals($data);
         $this->setTransactions($data);
 
-        //Check the number of transactions returned matches the num_to_fetch
+        //Check the number of transactions returned matches the numToFetch
         $this->assertCount(4, $this->transactions);
 
         //Check the offset is working
