@@ -57,7 +57,7 @@
                             :id="account.name"
                             :value="account.id"
                             {{--:disabled="filter.accounts.in.indexOf(account.id) !== -1"--}}
-                            v-model="filter.accounts.in"
+                            v-model="filter.accounts.out"
                             v-on:change="runFilter()"
                     >
                     <label
