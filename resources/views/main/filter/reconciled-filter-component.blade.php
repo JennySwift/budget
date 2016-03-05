@@ -6,36 +6,44 @@
 
         <div class="content status">
 
-            <div>
-                <input
+            <div class="radio">
+                <label>
+                    <input
                         v-model="filter.reconciled"
                         v-on:change="runFilter()"
                         type="radio"
                         name="status"
-                        value="any">
-                <label for="">Any</label>
+                        value="any"
+                    >
+                        Any
+                </label>
             </div>
 
-            <div>
-                <input
+            <div class="radio">
+                <label>
+                    <input
                         v-model="filter.reconciled"
                         v-on:change="runFilter()"
                         type="radio"
                         name="status"
-                        value="true">
-                <label for="">Reconciled</label>
+                        value="true"
+                    >
+                        Reconciled
+                </label>
             </div>
 
-            <div>
-                <input
+            <div class="radio">
+                <label>
+                    <input
                         v-model="filter.reconciled"
                         v-on:change="runFilter()"
                         type="radio"
                         name="status"
-                        value="false">
-                <label for="">Unreconciled</label>
+                        value="false"
+                    >
+                        Unreconciled
+                </label>
             </div>
-
 
         </div>
 
