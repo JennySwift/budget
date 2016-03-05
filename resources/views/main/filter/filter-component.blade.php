@@ -64,28 +64,28 @@
             <div>
                 <accounts-filter
                         :filter="filter"
-                        :filterTab="filterTab"
+                        :filter-tab="filterTab"
                         :runFilter="runFilter()"
                 >
                 </accounts-filter>
 
                 <types-filter
                         :filter="filter"
-                        :filterTab="filterTab"
+                        :filter-tab="filterTab"
                         :runFilter="runFilter()"
                 >
                 </types-filter>
 
                 <descriptions-filter
                         :filter="filter"
-                        :filterTab="filterTab"
+                        :filter-tab="filterTab"
                         :runFilter="runFilter()"
                 >
                 </descriptions-filter>
 
                 <merchants-filter
                         :filter="filter"
-                        :filterTab="filterTab"
+                        :filter-tab="filterTab"
                         :runFilter="runFilter()"
                 >
                 </merchants-filter>
@@ -100,14 +100,14 @@
 
                 <dates-filter
                         :filter="filter"
-                        :filterTab="filterTab"
+                        :filter-tab="filterTab"
                         :runFilter="runFilter()"
                 >
                 </dates-filter>
 
                 <totals-filter
                         :filter="filter"
-                        :filterTab="filterTab"
+                        :filter-tab="filterTab"
                         :runFilter="runFilter()">
                         :clearFilterField="clearFilterField()">
                 </totals-filter>

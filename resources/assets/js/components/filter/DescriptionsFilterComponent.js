@@ -2,7 +2,7 @@ var DescriptionsFilter = Vue.component('descriptions-filter', {
     template: '#descriptions-filter-template',
     data: function () {
         return {
-
+            showContent: false
         };
     },
     components: {},

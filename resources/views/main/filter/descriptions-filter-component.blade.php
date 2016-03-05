@@ -1,16 +1,15 @@
 <script id="descriptions-filter-template" type="x-template">
 
-    <div filter-dropdowns-directive
-         class="section">
+    <div v-slide="showContent" class="section">
 
-        <h4 class="center">description</h4>
+        <h4 v-on:click="showContent = !showContent" class="center">description</h4>
 
         <div class="content">
 
             <div
-                class="group"
-                v-if="filter.description"
-                v-show="filterTab === 'show'"
+                    class="group"
+                    v-if="filter.description"
+                    v-show="filterTab === 'show'"
             >
                 <input
                         v-model="filter.description.in"
@@ -29,9 +28,9 @@
             </div>
 
             <div
-                class="group"
-                v-if="filter.description"
-                v-show="filterTab === 'hide'"
+                    class="group"
+                    v-if="filter.description"
+                    v-show="filterTab === 'hide'"
             >
                 <input
                         v-model="filter.description.out"
@@ -48,9 +47,9 @@
             </span>
             </div>
 
-
         </div>
 
     </div>
+
 
 </script>
