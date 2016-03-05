@@ -7,17 +7,33 @@ var Graphs = Vue.component('graphs', {
     },
     components: {},
     methods: {
+
+        /**
+        *
+        */
+        getGraphTotals: function () {
+            $.event.trigger('show-loading');
+
+            var data = {
+                filter: FilterRepository.formatDates(FilterRepository.filter)
+            };
+
+            this.$http.post('/api/filter/graphTotals', data, function (response) {
+                this.graphFigures = FilterRepository.calculateGraphFigures(response);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+         *
+         */
         listen: function () {
+            var that = this;
             $(document).on('get-graph-totals', function (event) {
-                $rootScope.showLoading();
-                FilterFactory.getGraphTotals(FilterFactory.filter)
-                    .then(function (response) {
-                        $scope.graphFigures = FilterFactory.calculateGraphFigures(response.data);
-                        $rootScope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $rootScope.responseError(response);
-                    })
+               that.getGraphTotals();
             });
         }
     },

@@ -34,6 +34,7 @@
 
             <filter
                 :show="show"
+                :tab="tab"
                 :budgets="budgets"
             ></filter>
 

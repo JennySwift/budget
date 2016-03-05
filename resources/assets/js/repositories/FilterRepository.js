@@ -58,17 +58,6 @@ var FilterRepository = {
         return this.filter;
     },
 
-    saveFilter: function ($name) {
-        var $url = '/api/savedFilters';
-
-        var $data = {
-            name: $name,
-            filter: this.filter
-        };
-
-        return $http.post($url, $data);
-    },
-
     chooseSavedFilter: function ($savedFilter) {
         this.filter = $savedFilter;
         $rootScope.$emit('setFilterInToolbarDirective');
@@ -164,14 +153,6 @@ var FilterRepository = {
         $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/basicTotals';
-
-        return $http.post($url, {'filter': $object.filter});
-    },
-
-    getGraphTotals: function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/graphTotals';
 
         return $http.post($url, {'filter': $object.filter});
     },

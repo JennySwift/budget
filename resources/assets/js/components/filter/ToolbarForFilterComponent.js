@@ -7,43 +7,70 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
     },
     components: {},
     methods: {
+
+        /**
+         * 
+         */
         resetFilter: function () {
-            FilterFactory.resetFilter();
-            $scope.filter = FilterFactory.filter;
-            $rootScope.$emit('runFilter');
+            FilterRepository.resetFilter();
+            this.filter = FilterRepository.filter;
+            $.event.trigger('run-filter');
         },
 
+        /**
+         *
+         */
         changeNumToFetch: function () {
-            FilterFactory.updateRange($scope.filter.num_to_fetch);
-            $rootScope.$emit('runFilter');
+            FilterRepository.updateRange(this.filter.numToFetch);
+            $.event.trigger('run-filter');
         },
 
+        /**
+         *
+         */
         prevResults: function () {
-            FilterFactory.prevResults();
+            FilterRepository.prevResults();
         },
 
+        /**
+         *
+         */
         nextResults: function () {
-            FilterFactory.nextResults($scope.filterTotals.numTransactions);
+            FilterRepository.nextResults(this.filterTotals.numTransactions);
         },
 
-        saveFilter: function () {
-            var $name = prompt('Please name your filter');
-            $rootScope.showLoading();
-            FilterFactory.saveFilter($name)
-                .then(function (response) {
-                    $rootScope.$emit('newSavedFilter', response.data.data);
-                    $rootScope.$broadcast('provideFeedback', 'Filter saved');
-                    $rootScope.hideLoading();
-                })
-                .catch(function (response) {
-                    $rootScope.responseError(response);
-                });
+
+        /**
+        *
+        */
+        insertFilter: function () {
+            var name = prompt('Please name your filter');
+
+            $.event.trigger('show-loading');
+
+            var data = {
+                name: name,
+                filter: this.filter
+            };
+
+            this.$http.post('/api/savedFilters', data, function (response) {
+                this.savedFilters.push(response);
+                $.event.trigger('new-saved-filter');
+                $.event.trigger('provide-feedback', ['Filter created', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
         },
 
+        /**
+         *
+         */
         listen: function () {
             var that = this;
             $(document).on('set-filter-in-toolbar', function (event) {
-                that.filter = FilterFactory.filter;
+                that.filter = FilterRepository.filter;
             });
         }
     },
@@ -56,6 +83,6 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
 });
 
 //
-//$scope.$watch('filterFactory.filterBasicTotals', function (newValue, oldValue, scope) {
-//    $scope.filterTotals = newValue;
+//this.$watch('filterFactory.filterBasicTotals', function (newValue, oldValue, scope) {
+//    this.filterTotals = newValue;
 //});

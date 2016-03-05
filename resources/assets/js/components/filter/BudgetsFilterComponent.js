@@ -8,17 +8,17 @@ var BudgetsFilter = Vue.component('budgets-filter', {
     components: {},
     methods: {
         /**
-         * $type1 is 'in' or 'out'.
-         * $type2 is 'and' or 'or'.
-         * @param $type1
-         * @param $type2
+         * type1 is 'in' or 'out'.
+         * type2 is 'and' or 'or'.
+         * @param type1
+         * @param type2
          */
-        clearTagField: function ($type1, $type2) {
-            if ($type2) {
-                $scope.filter.budgets[$type1][$type2] = [];
+        clearTagField: function (type1, type2) {
+            if (type2) {
+                this.filter.budgets[type1][type2] = [];
             }
             else {
-                $scope.filter.budgets[$type1] = [];
+                this.filter.budgets[type1] = [];
             }
         }
 

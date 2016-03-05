@@ -22096,17 +22096,6 @@ var FilterRepository = {
         return this.filter;
     },
 
-    saveFilter: function ($name) {
-        var $url = '/api/savedFilters';
-
-        var $data = {
-            name: $name,
-            filter: this.filter
-        };
-
-        return $http.post($url, $data);
-    },
-
     chooseSavedFilter: function ($savedFilter) {
         this.filter = $savedFilter;
         $rootScope.$emit('setFilterInToolbarDirective');
@@ -22202,14 +22191,6 @@ var FilterRepository = {
         $object.filter = $object.formatDates($object.filter);
 
         var $url = 'api/filter/basicTotals';
-
-        return $http.post($url, {'filter': $object.filter});
-    },
-
-    getGraphTotals: function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/graphTotals';
 
         return $http.post($url, {'filter': $object.filter});
     },
@@ -22708,17 +22689,17 @@ var BudgetsFilter = Vue.component('budgets-filter', {
     components: {},
     methods: {
         /**
-         * $type1 is 'in' or 'out'.
-         * $type2 is 'and' or 'or'.
-         * @param $type1
-         * @param $type2
+         * type1 is 'in' or 'out'.
+         * type2 is 'and' or 'or'.
+         * @param type1
+         * @param type2
          */
-        clearTagField: function ($type1, $type2) {
-            if ($type2) {
-                $scope.filter.budgets[$type1][$type2] = [];
+        clearTagField: function (type1, type2) {
+            if (type2) {
+                this.filter.budgets[type1][type2] = [];
             }
             else {
-                $scope.filter.budgets[$type1] = [];
+                this.filter.budgets[type1] = [];
             }
         }
 
@@ -22764,21 +22745,22 @@ var DatesFilter = Vue.component('dates-filter', {
     },
     components: {},
     methods: {
-        filterDate: function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $rootScope.$emit('runFilter');
+
+        /**
+         *
+         */
+        filterDate: function () {
+            $.event.trigger('run-filter');
         },
 
         /**
-         * $type is either 'in' or 'out'
-         * @param $field
-         * @param $type
+         * type is either 'in' or 'out'
+         * @param field
+         * @param type
          */
-        clearDateField: function ($field, $type) {
-            $scope.filter[$field][$type] = "";
-            $rootScope.$emit('runFilter');
+        clearDateField: function (field, type) {
+            this.filter[field][type] = "";
+            $.event.trigger('run-filter');
         },
     },
     props: [
@@ -22799,16 +22781,20 @@ var DescriptionsFilter = Vue.component('descriptions-filter', {
     },
     components: {},
     methods: {
-        filterDescriptionOrMerchant: function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $scope.resetOffset();
-            $rootScope.$emit('runFilter');
+
+        /**
+         *
+         */
+        filterDescriptionOrMerchant: function () {
+            this.resetOffset();
+            $.event.trigger('run-filter');
         },
 
+        /**
+         *
+         */
         resetOffset: function () {
-            $scope.filter.offset = 0;
+            this.filter.offset = 0;
         },
 
         /**
@@ -22819,12 +22805,12 @@ var DescriptionsFilter = Vue.component('descriptions-filter', {
          * for some reason when I had it in my FilterController, both
          * parameters were undefined.
          *
-         * @param $field
-         * @param $type
+         * @param field
+         * @param type
          */
-        clearFilterField: function ($field, $type) {
-            $scope.filter[$field][$type] = "";
-            $rootScope.$emit('runFilter');
+        clearFilterField: function (field, type) {
+            this.filter[field][type] = "";
+            $.event.trigger('run-filter');
         },
 
     },
@@ -22837,51 +22823,6 @@ var DescriptionsFilter = Vue.component('descriptions-filter', {
 
     }
 });
-
-var DropdownForFilter = Vue.component('dropdown-for-filter', {
-    template: '#dropdown-for-filter-template',
-    data: function () {
-        return {
-            content: $(elem).find('.content')
-        };
-    },
-    components: {},
-    methods: {
-        toggleContent: function () {
-            if ($scope.contentVisible) {
-                $scope.hideContent();
-            }
-            else {
-                $scope.showContent();
-            }
-        },
-
-        showContent: function () {
-            $scope.content.slideDown();
-            $scope.contentVisible = true;
-        },
-
-        hideContent: function () {
-            $scope.content.slideUp();
-            $scope.contentVisible = false;
-        },
-
-        listen: function () {
-            var $h4 = $(elem).find('h4');
-
-            $($h4).on('click', function () {
-                $scope.toggleContent();
-            });
-        }
-    },
-    props: [
-        //data to be received from parent
-    ],
-    ready: function () {
-        this.listen();
-    }
-});
-
 
 var Filter = Vue.component('filter', {
     template: '#filter-template',
@@ -22914,14 +22855,14 @@ var Filter = Vue.component('filter', {
          * I am using the id and a clone, so that the savedFilter
          * doesn't change (with actions such as next/prev button clicks)
          * unless deliberately saved again.
-         * @param $savedFilterClone
+         * @param savedFilter
          */
-        chooseSavedFilter: function ($savedFilter) {
-            var $preservedSavedFilter = _.findWhere($preservedSavedFilters, {id: $savedFilter.id});
-            var $clone = angular.copy($preservedSavedFilter);
-            FilterFactory.chooseSavedFilter($clone.filter);
-            $scope.filter = FilterFactory.filter;
-            $rootScope.$emit('runFilter');
+        chooseSavedFilter: function (savedFilter) {
+            var preservedSavedFilter = _.findWhere(preservedSavedFilters, {id: savedFilter.id});
+            var clone = JSON.parse(JSON.stringify(preservedSavedFilter));
+            FilterRepository.chooseSavedFilter(clone.filter);
+            this.filter = FilterRepository.filter;
+            $.event.trigger('run-filter');
         },
 
         /**
@@ -22940,36 +22881,37 @@ var Filter = Vue.component('filter', {
             $(document).on('toggle-filter', function (event) {
                 that.showFilter = !that.showFilter;
             });
-            //
-            //$(document).on('run-filter', function (event, data) {
-            //    $.event.trigger('get-basic-filter-totals');
-            //    if ($scope.tab === 'transactions') {
-            //        $.event.trigger('filter-transactions', [that.filter]);
-            //    }
-            //    else {
-            //        $.event.trigger('get-graph-totals');
-            //    }
-            //});
-            //
-            //$(document).on('reset-filter', function (event) {
-            //    that.filter = FilterRepository.filter;
-            //});
 
-            //$(document).on('saved-filter-created', function (event) {
+            $(document).on('run-filter', function (event, data) {
+                $.event.trigger('get-basic-filter-totals');
+                if (this.tab === 'transactions') {
+                    $.event.trigger('filter-transactions', [that.filter]);
+                }
+                else {
+                    $.event.trigger('get-graph-totals');
+                }
+            });
+
+            $(document).on('reset-filter', function (event) {
+                that.filter = FilterRepository.filter;
+            });
+
+            $(document).on('saved-filter-created', function (event) {
                 //Doing this because $scope.savedFilters was updating when I didn't want it to.
                 //If the user hit the prev or next buttons, then used the saved filter again,
                 //the saved filter was modified and not the original saved filter.
                 //I think because I set the filter ng-model to the saved filter in the filter factory.
-                //var preservedSavedFilters = angular.copy(savedFilters);
-                //this.savedFilters.push(savedFilter);
-                //preservedSavedFilters.push(savedFilter);
-            //});
+                var preservedSavedFilters = JSON.parse(JSON.stringify(savedFilters));;
+                this.savedFilters.push(savedFilter);
+                preservedSavedFilters.push(savedFilter);
+            });
             
         }
     },
     props: [
         'show',
-        'budgets'
+        'budgets',
+        'tab'
     ],
     ready: function () {
         this.listen();
@@ -22986,17 +22928,33 @@ var Graphs = Vue.component('graphs', {
     },
     components: {},
     methods: {
+
+        /**
+        *
+        */
+        getGraphTotals: function () {
+            $.event.trigger('show-loading');
+
+            var data = {
+                filter: FilterRepository.formatDates(FilterRepository.filter)
+            };
+
+            this.$http.post('/api/filter/graphTotals', data, function (response) {
+                this.graphFigures = FilterRepository.calculateGraphFigures(response);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+         *
+         */
         listen: function () {
+            var that = this;
             $(document).on('get-graph-totals', function (event) {
-                $rootScope.showLoading();
-                FilterFactory.getGraphTotals(FilterFactory.filter)
-                    .then(function (response) {
-                        $scope.graphFigures = FilterFactory.calculateGraphFigures(response.data);
-                        $rootScope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $rootScope.responseError(response);
-                    })
+               that.getGraphTotals();
             });
         }
     },
@@ -23016,32 +22974,36 @@ var MerchantsFilter = Vue.component('merchants-filter', {
     },
     components: {},
     methods: {
-        filterDescriptionOrMerchant: function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $scope.resetOffset();
-            $rootScope.$emit('runFilter');
-        },
 
-        resetOffset: function () {
-            $scope.filter.offset = 0;
+        /**
+         *
+         */
+        filterDescriptionOrMerchant: function () {
+            this.resetOffset();
+            $.event.trigger('run-filter');
         },
 
         /**
-         * $type is either 'in' or 'out'
+         *
+         */
+        resetOffset: function () {
+            this.filter.offset = 0;
+        },
+
+        /**
+         * type is either 'in' or 'out'
          *
          * @DO:
          * This method is duplicated in other parts of the filter, but
          * for some reason when I had it in my FilterController, both
          * parameters were undefined.
          *
-         * @param $field
-         * @param $type
+         * @param field
+         * @param type
          */
-        clearFilterField: function ($field, $type) {
-            $scope.filter[$field][$type] = "";
-            $rootScope.$emit('runFilter');
+        clearFilterField: function (field, type) {
+            this.filter[field][type] = "";
+            $.event.trigger('run-filter');
         },
     },
     props: [
@@ -23103,43 +23065,70 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
     },
     components: {},
     methods: {
+
+        /**
+         * 
+         */
         resetFilter: function () {
-            FilterFactory.resetFilter();
-            $scope.filter = FilterFactory.filter;
-            $rootScope.$emit('runFilter');
+            FilterRepository.resetFilter();
+            this.filter = FilterRepository.filter;
+            $.event.trigger('run-filter');
         },
 
+        /**
+         *
+         */
         changeNumToFetch: function () {
-            FilterFactory.updateRange($scope.filter.num_to_fetch);
-            $rootScope.$emit('runFilter');
+            FilterRepository.updateRange(this.filter.numToFetch);
+            $.event.trigger('run-filter');
         },
 
+        /**
+         *
+         */
         prevResults: function () {
-            FilterFactory.prevResults();
+            FilterRepository.prevResults();
         },
 
+        /**
+         *
+         */
         nextResults: function () {
-            FilterFactory.nextResults($scope.filterTotals.numTransactions);
+            FilterRepository.nextResults(this.filterTotals.numTransactions);
         },
 
-        saveFilter: function () {
-            var $name = prompt('Please name your filter');
-            $rootScope.showLoading();
-            FilterFactory.saveFilter($name)
-                .then(function (response) {
-                    $rootScope.$emit('newSavedFilter', response.data.data);
-                    $rootScope.$broadcast('provideFeedback', 'Filter saved');
-                    $rootScope.hideLoading();
-                })
-                .catch(function (response) {
-                    $rootScope.responseError(response);
-                });
+
+        /**
+        *
+        */
+        insertFilter: function () {
+            var name = prompt('Please name your filter');
+
+            $.event.trigger('show-loading');
+
+            var data = {
+                name: name,
+                filter: this.filter
+            };
+
+            this.$http.post('/api/savedFilters', data, function (response) {
+                this.savedFilters.push(response);
+                $.event.trigger('new-saved-filter');
+                $.event.trigger('provide-feedback', ['Filter created', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
         },
 
+        /**
+         *
+         */
         listen: function () {
             var that = this;
             $(document).on('set-filter-in-toolbar', function (event) {
-                that.filter = FilterFactory.filter;
+                that.filter = FilterRepository.filter;
             });
         }
     },
@@ -23152,8 +23141,8 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
 });
 
 //
-//$scope.$watch('filterFactory.filterBasicTotals', function (newValue, oldValue, scope) {
-//    $scope.filterTotals = newValue;
+//this.$watch('filterFactory.filterBasicTotals', function (newValue, oldValue, scope) {
+//    this.filterTotals = newValue;
 //});
 var TotalsFilter = Vue.component('totals-filter', {
     template: '#totals-filter-template',
@@ -23164,27 +23153,28 @@ var TotalsFilter = Vue.component('totals-filter', {
     },
     components: {},
     methods: {
-        filterTotal: function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $rootScope.$emit('runFilter');
+
+        /**
+         *
+         */
+        filterTotal: function () {
+            $.event.trigger('run-filter');
         },
 
         /**
-         * $type is either 'in' or 'out'
+         * type is either 'in' or 'out'
          *
          * @DO:
          * This method is duplicated in other parts of the filter, but
          * for some reason when I had it in my FilterController, both
          * parameters were undefined.
          *
-         * @param $field
-         * @param $type
+         * @param field
+         * @param type
          */
-        clearFilterField: function ($field, $type) {
-            $scope.filter[$field][$type] = "";
-            $rootScope.$emit('runFilter');
+        clearFilterField: function (field, type) {
+            this.filter[field][type] = "";
+            $.event.trigger('run-filter');
         },
 
     },

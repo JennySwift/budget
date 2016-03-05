@@ -7,21 +7,22 @@ var DatesFilter = Vue.component('dates-filter', {
     },
     components: {},
     methods: {
-        filterDate: function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $rootScope.$emit('runFilter');
+
+        /**
+         *
+         */
+        filterDate: function () {
+            $.event.trigger('run-filter');
         },
 
         /**
-         * $type is either 'in' or 'out'
-         * @param $field
-         * @param $type
+         * type is either 'in' or 'out'
+         * @param field
+         * @param type
          */
-        clearDateField: function ($field, $type) {
-            $scope.filter[$field][$type] = "";
-            $rootScope.$emit('runFilter');
+        clearDateField: function (field, type) {
+            this.filter[field][type] = "";
+            $.event.trigger('run-filter');
         },
     },
     props: [

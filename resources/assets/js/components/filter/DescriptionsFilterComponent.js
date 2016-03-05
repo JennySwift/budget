@@ -7,16 +7,20 @@ var DescriptionsFilter = Vue.component('descriptions-filter', {
     },
     components: {},
     methods: {
-        filterDescriptionOrMerchant: function ($keycode) {
-            if ($keycode !== 13) {
-                return false;
-            }
-            $scope.resetOffset();
-            $rootScope.$emit('runFilter');
+
+        /**
+         *
+         */
+        filterDescriptionOrMerchant: function () {
+            this.resetOffset();
+            $.event.trigger('run-filter');
         },
 
+        /**
+         *
+         */
         resetOffset: function () {
-            $scope.filter.offset = 0;
+            this.filter.offset = 0;
         },
 
         /**
@@ -27,12 +31,12 @@ var DescriptionsFilter = Vue.component('descriptions-filter', {
          * for some reason when I had it in my FilterController, both
          * parameters were undefined.
          *
-         * @param $field
-         * @param $type
+         * @param field
+         * @param type
          */
-        clearFilterField: function ($field, $type) {
-            $scope.filter[$field][$type] = "";
-            $rootScope.$emit('runFilter');
+        clearFilterField: function (field, type) {
+            this.filter[field][type] = "";
+            $.event.trigger('run-filter');
         },
 
     },
