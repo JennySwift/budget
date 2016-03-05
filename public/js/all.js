@@ -22179,14 +22179,6 @@ var FilterRepository = {
         return this.filter;
     },
 
-    getTransactions: function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/transactions';
-
-        return $http.post($url, {'filter': $object.filter});
-    },
-
     getBasicTotals: function () {
         $object.filter = $object.formatDates($object.filter);
 
@@ -25576,6 +25568,33 @@ var Transactions = Vue.component('transactions', {
          */
         showAllocationPopup: function (transaction) {
             $.event.trigger('show-allocation-popup', [transaction]);
+        },
+
+        /**
+        *
+        */
+        filterTransactions: function () {
+            $.event.trigger('show-loading');
+
+            var filter = FilterRepository.formatDates(FilterRepository.filter);
+
+            this.$http.post('/api/filter/transactions', filter, function (response) {
+                this.transactions = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('filter-transactions', function (event, filter) {
+                that.filterTransactions();
+            });
         }
     },
     props: [
@@ -25584,20 +25603,11 @@ var Transactions = Vue.component('transactions', {
     ],
     ready: function () {
         this.getAccounts();
+        this.listen();
     }
 });
 
-//$rootScope.$on('filterTransactions', function (event, filter) {
-//    $scope.showLoading();
-//    FilterFactory.getTransactions(FilterFactory.filter)
-//        .then(function (response) {
-//            $scope.transactions = response.data;
-//            $scope.hideLoading();
-//        })
-//        .catch(function (response) {
-//            $scope.responseError(response);
-//        })
-//});
+
 //
 //
 //

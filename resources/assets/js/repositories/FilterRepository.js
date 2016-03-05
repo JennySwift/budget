@@ -141,14 +141,6 @@ var FilterRepository = {
         return this.filter;
     },
 
-    getTransactions: function () {
-        $object.filter = $object.formatDates($object.filter);
-
-        var $url = 'api/filter/transactions';
-
-        return $http.post($url, {'filter': $object.filter});
-    },
-
     getBasicTotals: function () {
         $object.filter = $object.formatDates($object.filter);
 
