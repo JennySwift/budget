@@ -968,9 +968,6 @@ caption {
     -webkit-animation: bounceOutRight 2s;
     animation: bounceOutRight 2s; }
   #filter .toolbar-filter {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
     margin-bottom: 5px; }
     #filter .toolbar-filter select {
       width: 60px; }
