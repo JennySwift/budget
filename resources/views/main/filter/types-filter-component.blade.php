@@ -1,4 +1,5 @@
-<script id="types-filter-template" type="x-template">
+<script id="types-filter-template" type="x-template" xmlns:v-on="http://www.w3.org/1999/xhtml"
+        xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
     <div v-slide="showContent" class="section">
 
@@ -6,50 +7,61 @@
 
         <div class="types transition content">
 
-            <div>
-                <input type="checkbox">
-                <label for="">all</label>
+            <div class="checkbox-container">
+                <input type="checkbox" id="filter-in-all-types">
+                <label for="filter-in-all-types">all</label>
             </div>
 
-            <div>
-                <input type="checkbox">
-                <label for="">none</label>
+            <div class="checkbox-container">
+                <input id="filter-in-no-types" type="checkbox">
+                <label for="filter-in-no-types">none</label>
             </div>
 
             <div
                 v-show="filterTab === 'show'"
                 v-if="filter.types"
                 v-for="type in types"
+                class="checkbox-container"
             >
+
                 <input
-                        checklist-model="filter.types.in"
-                        checklist-value="type"
-                        checklist-change="runFilter()"
+                        v-model="filter.types.in"
+                        v-on:change="runFilter()"
+                        :id="type"
+                        :value="type"
                         :disabled="filter.types.out.indexOf(type) !== -1"
-                        type="checkbox">
+                        type="checkbox"
+                >
                 <label
-                        v-bind:class="{'disabled': filter.types.out.indexOf(type) !== -1}"
-                        for="">
-                    @{{ type }}
+                    :for="type"
+                    v-bind:class="{'disabled': filter.types.out.indexOf(type) !== -1}"
+                >
+                    @{{type}}
                 </label>
+
             </div>
 
             <div
                 v-show="filterTab === 'hide'"
                 v-if="filter.types"
                 v-for="type in types"
+                class="checkbox-container"
             >
                 <input
-                        checklist-model="filter.types.out"
-                        checklist-value="type"
-                        checklist-change="runFilter()"
+                        v-model="filter.types.out"
+                        v-on:change="runFilter()"
+                        :id="type + '-out'"
+                        :value="type"
                         :disabled="filter.types.in.indexOf(type) !== -1"
-                        type="checkbox">
+                        type="checkbox"
+                >
                 <label
+                        :for="type + '-out'"
                         v-bind:class="{'disabled': filter.types.in.indexOf(type) !== -1}"
-                        for="">
-                    @{{ type }}
+                >
+                    @{{type}}
                 </label>
+
             </div>
 
         </div>
