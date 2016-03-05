@@ -33,7 +33,7 @@
                     <input
                         type="checkbox"
                         :id="account.name"
-                        :value="account"
+                        :value="account.id"
                         {{--:disabled="filter.accounts.out.indexOf(account.id) !== -1"--}}
                         v-model="filter.accounts.in"
                         v-on:change="runFilter()"
@@ -55,7 +55,7 @@
                     <input
                             type="checkbox"
                             :id="account.name"
-                            :value="account"
+                            :value="account.id"
                             {{--:disabled="filter.accounts.in.indexOf(account.id) !== -1"--}}
                             v-model="filter.accounts.in"
                             v-on:change="runFilter()"
