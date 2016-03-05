@@ -65,21 +65,21 @@
                 <accounts-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :run-filter="runFilter()"
+                        :run-filter="runFilter"
                 >
                 </accounts-filter>
 
                 <types-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :run-filter="runFilter()"
+                        :run-filter="runFilter"
                 >
                 </types-filter>
 
                 <descriptions-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :run-filter="runFilter()"
+                        :run-filter="runFilter"
                         :clear-filter-field="clearFilterField"
                 >
                 </descriptions-filter>
@@ -87,7 +87,7 @@
                 <merchants-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :run-filter="runFilter()"
+                        :run-filter="runFilter"
                         :clear-filter-field="clearFilterField"
                 >
                 </merchants-filter>
@@ -95,7 +95,7 @@
                 <budgets-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :run-filter="runFilter()"
+                        :run-filter="runFilter"
                         :budgets="budgets"
                 >
                 </budgets-filter>
@@ -103,7 +103,7 @@
                 <dates-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :run-filter="runFilter()"
+                        :run-filter="runFilter"
                         :clear-filter-field="clearFilterField"
                 >
                 </dates-filter>
@@ -111,7 +111,7 @@
                 <totals-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :run-filter="runFilter()">
+                        :run-filter="runFilter">
                         :clear-filter-field="clearFilterField"
                 >
                 </totals-filter>
@@ -119,14 +119,14 @@
                 <reconciled-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :run-filter="runFilter()"
+                        :run-filter="runFilter"
                 >
                 </reconciled-filter>
 
                 <num-budgets-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :run-filter="runFilter()"
+                        :run-filter="runFilter"
                 >
                 </num-budgets-filter>
 

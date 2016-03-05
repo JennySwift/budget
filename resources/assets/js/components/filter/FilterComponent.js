@@ -39,7 +39,7 @@ var Filter = Vue.component('filter', {
 
             $(document).on('run-filter', function (event, data) {
                 $.event.trigger('get-basic-filter-totals');
-                if (this.tab === 'transactions') {
+                if (that.tab === 'transactions') {
                     $.event.trigger('filter-transactions', [that.filter]);
                 }
                 else {

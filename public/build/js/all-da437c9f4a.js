@@ -22755,7 +22755,7 @@ var Filter = Vue.component('filter', {
 
             $(document).on('run-filter', function (event, data) {
                 $.event.trigger('get-basic-filter-totals');
-                if (this.tab === 'transactions') {
+                if (that.tab === 'transactions') {
                     $.event.trigger('filter-transactions', [that.filter]);
                 }
                 else {
@@ -25525,9 +25525,11 @@ var Transactions = Vue.component('transactions', {
         filterTransactions: function () {
             $.event.trigger('show-loading');
 
-            var filter = FilterRepository.formatDates(FilterRepository.filter);
+            var data = {
+                filter: FilterRepository.formatDates(FilterRepository.filter)
+            };
 
-            this.$http.post('/api/filter/transactions', filter, function (response) {
+            this.$http.post('/api/filter/transactions', data, function (response) {
                 this.transactions = response;
                 $.event.trigger('hide-loading');
             })
