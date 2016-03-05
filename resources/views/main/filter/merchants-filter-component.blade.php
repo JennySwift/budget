@@ -1,4 +1,4 @@
-<script id="merchants-filter-template" type="x-template">
+<script id="merchants-filter-template" type="x-template" xmlns:v-on="http://www.w3.org/1999/xhtml">
 
 <div>
     <div v-slide="showContent" class="section">
@@ -10,42 +10,63 @@
             <div
                     v-show="filterTab === 'show'"
                     v-if="filter.merchant"
-                    class="group"
+                    class="form-group"
             >
-                <input
-                        v-model="filter.merchant.in"
-                        v-on:keyup="filterDescriptionOrMerchant($event.keyCode)"
-                        type="text"
-                        placeholder="merchant">
 
-            <span class="input-group-btn">
-                <button
-                        v-on:click="clearFilterField('merchant', 'in')"
-                        class="clear-search-button">
-                    clear
-                </button>
-            </span>
+                <label for="filter-merchant-in">Filter merchant in</label>
+
+                <div
+                    class="input-group"
+                >
+                    <input
+                            v-model="filter.merchant.in"
+                            v-on:keyup.13="filterDescriptionOrMerchant()"
+                            type="text"
+                            id="filter-merchant-in"
+                            name="filter-merchant-in"
+                            placeholder="merchant"
+                            class="form-control"
+                    >
+                        <span class="input-group-btn">
+                            <button
+                                    v-on:click="clearFilterField('merchant', 'in')"
+                                    class="clear-search-button btn btn-default">
+                                clear
+                            </button>
+                        </span>
+                </div>
 
             </div>
 
             <div
                     v-show="filterTab === 'hide'"
                     v-if="filter.merchant"
-                    class="group"
+                    class="form-group"
             >
-                <input
-                        v-model="filter.merchant.out"
-                        v-on:keyup="filterDescriptionOrMerchant($event.keyCode)"
-                        type="text"
-                        placeholder="merchant">
 
-            <span class="input-group-btn">
-                <button
-                        v-on:click="clearFilterField('merchant', 'out')"
-                        class="clear-search-button">
-                    clear
-                </button>
-            </span>
+                <label for="filter-merchant-in">Filter merchant out</label>
+
+                <div
+                        class="input-group"
+                >
+                    <input
+                            v-model="filter.merchant.out"
+                            v-on:keyup.13="filterDescriptionOrMerchant()"
+                            type="text"
+                            id="filter-merchant-out"
+                            name="filter-merchant-out"
+                            placeholder="merchant"
+                            class="form-control"
+                    >
+                        <span class="input-group-btn">
+                            <button
+                                    v-on:click="clearFilterField('merchant', 'out')"
+                                    class="clear-search-button btn btn-default">
+                                clear
+                            </button>
+                        </span>
+                </div>
+
             </div>
 
         </div>
