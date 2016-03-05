@@ -1,6 +1,6 @@
 <script id="reconciled-filter-template" type="x-template">
 
-    <div v-slide="showContent" class="section">
+    <div v-show="filterTab === 'show'" v-slide="showContent" class="section">
 
         <h4 v-on:click="showContent = !showContent" class="center">reconciled</h4>
 
