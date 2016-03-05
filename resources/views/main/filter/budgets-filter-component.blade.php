@@ -61,17 +61,19 @@
 
                     <label>Transactions will contain none of the budgets entered here</label>
 
-                    <budget-autocomplete
-                            :chosen-budgets.sync="filter.budgets.out"
-                            :budgets="budgets"
-                            multiple-budgets="true"
-                            :function-on-enter="insertTransaction"
-                    >
-                    </budget-autocomplete>
+                    <div class="input-btn-container">
+                        <budget-autocomplete
+                                :chosen-budgets.sync="filter.budgets.out"
+                                :budgets="budgets"
+                                multiple-budgets="true"
+                                :function-on-enter="insertTransaction"
+                        >
+                        </budget-autocomplete>
 
                     <span class="input-group-btn">
                         <button v-on:click="clearBudgetField('out')" class="clear-search-button btn btn-default">clear</button>
                     </span>
+                    </div>
 
                 </div>
             </div>
