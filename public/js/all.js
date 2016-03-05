@@ -23176,6 +23176,7 @@ var TotalsForFilter = Vue.component('totals-for-filter', {
         'filter'
     ],
     ready: function () {
+        this.getBasicFilterTotals();
         this.listen();
     }
 });
