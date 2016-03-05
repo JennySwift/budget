@@ -6,44 +6,68 @@
 
         <div class="accounts content">
 
-            <div>
-                <input type="checkbox">
-                <label for="">all</label>
+            {{--Show--}}
+            <div v-show="filterTab === 'show'">
+
+                <div class="checkbox-container">
+                    <input
+                        v-model="filter.accounts.in"
+                        value="all"
+                        type="checkbox"
+                        id="accounts-filter-in-all"
+                    >
+                    <label for="accounts-filter-in-all">all</label>
+                </div>
+
+                <div class="checkbox-container">
+                    <input
+                        v-model="filter.accounts.in"
+                        value="none"
+                        type="checkbox"
+                        id="accounts-filter-in-none"
+                    >
+                    <label for="accounts-filter-in-none">none</label>
+                </div>
+
+                <div v-for="account in accounts" class="checkbox-container">
+                    <input
+                        type="checkbox"
+                        :id="account.name"
+                        :value="account"
+                        {{--:disabled="filter.accounts.out.indexOf(account.id) !== -1"--}}
+                        v-model="filter.accounts.in"
+                        v-on:change="runFilter()"
+                    >
+                    <label
+                        :for="account.name"
+                        {{--v-bind:class="{'disabled': filter.accounts.out.indexOf(account.id) !== -1}"--}}
+                    >
+                        @{{account.name}}
+                    </label>
+                </div>
+
             </div>
 
-            <div>
-                <input type="checkbox">
-                <label for="">none</label>
-            </div>
+            {{--Hide--}}
+            <div v-show="filterTab === 'hide'">
 
-            <div v-show="filterTab === 'show'" v-for="account in accounts">
-                <input
-                        checklist-model="filter.accounts.in"
-                        checklist-value="account.id"
-                        checklist-change="runFilter()"
-                        :disabled="filter.accounts.out.indexOf(account.id) !== -1"
-                        type="checkbox">
+                <div v-for="account in accounts" class="checkbox-container">
+                    <input
+                            type="checkbox"
+                            :id="account.name"
+                            :value="account"
+                            {{--:disabled="filter.accounts.in.indexOf(account.id) !== -1"--}}
+                            v-model="filter.accounts.in"
+                            v-on:change="runFilter()"
+                    >
+                    <label
+                            :for="account.name"
+                            {{--v-bind:class="{'disabled': filter.accounts.in.indexOf(account.id) !== -1}"--}}
+                    >
+                        @{{account.name}}
+                    </label>
+                </div>
 
-                <label
-                        v-bind:class="{'disabled': filter.accounts.out.indexOf(account.id) !== -1}"
-                        for="">
-                    @{{ account.name }}
-                </label>
-            </div>
-
-            <div v-show="filterTab === 'hide'" v-for="account in accounts">
-                <input
-                        checklist-change="runFilter()"
-                        checklist-model="filter.accounts.out"
-                        checklist-value="account.id"
-                        :disabled="filter.accounts.in.indexOf(account.id) !== -1"
-                        type="checkbox">
-
-                <label
-                        v-bind:class="{'disabled': filter.accounts.in.indexOf(account.id) !== -1}"
-                        for="">
-                    @{{ account.name }}
-                </label>
             </div>
 
         </div>

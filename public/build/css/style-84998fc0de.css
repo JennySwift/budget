@@ -744,6 +744,19 @@ caption {
   .list-group-item-danger span {
     background: #d9534f; }
 
+.checkbox-container {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .checkbox-container label {
+    margin-bottom: 0;
+    font-weight: normal; }
+  .checkbox-container input {
+    margin-right: 5px; }
+
 .btn-group .btn {
   margin: 0 -2px;
   border-radius: 0px; }
@@ -1000,13 +1013,6 @@ caption {
     display: flex; }
   #filter .tag-input-wrapper input {
     width: auto; }
-  #filter .accounts > div, #filter .types > div, #filter .status > div {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center; }
 
 .main-content {
   display: -webkit-flex;

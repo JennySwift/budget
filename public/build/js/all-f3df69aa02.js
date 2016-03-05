@@ -22668,21 +22668,34 @@ var AccountsFilter = Vue.component('accounts-filter', {
     template: '#accounts-filter-template',
     data: function () {
         return {
-            accounts: [],
-            showContent: false
+            showContent: false,
+            accounts: []
         };
     },
     components: {},
     methods: {
 
+        /**
+        *
+        */
+        getAccounts: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/accounts', function (response) {
+                this.accounts = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        }
     },
     props: [
         'filter',
         'filterTab',
-        'runFilter'
+        'runFilter',
     ],
     ready: function () {
-
+        this.getAccounts();
     }
 });
 var BudgetsFilter = Vue.component('budgets-filter', {
@@ -22955,7 +22968,7 @@ var Filter = Vue.component('filter', {
         }
     },
     props: [
-        'show'
+        'show',
     ],
     ready: function () {
         this.listen();

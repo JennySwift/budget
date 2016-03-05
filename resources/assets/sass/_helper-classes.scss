@@ -59,6 +59,18 @@
     }
 }
 
+.checkbox-container {
+	display: flex;
+	align-items: center;
+	label {
+		margin-bottom: 0;
+		font-weight: normal;
+	}
+	input {
+		margin-right: 5px;
+	}
+}
+
 .btn-group {
     .btn {
         margin: 0 -2px;

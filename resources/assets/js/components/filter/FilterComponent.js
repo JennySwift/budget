@@ -83,7 +83,7 @@ var Filter = Vue.component('filter', {
         }
     },
     props: [
-        'show'
+        'show',
     ],
     ready: function () {
         this.listen();
