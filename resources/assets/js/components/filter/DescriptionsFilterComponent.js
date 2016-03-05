@@ -27,7 +27,8 @@ var DescriptionsFilter = Vue.component('descriptions-filter', {
     props: [
         'filter',
         'filterTab',
-        'runFilter'
+        'runFilter',
+        'clearFilterField'
     ],
     ready: function () {
 

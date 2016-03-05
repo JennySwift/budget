@@ -111,7 +111,7 @@
                 <totals-filter
                         :filter="filter"
                         :filter-tab="filterTab"
-                        :run-filter="runFilter">
+                        :run-filter="runFilter"
                         :clear-filter-field="clearFilterField"
                 >
                 </totals-filter>
