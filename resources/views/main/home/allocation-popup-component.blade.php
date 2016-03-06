@@ -109,10 +109,18 @@
 
             <!-- allocation checkbox -->
             <div class="center-contents">
-                <div class="checkbox-wrapper">
-                    <label for="allocate-checkbox">allocated</label>
-                    <input v-model="transaction.allocated" v-on:change="updateAllocationStatus()" type="checkbox">
+
+                <div class="checkbox-container">
+                    <input
+                        v-model="transaction.allocated"
+                        v-on:change="updateAllocationStatus()"
+                        id="allocated-checkbox"
+                        {{--:value="transaction.allocated"--}}
+                        type="checkbox"
+                    >
+                    <label for="allocated-checkbox">Allocated</label>
                 </div>
+
             </div>
 
             <!-- close button -->

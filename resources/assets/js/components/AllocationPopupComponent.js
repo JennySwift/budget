@@ -36,6 +36,20 @@ var AllocationPopup = Vue.component('allocation-popup', {
                 });
         },
 
+        /**
+        *
+        */
+        getAllocationTotals: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/transactions/' + this.transaction.id, function (response) {
+                this.allocationTotals = response;
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
 
         /**
          *
@@ -52,7 +66,7 @@ var AllocationPopup = Vue.component('allocation-popup', {
             $(document).on('show-allocation-popup', function (event, transaction) {
                 that.transaction = transaction;
                 that.showPopup = true;
-                //todo: Get allocation totals
+                that.getAllocationTotals();
             });
         }
     },

@@ -87,7 +87,6 @@ table {
   border-collapse: separate;
   text-align: center; }
   table th {
-    border-radius: 18px;
     padding: 10px 10px;
     text-align: center; }
   table td {
@@ -895,7 +894,6 @@ caption {
     justify-content: center; }
     #allocation-popup #allocation-table-container td, #allocation-popup #allocation-table-container th {
       padding: 0;
-      overflow: scroll;
       font-size: 9px; }
       @media (min-width: 400px) {
         #allocation-popup #allocation-table-container td, #allocation-popup #allocation-table-container th {
