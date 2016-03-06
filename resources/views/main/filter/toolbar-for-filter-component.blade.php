@@ -46,11 +46,10 @@
                 Reset
             </button>
 
-            <button
-                    v-on:click="saveFilter()"
-                    class="btn btn-default">
-                Save filter
-            </button>
+            <new-saved-filter
+                :filter="filter"
+            >
+            </new-saved-filter>
 
         </div>
 

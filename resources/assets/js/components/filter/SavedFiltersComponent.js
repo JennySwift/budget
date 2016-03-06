@@ -43,41 +43,20 @@ var SavedFilters = Vue.component('saved-filters', {
         /**
          *
          */
-        insertSavedFilter: function () {
-            var name = prompt('Please name your filter');
-
-            $.event.trigger('show-loading');
-
-            var data = {
-                name: name,
-                filter: this.filter
-            };
-
-            this.$http.post('/api/savedFilters', data, function (response) {
-                    this.savedFilters.push(response);
-                    $.event.trigger('new-saved-filter');
-                    $.event.trigger('provide-feedback', ['Filter created', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
-        },
-
-        /**
-         *
-         */
         listen: function () {
             var that = this;
             $(document).on('saved-filter-created', function (event, savedFilter) {
+                that.savedFilters.push(savedFilter);
+            });
+            //$(document).on('saved-filter-created', function (event, savedFilter) {
                 //Doing this because $scope.savedFilters was updating when I didn't want it to.
                 //If the user hit the prev or next buttons, then used the saved filter again,
                 //the saved filter was modified and not the original saved filter.
                 //I think because I set the filter ng-model to the saved filter in the filter factory.
-                var preservedSavedFilters = JSON.parse(JSON.stringify(that.savedFilters));;
-                that.savedFilters.push(savedFilter);
-                preservedSavedFilters.push(savedFilter);
-            });
+            //    var preservedSavedFilters = JSON.parse(JSON.stringify(that.savedFilters));;
+            //    that.savedFilters.push(savedFilter);
+            //    preservedSavedFilters.push(savedFilter);
+            //});
         }
     },
     props: [
