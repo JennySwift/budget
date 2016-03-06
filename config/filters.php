@@ -18,15 +18,15 @@ return [
         "in" => [],
         "out" => []
     ],
-    "single_date" => [
+    "singleDate" => [
         "inSql" => "",
         "outSql" => "",
     ],
-    "from_date" => [
+    "fromDate" => [
         "inSql" => "",
         "outSql" => "",
     ],
-    "to_date" => [
+    "toDate" => [
         "inSql" => "",
         "outSql" => "",
     ],

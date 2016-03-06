@@ -22053,15 +22053,15 @@ var FilterRepository = {
                 in: [],
                 out: []
             },
-            single_date: {
+            singleDate: {
                 in: '',
                 out: ''
             },
-            from_date: {
+            fromDate: {
                 in: '',
                 out: ''
             },
-            to_date: {
+            toDate: {
                 in: '',
                 out: ''
             },
@@ -22150,41 +22150,41 @@ var FilterRepository = {
     },
 
     formatDates: function () {
-        if (this.filter.single_date.in) {
-            this.filter.single_date.inSql = $filter('formatDate')(this.filter.single_date.in);
+        if (this.filter.singleDate.in) {
+            this.filter.singleDate.inSql = $filter('formatDate')(this.filter.singleDate.in);
         }
         else {
-            this.filter.single_date.inSql = "";
+            this.filter.singleDate.inSql = "";
         }
-        if (this.filter.single_date.out) {
-            this.filter.single_date.outSql = $filter('formatDate')(this.filter.single_date.out);
-        }
-        else {
-            this.filter.single_date.outSql = "";
-        }
-        if (this.filter.from_date.in) {
-            this.filter.from_date.inSql = $filter('formatDate')(this.filter.from_date.in);
+        if (this.filter.singleDate.out) {
+            this.filter.singleDate.outSql = $filter('formatDate')(this.filter.singleDate.out);
         }
         else {
-            this.filter.from_date.inSql = "";
+            this.filter.singleDate.outSql = "";
         }
-        if (this.filter.from_date.out) {
-            this.filter.from_date.outSql = $filter('formatDate')(this.filter.from_date.out);
-        }
-        else {
-            this.filter.from_date.outSql = "";
-        }
-        if (this.filter.to_date.in) {
-            this.filter.to_date.inSql = $filter('formatDate')(this.filter.to_date.in);
+        if (this.filter.fromDate.in) {
+            this.filter.fromDate.inSql = $filter('formatDate')(this.filter.fromDate.in);
         }
         else {
-            this.filter.to_date.inSql = "";
+            this.filter.fromDate.inSql = "";
         }
-        if (this.filter.to_date.out) {
-            this.filter.to_date.outSql = $filter('formatDate')(this.filter.to_date.out);
+        if (this.filter.fromDate.out) {
+            this.filter.fromDate.outSql = $filter('formatDate')(this.filter.fromDate.out);
         }
         else {
-            this.filter.to_date.outSql = "";
+            this.filter.fromDate.outSql = "";
+        }
+        if (this.filter.toDate.in) {
+            this.filter.toDate.inSql = $filter('formatDate')(this.filter.toDate.in);
+        }
+        else {
+            this.filter.toDate.inSql = "";
+        }
+        if (this.filter.toDate.out) {
+            this.filter.toDate.outSql = $filter('formatDate')(this.filter.toDate.out);
+        }
+        else {
+            this.filter.toDate.outSql = "";
         }
 
         return this.filter;

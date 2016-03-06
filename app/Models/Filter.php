@@ -169,9 +169,9 @@ class Filter implements Arrayable {
                     $query = $this->bugFix($query, $value);
                     break;
 
-                case "single_date":
-                case "from_date":
-                case "to_date":
+                case "singleDate":
+                case "fromDate":
+                case "toDate":
                     $query = $this->filterBasicsRepository->filterDates($query, $type, $value);
                     break;
 

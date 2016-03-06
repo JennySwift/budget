@@ -15,7 +15,7 @@ class FilterDatesTest extends FiltersTest
      * @test
      * @return void
      */
-    public function it_checks_the_single_date_filter_in_works()
+    public function it_checks_the_singleDate_filter_in_works()
     {
         $this->setFilterDefaults();
         $this->logInUser();
@@ -24,7 +24,7 @@ class FilterDatesTest extends FiltersTest
         $date = '2015-08-01';
 
         $filter = [
-            'single_date' => [
+            'singleDate' => [
                 'inSql' => $date,
                 'outSql' => ''
             ]
@@ -50,7 +50,7 @@ class FilterDatesTest extends FiltersTest
      * @test
      * @return void
      */
-    public function it_checks_the_single_date_filter_out_works()
+    public function it_checks_the_singleDate_filter_out_works()
     {
         $this->setFilterDefaults();
         $this->logInUser();
@@ -59,7 +59,7 @@ class FilterDatesTest extends FiltersTest
         $date = '2015-08-01';
 
         $filter = [
-            'single_date' => [
+            'singleDate' => [
                 'inSql' => '',
                 'outSql' => $date
             ]
@@ -85,7 +85,7 @@ class FilterDatesTest extends FiltersTest
      * @test
      * @return void
      */
-    public function it_checks_the_from_date_in_filter_works()
+    public function it_checks_the_fromDate_in_filter_works()
     {
         $this->setFilterDefaults();
         $this->logInUser();
@@ -93,7 +93,7 @@ class FilterDatesTest extends FiltersTest
         $date = '2015-08-01';
 
         $filter = [
-            'from_date' => [
+            'fromDate' => [
                 'inSql' => $date,
                 'outSql' => ''
             ]
@@ -117,7 +117,7 @@ class FilterDatesTest extends FiltersTest
      * @test
      * @return void
      */
-    public function it_checks_the_to_date_in_filter_works()
+    public function it_checks_the_toDate_in_filter_works()
     {
         $this->setFilterDefaults();
         $this->logInUser();
@@ -125,7 +125,7 @@ class FilterDatesTest extends FiltersTest
         $date = '2015-08-01';
 
         $filter = [
-            'to_date' => [
+            'toDate' => [
                 'inSql' => $date,
                 'outSql' => ''
             ]

@@ -135,17 +135,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertArrayHasKey('in', $filter['filter']['accounts']);
 		$this->assertArrayHasKey('out', $filter['filter']['accounts']);
 
-		$this->assertArrayHasKey('single_date', $filter['filter']);
-		$this->assertArrayHasKey('inSql', $filter['filter']['single_date']);
-		$this->assertArrayHasKey('outSql', $filter['filter']['single_date']);
+		$this->assertArrayHasKey('singleDate', $filter['filter']);
+		$this->assertArrayHasKey('inSql', $filter['filter']['singleDate']);
+		$this->assertArrayHasKey('outSql', $filter['filter']['singleDate']);
 
-		$this->assertArrayHasKey('from_date', $filter['filter']);
-		$this->assertArrayHasKey('inSql', $filter['filter']['from_date']);
-		$this->assertArrayHasKey('outSql', $filter['filter']['from_date']);
+		$this->assertArrayHasKey('fromDate', $filter['filter']);
+		$this->assertArrayHasKey('inSql', $filter['filter']['fromDate']);
+		$this->assertArrayHasKey('outSql', $filter['filter']['fromDate']);
 
-		$this->assertArrayHasKey('to_date', $filter['filter']);
-		$this->assertArrayHasKey('inSql', $filter['filter']['to_date']);
-		$this->assertArrayHasKey('outSql', $filter['filter']['to_date']);
+		$this->assertArrayHasKey('toDate', $filter['filter']);
+		$this->assertArrayHasKey('inSql', $filter['filter']['toDate']);
+		$this->assertArrayHasKey('outSql', $filter['filter']['toDate']);
 
 		$this->assertArrayHasKey('description', $filter['filter']);
 		$this->assertArrayHasKey('in', $filter['filter']['description']);

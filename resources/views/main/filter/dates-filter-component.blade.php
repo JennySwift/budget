@@ -32,7 +32,7 @@
                     >
                     <span class="input-group-btn">
                          <button
-                                 v-on:click="clearDateField('singleDate', 'in')"
+                                 v-on:click="clearFilterField('singleDate', 'in')"
                                  class="clear-search-button btn btn-default">
                              clear
                          </button>
@@ -64,7 +64,7 @@
                     >
                     <span class="input-group-btn">
                         <button
-                                v-on:click="clearDateField('singleDate', 'out')"
+                                v-on:click="clearFilterField('singleDate', 'out')"
                                 class="clear-search-button btn btn-default">
                             clear
                         </button>
@@ -85,7 +85,7 @@
                         class="input-group"
                 >
                     <input
-                            v-model="filter.fromDate.out"
+                            v-model="filter.fromDate.in"
                             v-on:keyup.13="runFilter()"
                             type="text"
                             id="filter-from-date-in"
@@ -96,7 +96,7 @@
                     >
                     <span class="input-group-btn">
                         <button
-                                v-on:click="clearDateField('fromDate', 'in')"
+                                v-on:click="clearFilterField('fromDate', 'in')"
                                 class="clear-search-button btn btn-default">
                             clear
                         </button>
@@ -128,7 +128,7 @@
                     >
                     <span class="input-group-btn">
                         <button
-                                v-on:click="clearDateField('toDate', 'in')"
+                                v-on:click="clearFilterField('toDate', 'in')"
                                 class="clear-search-button btn btn-default">
                             clear
                         </button>

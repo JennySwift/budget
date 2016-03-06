@@ -83,13 +83,13 @@ class FilterTotalsTest extends FiltersTest
     /**
      * @test
      */
-    public function it_checks_filter_totals_are_correct_with_single_date_filter()
+    public function it_checks_filter_totals_are_correct_with_singleDate_filter()
     {
         $this->setFilterDefaults();
         $this->logInUser();
 
         $filter = [
-            'single_date' => [
+            'singleDate' => [
                 'inSql' => '2015-08-01',
                 "outSql" => ""
             ]
@@ -123,17 +123,17 @@ class FilterTotalsTest extends FiltersTest
     /**
      * @test
      */
-    public function it_checks_filter_totals_are_correct_with_from_and_to_date_filters()
+    public function it_checks_filter_totals_are_correct_with_from_and_toDate_filters()
     {
         $this->setFilterDefaults();
         $this->logInUser();
 
         $filter = [
-            'from_date' => [
+            'fromDate' => [
                 'inSql' => '2013-02-01',
                 "outSql" => ""
             ],
-            'to_date' => [
+            'toDate' => [
                 'inSql' => '2015-08-01',
                 "outSql" => ""
             ]
@@ -168,17 +168,17 @@ class FilterTotalsTest extends FiltersTest
     /**
      * @test
      */
-    public function it_checks_filter_totals_are_correct_with_from_and_to_date_filters_and_type_income_filter()
+    public function it_checks_filter_totals_are_correct_with_from_and_toDate_filters_and_type_income_filter()
     {
         $this->setFilterDefaults();
         $this->logInUser();
 
         $filter = [
-            'from_date' => [
+            'fromDate' => [
                 'inSql' => '2013-02-01',
                 "outSql" => ""
             ],
-            'to_date' => [
+            'toDate' => [
                 'inSql' => '2015-08-01',
                 "outSql" => ""
             ],
@@ -217,17 +217,17 @@ class FilterTotalsTest extends FiltersTest
     /**
      * @test
      */
-    public function it_checks_filter_totals_are_correct_with_from_and_to_date_filters_and_type_expense_filter_and__business_tag_filter()
+    public function it_checks_filter_totals_are_correct_with_from_and_toDate_filters_and_type_expense_filter_and__business_tag_filter()
     {
         $this->setFilterDefaults();
         $this->logInUser();
 
         $filter = [
-            'from_date' => [
+            'fromDate' => [
                 'inSql' => '2013-02-01',
                 "outSql" => ""
             ],
-            'to_date' => [
+            'toDate' => [
                 'inSql' => '2015-08-01',
                 "outSql" => ""
             ],
@@ -276,17 +276,17 @@ class FilterTotalsTest extends FiltersTest
     /**
      * @test
      */
-    public function it_checks_filter_totals_are_correct_with_from_and_to_date_filters_and_type_expense_filter_and__busking_tag_filter()
+    public function it_checks_filter_totals_are_correct_with_from_and_toDate_filters_and_type_expense_filter_and__busking_tag_filter()
     {
         $this->setFilterDefaults();
         $this->logInUser();
 
         $filter = [
-            'from_date' => [
+            'fromDate' => [
                 'inSql' => '2013-02-01',
                 "outSql" => ""
             ],
-            'to_date' => [
+            'toDate' => [
                 'inSql' => '2015-08-01',
                 "outSql" => ""
             ],
@@ -335,17 +335,17 @@ class FilterTotalsTest extends FiltersTest
     /**
      * @test
      */
-    public function it_checks_filter_totals_are_correct_with_from_and_to_date_filters_and_type_expense_filter_and__bank_fees_tag_filter()
+    public function it_checks_filter_totals_are_correct_with_from_and_toDate_filters_and_type_expense_filter_and__bank_fees_tag_filter()
     {
         $this->setFilterDefaults();
         $this->logInUser();
 
         $filter = [
-            'from_date' => [
+            'fromDate' => [
                 'inSql' => '2013-02-01',
                 "outSql" => ""
             ],
-            'to_date' => [
+            'toDate' => [
                 'inSql' => '2015-08-01',
                 "outSql" => ""
             ],
@@ -394,17 +394,17 @@ class FilterTotalsTest extends FiltersTest
     /**
      * @test
      */
-    public function it_checks_filter_totals_are_correct_with_from_and_to_date_filters_and_type_income_filter_and__busking_tag_filter()
+    public function it_checks_filter_totals_are_correct_with_from_and_toDate_filters_and_type_income_filter_and__busking_tag_filter()
     {
         $this->setFilterDefaults();
         $this->logInUser();
 
         $filter = [
-            'from_date' => [
+            'fromDate' => [
                 'inSql' => '2013-02-01',
                 "outSql" => ""
             ],
-            'to_date' => [
+            'toDate' => [
                 'inSql' => '2015-08-01',
                 "outSql" => ""
             ],
