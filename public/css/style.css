@@ -885,53 +885,33 @@ caption {
 
 #allocation-popup {
   max-width: 500px; }
-  #allocation-popup #allocation-table-container {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center; }
-    #allocation-popup #allocation-table-container td, #allocation-popup #allocation-table-container th {
+  #allocation-popup table td {
+    height: 20px; }
+    #allocation-popup table td div {
+      height: 20px;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+      justify-content: flex-end;
+      margin-right: 5px;
+      text-align: right;
+      position: relative; }
+      #allocation-popup table td div.editable {
+        -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+        justify-content: space-between; }
+    #allocation-popup table td input {
+      width: 50px;
       padding: 0;
-      font-size: 9px; }
-      @media (min-width: 400px) {
-        #allocation-popup #allocation-table-container td, #allocation-popup #allocation-table-container th {
-          padding: 5px 5px;
-          font-size: 12px; } }
-    #allocation-popup #allocation-table-container select {
-      font-size: 9px; }
-    #allocation-popup #allocation-table-container td {
-      height: 20px; }
-      #allocation-popup #allocation-table-container td * {
-        height: 20px; }
-      #allocation-popup #allocation-table-container td div {
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-align-items: center;
-        -ms-flex-align: center;
-        align-items: center;
-        -webkit-justify-content: flex-end;
-        -ms-flex-pack: end;
-        justify-content: flex-end;
-        margin-right: 5px;
-        text-align: right;
-        position: relative; }
-        #allocation-popup #allocation-table-container td div.editable {
-          -webkit-justify-content: space-between;
-          -ms-flex-pack: justify;
-          justify-content: space-between; }
-        #allocation-popup #allocation-table-container td div .edit {
-          width: 10px;
-          font-size: 5px; }
-      #allocation-popup #allocation-table-container td input {
-        width: 50px;
-        padding: 0;
-        border: none; }
-    #allocation-popup #allocation-table-container .totals {
-      background: #777;
-      color: white; }
+      border: none; }
+  #allocation-popup table .totals {
+    background: #777;
+    color: white; }
   #allocation-popup p {
     font-size: 11px; }
     @media (min-width: 400px) {

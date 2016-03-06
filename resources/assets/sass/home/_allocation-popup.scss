@@ -1,26 +1,23 @@
 #allocation-popup {
 	max-width: 500px;
-	#allocation-table-container {
-		display: flex;
-		justify-content: center;
+
+	table {
 		td, th {
-			padding: 0;
-			//overflow: scroll;
-			font-size: 9px;
-			@media (min-width: 400px) {
-				padding: 5px 5px;
-				font-size: 12px;
-			}
-		}
-		select {
-			font-size: 9px;
+			//padding: 0;
+			////overflow: scroll;
+			//font-size: 9px;
+			//@media (min-width: 400px) {
+			//	padding: 5px 5px;
+			//	font-size: 12px;
+			//}
 		}
 		td {
 			height: 20px;
-			* {
-				height: 20px;
-			}
+			//* {
+			//	height: 20px;
+			//}
 			div {
+				height: 20px;
 				display: flex;
 				align-items: center;
 				justify-content: flex-end;
@@ -30,10 +27,10 @@
 				&.editable {
 					justify-content: space-between;
 				}
-				.edit {
-					width: 10px;
-					font-size: 5px;
-				}
+				//.edit {
+				//	width: 10px;
+				//	font-size: 5px;
+				//}
 			}
 			input {
 				width: 50px;
@@ -45,6 +42,7 @@
 			@include totals;
 		}
 	}
+
 	p {
 		font-size: 11px;
 		@media (min-width: 400px) {
