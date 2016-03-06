@@ -36,14 +36,6 @@ var Transactions = Vue.component('transactions', {
         },
 
         /**
-         *
-         * @param transaction
-         */
-        showAllocationPopup: function (transaction) {
-            $.event.trigger('show-allocation-popup', [transaction]);
-        },
-
-        /**
         *
         */
         filterTransactions: function () {

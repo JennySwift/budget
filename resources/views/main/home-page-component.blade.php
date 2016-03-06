@@ -19,7 +19,6 @@
             </totals>
 
             <div class="flex-grow-2">
-                {{--@include('templates.home.popups.index')--}}
                 <transactions
                         :show="show"
                         :transaction-properties-to-show="transactionPropertiesToShow",

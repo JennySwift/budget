@@ -66,6 +66,14 @@ var Transaction = Vue.component('transaction', {
          *
          * @param transaction
          */
+        showAllocationPopup: function (transaction) {
+            $.event.trigger('show-allocation-popup', [transaction]);
+        },
+
+        /**
+         *
+         * @param transaction
+         */
         showEditTransactionPopup: function (transaction) {
             $.event.trigger('show-edit-transaction-popup', [transaction]);
         },

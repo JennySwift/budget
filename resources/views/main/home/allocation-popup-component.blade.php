@@ -2,7 +2,7 @@
 
     <div v-show="showPopup" v-cloak class="popup-outer">
         <div id="allocation-popup" class="popup-inner">
-            <button v-on:click="testing()">test</button>
+
             <p class="width-100">The total for this transaction is <span class="bold">@{{ transaction.total }}</span>. You have more than one budget associated with this transaction. Specify what percentage of @{{  transaction.total }} you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
 
             <div id="allocation-table-container">
@@ -35,7 +35,7 @@
 
                                 <input
                                         v-if="budget.editingAllocatedFixed"
-                                        v-on:keyup="updateAllocation($event.keyCode, 'fixed', budget.editedAllocatedFixed, budget.id)"
+                                        v-on:keyup.13="updateAllocation('fixed', budget.editedAllocatedFixed, budget.id)"
                                         v-model="budget.editedAllocatedFixed" type="text">
 
                                 <button
@@ -56,7 +56,7 @@
                             <div class="editable">
                                 <input
                                         v-if="budget.editingAllocatedPercent"
-                                        v-on:keyup="updateAllocation($event.keyCode, 'percent', budget.editedAllocatedPercent, budget.id)"
+                                        v-on:keyup.13="updateAllocation('percent', budget.editedAllocatedPercent, budget.id)"
                                         v-model="budget.editedAllocatedPercent" type="text">
 
                                 <button
@@ -86,19 +86,19 @@
 
                         <td>
                             <div>
-                                <span>@{{ transaction.totals.fixedSum }}</span>
+                                <span>@{{ allocationTotals.fixedSum }}</span>
                             </div>
                         </td>
 
                         <td>
                             <div>
-                                <span>@{{ transaction.totals.percentSum }}</span>
+                                <span>@{{ allocationTotals.percentSum }}</span>
                             </div>
                         </td>
 
                         <td>
                             <div>
-                                <span>@{{ transaction.totals.calculatedAllocationSum }}</span>
+                                <span>@{{ allocationTotals.calculatedAllocationSum }}</span>
                             </div>
                         </td>
 

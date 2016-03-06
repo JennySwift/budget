@@ -2,7 +2,9 @@ var AllocationPopup = Vue.component('allocation-popup', {
     template: '#allocation-popup-template',
     data: function () {
         return {
-            transaction: {}
+            transaction: {},
+            allocationTotals: {},
+            showPopup: false
         };
     },
     components: {},

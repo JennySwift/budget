@@ -243,4 +243,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 //		$this->assertArrayHasKey('path', $account);
 	}
 
+	/**
+	 *
+	 * @param $totals
+	 */
+	public function checkAllocationTotalKeysExist($totals)
+	{
+		$this->assertArrayHasKey('fixedSum', $totals);
+		$this->assertArrayHasKey('percentSum', $totals);
+		$this->assertArrayHasKey('calculatedAllocationSum', $totals);
+	}
+
 }

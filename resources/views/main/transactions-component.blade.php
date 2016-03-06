@@ -10,6 +10,8 @@
     >
     </edit-transaction-popup>
 
+    <allocation-popup></allocation-popup>
+
     <table v-if="transactions.length > 0" id="transactions" class="">
 
         @include('main.home.transactions.table-header')

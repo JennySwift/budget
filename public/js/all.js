@@ -23263,7 +23263,9 @@ var AllocationPopup = Vue.component('allocation-popup', {
     template: '#allocation-popup-template',
     data: function () {
         return {
-            transaction: {}
+            transaction: {},
+            allocationTotals: {},
+            showPopup: false
         };
     },
     components: {},
@@ -25470,6 +25472,14 @@ var Transaction = Vue.component('transaction', {
          *
          * @param transaction
          */
+        showAllocationPopup: function (transaction) {
+            $.event.trigger('show-allocation-popup', [transaction]);
+        },
+
+        /**
+         *
+         * @param transaction
+         */
         showEditTransactionPopup: function (transaction) {
             $.event.trigger('show-edit-transaction-popup', [transaction]);
         },
@@ -25527,14 +25537,6 @@ var Transactions = Vue.component('transactions', {
             .error(function (response) {
                 HelpersRepository.handleResponseError(response);
             });
-        },
-
-        /**
-         *
-         * @param transaction
-         */
-        showAllocationPopup: function (transaction) {
-            $.event.trigger('show-allocation-popup', [transaction]);
         },
 
         /**

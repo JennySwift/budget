@@ -52,8 +52,8 @@
 @include('main.filter.toolbar-for-filter-component')
 
 {{--Transactions--}}
-@include('main.home.popups.edit-transaction-popup-component')
-@include('main.home.popups.allocation-popup-component')
+@include('main.home.edit-transaction-popup-component')
+@include('main.home.allocation-popup-component')
 
 <script type="text/javascript" src="/js/all.js"></script>
 
