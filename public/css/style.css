@@ -766,6 +766,13 @@ caption {
     border-bottom-right-radius: 0; }
   .input-btn-container .input-group-btn {
     width: auto; }
+  .input-btn-container.xs input {
+    height: 20px; }
+  .input-btn-container.xs button {
+    height: 20px;
+    line-height: 0;
+    font-size: 8px;
+    padding: 6px 4px; }
 
 .btn-group .btn {
   margin: 0 -2px;
@@ -811,7 +818,7 @@ caption {
 
 .btn-xs {
   font-size: 8px;
-  padding: 1px; }
+  padding: 1px 3px; }
 
 .font-size-sm {
   font-size: 15px; }
@@ -898,17 +905,12 @@ caption {
       -webkit-justify-content: flex-end;
       -ms-flex-pack: end;
       justify-content: flex-end;
-      margin-right: 5px;
       text-align: right;
       position: relative; }
       #allocation-popup table td div.editable {
         -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
         justify-content: space-between; }
-    #allocation-popup table td input {
-      width: 50px;
-      padding: 0;
-      border: none; }
   #allocation-popup table .totals {
     background: #777;
     color: white; }

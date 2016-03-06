@@ -22561,27 +22561,6 @@ var TransactionsRepository = {
         });
     },
 
-    getAllocationTotals: function ($transaction_id) {
-        var $url = 'api/select/allocationTotals';
-        var $data = {
-            transaction_id: $transaction_id
-        };
-
-        return $http.post($url, $data);
-    },
-
-    updateAllocation: function ($type, $value, $transaction_id, $budget_id) {
-        var $url = 'api/updateAllocation';
-        var $data = {
-            type: $type,
-            value: $value,
-            transaction_id: $transaction_id,
-            budget_id: $budget_id
-        };
-
-        return $http.post($url, $data);
-    },
-
     updateAllocationStatus: function ($transaction) {
         var $url = $transaction.path;
         var $data = {
@@ -23271,21 +23250,6 @@ var AllocationPopup = Vue.component('allocation-popup', {
     components: {},
     methods: {
 
-        updateAllocation: function ($keycode, $type, $value, $budget_id) {
-            if ($keycode === 13) {
-                $scope.showLoading();
-                TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
-                    .then(function (response) {
-                        $scope.allocationPopup.budgets = response.data.budgets;
-                        $scope.allocationPopup.totals = response.data.totals;
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-        },
-
         updateAllocationStatus: function () {
             $scope.showLoading();
             TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
@@ -23336,6 +23300,59 @@ var AllocationPopup = Vue.component('allocation-popup', {
     ],
     ready: function () {
         this.listen();
+    },
+    events: {
+        'budget-allocation-updated': function (response) {
+            this.transaction.budgets = response.budgets;
+            this.allocationTotals = response.totals;
+        }
+    }
+});
+
+var BudgetAllocation = Vue.component('budget-allocation', {
+    template: '#budget-allocation-template',
+    data: function () {
+        return {
+            editingAllocatedFixed: false,
+            editingAllocatedPercent: false,
+            allocatedFixed: '',
+            allocatedPercent: ''
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+        *
+        */
+        updateAllocation: function (type, value) {
+            $.event.trigger('show-loading');
+
+            var data = {
+                budget_id: this.budget.id,
+                type: type,
+                value: value,
+                updatingAllocation: true
+            };
+
+            this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
+                this.$dispatch('budget-allocation-updated', response);
+                $.event.trigger('provide-feedback', ['Allocation updated', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        }
+
+
+    },
+    props: [
+        'budget',
+        'transaction'
+    ],
+    ready: function () {
+
     }
 });
 

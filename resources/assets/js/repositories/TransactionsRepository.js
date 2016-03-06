@@ -94,27 +94,6 @@ var TransactionsRepository = {
         });
     },
 
-    getAllocationTotals: function ($transaction_id) {
-        var $url = 'api/select/allocationTotals';
-        var $data = {
-            transaction_id: $transaction_id
-        };
-
-        return $http.post($url, $data);
-    },
-
-    updateAllocation: function ($type, $value, $transaction_id, $budget_id) {
-        var $url = 'api/updateAllocation';
-        var $data = {
-            type: $type,
-            value: $value,
-            transaction_id: $transaction_id,
-            budget_id: $budget_id
-        };
-
-        return $http.post($url, $data);
-    },
-
     updateAllocationStatus: function ($transaction) {
         var $url = $transaction.path;
         var $data = {

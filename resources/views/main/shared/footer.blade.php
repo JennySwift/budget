@@ -54,6 +54,7 @@
 {{--Transactions--}}
 @include('main.home.edit-transaction-popup-component')
 @include('main.home.allocation-popup-component')
+@include('main.home.budget-allocation-component')
 
 <script type="text/javascript" src="/js/all.js"></script>
 

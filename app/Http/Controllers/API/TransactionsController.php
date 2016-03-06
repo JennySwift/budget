@@ -120,105 +120,101 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-        $data = array_filter(array_diff_assoc(
-            $request->only([
-                'date',
-                'account_id',
-                'description',
-                'merchant',
-                'total',
-                'type',
-                'reconciled',
-                'allocated',
-                'minutes'
-            ]),
-            $transaction->toArray()
-        ), 'removeFalseKeepZeroAndEmptyStrings');
+        if ($request->has('updatingAllocation')) {
+            //For one transaction, change the amount that is allocated for one budget
+            //Should be PUT api/budgets/{budgets}/transactions/{transactions}
 
-        //Make the total positive if the type has been changed from expense to income
-        if (isset($data['type']) && $transaction->type === 'expense' && $data['type'] === 'income') {
-            if (isset($data['total']) && $data['total'] < 0) {
-                //The user has changed the total as well as the type,
-                //but the total is negative and it should be positive
-                $data['total'] = $data['total'] * -1;
+            $type = $request->get('type');
+            $value = $request->get('value');
+            $budget = Budget::find($request->get('budget_id'));
+
+            if ($type === 'percent') {
+                $transaction->updateAllocatedPercent($value, $budget);
             }
-            else {
-                //The user has changed the type but not the total
-                $transaction->total = $transaction->total * -1;
-                $transaction->save();
+
+            elseif ($type === 'fixed') {
+                $transaction->updateAllocatedFixed($value, $budget);
             }
+
+            return [
+                "budgets" => $transaction->budgets,
+                "totals" => $transaction->getAllocationTotals()
+            ];
         }
 
-        //Make the total negative if the type has been changed from income to expense
-        if (isset($data['type']) && $transaction->type === 'income' && $data['type'] === 'expense') {
-            if (isset($data['total']) && $data['total'] > 0) {
-                //The user has changed the total as well as the type,
-                //but the total is positive and it should be negative
-                $data['total'] = $data['total'] * -1;
+        else {
+            $data = array_filter(array_diff_assoc(
+                $request->only([
+                    'date',
+                    'account_id',
+                    'description',
+                    'merchant',
+                    'total',
+                    'type',
+                    'reconciled',
+                    'allocated',
+                    'minutes'
+                ]),
+                $transaction->toArray()
+            ), 'removeFalseKeepZeroAndEmptyStrings');
+
+            //Make the total positive if the type has been changed from expense to income
+            if (isset($data['type']) && $transaction->type === 'expense' && $data['type'] === 'income') {
+                if (isset($data['total']) && $data['total'] < 0) {
+                    //The user has changed the total as well as the type,
+                    //but the total is negative and it should be positive
+                    $data['total'] = $data['total'] * -1;
+                }
+                else {
+                    //The user has changed the type but not the total
+                    $transaction->total = $transaction->total * -1;
+                    $transaction->save();
+                }
             }
-            else {
-                //The user has changed the type but not the total
-                $transaction->total = $transaction->total * -1;
-                $transaction->save();
+
+            //Make the total negative if the type has been changed from income to expense
+            if (isset($data['type']) && $transaction->type === 'income' && $data['type'] === 'expense') {
+                if (isset($data['total']) && $data['total'] > 0) {
+                    //The user has changed the total as well as the type,
+                    //but the total is positive and it should be negative
+                    $data['total'] = $data['total'] * -1;
+                }
+                else {
+                    //The user has changed the type but not the total
+                    $transaction->total = $transaction->total * -1;
+                    $transaction->save();
+                }
             }
-        }
 
 //        if(empty($data)) {
 //            return $this->responseNotModified();
 //        }
 
-        //Fire event
-        //Todo: update the savings when event is fired
-        event(new TransactionWasUpdated($transaction, $data));
+            //Fire event
+            //Todo: update the savings when event is fired
+            event(new TransactionWasUpdated($transaction, $data));
 
-        $transaction->update($data);
-        $transaction->save();
+            $transaction->update($data);
+            $transaction->save();
 
-        $budgets = $request->get('budgets');
-        if (isset($budgets)) {
-            $transaction->budgets()->detach();
+            $budgets = $request->get('budgets');
+
+            if (isset($budgets)) {
+                $transaction->budgets()->detach();
+            }
+
+            if ($budgets) {
+                $this->transactionsRepository->attachBudgets($transaction, $budgets);
+            }
+
+            $item = $this->createItem(
+                $transaction,
+                new TransactionTransformer
+            );
+
+            return $this->responseWithTransformer($item, Response::HTTP_OK);
         }
 
-        if ($budgets) {
-            $this->transactionsRepository->attachBudgets($transaction, $budgets);
-        }
-
-        $item = $this->createItem(
-            $transaction,
-            new TransactionTransformer
-        );
-
-        return $this->responseWithTransformer($item, Response::HTTP_OK);
-    }
-
-    /**
-     * For one transaction, change the amount that is allocated for one tag
-     * POST api/updateAllocation
-     *
-     * One route to update allocation for transactions linked to multiple budgets
-     * Should be PUT api/budgets/{budgets}/transactions/{transactions}
-     *
-     * @param Request $request
-     * @return array
-     */
-    public function updateAllocation(Request $request)
-    {
-        $type = $request->get('type');
-        $value = $request->get('value');
-        $transaction = Transaction::find($request->get('transaction_id'));
-        $budget = Budget::find($request->get('budget_id'));
-
-        if ($type === 'percent') {
-            $transaction->updateAllocatedPercent($value, $budget);
-        }
-        elseif ($type === 'fixed') {
-            $transaction->updateAllocatedFixed($value, $budget);
-        }
-
-        return [
-            "budgets" => $transaction->budgets,
-            "totals" => $transaction->getAllocationTotals()
-        ];
     }
 
     /**

@@ -37,8 +37,6 @@ Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => 'auth'], 
         Route::post('graphTotals', 'FilterController@graphTotals');
     });
 
-    // Todo: Should be PUT /api/budgets/{budgets}/transactions/{transactions}
-    Route::post('updateAllocation', 'TransactionsController@updateAllocation');
 });
 
 // Not so important routes

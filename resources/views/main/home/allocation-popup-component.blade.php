@@ -16,69 +16,12 @@
                 </tr>
 
                 <!-- table content -->
-                <tr v-for="budget in transaction.budgets">
-
-                    <td>
-                        <div>
-                                <span
-                                        v-bind:class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex'}"
-                                        class="label label-default"
-                                >
-                                    @{{ budget.name }}
-                                </span>
-                        </div>
-                    </td>
-
-                    <td>
-                        <div class="editable">
-
-                            <input
-                                    v-if="budget.editingAllocatedFixed"
-                                    v-model="budget.editedAllocatedFixed" type="text"
-                                    v-on:keyup.13="updateAllocation('fixed', budget.editedAllocatedFixed, budget.id)"
-                            >
-
-                            <button
-                                    v-if="!budget.editingAllocatedFixed"
-                                    v-on:click="budget.editingAllocatedFixed = true"
-                                    class="edit btn-default btn-xs">edit
-                            </button>
-
-                                <span
-                                        v-if="!budget.editingAllocatedFixed"
-                                >
-                                    @{{ budget.pivot.allocated_fixed }}
-                                </span>
-                        </div>
-                    </td>
-
-                    <td>
-                        <div class="editable">
-                            <input
-                                    v-if="budget.editingAllocatedPercent"
-                                    v-model="budget.editedAllocatedPercent" type="text"
-                                    v-on:keyup.13="updateAllocation('percent', budget.editedAllocatedPercent, budget.id)"
-                            >
-
-                            <button
-                                    v-if="!budget.editingAllocatedPercent"
-                                    v-on:click="budget.editingAllocatedPercent = true"
-                                    class="edit btn btn-default btn-xs">edit
-                            </button>
-
-                                <span
-                                        v-if="!budget.editingAllocatedPercent">
-                                    @{{ budget.pivot.allocated_percent }}
-                                </span>
-                        </div>
-                    </td>
-
-                    <td>
-                        <div>
-                            <span>@{{ budget.pivot.calculated_allocation }}</span>
-                        </div>
-                    </td>
-
+                <tr
+                    v-for="budget in transaction.budgets"
+                    is="budget-allocation"
+                    :budget="budget"
+                    :transaction="transaction"
+                >
                 </tr>
 
                 <!-- totals -->

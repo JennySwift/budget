@@ -82,6 +82,17 @@
 	.input-group-btn {
 		width: auto;
 	}
+	&.xs {
+		input {
+			height: 20px;
+		}
+		button {
+			height: 20px;
+			line-height: 0;
+			font-size: 8px;
+			padding: 6px 4px;
+		}
+	}
 }
 
 .btn-group {
@@ -144,7 +155,7 @@
 
 .btn-xs {
 	font-size: 8px;
-	padding: 1px;
+	padding: 1px 3px;
 }
 
 // =================================font=================================

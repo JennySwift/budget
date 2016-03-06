@@ -10,21 +10,6 @@ var AllocationPopup = Vue.component('allocation-popup', {
     components: {},
     methods: {
 
-        updateAllocation: function ($keycode, $type, $value, $budget_id) {
-            if ($keycode === 13) {
-                $scope.showLoading();
-                TransactionsFactory.updateAllocation($type, $value, $scope.allocationPopup.id, $budget_id)
-                    .then(function (response) {
-                        $scope.allocationPopup.budgets = response.data.budgets;
-                        $scope.allocationPopup.totals = response.data.totals;
-                        $scope.hideLoading();
-                    })
-                    .catch(function (response) {
-                        $scope.responseError(response);
-                    });
-            }
-        },
-
         updateAllocationStatus: function () {
             $scope.showLoading();
             TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
@@ -75,5 +60,11 @@ var AllocationPopup = Vue.component('allocation-popup', {
     ],
     ready: function () {
         this.listen();
+    },
+    events: {
+        'budget-allocation-updated': function (response) {
+            this.transaction.budgets = response.budgets;
+            this.allocationTotals = response.totals;
+        }
     }
 });
