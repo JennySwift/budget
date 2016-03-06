@@ -8,6 +8,9 @@
         class="margin-bottom"
     >
 
+        <pre>@{{$data.filter.accounts | json}}</pre>
+
+
         <ul class="nav nav-tabs">
             <li
                 role="presentation"
@@ -32,7 +35,11 @@
             </li>
         </ul>
 
-        <saved-filters></saved-filters>
+        <saved-filters
+            :run-filter="runFilter"
+            :filter.sync="filter"
+        >
+        </saved-filters>
 
         <toolbar-for-filter
             :filter="filter"

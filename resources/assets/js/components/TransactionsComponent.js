@@ -50,7 +50,7 @@ var Transactions = Vue.component('transactions', {
             $.event.trigger('show-loading');
 
             var data = {
-                filter: FilterRepository.formatDates(FilterRepository.filter)
+                filter: FilterRepository.formatDates(this.filter)
             };
 
             this.$http.post('/api/filter/transactions', data, function (response) {
@@ -68,6 +68,9 @@ var Transactions = Vue.component('transactions', {
         listen: function () {
             var that = this;
             $(document).on('filter-transactions', function (event, filter) {
+                if (filter) {
+                    that.filter = filter;
+                }
                 that.filterTransactions();
             });
         }

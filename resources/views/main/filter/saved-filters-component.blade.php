@@ -3,9 +3,10 @@
     <div class="form-group">
         <label for="saved-filter">Saved Filters</label>
 
+        <pre>@{{$data.filter.accounts | json}}</pre>
         <select
-                v-model="savedFilter"
-                v-on:change="chooseSavedFilter(savedFilter)"
+                v-model="selectedSavedFilter"
+                v-on:change="chooseSavedFilter()"
                 id="saved-filter"
                 class="form-control"
         >

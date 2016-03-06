@@ -73,9 +73,9 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
          */
         listen: function () {
             var that = this;
-            $(document).on('set-filter-in-toolbar', function (event) {
-                that.filter = FilterRepository.filter;
-            });
+            //$(document).on('set-filter-in-toolbar', function (event) {
+            //    that.filter = FilterRepository.filter;
+            //});
         }
     },
     props: [

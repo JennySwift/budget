@@ -2,7 +2,8 @@ var SavedFilters = Vue.component('saved-filters', {
     template: '#saved-filters-template',
     data: function () {
         return {
-            savedFilters: []
+            savedFilters: [],
+            selectedSavedFilter: {}
         };
     },
     components: {},
@@ -27,12 +28,13 @@ var SavedFilters = Vue.component('saved-filters', {
          * unless deliberately saved again.
          * @param savedFilter
          */
-        chooseSavedFilter: function (savedFilter) {
-            var preservedSavedFilter = _.findWhere(preservedSavedFilters, {id: savedFilter.id});
-            var clone = JSON.parse(JSON.stringify(preservedSavedFilter));
-            this.filter = clone.filter;
-            $.event.trigger('set-filter-in-toolbar');
-            $.event.trigger('run-filter');
+        chooseSavedFilter: function () {
+            //var preservedSavedFilter = _.findWhere(preservedSavedFilters, {id: this.selectedSavedFilter.id});
+            //var clone = JSON.parse(JSON.stringify(preservedSavedFilter));
+            //this.filter = clone.filter;
+            //$.event.trigger('set-filter-in-toolbar');
+            this.filter = this.selectedSavedFilter.filter;
+            this.runFilter(this.filter);
         },
 
         /**
@@ -76,7 +78,8 @@ var SavedFilters = Vue.component('saved-filters', {
         }
     },
     props: [
-        //data to be received from parent
+        'runFilter',
+        'filter'
     ],
     ready: function () {
         this.getSavedFilters();

@@ -22096,45 +22096,45 @@ var FilterRepository = {
         return this.filter;
     },
 
-    formatDates: function () {
-        if (this.filter.singleDate.in) {
-            this.filter.singleDate.inSql = HelpersRepository.formatDate(this.filter.singleDate.in);
+    formatDates: function (filter) {
+        if (filter.singleDate.in) {
+            filter.singleDate.inSql = HelpersRepository.formatDate(filter.singleDate.in);
         }
         else {
-            this.filter.singleDate.inSql = "";
+            filter.singleDate.inSql = "";
         }
-        if (this.filter.singleDate.out) {
-            this.filter.singleDate.outSql = HelpersRepository.formatDate(this.filter.singleDate.out);
-        }
-        else {
-            this.filter.singleDate.outSql = "";
-        }
-        if (this.filter.fromDate.in) {
-            this.filter.fromDate.inSql = HelpersRepository.formatDate(this.filter.fromDate.in);
+        if (filter.singleDate.out) {
+            filter.singleDate.outSql = HelpersRepository.formatDate(filter.singleDate.out);
         }
         else {
-            this.filter.fromDate.inSql = "";
+            filter.singleDate.outSql = "";
         }
-        if (this.filter.fromDate.out) {
-            this.filter.fromDate.outSql = HelpersRepository.formatDate(this.filter.fromDate.out);
-        }
-        else {
-            this.filter.fromDate.outSql = "";
-        }
-        if (this.filter.toDate.in) {
-            this.filter.toDate.inSql = HelpersRepository.formatDate(this.filter.toDate.in);
+        if (filter.fromDate.in) {
+            filter.fromDate.inSql = HelpersRepository.formatDate(filter.fromDate.in);
         }
         else {
-            this.filter.toDate.inSql = "";
+            filter.fromDate.inSql = "";
         }
-        if (this.filter.toDate.out) {
-            this.filter.toDate.outSql = HelpersRepository.formatDate(this.filter.toDate.out);
+        if (filter.fromDate.out) {
+            filter.fromDate.outSql = HelpersRepository.formatDate(filter.fromDate.out);
         }
         else {
-            this.filter.toDate.outSql = "";
+            filter.fromDate.outSql = "";
+        }
+        if (filter.toDate.in) {
+            filter.toDate.inSql = HelpersRepository.formatDate(filter.toDate.in);
+        }
+        else {
+            filter.toDate.inSql = "";
+        }
+        if (filter.toDate.out) {
+            filter.toDate.outSql = HelpersRepository.formatDate(filter.toDate.out);
+        }
+        else {
+            filter.toDate.outSql = "";
         }
 
-        return this.filter;
+        return filter;
     },
 
 };
@@ -22740,8 +22740,8 @@ var Filter = Vue.component('filter', {
         /**
          * 
          */
-        runFilter: function () {
-            $.event.trigger('run-filter');
+        runFilter: function (filter) {
+            $.event.trigger('run-filter', [filter]);
         },
 
         /**
@@ -22785,10 +22785,10 @@ var Filter = Vue.component('filter', {
                 that.showFilter = !that.showFilter;
             });
 
-            $(document).on('run-filter', function (event, data) {
+            $(document).on('run-filter', function (event, filter) {
                 $.event.trigger('get-basic-filter-totals');
                 if (that.tab === 'transactions') {
-                    $.event.trigger('filter-transactions', [that.filter]);
+                    $.event.trigger('filter-transactions', [filter]);
                 }
                 else {
                     $.event.trigger('get-graph-totals');
@@ -22968,7 +22968,8 @@ var SavedFilters = Vue.component('saved-filters', {
     template: '#saved-filters-template',
     data: function () {
         return {
-            savedFilters: []
+            savedFilters: [],
+            selectedSavedFilter: {}
         };
     },
     components: {},
@@ -22993,12 +22994,13 @@ var SavedFilters = Vue.component('saved-filters', {
          * unless deliberately saved again.
          * @param savedFilter
          */
-        chooseSavedFilter: function (savedFilter) {
-            var preservedSavedFilter = _.findWhere(preservedSavedFilters, {id: savedFilter.id});
-            var clone = JSON.parse(JSON.stringify(preservedSavedFilter));
-            this.filter = clone.filter;
-            $.event.trigger('set-filter-in-toolbar');
-            $.event.trigger('run-filter');
+        chooseSavedFilter: function () {
+            //var preservedSavedFilter = _.findWhere(preservedSavedFilters, {id: this.selectedSavedFilter.id});
+            //var clone = JSON.parse(JSON.stringify(preservedSavedFilter));
+            //this.filter = clone.filter;
+            //$.event.trigger('set-filter-in-toolbar');
+            this.filter = this.selectedSavedFilter.filter;
+            this.runFilter(this.filter);
         },
 
         /**
@@ -23042,7 +23044,8 @@ var SavedFilters = Vue.component('saved-filters', {
         }
     },
     props: [
-        //data to be received from parent
+        'runFilter',
+        'filter'
     ],
     ready: function () {
         this.getSavedFilters();
@@ -23125,9 +23128,9 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
          */
         listen: function () {
             var that = this;
-            $(document).on('set-filter-in-toolbar', function (event) {
-                that.filter = FilterRepository.filter;
-            });
+            //$(document).on('set-filter-in-toolbar', function (event) {
+            //    that.filter = FilterRepository.filter;
+            //});
         }
     },
     props: [
@@ -25537,7 +25540,7 @@ var Transactions = Vue.component('transactions', {
             $.event.trigger('show-loading');
 
             var data = {
-                filter: FilterRepository.formatDates(FilterRepository.filter)
+                filter: FilterRepository.formatDates(this.filter)
             };
 
             this.$http.post('/api/filter/transactions', data, function (response) {
@@ -25555,6 +25558,9 @@ var Transactions = Vue.component('transactions', {
         listen: function () {
             var that = this;
             $(document).on('filter-transactions', function (event, filter) {
+                if (filter) {
+                    that.filter = filter;
+                }
                 that.filterTransactions();
             });
         }
