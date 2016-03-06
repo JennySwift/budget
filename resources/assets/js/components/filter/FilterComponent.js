@@ -14,8 +14,8 @@ var Filter = Vue.component('filter', {
         /**
          * 
          */
-        runFilter: function (filter) {
-            $.event.trigger('run-filter', [filter]);
+        runFilter: function () {
+            $.event.trigger('run-filter');
         },
 
         /**
@@ -59,10 +59,10 @@ var Filter = Vue.component('filter', {
                 that.showFilter = !that.showFilter;
             });
 
-            $(document).on('run-filter', function (event, filter) {
+            $(document).on('run-filter', function (event) {
                 $.event.trigger('get-basic-filter-totals');
                 if (that.tab === 'transactions') {
-                    $.event.trigger('filter-transactions', [filter]);
+                    $.event.trigger('filter-transactions', [that.filter]);
                 }
                 else {
                     $.event.trigger('get-graph-totals');
