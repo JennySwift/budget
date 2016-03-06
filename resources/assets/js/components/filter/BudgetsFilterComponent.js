@@ -42,25 +42,3 @@ var BudgetsFilter = Vue.component('budgets-filter', {
         }
     }
 });
-
-
-//$scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
-//    if (newValue === oldValue) {
-//        return;
-//    }
-//    $rootScope.$emit('runFilter');
-//});
-//
-//$scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
-//    if (newValue === oldValue) {
-//        return;
-//    }
-//    $rootScope.$emit('runFilter');
-//});
-//
-//$scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
-//    if (newValue === oldValue) {
-//        return;
-//    }
-//    $rootScope.$emit('runFilter');
-//});

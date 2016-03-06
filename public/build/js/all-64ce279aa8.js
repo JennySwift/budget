@@ -22670,28 +22670,6 @@ var BudgetsFilter = Vue.component('budgets-filter', {
         }
     }
 });
-
-
-//$scope.$watchCollection('filter.budgets.in.and', function (newValue, oldValue) {
-//    if (newValue === oldValue) {
-//        return;
-//    }
-//    $rootScope.$emit('runFilter');
-//});
-//
-//$scope.$watchCollection('filter.budgets.in.or', function (newValue, oldValue) {
-//    if (newValue === oldValue) {
-//        return;
-//    }
-//    $rootScope.$emit('runFilter');
-//});
-//
-//$scope.$watchCollection('filter.budgets.out', function (newValue, oldValue) {
-//    if (newValue === oldValue) {
-//        return;
-//    }
-//    $rootScope.$emit('runFilter');
-//});
 var DatesFilter = Vue.component('dates-filter', {
     template: '#dates-filter-template',
     data: function () {
@@ -23057,20 +23035,10 @@ var SavedFilters = Vue.component('saved-filters', {
         },
 
         /**
-         * I am using the id and a clone, so that the savedFilter
-         * doesn't change (with actions such as next/prev button clicks)
-         * unless deliberately saved again.
-         * @param savedFilter
+         *
          */
         chooseSavedFilter: function () {
-            //var preservedSavedFilter = _.findWhere(preservedSavedFilters, {id: this.selectedSavedFilter.id});
-            //var clone = JSON.parse(JSON.stringify(preservedSavedFilter));
-            //this.filter = clone.filter;
-            //$.event.trigger('set-filter-in-toolbar');
-
             this.filter = FilterRepository.setFields(this.filter, this.selectedSavedFilter.filter);
-
-
             this.runFilter(this.filter);
         },
 
@@ -23082,15 +23050,6 @@ var SavedFilters = Vue.component('saved-filters', {
             $(document).on('saved-filter-created', function (event, savedFilter) {
                 that.savedFilters.push(savedFilter);
             });
-            //$(document).on('saved-filter-created', function (event, savedFilter) {
-                //Doing this because $scope.savedFilters was updating when I didn't want it to.
-                //If the user hit the prev or next buttons, then used the saved filter again,
-                //the saved filter was modified and not the original saved filter.
-                //I think because I set the filter ng-model to the saved filter in the filter factory.
-            //    var preservedSavedFilters = JSON.parse(JSON.stringify(that.savedFilters));;
-            //    that.savedFilters.push(savedFilter);
-            //    preservedSavedFilters.push(savedFilter);
-            //});
         }
     },
     props: [
@@ -23191,11 +23150,6 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
         this.listen();
     }
 });
-
-//
-//this.$watch('filterFactory.filterBasicTotals', function (newValue, oldValue, scope) {
-//    this.filterTotals = newValue;
-//});
 var TotalsFilter = Vue.component('totals-filter', {
     template: '#totals-filter-template',
     data: function () {

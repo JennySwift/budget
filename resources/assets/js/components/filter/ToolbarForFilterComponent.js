@@ -86,8 +86,3 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
         this.listen();
     }
 });
-
-//
-//this.$watch('filterFactory.filterBasicTotals', function (newValue, oldValue, scope) {
-//    this.filterTotals = newValue;
-//});
