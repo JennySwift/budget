@@ -33,7 +33,10 @@ var SavedFilters = Vue.component('saved-filters', {
             //var clone = JSON.parse(JSON.stringify(preservedSavedFilter));
             //this.filter = clone.filter;
             //$.event.trigger('set-filter-in-toolbar');
-            this.filter = this.selectedSavedFilter.filter;
+
+            this.filter = FilterRepository.setFields(this.filter, this.selectedSavedFilter.filter);
+
+
             this.runFilter(this.filter);
         },
 

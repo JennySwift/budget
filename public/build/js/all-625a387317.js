@@ -22096,32 +22096,6 @@ var FilterRepository = {
         return this.filter;
     },
 
-    /**
-     * For setting the filter when a saved filter is chosen
-     * @param filterToModify
-     * @param filterToCopy
-     * @returns {*}
-     */
-    setFields: function (filterToModify, filterToCopy) {
-        filterToModify.total = filterToCopy.total;
-        filterToModify.types = filterToCopy.types;
-        filterToModify.accounts = filterToCopy.accounts;
-        filterToModify.singleDate = filterToCopy.singleDate;
-        filterToModify.fromDate = filterToCopy.fromDate;
-        filterToModify.toDate = filterToCopy.toDate;
-        filterToModify.description = filterToCopy.description;
-        filterToModify.merchant = filterToCopy.merchant;
-        filterToModify.budgets = filterToCopy.budgets;
-        filterToModify.numBudgets = filterToCopy.numBudgets;
-        filterToModify.reconciled = filterToCopy.reconciled;
-        filterToModify.offset = filterToCopy.offset;
-        filterToModify.numToFetch = filterToCopy.numToFetch;
-        filterToModify.displayFrom = filterToCopy.displayFrom;
-        filterToModify.displayTo = filterToCopy.displayTo;
-
-        return filterToModify;
-    },
-
     formatDates: function (filter) {
         if (filter.singleDate.in) {
             filter.singleDate.inSql = HelpersRepository.formatDate(filter.singleDate.in);
@@ -22811,10 +22785,12 @@ var Filter = Vue.component('filter', {
                 that.showFilter = !that.showFilter;
             });
 
-            $(document).on('run-filter', function (event, filter) {
+            $(document).on('run-filter', function (event) {
                 $.event.trigger('get-basic-filter-totals');
                 if (that.tab === 'transactions') {
-                    $.event.trigger('filter-transactions', [filter]);
+                    setTimeout(function () {
+                        $.event.trigger('filter-transactions', [that.filter]);
+                    }, 1000);
                 }
                 else {
                     $.event.trigger('get-graph-totals');
@@ -22863,7 +22839,7 @@ var Graphs = Vue.component('graphs', {
             $.event.trigger('show-loading');
 
             var data = {
-                filter: FilterRepository.formatDates(this.filter)
+                filter: FilterRepository.formatDates(FilterRepository.filter)
             };
 
             this.$http.post('/api/filter/graphTotals', data, function (response) {
@@ -23025,11 +23001,8 @@ var SavedFilters = Vue.component('saved-filters', {
             //var clone = JSON.parse(JSON.stringify(preservedSavedFilter));
             //this.filter = clone.filter;
             //$.event.trigger('set-filter-in-toolbar');
-
-            this.filter = FilterRepository.setFields(this.filter, this.selectedSavedFilter.filter);
-
-
-            this.runFilter(this.filter);
+            this.filter = this.selectedSavedFilter.filter;
+            this.runFilter();
         },
 
         /**

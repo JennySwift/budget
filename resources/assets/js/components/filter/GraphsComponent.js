@@ -20,7 +20,7 @@ var Graphs = Vue.component('graphs', {
             $.event.trigger('show-loading');
 
             var data = {
-                filter: FilterRepository.formatDates(FilterRepository.filter)
+                filter: FilterRepository.formatDates(this.filter)
             };
 
             this.$http.post('/api/filter/graphTotals', data, function (response) {

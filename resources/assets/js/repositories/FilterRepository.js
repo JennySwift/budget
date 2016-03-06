@@ -58,6 +58,32 @@ var FilterRepository = {
         return this.filter;
     },
 
+    /**
+     * For setting the filter when a saved filter is chosen
+     * @param filterToModify
+     * @param filterToCopy
+     * @returns {*}
+     */
+    setFields: function (filterToModify, filterToCopy) {
+        filterToModify.total = filterToCopy.total;
+        filterToModify.types = filterToCopy.types;
+        filterToModify.accounts = filterToCopy.accounts;
+        filterToModify.singleDate = filterToCopy.singleDate;
+        filterToModify.fromDate = filterToCopy.fromDate;
+        filterToModify.toDate = filterToCopy.toDate;
+        filterToModify.description = filterToCopy.description;
+        filterToModify.merchant = filterToCopy.merchant;
+        filterToModify.budgets = filterToCopy.budgets;
+        filterToModify.numBudgets = filterToCopy.numBudgets;
+        filterToModify.reconciled = filterToCopy.reconciled;
+        filterToModify.offset = filterToCopy.offset;
+        filterToModify.numToFetch = filterToCopy.numToFetch;
+        filterToModify.displayFrom = filterToCopy.displayFrom;
+        filterToModify.displayTo = filterToCopy.displayTo;
+
+        return filterToModify;
+    },
+
     formatDates: function (filter) {
         if (filter.singleDate.in) {
             filter.singleDate.inSql = HelpersRepository.formatDate(filter.singleDate.in);
