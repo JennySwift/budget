@@ -30,8 +30,6 @@
                 <th>total</th>
                 <th>type</th>
                 <th>account</th>
-                <th>from</th>
-                <th>to</th>
             </tr>
 
             <tr>
@@ -42,12 +40,6 @@
 
                 <td v-if="transaction.account" class="account">@{{ transaction.account.name }}</td>
                 <td v-else class="account"></td>
-
-                <td v-if="transaction.fromAccount">@{{ transaction.fromAccount.name }}</td>
-                <td v-else></td>
-
-                <td v-if="transaction.toAccount">@{{ transaction.toAccount.name }}</td>
-                <td v-else></td>
             </tr>
 
             <tr>
