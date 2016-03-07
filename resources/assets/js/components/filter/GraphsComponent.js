@@ -19,9 +19,13 @@ var Graphs = Vue.component('graphs', {
         getGraphTotals: function () {
             $.event.trigger('show-loading');
 
-            var data = {
-                filter: FilterRepository.formatDates(this.filter)
-            };
+            var data = {filter: {}};
+
+            if (this.filter) {
+                data = {
+                    filter: FilterRepository.formatDates(this.filter)
+                };
+            }
 
             this.$http.post('/api/filter/graphTotals', data, function (response) {
                 this.graphFigures = this.calculateGraphFigures(response);
@@ -32,6 +36,11 @@ var Graphs = Vue.component('graphs', {
             });
         },
 
+        /**
+         *
+         * @param graphTotals
+         * @returns {{months: Array}}
+         */
         calculateGraphFigures: function (graphTotals) {
             var graphFigures = {
                 months: []
@@ -59,8 +68,9 @@ var Graphs = Vue.component('graphs', {
          */
         listen: function () {
             var that = this;
-            $(document).on('get-graph-totals', function (event) {
-               that.getGraphTotals();
+            $(document).on('get-graph-totals', function (event, filter) {
+                that.filter = filter;
+                that.getGraphTotals();
             });
         }
     },
@@ -68,6 +78,7 @@ var Graphs = Vue.component('graphs', {
         //data to be received from parent
     ],
     ready: function () {
+        this.getGraphTotals();
         this.listen();
     }
 });

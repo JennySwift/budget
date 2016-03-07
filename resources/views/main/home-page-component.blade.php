@@ -18,7 +18,7 @@
             >
             </totals>
 
-            <div class="flex-grow-2">
+            <div v-show="tab === 'transactions'" class="flex-grow-2">
                 <transactions
                         :show="show"
                         :transaction-properties-to-show="transactionPropertiesToShow",

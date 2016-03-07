@@ -65,7 +65,7 @@ var Filter = Vue.component('filter', {
                     $.event.trigger('filter-transactions', [that.filter]);
                 }
                 else {
-                    $.event.trigger('get-graph-totals');
+                    $.event.trigger('get-graph-totals', [that.filter]);
                 }
             });
 

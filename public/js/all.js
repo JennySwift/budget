@@ -22765,7 +22765,7 @@ var Filter = Vue.component('filter', {
                     $.event.trigger('filter-transactions', [that.filter]);
                 }
                 else {
-                    $.event.trigger('get-graph-totals');
+                    $.event.trigger('get-graph-totals', [that.filter]);
                 }
             });
 
@@ -22810,9 +22810,13 @@ var Graphs = Vue.component('graphs', {
         getGraphTotals: function () {
             $.event.trigger('show-loading');
 
-            var data = {
-                filter: FilterRepository.formatDates(this.filter)
-            };
+            var data = {filter: {}};
+
+            if (this.filter) {
+                data = {
+                    filter: FilterRepository.formatDates(this.filter)
+                };
+            }
 
             this.$http.post('/api/filter/graphTotals', data, function (response) {
                 this.graphFigures = this.calculateGraphFigures(response);
@@ -22823,6 +22827,11 @@ var Graphs = Vue.component('graphs', {
             });
         },
 
+        /**
+         *
+         * @param graphTotals
+         * @returns {{months: Array}}
+         */
         calculateGraphFigures: function (graphTotals) {
             var graphFigures = {
                 months: []
@@ -22850,8 +22859,9 @@ var Graphs = Vue.component('graphs', {
          */
         listen: function () {
             var that = this;
-            $(document).on('get-graph-totals', function (event) {
-               that.getGraphTotals();
+            $(document).on('get-graph-totals', function (event, filter) {
+                that.filter = filter;
+                that.getGraphTotals();
             });
         }
     },
@@ -22859,6 +22869,7 @@ var Graphs = Vue.component('graphs', {
         //data to be received from parent
     ],
     ready: function () {
+        this.getGraphTotals();
         this.listen();
     }
 });
@@ -24411,8 +24422,8 @@ var HomePage = Vue.component('home-page', {
             budgets: [],
             transactions: [],
             colors: {},
-            tab: 'transactions',
-            env: ''
+            tab: '',
+            env: env
         };
     },
     components: {},
@@ -24446,25 +24457,33 @@ var HomePage = Vue.component('home-page', {
             });
         },
 
-        transactionsTab: function () {
-            this.tab = 'transactions';
-            this.show.basic_totals = true;
-            this.show.budget_totals = true;
-            this.show.filter = false;
+        /**
+         *
+         * @param tab
+         */
+        switchTab: function (tab) {
+            this.tab = tab;
+
+            if (tab === 'transactions') {
+                this.show.basic_totals = true;
+                this.show.budget_totals = true;
+                this.show.filter = false;
+            }
+            else if (tab === 'graphs') {
+                this.show.basic_totals = false;
+                this.show.budget_totals = false;
+                this.show.filter = true;
+            }
+
             $.event.trigger('run-filter');
         },
 
-        graphsTab: function () {
-            this.tab = 'graphs';
-            this.show.basic_totals = false;
-            this.show.budget_totals = false;
-            this.show.filter = true;
-            $.event.trigger('run-filter');
-        },
-
+        /**
+         *
+         */
         setTab: function () {
             if (this.env === 'local') {
-                this.tab = 'transactions';
+                this.tab = 'graphs';
             }
             else {
                 this.tab = 'transactions';

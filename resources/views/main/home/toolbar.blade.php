@@ -20,14 +20,14 @@
 
     <div class="btn-group">
         <button
-                v-on:click="transactionsTab()"
+                v-on:click="switchTab('transactions')"
                 v-bind:class="{'selected': tab === 'transactions'}"
                 class="btn">
                 Transactions
         </button>
 
         <button
-                v-on:click="graphsTab()"
+                v-on:click="switchTab('graphs')"
                 v-bind:class="{'selected': tab === 'graphs'}"
                 class="btn">
                 Graphs

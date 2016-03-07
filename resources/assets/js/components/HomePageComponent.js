@@ -6,8 +6,8 @@ var HomePage = Vue.component('home-page', {
             budgets: [],
             transactions: [],
             colors: {},
-            tab: 'transactions',
-            env: ''
+            tab: '',
+            env: env
         };
     },
     components: {},
@@ -41,25 +41,33 @@ var HomePage = Vue.component('home-page', {
             });
         },
 
-        transactionsTab: function () {
-            this.tab = 'transactions';
-            this.show.basic_totals = true;
-            this.show.budget_totals = true;
-            this.show.filter = false;
+        /**
+         *
+         * @param tab
+         */
+        switchTab: function (tab) {
+            this.tab = tab;
+
+            if (tab === 'transactions') {
+                this.show.basic_totals = true;
+                this.show.budget_totals = true;
+                this.show.filter = false;
+            }
+            else if (tab === 'graphs') {
+                this.show.basic_totals = false;
+                this.show.budget_totals = false;
+                this.show.filter = true;
+            }
+
             $.event.trigger('run-filter');
         },
 
-        graphsTab: function () {
-            this.tab = 'graphs';
-            this.show.basic_totals = false;
-            this.show.budget_totals = false;
-            this.show.filter = true;
-            $.event.trigger('run-filter');
-        },
-
+        /**
+         *
+         */
         setTab: function () {
             if (this.env === 'local') {
-                this.tab = 'transactions';
+                this.tab = 'graphs';
             }
             else {
                 this.tab = 'transactions';
