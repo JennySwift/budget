@@ -9,10 +9,32 @@
     <h3>New Transaction</h3>
 
     <div class="new-transaction">
-        <div class="form-group clear-fields-container">
-            <label for="clear-fields">Clear fields upon entering new transaction</label>
 
-            <input v-model="me.preferences.clearFields" type="checkbox" id="clear-fields">
+        <div class="checkbox-container">
+            <input
+                v-model="me.preferences.clearFields"
+                id="preferences-clear-fields"
+                type="checkbox"
+            >
+            <label for="preferences-clear-fields">Clear fields upon entering new transaction</label>
+        </div>
+
+        <div class="checkbox-container">
+            <input
+                v-model="me.preferences.autocompleteDescription"
+                id="preferences-autocomplete-description"
+                type="checkbox"
+            >
+            <label for="preferences-autocomplete-description">Use description field to autocomplete new transaction</label>
+        </div>
+
+        <div class="checkbox-container">
+            <input
+                    v-model="me.preferences.autocompleteMerchant"
+                    id="preferences-autocomplete-merchant"
+                    type="checkbox"
+            >
+            <label for="preferences-autocomplete-merchant">Use merchant field to autocomplete new transaction</label>
         </div>
     </div>
 

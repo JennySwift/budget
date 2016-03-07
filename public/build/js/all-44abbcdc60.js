@@ -24983,7 +24983,9 @@ var PreferencesPage = Vue.component('preferences-page', {
                         expense: this.me.preferences.colors.expense,
                         transfer: this.me.preferences.colors.transfer
                     },
-                    dateFormat: this.me.preferences.dateFormat
+                    dateFormat: this.me.preferences.dateFormat,
+                    autocompleteDescription: this.me.preferences.autocompleteDescription,
+                    autocompleteMerchant: this.me.preferences.autocompleteMerchant,
                 }
             };
 

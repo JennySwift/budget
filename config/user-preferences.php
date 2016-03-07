@@ -8,7 +8,9 @@ return [
             "transfer" => "#fca700"
         ],
         "clearFields" => false,
-        "dateFormat" => "DD/MM/YY"
+        "dateFormat" => "DD/MM/YY",
+        'autocompleteDescription' => true,
+        'autocompleteMerchant' => true
     ]
 
 ];

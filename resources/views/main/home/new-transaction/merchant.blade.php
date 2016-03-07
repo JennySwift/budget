@@ -38,7 +38,17 @@
         </dropdown>
     </div>
 
+    <input
+            v-if="!me.preferences.autocompleteMerchant"
+            v-model="newTransaction.merchant"
+            v-on:keyup.13="insertTransaction()"
+            class="form-control"
+            placeholder="merchant"
+            type='text'
+    >
+
     <transaction-autocomplete
+        v-if="me.preferences.autocompleteMerchant"
         placeholder="merchant"
         id="new-transaction-merchant"
         :typing.sync="newTransaction.merchant"

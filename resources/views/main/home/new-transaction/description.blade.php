@@ -38,7 +38,17 @@
         </dropdown>
     </div>
 
+    <input
+            v-if="!me.preferences.autocompleteDescription"
+            v-model="newTransaction.description"
+            v-on:keyup.13="insertTransaction()"
+            class="form-control"
+            placeholder="description"
+            type='text'
+    >
+
     <transaction-autocomplete
+            v-if="me.preferences.autocompleteDescription"
             placeholder="description"
             id="new-transaction-description"
             :typing.sync="newTransaction.description"
