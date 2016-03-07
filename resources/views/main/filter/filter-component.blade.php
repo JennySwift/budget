@@ -8,9 +8,6 @@
         class="margin-bottom"
     >
 
-        <pre>@{{$data.filter.accounts | json}}</pre>
-
-
         <ul class="nav nav-tabs">
             <li
                 role="presentation"

@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Class TransactionsUpdateAllocationTest
- * 
+ *
  * Todo: check if the transaction only has two budgets,
  * that when the percent allocation on one is changed,
  * the other is changed so the total percent is 100
