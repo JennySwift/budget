@@ -22776,6 +22776,15 @@ var HelpersRepository = {
 
     /**
      *
+     */
+    scrollbars: function () {
+        [].forEach.call(document.querySelectorAll('.scrollbar-container'), function (el) {
+            Ps.initialize(el);
+        });
+    },
+
+    /**
+     *
      * @param number
      * @param howManyDecimals
      * @returns {number}
@@ -24277,7 +24286,8 @@ var Dropdown = Vue.component('dropdown', {
     },
     props: [
         'animateInClass',
-        'animateOutClass'
+        'animateOutClass',
+        'scrollTo'
     ],
     ready: function () {
         this.listen();
@@ -25001,12 +25011,26 @@ var HelpPage = Vue.component('help-page', {
     components: {},
     methods: {
 
+
+        /**
+         *
+         */
+        scrollTo: function (id) {
+            window.scrollTo(0, 500);
+
+            //var scrollTop = $("body").height();
+            var scrollTop = $(id).scrollTop();
+            //$('html,body').animate({scrollTop: scrollTop - 1}, 1);
+            setTimeout(function () {
+                $('html,body').animate({scrollTop: 0}, 700);
+            }, 100);
+        }
     },
     props: [
         //data to be received from parent
     ],
     ready: function () {
-
+        HelpersRepository.scrollbars();
     }
 });
 
@@ -26302,6 +26326,19 @@ var App = Vue.component('app', {
             transactionPropertiesToShow: ShowRepository.setTransactionDefaults()
         };
     },
+    methods: {
+
+        /**
+         *
+         */
+        setHeights: function () {
+            var height = $(window).height();
+            $('body,html').height(height);
+        }
+    },
+    ready: function () {
+        this.setHeights();
+    }
 });
 
 var router = new VueRouter({
@@ -26356,6 +26393,8 @@ $(window).load(function () {
     $("footer, #navbar").css('display', 'flex');
     $("#page-loading").hide();
     //$rootScope.$emit('getSideBarTotals');
+
+    smoothScroll.init();
 });
 
 //$rootScope.deleteUser = function () {

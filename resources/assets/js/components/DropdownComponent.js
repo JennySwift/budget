@@ -45,7 +45,8 @@ var Dropdown = Vue.component('dropdown', {
     },
     props: [
         'animateInClass',
-        'animateOutClass'
+        'animateOutClass',
+        'scrollTo'
     ],
     ready: function () {
         this.listen();

@@ -14,7 +14,7 @@
         align-items: center;
         justify-content: center;
         position: relative;
-        height: 44px;
+        height: $navHeight;
         min-width: 70px;
         > a {
             transition: all .5s ease;

@@ -2,10 +2,8 @@
 /*==============================global==============================*/
 html, body {
   max-width: 100%;
-  overflow-x: hidden;
   background: #fff;
-  margin: 0;
-  height: 100%; }
+  margin: 0; }
 
 h1, h2, h3, h4, h5 {
   text-align: center;
@@ -698,6 +696,10 @@ caption {
         font-size: 10px;
         display: none; }
 
+.scrollbar-container {
+  position: relative;
+  height: 100%; }
+
 .pointer {
   cursor: pointer; }
 
@@ -1351,6 +1353,17 @@ caption {
       padding-left: 5px; }
       #help-navigation-container .dropdown-content #help-navigation > ul li {
         list-style: none; }
+
+.scroll-btn {
+  position: fixed;
+  top: 100px;
+  left: 50px; }
+
+.help-page {
+  padding-top: 100px; }
+  .help-page .help-container {
+    height: 200px;
+    overflow: scroll; }
 
 #login {
   padding-top: 85px; }

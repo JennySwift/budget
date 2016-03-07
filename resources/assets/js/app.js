@@ -6,6 +6,19 @@ var App = Vue.component('app', {
             transactionPropertiesToShow: ShowRepository.setTransactionDefaults()
         };
     },
+    methods: {
+
+        /**
+         *
+         */
+        setHeights: function () {
+            var height = $(window).height();
+            $('body,html').height(height);
+        }
+    },
+    ready: function () {
+        this.setHeights();
+    }
 });
 
 var router = new VueRouter({
@@ -60,6 +73,8 @@ $(window).load(function () {
     $("footer, #navbar").css('display', 'flex');
     $("#page-loading").hide();
     //$rootScope.$emit('getSideBarTotals');
+
+    smoothScroll.init();
 });
 
 //$rootScope.deleteUser = function () {
