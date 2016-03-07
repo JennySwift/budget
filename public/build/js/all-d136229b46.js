@@ -22776,6 +22776,15 @@ var HelpersRepository = {
 
     /**
      *
+     */
+    scrollbars: function () {
+        [].forEach.call(document.querySelectorAll('.scrollbar-container'), function (el) {
+            Ps.initialize(el);
+        });
+    },
+
+    /**
+     *
      * @param number
      * @param howManyDecimals
      * @returns {number}
@@ -23797,6 +23806,92 @@ var TypesFilter = Vue.component('types-filter', {
 
 
 
+var AccordionItem = Vue.component('accordion-item', {
+    //template: '#accordion-item-template',
+    data: function () {
+        return {
+            showText: false,
+            accordion: ''
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        setAccordionHeight: function () {
+            var height = $(window).height() - 50;
+            this.accordion.height(height);
+        },
+
+        /**
+         * Remove underlines and underline the appropriate heading
+         * @param heading
+         */
+        setUnderlines: function (heading) {
+            $('.expanded').removeClass('expanded');
+            if (this.showText) {
+                heading.addClass('expanded');
+            }
+        },
+
+        /**
+         *
+         */
+        scroll: function () {
+            // Doing this here rather than on page load so that on page load
+            // there isn't extra scrolling space at the bottom when all items are collapsed
+            this.setAccordionHeight();
+            var scrollTop = this.accordion.position().top - 13;
+
+            //If all items are collapsed, scroll to the top of the page
+            if (this.accordion.find('.expanded').length == 0) {
+                scrollTop = 0;
+            }
+
+            setTimeout(function () {
+                $('.scrollbar-container').animate({scrollTop: scrollTop}, 700);
+
+            }, 100);
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            var heading = $(this.$el).find('h5');
+            this.accordion = $(this.$el).closest('.accordion');
+
+            heading.on('click', function (e) {
+                e.preventDefault();
+
+                $.event.trigger('closeItems', [that]);
+
+                that.showText = !that.showText;
+                that.setUnderlines(heading);
+
+                if (that.autoScroll) {
+                    that.scroll();
+                }
+            });
+
+            $(document).on('closeItems', function (event, item) {
+                if (that !== item) {
+                    that.showText = false;
+                }
+            });
+        }
+    },
+    props: [
+        'autoScroll'
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
+
 var AccountsPage = Vue.component('accounts-page', {
     template: '#accounts-page-template',
     data: function () {
@@ -24277,7 +24372,9 @@ var Dropdown = Vue.component('dropdown', {
     },
     props: [
         'animateInClass',
-        'animateOutClass'
+        'animateOutClass',
+        //A bit messy doing this here since it's just for the help page component
+        'scroll'
     ],
     ready: function () {
         this.listen();
@@ -25001,12 +25098,66 @@ var HelpPage = Vue.component('help-page', {
     components: {},
     methods: {
 
+        //scroll: function () {
+        //    //var scrollTop = $("body").height();
+        //    var scrollTop = 0;
+        //    //console.log($('body').scrollTop());
+        //    //console.log($('html').scrollTop());
+        //    setTimeout(function () {
+        //        $('.help-container').animate({scrollTop: scrollTop}, 700);
+        //    }, 100);
+        //
+        //
+        //},
+
+        /**
+         *
+         */
+        scroll: function () {
+            // Doing this here rather than on page load so that on page load
+            // there isn't extra scrolling space at the bottom when all items are collapsed
+            this.setAccordionHeight();
+            var scrollTop = $('.help-content').position().top - 13;
+
+            //If all items are collapsed, scroll to the top of the page
+            //if (this.accordion.find('.expanded').length == 0) {
+            //    scrollTop = 0;
+            //}
+
+            setTimeout(function () {
+                $('.scrollbar-container').animate({scrollTop: scrollTop}, 700);
+
+            }, 100);
+        },
+
+        /**
+         *
+         */
+        setAccordionHeight: function () {
+            var height = $(window).height() - 50;
+            $('.help-content').height(height);
+        },
+
+
+        listen: function () {
+            //$("#help-navigation a").on("click",function(e){
+            //    e.preventDefault();
+            //    //var scrollTop = $("body").height();
+            //    var scrollTop = 0;
+            //    setTimeout(function () {
+            //        $('html,body').animate({scrollTop: scrollTop}, 700);
+            //    }, 100);
+            //
+            //});
+        }
     },
     props: [
         //data to be received from parent
     ],
     ready: function () {
-
+        this.listen();
+        smoothScroll.init();
+        HelpersRepository.scrollbars();
     }
 });
 
@@ -26302,6 +26453,20 @@ var App = Vue.component('app', {
             transactionPropertiesToShow: ShowRepository.setTransactionDefaults()
         };
     },
+    methods: {
+
+        /**
+         *
+         */
+        calculateWindowHeight: function () {
+            var height = $(window).height();
+            console.log(height);
+            $('html, body, .help-container').height(height);
+        }
+    },
+    ready: function () {
+        this.calculateWindowHeight();
+    }
 });
 
 var router = new VueRouter({
@@ -26356,6 +26521,15 @@ $(window).load(function () {
     $("footer, #navbar").css('display', 'flex');
     $("#page-loading").hide();
     //$rootScope.$emit('getSideBarTotals');
+
+
+    //var scrollorama = $.scrollorama({
+    //    blocks:'.scrollblock',
+    //    enablePin:false
+    //});
+    //scrollorama.animate('#tags-link',{
+    //    duration:400, property:'opacity'
+    //})
 });
 
 //$rootScope.deleteUser = function () {
