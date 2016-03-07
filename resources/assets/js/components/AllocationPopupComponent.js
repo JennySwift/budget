@@ -4,7 +4,8 @@ var AllocationPopup = Vue.component('allocation-popup', {
         return {
             transaction: {},
             allocationTotals: {},
-            showPopup: false
+            showPopup: false,
+            isNewTransaction: false
         };
     },
     components: {},
@@ -47,8 +48,19 @@ var AllocationPopup = Vue.component('allocation-popup', {
         /**
          *
          */
-        closePopup: function ($event) {
-            HelpersRepository.closePopup($event, this);
+        closePopup: function (event) {
+            if (event) {
+                HelpersRepository.closePopup(event, this);
+            }
+            else {
+                //Close button was clicked
+                this.showPopup = false;
+            }
+
+            if (this.isNewTransaction) {
+                $.event.trigger('run-filter');
+                //$.event.trigger('update-new-transaction-allocation-in-js', [this.transaction]);
+            }
         },
 
         /**
@@ -56,8 +68,9 @@ var AllocationPopup = Vue.component('allocation-popup', {
          */
         listen: function () {
             var that = this;
-            $(document).on('show-allocation-popup', function (event, transaction) {
+            $(document).on('show-allocation-popup', function (event, transaction, isNewTransaction) {
                 that.transaction = transaction;
+                that.isNewTransaction = isNewTransaction;
                 that.showPopup = true;
                 that.getAllocationTotals();
             });

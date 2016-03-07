@@ -118,14 +118,13 @@ var NewTransaction = Vue.component('new-transaction', {
             var data = TransactionsRepository.setFields(this.newTransaction);
 
             this.$http.post('/api/transactions', data, function (response) {
-                this.transactions.push(response.data);
                 $.event.trigger('get-sidebar-totals');
                 this.clearNewTransactionFields();
                 //this.newTransaction.dropdown = false;
 
-                if (response.multipleBudgets) {
-                    $.event.trigger('transaction-created-with-multiple-budgets', [response.data]);
-                    $.event.trigger('get-basic-filter-totals');
+                if (response.data.multipleBudgets) {
+                    $.event.trigger('show-allocation-popup', [response.data, true]);
+                    //We'll run the filter after the allocation has been dealt with
                 }
                 else {
                     $.event.trigger('run-filter');

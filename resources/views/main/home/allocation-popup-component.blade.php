@@ -67,7 +67,7 @@
             </div>
 
             <div class="buttons">
-                <button v-on:click="showPopup = false" class="close-modal">Close</button>
+                <button v-on:click="closePopup()" class="close-modal">Close</button>
             </div>
 
         </div>

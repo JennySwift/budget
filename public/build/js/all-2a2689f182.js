@@ -22304,11 +22304,11 @@ var NewTransactionRepository = {
                     name: 'business',
                     type: 'fixed'
                 },
-                //{
-                //    id: '4',
-                //    name: 'busking',
-                //    type: 'flex'
-                //}
+                {
+                    id: '4',
+                    name: 'busking',
+                    type: 'flex'
+                }
             ];
         }
     
@@ -23235,7 +23235,8 @@ var AllocationPopup = Vue.component('allocation-popup', {
         return {
             transaction: {},
             allocationTotals: {},
-            showPopup: false
+            showPopup: false,
+            isNewTransaction: false
         };
     },
     components: {},
@@ -23278,8 +23279,19 @@ var AllocationPopup = Vue.component('allocation-popup', {
         /**
          *
          */
-        closePopup: function ($event) {
-            HelpersRepository.closePopup($event, this);
+        closePopup: function (event) {
+            if (event) {
+                HelpersRepository.closePopup(event, this);
+            }
+            else {
+                //Close button was clicked
+                this.showPopup = false;
+            }
+
+            if (this.isNewTransaction) {
+                $.event.trigger('run-filter');
+                //$.event.trigger('update-new-transaction-allocation-in-js', [this.transaction]);
+            }
         },
 
         /**
@@ -23287,8 +23299,9 @@ var AllocationPopup = Vue.component('allocation-popup', {
          */
         listen: function () {
             var that = this;
-            $(document).on('show-allocation-popup', function (event, transaction) {
+            $(document).on('show-allocation-popup', function (event, transaction, isNewTransaction) {
                 that.transaction = transaction;
+                that.isNewTransaction = isNewTransaction;
                 that.showPopup = true;
                 that.getAllocationTotals();
             });
@@ -24879,14 +24892,13 @@ var NewTransaction = Vue.component('new-transaction', {
             var data = TransactionsRepository.setFields(this.newTransaction);
 
             this.$http.post('/api/transactions', data, function (response) {
-                this.transactions.push(response.data);
                 $.event.trigger('get-sidebar-totals');
                 this.clearNewTransactionFields();
                 //this.newTransaction.dropdown = false;
 
-                if (response.multipleBudgets) {
-                    $.event.trigger('transaction-created-with-multiple-budgets', [response.data]);
-                    $.event.trigger('get-basic-filter-totals');
+                if (response.data.multipleBudgets) {
+                    $.event.trigger('show-allocation-popup', [response.data, true]);
+                    //We'll run the filter after the allocation has been dealt with
                 }
                 else {
                     $.event.trigger('run-filter');
@@ -25572,7 +25584,7 @@ var Transactions = Vue.component('transactions', {
         /**
         *
         */
-        filterTransactions: function () {
+        filterTransactions: function (newTransaction) {
             $.event.trigger('show-loading');
 
             var data = {
@@ -25593,12 +25605,22 @@ var Transactions = Vue.component('transactions', {
          */
         listen: function () {
             var that = this;
+
             $(document).on('filter-transactions', function (event, filter) {
                 if (filter) {
                     that.filter = filter;
                 }
                 that.filterTransactions();
             });
+            
+            //$(document).on('update-new-transaction-allocation-in-js', function (event, transaction) {
+            //    //Find the transaction in the JS, if it is there
+            //    var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: transaction.id}));
+            //    //Update the transaction if it is there on the page
+            //    if (index) {
+            //        this.transactions[index].allocated = transaction.allocated;
+            //    }
+            //});
         }
     },
     props: [
@@ -25610,30 +25632,6 @@ var Transactions = Vue.component('transactions', {
         this.listen();
     }
 });
-
-
-//
-//
-//
-//$rootScope.$on('transaction-created-with-multiple-budgets', function (event, $transaction) {
-//    FilterFactory.getTransactions(FilterFactory.filter)
-//        .then(function (response) {
-//            $scope.hideLoading();
-//            $scope.transactions = response.data;
-//            var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
-//            if ($index !== -1) {
-//                //The transaction that was just entered is in the filtered transactions
-//                $scope.showAllocationPopup($scope.transactions[$index]);
-//                //$scope.transactions[$index] = $scope.allocationPopup;
-//            }
-//            else {
-//                $scope.showAllocationPopup($transaction);
-//            }
-//        })
-//        .catch(function (response) {
-//            $scope.responseError(response);
-//        })
-//});
 var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
     template: '#unassigned-budgets-page-template',
     data: function () {

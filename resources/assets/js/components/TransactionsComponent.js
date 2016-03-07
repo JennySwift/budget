@@ -38,7 +38,7 @@ var Transactions = Vue.component('transactions', {
         /**
         *
         */
-        filterTransactions: function () {
+        filterTransactions: function (newTransaction) {
             $.event.trigger('show-loading');
 
             var data = {
@@ -59,12 +59,22 @@ var Transactions = Vue.component('transactions', {
          */
         listen: function () {
             var that = this;
+
             $(document).on('filter-transactions', function (event, filter) {
                 if (filter) {
                     that.filter = filter;
                 }
                 that.filterTransactions();
             });
+            
+            //$(document).on('update-new-transaction-allocation-in-js', function (event, transaction) {
+            //    //Find the transaction in the JS, if it is there
+            //    var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: transaction.id}));
+            //    //Update the transaction if it is there on the page
+            //    if (index) {
+            //        this.transactions[index].allocated = transaction.allocated;
+            //    }
+            //});
         }
     },
     props: [
@@ -76,27 +86,3 @@ var Transactions = Vue.component('transactions', {
         this.listen();
     }
 });
-
-
-//
-//
-//
-//$rootScope.$on('transaction-created-with-multiple-budgets', function (event, $transaction) {
-//    FilterFactory.getTransactions(FilterFactory.filter)
-//        .then(function (response) {
-//            $scope.hideLoading();
-//            $scope.transactions = response.data;
-//            var $index = _.indexOf($scope.transactions, _.findWhere($scope.transactions, {id: $transaction.id}));
-//            if ($index !== -1) {
-//                //The transaction that was just entered is in the filtered transactions
-//                $scope.showAllocationPopup($scope.transactions[$index]);
-//                //$scope.transactions[$index] = $scope.allocationPopup;
-//            }
-//            else {
-//                $scope.showAllocationPopup($transaction);
-//            }
-//        })
-//        .catch(function (response) {
-//            $scope.responseError(response);
-//        })
-//});
