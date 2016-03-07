@@ -94,17 +94,21 @@ var NewTransaction = Vue.component('new-transaction', {
         },
 
         /**
-         * Insert a new transaction
+         *
          */
-        insertTransaction: function () {
+        insertTransactionPreparation: function () {
             if (!this.anyErrors()) {
                 $.event.trigger('clear-total-changes');
 
                 if (this.newTransaction.type === 'transfer') {
-                    this.insertTransferTransactions();
+                    var that = this;
+                    this.insertTransaction('from');
+                    setTimeout(function(){
+                        that.insertTransaction('to');
+                    }, 100);
                 }
                 else {
-                    this.insertIncomeOrExpenseTransaction();
+                    this.insertTransaction();
                 }
             }
         },
@@ -112,26 +116,25 @@ var NewTransaction = Vue.component('new-transaction', {
         /**
         *
         */
-        insertIncomeOrExpenseTransaction: function () {
+        insertTransaction: function (direction) {
             $.event.trigger('show-loading');
 
             var data = TransactionsRepository.setFields(this.newTransaction);
 
+            if (direction) {
+                //It is a transfer transaction
+                data.direction = direction;
+
+                if (direction === 'from') {
+                    data.account_id = this.newTransaction.fromAccount.id;
+                }
+                else if (direction === 'to') {
+                    data.account_id = this.newTransaction.toAccount.id;
+                }
+            }
+
             this.$http.post('/api/transactions', data, function (response) {
-                $.event.trigger('get-sidebar-totals');
-                this.clearNewTransactionFields();
-                //this.newTransaction.dropdown = false;
-
-                if (response.data.multipleBudgets) {
-                    $.event.trigger('show-allocation-popup', [response.data, true]);
-                    //We'll run the filter after the allocation has been dealt with
-                }
-                else {
-                    $.event.trigger('run-filter');
-                }
-
-                $.event.trigger('provide-feedback', ['Transaction created', 'success']);
-                $.event.trigger('hide-loading');
+                this.insertTransactionResponse(response);
             })
             .error(function (response) {
                 HelpersRepository.handleResponseError(response);
@@ -140,51 +143,23 @@ var NewTransaction = Vue.component('new-transaction', {
 
         /**
          *
+         * @param response
          */
-        insertTransferTransactions: function () {
-            this.insertTransferTransaction('from');
-            setTimeout(function(){
-                this.insertTransferTransaction('to');
-            }, 100);
-        },
+        insertTransactionResponse: function (response) {
+            $.event.trigger('get-sidebar-totals');
+            this.clearNewTransactionFields();
+            //this.newTransaction.dropdown = false;
 
-        /**
-         *
-         */
-        insertTransferTransaction: function (direction) {
-            $.event.trigger('show-loading');
-
-            var data = TransactionsRepository.setFields(this.newTransaction);
-
-            data.direction = direction;
-
-            if (direction === 'from') {
-                data.account_id = data.from_account_id;
+            if (response.data.multipleBudgets) {
+                $.event.trigger('show-allocation-popup', [response.data, true]);
+                //We'll run the filter after the allocation has been dealt with
             }
-            else if ($direction === 'to') {
-                data.account_id = data.to_account_id;
+            else {
+                $.event.trigger('run-filter');
             }
 
-            this.$http.post('/api/transactions', data, function (response) {
-                    this.transactions.push(response.data);
-                    $.event.trigger('get-sidebar-totals');
-                    this.clearNewTransactionFields();
-                    //this.newTransaction.dropdown = false;
-
-                    if (response.multipleBudgets) {
-                        $.event.trigger('transaction-created-with-multiple-budgets', [response.data]);
-                        $.event.trigger('get-basic-filter-totals');
-                    }
-                    else {
-                        $.event.trigger('run-filter');
-                    }
-
-                    $.event.trigger('provide-feedback', ['Transfer created', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
+            $.event.trigger('provide-feedback', ['Transaction created', 'success']);
+            $.event.trigger('hide-loading');
         },
 
         /**
