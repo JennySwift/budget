@@ -1108,6 +1108,12 @@ caption {
             border-radius: 0; }
           #new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete table .selected {
             color: #ffffff; }
+    #new-transaction-container #new-transaction .no-results {
+      text-align: center;
+      border: 1px solid;
+      padding: 3px 0;
+      border-radius: 3px;
+      margin: 8px 5px; }
     #new-transaction-container #new-transaction .btn-wrapper {
       width: 100%;
       display: -webkit-flex;

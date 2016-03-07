@@ -21,6 +21,14 @@
     .autocomplete-container {
         @include autocomplete_container;
     }
+    .no-results {
+        text-align: center;
+        border: 1px solid;
+        padding: 3px 0;
+        border-radius: 3px;
+        //box-shadow: 2px 2px 5px #777;
+        margin: 8px 5px;
+    }
     .btn-wrapper {
         width: 100%;
         display: flex;

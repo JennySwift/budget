@@ -5,7 +5,7 @@
     
     <input
             v-model="typing"
-            v-on:blur="hideAndClear()"
+            {{--v-on:blur="hideAndClear()"--}}
             v-on:focus="focus()"
             v-on:keyup="respondToKeyup($event.keyCode)"
             placeholder="@{{ placeholder }}"
@@ -14,7 +14,10 @@
             type='text'>
 
     <div v-show="showDropdown && !loading" id="@{{ placeholder }}-autocomplete" class="transactions-autocomplete">
-        <table class="table table-bordered">
+
+        <div v-show="results.length < 1" class="no-results">No results</div>
+
+        <table v-show="results.length > 0" class="table table-bordered">
             <tbody
                     v-for="transaction in results"
                     v-bind:style="{color: me.preferences.colors[transaction.type]}"
