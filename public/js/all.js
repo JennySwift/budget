@@ -22559,16 +22559,7 @@ var TransactionsRepository = {
         $(".checked").each(function () {
             deleteTransaction($(this));
         });
-    },
-
-    updateAllocationStatus: function ($transaction) {
-        var $url = $transaction.path;
-        var $data = {
-            allocated: $transaction.allocated
-        };
-
-        return $http.put($url, $data);
-    },
+    }
 
 };
 var AccountsFilter = Vue.component('accounts-filter', {
@@ -23250,15 +23241,23 @@ var AllocationPopup = Vue.component('allocation-popup', {
     components: {},
     methods: {
 
+        /**
+        *
+        */
         updateAllocationStatus: function () {
-            $scope.showLoading();
-            TransactionsFactory.updateAllocationStatus($scope.allocationPopup)
-                .then(function (response) {
-                    $scope.hideLoading();
-                })
-                .catch(function (response) {
-                    $scope.responseError(response);
-                });
+            $.event.trigger('show-loading');
+
+            var data = {
+                allocated: HelpersRepository.convertBooleanToInteger(this.transaction.allocated)
+            };
+
+            this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
+                $.event.trigger('provide-feedback', ['Allocation updated', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
         },
 
         /**

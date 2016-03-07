@@ -92,15 +92,6 @@ var TransactionsRepository = {
         $(".checked").each(function () {
             deleteTransaction($(this));
         });
-    },
-
-    updateAllocationStatus: function ($transaction) {
-        var $url = $transaction.path;
-        var $data = {
-            allocated: $transaction.allocated
-        };
-
-        return $http.put($url, $data);
-    },
+    }
 
 };
