@@ -28,7 +28,9 @@
             </div>
 
             <div v-show="tab === 'graphs'" class="flex-grow-2">
-                <graphs></graphs>
+                <graphs
+                >
+                </graphs>
             </div>
 
             <filter

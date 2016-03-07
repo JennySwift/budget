@@ -22866,7 +22866,7 @@ var Graphs = Vue.component('graphs', {
         }
     },
     props: [
-        //data to be received from parent
+
     ],
     ready: function () {
         this.getGraphTotals();
@@ -24464,16 +24464,16 @@ var HomePage = Vue.component('home-page', {
         switchTab: function (tab) {
             this.tab = tab;
 
-            if (tab === 'transactions') {
-                this.show.basic_totals = true;
-                this.show.budget_totals = true;
-                this.show.filter = false;
-            }
-            else if (tab === 'graphs') {
-                this.show.basic_totals = false;
-                this.show.budget_totals = false;
-                this.show.filter = true;
-            }
+            //if (tab === 'transactions') {
+            //    this.show.basicTotals = true;
+            //    this.show.budgetTotals = true;
+            //    this.show.filter = false;
+            //}
+            //else if (tab === 'graphs') {
+            //    this.show.basicTotals = false;
+            //    this.show.budgetTotals = false;
+            //    this.show.filter = true;
+            //}
 
             $.event.trigger('run-filter');
         },

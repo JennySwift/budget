@@ -75,7 +75,7 @@ var Graphs = Vue.component('graphs', {
         }
     },
     props: [
-        //data to be received from parent
+
     ],
     ready: function () {
         this.getGraphTotals();

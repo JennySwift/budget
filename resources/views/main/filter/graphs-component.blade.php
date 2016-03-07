@@ -1,8 +1,6 @@
 <script id="graphs-template" type="x-template">
 
     <div id="graphs">
-        
-        <pre>@{{$data | json}}</pre>
 
         <div v-for="month in graphFigures.months" class="month-container">
 
