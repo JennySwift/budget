@@ -17,7 +17,7 @@
         @include('main.home.transactions.table-header')
 
         <tbody
-                v-for="transaction in transactions | orderBy 'date' -1"
+                v-for="transaction in transactions"
                 is="transaction"
                 :transaction-properties-to-show="transactionPropertiesToShow"
                 :transactions.sync="transactions"
