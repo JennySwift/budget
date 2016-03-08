@@ -1210,8 +1210,10 @@ caption {
       text-align: left; }
 
 .unassigned-budget-table {
-  max-width: 500px;
+  max-width: 300px;
   margin: auto; }
+  .unassigned-budget-table td {
+    text-align: left; }
 
 #budget #budget-toolbar {
   margin-top: 7px;

@@ -1,6 +1,9 @@
 .unassigned-budget-table {
-    max-width: 500px;
+    max-width: 300px;
     margin: auto;
+    td {
+        text-align: left;
+    }
 }
 
 #budget {
