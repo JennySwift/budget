@@ -14,31 +14,6 @@ use Debugbar;
  */
 class TransactionsRepository
 {
-
-    /**
-     * Add budgets to transaction
-     * @param $transaction
-     * @param $budgets
-     * @param $transaction_total
-     */
-    public function attachBudgets($transaction, $budgets)
-    {
-        foreach ($budgets as $budget) {
-            if (isset($budget['allocated_fixed'])) {
-                $this->allocateFixed($transaction, $budget);
-            }
-            elseif (isset($budget['allocated_percent'])) {
-                $this->allocatePercent($transaction, $budget);
-            }
-            else {
-                //Todo: if budget is unassigned, calculated_allocation should be null
-                $transaction->budgets()->attach($budget['id'], [
-                    'calculated_allocation' => $transaction->total,
-                ]);
-            }
-        }
-    }
-
     /**
      * Give a transaction a budget with a fixed allocation
      * @param $transaction

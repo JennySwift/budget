@@ -38,7 +38,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 
         $this->checkTransactionKeysExist($content);
 
@@ -88,7 +88,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 //        dd($content);
 
         $this->checkTransactionKeysExist($content);
@@ -122,7 +122,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 //        dd($content);
 
         $this->checkTransactionKeysExist($content);
@@ -158,7 +158,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 //        dd($content);
 
         $this->checkTransactionKeysExist($content);
@@ -192,7 +192,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 
         $this->checkTransactionKeysExist($content);
 
@@ -223,7 +223,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 
         $this->checkTransactionKeysExist($content);
 
@@ -255,7 +255,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 
         $this->checkTransactionKeysExist($content);
 
@@ -287,7 +287,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 
         $this->checkTransactionKeysExist($content);
 
@@ -316,7 +316,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 
         $this->checkTransactionKeysExist($content);
 
@@ -365,7 +365,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 
         $this->checkTransactionKeysExist($content);
 
@@ -391,7 +391,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 
         $this->checkTransactionKeysExist($content);
 
