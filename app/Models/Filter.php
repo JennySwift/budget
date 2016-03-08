@@ -264,6 +264,19 @@ class Filter implements Arrayable {
     {
         $query = clone $this->query;
 
+//        $transactions = $this->query->get();
+//        $transactions = Transaction::forCurrentUser()
+//            ->where(function($q)
+//            {
+//                $q->where('merchant', 'NOT LIKE', '%sally%')
+//                ->orWhereNull('merchant');
+//            })
+//            ->get();
+//        dd($transactions->toSql());
+//        $transactions = Transaction::forCurrentUser()->get();
+//        dd(count($transactions));
+//        dd($transactions);
+
         $this->transactions = $query->orderBy('date', 'desc')
                      ->orderBy('id', 'desc')
                      ->skip($this->filters['offset'])

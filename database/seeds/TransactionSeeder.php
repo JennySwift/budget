@@ -38,6 +38,8 @@ class TransactionSeeder extends Seeder {
 
     protected $date;
     private $accounts;
+    private $expenseMerchants;
+    private $expenseMerchantsIndex;
 
     /**
      *
@@ -46,6 +48,16 @@ class TransactionSeeder extends Seeder {
 	{
         $this->faker = Faker::create();
 		$users = User::all();
+
+        $this->expenseMerchants = [
+            'John Doe',
+            'Jane Doe',
+            'John Smith',
+            'Sally Woods',
+            'Fred'
+        ];
+
+        $this->expenseMerchantsIndex = -1;
 
         foreach($users as $user) {
             $this->accounts = Account::where('user_id', $user->id)->get();
@@ -289,12 +301,14 @@ class TransactionSeeder extends Seeder {
      */
     private function createExpense($user, $date, $total, $reconciled, $account)
     {
+        $merchant = $this->setMerchant();
+
         $transaction = new Transaction([
             'type' => 'expense',
             'date' => $date,
             'account_id' => $account->id,
             'description' => $this->faker->sentence(1),
-            'merchant' => $this->faker->name(),
+            'merchant' => $merchant,
 //            'total' => $this->faker->randomElement([5, 10, 15, 20]) * -1,
             'total' => $total * -1,
             'reconciled' => $reconciled,
@@ -306,6 +320,20 @@ class TransactionSeeder extends Seeder {
         $transaction->save();
 
         return $transaction;
+    }
+
+    /**
+     *
+     * @return mixed
+     */
+    private function setMerchant()
+    {
+        $this->expenseMerchantsIndex++;
+        if ($this->expenseMerchantsIndex > count($this->expenseMerchants) - 1) {
+            $this->expenseMerchantsIndex = 0;
+        }
+
+        return $this->expenseMerchants[$this->expenseMerchantsIndex];
     }
 
     /**

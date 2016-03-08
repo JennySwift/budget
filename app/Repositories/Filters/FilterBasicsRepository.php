@@ -88,8 +88,16 @@ class FilterBasicsRepository {
             $query = $query->where($type, 'LIKE', '%' . $value['in'] . '%');
         }
         if ($value['out']) {
-            $query = $query->where($type, 'NOT LIKE', '%' . $value['out'] . '%');
+
+            $query = $query->where(function($q) use ($type, $value)
+            {
+                $q->where($type, 'NOT LIKE', '%' . $value['out'] . '%')
+                    ->orWhereNull('merchant');
+            });
+
+//            $query = $query->where($type, 'NOT LIKE', '%' . $value['out'] . '%');
         }
+
         return $query;
     }
 

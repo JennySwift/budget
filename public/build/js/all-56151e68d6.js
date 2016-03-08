@@ -25100,7 +25100,7 @@ var HomePage = Vue.component('home-page', {
          */
         setTab: function () {
             if (this.env === 'local') {
-                this.tab = 'graphs';
+                this.tab = 'transactions';
             }
             else {
                 this.tab = 'transactions';
