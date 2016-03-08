@@ -127,9 +127,11 @@ class TransactionsUpdateRepository
      */
     public function addBudgets(Request $request, Transaction $transaction)
     {
-        foreach ($request->get('budget_ids') as $budget_id) {
-            $transaction->budgets()->attach($budget_id);
-        }
+        $transaction->budgets()->sync($request->get('budget_ids'), false);
+
+//        foreach ($request->get('budget_ids') as $budget_id) {
+//            $transaction->budgets()->attach($budget_id);
+//        }
 
         return $transaction;
     }
