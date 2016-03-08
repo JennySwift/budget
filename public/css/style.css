@@ -1209,6 +1209,10 @@ caption {
     #favourite-transactions-page #favourite-transactions .budgets {
       text-align: left; }
 
+.unassigned-budget-table {
+  max-width: 500px;
+  margin: auto; }
+
 #budget #budget-toolbar {
   margin-top: 7px;
   margin-left: 5px; }

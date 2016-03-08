@@ -21,7 +21,7 @@
         >
         </totals>
 
-        <div class="budget-table">
+        <div class="budget-table unassigned-budget-table">
             @include('main.budgets.unassigned-budget-table')
         </div>
 
