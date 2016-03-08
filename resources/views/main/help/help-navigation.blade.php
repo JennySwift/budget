@@ -23,7 +23,8 @@
                 <ul>
                     <li>
                         <a
-                            href="#concept-purpose-goal"
+                            v-on:click="scrollTo('concept-purpose-goal')"
+                            href="javascript:void(0)"
                         >
                             Concept/Purpose/Goal
                         </a>
@@ -31,10 +32,8 @@
 
                     <li>
                         <a
-                            {{--href="#tags-link"--}}
                             v-on:click="scrollTo('tags-link')"
                             href="javascript:void(0)"
-                            {{--datascroll--}}
                         >
                             Tags
                         </a>
@@ -42,63 +41,57 @@
 
                     <li>
                         <a
-                            href="#accounts-link"
+                                v-on:click="scrollTo('accounts-link')"
+                                href="javascript:void(0)"
                         >
 
-                            A
-
-                            c
-                            counts
+                            Accounts
                         </a>
                     </li>
 
                     <li>
                         <a
-                            href="#transactions-link"
+                            v-on:click="scrollTo('transacations-link')"
+                            href="javascript:void(0)"
                         >
-
-                            T
-
-                            r
-                            ansactions
+                            Transactions
                         </a>
                     </li>
 
                     <ul>
                         <li>
                             <a
-                                href="#allocating"
+                                v-on:click="scrollTo('allocation')"
+                                href="javascript:void(0)"
                             >
-
-                                A
-                                llocating the totals
+                                Allocating the totals
                             </a>
                         </li>
 
                         <li>
                             <a
-                                href="#reconciling"
+                                v-on:click="scrollTo('reconciling')"
+                                href="javascript:void(0)"
                             >
-
-                                R
-                                econciling
+                                Reconciling
                             </a>
                         </li>
                     </ul>
 
                     <li>
                         <a
-                            href="#savings"
+                            v-on:click="scrollTo('reconciling')"
+                            href="javascript:void(0)"
                         >
 
-                            S
-                            avings
+                            Savings
                         </a>
                     </li>
 
                     <li>
                         <a
-                            href="#RB"
+                            v-on:click="scrollTo('RB')"
+                            href="javascript:void(0)"
                         >
                             Remaining Balance
                         </a>
@@ -106,7 +99,8 @@
 
                     <li>
                         <a
-                            href="#totals"
+                            v-on:click="scrollTo('totals')"
+                            href="javascript:void(0)"
                         >
                             Totals
                         </a>
@@ -114,7 +108,8 @@
 
                     <li>
                         <a
-                            href="#graphs-help"
+                            v-on:click="scrollTo('graphs-help')"
+                            href="javascript:void(0)"
                         >
                             Graphs
                         </a>

@@ -13,13 +13,16 @@ var HelpPage = Vue.component('help-page', {
          *
          */
         scrollTo: function (id) {
-            window.scrollTo(0, 500);
-
             //var scrollTop = $("body").height();
-            var scrollTop = $(id).scrollTop();
+            var element = $('#' + id);
+            var scrollTop = element.offset().top;
+            //var element = document.getElementById(id);
+            console.log(scrollTop);
+
+            //var scrollTop = $('#' + id).scrollTop();
             //$('html,body').animate({scrollTop: scrollTop - 1}, 1);
             setTimeout(function () {
-                $('html,body').animate({scrollTop: 0}, 700);
+                $('html,body').animate({scrollTop: scrollTop}, 700);
             }, 100);
         }
     },
