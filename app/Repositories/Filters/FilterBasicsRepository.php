@@ -91,7 +91,7 @@ class FilterBasicsRepository {
             $query = $query->where(function($q) use ($type, $value)
             {
                 $q->where($type, 'NOT LIKE', '%' . $value['out'] . '%')
-                    ->orWhereNull('merchant');
+                    ->orWhereNull($type);
             });
         }
 
