@@ -133,13 +133,17 @@ class TransactionsController extends Controller
             return $this->transactionsUpdateRepository->updateAllocation($request, $transaction);
         }
 
-        else {
-            $transaction = $this->transactionsUpdateRepository->updateTransaction($request, $transaction);
-
-            $transaction = $this->transform($this->createItem($transaction, new TransactionTransformer))['data'];
-            return response($transaction, Response::HTTP_OK);
+        else if ($request->has('addingBudgets')) {
+            $transaction = $this->transactionsUpdateRepository->addBudgets($request, $transaction);
         }
 
+        else {
+            $transaction = $this->transactionsUpdateRepository->updateTransaction($request, $transaction);
+        }
+
+        $transaction = $this->transform($this->createItem($transaction, new TransactionTransformer))['data'];
+
+        return response($transaction, Response::HTTP_OK);
     }
 
     /**

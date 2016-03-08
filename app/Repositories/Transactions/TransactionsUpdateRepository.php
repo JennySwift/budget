@@ -118,6 +118,23 @@ class TransactionsUpdateRepository
     }
 
     /**
+     * For mass transaction updating
+     * (adding the same budgets to many transactions)
+     * Called from TransactionsController update method
+     * @param Request $request
+     * @param Transaction $transaction
+     * @return Transaction
+     */
+    public function addBudgets(Request $request, Transaction $transaction)
+    {
+        foreach ($request->get('budget_ids') as $budget_id) {
+            $transaction->budgets()->attach($budget_id);
+        }
+
+        return $transaction;
+    }
+
+    /**
      * Add budgets to transaction
      * @param Transaction $transaction
      * @param $budgets
