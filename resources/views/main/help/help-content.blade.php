@@ -69,7 +69,7 @@
 
         <h2 id="transactions-link">Transactions</h2>
         <p>You can enter transactions from the home page. (Click on the <i class="fa fa-home"></i> button in the menu to go there.)</p>
-        <h4 id="allocating">Allocating the totals</h4>
+        <h4 id="allocating-link">Allocating the totals</h4>
         <p>A transaction can be given multiple tags. However, if more than one of those tags has been given a budget, you'll need to specify the amounts (either a fixed amount or a percentage of the total of the transaction) that you want to be considered spent off your budgeted tags.</p>
         <p>It wouldn't make sense, and it would wreck up the totals, if you were to spend $10 and have $20 considered as spent because the transaction had two budgets associated with it.</p>
         <h4 id="reconciling">Reconciling</h4>
@@ -78,7 +78,7 @@
             <li>You can check the transactions you have entered into the app match those of your bank statement. (You might have made a mistake entering your transaction, or forgotten to enter it.)</li>
             <li>Vice versa. (There might be a transaction on your bank statement that was made by someone else, and you can see it wasn't made by you by checking you didn't enter it into the app.)</li>
         </ul>
-        <h2 id="savings">Savings</h2>
+        <h2 id="savings-link">Savings</h2>
         <p>This feature is relatively new and still has plenty of work to be done on. When income is earned, a percentage of what is earned is taken from the balance and put into savings.</p>
         <p>Currently it is 10%, but it is planned to make that customisable.</p>
         <p>The action is reversed when an income transaction is deleted (and on other similar occasions).</p>

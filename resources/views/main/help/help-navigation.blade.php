@@ -51,7 +51,7 @@
 
                     <li>
                         <a
-                            v-on:click="scrollTo('transacations-link')"
+                            v-on:click="scrollTo('transactions-link')"
                             href="javascript:void(0)"
                         >
                             Transactions
@@ -61,7 +61,7 @@
                     <ul>
                         <li>
                             <a
-                                v-on:click="scrollTo('allocation')"
+                                v-on:click="scrollTo('allocating-link')"
                                 href="javascript:void(0)"
                             >
                                 Allocating the totals
@@ -80,7 +80,7 @@
 
                     <li>
                         <a
-                            v-on:click="scrollTo('reconciling')"
+                            v-on:click="scrollTo('savings-link')"
                             href="javascript:void(0)"
                         >
 
