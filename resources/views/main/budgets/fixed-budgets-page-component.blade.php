@@ -1,6 +1,6 @@
 <script id="fixed-budgets-page-template" type="x-template">
 
-<div>
+<div id="fixed-budgets-page" class="budgets-page">
     <edit-budget-popup
             :budgets.sync="fixedBudgets"
             page="fixedBudgets"
@@ -22,7 +22,7 @@
         >
         </totals>
 
-        <div class="budget-table">
+        <div class="budget-table fixed-budget-table">
             @include('main.budgets.fixed-budget-table')
         </div>
 

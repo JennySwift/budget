@@ -1209,23 +1209,20 @@ caption {
     #favourite-transactions-page #favourite-transactions .budgets {
       text-align: left; }
 
-.unassigned-budget-table {
-  max-width: 300px;
-  margin: auto; }
-  .unassigned-budget-table td {
-    text-align: left; }
-
-#budget #budget-toolbar {
+.budgets-page #budget-toolbar {
   margin-top: 7px;
   margin-left: 5px; }
-  #budget #budget-toolbar .btn-group button {
+  .budgets-page #budget-toolbar .btn-group button {
     background: white;
     color: #5cb85c; }
-    #budget #budget-toolbar .btn-group button.selected {
+    .budgets-page #budget-toolbar .btn-group button.selected {
       background: #5cb85c;
       color: white; }
 
-#budget #budget-content {
+.budgets-page .fixed-budget-table, .budgets-page .flex-budget-table {
+  margin: 0 20px; }
+
+.budgets-page #budget-content {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -1238,27 +1235,28 @@ caption {
   margin: 30px;
   font-size: 15px;
   position: relative; }
-  #budget #budget-content tr {
+  .budgets-page #budget-content tr {
     background: #fff; }
-  #budget #budget-content th {
-    cursor: help;
-    border-radius: 15px; }
-    #budget #budget-content th .fa-plus {
-      color: #5cb85c; }
-    #budget #budget-content th .fa-minus {
-      color: #d9534f; }
-  #budget #budget-content td {
-    text-align: right; }
-  #budget #budget-content input, #budget #budget-content select {
+  .budgets-page #budget-content th .fa-plus {
+    color: #5cb85c; }
+  .budgets-page #budget-content th .fa-minus {
+    color: #d9534f; }
+  .budgets-page #budget-content input, .budgets-page #budget-content select {
     width: 100%; }
-  #budget #budget-content table .totals {
+  .budgets-page #budget-content table .totals {
     background: #777;
     color: white; }
-    #budget #budget-content table .totals th {
+    .budgets-page #budget-content table .totals th {
       border-radius: 0; }
-  #budget #budget-content .edit {
-    width: 20px;
-    font-size: 6px; }
+
+.budgets-page .unassigned-budget-table {
+  max-width: 300px;
+  margin: auto; }
+  .budgets-page .unassigned-budget-table td {
+    text-align: left; }
+
+.budgets-page .fixed-budget-table td, .budgets-page .flex-budget-table td {
+  text-align: right; }
 
 .new-budget {
   max-width: 433px;

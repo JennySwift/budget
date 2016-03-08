@@ -1,6 +1,6 @@
 <script id="flex-budgets-page-template" type="x-template">
 
-<div>
+<div id="flex-budgets-page" class="budgets-page">
     <edit-budget-popup
             :budgets.sync="flexBudgets"
             page="flexBudgets"
@@ -22,7 +22,7 @@
         >
         </totals>
 
-        <div class="budget-table">
+        <div class="budget-table flex-budget-table">
             @include('main.budgets.flex-budget-table')
         </div>
 

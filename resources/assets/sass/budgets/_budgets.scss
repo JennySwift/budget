@@ -1,12 +1,4 @@
-.unassigned-budget-table {
-    max-width: 300px;
-    margin: auto;
-    td {
-        text-align: left;
-    }
-}
-
-#budget {
+.budgets-page {
     #budget-toolbar {
 //        position: absolute;
 //        top: -24px;
@@ -28,8 +20,8 @@
         }
     }
 
-    .budget-table {
-//        margin: auto;
+    .fixed-budget-table, .flex-budget-table {
+        margin: 0 20px;
     }
 
     #budget-content {
@@ -43,17 +35,12 @@
             background: #fff;
         }
         th {
-            cursor: help;
-            border-radius: 15px;
             .fa-plus {
                 color: #5cb85c;
             }
             .fa-minus {
                 color: #d9534f;
             }
-        }
-        td {
-            text-align: right;
         }
         input, select {
             width: 100%;
@@ -69,10 +56,20 @@
                 }
             }
         }
+    }
 
-        .edit {
-            width: 20px;
-            font-size: 6px;
+    .unassigned-budget-table {
+        max-width: 300px;
+        margin: auto;
+        td {
+            text-align: left;
         }
     }
+
+    .fixed-budget-table, .flex-budget-table {
+        td {
+            text-align: right;
+        }
+    }
+
 }

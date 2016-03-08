@@ -1,6 +1,6 @@
 <script id="unassigned-budgets-page-template" type="x-template">
 
-<div>
+<div id="unassigned-budgets-page" class="budgets-page">
     <edit-budget-popup
         :budgets.sync="unassignedBudgets"
     >
