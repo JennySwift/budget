@@ -26,10 +26,19 @@ var HelpersRepository = {
      * @returns {number}
      */
     numberFilter: function (number, howManyDecimals) {
-        if (howManyDecimals === 2) {
-            var multiplyAndDivideBy = 100;
-            return Math.round(number * multiplyAndDivideBy) / multiplyAndDivideBy;
-        }
+        return accounting.formatMoney(number, {
+            format: "%v"
+        });
+        //if (howManyDecimals === 2) {
+        //    var multiplyAndDivideBy = 100;
+        //
+        //    //If number has only one decimal place, and a zero to the end
+        //
+        //    //If number has no decimal places, add two zeros to the end
+        //
+        //
+        //    return Math.round(number * multiplyAndDivideBy) / multiplyAndDivideBy;
+        //}
     },
 
     /**
