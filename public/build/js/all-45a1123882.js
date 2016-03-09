@@ -22686,6 +22686,7 @@ var FilterRepository = {
                 out: ""
             },
             reconciled: "any",
+            invalidAllocation: false,
             offset: 0,
             numToFetch: 30,
             displayFrom: 1,
@@ -22715,6 +22716,7 @@ var FilterRepository = {
         filterToModify.budgets = filterToCopy.budgets;
         filterToModify.numBudgets = filterToCopy.numBudgets;
         filterToModify.reconciled = filterToCopy.reconciled;
+        filterToModify.invalidAllocation = filterToCopy.invalidAllocation;
         filterToModify.offset = filterToCopy.offset;
         filterToModify.numToFetch = filterToCopy.numToFetch;
         filterToModify.displayFrom = filterToCopy.displayFrom;
@@ -23490,6 +23492,26 @@ var Graphs = Vue.component('graphs', {
     ready: function () {
         this.getGraphTotals();
         this.listen();
+    }
+});
+var InvalidAllocationFilter = Vue.component('invalid-allocation-filter', {
+    template: '#invalid-allocation-filter-template',
+    data: function () {
+        return {
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
     }
 });
 var MassTransactionUpdatePopup = Vue.component('mass-transaction-update-popup', {

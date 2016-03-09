@@ -47,6 +47,7 @@ var FilterRepository = {
                 out: ""
             },
             reconciled: "any",
+            invalidAllocation: false,
             offset: 0,
             numToFetch: 30,
             displayFrom: 1,
@@ -76,6 +77,7 @@ var FilterRepository = {
         filterToModify.budgets = filterToCopy.budgets;
         filterToModify.numBudgets = filterToCopy.numBudgets;
         filterToModify.reconciled = filterToCopy.reconciled;
+        filterToModify.invalidAllocation = filterToCopy.invalidAllocation;
         filterToModify.offset = filterToCopy.offset;
         filterToModify.numToFetch = filterToCopy.numToFetch;
         filterToModify.displayFrom = filterToCopy.displayFrom;

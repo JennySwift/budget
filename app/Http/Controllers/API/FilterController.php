@@ -43,7 +43,7 @@ class FilterController extends Controller
     {
         $transactions = $this->filter->getTransactions($request->get('filter'));
 
-        if ($request->get('filter')['invalidAllocation']) {
+        if ($request->get('filter')['invalidAllocation'] === 'true') {
             $transactions = $transactions->filter(function($transaction)
             {
                 return $transaction->validAllocation === false;

@@ -115,6 +115,13 @@
                 >
                 </reconciled-filter>
 
+                <invalid-allocation-filter
+                        :filter="filter"
+                        :filter-tab="filterTab"
+                        :run-filter="runFilter"
+                >
+                </invalid-allocation-filter>
+
                 <num-budgets-filter
                         :filter="filter"
                         :filter-tab="filterTab"
