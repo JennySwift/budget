@@ -74,10 +74,10 @@
                 <button
                         v-if="transaction.multipleBudgets"
                         v-bind:class="{
-                            'allocated': transaction.allocated,
-                            'btn-success': transaction.allocated,
-                            'not-allocated': !transaction.allocated,
-                            'btn-danger': !transaction.allocated,
+                            'allocated': transaction.validAllocation,
+                            'btn-success': transaction.validAllocation,
+                            'not-allocated': !transaction.validAllocation,
+                            'btn-danger': !transaction.validAllocation,
                         }"
                         class="btn btn-sm"
                         v-on:click="showAllocationPopup(transaction)">

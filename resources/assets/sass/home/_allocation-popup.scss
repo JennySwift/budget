@@ -1,6 +1,17 @@
 #allocation-popup {
 	max-width: 500px;
 
+	.warning {
+		display: flex;
+		align-items: center;
+		.fa-exclamation-circle {
+			margin-right: 5px;
+		}
+		color: $danger;
+		font-weight: bold;
+		font-size: 13px;
+	}
+
 	table {
 		td, th {
 			//padding: 0;

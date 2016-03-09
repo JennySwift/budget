@@ -36,10 +36,7 @@ class TransactionsUpdateRepository
             $transaction->updateAllocatedFixed($value, $budget);
         }
 
-        return [
-            "budgets" => $transaction->budgets,
-            "totals" => $transaction->getAllocationTotals()
-        ];
+        return $transaction;
     }
 
     /**

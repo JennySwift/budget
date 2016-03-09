@@ -43,6 +43,7 @@ var MassTransactionUpdatePopup = Vue.component('mass-transaction-update-popup', 
                 var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: transaction.id}));
                 this.transactions[index].budgets = response.budgets;
                 this.transactions[index].multipleBudgets = response.multipleBudgets;
+                this.transactions[index].validAllocation = response.validAllocation;
                 this.count++;
 
                 if (this.count === this.transactions.length) {

@@ -94,6 +94,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertArrayHasKey('total', $transaction);
 		$this->assertArrayHasKey('reconciled', $transaction);
 		$this->assertArrayHasKey('allocated', $transaction);
+		$this->assertArrayHasKey('validAllocation', $transaction);
 		$this->assertArrayHasKey('account_id', $transaction);
 		$this->assertArrayHasKey('account', $transaction);
 		$this->assertArrayHasKey('budgets', $transaction);

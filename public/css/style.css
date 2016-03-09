@@ -895,6 +895,18 @@ caption {
 
 #allocation-popup {
   max-width: 500px; }
+  #allocation-popup .warning {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #d9534f;
+    font-weight: bold;
+    font-size: 13px; }
+    #allocation-popup .warning .fa-exclamation-circle {
+      margin-right: 5px; }
   #allocation-popup table td {
     height: 20px; }
     #allocation-popup table td div {

@@ -94,6 +94,22 @@ class Transaction extends Model
         return false;
     }
 
+    /**
+     * Determine whether or not the total allocation for the transaction's
+     * assigned budgets matches the total of the transaction
+     */
+    public function getValidAllocationAttribute()
+    {
+        $totalAllocation = 0;
+        foreach ($this->budgets as $budget) {
+            if ($budget->isAssigned()) {
+                $totalAllocation+= $budget->pivot->calculated_allocation;
+            }
+        }
+
+        return $totalAllocation === $this->total;
+    }
+
 
     /**
      * Total attribute

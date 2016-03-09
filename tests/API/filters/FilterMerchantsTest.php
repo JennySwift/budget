@@ -33,6 +33,8 @@ class FilterMerchantsTest extends FiltersTest
         ];
         $this->setTransactions($data);
 
+//        dd($this->transactions[0]);
+
         $this->checkTransactionKeysExist($this->transactions[0]);
 
         foreach ($this->transactions as $transaction) {

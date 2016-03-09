@@ -4,9 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Transformers\TransactionTransformer;
 use App\Models\Filter;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Debugbar;
+use Illuminate\Http\Response;
 
 /**
  * Class FilterController
@@ -38,7 +41,10 @@ class FilterController extends Controller
      */
     public function transactions(Request $request)
     {
-        return $this->filter->getTransactions($request->get('filter'));
+        $transactions = $this->filter->getTransactions($request->get('filter'));
+        $transactions = $this->transform($this->createCollection($transactions, new TransactionTransformer))['data'];
+
+        return response($transactions, Response::HTTP_OK);
     }
 
     /**

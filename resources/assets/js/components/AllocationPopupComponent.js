@@ -14,21 +14,21 @@ var AllocationPopup = Vue.component('allocation-popup', {
         /**
         *
         */
-        updateAllocationStatus: function () {
-            $.event.trigger('show-loading');
-
-            var data = {
-                allocated: HelpersRepository.convertBooleanToInteger(this.transaction.allocated)
-            };
-
-            this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
-                $.event.trigger('provide-feedback', ['Allocation updated', 'success']);
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
+        //updateAllocationStatus: function () {
+        //    $.event.trigger('show-loading');
+        //
+        //    var data = {
+        //        allocated: HelpersRepository.convertBooleanToInteger(this.transaction.allocated)
+        //    };
+        //
+        //    this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
+        //        $.event.trigger('provide-feedback', ['Allocation updated', 'success']);
+        //        $.event.trigger('hide-loading');
+        //    })
+        //    .error(function (response) {
+        //        HelpersRepository.handleResponseError(response);
+        //    });
+        //},
 
         /**
         *
@@ -84,8 +84,9 @@ var AllocationPopup = Vue.component('allocation-popup', {
     },
     events: {
         'budget-allocation-updated': function (response) {
+            this.getAllocationTotals();
             this.transaction.budgets = response.budgets;
-            this.allocationTotals = response.totals;
+            this.transaction.validAllocation = response.validAllocation;
         }
     }
 });

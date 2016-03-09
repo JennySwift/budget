@@ -25,6 +25,7 @@ class TransactionTransformer extends TransformerAbstract
             'total' => $transaction->total,
             'reconciled' => $transaction->reconciled,
             'allocated' => $transaction->allocated,
+            'validAllocation' => $transaction->validAllocation,
             'account_id' => $transaction->account_id,
             'account' => [
                 'id' => $transaction->account->id,
