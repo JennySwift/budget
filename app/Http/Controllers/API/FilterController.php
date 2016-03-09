@@ -42,6 +42,14 @@ class FilterController extends Controller
     public function transactions(Request $request)
     {
         $transactions = $this->filter->getTransactions($request->get('filter'));
+
+        if ($request->get('filter')['invalidAllocation']) {
+            $transactions = $transactions->filter(function($transaction)
+            {
+                return $transaction->validAllocation === false;
+            });
+        }
+
         $transactions = $this->transform($this->createCollection($transactions, new TransactionTransformer))['data'];
 
         return response($transactions, Response::HTTP_OK);

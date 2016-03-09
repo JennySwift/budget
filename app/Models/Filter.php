@@ -203,7 +203,12 @@ class Filter implements Arrayable {
                 case "merchant":
                     $query = $this->filterBasicsRepository->filterDescriptionOrMerchant($query, $type, $value);
                     break;
-                
+
+//                case "validAllocation":
+//                    $query = $this->filterBasicsRepository->filterValidAllocation($query, $value);
+//                    break;
+
+
                 default:
                     // @TODO If nothing matches, throw an exception!!
             }

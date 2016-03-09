@@ -100,6 +100,13 @@ class Transaction extends Model
      */
     public function getValidAllocationAttribute()
     {
+        if ($this->id == 5) {
+//            dd(count($this->budgets));
+        }
+        if (!$this->multipleBudgets) {
+            return null;
+        }
+
         $totalAllocation = 0;
         foreach ($this->budgets as $budget) {
             if ($budget->isAssigned()) {
