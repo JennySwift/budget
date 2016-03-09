@@ -3,7 +3,8 @@ var UpdateFavouriteTransaction = Vue.component('update-favourite-transaction', {
     data: function () {
         return {
             showPopup: false,
-            selectedFavourite: {}
+            selectedFavourite: {},
+            types: ["income", "expense", "transfer"],
         };
     },
     components: {},
@@ -22,13 +23,10 @@ var UpdateFavouriteTransaction = Vue.component('update-favourite-transaction', {
         updateFavouriteTransaction: function () {
             $.event.trigger('show-loading');
 
-            var data = {
-                name: this.selectedFavourite.name
-            };
+            var data = FavouriteTransactionsRepository.setFields(this.selectedFavourite);
 
             this.$http.put('/api/favouriteTransactions/' + this.selectedFavourite.id, data, function (response) {
-                var index = _.indexOf(this.favouriteTransactions, _.findWhere(this.favouriteTransactions, {id: this.selectedFavourite.id}));
-                this.favouriteTransactions[index].name = response.name;
+                this.jsUpdateFavouriteTransaction(response);
                 this.showPopup = false;
                 $.event.trigger('provide-feedback', ['Favourite transaction updated', 'success']);
                 $.event.trigger('hide-loading');
@@ -36,6 +34,22 @@ var UpdateFavouriteTransaction = Vue.component('update-favourite-transaction', {
             .error(function (response) {
                 HelpersRepository.handleResponseError(response);
             });
+        },
+
+        /**
+         *
+         * @param response
+         */
+        jsUpdateFavouriteTransaction: function (response) {
+            var index = _.indexOf(this.favouriteTransactions, _.findWhere(this.favouriteTransactions, {id: this.selectedFavourite.id}));
+
+            this.favouriteTransactions[index].name = response.name;
+            this.favouriteTransactions[index].type = response.type;
+            this.favouriteTransactions[index].description = response.description;
+            this.favouriteTransactions[index].merchant = response.merchant;
+            this.favouriteTransactions[index].total = response.total;
+            this.favouriteTransactions[index].account = response.account;
+            this.favouriteTransactions[index].budgets = response.budgets;
         },
 
         /**
