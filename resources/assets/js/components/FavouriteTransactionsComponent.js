@@ -56,22 +56,11 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
         },
 
         /**
-        *
-        */
-        deleteFavouriteTransaction: function (favourite) {
-            if (confirm("Are you sure?")) {
-                $.event.trigger('show-loading');
-                this.$http.delete('/api/favouriteTransactions/' + favourite.id, function (response) {
-                    this.favouriteTransactions = _.without(this.favouriteTransactions, favourite);
-                    //var index = _.indexOf(this.favourites, _.findWhere(this.favourites, {id: this.favourite.id}));
-                    //this.favourites = _.without(this.favourites, this.favourites[index]);
-                    $.event.trigger('provide-feedback', ['Favourite transaction deleted', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
-            }
+         *
+         * @param favouriteTransaction
+         */
+        showUpdateFavouriteTransactionPopup: function (favouriteTransaction) {
+            $.event.trigger('show-update-favourite-transaction-popup', [favouriteTransaction]);
         },
 
     },

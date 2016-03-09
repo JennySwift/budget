@@ -10,6 +10,13 @@
         >
         </new-favourite-transaction>
 
+        <update-favourite-transaction
+                :budgets="budgets"
+                :favourite-transactions.sync="favouriteTransactions"
+                :accounts="accounts"
+        >
+        </update-favourite-transaction>
+
         <div>
             <h2>Favourite transactions</h2>
 
@@ -22,10 +29,13 @@
                     <th>Total</th>
                     <th>Account</th>
                     <th>Tags</th>
-                    <th></th>
                 </tr>
 
-                <tr v-for="favourite in favouriteTransactions">
+                <tr
+                    v-for="favourite in favouriteTransactions"
+                    v-on:click="showUpdateFavouriteTransactionPopup(favourite)"
+                    class="pointer"
+                >
                     <td>@{{ favourite.name }}</td>
                     <td>@{{ favourite.type }}</td>
                     <td>@{{ favourite.description }}</td>
@@ -47,8 +57,6 @@
                             <span class="type">@{{ budget.type }}</span>
                         </li>
                     </td>
-
-                    <td><button v-on:click="deleteFavouriteTransaction(favourite)" class="btn-xs btn-danger">Delete</button></td>
 
                 </tr>
             </table>

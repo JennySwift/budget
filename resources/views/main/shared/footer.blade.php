@@ -6,7 +6,7 @@
 @include('main.help.help-page-component')
 @include('main.accounts.accounts-page-component')
 @include('main.preferences-page-component')
-@include('main.favourite-transactions-page-component')
+@include('main.favourite-transactions.favourite-transactions-page-component')
 @include('main.budgets.fixed-budgets-page-component')
 @include('main.shared.totals-component')
 @include('main.budgets.flex-budgets-page-component')
@@ -21,7 +21,8 @@
 @include('main.accounts.edit-account-component')
 
 {{--Favourite transactions--}}
-@include('main.new-favourite-transaction-component')
+@include('main.favourite-transactions.new-favourite-transaction-component')
+@include('main.favourite-transactions.update-favourite-transaction-component')
 
 @include('main.new-transaction-component')
 @include('main.shared.navbar-component')
