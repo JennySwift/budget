@@ -51,6 +51,13 @@
             >
             </new-saved-filter>
 
+            <button
+                v-on:click="showMassTransactionUpdatePopup()"
+                class="btn btn-default"
+            >
+                Edit transactions
+            </button>
+
         </div>
 
 

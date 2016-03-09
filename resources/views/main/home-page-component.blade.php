@@ -25,6 +25,12 @@
                         :transactions.sync="transactions"
                 >
                 </transactions>
+
+                <mass-transaction-update-popup
+                    :transactions.sync="transactions"
+                    :budgets="budgets"
+                >
+                </mass-transaction-update-popup>
             </div>
 
             <div v-show="tab === 'graphs'" class="flex-grow-2">

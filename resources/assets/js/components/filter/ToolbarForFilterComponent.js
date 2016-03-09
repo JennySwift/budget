@@ -9,6 +9,13 @@ var ToolbarForFilter = Vue.component('toolbar-for-filter', {
     methods: {
 
         /**
+         *
+         */
+        showMassTransactionUpdatePopup: function () {
+            $.event.trigger('show-mass-transaction-update-popup');
+        },
+
+        /**
          * 
          */
         resetFilter: function () {

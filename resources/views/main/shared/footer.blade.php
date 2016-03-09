@@ -50,6 +50,7 @@
 @include('main.filter.reconciled-filter-component')
 @include('main.filter.totals-for-filter-component')
 @include('main.filter.toolbar-for-filter-component')
+@include('main.filter.mass-transaction-update-popup-component')
 
 {{--Transactions--}}
 @include('main.home.edit-transaction-popup-component')
