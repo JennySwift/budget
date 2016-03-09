@@ -1195,6 +1195,9 @@ caption {
     #transactions td .fa, #transactions th .fa {
       font-size: 9px; } }
 
+#mass-transaction-update-popup .messages {
+  width: 360px; }
+
 #favourite-transactions-page {
   margin: 50px 50px; }
   #favourite-transactions-page > * {

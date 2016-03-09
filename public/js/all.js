@@ -23498,10 +23498,16 @@ var MassTransactionUpdatePopup = Vue.component('mass-transaction-update-popup', 
         return {
             showPopup: false,
             budgetsToAdd: [],
-            count: 0
+            count: 0,
+            showProgress: false
         };
     },
     components: {},
+    computed: {
+        progressWidth: function () {
+            return 100 / (this.transactions.length / this.count);
+        }
+    },
     methods: {
 
         /**
@@ -23509,6 +23515,7 @@ var MassTransactionUpdatePopup = Vue.component('mass-transaction-update-popup', 
          */
         addBudgetsToTransactions: function () {
             this.count = 0;
+            this.showProgress = true;
             for (var i = 0; i < this.transactions.length; i++) {
                 this.addBudgetsToTransaction(this.transactions[i]);
             }
@@ -23533,8 +23540,8 @@ var MassTransactionUpdatePopup = Vue.component('mass-transaction-update-popup', 
                 this.count++;
 
                 if (this.count === this.transactions.length) {
-                    $.event.trigger('provide-feedback', ['Done!', 'success']);
-                    this.showPopup = false;
+                    //$.event.trigger('provide-feedback', ['Done!', 'success']);
+                    //this.showPopup = false;
                 }
 
                 //$.event.trigger('provide-feedback', ['Transaction updated', 'success']);
