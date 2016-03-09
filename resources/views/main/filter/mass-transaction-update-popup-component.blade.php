@@ -11,8 +11,7 @@
         <div class="messages">
             <div v-if="!showProgress">
                 <div>Clicking 'Go' will add the chosen budgets to the @{{ transactions.length }} transactions that you can see on the page.</div>
-                <div>No duplicate budgets will be added to your transactions.</div>
-                <div>The allocation given to the budgets will be 100% of the transaction. So you may need to reallocate the transactions after doing this.</div>
+                <div class="warning">Duplicate budgets will be removed from your transactions, however, the allocation given to the budgets you choose here will be 100% of the transaction. So you may need to reallocate the transactions after doing this.</div>
             </div>
             <h5 v-if="count < transactions.length && showProgress">Updating @{{ transactions.length }} transactions</h5>
             <h5 v-if="count === transactions.length">Done! The selected budgets have been added to @{{ transactions.length }} transactions.</h5>

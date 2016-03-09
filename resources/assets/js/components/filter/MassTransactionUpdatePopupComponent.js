@@ -73,6 +73,8 @@ var MassTransactionUpdatePopup = Vue.component('mass-transaction-update-popup', 
             var that = this;
             $(document).on('show-mass-transaction-update-popup', function (event) {
                 that.showPopup = true;
+                that.showProgress = false;
+                that.budgetsToAdd = [];
             });
         }
     },
