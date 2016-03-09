@@ -127,11 +127,17 @@ class TransactionsUpdateRepository
      */
     public function addBudgets(Request $request, Transaction $transaction)
     {
-        $transaction->budgets()->sync($request->get('budget_ids'), false);
+        $budgetIds = $request->get('budget_ids');
 
-//        foreach ($request->get('budget_ids') as $budget_id) {
-//            $transaction->budgets()->attach($budget_id);
-//        }
+        //Prepare the data for the pivot table
+        $pivotData = array_fill(0, count($budgetIds), [
+            'allocated_percent' => 100,
+            'calculated_allocation' => $transaction->total
+        ]);
+
+        $syncData  = array_combine($budgetIds, $pivotData);
+
+        $transaction->budgets()->sync($syncData, false);
 
         return $transaction;
     }
@@ -157,6 +163,32 @@ class TransactionsUpdateRepository
                 ]);
             }
         }
+    }
+
+    /**
+     * Give a transaction a budget with a fixed allocation
+     * @param $transaction
+     * @param $budget
+     */
+    public function allocateFixed($transaction, $budget)
+    {
+        $transaction->budget()->attach($budget['id'], [
+            'allocated_fixed' => $budget['allocated_fixed'],
+            'calculated_allocation' => $budget['allocated_fixed']
+        ]);
+    }
+
+    /**
+     * Give a transaction a budget with a percentage allocation of the transaction's total
+     * @param $transaction
+     * @param $budget
+     */
+    public function allocatePercent(Transaction $transaction, $budget)
+    {
+        $transaction->budgets()->attach($budget['id'], [
+            'allocated_percent' => $budget['allocated_percent'],
+            'calculated_allocation' => $transaction->total / 100 * $budget['allocated_percent'],
+        ]);
     }
 
 }

@@ -15,32 +15,6 @@ use Debugbar;
 class TransactionsRepository
 {
     /**
-     * Give a transaction a budget with a fixed allocation
-     * @param $transaction
-     * @param $budget
-     */
-    public function allocateFixed($transaction, $budget)
-    {
-        $transaction->budget()->attach($budget['id'], [
-            'allocated_fixed' => $budget['allocated_fixed'],
-            'calculated_allocation' => $budget['allocated_fixed']
-        ]);
-    }
-
-    /**
-     * Give a transaction a budget with a percentage allocation of the transaction's total
-     * @param $transaction
-     * @param $budget
-     */
-    public function allocatePercent(Transaction $transaction, $budget)
-    {
-        $transaction->budgets()->attach($budget['id'], [
-            'allocated_percent' => $budget['allocated_percent'],
-            'calculated_allocation' => $transaction->total / 100 * $budget['allocated_percent'],
-        ]);
-    }
-
-    /**
      *
      * @param array $data
      * @return Transaction

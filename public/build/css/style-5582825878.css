@@ -1196,7 +1196,12 @@ caption {
       font-size: 9px; } }
 
 #mass-transaction-update-popup .messages {
-  width: 360px; }
+  width: 360px;
+  margin-bottom: 20px; }
+  #mass-transaction-update-popup .messages div {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 13px; }
 
 #favourite-transactions-page {
   margin: 50px 50px; }
