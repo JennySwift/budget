@@ -149,7 +149,7 @@ return [
 		'App\Providers\ValidationServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Spatie\Backup\BackupServiceProvider',
-        'Laracasts\Utilities\JavaScript\JavascriptServiceProvider'
+        'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider'
 
 	],
 
