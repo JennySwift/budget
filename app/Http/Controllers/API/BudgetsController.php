@@ -117,9 +117,12 @@ class BudgetsController extends Controller
 
         //Put the calculated amount attribute on the budget
         $remainingBalance = app('remaining-balance')->calculate();
+
         $budget->getCalculatedAmount($remainingBalance);
 
-        return $this->responseOkWithTransformer($budget, new BudgetTransformer);
+        $budget = $this->transform($this->createItem($budget, new BudgetTransformer))['data'];
+
+        return response($budget, Response::HTTP_OK);
     }
 
     /**

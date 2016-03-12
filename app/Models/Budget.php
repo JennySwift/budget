@@ -243,6 +243,7 @@ class Budget extends Model
      */
     public function getCalculatedAmount($remainingBalance)
     {
+//        dd($this->calculatedAmount, $remainingBalance->amount, $this->amount);
         $this->calculatedAmount = $remainingBalance->amount / 100 * $this->amount;
     }
 
