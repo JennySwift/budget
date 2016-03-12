@@ -4,6 +4,7 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
         return {
             showPopup: false,
             selectedBudget: {},
+            types: ['fixed', 'flex', 'unassigned']
         };
     },
     components: {},
@@ -18,13 +19,14 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
             var data = {
                 name: this.selectedBudget.name,
                 amount: this.selectedBudget.amount,
+                type: this.selectedBudget.type,
                 starting_date: HelpersRepository.formatDate(this.selectedBudget.formattedStartingDate),
             };
 
             $.event.trigger('clear-total-changes');
 
             this.$http.put('/api/budgets/' + this.selectedBudget.id, data, function (response) {
-                this.jsUpdateBudget(response.data);
+                this.jsUpdateBudget(response);
                 this.updateBudgetTableTotals();
                 $.event.trigger('get-sidebar-totals');
                 this.showPopup = false;
@@ -42,21 +44,29 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
          */
         jsUpdateBudget: function (budget) {
             var index = _.indexOf(this.budgets, _.findWhere(this.budgets, {id: this.selectedBudget.id}));
-            this.budgets[index].name = budget.name;
-            this.budgets[index].amount = budget.amount;
-            this.budgets[index].calculatedAmount = budget.calculatedAmount;
-            this.budgets[index].cumulative = budget.cumulative;
-            this.budgets[index].cumulativeMonthNumber = budget.cumulativeMonthNumber;
-            this.budgets[index].formattedStartingDate = budget.formattedStartingDate;
-            this.budgets[index].path = budget.path;
-            this.budgets[index].received = budget.received;
-            this.budgets[index].receivedAfterStartingDate = budget.receivedAfterStartingDate;
-            this.budgets[index].remaining = budget.remaining;
-            this.budgets[index].spent = budget.spent;
-            this.budgets[index].spentAfterStartingDate = budget.spentAfterStartingDate;
-            this.budgets[index].spentBeforeStartingDate = budget.spentBeforeStartingDate;
-            this.budgets[index].transactionsCount = budget.transactionsCount;
-            this.budgets[index].type = budget.type;
+
+            if (this.page !== budget.type) {
+                //Remove the budget from the table
+                this.budgets = _.without(this.budgets, this.budgets[index]);
+            }
+            else {
+                //Update the budget with the JS
+                this.budgets[index].name = budget.name;
+                this.budgets[index].amount = budget.amount;
+                this.budgets[index].calculatedAmount = budget.calculatedAmount;
+                this.budgets[index].cumulative = budget.cumulative;
+                this.budgets[index].cumulativeMonthNumber = budget.cumulativeMonthNumber;
+                this.budgets[index].formattedStartingDate = budget.formattedStartingDate;
+                this.budgets[index].path = budget.path;
+                this.budgets[index].received = budget.received;
+                this.budgets[index].receivedAfterStartingDate = budget.receivedAfterStartingDate;
+                this.budgets[index].remaining = budget.remaining;
+                this.budgets[index].spent = budget.spent;
+                this.budgets[index].spentAfterStartingDate = budget.spentAfterStartingDate;
+                this.budgets[index].spentBeforeStartingDate = budget.spentBeforeStartingDate;
+                this.budgets[index].transactionsCount = budget.transactionsCount;
+                this.budgets[index].type = budget.type;
+            }
         },
 
         /**

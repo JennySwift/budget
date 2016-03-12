@@ -22,7 +22,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="selected-budget-type">Type (to do)</label>
+                            <label for="selected-budget-type">Type</label>
                         
                             <select
                                 v-model="selectedBudget.type"

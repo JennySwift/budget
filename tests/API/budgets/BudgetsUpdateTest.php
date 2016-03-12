@@ -105,9 +105,7 @@ class BudgetsUpdateTest extends TestCase
     }
 
     /**
-     * Todo. It seems calculatedAmount is wrong, but it shouldn't actually matter
-     * because if the budget type is changed the page will need to be changed,
-     * and the response from the update won't really be used.
+     * Todo: Test changing to/from other types.
      * @test
      * @return void
      */
@@ -132,8 +130,14 @@ class BudgetsUpdateTest extends TestCase
         $this->assertEquals('business', $content['name']);
         $this->assertEquals(100, $content['amount']);
 
-        //Not quite sure why it is 1300. When the budget was fixed, the cumulative amount was 900, and the remaining balance was 200.
-        //The amount of the budget is 100%, so it should be the same as the remaining balance. The remaining balance should go from 200 + 900, but not sure how it goes to 1300.
+        // Why 1300? When the type is changed from fixed to flex:
+        // Remaining fixed budget changes by 1060 (increasing remaining balance by 1060)
+        // Expenses with fixed budget before starting date changes by 30, increasing remaining balance by 30
+        // Expenses with fixed budget after starting date changes by 40, increasing remaining balance by 40
+        // Expenses with flex budget after before date changes by 30, decreasing remaining balance by 30
+        // The remaining balance was initially 200
+        // 200 + 1060 + 30 + 40 - 30 = 1300
+        // The amount of the budget is 100%, so it should be the same as the remaining balance.
         $this->assertEquals(1300, $content['calculatedAmount']);
 
         $this->assertEquals('flex', $content['type']);
