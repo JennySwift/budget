@@ -119,7 +119,6 @@ class BudgetsUpdateTest extends TestCase
 
         $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
             'type' => 'flex',
-//        'name' => 'koala'
         ]);
 
         $content = json_decode($response->getContent(), true);
@@ -152,6 +151,50 @@ class BudgetsUpdateTest extends TestCase
         $this->assertNull($content['cumulative']);
         $this->assertEquals(1460, $content['remaining']);
         $this->assertEquals(6, $content['transactionsCount']);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_changes_a_budget_type_from_unassigned_to_fixed()
+    {
+        $this->logInUser();
+
+        $budget = Budget::find(1);
+
+        $this->assertEquals('unassigned', $budget->type);
+
+        $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
+            'type' => 'fixed',
+            'starting_date' => '2015-01-01',
+            'amount' => 5
+        ]);
+
+        $content = json_decode($response->getContent(), true);
+//        dd($content);
+
+        $this->assertEquals(1, $content['id']);
+        $this->assertEquals('http://localhost/api/budgets/1', $content['path']);
+        $this->assertEquals('bank fees', $content['name']);
+        $this->assertEquals(5, $content['amount']);
+
+//        $this->assertEquals(1300, $content['calculatedAmount']);
+
+        $this->assertEquals('fixed', $content['type']);
+        $this->assertEquals('01/01/15', $content['formattedStartingDate']);
+
+        $this->assertEquals(-5, $content['spent']);
+        $this->assertEquals(0, $content['received']);
+        $this->assertEquals(-5, $content['spentAfterStartingDate']);
+        $this->assertEquals(0, $content['spentBeforeStartingDate']);
+        $this->assertEquals(0, $content['receivedAfterStartingDate']);
+        $this->assertEquals(15, $content['cumulativeMonthNumber']);
+        $this->assertEquals(75, $content['cumulative']);
+        $this->assertEquals(70, $content['remaining']);
+        $this->assertEquals(1, $content['transactionsCount']);
 
         $this->assertEquals(200, $response->getStatusCode());
     }

@@ -24552,7 +24552,6 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
         },
 
         /**
-         * todo: allow for if budget type is changed. I will have to remove the budget from the table it was in
          * @param budget
          */
         jsUpdateBudget: function (budget) {
