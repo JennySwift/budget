@@ -24585,10 +24585,10 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
          *
          */
         updateBudgetTableTotals: function () {
-            if (this.page == 'fixedBudgets') {
+            if (this.page == 'fixed') {
                 $.event.trigger('update-fixed-budget-table-totals');
             }
-            else if (this.page == 'flexBudgets') {
+            else if (this.page == 'flex') {
                 $.event.trigger('update-flex-budget-table-totals');
             }
         },

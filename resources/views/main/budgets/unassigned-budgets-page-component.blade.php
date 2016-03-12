@@ -3,6 +3,7 @@
 <div id="unassigned-budgets-page" class="budgets-page">
     <edit-budget-popup
         :budgets.sync="unassignedBudgets"
+        page="unassigned"
     >
     </edit-budget-popup>
 

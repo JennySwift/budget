@@ -3,7 +3,7 @@
 <div id="flex-budgets-page" class="budgets-page">
     <edit-budget-popup
             :budgets.sync="flexBudgets"
-            page="flexBudgets"
+            page="flex"
     >
     </edit-budget-popup>
 

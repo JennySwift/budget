@@ -3,7 +3,7 @@
 <div id="fixed-budgets-page" class="budgets-page">
     <edit-budget-popup
             :budgets.sync="fixedBudgets"
-            page="fixedBudgets"
+            page="fixed"
     >
     </edit-budget-popup>
 
