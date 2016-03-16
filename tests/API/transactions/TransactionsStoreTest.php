@@ -40,7 +40,6 @@ class TransactionsStoreTest extends TestCase
         $content = json_decode($response->getContent(), true);
 
         $this->assertEquals(201, $response->getStatusCode());
-        $content = $content['data'];
 
         $this->seeInDatabase('transactions', [
             'date' => '2015-01-01',
@@ -109,7 +108,6 @@ class TransactionsStoreTest extends TestCase
         $content = json_decode($response->getContent(), true);
 
         $this->assertEquals(201, $response->getStatusCode());
-        $content = $content['data'];
 
         $this->seeInDatabase('transactions', [
             'date' => '2015-01-01',
@@ -179,7 +177,6 @@ class TransactionsStoreTest extends TestCase
         $content = json_decode($response->getContent(), true);
 
         $this->assertEquals(201, $response->getStatusCode());
-        $content = $content['data'];
 
         $this->seeInDatabase('budgets_transactions', [
             'transaction_id' => $content['id'],

@@ -150,8 +150,8 @@ var NewTransaction = Vue.component('new-transaction', {
             this.clearNewTransactionFields();
             //this.newTransaction.dropdown = false;
 
-            if (response.data.multipleBudgets) {
-                $.event.trigger('show-allocation-popup', [response.data, true]);
+            if (response.multipleBudgets) {
+                $.event.trigger('show-allocation-popup', [response, true]);
                 //We'll run the filter after the allocation has been dealt with
             }
             else {
