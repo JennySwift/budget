@@ -92,8 +92,9 @@ class TransactionsController extends Controller
     /**
      * Todo: Should be POST /api/accounts/{accounts}/transaction
      * Todo: Do validations
+     * POST /api/transactions
      * @param Request $request
-     * @return array
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -112,12 +113,9 @@ class TransactionsController extends Controller
 
         $transaction = $this->transactionsRepository->create($data);
 
-        $item = $this->createItem(
-            $transaction,
-            new TransactionTransformer
-        );
+        $transaction = $this->transform($this->createItem($transaction, new TransactionTransformer))['data'];
 
-        return $this->responseWithTransformer($item, Response::HTTP_CREATED);
+        return response($transaction, Response::HTTP_CREATED);
     }
 
     /**

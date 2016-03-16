@@ -100,9 +100,6 @@ class Transaction extends Model
      */
     public function getValidAllocationAttribute()
     {
-        if ($this->id == 5) {
-//            dd(count($this->budgets));
-        }
         if (!$this->multipleBudgets) {
             return null;
         }
@@ -114,7 +111,7 @@ class Transaction extends Model
             }
         }
 
-        return $totalAllocation === $this->total;
+        return (string)$totalAllocation === (string)$this->total;
     }
 
 
