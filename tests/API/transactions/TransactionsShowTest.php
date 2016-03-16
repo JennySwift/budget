@@ -24,7 +24,6 @@ class TransactionsShowTest extends TestCase
         $content = json_decode($response->getContent(), true);
 //        dd($content);
 
-//        $this->checktransactionKeysExist($content);
         $this->checkAllocationTotalKeysExist($content);
 
         $this->assertEquals('-', $content['fixedSum']);

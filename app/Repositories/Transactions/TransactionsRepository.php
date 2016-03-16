@@ -93,7 +93,8 @@ class TransactionsRepository
      */
     private function newTransaction($data)
     {
-        return new Transaction([
+
+        $newTransaction = new Transaction([
             'date' => $data['date'],
             'description' => $data['description'],
             'merchant' => $data['merchant'],
@@ -102,6 +103,16 @@ class TransactionsRepository
             'reconciled' => $data['reconciled'],
             'minutes' => $data['minutes']
         ]);
+
+        //Make sure total is negative for expense, and positive for income
+        if ($newTransaction->type === 'expense' && $newTransaction->total > 0) {
+            $newTransaction->total*= -1;
+        }
+        else if ($newTransaction->type === 'income' && $newTransaction->total < 0) {
+            $newTransaction->total*= -1;
+        }
+
+        return $newTransaction;
     }
 
 

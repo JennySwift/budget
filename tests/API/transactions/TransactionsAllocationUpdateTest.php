@@ -42,19 +42,25 @@ class TransactionsUpdateAllocationTest extends TestCase
         $content = json_decode($response->getContent(), true);
 //        dd($content);
 
-//        $this->checkTransactionKeysExist($content);
         //Todo: budgets here haven't been transformed. I don't think the transformer has the allocation data I need though.
 //        $this->checkBudgetKeysExist($content['budgets'][0]);
-        $this->checkAllocationTotalKeysExist($content['totals']);
 
+        $this->checkTransactionKeysExist($content);
 
         $this->assertEquals(-89, $content['budgets'][0]['pivot']['allocated_fixed']);
         $this->assertNull($content['budgets'][0]['pivot']['allocated_percent']);
         $this->assertEquals(-89, $content['budgets'][0]['pivot']['calculated_allocation']);
 
-        $this->assertEquals(-89, $content['totals']['fixedSum']);
-        $this->assertEquals(0, $content['totals']['percentSum']);
-        $this->assertEquals(-89, $content['totals']['calculatedAllocationSum']);
+        //Get the allocation totals for the transaction
+        $response = $this->call('GET', '/api/transactions/' . $transaction->id);
+        $content = json_decode($response->getContent(), true);
+//        dd($content);
+
+        $this->checkAllocationTotalKeysExist($content);
+
+        $this->assertEquals(-89, $content['fixedSum']);
+        $this->assertEquals(0, $content['percentSum']);
+        $this->assertEquals(-89, $content['calculatedAllocationSum']);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -96,16 +102,21 @@ class TransactionsUpdateAllocationTest extends TestCase
 //        $this->checkTransactionKeysExist($content);
         //Todo: budgets here haven't been transformed. I don't think the transformer has the allocation data I need though.
 //        $this->checkBudgetKeysExist($content['budgets'][0]);
-        $this->checkAllocationTotalKeysExist($content['totals']);
-
 
         $this->assertNull($content['budgets'][0]['pivot']['allocated_fixed']);
         $this->assertEquals(50, $content['budgets'][0]['pivot']['allocated_percent']);
         $this->assertEquals(-15, $content['budgets'][0]['pivot']['calculated_allocation']);
 
-        $this->assertEquals('-', $content['totals']['fixedSum']);
-        $this->assertEquals(100, $content['totals']['percentSum']);
-        $this->assertEquals(-30, $content['totals']['calculatedAllocationSum']);
+        //Get the allocation totals for the transaction
+        $response = $this->call('GET', '/api/transactions/' . $transaction->id);
+        $content = json_decode($response->getContent(), true);
+//        dd($content);
+
+        $this->checkAllocationTotalKeysExist($content);
+
+        $this->assertEquals('-', $content['fixedSum']);
+        $this->assertEquals(100, $content['percentSum']);
+        $this->assertEquals(-30, $content['calculatedAllocationSum']);
 
         $this->assertEquals(200, $response->getStatusCode());
 

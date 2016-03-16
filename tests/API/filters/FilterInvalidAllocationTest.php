@@ -23,7 +23,7 @@ class FilterInvalidAllocationTest extends FiltersTest
         $this->makeSomeTransactionsHaveInvalidAllocation();
 
         $filter = [
-            'invalidAllocation' => true
+            'invalidAllocation' => 'true'
         ];
 
         $this->filter = array_merge($this->defaults, $filter);

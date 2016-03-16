@@ -30,7 +30,7 @@ class BudgetsUpdateTest extends TestCase
             'starting_date' => '2016-01-01'
         ]);
 
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 //        dd($content);
 
         $this->checkBudgetKeysExist($content);
@@ -76,7 +76,7 @@ class BudgetsUpdateTest extends TestCase
 //            'starting_date' => '2015-10-01'
         ]);
 
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 //        dd($content);
 
         $this->checkBudgetKeysExist($content);
@@ -213,7 +213,7 @@ class BudgetsUpdateTest extends TestCase
             'name' => 'bananas'
         ]);
 
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 
         $this->checkBudgetKeysExist($content);
 
