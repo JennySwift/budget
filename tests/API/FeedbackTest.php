@@ -33,6 +33,9 @@ class FeedbackTest extends TestCase
         $this->assertEquals('koala', $content['title']);
         $this->assertEquals('kangaroo', $content['body']);
         $this->assertEquals('2', $content['priority']);
+        $this->assertEquals('1', $content['submittedBy']['id']);
+        $this->assertEquals('Dummy', $content['submittedBy']['name']);
+        $this->assertEquals('cheezyspaghetti@gmail.com', $content['submittedBy']['email']);
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 

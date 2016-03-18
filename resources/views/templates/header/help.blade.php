@@ -7,5 +7,9 @@
         <li>
             <a v-link="{path: '/help'}">Start here :)</a>
         </li>
+
+        <li>
+            <a v-link="{path: '/feedback'}">Submit feedback</a>
+        </li>
     </ul>
 </li>

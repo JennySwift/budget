@@ -41,6 +41,9 @@ router.map({
     '/help': {
         component: HelpPage
     },
+    '/feedback': {
+        component: FeedbackPage
+    },
     '/accounts': {
         component: AccountsPage
     },

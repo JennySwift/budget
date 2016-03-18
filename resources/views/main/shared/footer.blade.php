@@ -11,6 +11,7 @@
 @include('main.shared.totals-component')
 @include('main.budgets.flex-budgets-page-component')
 @include('main.budgets.unassigned-budgets-page-component')
+@include('main.accounts.feedback-page-component')
 
 {{--Budgets--}}
 @include('main.budgets.edit-budget-popup-component')

@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Pusher;
+use Auth;
 
 class FeedbackController extends Controller
 {
@@ -21,12 +22,17 @@ class FeedbackController extends Controller
         $pusher = new Pusher(env('PUSHER_PUBLIC_KEY'), env('PUSHER_SECRET_KEY'), env('PUSHER_APP_ID'));
 
         $data = [
+            'submittedBy' => [
+                'id' => Auth::user()->id,
+                'name' => Auth::user()->name,
+                'email' => Auth::user()->email
+            ],
             'title' => $request->get('title'),
             'body' => $request->get('body'),
             'priority' => $request->get('priority'),
         ];
 
-        $pusher->trigger('myChannel', 'feedbackSubmitted', $data);
+        $pusher->trigger('myChannel', 'budgetAppFeedbackSubmitted', $data);
 
         return response($data, Response::HTTP_OK);
     }
