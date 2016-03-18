@@ -13,6 +13,7 @@ use Auth;
 use DB;
 use Illuminate\Http\Response;
 use JavaScript;
+use Pusher;
 
 /**
  * Class AccountsController
@@ -44,6 +45,13 @@ class AccountsController extends Controller
         $account->save();
 
         $account = $this->transform($this->createItem($account, new AccountTransformer))['data'];
+
+        $pusher = new Pusher(env('PUSHER_PUBLIC_KEY'), env('PUSHER_SECRET_KEY'), env('PUSHER_APP_ID'));
+
+        $data = 'account created!';
+
+        $pusher->trigger('myChannel', 'accountCreated', $data);
+
         return response($account, Response::HTTP_CREATED);
     }
 

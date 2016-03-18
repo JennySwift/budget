@@ -13,6 +13,7 @@ Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => 'auth'], 
     Route::resource('transactions', 'TransactionsController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
     Route::resource('favouriteTransactions', 'FavouriteTransactionsController', ['only' => ['index', 'store', 'update', 'destroy']]);
     Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'destroy']]);
+    Route::resource('feedback', 'FeedbackController', ['only' => ['store']]);
 
     Route::group(['prefix' => 'savings'], function ()
     {

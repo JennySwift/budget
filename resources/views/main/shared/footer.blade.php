@@ -59,6 +59,7 @@
 @include('main.home.allocation-popup-component')
 @include('main.home.budget-allocation-component')
 
+<script src="//js.pusher.com/3.0/pusher.min.js"></script>
 <script type="text/javascript" src="/js/all.js"></script>
 
 </body>
