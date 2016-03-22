@@ -19,21 +19,21 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        $pusher = new Pusher(env('PUSHER_PUBLIC_KEY'), env('PUSHER_SECRET_KEY'), env('PUSHER_APP_ID'));
-
-        $data = [
-            'submittedBy' => [
-                'id' => Auth::user()->id,
-                'name' => Auth::user()->name,
-                'email' => Auth::user()->email
-            ],
-            'title' => $request->get('title'),
-            'body' => $request->get('body'),
-            'priority' => $request->get('priority'),
-        ];
-
-        $pusher->trigger('myChannel', 'budgetAppFeedbackSubmitted', $data);
-
-        return response($data, Response::HTTP_OK);
+//        $pusher = new Pusher(env('PUSHER_PUBLIC_KEY'), env('PUSHER_SECRET_KEY'), env('PUSHER_APP_ID'));
+//
+//        $data = [
+//            'submittedBy' => [
+//                'id' => Auth::user()->id,
+//                'name' => Auth::user()->name,
+//                'email' => Auth::user()->email
+//            ],
+//            'title' => $request->get('title'),
+//            'body' => $request->get('body'),
+//            'priority' => $request->get('priority'),
+//        ];
+//
+//        $pusher->trigger('myChannel', 'budgetAppFeedbackSubmitted', $data);
+//
+//        return response($data, Response::HTTP_OK);
     }
 }
