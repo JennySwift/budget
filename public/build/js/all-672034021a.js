@@ -26199,11 +26199,11 @@ var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
             }
 
             this.newTransaction.type = this.selectedItem.type;
-            this.newTransaction.account_id = this.selectedItem.account.id;
+            this.newTransaction.account = this.selectedItem.account;
 
-            if (this.selectedItem.from_account && this.selectedItem.to_account) {
-                this.newTransaction.from_account_id = this.selectedItem.from_account.id;
-                this.newTransaction.to_account_id = this.selectedItem.to_account.id;
+            if (this.selectedItem.fromAccount && this.selectedItem.toAccount) {
+                this.newTransaction.fromAccount = this.selectedItem.fromAccount;
+                this.newTransaction.toAccount = this.selectedItem.toAccount;
             }
 
             this.newTransaction.budgets = this.selectedItem.budgets;
