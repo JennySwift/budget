@@ -5,7 +5,7 @@
     
     <input
             v-model="typing"
-            {{--v-on:blur="hideAndClear()"--}}
+            v-on:blur="hideAndClear()"
             v-on:focus="focus()"
             v-on:keyup="respondToKeyup($event.keyCode)"
             placeholder="@{{ placeholder }}"
