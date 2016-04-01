@@ -46,7 +46,10 @@ var FeedbackPage = Vue.component('feedback-page', {
                 pinned: 0,
             };
 
-            this.$http.post('http://lists.jennyswiftcreations.com/api/items', data, function (response) {
+            var url = 'http://lists.jennyswiftcreations.com/api/items';
+            //var url = 'http://lists.dev:8000/api/items';
+
+            this.$http.post(url, data, function (response) {
                     $.event.trigger('provide-feedback', ['Feedback submitted', 'success']);
                     $.event.trigger('hide-loading');
                 })

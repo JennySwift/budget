@@ -58,15 +58,14 @@ class FeedbackTest extends TestCase
             'urgency' => 1,
             'favourite' => 1,
             'pinned' => 1,
-            'parent_id' => 5,
-            'category_id' => 2,
+            'parent_id' => 468,
+            'category_id' => 1,
             'not_before' => '2050-02-03 13:30:05'
         ];
 
-//        $response = $this->apiCall('GET', 'http://lists.jennyswiftcreations.com/api/items/1', $item);
-        $response = $this->call('POST', 'http://lists.jennyswiftcreations.com/api/items', $item);
 //        $response = $this->call('POST', 'http://lists.jennyswiftcreations.com/api/items', $item);
-        dd($response);
+        $response = $this->call('POST', 'http://lists.dev:8000/api/items', $item);
+//        dd($response);
         $content = json_decode($response->getContent(), true);
 //      dd($content);
 
@@ -78,8 +77,8 @@ class FeedbackTest extends TestCase
         $this->assertEquals(1, $content['urgency']);
         $this->assertEquals(1, $content['favourite']);
         $this->assertEquals(1, $content['pinned']);
-        $this->assertEquals(5, $content['parent_id']);
-        $this->assertEquals(2, $content['category_id']);
+        $this->assertEquals(468, $content['parent_id']);
+        $this->assertEquals(1, $content['category_id']);
 //        $this->assertEquals($alarm, $content['alarm']);
         $this->assertEquals('2050-02-03 13:30:05', $content['notBefore']);
 
