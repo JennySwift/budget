@@ -21,7 +21,7 @@ class FavouriteTransactionsController extends Controller
      */
     public function index()
     {
-        $favourites = FavouriteTransaction::forCurrentUser()->get();
+        $favourites = FavouriteTransaction::forCurrentUser()->orderBy('name', 'asc')->get();
         $favourites = $this->transform($this->createCollection($favourites, new FavouriteTransactionTransformer))['data'];
         return response($favourites, Response::HTTP_OK);
     }
