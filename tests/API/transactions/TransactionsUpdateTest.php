@@ -2,6 +2,7 @@
 
 use App\Models\Savings;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 
@@ -320,11 +321,13 @@ class TransactionsUpdateTest extends TestCase
 
         $this->checkTransactionKeysExist($content);
 
+        $date = Carbon::createFromFormat('Y-m-d', Config::get('budgets.dateAfterStartingDateForIncomeTransactions'));
+
         //Check the transaction has the right data
         $this->assertEquals(13, $content['id']);
         $this->assertEquals('http://localhost/api/transactions/13', $content['path']);
-        $this->assertEquals('2015-09-01', $content['date']);
-        $this->assertEquals('01/09/15', $content['userDate']);
+        $this->assertEquals($date->copy()->format('Y-m-d'), $content['date']);
+        $this->assertEquals($date->copy()->format('d/m/y'), $content['userDate']);
         $this->assertEquals('income', $content['type']);
 //        $this->assertEquals('numbat', $content['description']);
 //        $this->assertEquals('frog', $content['merchant']);

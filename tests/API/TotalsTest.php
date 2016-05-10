@@ -79,7 +79,7 @@ class TotalsTest extends TestCase {
         $this->assertEquals(100, $budget['amount']);
         $this->assertEquals(null, $budget['calculatedAmount']);
         $this->assertEquals('fixed', $budget['type']);
-        $this->assertEquals("01/07/15", $budget['formattedStartingDate']);
+        $this->assertEquals(Carbon::today()->subMonths(8)->format('d/m/y'), $budget['formattedStartingDate']);
         $this->assertEquals(-70, $budget['spent']);
         $this->assertEquals(300, $budget['received']);
         $this->assertEquals(-40, $budget['spentAfterStartingDate']);
@@ -115,7 +115,7 @@ class TotalsTest extends TestCase {
         $this->assertEquals(10, $budget['amount']);
         $this->assertEquals(20, $budget['calculatedAmount']);
         $this->assertEquals('flex', $budget['type']);
-        $this->assertEquals("01/07/15", $budget['formattedStartingDate']);
+        $this->assertEquals(Carbon::today()->subMonths(8)->format('d/m/y'), $budget['formattedStartingDate']);
         $this->assertEquals(-35, $budget['spent']);
         $this->assertEquals(1500, $budget['received']);
         $this->assertEquals(-15, $budget['spentBeforeStartingDate']);

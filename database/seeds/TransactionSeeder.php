@@ -2,6 +2,7 @@
 
 use App\Models\Budget;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Models\Transaction;
@@ -85,8 +86,8 @@ class TransactionSeeder extends Seeder {
      */
     private function createExpenseTransactionsWithBudgets($user, $num)
     {
-        $dateBeforeStartingDate = '2013-01-01';
-        $dateAfterStartingDate = '2015-08-01';
+        $dateBeforeStartingDate = Config::get('budgets.dateBeforeStartingDateForExpenseTransactions');
+        $dateAfterStartingDate = Config::get('budgets.dateAfterStartingDateForExpenseTransactions');
         $bankFeesId = Budget::where('user_id', $user->id)->whereName('bank fees')->pluck('id');
 
         foreach (range(1, $num) as $index) {
@@ -127,10 +128,8 @@ class TransactionSeeder extends Seeder {
      */
     private function createIncomeTransactionsWithBudgets($user, $num)
     {
-        $dateBeforeStartingDate = '2013-02-01';
-        $dateAfterStartingDate = '2015-09-01';
-//        $dateBeforeStartingDate = $this->faker->dateTimeBetween('-2 years', '-1 years')->format('Y-m-d');
-//        $dateAfterStartingDate = $this->faker->dateTimeBetween('-1 months', 'now')->format('Y-m-d');
+        $dateBeforeStartingDate = Config::get('budgets.dateBeforeStartingDateForIncomeTransactions');
+        $dateAfterStartingDate = Config::get('budgets.dateAfterStartingDateForIncomeTransactions');
 
         $businessId = Budget::where('user_id', $user->id)->whereName('business')->pluck('id');
         $buskingId = Budget::where('user_id', $user->id)->whereName('busking')->pluck('id');
@@ -262,7 +261,7 @@ class TransactionSeeder extends Seeder {
     private function createIncomeTransactionsWithoutBudgets($user, $num)
     {
         foreach (range(1, $num) as $index) {
-            $transaction = $this->createIncome($user, '2015-06-01', 300, 1, $this->accounts[0]);
+            $transaction = $this->createIncome($user, Carbon::today()->subMonths(7)->format('Y-m-d'), 300, 1, $this->accounts[0]);
         }
     }
 
@@ -286,7 +285,7 @@ class TransactionSeeder extends Seeder {
     private function createExpenseTransactionsWithoutBudgets($user, $num)
     {
         foreach (range(1, $num) as $index) {
-            $transaction = $this->createExpense($user, '2015-07-01', 50, 1, $this->accounts[0]);
+            $transaction = $this->createExpense($user, Carbon::today()->subMonths(4)->format('Y-m-d'), 50, 1, $this->accounts[0]);
         }
     }
 
@@ -377,7 +376,7 @@ class TransactionSeeder extends Seeder {
 
 //        $date = $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s');
 //        $total = $this->faker->randomElement([5, 10, 15, 20]);
-        $date = '2013-03-01';
+        $date = Config::get('budgets.dateBeforeStartingDateForIncomeTransactions');
         $total = 100;
         $description = $this->faker->sentence(1);
 

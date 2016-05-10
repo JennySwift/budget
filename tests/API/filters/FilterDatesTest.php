@@ -21,7 +21,7 @@ class FilterDatesTest extends FiltersTest
         $this->logInUser();
 
 //        $date = Carbon::yesterday()->format('Y-m-d');
-        $date = '2015-08-01';
+        $date = Carbon::today()->subMonths(3)->format('Y-m-d');
 
         $filter = [
             'singleDate' => [
@@ -55,8 +55,7 @@ class FilterDatesTest extends FiltersTest
         $this->setFilterDefaults();
         $this->logInUser();
 
-//        $date = Carbon::yesterday()->format('Y-m-d');
-        $date = '2015-08-01';
+        $date = Carbon::today()->subMonths(3)->format('Y-m-d');
 
         $filter = [
             'singleDate' => [
@@ -90,7 +89,7 @@ class FilterDatesTest extends FiltersTest
         $this->setFilterDefaults();
         $this->logInUser();
 
-        $date = '2015-08-01';
+        $date = Carbon::today()->subMonths(3)->format('Y-m-d');
 
         $filter = [
             'fromDate' => [
@@ -122,7 +121,7 @@ class FilterDatesTest extends FiltersTest
         $this->setFilterDefaults();
         $this->logInUser();
 
-        $date = '2015-08-01';
+        $date = Carbon::today()->subMonths(3)->format('Y-m-d');
 
         $filter = [
             'toDate' => [

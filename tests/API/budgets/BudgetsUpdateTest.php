@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Budget;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
@@ -24,10 +25,12 @@ class BudgetsUpdateTest extends TestCase
 
         $budget = Budget::find(2);
 
+        $startingDate = Carbon::today()->subMonths(2);
+
         $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
             'name' => 'jetskiing',
             'amount' => 10,
-            'starting_date' => '2016-01-01'
+            'starting_date' => $startingDate->copy()->format('Y-m-d')
         ]);
 
         $content = json_decode($response->getContent(), true);
@@ -41,7 +44,7 @@ class BudgetsUpdateTest extends TestCase
         $this->assertEquals(10, $content['amount']);
 //        $this->assertEquals(20, $content['calculatedAmount']);
         $this->assertEquals('fixed', $content['type']);
-        $this->assertEquals('01/01/16', $content['formattedStartingDate']);
+        $this->assertEquals($startingDate->copy()->format('d/m/y'), $content['formattedStartingDate']);
 
         $this->assertEquals(-70, $content['spent']);
         $this->assertEquals(300, $content['received']);
@@ -140,7 +143,9 @@ class BudgetsUpdateTest extends TestCase
         $this->assertEquals(1300, $content['calculatedAmount']);
 
         $this->assertEquals('flex', $content['type']);
-        $this->assertEquals('01/07/15', $content['formattedStartingDate']);
+
+        $startingDate = Carbon::createFromFormat('Y-m-d', Config::get('budgets.startingDate'))->format('d/m/y');
+        $this->assertEquals($startingDate, $content['formattedStartingDate']);
 
         $this->assertEquals(-70, $content['spent']);
         $this->assertEquals(300, $content['received']);
@@ -167,9 +172,10 @@ class BudgetsUpdateTest extends TestCase
 
         $this->assertEquals('unassigned', $budget->type);
 
+        $startingDate = Carbon::today()->subMonths(14);
         $response = $this->apiCall('PUT', '/api/budgets/'.$budget->id, [
             'type' => 'fixed',
-            'starting_date' => '2015-01-01',
+            'starting_date' => $startingDate->copy()->format('Y-m-d'),
             'amount' => 5
         ]);
 
@@ -184,7 +190,7 @@ class BudgetsUpdateTest extends TestCase
 //        $this->assertEquals(1300, $content['calculatedAmount']);
 
         $this->assertEquals('fixed', $content['type']);
-        $this->assertEquals('01/01/15', $content['formattedStartingDate']);
+        $this->assertEquals($startingDate->copy()->format('d/m/y'), $content['formattedStartingDate']);
 
         $this->assertEquals(-5, $content['spent']);
         $this->assertEquals(0, $content['received']);

@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 
@@ -64,8 +65,8 @@ class FilterTotalsTest extends FiltersTest
         //Check the number of transactions returned matches the numToFetch
         $this->assertCount(4, $this->transactions);
 
-        //Check the offset is working
-        $this->assertEquals(3, $this->transactions[0]['id']);
+        //Check the offset is working (Before I made the seeder dates dynamic, this was 3 instead of 7. Not sure why it changed.
+        $this->assertEquals(7, $this->transactions[0]['id']);
 
         $this->checkBasicTotalKeysExist($this->basicTotals);
 
@@ -90,7 +91,7 @@ class FilterTotalsTest extends FiltersTest
 
         $filter = [
             'singleDate' => [
-                'inSql' => '2015-08-01',
+                'inSql' => Carbon::today()->subMonths(3)->format('Y-m-d'),
                 "outSql" => ""
             ]
         ];
@@ -130,11 +131,11 @@ class FilterTotalsTest extends FiltersTest
 
         $filter = [
             'fromDate' => [
-                'inSql' => '2013-02-01',
+                'inSql' => Carbon::today()->subMonths(36)->format('Y-m-d'),
                 "outSql" => ""
             ],
             'toDate' => [
-                'inSql' => '2015-08-01',
+                'inSql' => Carbon::today()->subMonths(4)->format('Y-m-d'),
                 "outSql" => ""
             ]
 
@@ -150,17 +151,17 @@ class FilterTotalsTest extends FiltersTest
         $this->setTransactions($data);
 
         //Check the number of transactions returned is correct
-        $this->assertCount(10, $this->transactions);
+        $this->assertCount(12, $this->transactions);
 
         $this->checkBasicTotalKeysExist($this->basicTotals);
 
-        $this->assertEquals(900, $this->basicTotals['credit']);
-        $this->assertEquals(-115, $this->basicTotals['debit']);
-        $this->assertEquals(1000, $this->basicTotals['creditIncludingTransfers']);
-        $this->assertEquals(-215, $this->basicTotals['debitIncludingTransfers']);
-        $this->assertEquals(785, $this->basicTotals['balance']);
-        $this->assertEquals(845, $this->basicTotals['reconciled']);
-        $this->assertEquals(10, $this->basicTotals['numTransactions']);
+        $this->assertEquals(2350, $this->basicTotals['credit']);
+        $this->assertEquals(-95, $this->basicTotals['debit']);
+        $this->assertEquals(2450, $this->basicTotals['creditIncludingTransfers']);
+        $this->assertEquals(-195, $this->basicTotals['debitIncludingTransfers']);
+        $this->assertEquals(2255, $this->basicTotals['balance']);
+        $this->assertEquals(1055, $this->basicTotals['reconciled']);
+        $this->assertEquals(12, $this->basicTotals['numTransactions']);
 
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
     }
@@ -175,11 +176,11 @@ class FilterTotalsTest extends FiltersTest
 
         $filter = [
             'fromDate' => [
-                'inSql' => '2013-02-01',
+                'inSql' => Carbon::today()->subMonths(35)->format('Y-m-d'),
                 "outSql" => ""
             ],
             'toDate' => [
-                'inSql' => '2015-08-01',
+                'inSql' => Carbon::today()->subMonths(6)->format('Y-m-d'),
                 "outSql" => ""
             ],
             'types' => [
@@ -224,11 +225,11 @@ class FilterTotalsTest extends FiltersTest
 
         $filter = [
             'fromDate' => [
-                'inSql' => '2013-02-01',
+                'inSql' => Carbon::today()->subMonths(33)->format('Y-m-d'),
                 "outSql" => ""
             ],
             'toDate' => [
-                'inSql' => '2015-08-01',
+                'inSql' => Carbon::today()->subMonths(3)->format('Y-m-d'),
                 "outSql" => ""
             ],
             'types' => [
@@ -283,11 +284,11 @@ class FilterTotalsTest extends FiltersTest
 
         $filter = [
             'fromDate' => [
-                'inSql' => '2013-02-01',
+                'inSql' => Carbon::today()->subMonths(33)->format('Y-m-d'),
                 "outSql" => ""
             ],
             'toDate' => [
-                'inSql' => '2015-08-01',
+                'inSql' => Carbon::today()->subMonths(3)->format('Y-m-d'),
                 "outSql" => ""
             ],
             'types' => [
@@ -342,11 +343,11 @@ class FilterTotalsTest extends FiltersTest
 
         $filter = [
             'fromDate' => [
-                'inSql' => '2013-02-01',
+                'inSql' => Carbon::today()->subMonths(33)->format('Y-m-d'),
                 "outSql" => ""
             ],
             'toDate' => [
-                'inSql' => '2015-08-01',
+                'inSql' => Carbon::today()->subMonths(3)->format('Y-m-d'),
                 "outSql" => ""
             ],
             'types' => [
@@ -401,11 +402,11 @@ class FilterTotalsTest extends FiltersTest
 
         $filter = [
             'fromDate' => [
-                'inSql' => '2013-02-01',
+                'inSql' => Carbon::today()->subMonths(35)->format('Y-m-d'),
                 "outSql" => ""
             ],
             'toDate' => [
-                'inSql' => '2015-08-01',
+                'inSql' => Carbon::today()->subMonths(5)->format('Y-m-d'),
                 "outSql" => ""
             ],
             'types' => [

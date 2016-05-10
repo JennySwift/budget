@@ -1,12 +1,21 @@
 <?php
 
+use Carbon\Carbon;
+
 /**
  * This value needs to be 8 months ago in order for my tests to pass.
  * So if it is now Jan 2016, $starting date should be in May 2015
  */
-$startingDate = '2015-07-01';
+$startingDate = Carbon::today()->subMonths(8)->format('Y-m-d');
 
 return [
+    'startingDate' => $startingDate,
+
+    'dateBeforeStartingDateForExpenseTransactions' => Carbon::today()->subMonths(34)->format('Y-m-d'),
+    'dateAfterStartingDateForExpenseTransactions' => Carbon::today()->subMonths(3)->format('Y-m-d'),
+
+    'dateBeforeStartingDateForIncomeTransactions' => Carbon::today()->subMonths(35)->format('Y-m-d'),
+    'dateAfterStartingDateForIncomeTransactions' => Carbon::today()->subMonths(4)->format('Y-m-d'),
     'types' => ['fixed', 'flex', 'unassigned'],
     'seeder1' => [
         [
