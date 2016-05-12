@@ -1306,6 +1306,15 @@ caption {
     .new-budget .flex div:first-child {
       margin-right: 20px; }
 
+#graphs-component {
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  max-width: 100%; }
+  #graphs-component .chart-container, #graphs-component .chart-container {
+    height: 335px;
+    max-width: 100%; }
+
 #graphs {
   display: -webkit-flex;
   display: -ms-flexbox;

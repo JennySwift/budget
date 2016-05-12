@@ -18,7 +18,7 @@
             >
             </totals>
 
-            <div v-show="tab === 'transactions'" class="flex-grow-2">
+            <div v-show="tab === 'transactions'">
                 <transactions
                         :show="show"
                         :transaction-properties-to-show="transactionPropertiesToShow",
@@ -33,11 +33,12 @@
                 </mass-transaction-update-popup>
             </div>
 
-            <div v-show="tab === 'graphs'" class="flex-grow-2">
-                <graphs
-                >
-                </graphs>
-            </div>
+
+            <graphs
+                    v-show="tab === 'graphs'"
+            >
+            </graphs>
+
 
             <filter
                 :show="show"

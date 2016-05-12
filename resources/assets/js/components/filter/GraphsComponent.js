@@ -83,7 +83,6 @@ var Graphs = Vue.component('graphs', {
          *
          */
         chart: function () {
-            // var context = $('#chart').getContext('2d');
             var months = _.pluck(this.graphFigures.months, 'month');
             var data = {
                 labels: months,
@@ -112,9 +111,20 @@ var Graphs = Vue.component('graphs', {
             };
 
             setTimeout(function () {
-                new Chart(document.querySelector('#chart').getContext('2d'), {
+                new Chart(document.querySelector('#bar-chart').getContext('2d'), {
                     type: 'bar',
-                    data: data
+                    data: data,
+                    options: {
+                        maintainAspectRatio: false
+                    }
+                });
+
+                new Chart(document.querySelector('#line-chart').getContext('2d'), {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        maintainAspectRatio: false
+                    }
                 });
             }, 1000);
 
