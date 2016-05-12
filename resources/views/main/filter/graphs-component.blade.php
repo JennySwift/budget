@@ -32,4 +32,6 @@
 
     </div>
 
+    <canvas id="chart"></canvas>
+
 </script>

@@ -66,6 +66,34 @@ var Graphs = Vue.component('graphs', {
         /**
          *
          */
+        chart: function () {
+            // var context = $('#chart').getContext('2d');
+
+            var data = {
+                labels: ['Jan', 'Feb', 'Mar'],
+                datasets: [
+                    //For the first line
+                    {
+                        data: [10, 20, 30],
+                        // fillColor: "rgba(...)"
+                    },
+                    //For another line
+                    {
+                        data: [10, 20, 30],
+                        // fillColor: "rgba(...)"
+                    }
+                ]
+            };
+
+            new Chart(document.querySelector('#chart').getContext('2d'), {
+                type: 'bar',
+                data: data
+            });
+        },
+
+        /**
+         *
+         */
         listen: function () {
             var that = this;
             $(document).on('get-graph-totals', function (event, filter) {
@@ -80,5 +108,6 @@ var Graphs = Vue.component('graphs', {
     ready: function () {
         this.getGraphTotals();
         this.listen();
+        this.chart();
     }
 });

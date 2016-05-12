@@ -67,7 +67,7 @@ var HomePage = Vue.component('home-page', {
          */
         setTab: function () {
             if (this.env === 'local') {
-                this.tab = 'transactions';
+                this.tab = 'graphs';
             }
             else {
                 this.tab = 'transactions';
