@@ -98,7 +98,7 @@ var Graphs = Vue.component('graphs', {
                         backgroundColor: "rgba(255,0,0,0.2)",
                         borderColor: "rgba(255,99,132,1)",
                         borderWidth: 1,
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        hoverBackgroundColor: "rgba(255,0,0,0.4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
                     },
                     //Credit
@@ -108,7 +108,7 @@ var Graphs = Vue.component('graphs', {
                         backgroundColor: "rgba(0,255,0,0.2)",
                         borderColor: "rgba(255,99,132,1)",
                         borderWidth: 1,
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        hoverBackgroundColor: "rgba(0,255,0,0.4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
                     }
                 ]
