@@ -33814,7 +33814,14 @@ var Graphs = Vue.component('graphs', {
     data: function () {
         return {
             graphFigures: {months: []},
-            a: 4
+            charts: {
+                lineChart: {},
+                barChart: {},
+            },
+            chartsCreated: false,
+            chartData: {
+                all: {}
+            }
         };
     },
     components: {},
@@ -33827,9 +33834,6 @@ var Graphs = Vue.component('graphs', {
         // months: function () {
         //   return _.pluck(this.graphFigures, 'months');
         // }
-        b: function () {
-            return this.a * 2;
-        },
         debitForChart: function () {
             var array = _.pluck(this.graphFigures.months, 'expenses');
             return _.map(array, function (num) {
@@ -33895,7 +33899,7 @@ var Graphs = Vue.component('graphs', {
          */
         chart: function () {
             var months = _.pluck(this.graphFigures.months, 'month');
-            var data = {
+            this.chartData.all = {
                 labels: months,
                 datasets: [
                     //Debit
@@ -33921,25 +33925,46 @@ var Graphs = Vue.component('graphs', {
                 ]
             };
 
+            if (this.chartsCreated) {
+                this.destroyCharts();
+            }
+            this.createCharts();
+        },
+
+        /**
+         *
+         * @param data
+         */
+        destroyCharts: function () {
+            this.charts.barChart.destroy();
+            this.charts.lineChart.destroy();
+        },
+
+        /**
+         *
+         * @param data
+         */
+        createCharts: function () {
+            var that = this;
             setTimeout(function () {
-                new Chart(document.querySelector('#bar-chart').getContext('2d'), {
+                that.charts.barChart = new Chart(document.querySelector('#bar-chart').getContext('2d'), {
                     type: 'bar',
-                    data: data,
+                    data: that.chartData.all,
                     options: {
                         maintainAspectRatio: false
                     }
                 });
 
-                new Chart(document.querySelector('#line-chart').getContext('2d'), {
+                that.charts.lineChart = new Chart(document.querySelector('#line-chart').getContext('2d'), {
                     type: 'line',
-                    data: data,
+                    data: that.chartData.all,
                     options: {
                         maintainAspectRatio: false
                     }
                 });
+
+                that.chartsCreated = true;
             }, 1000);
-
-
         },
 
         /**

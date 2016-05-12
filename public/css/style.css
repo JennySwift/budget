@@ -1310,7 +1310,10 @@ caption {
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  max-width: 100%; }
+  max-width: calc(100% - 40px);
+  padding: 40px;
+  border: 1px solid #777;
+  border-radius: 4px; }
   #graphs-component .chart-container, #graphs-component .chart-container {
     height: 335px;
     max-width: 100%; }
