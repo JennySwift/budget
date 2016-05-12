@@ -33813,8 +33813,7 @@ var Graphs = Vue.component('graphs', {
     template: '#graphs-template',
     data: function () {
         return {
-            graphFigures: {months: []},
-            a: 4
+            graphFigures: {},
         };
     },
     components: {},
@@ -33825,17 +33824,8 @@ var Graphs = Vue.component('graphs', {
     },
     computed: {
         // months: function () {
-        //   return _.pluck(this.graphFigures, 'months');
-        // }
-        b: function () {
-            return this.a * 2;
-        },
-        debitForChart: function () {
-            var array = _.pluck(this.graphFigures.months, 'expenses');
-            return _.map(array, function (num) {
-                return num * -1;
-            })
-        }
+        //   return _.pluck(this.graphFigures.months, 'months');
+        // },
     },
     methods: {
 
@@ -33855,7 +33845,6 @@ var Graphs = Vue.component('graphs', {
 
             this.$http.post('/api/filter/graphTotals', data, function (response) {
                 this.graphFigures = this.calculateGraphFigures(response);
-                this.chart();
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {
@@ -33894,42 +33883,26 @@ var Graphs = Vue.component('graphs', {
          *
          */
         chart: function () {
-            // var context = $('#chart').getContext('2d');
-            var months = _.pluck(this.graphFigures.months, 'month');
             var data = {
-                labels: months,
+                labels: ['Jan', 'Feb', 'Mar'],
                 datasets: [
-                    //Debit
+                    //For the first line
                     {
-                        data: this.debitForChart,
-                        label: "Debit",
-                        backgroundColor: "rgba(255,0,0,0.2)",
-                        borderColor: "rgba(255,99,132,1)",
-                        borderWidth: 1,
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
+                        data: [10, 20, 30],
+                        // fillColor: "rgba(...)"
                     },
-                    //Credit
+                    //For another line
                     {
-                        data: _.pluck(this.graphFigures.months, 'income'),
-                        label: "Credit",
-                        backgroundColor: "rgba(0,255,0,0.2)",
-                        borderColor: "rgba(255,99,132,1)",
-                        borderWidth: 1,
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
+                        data: [10, 20, 30],
+                        // fillColor: "rgba(...)"
                     }
                 ]
             };
 
-            setTimeout(function () {
-                new Chart(document.querySelector('#chart').getContext('2d'), {
-                    type: 'bar',
-                    data: data
-                });
-            }, 1000);
-
-
+            new Chart(document.querySelector('#chart').getContext('2d'), {
+                type: 'bar',
+                data: data
+            });
         },
 
         /**
@@ -33949,6 +33922,7 @@ var Graphs = Vue.component('graphs', {
     ready: function () {
         this.getGraphTotals();
         this.listen();
+        this.chart();
     }
 });
 var InvalidAllocationFilter = Vue.component('invalid-allocation-filter', {
