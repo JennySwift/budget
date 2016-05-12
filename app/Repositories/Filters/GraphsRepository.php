@@ -52,7 +52,7 @@ class GraphsRepository {
         }
 
         return [
-            'monthsTotals' => $monthsTotals,
+            'monthsTotals' => array_reverse($monthsTotals),
             'maxTotal' => $this->getMax($monthsTotals)
         ];
     }
