@@ -20,20 +20,40 @@ class FilterTotalsRepository {
     public function getFilterTotals($query, $queryForCalculatingBalance = null)
     {
         $transactions = $this->getTransactions($query);
+        $balanceFromBeginning = null;
+
+        if ($queryForCalculatingBalance) {
+            $transactionsForCalculatingBalance = $this->getTransactions($queryForCalculatingBalance);
+            $resultsForCalculatingBalance = $this->calculateFilterTotals($transactionsForCalculatingBalance);
+            $balanceFromBeginning = $resultsForCalculatingBalance['creditIncludingTransfers'] + $resultsForCalculatingBalance['debitIncludingTransfers'];
+        }
+
+        $results = $this->calculateFilterTotals($transactions);
+
+        return new FilterTotals(
+            $results['credit'],
+            $results['debit'],
+            $results['creditIncludingTransfers'],
+            $results['debitIncludingTransfers'],
+            $results['creditIncludingTransfers'] + $results['debitIncludingTransfers'],
+            $results['totalReconciled'],
+            $this->countTransactions($query),
+            $balanceFromBeginning
+        );
+    }
+
+    /**
+     * 
+     * @param $transactions
+     * @return array
+     */
+    private function calculateFilterTotals($transactions)
+    {
         $credit = 0;
         $debit = 0;
         $creditIncludingTransfers = 0;
         $debitIncludingTransfers = 0;
         $totalReconciled = 0;
-        $balanceFromBeginning = null;
-
-        if ($queryForCalculatingBalance) {
-            $queryForCalculatingBalanceClone1 = clone $queryForCalculatingBalance;
-            $queryForCalculatingBalanceClone2 = clone $queryForCalculatingBalance;
-            $incomeFromBeginning = $queryForCalculatingBalanceClone1->where('type', 'income')->sum('total');
-            $expensesFromBeginning = $queryForCalculatingBalanceClone2->where('type', 'expense')->sum('total');
-            $balanceFromBeginning = $incomeFromBeginning + $expensesFromBeginning;
-        }
 
         foreach ($transactions as $transaction) {
             switch($transaction->type) {
@@ -54,9 +74,6 @@ class FilterTotalsRepository {
                     elseif ($transaction->total < 0) {
                         $debitIncludingTransfers += $transaction->total;
                     }
-
-                default:
-                    // @TODO If nothing matches, throw an exception!!
             }
 
             if ($transaction->reconciled == 1) {
@@ -64,16 +81,13 @@ class FilterTotalsRepository {
             }
         }
 
-        return new FilterTotals(
-            $credit,
-            $debit,
-            $creditIncludingTransfers,
-            $debitIncludingTransfers,
-            $creditIncludingTransfers + $debitIncludingTransfers,
-            $totalReconciled,
-            $this->countTransactions($query),
-            $balanceFromBeginning
-        );
+        return [
+            'credit' => $credit,
+            'debit' => $debit,
+            'creditIncludingTransfers' => $creditIncludingTransfers,
+            'debitIncludingTransfers' => $debitIncludingTransfers,
+            'totalReconciled' => $totalReconciled,
+        ];
     }
 
     /**

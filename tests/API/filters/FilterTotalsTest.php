@@ -86,6 +86,47 @@ class FilterTotalsTest extends FiltersTest
     /**
      * @test
      */
+    public function it_checks_filter_totals_are_correct_with_account_filter()
+    {
+        $this->setFilterDefaults();
+        $this->logInUser();
+
+        $filter = [
+            'accounts' => [
+                'in' => [1],
+                'out' => []
+            ]
+        ];
+
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+
+        $this->setBasicTotals($data);
+        $this->setTransactions($data);
+
+//        dd($this->transactions);
+        //Check the number of transactions returned is correct
+        $this->assertCount(10, $this->transactions);
+        $this->checkBasicTotalKeysExist($this->basicTotals);
+
+        $this->assertEquals(1100, $this->basicTotals['credit']);
+        $this->assertEquals(-100, $this->basicTotals['debit']);
+        $this->assertEquals(1200, $this->basicTotals['creditIncludingTransfers']);
+        $this->assertEquals(-100, $this->basicTotals['debitIncludingTransfers']);
+        $this->assertEquals(1100, $this->basicTotals['balance']);
+        $this->assertEquals(1100, $this->basicTotals['balanceFromBeginning']);
+        $this->assertEquals(830, $this->basicTotals['reconciled']);
+        $this->assertEquals(10, $this->basicTotals['numTransactions']);
+
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
     public function it_checks_filter_totals_are_correct_with_singleDate_filter()
     {
         $this->setFilterDefaults();
