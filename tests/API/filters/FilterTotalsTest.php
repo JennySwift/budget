@@ -120,6 +120,8 @@ class FilterTotalsTest extends FiltersTest
         $this->assertEquals(1100, $this->basicTotals['balanceFromBeginning']);
         $this->assertEquals(830, $this->basicTotals['reconciled']);
         $this->assertEquals(10, $this->basicTotals['numTransactions']);
+        $this->assertEquals(100, $this->basicTotals['positiveTransferTotal']);
+        $this->assertEquals(0, $this->basicTotals['negativeTransferTotal']);
 
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
     }

@@ -33839,6 +33839,15 @@ var Graphs = Vue.component('graphs', {
             return _.map(array, function (num) {
                 return num * -1;
             })
+        },
+        negativeTransferTotals: function () {
+            var array = _.pluck(this.graphFigures.months, 'negativeTransferTotal');
+            return _.map(array, function (num) {
+                if (num === 0) {
+                    return num;
+                }
+                return num * -1;
+            })
         }
     },
     methods: {
@@ -33889,6 +33898,8 @@ var Graphs = Vue.component('graphs', {
                     expenses: this.debit,
                     month: this.month,
                     balanceFromBeginning: this.balanceFromBeginning,
+                    positiveTransferTotal: this.positiveTransferTotal,
+                    negativeTransferTotal: this.negativeTransferTotal,
                 });
             });
 
@@ -33931,6 +33942,26 @@ var Graphs = Vue.component('graphs', {
                         borderColor: "rgba(255,99,132,1)",
                         borderWidth: 1,
                         hoverBackgroundColor: "rgba(252, 167, 0, .4)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                    },
+                    //Positive transfers
+                    {
+                        data: _.pluck(this.graphFigures.months, 'positiveTransferTotal'),
+                        label: "Positive transfers",
+                        backgroundColor: "rgba(0,255,0,0.6)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 1,
+                        hoverBackgroundColor: "rgba(0,255,0,0.8)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                    },
+                    //Negative transfers
+                    {
+                        data: this.negativeTransferTotals,
+                        label: "Negative transfers",
+                        backgroundColor: "rgba(255,0,0,0.6)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 1,
+                        hoverBackgroundColor: "rgba(255,0,0,0.8)",
                         hoverBorderColor: "rgba(255,99,132,1)",
                     }
                 ]

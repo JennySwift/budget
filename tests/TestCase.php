@@ -273,6 +273,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertArrayHasKey('debit', $monthData);
 		$this->assertArrayHasKey('month', $monthData);
 		$this->assertArrayHasKey('balanceFromBeginning', $monthData);
+		$this->assertArrayHasKey('positiveTransferTotal', $monthData);
+		$this->assertArrayHasKey('negativeTransferTotal', $monthData);
 	}
 
 }

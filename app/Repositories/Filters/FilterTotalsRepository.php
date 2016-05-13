@@ -38,12 +38,14 @@ class FilterTotalsRepository {
             $results['creditIncludingTransfers'] + $results['debitIncludingTransfers'],
             $results['totalReconciled'],
             $this->countTransactions($query),
-            $balanceFromBeginning
+            $balanceFromBeginning,
+            $results['positiveTransferTotal'],
+            $results['negativeTransferTotal']
         );
     }
 
     /**
-     * 
+     *
      * @param $transactions
      * @return array
      */
@@ -54,6 +56,8 @@ class FilterTotalsRepository {
         $creditIncludingTransfers = 0;
         $debitIncludingTransfers = 0;
         $totalReconciled = 0;
+        $positiveTransferTotal = 0;
+        $negativeTransferTotal = 0;
 
         foreach ($transactions as $transaction) {
             switch($transaction->type) {
@@ -70,9 +74,11 @@ class FilterTotalsRepository {
                 case "transfer":
                     if ($transaction->total > 0) {
                         $creditIncludingTransfers += $transaction->total;
+                        $positiveTransferTotal += $transaction->total;
                     }
                     elseif ($transaction->total < 0) {
                         $debitIncludingTransfers += $transaction->total;
+                        $negativeTransferTotal+= $transaction->total;
                     }
             }
 
@@ -87,6 +93,8 @@ class FilterTotalsRepository {
             'creditIncludingTransfers' => $creditIncludingTransfers,
             'debitIncludingTransfers' => $debitIncludingTransfers,
             'totalReconciled' => $totalReconciled,
+            'positiveTransferTotal' => $positiveTransferTotal,
+            'negativeTransferTotal' => $negativeTransferTotal,
         ];
     }
 

@@ -104,7 +104,7 @@ class GraphsRepository {
 
         $monthTotals->month = $date->format("M Y");
         return $monthTotals;
-        
+
 //        return [];
 
 
