@@ -29,6 +29,7 @@ Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => 'auth'], 
         Route::get('fixedBudget', 'TotalsController@fixedBudget');
         Route::get('flexBudget', 'TotalsController@flexBudget');
         Route::get('unassignedBudget', 'TotalsController@unassignedBudget');
+        Route::get('spentOnBudgets', 'TotalsController@spentOnBudgets');
     });
 
     Route::group(['prefix' => 'filter'], function ()

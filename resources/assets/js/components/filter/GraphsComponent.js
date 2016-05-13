@@ -6,10 +6,12 @@ var Graphs = Vue.component('graphs', {
             charts: {
                 lineChart: {},
                 barChart: {},
+                doughnutChart: {}
             },
             chartsCreated: false,
             chartData: {
-                all: {}
+                all: {},
+                doughnut: {}
             }
         };
     },
@@ -37,6 +39,15 @@ var Graphs = Vue.component('graphs', {
                 }
                 return num * -1;
             })
+        },
+        spentOnBudgets: function () {
+            var array = _.pluck(this.chartData.doughnut, 'spentInDateRange');
+            return _.map(array, function (num) {
+                if (num === 0) {
+                    return num;
+                }
+                return num * -1;
+            })
         }
     },
     methods: {
@@ -50,14 +61,16 @@ var Graphs = Vue.component('graphs', {
             var data = {filter: {}};
 
             if (this.filter) {
+                this.filter = FilterRepository.formatDates(this.filter);
                 data = {
-                    filter: FilterRepository.formatDates(this.filter)
+                    filter: this.filter
                 };
             }
 
             this.$http.post('/api/filter/graphTotals', data, function (response) {
                 this.graphFigures = this.calculateGraphFigures(response);
                 this.chart();
+                this.getDoughnutChartData();
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {
@@ -93,6 +106,36 @@ var Graphs = Vue.component('graphs', {
             });
 
             return graphFigures;
+        },
+
+        /**
+         *
+         */
+        populateDoughnutChartData: function () {
+            this.chartData.doughnut = {
+                labels: _.pluck(this.chartData.doughnut, 'name'),
+                datasets: [
+                    //Spent on budgets in date range
+                    {
+                        data: this.spentOnBudgets,
+                        label: "Budgets",
+                        backgroundColor: [
+                            'rgba(0,0,0,.4)',
+                            'rgba(255,0,0,.4)',
+                            'rgba(0,255,0,.4)',
+                            'rgba(0,0,255,.4)',
+                            'rgba(0,255,255,.4)',
+                        ],
+                        hoverBackgroundColor: [
+                            'rgba(0,0,0,.6)',
+                            'rgba(255,0,0,.6)',
+                            'rgba(0,255,0,.6)',
+                            'rgba(0,0,255,.6)',
+                            'rgba(0,255,255,.6)',
+                        ],
+                    },
+                ]
+            }
         },
 
         /**
@@ -169,6 +212,7 @@ var Graphs = Vue.component('graphs', {
         destroyCharts: function () {
             this.charts.barChart.destroy();
             this.charts.lineChart.destroy();
+            this.charts.doughnutChart.destroy();
         },
 
         /**
@@ -194,8 +238,38 @@ var Graphs = Vue.component('graphs', {
                     }
                 });
 
+                that.charts.doughnutChart = new Chart(document.querySelector('#doughnut-chart').getContext('2d'), {
+                    type: 'doughnut',
+                    data: that.chartData.doughnut,
+                    options: {
+                        maintainAspectRatio: false
+                    }
+                });
+
                 that.chartsCreated = true;
             }, 1000);
+        },
+
+        /**
+        *
+        */
+        getDoughnutChartData: function () {
+            var from = '';
+            var to = '';
+            if (this.filter) {
+                from = this.filter.fromDate.inSql;
+                to = this.filter.toDate.inSql;
+            }
+
+            $.event.trigger('show-loading');
+            this.$http.get('/api/totals/spentOnBudgets?from=' + from + '&to=' + to, function (response) {
+                this.chartData.doughnut = response;
+                this.populateDoughnutChartData();
+                $.event.trigger('hide-loading');
+            })
+            .error(function (data, status, response) {
+                HelpersRepository.handleResponseError(data, status, response);
+            });
         },
 
         /**
@@ -206,6 +280,7 @@ var Graphs = Vue.component('graphs', {
             $(document).on('get-graph-totals', function (event, filter) {
                 that.filter = filter;
                 that.getGraphTotals();
+                that.getDoughnutChartData();
             });
         }
     },
@@ -214,6 +289,7 @@ var Graphs = Vue.component('graphs', {
     ],
     ready: function () {
         this.getGraphTotals();
+        this.getDoughnutChartData();
         this.listen();
     }
 });

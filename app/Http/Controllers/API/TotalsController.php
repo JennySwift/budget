@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Transformers\SidebarTotalTransformer;
+use App\Models\Budget;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class TotalsController extends Controller
@@ -72,6 +74,28 @@ class TotalsController extends Controller
 
         return $remainingBalance->unassignedBudgetTotals->toArray();
     }
+
+    /**
+     * For the pie chart
+     * GET api/totals/spentOnBudgets
+     * @param Request $request
+     * @return array
+     */
+    public function spentOnBudgets(Request $request)
+    {
+        $budgets = Budget::forCurrentUser()->get();
+        $totals = [];
+
+        foreach ($budgets as $budget) {
+            $totals[] = [
+                'id' => $budget->id,
+                'name' => $budget->name,
+                'spentInDateRange' => $budget->getSpentInDateRange($request->get('from'), $request->get('to'))
+            ];
+        }
+        return $totals;
+    }
+
 
 
 }

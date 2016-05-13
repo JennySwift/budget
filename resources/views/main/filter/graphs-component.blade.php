@@ -9,6 +9,11 @@
             <canvas id="line-chart"></canvas>
         </div>
 
+        <h3>To show much has been spent on all budgets within the specified date range</h3>
+        <div class="chart-container">
+            <canvas id="doughnut-chart"></canvas>
+        </div>
+
     </div>
 
     {{--<div id="graphs">--}}

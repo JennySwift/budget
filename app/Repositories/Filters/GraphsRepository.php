@@ -36,12 +36,14 @@ class GraphsRepository {
      */
     public function getGraphTotals($query, $queryForCalculatingBalance)
     {
-        if (Transaction::forCurrentUser()->count() < 1) {
+        if (Transaction::forCurrentUser()->count() < 1 || $query->count() < 1) {
             //User doesn't have any transactions
-            return false;
+            return null;
         }
+
         //Todo: might need to check that there are actually transactions in the results for these variables to work?
         $minDate = Carbon::createFromFormat('Y-m-d', $query->min('date'))->startOfMonth();
+
         $maxDate = Carbon::createFromFormat('Y-m-d', $query->max('date'))->startOfMonth();
 
         $date = $maxDate;
