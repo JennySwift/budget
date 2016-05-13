@@ -32,6 +32,11 @@
                     Balance:
                 </li>
 
+                <li class="tooltipster list-group-item list-group-item-warning" title="balance">
+                    <span id="search_total_span" class="badge">@{{ filterTotals.balanceFromBeginning | numberFilter 2 }}</span>
+                    Balance from beginning:
+                </li>
+
                 <li class="tooltipster list-group-item list-group-item-info" title="reconciled">
                     <span id="asr_span" class="badge">@{{ filterTotals.reconciled | numberFilter 2 }}</span>
                     Sum of reconciled transactions:

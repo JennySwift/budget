@@ -103,10 +103,12 @@ class FilterBasicsRepository {
      * @param $query
      * @param $type
      * @param $value
+     * @param $calculatingBalance
+     * @return mixed
      */
-    public function filterDates($query, $type, $value)
+    public function filterDates($query, $type, $value, $calculatingBalance)
     {
-        if ($type === "singleDate") {
+        if ($type === "singleDate" && !$calculatingBalance) {
             if ($value['inSql']) {
                 $query = $query->where('date', $value['inSql']);
             }
@@ -115,7 +117,7 @@ class FilterBasicsRepository {
             }
         }
 
-        elseif ($type === "fromDate") {
+        elseif ($type === "fromDate" && !$calculatingBalance) {
             if ($value['inSql']) {
                 $query = $query->where('date', '>=', $value['inSql']);
             }

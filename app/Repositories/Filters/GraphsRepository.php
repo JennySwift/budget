@@ -31,22 +31,23 @@ class GraphsRepository {
     /**
      *
      * @param $query
+     * @param $queryForCalculatingBalance
      * @return array
      */
-    public function getGraphTotals($query)
+    public function getGraphTotals($query, $queryForCalculatingBalance)
     {
         if (Transaction::forCurrentUser()->count() < 1) {
             //User doesn't have any transactions
             return false;
         }
-
+        //Todo: might need to check that there are actually transactions in the results for these variables to work?
         $minDate = Carbon::createFromFormat('Y-m-d', $query->min('date'))->startOfMonth();
         $maxDate = Carbon::createFromFormat('Y-m-d', $query->max('date'))->startOfMonth();
 
         $date = $maxDate;
 
         while ($minDate <= $date) {
-            $monthsTotals[] = $this->monthTotals($query, $date);
+            $monthsTotals[] = $this->monthTotals($query, $date, $queryForCalculatingBalance);
             $date = $date->subMonths(1);
 
         }
@@ -80,20 +81,33 @@ class GraphsRepository {
     /**
      *
      * @param $query
-     * @param $date
+     * @param Carbon $date
+     * @param $queryForCalculatingBalance
      * @return \App\Models\Totals\FilterTotals
      */
-    private function monthTotals($query, $date)
+    private function monthTotals($query, Carbon $date, $queryForCalculatingBalance)
     {
         $queryClone = clone $query;
         $queryClone = $queryClone
             ->whereMonth('date', '=', $date->month)
             ->whereYear('date', '=', $date->year);
 
-        $monthTotals = $this->filterTotalsRepository->getFilterTotals($queryClone);
-        $monthTotals->month = $date->format("M Y");
+        $queryForCalculatingBalanceClone = clone $queryForCalculatingBalance;
+        $queryForCalculatingBalanceClone = $queryForCalculatingBalanceClone
+            ->where('date', '<=', $date->copy()->endOfMonth()->format('Y-m-d'));
 
+        if ($date->format('M Y') === 'Jan 2016') {
+
+        }
+
+        $monthTotals = $this->filterTotalsRepository->getFilterTotals($queryClone, $queryForCalculatingBalanceClone);
+
+        $monthTotals->month = $date->format("M Y");
         return $monthTotals;
+        
+//        return [];
+
+
     }
 
 }

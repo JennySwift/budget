@@ -32,6 +32,7 @@ class FilterTotalsTest extends FiltersTest
         $this->assertEquals(2450, $this->basicTotals['creditIncludingTransfers']);
         $this->assertEquals(-260, $this->basicTotals['debitIncludingTransfers']);
         $this->assertEquals(2190, $this->basicTotals['balance']);
+        $this->assertEquals(2190, $this->basicTotals['balanceFromBeginning']);
         $this->assertEquals(1050, $this->basicTotals['reconciled']);
         $this->assertEquals(16, $this->basicTotals['numTransactions']);
 
@@ -75,6 +76,7 @@ class FilterTotalsTest extends FiltersTest
         $this->assertEquals(2450, $this->basicTotals['creditIncludingTransfers']);
         $this->assertEquals(-260, $this->basicTotals['debitIncludingTransfers']);
         $this->assertEquals(2190, $this->basicTotals['balance']);
+        $this->assertEquals(2190, $this->basicTotals['balanceFromBeginning']);
         $this->assertEquals(1050, $this->basicTotals['reconciled']);
         $this->assertEquals(16, $this->basicTotals['numTransactions']);
 
@@ -115,6 +117,7 @@ class FilterTotalsTest extends FiltersTest
         $this->assertEquals(0, $this->basicTotals['creditIncludingTransfers']);
         $this->assertEquals(-65, $this->basicTotals['debitIncludingTransfers']);
         $this->assertEquals(-65, $this->basicTotals['balance']);
+        $this->assertEquals(2190, $this->basicTotals['balanceFromBeginning']);
         $this->assertEquals(-5, $this->basicTotals['reconciled']);
         $this->assertEquals(4, $this->basicTotals['numTransactions']);
 
@@ -160,6 +163,7 @@ class FilterTotalsTest extends FiltersTest
         $this->assertEquals(2450, $this->basicTotals['creditIncludingTransfers']);
         $this->assertEquals(-195, $this->basicTotals['debitIncludingTransfers']);
         $this->assertEquals(2255, $this->basicTotals['balance']);
+        $this->assertEquals(2255, $this->basicTotals['balanceFromBeginning']);
         $this->assertEquals(1055, $this->basicTotals['reconciled']);
         $this->assertEquals(12, $this->basicTotals['numTransactions']);
 
@@ -209,6 +213,7 @@ class FilterTotalsTest extends FiltersTest
         $this->assertEquals(900, $this->basicTotals['creditIncludingTransfers']);
         $this->assertEquals(0, $this->basicTotals['debitIncludingTransfers']);
         $this->assertEquals(900, $this->basicTotals['balance']);
+        $this->assertEquals(855, $this->basicTotals['balanceFromBeginning']);
         $this->assertEquals(900, $this->basicTotals['reconciled']);
         $this->assertEquals(3, $this->basicTotals['numTransactions']);
 
@@ -268,6 +273,7 @@ class FilterTotalsTest extends FiltersTest
         $this->assertEquals(0, $this->basicTotals['creditIncludingTransfers']);
         $this->assertEquals(-40, $this->basicTotals['debitIncludingTransfers']);
         $this->assertEquals(-40, $this->basicTotals['balance']);
+        $this->assertEquals(2190, $this->basicTotals['balanceFromBeginning']);
         $this->assertEquals(0, $this->basicTotals['reconciled']);
         $this->assertEquals(2, $this->basicTotals['numTransactions']);
 
@@ -327,6 +333,7 @@ class FilterTotalsTest extends FiltersTest
         $this->assertEquals(0, $this->basicTotals['creditIncludingTransfers']);
         $this->assertEquals(-50, $this->basicTotals['debitIncludingTransfers']);
         $this->assertEquals(-50, $this->basicTotals['balance']);
+        $this->assertEquals(2190, $this->basicTotals['balanceFromBeginning']);
         $this->assertEquals(0, $this->basicTotals['reconciled']);
         $this->assertEquals(2, $this->basicTotals['numTransactions']);
 
@@ -336,7 +343,7 @@ class FilterTotalsTest extends FiltersTest
     /**
      * @test
      */
-    public function it_checks_filter_totals_are_correct_with_from_and_toDate_filters_and_type_expense_filter_and__bank_fees_tag_filter()
+    public function it_checks_filter_totals_are_correct_with_from_and_toDate_filters_and_type_expense_filter_and_bank_fees_tag_filter()
     {
         $this->setFilterDefaults();
         $this->logInUser();
@@ -386,6 +393,7 @@ class FilterTotalsTest extends FiltersTest
         $this->assertEquals(0, $this->basicTotals['creditIncludingTransfers']);
         $this->assertEquals(-5, $this->basicTotals['debitIncludingTransfers']);
         $this->assertEquals(-5, $this->basicTotals['balance']);
+        $this->assertEquals(2190, $this->basicTotals['balanceFromBeginning']);
         $this->assertEquals(-5, $this->basicTotals['reconciled']);
         $this->assertEquals(1, $this->basicTotals['numTransactions']);
 
@@ -445,6 +453,7 @@ class FilterTotalsTest extends FiltersTest
         $this->assertEquals(500, $this->basicTotals['creditIncludingTransfers']);
         $this->assertEquals(0, $this->basicTotals['debitIncludingTransfers']);
         $this->assertEquals(500, $this->basicTotals['balance']);
+        $this->assertEquals(855, $this->basicTotals['balanceFromBeginning']);
         $this->assertEquals(500, $this->basicTotals['reconciled']);
         $this->assertEquals(1, $this->basicTotals['numTransactions']);
 

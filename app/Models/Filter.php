@@ -71,6 +71,7 @@ class Filter implements Arrayable {
      * @var
      */
     private $query;
+    private $queryForCalculatingBalance;
 
     /**
      * @param FilterBasicsRepository $filterBasicsRepository
@@ -102,7 +103,7 @@ class Filter implements Arrayable {
         // Merge the argument with the defaults
         $this->filters = array_merge($this->defaults, $filters);
 
-        $this->setQuery();
+        $this->query = $this->setQuery();
         $this->setNumTransactions();
         $this->setTransactions();
         $this->setBasicTotals();
@@ -120,7 +121,7 @@ class Filter implements Arrayable {
         // Merge the argument with the defaults
         $this->filters = array_merge($this->defaults, $filters);
 
-        $this->setQuery();
+        $this->query = $this->setQuery();
         $this->setTransactions();
         return $this->transactions;
     }
@@ -134,7 +135,8 @@ class Filter implements Arrayable {
     {
         // Merge the argument with the defaults
         $this->filters = array_merge($this->defaults, $filters);
-        $this->setQuery();
+        $this->query = $this->setQuery();
+        $this->queryForCalculatingBalance = $this->setQueryForCalculatingBalance();
         $this->setBasicTotals();
         return $this->basicTotals->toArray();
     }
@@ -148,15 +150,50 @@ class Filter implements Arrayable {
     {
         // Merge the argument with the defaults
         $this->filters = array_merge($this->defaults, $filters);
-        $this->setQuery();
+        $this->query = $this->setQuery();
+        $this->queryForCalculatingBalance = $this->setQueryForCalculatingBalance();
         $this->setGraphTotals();
+
         return $this->graphTotals;
     }
 
     /**
      *
+     * @return mixed
      */
-    private function setQuery()
+    private function setQueryForCalculatingBalance()
+    {
+        // Prepare the query
+        $query = Transaction::where('transactions.user_id', Auth::user()->id);
+
+        // Apply filters to the transaction query
+        foreach ($this->filters as $type => $value) {
+
+            switch($type) {
+                case "singleDate":
+                case "fromDate":
+                case "toDate":
+                    $query = $this->filterBasicsRepository->filterDates($query, $type, $value, true);
+                    break;
+
+                case "accounts":
+                    $query = $this->filterBasicsRepository->filterAccounts($query, $value);
+                    break;
+
+                default:
+                    // @TODO If nothing matches, throw an exception!!
+            }
+        }
+
+        return $query;
+    }
+
+    /**
+     * $calculatingBalance is for ignoring singleDate and fromDate, so that the balance for the given time can be calculated
+     * @param bool $calculatingBalance
+     * @return mixed
+     */
+    private function setQuery($calculatingBalance = false)
     {
         // Prepare the query
         $query = Transaction::where('transactions.user_id', Auth::user()->id);
@@ -172,7 +209,7 @@ class Filter implements Arrayable {
                 case "singleDate":
                 case "fromDate":
                 case "toDate":
-                    $query = $this->filterBasicsRepository->filterDates($query, $type, $value);
+                    $query = $this->filterBasicsRepository->filterDates($query, $type, $value, $calculatingBalance);
                     break;
 
                 case "accounts":
@@ -214,7 +251,7 @@ class Filter implements Arrayable {
             }
         }
 
-        $this->query = $query;
+        return $query;
     }
 
     /**
@@ -250,7 +287,7 @@ class Filter implements Arrayable {
      */
     private function setBasicTotals()
     {
-        $this->basicTotals = $this->filterTotalsRepository->getFilterTotals($this->query);
+        $this->basicTotals = $this->filterTotalsRepository->getFilterTotals($this->query, $this->queryForCalculatingBalance);
     }
 
     /**
@@ -258,7 +295,7 @@ class Filter implements Arrayable {
      */
     private function setGraphTotals()
     {
-        $this->graphTotals = $this->graphsRepository->getGraphTotals($this->query);
+        $this->graphTotals = $this->graphsRepository->getGraphTotals($this->query, $this->queryForCalculatingBalance);
     }
 
     /**

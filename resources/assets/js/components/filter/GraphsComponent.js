@@ -76,7 +76,8 @@ var Graphs = Vue.component('graphs', {
                     expensesHeight: expenses * num,
                     income: this.credit,
                     expenses: this.debit,
-                    month: this.month
+                    month: this.month,
+                    balanceFromBeginning: this.balanceFromBeginning,
                 });
             });
 
@@ -109,6 +110,16 @@ var Graphs = Vue.component('graphs', {
                         borderColor: "rgba(255,99,132,1)",
                         borderWidth: 1,
                         hoverBackgroundColor: "rgba(0,255,0,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                    },
+                    //Balance from beginning
+                    {
+                        data: _.pluck(this.graphFigures.months, 'balanceFromBeginning'),
+                        label: "Balance",
+                        backgroundColor: "rgba(252, 167, 0, .2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 1,
+                        hoverBackgroundColor: "rgba(252, 167, 0, .4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
                     }
                 ]

@@ -14,17 +14,26 @@ class FilterTotalsRepository {
     /**
      *
      * @param $query
+     * @param $queryForCalculatingBalance
      * @return FilterTotals
      */
-    public function getFilterTotals($query)
+    public function getFilterTotals($query, $queryForCalculatingBalance = null)
     {
         $transactions = $this->getTransactions($query);
-
         $credit = 0;
         $debit = 0;
         $creditIncludingTransfers = 0;
         $debitIncludingTransfers = 0;
         $totalReconciled = 0;
+        $balanceFromBeginning = null;
+
+        if ($queryForCalculatingBalance) {
+            $queryForCalculatingBalanceClone1 = clone $queryForCalculatingBalance;
+            $queryForCalculatingBalanceClone2 = clone $queryForCalculatingBalance;
+            $incomeFromBeginning = $queryForCalculatingBalanceClone1->where('type', 'income')->sum('total');
+            $expensesFromBeginning = $queryForCalculatingBalanceClone2->where('type', 'expense')->sum('total');
+            $balanceFromBeginning = $incomeFromBeginning + $expensesFromBeginning;
+        }
 
         foreach ($transactions as $transaction) {
             switch($transaction->type) {
@@ -62,7 +71,8 @@ class FilterTotalsRepository {
             $debitIncludingTransfers,
             $creditIncludingTransfers + $debitIncludingTransfers,
             $totalReconciled,
-            $this->countTransactions($query)
+            $this->countTransactions($query),
+            $balanceFromBeginning
         );
     }
 
