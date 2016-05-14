@@ -11,21 +11,37 @@
         >
 
             <div class="form-group">
-                <label for="new-transaction-favourites">Favourites</label>
-
-                <select
-                        v-model="selectedFavouriteTransaction"
-                        v-on:change="fillFields()"
-                        id="new-transaction-favourites"
-                        class="form-control"
+                <autocomplete
+                    input-label="Favourites"
+                    id-to-focus-after-autocomplete=""
+                    autocomplete-field-id="new-transaction-favourites"
+                    :unfiltered-autocomplete-options="favouriteTransactions"
+                    prop="name"
+                    label-for-option=""
+                    :function-on-enter=""
+                    :function-when-option-is-chosen="fillFields"
+                    :model.sync="selectedFavouriteTransaction"
                 >
-                    <option
-                            v-for="favourite in favouriteTransactions"
-                            v-bind:value="favourite"
-                    >
-                        @{{ favourite.name }}
-                    </option>
-                </select>
+                </autocomplete>
+
+
+
+
+                {{--<label for="new-transaction-favourites">Favourites</label>--}}
+
+                {{--<select--}}
+                        {{--v-model="selectedFavouriteTransaction"--}}
+                        {{--v-on:change="fillFields()"--}}
+                        {{--id="new-transaction-favourites"--}}
+                        {{--class="form-control"--}}
+                {{-->--}}
+                    {{--<option--}}
+                            {{--v-for="favourite in favouriteTransactions"--}}
+                            {{--v-bind:value="favourite"--}}
+                    {{-->--}}
+                        {{--@{{ favourite.name }}--}}
+                    {{--</option>--}}
+                {{--</select>--}}
             </div>
 
             <div class="type">

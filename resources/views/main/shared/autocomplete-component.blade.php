@@ -27,11 +27,18 @@
                     v-bind:class="{'selected': currentIndex === $index}"
                     v-on:mouseover="hoverItem($index)"
                     class="autocomplete-option"
+                    v-on:mousedown="respondToMouseDownOnOption($index)"
             >
-                <div v-on:mousedown="selectOption($index)">@{{ option[prop] }}</div>
+                <div v-on:mousedown="respondToMouseDownOnText($index)">@{{ option[prop] }}</div>
 
                 {{--Delete button--}}
-                <button v-on:mousedown="deleteOption(option)" class="btn btn-xs btn-danger">Delete</button>
+                <button
+                    v-if="deleteFunction"
+                    v-on:mousedown="deleteOption(option)"
+                    class="btn btn-xs btn-danger"
+                >
+                    Delete
+                </button>
 
                 {{--Labels for option--}}
                 <span v-if="option.assignedAlready && labelForOption" class="label label-default">

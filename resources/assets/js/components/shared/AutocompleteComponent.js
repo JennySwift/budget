@@ -199,6 +199,28 @@ var Autocomplete = Vue.component('autocomplete', {
         },
 
         /**
+         * So that sometimes I can have a delete button that doesn't fire the selectOption event when pressed,
+         * and when I don't have a delete button, the selectOption method does get fired if clicked anywhere in the div.
+         * @param index
+         */
+        respondToMouseDownOnOption: function (index) {
+            if (!this.deleteFunction) {
+                this.selectOption(index);
+            }
+        },
+
+        /**
+         * Only fire the selectOption method if there is a delete button,
+         * because otherwise the method is fired when the parent is clicked
+         * @param index
+         */
+        respondToMouseDownOnText: function (index) {
+            if (this.deleteFunction) {
+                this.selectOption(index);
+            }
+        },
+
+        /**
          *
          * @param response
          */
