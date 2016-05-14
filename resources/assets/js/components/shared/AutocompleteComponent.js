@@ -193,9 +193,11 @@ var Autocomplete = Vue.component('autocomplete', {
          * @param option
          */
         deleteOption: function (option) {
-            this.deleteFunction(option);
-            var index = HelpersRepository.findIndexById(this.autocompleteOptions, option.id);
-            this.autocompleteOptions = _.without(this.autocompleteOptions, this.autocompleteOptions[index]);
+            if (confirm("Are you sure?")) {
+                this.deleteFunction(option);
+                var index = HelpersRepository.findIndexById(this.autocompleteOptions, option.id);
+                this.autocompleteOptions = _.without(this.autocompleteOptions, this.autocompleteOptions[index]);
+            }
         },
 
         /**
