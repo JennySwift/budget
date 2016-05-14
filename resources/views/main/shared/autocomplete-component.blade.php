@@ -7,7 +7,7 @@
                     v-model="chosenOption[prop]"
                     v-on:keyup="respondToKeyup($event.keyCode)"
                     v-on:focus="respondToFocus()"
-                    {{--v-on:blur="hideDropdown()"--}}
+                    v-on:blur="hideDropdown()"
                     type="text"
                     :id="autocompleteFieldId"
                     :name="autocompleteFieldId"

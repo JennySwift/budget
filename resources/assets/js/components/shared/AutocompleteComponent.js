@@ -230,6 +230,6 @@ var Autocomplete = Vue.component('autocomplete', {
         }
     },
     ready: function () {
-
+        HelpersRepository.scrollbars();
     }
 });

@@ -28,6 +28,14 @@ var HelpersRepository = {
             var container = $(this);
             var height = container.css('height');
             var maxHeight = container.css('max-height');
+
+            if (height === '0px') {
+                height = 0;
+            }
+            if (maxHeight === 'none') {
+                maxHeight = 0;
+            }
+            
             if (!height && !maxHeight) {
                 container.height('100%');
             }
