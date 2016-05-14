@@ -1155,6 +1155,8 @@ caption {
       -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
       flex-grow: 1; }
+    #new-transaction-container #new-transaction #new-transaction-favourites {
+      width: 100%; }
 
 #transactions {
   background: white;

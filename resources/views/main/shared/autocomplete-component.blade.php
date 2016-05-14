@@ -1,6 +1,6 @@
 <script id="autocomplete-template" type="x-template">
 
-    <div class="autocomplete">
+    <div :id="autocompleteId" class="autocomplete">
         <div class="form-group autocomplete-field">
             <label v-if="inputLabel" :for="autocompleteFieldId">@{{ inputLabel | capitalize }}</label>
             <input

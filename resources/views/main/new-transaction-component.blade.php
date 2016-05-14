@@ -14,7 +14,8 @@
                 <autocomplete
                     input-label="Favourites"
                     id-to-focus-after-autocomplete=""
-                    autocomplete-field-id="new-transaction-favourites"
+                    autocomplete-id="new-transaction-favourites"
+                    autocomplete-field-id="new-transaction-favourites-input"
                     :unfiltered-autocomplete-options="favouriteTransactions"
                     prop="name"
                     label-for-option=""
@@ -24,25 +25,6 @@
                     clear-field-on-focus="true"
                 >
                 </autocomplete>
-
-
-
-
-                {{--<label for="new-transaction-favourites">Favourites</label>--}}
-
-                {{--<select--}}
-                        {{--v-model="selectedFavouriteTransaction"--}}
-                        {{--v-on:change="fillFields()"--}}
-                        {{--id="new-transaction-favourites"--}}
-                        {{--class="form-control"--}}
-                {{-->--}}
-                    {{--<option--}}
-                            {{--v-for="favourite in favouriteTransactions"--}}
-                            {{--v-bind:value="favourite"--}}
-                    {{-->--}}
-                        {{--@{{ favourite.name }}--}}
-                    {{--</option>--}}
-                {{--</select>--}}
             </div>
 
             <div class="type">

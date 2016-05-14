@@ -241,6 +241,7 @@ var Autocomplete = Vue.component('autocomplete', {
     props: [
         'url',
         'inputLabel',
+        'autocompleteId',
         'autocompleteFieldId',
         'functionOnEnter',
         'functionWhenOptionIsChosen',

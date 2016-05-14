@@ -1,17 +1,17 @@
-<div>
-    <label>Choose a transaction type</label>
+{{--<div>--}}
+    {{--<label>Choose a transaction type</label>--}}
 
-    <select
-        v-model="newTransaction.type"
-        name=""
-        v-on:keyup.13="insertTransaction()"
-        id="select_transaction_type"
-        class="mousetrap form-control">
-        <option value="income">Credit</option>
-        <option value="expense">Debit</option>
-        <option value="transfer">Transfer</option>
-    </select>
-</div>
+    {{--<select--}}
+        {{--v-model="newTransaction.type"--}}
+        {{--name=""--}}
+        {{--v-on:keyup.13="insertTransaction()"--}}
+        {{--id="select_transaction_type"--}}
+        {{--class="mousetrap form-control">--}}
+        {{--<option value="income">Credit</option>--}}
+        {{--<option value="expense">Debit</option>--}}
+        {{--<option value="transfer">Transfer</option>--}}
+    {{--</select>--}}
+{{--</div>--}}
 
 <div class="btn-group">
     <button v-on:click="newTransaction.type = 'income'" v-bind:style="{background: me.preferences.colors.income}" class="btn">Credit</button>
