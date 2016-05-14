@@ -1506,9 +1506,25 @@ caption {
 
 #forgot-password {
   margin: 40px; }
+  #forgot-password .success-message {
+    background: #5cb85c; }
+  #forgot-password .error-message {
+    background: #d9534f; }
+  #forgot-password .message {
+    padding: 8px 15px;
+    border-radius: 4px;
+    color: white; }
 
 #password-reset-page {
   margin: 40px; }
+  #password-reset-page .success-message {
+    background: #5cb85c; }
+  #password-reset-page .error-message {
+    background: #d9534f; }
+  #password-reset-page .message {
+    padding: 8px 15px;
+    border-radius: 4px;
+    color: white; }
 
 #tags {
   margin-bottom: 20px; }

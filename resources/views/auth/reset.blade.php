@@ -3,7 +3,7 @@
 @section('content')
 	<div id="password-reset-page">
 		@if (count($errors) > 0)
-			<div class="alert alert-danger">
+			<div class="message error-message">
 				<strong>Whoops!</strong> There were some problems with your input.<br><br>
 				<ul>
 					@foreach ($errors->all() as $error)
@@ -25,7 +25,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-md-4 control-label">Password</label>
+				<label class="col-md-4 control-label">New Password</label>
 				<div class="col-md-6">
 					<input type="password" class="form-control" name="password">
 				</div>

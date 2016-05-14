@@ -4,13 +4,13 @@
 	<div id="forgot-password">
 		<div>
 			@if (session('status'))
-				<div class="alert alert-success">
+				<div class="message success-message">
 					{{ session('status') }}
 				</div>
 			@endif
 
 			@if (count($errors) > 0)
-				<div class="alert alert-danger">
+				<div class="message error-message">
 					<strong>Whoops!</strong> There were some problems with your input.<br><br>
 					<ul>
 						@foreach ($errors->all() as $error)
