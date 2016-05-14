@@ -31,7 +31,7 @@
                 <div v-on:mousedown="selectOption($index)">@{{ option[prop] }}</div>
 
                 {{--Delete button--}}
-                <button v-on:click="deleteOption(option)" class="btn btn-xs btn-danger">Delete</button>
+                <button v-on:mousedown="deleteOption(option)" class="btn btn-xs btn-danger">Delete</button>
 
                 {{--Labels for option--}}
                 <span v-if="option.assignedAlready && labelForOption" class="label label-default">
