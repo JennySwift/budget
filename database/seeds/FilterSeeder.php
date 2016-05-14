@@ -49,7 +49,55 @@ class FilterSeeder extends Seeder {
                     'displayFrom' => 3,
                     'displayTo' => 4
                 ]
-            ]
+            ],
+            [
+                'name' => 'cash account expenses',
+                'filter' => [
+                    'accounts' => [
+                        'in' => [2],
+                        'out' => []
+                    ],
+                    'types' => [
+                        'in' => ['expense'],
+                        'out' => []
+                    ],
+                    //These values needed for the JS
+                    'displayFrom' => 1,
+                    'displayTo' => 30
+                ]
+            ],
+            [
+                'name' => 'bank account income',
+                'filter' => [
+                    'accounts' => [
+                        'in' => [1],
+                        'out' => []
+                    ],
+                    'types' => [
+                        'in' => ['income'],
+                        'out' => []
+                    ],
+                    //These values needed for the JS
+                    'displayFrom' => 1,
+                    'displayTo' => 30
+                ]
+            ],
+            [
+                'name' => 'cash account income',
+                'filter' => [
+                    'accounts' => [
+                        'in' => [2],
+                        'out' => []
+                    ],
+                    'types' => [
+                        'in' => ['income'],
+                        'out' => []
+                    ],
+                    //These values needed for the JS
+                    'displayFrom' => 1,
+                    'displayTo' => 30
+                ]
+            ],
         ];
 
         $users = User::all();

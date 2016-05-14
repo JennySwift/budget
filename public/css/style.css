@@ -697,9 +697,8 @@ caption {
         font-size: 10px;
         display: none; }
 
-.scrollbar-container {
-  position: relative;
-  height: 100%; }
+.scrollbar-container .mCSB_dragger {
+  height: 70px !important; }
 
 .pointer {
   cursor: pointer; }

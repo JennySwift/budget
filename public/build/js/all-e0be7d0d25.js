@@ -33189,9 +33189,31 @@ var HelpersRepository = {
     /**
      *
      */
+    // scrollbars: function () {
+    //     [].forEach.call(document.querySelectorAll('.scrollbar-container'), function (el) {
+    //         Ps.initialize(el);
+    //     });
+    // },
+
+    /**
+     *
+     */
     scrollbars: function () {
-        [].forEach.call(document.querySelectorAll('.scrollbar-container'), function (el) {
-            Ps.initialize(el);
+        var containers = $('.scrollbar-container');
+        $(containers).each(function () {
+            var container = $(this);
+            var height = container.css('height');
+            var maxHeight = container.css('max-height');
+            if (!height && !maxHeight) {
+                container.height('100%');
+            }
+            if (container.css('position') == 'static') {
+                container.css({position: 'relative'});
+            }
+            // container.perfectScrollbar();
+            container.mCustomScrollbar({
+                theme: 'minimal-dark'
+            });
         });
     },
 

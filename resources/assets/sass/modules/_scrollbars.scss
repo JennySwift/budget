@@ -1,4 +1,10 @@
 .scrollbar-container {
-    position: relative;
-    height: 100%;
+    //position:relative;
+    //height: 100%;
+    .mCSB_dragger {
+        height: 70px !important;
+        .mCSB_dragger_bar {
+            //background: red !important;
+        }
+    }
 }
