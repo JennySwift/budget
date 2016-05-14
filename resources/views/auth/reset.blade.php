@@ -1,4 +1,4 @@
-@extends('app')
+@extends('templates.auth.master')
 
 @section('content')
 <div class="container-fluid">

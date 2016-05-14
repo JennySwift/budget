@@ -1504,6 +1504,9 @@ caption {
   #register #remember-me-container label {
     margin-bottom: 0; }
 
+#forgot-password {
+  margin: 40px; }
+
 #tags {
   margin-bottom: 20px; }
   #tags .create-new-tag {
