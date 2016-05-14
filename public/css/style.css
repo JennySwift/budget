@@ -617,11 +617,10 @@ caption {
     border-bottom: 1px solid #777; }
 
 #loading {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   margin: auto;
-  font-size: 40px;
   color: #5bc0de;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -635,6 +634,8 @@ caption {
   width: 100%;
   height: 60px;
   z-index: 9999; }
+  #loading i {
+    font-size: 40px; }
 
 #page-loading {
   background: white;
