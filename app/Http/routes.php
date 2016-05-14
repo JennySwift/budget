@@ -9,7 +9,7 @@ Route::get('/home', 'PagesController@home');
 Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => 'auth'], function(){
     Route::resource('accounts', 'AccountsController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
     Route::resource('budgets', 'BudgetsController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
-    Route::resource('savedFilters', 'SavedFiltersController', ['only' => ['index', 'store']]);
+    Route::resource('savedFilters', 'SavedFiltersController', ['only' => ['index', 'store', 'destroy']]);
     Route::resource('transactions', 'TransactionsController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
     Route::resource('favouriteTransactions', 'FavouriteTransactionsController', ['only' => ['index', 'store', 'update', 'destroy']]);
     Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'destroy']]);

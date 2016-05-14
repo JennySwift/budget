@@ -38,4 +38,31 @@ class SavedFiltersController extends Controller
 
         return $this->responseCreatedWithTransformer($filter, new SavedFilterTransformer);
     }
+
+    /**
+     * DELETE /api/savedFilters/{savedFilters}
+     * @param Request $request
+     * @param SavedFilter $savedFilter
+     * @return Response
+     */
+    public function destroy(Request $request, SavedFilter $savedFilter)
+    {
+        try {
+            $savedFilter->delete();
+            return response([], Response::HTTP_NO_CONTENT);
+        }
+        catch (\Exception $e) {
+            //Integrity constraint violation
+            if ($e->getCode() === '23000') {
+                $message = 'SavedFilter could not be deleted. It is in use.';
+            }
+            else {
+                $message = 'There was an error';
+            }
+            return response([
+                'error' => $message,
+                'status' => Response::HTTP_BAD_REQUEST
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
 }

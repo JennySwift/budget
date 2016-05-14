@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 /**
  * Class SavedFiltersTest
  */
-class SavedFiltersTest extends TestCase
+class SavedFiltersIndexTest extends TestCase
 {
     use DatabaseTransactions;
 

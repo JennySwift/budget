@@ -3,6 +3,7 @@
 use App\Models\Account;
 use App\Models\Budget;
 use App\Models\FavouriteTransaction;
+use App\Models\SavedFilter;
 use App\Models\Tag;
 use App\Models\Transaction;
 use App\Traits\ForCurrentUserTrait;
@@ -54,6 +55,11 @@ class RouteServiceProvider extends ServiceProvider {
         {
             return FavouriteTransaction::forCurrentUser()->findOrFail($id);
         });
+
+		Route::bind('savedFilters', function($id)
+		{
+			return SavedFilter::forCurrentUser()->findOrFail($id);
+		});
 	}
 
 	/**
