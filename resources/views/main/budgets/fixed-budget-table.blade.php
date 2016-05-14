@@ -5,7 +5,10 @@
 
     <tr>
         <th>Name</th>
-        <th>Amount</th>
+        <th>
+            <div>Amount</div>
+            <div>per month</div>
+        </th>
         <th>
             <div>Starting</div>
             <div>date</div>

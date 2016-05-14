@@ -51,7 +51,8 @@
                         </div>
                         
                         <div v-show="selectedBudget.type !== 'unassigned'" class="form-group">
-                            <label for="selected-budget-amount">Amount</label>
+                            <label v-if="selectedBudget.type === 'fixed'" for="selected-budget-amount">Amount Per Month</label>
+                            <label v-if="selectedBudget.type === 'flex'" for="selected-budget-amount">% of Remaining Balance</label>
                             <input
                                 v-model="selectedBudget.amount"
                                 type="text"

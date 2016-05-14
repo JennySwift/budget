@@ -5,7 +5,10 @@
 
     <tr>
         <th>Name</th>
-        <th class="tooltipster" title="# percent of F/I">Amount</th>
+        <th class="tooltipster" title="# percent of F/I">
+            <div>% of remaining</div>
+            <div>balance</div>
+        </th>
         <th class="tooltipster" title="amount (% column % of F/I)">
             <div>Calculated</div>
             <div>amount</div>

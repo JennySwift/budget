@@ -3,7 +3,9 @@ var NewBudget = Vue.component('new-budget', {
     data: function () {
         return {
             showNewBudget: false,
-            newBudget: {},
+            newBudget: {
+                type: 'fixed'
+            },
             types: ['fixed', 'flex', 'unassigned']
         };
     },

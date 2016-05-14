@@ -36,7 +36,8 @@
         </div>
 
         <div v-if="newBudget.type !== 'unassigned'" class="form-group">
-            <label for="new-budget-amount">Amount</label>
+            <label v-if="newBudget.type === 'fixed'" for="new-budget-amount">Amount Per Month</label>
+            <label v-if="newBudget.type === 'flex'" for="new-budget-amount">% of Remaining Balance</label>
             <input
                 v-model="newBudget.amount"
                 v-on:keyup.13="insertBudget()"
