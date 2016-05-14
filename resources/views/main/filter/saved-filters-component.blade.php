@@ -15,10 +15,9 @@
             :function-on-enter="chooseSavedFilter"
             :function-when-option-is-chosen="chooseSavedFilter"
             :model.sync="selectedSavedFilter"
+            :delete-function="deleteSavedFilter"
         >
         </autocomplete>
-
-
 
         {{--<select--}}
                 {{--v-model="selectedSavedFilter"--}}

@@ -190,6 +190,16 @@ var Autocomplete = Vue.component('autocomplete', {
 
         /**
          *
+         * @param option
+         */
+        deleteOption: function (option) {
+            this.deleteFunction(option);
+            var index = HelpersRepository.findIndexById(this.autocompleteOptions, option.id);
+            this.autocompleteOptions = _.without(this.autocompleteOptions, this.autocompleteOptions[index]);
+        },
+
+        /**
+         *
          * @param response
          */
         handleResponseError: function (response) {
@@ -203,6 +213,8 @@ var Autocomplete = Vue.component('autocomplete', {
         'autocompleteFieldId',
         'functionOnEnter',
         'functionWhenOptionIsChosen',
+        //For if there is a button to delete one of the options
+        'deleteFunction',
         'idToFocusAfterAutocomplete',
         'model',
         //For if items are local
