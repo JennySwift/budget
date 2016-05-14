@@ -5,6 +5,7 @@
             <label v-if="inputLabel" :for="autocompleteFieldId">@{{ inputLabel | capitalize }}</label>
             <input
                     v-model="chosenOption[prop]"
+                    v-el:input-field
                     v-on:keyup="respondToKeyup($event.keyCode)"
                     v-on:focus="respondToFocus()"
                     v-on:blur="hideDropdown()"

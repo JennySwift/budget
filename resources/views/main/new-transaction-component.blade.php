@@ -21,6 +21,7 @@
                     :function-on-enter=""
                     :function-when-option-is-chosen="fillFields"
                     :model.sync="selectedFavouriteTransaction"
+                    clear-field-on-focus="true"
                 >
                 </autocomplete>
 

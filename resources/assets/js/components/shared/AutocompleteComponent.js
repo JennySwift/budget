@@ -80,6 +80,9 @@ var Autocomplete = Vue.component('autocomplete', {
          * Show all the options if the options are local
          */
         respondToFocus: function () {
+            if (this.clearFieldOnFocus) {
+                this.chosenOption = this.resetChosenOption();
+            }
             if (this.unfilteredAutocompleteOptions) {
                 this.populateOptionsFromLocal();
             }
@@ -178,6 +181,10 @@ var Autocomplete = Vue.component('autocomplete', {
             this.$dispatch('option-chosen', this.chosenOption);
             this.model = this.chosenOption;
             this.functionWhenOptionIsChosen();
+
+            this.$nextTick(function () {
+                $(this.$els.inputField).blur();
+            });
         },
 
         /**
@@ -246,7 +253,8 @@ var Autocomplete = Vue.component('autocomplete', {
         //Property of the chosen option to display in input field once option is chosen
         'prop',
         'labelForOption',
-        'inputPlaceholder'
+        'inputPlaceholder',
+        'clearFieldOnFocus'
     ],
     events: {
         'clear-autocomplete-field': function () {
