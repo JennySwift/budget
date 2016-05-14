@@ -26,15 +26,18 @@
 @include('main.favourite-transactions.update-favourite-transaction-component')
 
 @include('main.new-transaction-component')
+@include('main.transaction-autocomplete-component')
+@include('main.transactions-component')
+@include('main.transaction-component')
+@include('main.filter.filter-component')
+
+{{--Shared--}}
 @include('main.shared.navbar-component')
 @include('main.shared.budget-autocomplete-component')
 @include('main.shared.checkbox-component')
 @include('main.shared.feedback-component')
 @include('main.shared.loading-component')
-@include('main.transaction-autocomplete-component')
-@include('main.transactions-component')
-@include('main.transaction-component')
-@include('main.filter.filter-component')
+@include('main.shared.autocomplete-component')
 
 {{--Filters--}}
 @include('main.filter.filter-component')

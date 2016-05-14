@@ -1,6 +1,7 @@
 
 @import "colors";
 @import "variables";
+@import "helpers/index";
 @import "base";
 @import "mixins/index";
 @import "modules/index";
@@ -13,6 +14,7 @@
 @import 'auth/index';
 @import 'tags/index';
 @import 'accounts/index';
+@import 'shared/index';
 @import 'preferences';
 
 

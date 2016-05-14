@@ -43,6 +43,14 @@ var HelpersRepository = {
 
     /**
      *
+     * @param object
+     */
+    clone: function (object) {
+        return JSON.parse(JSON.stringify(object))
+    },
+
+    /**
+     *
      */
     closePopup: function ($event, that) {
         if ($event.target.className === 'popup-outer') {

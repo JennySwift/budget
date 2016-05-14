@@ -1589,6 +1589,42 @@ caption {
     font-size: 17px;
     height: 32px; }
 
+.autocomplete {
+  margin-bottom: 20px;
+  position: relative; }
+  .autocomplete .autocomplete-field {
+    margin-bottom: 0px; }
+  .autocomplete .autocomplete-dropdown {
+    margin-top: 2px;
+    max-height: 217px;
+    border: 1px solid #777;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    position: absolute;
+    top: 59px;
+    background: white;
+    width: 100%;
+    z-index: 9; }
+    .autocomplete .autocomplete-dropdown .autocomplete-option {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      cursor: pointer;
+      padding: 5px 5px; }
+      .autocomplete .autocomplete-dropdown .autocomplete-option .label {
+        margin-top: 1px;
+        margin-right: 4px; }
+    .autocomplete .autocomplete-dropdown .no-results {
+      padding: 3px 8px; }
+  .autocomplete .scrollbar-container .mCSB_draggerContainer {
+    right: -7px; }
+
 #preferences-page {
   margin: 20px; }
   #preferences-page .clear-fields-container {
