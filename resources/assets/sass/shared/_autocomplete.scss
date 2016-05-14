@@ -23,6 +23,9 @@
             align-items: center;
             cursor: pointer;
             padding: 5px 5px;
+            .autocomplete-option-text {
+                flex-grow: 1;
+            }
             .label {
                 margin-top: 1px;
                 margin-right: 4px;

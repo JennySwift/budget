@@ -1616,6 +1616,10 @@ caption {
       align-items: center;
       cursor: pointer;
       padding: 5px 5px; }
+      .autocomplete .autocomplete-dropdown .autocomplete-option .autocomplete-option-text {
+        -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1; }
       .autocomplete .autocomplete-dropdown .autocomplete-option .label {
         margin-top: 1px;
         margin-right: 4px; }
