@@ -36928,7 +36928,8 @@ var Totals = Vue.component('totals', {
         return {
             totalChanges: TotalsRepository.resetTotalChanges(),
             sideBarTotals: [],
-            totalsLoading: false
+            totalsLoading: false,
+            me: me
         };
     },
     components: {},
