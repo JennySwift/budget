@@ -26,6 +26,24 @@ var PreferencesPage = Vue.component('preferences-page', {
                     dateFormat: this.me.preferences.dateFormat,
                     autocompleteDescription: this.me.preferences.autocompleteDescription,
                     autocompleteMerchant: this.me.preferences.autocompleteMerchant,
+
+                    show: {
+                        totals: {
+                            credit: this.me.preferences.show.totals.credit,
+                            remainingFixedBudget: this.me.preferences.show.totals.remainingFixedBudget,
+                            expensesWithoutBudget: this.me.preferences.show.totals.expensesWithoutBudget,
+                            expensesWithFixedBudgetBeforeStartingDate: this.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate,
+                            expensesWithFixedBudgetAfterStartingDate: this.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate,
+                            expensesWithFlexBudgetBeforeStartingDate: this.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate,
+                            expensesWithFlexBudgetAfterStartingDate: this.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate,
+                            savings: this.me.preferences.show.totals.savings,
+                            remainingBalance: this.me.preferences.show.totals.remainingBalance,
+                            debit: this.me.preferences.show.totals.debit,
+                            balance: this.me.preferences.show.totals.balance,
+                            reconciled: this.me.preferences.show.totals.reconciled,
+                            cumulativeFixedBudget: this.me.preferences.show.totals.cumulativeFixedBudget
+                        }
+                    }
                 }
             };
 

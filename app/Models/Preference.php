@@ -21,7 +21,8 @@ class Preference extends Model
         'clearFields',
         'dateFormat',
         'autocompleteDescription',
-        'autocompleteMerchant'
+        'autocompleteMerchant',
+        'show'
     ];
 
     /**

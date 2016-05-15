@@ -38,7 +38,27 @@ class UsersTest extends TestCase
                 ],
                 'dateFormat' => 'dd/mm/yyyy',
                 'autocompleteDescription' => false,
-                'autocompleteMerchant' => false
+                'autocompleteMerchant' => false,
+
+                'show' => [
+                    'totals' => [
+                        'credit' => false,
+                        'remainingFixedBudget' => false,
+                        'expensesWithoutBudget' => false,
+                        'expensesWithFixedBudgetBeforeStartingDate' => false,
+                        'expensesWithFixedBudgetAfterStartingDate' => false,
+                        'expensesWithFlexBudgetBeforeStartingDate' => false,
+                        'expensesWithFlexBudgetAfterStartingDate' => false,
+                        'savings' => false,
+                        'remainingBalance' => false,
+                        'debit' => false,
+                        'balance' => false,
+                        'reconciled' => false,
+                        'cumulativeFixedBudget' => false,
+                    ],
+                    //todo: Don't allow this
+                    'hack' => 'blah'
+                ]
             ]
         ]);
         $preferences = json_decode($response->getContent(), true)['preferences'];
@@ -53,6 +73,21 @@ class UsersTest extends TestCase
         $this->assertEquals('dd/mm/yyyy', $preferences['dateFormat']);
         $this->assertFalse($preferences['autocompleteDescription']);
         $this->assertFalse($preferences['autocompleteMerchant']);
+
+        $this->assertFalse($preferences['show']['totals']['credit']);
+        $this->assertFalse($preferences['show']['totals']['remainingFixedBudget']);
+        $this->assertFalse($preferences['show']['totals']['expensesWithoutBudget']);
+        $this->assertFalse($preferences['show']['totals']['expensesWithFixedBudgetBeforeStartingDate']);
+        $this->assertFalse($preferences['show']['totals']['expensesWithFixedBudgetAfterStartingDate']);
+        $this->assertFalse($preferences['show']['totals']['expensesWithFlexBudgetBeforeStartingDate']);
+        $this->assertFalse($preferences['show']['totals']['expensesWithFlexBudgetAfterStartingDate']);
+        $this->assertFalse($preferences['show']['totals']['savings']);
+        $this->assertFalse($preferences['show']['totals']['remainingBalance']);
+        $this->assertFalse($preferences['show']['totals']['debit']);
+        $this->assertFalse($preferences['show']['totals']['balance']);
+        $this->assertFalse($preferences['show']['totals']['reconciled']);
+        $this->assertFalse($preferences['show']['totals']['cumulativeFixedBudget']);
+//        $this->assertArrayNotHasKey('hack', $preferences['show']);
 
         $this->assertEquals(200, $response->getStatusCode());
 

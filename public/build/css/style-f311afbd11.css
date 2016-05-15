@@ -1708,6 +1708,9 @@ caption {
   #preferences-page .formats {
     margin: auto;
     max-width: 357px; }
+  #preferences-page .totals-to-show {
+    margin: auto;
+    max-width: 357px; }
   #preferences-page > .form-group {
     margin: auto;
     max-width: 357px; }
