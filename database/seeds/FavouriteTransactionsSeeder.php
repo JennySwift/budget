@@ -45,6 +45,17 @@ class FavouriteTransactionsSeeder extends Seeder {
             'description' => 'food',
             'budgets' => ['groceries']
 
+        ],
+        [
+            'name' => 'transfer',
+            'type' => 'transfer',
+            'total' => '100',
+            'fromAccount' => 'cash',
+            'toAccount' => 'bank account',
+            'merchant' => '',
+            'description' => '',
+            'budgets' => []
+
         ]
     ];
 
@@ -65,7 +76,15 @@ class FavouriteTransactionsSeeder extends Seeder {
                 ]);
 
                 $newFavourite->user()->associate($user);
-                $newFavourite->account()->associate(Account::where('user_id', $user->id)->where('name', $favourite['account'])->first());
+
+                if ($favourite['type'] === 'transfer') {
+                    $newFavourite->fromAccount()->associate(Account::where('user_id', $user->id)->where('name', $favourite['fromAccount'])->first());
+                    $newFavourite->toAccount()->associate(Account::where('user_id', $user->id)->where('name', $favourite['toAccount'])->first());
+                }
+                else {
+                    $newFavourite->account()->associate(Account::where('user_id', $user->id)->where('name', $favourite['account'])->first());
+                }
+
                 $newFavourite->save();
 
                 $budgetIds = [];

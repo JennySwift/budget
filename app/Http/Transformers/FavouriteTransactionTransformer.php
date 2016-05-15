@@ -31,6 +31,18 @@ class FavouriteTransactionTransformer extends TransformerAbstract
                 'name' => $favourite->account->name
             ];
         }
+        if ($favourite->fromAccount) {
+            $array['fromAccount'] = [
+                'id' => $favourite->fromAccount->id,
+                'name' => $favourite->fromAccount->name
+            ];
+        }
+        if ($favourite->toAccount) {
+            $array['toAccount'] = [
+                'id' => $favourite->toAccount->id,
+                'name' => $favourite->toAccount->name
+            ];
+        }
 
         return $array;
     }

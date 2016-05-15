@@ -4,16 +4,21 @@ var NewFavouriteTransaction = Vue.component('new-favourite-transaction', {
         return {
             newFavourite: {
                 account: {},
+                fromAccount: {},
+                toAccount: {},
                 budgets: [],
                 type: 'expense'
             },
             showFields: false,
             types: [
                 {
-                    name: 'credit', value: 'income',
+                    name: 'credit', value: 'income'
                 },
                 {
-                    name: 'debit', value: 'expense',
+                    name: 'debit', value: 'expense'
+                },
+                {
+                    name: 'transfer', value: 'transfer'
                 }
             ]
         };

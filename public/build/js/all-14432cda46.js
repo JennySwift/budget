@@ -33035,8 +33035,16 @@ var FavouriteTransactionsRepository = {
             budget_ids: _.pluck(favouriteTransaction.budgets, 'id')
         };
 
-        if (favouriteTransaction.account) {
+        if (favouriteTransaction.account && favouriteTransaction.type !== 'transfer') {
             data.account_id = favouriteTransaction.account.id;
+        }
+
+        if (favouriteTransaction.fromAccount && favouriteTransaction.type === 'transfer') {
+            data.from_account_id = favouriteTransaction.fromAccount.id;
+        }
+
+        if (favouriteTransaction.toAccount && favouriteTransaction.type === 'transfer') {
+            data.to_account_id = favouriteTransaction.toAccount.id;
         }
 
         return data;
@@ -36493,16 +36501,21 @@ var NewFavouriteTransaction = Vue.component('new-favourite-transaction', {
         return {
             newFavourite: {
                 account: {},
+                fromAccount: {},
+                toAccount: {},
                 budgets: [],
                 type: 'expense'
             },
             showFields: false,
             types: [
                 {
-                    name: 'credit', value: 'income',
+                    name: 'credit', value: 'income'
                 },
                 {
-                    name: 'debit', value: 'expense',
+                    name: 'debit', value: 'expense'
+                },
+                {
+                    name: 'transfer', value: 'transfer'
                 }
             ]
         };

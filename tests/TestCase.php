@@ -114,8 +114,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertArrayHasKey('description', $transaction);
 		$this->assertArrayHasKey('merchant', $transaction);
 		$this->assertArrayHasKey('total', $transaction);
-		$this->assertArrayHasKey('account', $transaction);
 		$this->assertArrayHasKey('budgets', $transaction);
+
+		if ($transaction['type'] === 'transfer') {
+			$this->assertArrayHasKey('fromAccount', $transaction);
+			$this->assertArrayHasKey('toAccount', $transaction);
+		}
+		else {
+			$this->assertArrayHasKey('account', $transaction);
+		}
 	}
 
 	public function checkSavedFilterKeysExist($filter)

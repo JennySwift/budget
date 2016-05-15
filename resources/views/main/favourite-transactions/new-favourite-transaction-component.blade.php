@@ -74,11 +74,50 @@
            >
        </div>
 
-        <div v-show="showFields" class="form-group">
+        {{--Account--}}
+        <div v-show="showFields && newFavourite.type !== 'transfer'" class="form-group">
             <label for="new-favourite-transaction-account">Account</label>
 
             <select
                     v-model="newFavourite.account"
+                    v-on:keyup.13="insertFavouriteTransaction()"
+                    id="new-favourite-transaction-account"
+                    class="form-control"
+            >
+                <option
+                        v-for="account in accounts"
+                        v-bind:value="account"
+                >
+                    @{{ account.name }}
+                </option>
+            </select>
+        </div>
+
+        {{--From account--}}
+        <div v-show="showFields && newFavourite.type === 'transfer'" class="form-group">
+            <label for="new-favourite-transaction-from-account">From Account</label>
+
+            <select
+                    v-model="newFavourite.fromAccount"
+                    v-on:keyup.13="insertFavouriteTransaction()"
+                    id="new-favourite-transaction-account"
+                    class="form-control"
+            >
+                <option
+                        v-for="account in accounts"
+                        v-bind:value="account"
+                >
+                    @{{ account.name }}
+                </option>
+            </select>
+        </div>
+
+        {{--To account--}}
+        <div v-show="showFields && newFavourite.type === 'transfer'" class="form-group">
+            <label for="new-favourite-transaction-to-account">To Account</label>
+
+            <select
+                    v-model="newFavourite.toAccount"
                     v-on:keyup.13="insertFavouriteTransaction()"
                     id="new-favourite-transaction-account"
                     class="form-control"

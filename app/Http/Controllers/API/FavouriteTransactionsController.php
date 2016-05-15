@@ -43,6 +43,8 @@ class FavouriteTransactionsController extends Controller
 
         $favourite->user()->associate(Auth::user());
         $favourite->account()->associate(Account::find($request->get('account_id')));
+        $favourite->fromAccount()->associate(Account::find($request->get('from_account_id')));
+        $favourite->toAccount()->associate(Account::find($request->get('to_account_id')));
 
         $favourite->save();
 

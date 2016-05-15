@@ -42,6 +42,24 @@ class FavouriteTransaction extends Model
     }
 
     /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function fromAccount()
+    {
+        return $this->belongsTo('App\Models\Account');
+    }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function toAccount()
+    {
+        return $this->belongsTo('App\Models\Account');
+    }
+
+    /**
      * Get budgets for one transaction, assigned or unassigned
      * @return $this
      */
