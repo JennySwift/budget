@@ -1,8 +1,8 @@
 var ShowRepository = {
 
     defaults: {
-        basicTotals: true,
-        budgetTotals: true,
+        basicTotals: false,
+        budgetTotals: false,
         filterTotals: true,
         budget: false,
         filter: false,

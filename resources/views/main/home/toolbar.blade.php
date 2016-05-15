@@ -18,6 +18,17 @@
 
     </div>
 
+    <div>
+        <button
+            {{--v-on:click="show.basicTotals = !show.basicTotals"--}}
+            v-on:mouseenter="respondToMouseEnterOnTotalsButton"
+            v-on:mouseleave="respondToMouseLeaveOnTotalsButton"
+            class="btn btn-default totals-btn"
+        >
+            Totals
+        </button>
+    </div>
+
     <div class="btn-group">
         <button
                 v-on:click="switchTab('transactions')"

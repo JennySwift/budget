@@ -17,9 +17,10 @@ body {
     padding-top: 40px;
     color: #777;
     .main {
-        padding-bottom: 60px;
+        padding-bottom: 27px;
         min-height: 100%;
         display: none;
+        margin: 20px;
     }
     footer {
         display: none;
@@ -27,9 +28,9 @@ body {
         justify-content: space-around;
         padding: 11px;
         background: #000000;
-        height: 60px;
+        height: 27px;
         position: relative;
-        margin-top: -60px;
+        margin-top: -27px;
         li {
             display: flex;
             align-items: center;

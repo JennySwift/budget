@@ -14,9 +14,10 @@ body {
   padding-top: 40px;
   color: #777; }
   body .main {
-    padding-bottom: 60px;
+    padding-bottom: 27px;
     min-height: 100%;
-    display: none; }
+    display: none;
+    margin: 20px; }
   body footer {
     display: none;
     -webkit-justify-content: space-around;
@@ -24,9 +25,9 @@ body {
     justify-content: space-around;
     padding: 11px;
     background: #000000;
-    height: 60px;
+    height: 27px;
     position: relative;
-    margin-top: -60px; }
+    margin-top: -27px; }
     body footer li {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -595,26 +596,52 @@ caption {
       -ms-flex-align: center;
       align-items: center; }
 
-#remaining-balance-totals {
+.totals-btn {
+  z-index: 99;
   position: relative; }
-  #remaining-balance-totals .fa-pulse {
-    position: absolute;
-    top: 5px;
-    left: 10px;
-    font-size: 15px;
-    color: #5bc0de; }
 
-.totals {
-  box-shadow: 3px 3px 10px #777;
-  margin-bottom: 20px;
-  padding-bottom: 10px; }
-  .totals td {
-    text-align: right;
-    padding: 3px 5px; }
-    .totals td:first-child {
-      max-width: 200px; }
-  .totals tr:not(:last-child) td {
-    border-bottom: 1px solid #777; }
+#totals {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  z-index: 9; }
+  #totals .totals {
+    z-index: 9;
+    background: white; }
+    #totals .totals .totals-table {
+      z-index: 9;
+      box-shadow: 3px 3px 10px #777;
+      margin-bottom: 20px;
+      padding-bottom: 10px; }
+      #totals .totals .totals-table td {
+        text-align: right;
+        padding: 3px 5px; }
+        #totals .totals .totals-table td:first-child {
+          max-width: 200px; }
+      #totals .totals .totals-table tr:not(:last-child) td {
+        border-bottom: 1px solid #777; }
+  #totals #remaining-balance-totals {
+    position: relative; }
+    #totals #remaining-balance-totals .fa-pulse {
+      position: absolute;
+      top: 5px;
+      left: 10px;
+      font-size: 15px;
+      color: #5bc0de; }
 
 #loading {
   position: fixed;
@@ -1163,7 +1190,8 @@ caption {
 #transactions {
   background: white;
   border: 2px solid #ddd;
-  box-shadow: 3px 3px 10px #777; }
+  box-shadow: 3px 3px 10px #777;
+  margin: auto; }
   #transactions thead tr {
     background: white;
     color: #5bc0de; }

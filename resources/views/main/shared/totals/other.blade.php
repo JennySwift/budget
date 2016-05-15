@@ -1,6 +1,6 @@
-<div v-show="show.budgetTotals">
+<div v-show="show.budgetTotals" class="totals">
 
-    <table class="totals">
+    <table class="totals-table">
 
         <tr>
             <th>Type</th>

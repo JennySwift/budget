@@ -33515,8 +33515,8 @@ var SavingsRepository = {
 var ShowRepository = {
 
     defaults: {
-        basicTotals: true,
-        budgetTotals: true,
+        basicTotals: false,
+        budgetTotals: false,
         filterTotals: true,
         budget: false,
         filter: false,
@@ -36241,7 +36241,8 @@ var HomePage = Vue.component('home-page', {
             transactions: [],
             colors: {},
             tab: '',
-            env: env
+            env: env,
+            hoveringTotalsButton: false
         };
     },
     components: {},
@@ -36306,6 +36307,35 @@ var HomePage = Vue.component('home-page', {
             else {
                 this.tab = 'transactions';
             }
+        },
+
+        /**
+         *
+         */
+        respondToMouseEnterOnTotalsButton: function () {
+            this.hoveringTotalsButton = true;
+            var that = this;
+            setTimeout(function () {
+                if (that.hoveringTotalsButton) {
+                    that.show.basicTotals = true;
+                    that.show.budgetTotals = true;
+                }
+            }, 500);
+
+        },
+
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function () {
+            this.hoveringTotalsButton = false;
+            var that = this;
+            setTimeout(function () {
+                if (!that.hoveringTotalsButton) {
+                    that.show.basicTotals = false;
+                    that.show.budgetTotals = false;
+                }
+            }, 500);
         },
 
         /**
