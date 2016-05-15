@@ -36646,8 +36646,15 @@ var NewTransaction = Vue.component('new-transaction', {
             this.newTransaction.merchant = this.selectedFavouriteTransaction.merchant;
             this.newTransaction.total = this.selectedFavouriteTransaction.total;
             this.newTransaction.type = this.selectedFavouriteTransaction.type;
-            this.newTransaction.account = this.selectedFavouriteTransaction.account;
             this.newTransaction.budgets = this.selectedFavouriteTransaction.budgets;
+
+            if (this.newTransaction.type === 'transfer') {
+                this.newTransaction.fromAccount = this.selectedFavouriteTransaction.fromAccount;
+                this.newTransaction.toAccount = this.selectedFavouriteTransaction.toAccount;
+            }
+            else {
+                this.newTransaction.account = this.selectedFavouriteTransaction.account;
+            }
         },
 
         /**
