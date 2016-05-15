@@ -33570,6 +33570,34 @@ var TotalsRepository = {
             expensesWithFlexBudgetBeforeStartingDate: 0,
             expensesWithFlexBudgetAfterStartingDate: 0,
         };
+    },
+
+    /**
+     *
+     * @param that
+     */
+    respondToMouseEnterOnTotalsButton: function (that) {
+        that.hoveringTotalsButton = true;
+        setTimeout(function () {
+            if (that.hoveringTotalsButton) {
+                that.show.basicTotals = true;
+                that.show.budgetTotals = true;
+            }
+        }, 500);
+    },
+
+    /**
+     * 
+     * @param that
+     */
+    respondToMouseLeaveOnTotalsButton: function (that) {
+        that.hoveringTotalsButton = false;
+        setTimeout(function () {
+            if (!that.hoveringTotalsButton) {
+                that.show.basicTotals = false;
+                that.show.budgetTotals = false;
+            }
+        }, 500);
     }
 };
 var TransactionsRepository = {
@@ -36046,6 +36074,20 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         /**
          *
          */
+        respondToMouseEnterOnTotalsButton: function () {
+            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function () {
+            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
+        },
+        
+        /**
+         *
+         */
         toggleNewBudget: function () {
             $.event.trigger('toggle-new-budget');
         },
@@ -36138,6 +36180,20 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
     },
     methods: {
 
+        /**
+         *
+         */
+        respondToMouseEnterOnTotalsButton: function () {
+            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function () {
+            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
+        },
+        
         /**
          *
          */
@@ -36313,29 +36369,14 @@ var HomePage = Vue.component('home-page', {
          *
          */
         respondToMouseEnterOnTotalsButton: function () {
-            this.hoveringTotalsButton = true;
-            var that = this;
-            setTimeout(function () {
-                if (that.hoveringTotalsButton) {
-                    that.show.basicTotals = true;
-                    that.show.budgetTotals = true;
-                }
-            }, 500);
-
+            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
         },
 
         /**
          *
          */
         respondToMouseLeaveOnTotalsButton: function () {
-            this.hoveringTotalsButton = false;
-            var that = this;
-            setTimeout(function () {
-                if (!that.hoveringTotalsButton) {
-                    that.show.basicTotals = false;
-                    that.show.budgetTotals = false;
-                }
-            }, 500);
+            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
         },
 
         /**
@@ -37519,7 +37560,20 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
     },
     components: {},
     methods: {
+        /**
+         *
+         */
+        respondToMouseEnterOnTotalsButton: function () {
+            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
+        },
 
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function () {
+            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
+        },
+        
         /**
          *
          */

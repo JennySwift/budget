@@ -13,24 +13,11 @@
         <li>
             <a
                     v-on:click="show.basicTotals = !show.basicTotals"
-                    href="#"
+                    class="pointer"
             >
-                <span>Basic Totals</span>
+                <span>Totals</span>
                 <i
                         v-show="show.basicTotals"
-                        class="fa fa-check"></i>
-            </a>
-        </li>
-
-        {{--Budget totals--}}
-        <li>
-            <a
-                    v-on:click="show.budgetTotals = !show.budgetTotals"
-                    href="#"
-            >
-                <span>Remaining Balance Totals</span>
-                <i
-                        v-show="show.budgetTotals"
                         class="fa fa-check"></i>
             </a>
         </li>

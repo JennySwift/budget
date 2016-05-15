@@ -20,5 +20,33 @@ var TotalsRepository = {
             expensesWithFlexBudgetBeforeStartingDate: 0,
             expensesWithFlexBudgetAfterStartingDate: 0,
         };
+    },
+
+    /**
+     *
+     * @param that
+     */
+    respondToMouseEnterOnTotalsButton: function (that) {
+        that.hoveringTotalsButton = true;
+        setTimeout(function () {
+            if (that.hoveringTotalsButton) {
+                that.show.basicTotals = true;
+                that.show.budgetTotals = true;
+            }
+        }, 500);
+    },
+
+    /**
+     * 
+     * @param that
+     */
+    respondToMouseLeaveOnTotalsButton: function (that) {
+        that.hoveringTotalsButton = false;
+        setTimeout(function () {
+            if (!that.hoveringTotalsButton) {
+                that.show.basicTotals = false;
+                that.show.budgetTotals = false;
+            }
+        }, 500);
     }
 };

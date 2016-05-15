@@ -1262,7 +1262,12 @@ caption {
 
 .budgets-page #budget-toolbar {
   margin-top: 7px;
-  margin-left: 5px; }
+  margin-left: 5px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .budgets-page #budget-toolbar > * {
+    margin-right: 5px; }
   .budgets-page #budget-toolbar .btn-group button {
     background: white;
     color: #5cb85c; }

@@ -2,6 +2,10 @@
     #budget-toolbar {
         margin-top: 7px;
         margin-left: 5px;
+        display: flex;
+        > * {
+            margin-right: 5px;
+        }
         .btn-group {
             button {
                 background: white;

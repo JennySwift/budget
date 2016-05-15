@@ -8,7 +8,20 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
     },
     components: {},
     methods: {
+        /**
+         *
+         */
+        respondToMouseEnterOnTotalsButton: function () {
+            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
+        },
 
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function () {
+            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
+        },
+        
         /**
          *
          */

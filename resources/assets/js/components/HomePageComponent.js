@@ -79,29 +79,14 @@ var HomePage = Vue.component('home-page', {
          *
          */
         respondToMouseEnterOnTotalsButton: function () {
-            this.hoveringTotalsButton = true;
-            var that = this;
-            setTimeout(function () {
-                if (that.hoveringTotalsButton) {
-                    that.show.basicTotals = true;
-                    that.show.budgetTotals = true;
-                }
-            }, 500);
-
+            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
         },
 
         /**
          *
          */
         respondToMouseLeaveOnTotalsButton: function () {
-            this.hoveringTotalsButton = false;
-            var that = this;
-            setTimeout(function () {
-                if (!that.hoveringTotalsButton) {
-                    that.show.basicTotals = false;
-                    that.show.budgetTotals = false;
-                }
-            }, 500);
+            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
         },
 
         /**

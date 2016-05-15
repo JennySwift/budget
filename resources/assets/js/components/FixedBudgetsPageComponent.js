@@ -32,6 +32,20 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         /**
          *
          */
+        respondToMouseEnterOnTotalsButton: function () {
+            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function () {
+            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
+        },
+        
+        /**
+         *
+         */
         toggleNewBudget: function () {
             $.event.trigger('toggle-new-budget');
         },

@@ -14,4 +14,15 @@
     {{--</div>--}}
 {{--    @include('templates.budgets.help')--}}
     <button v-on:click="toggleNewBudget()" class="btn btn-info">New</button>
+
+    <div>
+        <button
+                {{--v-on:click="show.basicTotals = !show.basicTotals"--}}
+                v-on:mouseenter="respondToMouseEnterOnTotalsButton"
+                v-on:mouseleave="respondToMouseLeaveOnTotalsButton"
+                class="btn btn-default totals-btn"
+        >
+            Totals
+        </button>
+    </div>
 </div>
