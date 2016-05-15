@@ -89,7 +89,7 @@
 
         <td v-on:click="showBudgetPopup(budget, 'fixed')" class="received pointer">@{{ budget.receivedAfterStartingDate | numberFilter 2 }}</td>
 
-        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="remaining pointer">@{{ budget.remaining | numberFilter 2 }}</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" v-bind:class="{'negative-remaining': budget.remaining < 0}" class="remaining pointer">@{{ budget.remaining | numberFilter 2 }}</td>
 
     </tr>
 

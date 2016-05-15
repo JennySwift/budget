@@ -1266,6 +1266,9 @@ caption {
     color: #d9534f; }
   .budgets-page #budget-content .order-by {
     margin-bottom: 15px; }
+  .budgets-page #budget-content .negative-remaining {
+    color: #d9534f;
+    font-weight: bold; }
   .budgets-page #budget-content table .totals {
     background: #777;
     color: white; }

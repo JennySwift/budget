@@ -39,6 +39,10 @@
         .order-by {
             margin-bottom: 15px;
         }
+        .negative-remaining {
+            color: $danger;
+            font-weight: bold;
+        }
         input, select {
             //width: 100%;
         }
