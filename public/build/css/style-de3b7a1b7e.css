@@ -756,7 +756,8 @@ caption {
   margin-bottom: 4px; }
   .checkbox-container label {
     margin-bottom: 0;
-    font-weight: normal; }
+    font-weight: normal;
+    white-space: nowrap; }
   .checkbox-container input {
     margin-right: 5px; }
 
@@ -1263,8 +1264,8 @@ caption {
     color: #5cb85c; }
   .budgets-page #budget-content th .fa-minus {
     color: #d9534f; }
-  .budgets-page #budget-content input, .budgets-page #budget-content select {
-    width: 100%; }
+  .budgets-page #budget-content .order-by {
+    margin-bottom: 15px; }
   .budgets-page #budget-content table .totals {
     background: #777;
     color: white; }

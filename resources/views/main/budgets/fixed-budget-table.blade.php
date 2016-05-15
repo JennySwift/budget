@@ -1,6 +1,34 @@
 
 <h1>Fixed Budget Table</h1>
 
+<div class="order-by">
+    <div class="form-group">
+        <label for="order-by">Order By</label>
+
+        <select
+            v-model="orderBy"
+            id="order-by"
+            class="form-control"
+        >
+            <option
+                v-for="orderByOption in orderByOptions"
+                v-bind:value="orderByOption.value"
+            >
+                @{{ orderByOption.name }}
+            </option>
+        </select>
+    </div>
+
+
+    <div class="checkbox-container">
+        <input
+                v-model="reverseOrder"
+                type="checkbox"
+        >
+        <label for="reverse-order-">Reverse Order</label>
+    </div>
+</div>
+
 <table id="fixed-budget-info-table" class="table table-bordered">
 
     <tr>
@@ -41,7 +69,7 @@
     </tr>
 
     <!-- table content -->
-    <tr v-for="budget in fixedBudgets | orderBy 'name'" class="budget_info_ul">
+    <tr v-for="budget in fixedBudgets | orderBudgetsFilter" class="budget_info_ul">
 
         <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">@{{ budget.name }}</td>
 

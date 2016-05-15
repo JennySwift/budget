@@ -1,6 +1,7 @@
 <script id="fixed-budgets-page-template" type="x-template">
 
 <div id="fixed-budgets-page" class="budgets-page">
+
     <edit-budget-popup
             :budgets.sync="fixedBudgets"
             page="fixed"

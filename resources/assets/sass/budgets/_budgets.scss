@@ -1,11 +1,5 @@
 .budgets-page {
     #budget-toolbar {
-//        position: absolute;
-//        top: -24px;
-        //        background: #000000;
-//        width: 100%;
-//        display: flex;
-//        justify-content: center;
         margin-top: 7px;
         margin-left: 5px;
         .btn-group {
@@ -42,8 +36,11 @@
                 color: #d9534f;
             }
         }
+        .order-by {
+            margin-bottom: 15px;
+        }
         input, select {
-            width: 100%;
+            //width: 100%;
         }
         .CSD {
 //            width: 140px;
