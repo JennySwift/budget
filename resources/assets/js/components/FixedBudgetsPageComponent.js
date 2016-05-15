@@ -25,20 +25,7 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
             return HelpersRepository.numberFilter(number, howManyDecimals);
         },
         orderBudgetsFilter: function (budgets) {
-            switch(this.orderBy) {
-                case 'name':
-                    budgets = _.sortBy(budgets, 'name');
-                    break;
-                case 'spentAfterStartingDate':
-                    budgets = _.sortBy(budgets, 'spentAfterStartingDate');
-                    break;
-            }
-
-            if (this.reverseOrder) {
-                budgets = budgets.reverse();
-            }
-
-            return budgets;
+            return BudgetsRepository.orderBudgetsFilter(budgets, this);
         },
     },
     methods: {

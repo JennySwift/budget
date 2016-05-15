@@ -4,7 +4,13 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         return {
             show: ShowRepository.defaults,
             flexBudgets: [],
-            flexBudgetTotals: []
+            flexBudgetTotals: [],
+            orderByOptions: [
+                {name: 'name', value: 'name'},
+                {name: 'spent after starting date', value: 'spentAfterStartingDate'}
+            ],
+            orderBy: 'name',
+            reverseOrder: false
         };
     },
     components: {},
@@ -17,7 +23,10 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
          */
         numberFilter: function (number, howManyDecimals) {
             return HelpersRepository.numberFilter(number, howManyDecimals);
-        }
+        },
+        orderBudgetsFilter: function (budgets) {
+            return BudgetsRepository.orderBudgetsFilter(budgets, this);
+        },
     },
     methods: {
 

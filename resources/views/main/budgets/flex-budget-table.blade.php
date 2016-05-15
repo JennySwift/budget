@@ -1,6 +1,34 @@
 
 <h1>Flex Budget Table</h1>
 
+<div class="order-by">
+    <div class="form-group">
+        <label for="order-by">Order By</label>
+
+        <select
+                v-model="orderBy"
+                id="order-by"
+                class="form-control"
+        >
+            <option
+                    v-for="orderByOption in orderByOptions"
+                    v-bind:value="orderByOption.value"
+            >
+                @{{ orderByOption.name }}
+            </option>
+        </select>
+    </div>
+
+
+    <div class="checkbox-container">
+        <input
+                v-model="reverseOrder"
+                type="checkbox"
+        >
+        <label for="reverse-order-">Reverse Order</label>
+    </div>
+</div>
+
 <table id ="flex-budget-info-table" class="table table-bordered">
 
     <tr>
@@ -40,7 +68,7 @@
         <th class="tooltipster" title="remaining">Remaining</th>
     </tr>
     <!-- table content -->
-    <tr v-for="budget in flexBudgets | orderBy 'name'" class="budget_info_ul">
+    <tr v-for="budget in flexBudgets | orderBudgetsFilter" class="budget_info_ul">
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">@{{ budget.name }}</td>
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="percent pointer">@{{ budget.amount }}</td>
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="amount pointer">@{{ budget.calculatedAmount |  numberFilter 2 }}</td>
@@ -53,7 +81,7 @@
 
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">@{{ budget.spentAfterStartingDate |  numberFilter 2 }}</td>
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="received pointer">@{{ budget.receivedAfterStartingDate |  numberFilter 2 }}</td>
-        <td v-on:click="showBudgetPopup(budget, 'flex')" class="remaining pointer">@{{ budget.remaining |  numberFilter 2 }}</td>
+        <td v-on:click="showBudgetPopup(budget, 'flex')" v-bind:class="{'negative-remaining': budget.remaining < 0}" class="remaining pointer">@{{ budget.remaining |  numberFilter 2 }}</td>
     </tr>
     <!-- allocated -->
     <tr id="flex-budget-totals" class="budget_info_ul">

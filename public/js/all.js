@@ -33018,6 +33018,31 @@ var AutocompleteRepository = {
 		return $transactions;
 	}
 };
+var BudgetsRepository = {
+
+    /**
+     * 
+     * @param budgets
+     * @param that
+     * @returns {*}
+     */
+    orderBudgetsFilter: function (budgets, that) {
+        switch(that.orderBy) {
+            case 'name':
+                budgets = _.sortBy(budgets, 'name');
+                break;
+            case 'spentAfterStartingDate':
+                budgets = _.sortBy(budgets, 'spentAfterStartingDate');
+                break;
+        }
+
+        if (that.reverseOrder) {
+            budgets = budgets.reverse();
+        }
+
+        return budgets;
+    }
+};
 var FavouriteTransactionsRepository = {
 
     /**
@@ -36014,20 +36039,7 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
             return HelpersRepository.numberFilter(number, howManyDecimals);
         },
         orderBudgetsFilter: function (budgets) {
-            switch(this.orderBy) {
-                case 'name':
-                    budgets = _.sortBy(budgets, 'name');
-                    break;
-                case 'spentAfterStartingDate':
-                    budgets = _.sortBy(budgets, 'spentAfterStartingDate');
-                    break;
-            }
-
-            if (this.reverseOrder) {
-                budgets = budgets.reverse();
-            }
-
-            return budgets;
+            return BudgetsRepository.orderBudgetsFilter(budgets, this);
         },
     },
     methods: {
@@ -36100,7 +36112,13 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         return {
             show: ShowRepository.defaults,
             flexBudgets: [],
-            flexBudgetTotals: []
+            flexBudgetTotals: [],
+            orderByOptions: [
+                {name: 'name', value: 'name'},
+                {name: 'spent after starting date', value: 'spentAfterStartingDate'}
+            ],
+            orderBy: 'name',
+            reverseOrder: false
         };
     },
     components: {},
@@ -36113,7 +36131,10 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
          */
         numberFilter: function (number, howManyDecimals) {
             return HelpersRepository.numberFilter(number, howManyDecimals);
-        }
+        },
+        orderBudgetsFilter: function (budgets) {
+            return BudgetsRepository.orderBudgetsFilter(budgets, this);
+        },
     },
     methods: {
 
