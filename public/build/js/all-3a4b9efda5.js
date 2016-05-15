@@ -34957,6 +34957,17 @@ var AccountsPage = Vue.component('accounts-page', {
         };
     },
     components: {},
+    filters: {
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        },
+    },
     methods: {
 
         /**

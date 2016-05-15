@@ -1646,9 +1646,13 @@ caption {
     visibility: hidden; }
   #accounts tr:hover .btn-danger {
     visibility: visible; }
+  #accounts tr td, #accounts tr th {
+    text-align: left; }
   #accounts tr td {
     font-size: 17px;
     height: 32px; }
+  #accounts tr .balance {
+    text-align: right; }
 
 .autocomplete {
   margin-bottom: 20px;
