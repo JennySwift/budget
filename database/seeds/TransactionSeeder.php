@@ -371,18 +371,12 @@ class TransactionSeeder extends Seeder {
      */
     private function createTransfer($user)
     {
-        $from_account = Account::whereUserId($user->id)->get()->random(1);
-        $to_account = Account::whereUserId($user->id)->get()->random(1);
+        $from_account = Account::whereUserId($user->id)->offset(1)->first();
+        $to_account = Account::whereUserId($user->id)->first();
 
-//        $date = $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s');
-//        $total = $this->faker->randomElement([5, 10, 15, 20]);
         $date = Config::get('budgets.dateBeforeStartingDateForIncomeTransactions');
         $total = 100;
         $description = $this->faker->sentence(1);
-
-        while ($from_account->id == $to_account->id) {
-            $to_account = Account::whereUserId($user->id)->get()->random(1);
-        }
 
         $transaction = new Transaction([
             'type' => 'transfer',

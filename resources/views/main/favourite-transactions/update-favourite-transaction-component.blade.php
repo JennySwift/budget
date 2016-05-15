@@ -73,7 +73,8 @@
                 >
             </div>
 
-            <div class="form-group">
+            {{--Account--}}
+            <div v-if="selectedFavourite.type !== 'transfer'" class="form-group">
                 <label for="selected-favourite-account">Account</label>
 
                 <select
@@ -84,6 +85,42 @@
                     <option
                         v-for="account in accounts"
                         v-bind:value="account"
+                    >
+                        @{{ account.name }}
+                    </option>
+                </select>
+            </div>
+
+            {{--From account--}}
+            <div v-if="selectedFavourite.type === 'transfer'" class="form-group">
+                <label for="selected-favourite-from-account">From Account</label>
+
+                <select
+                        v-model="selectedFavourite.fromAccount"
+                        id="selected-favourite-from-account"
+                        class="form-control"
+                >
+                    <option
+                            v-for="account in accounts"
+                            v-bind:value="account"
+                    >
+                        @{{ account.name }}
+                    </option>
+                </select>
+            </div>
+
+            {{--To account--}}
+            <div v-if="selectedFavourite.type === 'transfer'" class="form-group">
+                <label for="selected-favourite-to-account">To Account</label>
+
+                <select
+                        v-model="selectedFavourite.toAccount"
+                        id="selected-favourite-to-account"
+                        class="form-control"
+                >
+                    <option
+                            v-for="account in accounts"
+                            v-bind:value="account"
                     >
                         @{{ account.name }}
                     </option>

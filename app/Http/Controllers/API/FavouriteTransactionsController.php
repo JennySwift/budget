@@ -77,6 +77,20 @@ class FavouriteTransactionsController extends Controller
 
         if ($request->has('account_id')) {
             $favourite->account()->associate(Account::findOrFail($request->get('account_id')));
+            $favourite->fromAccount()->dissociate();
+            $favourite->toAccount()->dissociate();
+            $favourite->save();
+        }
+
+        if ($request->has('from_account_id')) {
+            $favourite->fromAccount()->associate(Account::findOrFail($request->get('from_account_id')));
+            $favourite->account()->dissociate();
+            $favourite->save();
+        }
+
+        if ($request->has('to_account_id')) {
+            $favourite->toAccount()->associate(Account::findOrFail($request->get('to_account_id')));
+            $favourite->account()->dissociate();
             $favourite->save();
         }
 
