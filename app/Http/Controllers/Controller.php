@@ -1,8 +1,10 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -116,47 +118,52 @@ abstract class Controller extends BaseController {
     }
 
     /**
-     * @param Model               $model
+     * For Fractal transformer
+     * @param $resource
+     * @param null $includes
+     * @param Request $request
+     * @return array
+     */
+    public function transform($resource, $includes = null, Request $request = null)
+    {
+        $manager = new Manager();
+        $manager->setSerializer(new DataArraySerializer);
+
+        //Includes passed to this method as a parameter
+        if ($includes) {
+            $manager->parseIncludes($includes);
+        }
+
+        //Includes in url
+        if ($request && $request->has('include')) {
+            $manager->parseIncludes($request->get('include'));
+        }
+
+        return $manager->createData($resource)->toArray();
+    }
+
+    /**
+     * For Fractal transformer
+     * @param EloquentCollection $collection
      * @param TransformerAbstract $transformer
-     * @param null                $key
+     * @param null $key
+     * @return Collection
+     */
+    public function createCollection(EloquentCollection $collection, TransformerAbstract $transformer, $key = null)
+    {
+        return new Collection($collection, $transformer, $key);
+    }
+
+    /**
+     *
+     * @param $model
+     * @param TransformerAbstract $transformer
+     * @param null $key
      * @return Item
      */
     public function createItem($model, TransformerAbstract $transformer, $key = null)
     {
         return new Item($model, $transformer, $key);
-    }
-
-    /**
-     * For Fractal transformer
-     * @param $model
-     * @param TransformerAbstract $transformer
-     * @param null $key
-     * @return Collection
-     */
-    public function createCollection($model, TransformerAbstract $transformer, $key = null)
-    {
-        return new Collection($model, $transformer, $key);
-    }
-
-    /**
-     * For Fractal transformer
-     * @param $resource
-     * @return array
-     */
-    public function transform($resource)
-    {
-        $manager = new Manager();
-        $manager->setSerializer(new DataArraySerializer);
-
-//        $manager->parseIncludes(request()->get('includes', []));
-
-        //This seems to be causing an error with my __construct method in ProvidersController.php:
-        //'Call to a member function has() on null'
-//        if ($this->request->has('include')) {
-//            $manager->parseIncludes($this->request->include);
-//        }
-
-        return $manager->createData($resource)->toArray();
     }
 
 }

@@ -51,4 +51,19 @@ class Account extends Model
         return route('api.accounts.show', $this->id);
     }
 
+    /**
+     *
+     * @return float
+     */
+    public function getBalanceAttribute()
+    {
+        $balance = 0;
+
+        foreach ($this->transactions as $transaction) {
+            $balance+= $transaction->total;
+        }
+
+        return (float) $balance;
+    }
+
 }

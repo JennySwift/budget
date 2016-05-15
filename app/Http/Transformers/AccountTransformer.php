@@ -10,6 +10,13 @@ use League\Fractal\TransformerAbstract;
  */
 class AccountTransformer extends TransformerAbstract
 {
+    private $params;
+
+    public function __construct($params = [])
+    {
+        $this->params = $params;
+    }
+
     /**
      * @param Account $account
      * @return array
@@ -18,9 +25,12 @@ class AccountTransformer extends TransformerAbstract
     {
         $array = [
             'id' => $account->id,
-//            'user_id' => $account->user->id,
             'name' => $account->name,
         ];
+
+        if (isset($this->params['includeBalance'])) {
+            $array['balance'] = $account->balance;
+        }
 
         return $array;
     }

@@ -29,7 +29,7 @@ class AccountsController extends Controller
     public function index()
     {
         $accounts = Account::forCurrentUser()->orderBy('name', 'asc')->get();
-        $accounts = $this->transform($this->createCollection($accounts, new AccountTransformer))['data'];
+        $accounts = $this->transform($this->createCollection($accounts, new AccountTransformer(['includeBalance' => true])))['data'];
         return response($accounts, Response::HTTP_OK);
     }
 
