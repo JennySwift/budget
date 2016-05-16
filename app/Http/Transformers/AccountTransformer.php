@@ -28,7 +28,7 @@ class AccountTransformer extends TransformerAbstract
             'name' => $account->name,
         ];
 
-        if (isset($this->params['includeBalance'])) {
+        if (isset($this->params['includeBalance']) && $this->params['includeBalance']) {
             $array['balance'] = $account->balance;
         }
 

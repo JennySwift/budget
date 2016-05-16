@@ -24,7 +24,8 @@ var AccountsPage = Vue.component('accounts-page', {
         */
         getAccounts: function () {
             $.event.trigger('show-loading');
-            this.$http.get('/api/accounts', function (response) {
+            
+            this.$http.get('/api/accounts?includeBalance=true', function (response) {
                 this.accounts = response;
                 $.event.trigger('hide-loading');
             })

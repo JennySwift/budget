@@ -14,10 +14,13 @@ class AccountsIndexTest extends TestCase {
      * @test
      * @return void
      */
-    public function it_gets_the_accounts()
+    public function it_gets_the_accounts_with_their_balances()
     {
         $this->logInUser();
-        $response = $this->call('GET', '/api/accounts');
+        $data = [
+            'includeBalance' => true
+        ];
+        $response = $this->call('GET', '/api/accounts', $data);
         $content = json_decode($response->getContent(), true);
 //      dd($content);
 
@@ -28,6 +31,32 @@ class AccountsIndexTest extends TestCase {
 
         $this->assertEquals('cash', $content[1]['name']);
         $this->assertEquals('1090', $content[1]['balance']);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * @todo: check the accounts belong to the user
+     * @test
+     * @return void
+     */
+    public function it_gets_the_accounts_without_their_balances()
+    {
+        $this->logInUser();
+        $data = [
+//            'includeBalance' => true
+        ];
+        $response = $this->call('GET', '/api/accounts', $data);
+        $content = json_decode($response->getContent(), true);
+//      dd($content);
+
+        $this->checkAccountKeysExist($content[0]);
+
+        $this->assertEquals('bank account', $content[0]['name']);
+        $this->assertArrayNotHasKey('balance', $content[0]);
+
+        $this->assertEquals('cash', $content[1]['name']);
+        $this->assertArrayNotHasKey('balance', $content[1]);
 
         $this->assertEquals(200, $response->getStatusCode());
     }

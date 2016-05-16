@@ -11,6 +11,7 @@ use App\Http\Transformers\AccountTransformer;
 use App\Models\Account;
 use Auth;
 use DB;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use JavaScript;
 use Pusher;
@@ -24,12 +25,14 @@ class AccountsController extends Controller
 
     /**
      *
+     * @param Request $request
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $accounts = Account::forCurrentUser()->orderBy('name', 'asc')->get();
-        $accounts = $this->transform($this->createCollection($accounts, new AccountTransformer(['includeBalance' => true])))['data'];
+
+        $accounts = $this->transform($this->createCollection($accounts, new AccountTransformer(['includeBalance' => $request->get('includeBalance')])))['data'];
         return response($accounts, Response::HTTP_OK);
     }
 
