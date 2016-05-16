@@ -202,6 +202,13 @@ class TransactionsController extends Controller
 
             if ($request->has('budget_ids')) {
                 $transaction->budgets()->sync($request->get('budget_ids'));
+
+                //Change calculated_allocation from null to 0
+                $budgetsAdded = $transaction->budgets()->wherePivot('calculated_allocation', null)->get();
+                foreach ($budgetsAdded as $budget) {
+                    $transaction->budgets()->updateExistingPivot($budget->id, ['calculated_allocation' => '0']);
+                }
+
             }
         }
 
