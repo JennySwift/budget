@@ -73,7 +73,7 @@ class TransactionsShowTest extends TestCase
 
 //        dd($content);
 
-        $this->checktransactionKeysExist($content);
+        $this->checkTransactionKeysExist($content);
 
         $this->assertEquals(0, $content['validAllocation']);
 
