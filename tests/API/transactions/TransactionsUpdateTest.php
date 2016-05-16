@@ -435,6 +435,59 @@ class TransactionsUpdateTest extends TestCase
      * @test
      * @return void
      */
+    public function it_can_change_the_total_of_a_transaction_and_the_allocation_is_updated_if_the_allocation_is_a_percentage_of_the_transaction()
+    {
+        $this->logInUser();
+
+        $transaction = Transaction::forCurrentUser()
+            ->whereHas('budgets', function ($q)
+            {
+                $q->where('type', '!=', 'unassigned');
+            }, '>=', 2)
+            ->first();
+
+        $this->assertEquals(5, $transaction->id);
+
+        $this->assertEquals(2, $transaction->budgets[0]->id);
+        $this->assertNull($transaction->budgets[0]->pivot->allocated_fixed);
+        $this->assertEquals(100, $transaction->budgets[0]->pivot->allocated_percent);
+        $this->assertEquals(-5, $transaction->budgets[0]->pivot->calculated_allocation);
+
+        $this->assertEquals(3, $transaction->budgets[1]->id);
+        $this->assertNull($transaction->budgets[1]->pivot->allocated_fixed);
+        $this->assertEquals('0', $transaction->budgets[1]->pivot->allocated_percent);
+        $this->assertEquals('0', $transaction->budgets[1]->pivot->calculated_allocation);
+
+        $data = [
+            'total' => 20
+        ];
+
+        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+        $content = json_decode($response->getContent(), true);
+//        dd($content);
+
+        $this->checkTransactionKeysExist($content);
+
+        $this->assertEquals(2, $content['budgets'][0]['id']);
+        $this->assertNull($content['budgets'][0]['pivot']['allocated_fixed']);
+        $this->assertEquals(100, $content['budgets'][0]['pivot']['allocated_percent']);
+        $this->assertEquals(-20, $content['budgets'][0]['pivot']['calculated_allocation']);
+
+        $this->assertEquals(3, $content['budgets'][1]['id']);
+        $this->assertNull($content['budgets'][1]['pivot']['allocated_fixed']);
+        $this->assertEquals('0', $content['budgets'][1]['pivot']['allocated_percent']);
+        $this->assertEquals('0', $content['budgets'][1]['pivot']['calculated_allocation']);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    //Todo: test expense totals must be negative and positive totals must be positive when updating transaction
+
+    /**
+     * @test
+     * @return void
+     */
     public function it_can_remove_a_transaction_description()
     {
         $this->logInUser();

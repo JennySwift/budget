@@ -143,6 +143,7 @@ class TransactionsController extends Controller
             $transaction = $this->budgetTransactionRepository->addBudgets($request, $transaction);
         }
         else {
+            $previousTotal = $transaction->total;
             $data = array_filter(array_diff_assoc(
                 $request->only([
                     'date',
@@ -188,6 +189,15 @@ class TransactionsController extends Controller
                     $transaction->save();
                 }
             }
+            //Make the total negative if an expense
+
+            if ($transaction->type === 'expense' && $data['total'] > 0) {
+                $data['total']*=-1;
+            }
+            //Make the total positive if an income
+            if ($transaction->type === 'income' && $data['total'] < 0) {
+                $data['total']*=-1;
+            }
 
 //        if(empty($data)) {
 //            return $this->responseNotModified();
@@ -208,7 +218,14 @@ class TransactionsController extends Controller
                 foreach ($budgetsAdded as $budget) {
                     $transaction->budgets()->updateExistingPivot($budget->id, ['calculated_allocation' => '0']);
                 }
-
+            }
+            //If the total has changed, update the allocation if the allocation is a percentage of the transaction total
+            if ($previousTotal !== $transaction->total) {
+                $budgetsToUpdateAllocation = $transaction->budgets()->wherePivot('allocated_percent', '>', 0)->get();
+                foreach ($budgetsToUpdateAllocation as $budget) {
+                    $calculatedAllocation = $transaction->total / 100 * $budget->pivot->allocated_percent;
+                    $transaction->budgets()->updateExistingPivot($budget->id, ['calculated_allocation' => $calculatedAllocation]);
+                }
             }
         }
 
