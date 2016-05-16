@@ -18,7 +18,7 @@ var TransactionsRepository = {
             allocated: transaction.allocated,
             //Convert duration from HH:MM format to minutes
             minutes: HelpersRepository.formatDurationToMinutes(transaction.duration),
-            budgets: transaction.budgets,
+            budget_ids: _.pluck(transaction.budgets, 'id')
         };
 
         if (transaction.type === 'expense' && transaction.total > 0) {

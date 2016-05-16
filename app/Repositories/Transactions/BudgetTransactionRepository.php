@@ -21,14 +21,14 @@ class BudgetTransactionRepository
      * for each tag is not 100%, which makes no sense.
      * Give the first tag an allocation of 100% and the rest 0%.
      * @param Transaction $transaction
-     * @param $budgets
+     * @param $budgetIds
      * @return mixed
      */
-    public function attachBudgetsWithDefaultAllocation(Transaction $transaction, $budgets)
+    public function attachBudgetsWithDefaultAllocation(Transaction $transaction, $budgetIds)
     {
         $assignedCount = 0;
-        foreach ($budgets as $budget) {
-            $budget = Budget::find($budget['id']);
+        foreach ($budgetIds as $budgetId) {
+            $budget = Budget::find($budgetId);
 
             if ($budget->isAssigned()) {
                 $assignedCount++;
@@ -58,6 +58,36 @@ class BudgetTransactionRepository
     }
 
     /**
+     * Called from TransactionsController update method
+     * Add budgets to transaction
+     * @param Transaction $transaction
+     * @param $budgets
+     */
+//    public function attachBudgets(Transaction $transaction, $budgets)
+//    {
+//        foreach ($budgets as $budget) {
+//            if (isset($budget['allocated_fixed'])) {
+//                $transaction->budgets()->attach($budget['id'], [
+//                    'allocated_fixed' => $budget['allocated_fixed'],
+//                    'calculated_allocation' => $budget['allocated_fixed']
+//                ]);
+//            }
+//            elseif (isset($budget['allocated_percent'])) {
+//                $transaction->budgets()->attach($budget['id'], [
+//                    'allocated_percent' => $budget['allocated_percent'],
+//                    'calculated_allocation' => $transaction->total / 100 * $budget['allocated_percent'],
+//                ]);
+//            }
+//            else {
+//                //Todo: if budget is unassigned, calculated_allocation should be null
+//                $transaction->budgets()->attach($budget['id'], [
+//                    'calculated_allocation' => $transaction->total,
+//                ]);
+//            }
+//        }
+//    }
+
+    /**
      * For mass transaction updating
      * (adding the same budgets to many transactions)
      * Called from TransactionsController update method
@@ -81,34 +111,4 @@ class BudgetTransactionRepository
 
         return $transaction;
     }
-
-    /**
-     * Add budgets to transaction
-     * @param Transaction $transaction
-     * @param $budgets
-     */
-    public function attachBudgets(Transaction $transaction, $budgets)
-    {
-        foreach ($budgets as $budget) {
-            if (isset($budget['allocated_fixed'])) {
-                $transaction->budgets()->attach($budget['id'], [
-                    'allocated_fixed' => $budget['allocated_fixed'],
-                    'calculated_allocation' => $budget['allocated_fixed']
-                ]);
-            }
-            elseif (isset($budget['allocated_percent'])) {
-                $transaction->budgets()->attach($budget['id'], [
-                    'allocated_percent' => $budget['allocated_percent'],
-                    'calculated_allocation' => $transaction->total / 100 * $budget['allocated_percent'],
-                ]);
-            }
-            else {
-                //Todo: if budget is unassigned, calculated_allocation should be null
-                $transaction->budgets()->attach($budget['id'], [
-                    'calculated_allocation' => $transaction->total,
-                ]);
-            }
-        }
-    }
-
 }

@@ -28,10 +28,7 @@ class TransactionValidAllocationTest extends TestCase
             'total' => 82.04,
             'reconciled' => 0,
             'allocated' => 0,
-            'budgets' => [
-                ['id' => 2, 'name' => 'business'],
-                ['id' => 3, 'name' => 'groceries']
-            ]
+            'budget_ids' => [2,3]
         ];
 
         $response = $this->apiCall('POST', '/api/transactions', $transaction);

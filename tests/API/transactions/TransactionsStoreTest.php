@@ -113,10 +113,7 @@ class TransactionsStoreTest extends TestCase
             'reconciled' => 0,
             'allocated' => 0,
             'minutes' => 70,
-            'budgets' => [
-                ['id' => 2, 'name' => 'business'],
-                ['id' => 4, 'name' => 'busking']
-            ]
+            'budget_ids' => [2,4]
         ];
 
         $response = $this->apiCall('POST', '/api/transactions', $transaction);
@@ -191,10 +188,7 @@ class TransactionsStoreTest extends TestCase
             'total' => -5,
             'reconciled' => 0,
             'allocated' => 0,
-            'budgets' => [
-                ['id' => 2, 'name' => 'business'],
-                ['id' => 4, 'name' => 'busking']
-            ]
+            'budget_ids' => [2,4]
         ];
 
         $response = $this->apiCall('POST', '/api/transactions', $transaction);
@@ -260,10 +254,7 @@ class TransactionsStoreTest extends TestCase
             'total' => 5,
             'reconciled' => 0,
             'allocated' => 0,
-            'budgets' => [
-                ['id' => 2, 'name' => 'business'],
-                ['id' => 4, 'name' => 'busking']
-            ]
+            'budget_ids' => [2,4]
         ];
 
         $response = $this->apiCall('POST', '/api/transactions', $transaction);

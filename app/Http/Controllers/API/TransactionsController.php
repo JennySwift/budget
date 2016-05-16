@@ -119,8 +119,7 @@ class TransactionsController extends Controller
         $transaction->save();
 
         if ($transaction->type !== 'transfer') {
-            //Budgets should be sent in the form of [1,2,3,4]?
-            $this->budgetTransactionRepository->attachBudgetsWithDefaultAllocation($transaction, $request->get('budgets'));
+            $this->budgetTransactionRepository->attachBudgetsWithDefaultAllocation($transaction, $request->get('budget_ids'));
         }
 
         //Fire event
@@ -201,14 +200,8 @@ class TransactionsController extends Controller
             $transaction->update($data);
             $transaction->save();
 
-            $budgets = $request->get('budgets');
-
-            if (isset($budgets)) {
-                $transaction->budgets()->detach();
-            }
-
-            if ($budgets) {
-                $this->budgetTransactionRepository->attachBudgets($transaction, $budgets);
+            if ($request->has('budget_ids')) {
+                $transaction->budgets()->sync($request->get('budget_ids'));
             }
         }
 
