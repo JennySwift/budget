@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\TransactionWasCreated;
 use App\Events\TransactionWasUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Transformers\TransactionTransformer;
+use App\Models\Account;
 use App\Models\Budget;
+use Auth;
 use App\Models\Savings;
 use App\Models\Transaction;
 use App\Repositories\Savings\SavingsRepository;
@@ -90,7 +93,6 @@ class TransactionsController extends Controller
     }
 
     /**
-     * Todo: Should be POST /api/accounts/{accounts}/transaction
      * Todo: Do validations
      * POST /api/transactions
      * @param Request $request
@@ -98,20 +100,38 @@ class TransactionsController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only([
+        $transaction = new Transaction($request->only([
             'date',
-            'type',
-            'direction',
             'description',
             'merchant',
             'total',
+            'type',
             'reconciled',
-            'account_id',
-            'budgets',
             'minutes'
-        ]);
+        ]));
 
-        $transaction = $this->transactionsRepository->create($data);
+        //Make sure total is negative for expense, negative for transfers from, and positive for income
+        if ($transaction->type === 'expense' && $transaction->total > 0) {
+            $transaction->total*= -1;
+        }
+        else if ($transaction->type === 'income' && $transaction->total < 0) {
+            $transaction->total*= -1;
+        }
+        else if ($transaction->type === 'transfer' && $request->get('direction') === Transaction::DIRECTION_FROM) {
+            $transaction->total*= -1;
+        }
+
+        $transaction->account()->associate(Account::find($request->get('account_id')));
+        $transaction->user()->associate(Auth::user());
+        $transaction->save();
+
+        if ($transaction->type !== 'transfer') {
+            //Budgets should be sent in the form of [1,2,3,4]?
+            $this->transactionsRepository->attachBudgetsWithDefaultAllocation($transaction, $request->get('budgets'));
+        }
+
+        //Fire event
+        event(new TransactionWasCreated($transaction));
 
         $transaction = $this->transform($this->createItem($transaction, new TransactionTransformer))['data'];
 

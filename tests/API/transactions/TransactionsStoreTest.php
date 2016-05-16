@@ -2,6 +2,7 @@
 
 use App\Models\Savings;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 
 /**
  * Class TransactionsStoreTest
@@ -9,6 +10,88 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class TransactionsStoreTest extends TestCase
 {
     use DatabaseTransactions;
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_can_create_a_transfer_transaction_from_an_account()
+    {
+        DB::beginTransaction();
+        $this->logInUser();
+
+        $transaction = [
+            'date' => '2015-01-01',
+            'account_id' => 1,
+            'type' => 'transfer',
+            'direction' => 'from',
+            'description' => 'interesting description',
+            'merchant' => 'some store',
+            'total' => 5,
+            'reconciled' => 0,
+            'allocated' => 0
+        ];
+
+        $response = $this->call('POST', '/api/transactions', $transaction);
+        $content = json_decode($response->getContent(), true);
+     // dd($content);
+
+        $this->checkTransactionKeysExist($content);
+
+        $this->assertEquals('2015-01-01', $content['date']);
+        $this->assertEquals('1', $content['account_id']);
+        $this->assertEquals('transfer', $content['type']);
+        $this->assertEquals('interesting description', $content['description']);
+        $this->assertEquals('some store', $content['merchant']);
+        $this->assertEquals('-5', $content['total']);
+        $this->assertEquals(0, $content['reconciled']);
+        $this->assertEquals(0, $content['allocated']);
+
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+
+        DB::rollBack();
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_can_create_a_transfer_transaction_to_an_account()
+    {
+        DB::beginTransaction();
+        $this->logInUser();
+
+        $transaction = [
+            'date' => '2015-01-01',
+            'account_id' => 1,
+            'type' => 'transfer',
+            'direction' => 'to',
+            'description' => 'interesting description',
+            'merchant' => 'some store',
+            'total' => 5,
+            'reconciled' => 0,
+            'allocated' => 0
+        ];
+
+        $response = $this->call('POST', '/api/transactions', $transaction);
+        $content = json_decode($response->getContent(), true);
+        // dd($content);
+
+        $this->checkTransactionKeysExist($content);
+
+        $this->assertEquals('2015-01-01', $content['date']);
+        $this->assertEquals('1', $content['account_id']);
+        $this->assertEquals('transfer', $content['type']);
+        $this->assertEquals('interesting description', $content['description']);
+        $this->assertEquals('some store', $content['merchant']);
+        $this->assertEquals('5', $content['total']);
+        $this->assertEquals(0, $content['reconciled']);
+        $this->assertEquals(0, $content['allocated']);
+
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+
+        DB::rollBack();
+    }
 
     /**
      * @test
