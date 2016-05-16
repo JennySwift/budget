@@ -177,7 +177,7 @@ class TransactionsController extends Controller
             }
 
             //Make the total negative if the type has been changed from income to expense
-            if (isset($data['type']) && $transaction->type === 'income' && $data['type'] === 'expense') {
+            else if (isset($data['type']) && $transaction->type === 'income' && $data['type'] === 'expense') {
                 if (isset($data['total']) && $data['total'] > 0) {
                     //The user has changed the total as well as the type,
                     //but the total is positive and it should be negative
@@ -190,12 +190,11 @@ class TransactionsController extends Controller
                 }
             }
             //Make the total negative if an expense
-
-            if ($transaction->type === 'expense' && $data['total'] > 0) {
+            else if ($transaction->type === 'expense' && array_key_exists('total', $data) && $data['total'] > 0) {
                 $data['total']*=-1;
             }
             //Make the total positive if an income
-            if ($transaction->type === 'income' && $data['total'] < 0) {
+            else if ($transaction->type === 'income' && array_key_exists('total', $data) && $data['total'] < 0) {
                 $data['total']*=-1;
             }
 
