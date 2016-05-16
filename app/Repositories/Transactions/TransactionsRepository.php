@@ -43,6 +43,7 @@ class TransactionsRepository
      * Budgets should be sent in the form of [1,2,3,4]?
      * @param $transaction
      * @param $data
+     * @return mixed
      */
     private function insertIncomeOrExpenseTransaction($transaction, $data)
     {

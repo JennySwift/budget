@@ -127,11 +127,8 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-        if ($request->has('updatingAllocation')) {
-            $transaction = $this->transactionsUpdateRepository->updateAllocation($request, $transaction);
-        }
-
-        else if ($request->has('addingBudgets')) {
+        //For adding budgets to many transactions at once
+        if ($request->has('addingBudgets')) {
             $transaction = $this->transactionsUpdateRepository->addBudgets($request, $transaction);
         }
 

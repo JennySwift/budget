@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Budget;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 
@@ -52,18 +53,16 @@ class TransactionValidAllocationTest extends TestCase
      */
     private function updateAllocation($content)
     {
-        $response = $this->call('PUT', '/api/transactions/'.$content['id'], [
-            'updatingAllocation' => true,
-            'budget_id' => 2,
+        $budget = Budget::find(2);
+        $response = $this->call('PUT', '/api/budgets/' . $budget->id . '/transactions/'.$content['id'], [
             'type' => 'fixed',
             'value' => 52.05
         ]);
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        $response = $this->call('PUT', '/api/transactions/'.$content['id'], [
-            'updatingAllocation' => true,
-            'budget_id' => 3,
+        $budget = Budget::find(3);
+        $response = $this->call('PUT', '/api/budgets/' . $budget->id . '/transactions/'.$content['id'], [
             'type' => 'fixed',
             'value' => 29.99
         ]);

@@ -11,6 +11,7 @@ Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => 'auth'], 
     Route::resource('budgets', 'BudgetsController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
     Route::resource('savedFilters', 'SavedFiltersController', ['only' => ['index', 'store', 'destroy']]);
     Route::resource('transactions', 'TransactionsController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
+    Route::resource('budgets.transactions', 'BudgetTransactionController', ['only' => ['update']]);
     Route::resource('favouriteTransactions', 'FavouriteTransactionsController', ['only' => ['index', 'store', 'update', 'destroy']]);
     Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'destroy']]);
     Route::resource('feedback', 'FeedbackController', ['only' => ['store']]);

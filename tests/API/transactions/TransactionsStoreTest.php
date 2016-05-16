@@ -38,6 +38,7 @@ class TransactionsStoreTest extends TestCase
 
         $response = $this->apiCall('POST', '/api/transactions', $transaction);
         $content = json_decode($response->getContent(), true);
+//        dd($content);
 
         $this->assertEquals(201, $response->getStatusCode());
 
@@ -63,6 +64,15 @@ class TransactionsStoreTest extends TestCase
         ]);
 
         $this->checkTransactionKeysExist($content);
+
+        //Check the allocation was done correctly (100% of the transaction to the first budget)
+        $this->assertNull($content['budgets'][0]['pivot']['allocated_fixed']);
+        $this->assertEquals('100', $content['budgets'][0]['pivot']['allocated_percent']);
+        $this->assertEquals('5', $content['budgets'][0]['pivot']['calculated_allocation']);
+
+        $this->assertNull($content['budgets'][1]['pivot']['allocated_fixed']);
+        $this->assertEquals('0', $content['budgets'][1]['pivot']['allocated_percent']);
+        $this->assertEquals('0', $content['budgets'][1]['pivot']['calculated_allocation']);
 
         $this->assertEquals('2015-01-01', $content['date']);
         $this->assertEquals('1', $content['account_id']);
@@ -204,6 +214,4 @@ class TransactionsStoreTest extends TestCase
         //Check the savings remained the same
         $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
     }
-
-
 }

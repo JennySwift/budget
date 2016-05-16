@@ -26,8 +26,6 @@ class TransactionsUpdateTest extends TestCase
         $data = [
             'date' => '2015-10-01',
             'account_id' => 1,
-            //Todo: make type updateable
-//            'type' => 'expense',
             'description' => 'numbat',
             'merchant' => 'frog',
             'total' => 10.2,
@@ -359,6 +357,7 @@ class TransactionsUpdateTest extends TestCase
         $this->logInUser();
 
         $transaction = Transaction::forCurrentUser()->first();
+//        dd($transaction);
 
         $data = [
             'budgets' => [
@@ -378,6 +377,66 @@ class TransactionsUpdateTest extends TestCase
         //Check the status code
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
+
+    /**
+     * @test
+     * @return void
+     */
+//    public function it_can_add_an_unassigned_budget_to_a_transaction_that_already_has_multiple_budgets_and_does_the_allocation_correctly()
+//    {
+//        $this->logInUser();
+//
+//        $transaction = Transaction::forCurrentUser()
+//            ->whereHas('budgets', function ($q)
+//            {
+//                $q->where('type', '!=', 'unassigned');
+//            }, '>=', 2)
+//            ->first();
+//
+//        $this->assertEquals(5, $transaction->id);
+//
+//        $this->assertEquals(2, $transaction->budgets[0]->id);
+//        $this->assertNull($transaction->budgets[0]->pivot->allocated_fixed);
+//        $this->assertEquals(100, $transaction->budgets[0]->pivot->allocated_percent);
+//        $this->assertEquals(-5, $transaction->budgets[0]->pivot->calculated_allocation);
+//
+//        $this->assertEquals(3, $transaction->budgets[1]->id);
+//        $this->assertNull($transaction->budgets[1]->pivot->allocated_fixed);
+//        $this->assertEquals(0, $transaction->budgets[1]->pivot->allocated_percent);
+//        $this->assertEquals(0, $transaction->budgets[1]->pivot->calculated_allocation);
+//
+//        $data = [
+//            'budgets' => [
+//                ['id' => 2],
+//                ['id' => 3],
+//                ['id' => 1],
+//            ]
+//        ];
+//
+//        $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
+//        $content = json_decode($response->getContent(), true);
+////        dd($content);
+//
+//        $this->checkTransactionKeysExist($content);
+//
+//        $this->assertEquals(1, $content['budgets'][0]['id']);
+//        $this->assertNull($content['budgets'][0]['pivot']['allocated_fixed']);
+//        $this->assertNull($content['budgets'][0]['pivot']['allocated_percent']);
+//        $this->assertEquals(0, $content['budgets'][0]['pivot']['calculated_allocation']);
+//
+//        $this->assertEquals(2, $content['budgets'][1]['id']);
+//        $this->assertNull($content['budgets'][1]['pivot']['allocated_fixed']);
+//        $this->assertEquals(100, $content['budgets'][1]['pivot']['allocated_percent']);
+//        $this->assertEquals(-5, $content['budgets'][1]['pivot']['calculated_allocation']);
+//
+//        $this->assertEquals(3, $content['budgets'][2]['id']);
+//        $this->assertNull($content['budgets'][2]['pivot']['allocated_fixed']);
+//        $this->assertEquals(0, $content['budgets'][2]['pivot']['allocated_percent']);
+//        $this->assertEquals(0, $content['budgets'][2]['pivot']['calculated_allocation']);
+//
+//        //Check the status code
+//        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+//    }
 
     /**
      * @test

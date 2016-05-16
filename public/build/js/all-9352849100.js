@@ -35112,13 +35112,11 @@ var BudgetAllocation = Vue.component('budget-allocation', {
             $.event.trigger('show-loading');
 
             var data = {
-                budget_id: this.budget.id,
                 type: type,
-                value: value,
-                updatingAllocation: true
+                value: value
             };
 
-            this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
+            this.$http.put('/api/budgets/' + this.budget.id + '/transactions/' + this.transaction.id, data, function (response) {
                 this.$dispatch('budget-allocation-updated', response);
                 $.event.trigger('provide-feedback', ['Allocation updated', 'success']);
                 $.event.trigger('hide-loading');

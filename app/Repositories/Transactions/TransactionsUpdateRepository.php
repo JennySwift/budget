@@ -13,32 +13,6 @@ use Illuminate\Http\Request;
  */
 class TransactionsUpdateRepository
 {
-
-    /**
-     * For one transaction, change the amount that is allocated for one budget
-     * Called from TransactionsController update method
-     * Should be PUT api/budgets/{budgets}/transactions/{transactions}
-     * @param Request $request
-     * @param Transaction $transaction
-     * @return array
-     */
-    public function updateAllocation(Request $request, Transaction $transaction)
-    {
-        $type = $request->get('type');
-        $value = $request->get('value');
-        $budget = Budget::find($request->get('budget_id'));
-
-        if ($type === 'percent') {
-            $transaction->updateAllocatedPercent($value, $budget);
-        }
-
-        elseif ($type === 'fixed') {
-            $transaction->updateAllocatedFixed($value, $budget);
-        }
-
-        return $transaction;
-    }
-
     /**
      * Called from TransactionsController update method
      * @param Request $request
@@ -148,10 +122,16 @@ class TransactionsUpdateRepository
     {
         foreach ($budgets as $budget) {
             if (isset($budget['allocated_fixed'])) {
-                $this->allocateFixed($transaction, $budget);
+                $transaction->budgets()->attach($budget['id'], [
+                    'allocated_fixed' => $budget['allocated_fixed'],
+                    'calculated_allocation' => $budget['allocated_fixed']
+                ]);
             }
             elseif (isset($budget['allocated_percent'])) {
-                $this->allocatePercent($transaction, $budget);
+                $transaction->budgets()->attach($budget['id'], [
+                    'allocated_percent' => $budget['allocated_percent'],
+                    'calculated_allocation' => $transaction->total / 100 * $budget['allocated_percent'],
+                ]);
             }
             else {
                 //Todo: if budget is unassigned, calculated_allocation should be null
@@ -160,32 +140,6 @@ class TransactionsUpdateRepository
                 ]);
             }
         }
-    }
-
-    /**
-     * Give a transaction a budget with a fixed allocation
-     * @param $transaction
-     * @param $budget
-     */
-    public function allocateFixed($transaction, $budget)
-    {
-        $transaction->budget()->attach($budget['id'], [
-            'allocated_fixed' => $budget['allocated_fixed'],
-            'calculated_allocation' => $budget['allocated_fixed']
-        ]);
-    }
-
-    /**
-     * Give a transaction a budget with a percentage allocation of the transaction's total
-     * @param $transaction
-     * @param $budget
-     */
-    public function allocatePercent(Transaction $transaction, $budget)
-    {
-        $transaction->budgets()->attach($budget['id'], [
-            'allocated_percent' => $budget['allocated_percent'],
-            'calculated_allocation' => $transaction->total / 100 * $budget['allocated_percent'],
-        ]);
     }
 
 }

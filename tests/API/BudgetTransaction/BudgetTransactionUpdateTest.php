@@ -4,7 +4,7 @@ use App\Models\Transaction;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
- * Class TransactionsUpdateAllocationTest
+ * Class BudgetTransactionUpdateTest
  *
  * Todo: check if the transaction only has two budgets,
  * that when the percent allocation on one is changed,
@@ -33,9 +33,7 @@ class TransactionsUpdateAllocationTest extends TestCase
 
         $budget = $transaction->budgets[0];
 
-        $response = $this->call('PUT', '/api/transactions/'.$transaction->id, [
-            'updatingAllocation' => true,
-            'budget_id' => $budget->id,
+        $response = $this->call('PUT', '/api/budgets/' . $budget->id . '/transactions/'.$transaction->id, [
             'type' => 'fixed',
             'value' => 89
         ]);
@@ -90,9 +88,7 @@ class TransactionsUpdateAllocationTest extends TestCase
         $this->assertEquals(-30, $transaction->total);
         $this->assertEquals(100, $budget->pivot->allocated_percent);
 
-        $response = $this->call('PUT', '/api/transactions/'.$transaction->id, [
-            'updatingAllocation' => true,
-            'budget_id' => $budget->id,
+        $response = $this->call('PUT', '/api/budgets/' . $budget->id .'/transactions/'.$transaction->id, [
             'type' => 'percent',
             'value' => 50
         ]);
