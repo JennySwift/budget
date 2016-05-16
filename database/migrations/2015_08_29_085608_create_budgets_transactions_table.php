@@ -19,7 +19,7 @@ class CreateBudgetsTransactionsTable extends Migration {
 			$table->integer('budget_id')->unsigned()->index();
 			$table->decimal('allocated_fixed', 10, 2)->nullable();
 			$table->decimal('allocated_percent', 10, 2)->nullable();
-			$table->decimal('calculated_allocation', 10, 2)->nullable();
+			$table->decimal('calculated_allocation', 10, 2)->default('0.00');
 
 			$table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
 			$table->foreign('budget_id')->references('id')->on('budgets')->onDelete('cascade');
