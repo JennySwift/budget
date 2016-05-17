@@ -20,8 +20,7 @@ var EditAccount = Vue.component('edit-account', {
             };
 
             this.$http.put('/api/accounts/' + this.selectedAccount.id, data, function (response) {
-                var index = _.indexOf(this.accounts, _.findWhere(this.accounts, {id: this.selectedAccount.id}));
-                this.accounts[index] = response;
+                AccountsRepository.updateAccount(response);
                 this.showPopup = false;
                 $.event.trigger('provide-feedback', ['Account updated', 'success']);
                 $.event.trigger('hide-loading');
@@ -38,9 +37,7 @@ var EditAccount = Vue.component('edit-account', {
             if (confirm("Are you sure?")) {
                 $.event.trigger('show-loading');
                 this.$http.delete('/api/accounts/' + this.selectedAccount.id, function (response) {
-                        this.accounts = _.without(this.accounts, this.selectedAccount);
-                        //var index = _.indexOf(this.accounts, _.findWhere(this.accounts, {id: this.account.id}));
-                        //this.accounts = _.without(this.accounts, this.accounts[index]);
+                        AccountsRepository.deleteAccount(this.selectedAccount);
                         this.showPopup = false;
                         $.event.trigger('provide-feedback', ['Account deleted', 'success']);
                         $.event.trigger('hide-loading');

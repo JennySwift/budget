@@ -23,7 +23,7 @@
                 <th>Name</th>
                 <th class="balance">Balance</th>
             </tr>
-            <tr v-for="account in accounts | orderBy 'name'">
+            <tr v-for="account in accountsRepository.accounts | orderBy 'name'">
                 <td
                         v-on:click="showEditAccountPopup(account)"
                         class="pointer">
