@@ -26,7 +26,7 @@ var UpdateFavouriteTransaction = Vue.component('update-favourite-transaction', {
             var data = FavouriteTransactionsRepository.setFields(this.selectedFavourite);
 
             this.$http.put('/api/favouriteTransactions/' + this.selectedFavourite.id, data, function (response) {
-                this.jsUpdateFavouriteTransaction(response);
+                FavouriteTransactionsRepository.updateFavouriteTransaction(response);
                 this.showPopup = false;
                 $.event.trigger('provide-feedback', ['Favourite transaction updated', 'success']);
                 $.event.trigger('hide-loading');
@@ -38,28 +38,12 @@ var UpdateFavouriteTransaction = Vue.component('update-favourite-transaction', {
 
         /**
          *
-         * @param response
-         */
-        jsUpdateFavouriteTransaction: function (response) {
-            var index = _.indexOf(this.favouriteTransactions, _.findWhere(this.favouriteTransactions, {id: this.selectedFavourite.id}));
-
-            this.favouriteTransactions[index].name = response.name;
-            this.favouriteTransactions[index].type = response.type;
-            this.favouriteTransactions[index].description = response.description;
-            this.favouriteTransactions[index].merchant = response.merchant;
-            this.favouriteTransactions[index].total = response.total;
-            this.favouriteTransactions[index].account = response.account;
-            this.favouriteTransactions[index].budgets = response.budgets;
-        },
-
-        /**
-         *
          */
         deleteFavouriteTransaction: function () {
             if (confirm("Are you sure?")) {
                 $.event.trigger('show-loading');
                 this.$http.delete('/api/favouriteTransactions/' + this.selectedFavourite.id, function (response) {
-                    this.favouriteTransactions = _.without(this.favouriteTransactions, this.selectedFavourite);
+                    FavouriteTransactionsRepository.deleteFavouriteTransaction(this.selectedFavourite);
                     $.event.trigger('provide-feedback', ['Favourite transaction deleted', 'success']);
                     this.showPopup = false;
                     $.event.trigger('hide-loading');

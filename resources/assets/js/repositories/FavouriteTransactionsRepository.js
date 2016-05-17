@@ -1,5 +1,41 @@
 var FavouriteTransactionsRepository = {
 
+    state: {
+        favouriteTransactions: []
+    },
+
+    /**
+     *
+     */
+    getFavouriteTransactions: function (that) {
+        $.event.trigger('show-loading');
+        that.$http.get('/api/favouriteTransactions', function (response) {
+            FavouriteTransactionsRepository.state.favouriteTransactions = response;
+            $.event.trigger('hide-loading');
+        })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+    },
+
+    /**
+    *
+    * @param favouriteTransaction
+    */
+    updateFavouriteTransaction: function (favouriteTransaction) {
+        var index = HelpersRepository.findIndexById(this.state.favouriteTransactions, favouriteTransaction.id);
+        this.state.favouriteTransactions.$set(index, favouriteTransaction);
+    },
+
+    /**
+    *
+    * @param favouriteTransaction
+    */
+    deleteFavouriteTransaction: function (favouriteTransaction) {
+        var index = HelpersRepository.findIndexById(this.state.favouriteTransactions, favouriteTransaction.id);
+        this.state.favouriteTransactions = _.without(this.state.favouriteTransactions, this.state.favouriteTransactions[index]);
+    },
+
     /**
      *
      * @param favouriteTransaction

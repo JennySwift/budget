@@ -9,6 +9,8 @@
                 v-bind:style="{color: me.preferences.colors[newTransaction.type]}"
                 id="new-transaction"
         >
+            
+            <pre>@{{$data.newTransaction | json}}</pre>
 
             <div class="form-group">
                 <autocomplete

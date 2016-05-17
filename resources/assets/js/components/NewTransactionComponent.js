@@ -7,14 +7,9 @@ var NewTransaction = Vue.component('new-transaction', {
             showNewTransaction: false,
             types: ["income", "expense", "transfer"],
             accountsRepository: AccountsRepository.state,
-            favouriteTransactions: [],
-            newTransaction: {},
+            favouriteTransactionsRepository: FavouriteTransactionsRepository.state,
+            newTransactionRepository: NewTransactionRepository.state,
             selectedFavouriteTransaction: {},
-            //newTransaction: {
-            //    date: {},
-            //    type: 'income',
-            //    account: {}
-            //},
             env: env,
             colors: {
                 newTransaction: {}
@@ -22,21 +17,15 @@ var NewTransaction = Vue.component('new-transaction', {
         };
     },
     components: {},
-    methods: {
-
-        /**
-        *
-        */
-        getFavouriteTransactions: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/favouriteTransactions', function (response) {
-                this.favouriteTransactions = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
+    computed: {
+        favouriteTransactions: function () {
+          return this.favouriteTransactionsRepository.favouriteTransactions;
         },
+        newTransaction: function () {
+            return this.newTransactionRepository.defaults;
+        }
+    },
+    methods: {
 
         /**
          *
@@ -162,7 +151,7 @@ var NewTransaction = Vue.component('new-transaction', {
                 that.showNewTransaction = !that.showNewTransaction;
             });
             $(document).on('accounts-loaded', function (event) {
-                that.newTransaction = NewTransactionRepository.getDefaults(that.env, that.accountsRepository.accounts);
+                NewTransactionRepository.getDefaults(that.env, that.accountsRepository.accounts);
             });
 
         }
@@ -174,7 +163,6 @@ var NewTransaction = Vue.component('new-transaction', {
         'budgets'
     ],
     ready: function () {
-        this.getFavouriteTransactions();
         this.listen();
     }
 });

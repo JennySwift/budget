@@ -5,6 +5,7 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
             favouriteTransactions: [],
             accountsRepository: AccountsRepository.state,
             budgetsRepository: BudgetsRepository.state,
+            favouriteTransactionsRepository: FavouriteTransactionsRepository.state,
             newFavourite: {
                 budgets: []
             },
@@ -14,23 +15,12 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
     computed: {
         budgets: function () {
           return this.budgetsRepository.budgets;
+        },
+        favouriteTransactions: function () {
+            return this.favouriteTransactionsRepository.favouriteTransactions;
         }
     },
     methods: {
-
-        /**
-        *
-        */
-        getFavouriteTransactions: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/favouriteTransactions', function (response) {
-                this.favouriteTransactions = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
 
         /**
          *
@@ -45,12 +35,6 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
         //data to be received from parent
     ],
     ready: function () {
-        this.getFavouriteTransactions();
+
     }
 });
-
-//destroy: function ($favourite) {
-//    var $url = '/api/favouriteTransactions/' + $favourite.id;
-//
-//    return $http.delete($url);
-//}

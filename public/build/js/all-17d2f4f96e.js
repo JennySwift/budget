@@ -33229,6 +33229,42 @@ var BudgetsRepository = {
 };
 var FavouriteTransactionsRepository = {
 
+    state: {
+        favouriteTransactions: []
+    },
+
+    /**
+     *
+     */
+    getFavouriteTransactions: function (that) {
+        $.event.trigger('show-loading');
+        that.$http.get('/api/favouriteTransactions', function (response) {
+            FavouriteTransactionsRepository.state.favouriteTransactions = response;
+            $.event.trigger('hide-loading');
+        })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+    },
+
+    /**
+    *
+    * @param favouriteTransaction
+    */
+    updateFavouriteTransaction: function (favouriteTransaction) {
+        var index = HelpersRepository.findIndexById(this.state.favouriteTransactions, favouriteTransaction.id);
+        this.state.favouriteTransactions.$set(index, favouriteTransaction);
+    },
+
+    /**
+    *
+    * @param favouriteTransaction
+    */
+    deleteFavouriteTransaction: function (favouriteTransaction) {
+        var index = HelpersRepository.findIndexById(this.state.favouriteTransactions, favouriteTransaction.id);
+        this.state.favouriteTransactions = _.without(this.state.favouriteTransactions, this.state.favouriteTransactions[index]);
+    },
+
     /**
      *
      * @param favouriteTransaction
@@ -33577,16 +33613,18 @@ var HelpersRepository = {
 };
 var NewTransactionRepository = {
 
-    defaults: {
-        userDate: 'today',
-        type: 'expense',
-        duration: '',
-        total: '',
-        merchant: '',
-        description: '',
-        reconciled: false,
-        multipleBudgets: false,
-        budgets: []
+    state: {
+        defaults: {
+            userDate: 'today',
+            type: 'expense',
+            duration: '',
+            total: '',
+            merchant: '',
+            description: '',
+            reconciled: false,
+            multipleBudgets: false,
+            budgets: []
+        }
     },
 
     /**
@@ -33598,10 +33636,10 @@ var NewTransactionRepository = {
     getDefaults: function (env, accounts) {
         //Fill in the new transaction fields if development environment
         if (env === 'local') {
-            this.defaults.total = 10;
-            this.defaults.merchant = 'some merchant';
-            this.defaults.description = 'some description';
-            this.defaults.budgets = [
+            this.state.defaults.total = 10;
+            this.state.defaults.merchant = 'some merchant';
+            this.state.defaults.description = 'some description';
+            this.state.defaults.budgets = [
                 {
                     id: '2',
                     name: 'business',
@@ -33616,12 +33654,12 @@ var NewTransactionRepository = {
         }
     
         if (accounts.length > 0) {
-            this.defaults.account = accounts[0];
-            this.defaults.fromAccount = accounts[0];
-            this.defaults.toAccount = accounts[0];
+            this.state.defaults.account = accounts[0];
+            this.state.defaults.fromAccount = accounts[0];
+            this.state.defaults.toAccount = accounts[0];
         }
 
-        return this.defaults;
+        return this.state.defaults;
     },
 
     /**
@@ -35908,6 +35946,7 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
             favouriteTransactions: [],
             accountsRepository: AccountsRepository.state,
             budgetsRepository: BudgetsRepository.state,
+            favouriteTransactionsRepository: FavouriteTransactionsRepository.state,
             newFavourite: {
                 budgets: []
             },
@@ -35917,23 +35956,12 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
     computed: {
         budgets: function () {
           return this.budgetsRepository.budgets;
+        },
+        favouriteTransactions: function () {
+            return this.favouriteTransactionsRepository.favouriteTransactions;
         }
     },
     methods: {
-
-        /**
-        *
-        */
-        getFavouriteTransactions: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/favouriteTransactions', function (response) {
-                this.favouriteTransactions = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
 
         /**
          *
@@ -35948,15 +35976,9 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
         //data to be received from parent
     ],
     ready: function () {
-        this.getFavouriteTransactions();
+
     }
 });
-
-//destroy: function ($favourite) {
-//    var $url = '/api/favouriteTransactions/' + $favourite.id;
-//
-//    return $http.delete($url);
-//}
 
 Vue.component('feedback', {
     template: "#feedback-template",
@@ -36777,14 +36799,9 @@ var NewTransaction = Vue.component('new-transaction', {
             showNewTransaction: false,
             types: ["income", "expense", "transfer"],
             accountsRepository: AccountsRepository.state,
-            favouriteTransactions: [],
-            newTransaction: {},
+            favouriteTransactionsRepository: FavouriteTransactionsRepository.state,
+            newTransactionRepository: NewTransactionRepository.state,
             selectedFavouriteTransaction: {},
-            //newTransaction: {
-            //    date: {},
-            //    type: 'income',
-            //    account: {}
-            //},
             env: env,
             colors: {
                 newTransaction: {}
@@ -36792,21 +36809,15 @@ var NewTransaction = Vue.component('new-transaction', {
         };
     },
     components: {},
-    methods: {
-
-        /**
-        *
-        */
-        getFavouriteTransactions: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/favouriteTransactions', function (response) {
-                this.favouriteTransactions = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
+    computed: {
+        favouriteTransactions: function () {
+          return this.favouriteTransactionsRepository.favouriteTransactions;
         },
+        newTransaction: function () {
+            return this.newTransactionRepository.defaults;
+        }
+    },
+    methods: {
 
         /**
          *
@@ -36932,7 +36943,7 @@ var NewTransaction = Vue.component('new-transaction', {
                 that.showNewTransaction = !that.showNewTransaction;
             });
             $(document).on('accounts-loaded', function (event) {
-                that.newTransaction = NewTransactionRepository.getDefaults(that.env, that.accountsRepository.accounts);
+                NewTransactionRepository.getDefaults(that.env, that.accountsRepository.accounts);
             });
 
         }
@@ -36944,7 +36955,6 @@ var NewTransaction = Vue.component('new-transaction', {
         'budgets'
     ],
     ready: function () {
-        this.getFavouriteTransactions();
         this.listen();
     }
 });
@@ -37684,7 +37694,7 @@ var UpdateFavouriteTransaction = Vue.component('update-favourite-transaction', {
             var data = FavouriteTransactionsRepository.setFields(this.selectedFavourite);
 
             this.$http.put('/api/favouriteTransactions/' + this.selectedFavourite.id, data, function (response) {
-                this.jsUpdateFavouriteTransaction(response);
+                FavouriteTransactionsRepository.updateFavouriteTransaction(response);
                 this.showPopup = false;
                 $.event.trigger('provide-feedback', ['Favourite transaction updated', 'success']);
                 $.event.trigger('hide-loading');
@@ -37696,28 +37706,12 @@ var UpdateFavouriteTransaction = Vue.component('update-favourite-transaction', {
 
         /**
          *
-         * @param response
-         */
-        jsUpdateFavouriteTransaction: function (response) {
-            var index = _.indexOf(this.favouriteTransactions, _.findWhere(this.favouriteTransactions, {id: this.selectedFavourite.id}));
-
-            this.favouriteTransactions[index].name = response.name;
-            this.favouriteTransactions[index].type = response.type;
-            this.favouriteTransactions[index].description = response.description;
-            this.favouriteTransactions[index].merchant = response.merchant;
-            this.favouriteTransactions[index].total = response.total;
-            this.favouriteTransactions[index].account = response.account;
-            this.favouriteTransactions[index].budgets = response.budgets;
-        },
-
-        /**
-         *
          */
         deleteFavouriteTransaction: function () {
             if (confirm("Are you sure?")) {
                 $.event.trigger('show-loading');
                 this.$http.delete('/api/favouriteTransactions/' + this.selectedFavourite.id, function (response) {
-                    this.favouriteTransactions = _.without(this.favouriteTransactions, this.selectedFavourite);
+                    FavouriteTransactionsRepository.deleteFavouriteTransaction(this.selectedFavourite);
                     $.event.trigger('provide-feedback', ['Favourite transaction deleted', 'success']);
                     this.showPopup = false;
                     $.event.trigger('hide-loading');
@@ -37793,6 +37787,7 @@ var App = Vue.component('app', {
         this.setHeights();
         AccountsRepository.getAccounts(this);
         BudgetsRepository.getBudgets(this);
+        FavouriteTransactionsRepository.getFavouriteTransactions(this);
     }
 });
 

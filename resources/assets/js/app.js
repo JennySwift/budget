@@ -20,6 +20,7 @@ var App = Vue.component('app', {
         this.setHeights();
         AccountsRepository.getAccounts(this);
         BudgetsRepository.getBudgets(this);
+        FavouriteTransactionsRepository.getFavouriteTransactions(this);
     }
 });
 
