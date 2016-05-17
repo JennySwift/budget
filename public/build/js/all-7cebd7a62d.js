@@ -34398,7 +34398,6 @@ var Graphs = Vue.component('graphs', {
     ],
     ready: function () {
         this.getGraphTotals();
-        this.getDoughnutChartData();
         this.listen();
     }
 });
