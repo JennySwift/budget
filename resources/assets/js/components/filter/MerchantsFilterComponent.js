@@ -12,15 +12,8 @@ var MerchantsFilter = Vue.component('merchants-filter', {
          *
          */
         filterDescriptionOrMerchant: function () {
-            this.resetOffset();
+            FilterRepository.resetOffset();
             this.runFilter();
-        },
-
-        /**
-         *
-         */
-        resetOffset: function () {
-            this.filter.offset = 0;
         },
     },
     props: [

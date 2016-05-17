@@ -31,13 +31,11 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
             $.event.trigger('clear-total-changes');
 
             this.$http.put('/api/transactions/' + this.selectedTransaction.id, data, function (response) {
-                var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.selectedTransaction.id}));
-                this.transactions[index] = response;
+                TransactionsRepository.updateTransaction(response);
                 $.event.trigger('get-sidebar-totals');
-                $.event.trigger('get-basic-filter-totals');
-                $.event.trigger('run-filter');
+                FilterRepository.getBasicFilterTotals(this);
+                FilterRepository.runFilter(this);
                 this.showPopup = false;
-                //this.transactions[index].name = response.name;
                 //Todo: Remove the transaction from the JS transactions depending on the filter
                 $.event.trigger('provide-feedback', ['Transaction updated', 'success']);
                 $.event.trigger('hide-loading');
@@ -53,13 +51,11 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
         deleteTransaction: function () {
             if (confirm("Are you sure?")) {
                 $.event.trigger('show-loading');
-                $.event.trigger('clear-total-changes');
-                $.event.trigger('get-sidebar-totals');
-                $.event.trigger('get-basic-filter-totals');
                 this.$http.delete('/api/transactions/' + this.selectedTransaction.id, function (response) {
-                    this.transactions = _.without(this.transactions, this.selectedTransaction);
-                    //var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.selectedTransaction.id}));
-                    //this.transactions = _.without(this.transactions, this.transactions[index]);
+                    TransactionsRepository.deleteTransaction(this.selectedTransaction);
+                    $.event.trigger('clear-total-changes');
+                    $.event.trigger('get-sidebar-totals');
+                    FilterRepository.getBasicFilterTotals(this);
                     this.showPopup = false;
                     $.event.trigger('provide-feedback', ['Transaction deleted', 'success']);
                     $.event.trigger('hide-loading');

@@ -14,13 +14,7 @@ var BudgetsFilter = Vue.component('budgets-filter', {
          * @param type2
          */
         clearBudgetField: function (type1, type2) {
-            if (type2) {
-                this.filter.budgets[type1][type2] = [];
-            }
-            else {
-                this.filter.budgets[type1] = [];
-            }
-            this.runFilter();
+            FilterRepository.clearBudgetField(this, type1, type2);
         }
 
     },

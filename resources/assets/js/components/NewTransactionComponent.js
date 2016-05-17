@@ -135,7 +135,7 @@ var NewTransaction = Vue.component('new-transaction', {
                 //We'll run the filter after the allocation has been dealt with
             }
             else {
-                $.event.trigger('run-filter');
+                FilterRepository.runFilter(this);
             }
 
             $.event.trigger('provide-feedback', ['Transaction created', 'success']);

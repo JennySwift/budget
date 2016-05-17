@@ -12,7 +12,8 @@ var Graphs = Vue.component('graphs', {
             chartData: {
                 all: {},
                 doughnut: {}
-            }
+            },
+            filterRepository: FilterRepository.state
         };
     },
     components: {},
@@ -25,6 +26,9 @@ var Graphs = Vue.component('graphs', {
         // months: function () {
         //   return _.pluck(this.graphFigures, 'months');
         // }
+        filter: function () {
+            return this.filterRepository.filter;
+        },
         debitForChart: function () {
             var array = _.pluck(this.graphFigures.months, 'expenses');
             return _.map(array, function (num) {
@@ -277,8 +281,7 @@ var Graphs = Vue.component('graphs', {
          */
         listen: function () {
             var that = this;
-            $(document).on('get-graph-totals', function (event, filter) {
-                that.filter = filter;
+            $(document).on('get-graph-totals', function (event) {
                 that.getGraphTotals();
                 that.getDoughnutChartData();
             });

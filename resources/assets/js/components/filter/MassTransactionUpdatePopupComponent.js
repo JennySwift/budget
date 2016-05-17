@@ -5,13 +5,17 @@ var MassTransactionUpdatePopup = Vue.component('mass-transaction-update-popup', 
             showPopup: false,
             budgetsToAdd: [],
             count: 0,
-            showProgress: false
+            showProgress: false,
+            transactionsRepository: TransactionsRepository.state
         };
     },
     components: {},
     computed: {
         progressWidth: function () {
             return 100 / (this.transactions.length / this.count);
+        },
+        transactions: function () {
+            return this.transactionsRepository.transactions;
         }
     },
     methods: {
@@ -79,7 +83,6 @@ var MassTransactionUpdatePopup = Vue.component('mass-transaction-update-popup', 
         }
     },
     props: [
-        'transactions',
         'budgets'
     ],
     ready: function () {

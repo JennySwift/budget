@@ -1,6 +1,30 @@
 var TransactionsRepository = {
     totals: {},
 
+    state: {
+        transactions: []
+    },
+
+    /**
+     *
+     */
+    filterTransactions: function (that) {
+        $.event.trigger('show-loading');
+
+        var data = {
+            filter: FilterRepository.formatDates()
+        };
+
+        that.$http.post('/api/filter/transactions', data, function (response) {
+            TransactionsRepository.state.transactions = response;
+            $.event.trigger('hide-loading');
+        })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+    },
+
+
     /**
      *
      * @param transaction
@@ -72,20 +96,22 @@ var TransactionsRepository = {
         });
     },
 
-    updateTransaction: function ($transaction) {
-        var $url = $transaction.path;
+    /**
+    *
+    * @param transaction
+    */
+    updateTransaction: function (transaction) {
+        var index = HelpersRepository.findIndexById(this.state.transactions, transaction.id);
+        this.state.transactions.$set(index, transaction);
+    },
 
-        $transaction.date = Date.parse($("#edit-transaction-date").val()).toString('yyyy-MM-dd');
-
-        //Make sure total is negative for an expense transaction
-        if ($transaction.type === 'expense' && $transaction.total > 0) {
-            $transaction.total = $transaction.total * -1;
-        }
-
-        //Convert duration from HH:MM format to minutes
-        $transaction.minutes = moment.duration($transaction.duration).asMinutes();
-
-        return $http.put($url, $transaction);
+    /**
+    *
+    * @param transaction
+    */
+    deleteTransaction: function (transaction) {
+        var index = HelpersRepository.findIndexById(this.state.transactions, transaction.id);
+        this.state.transactions = _.without(this.state.transactions, this.state.transactions[index]);
     },
 
     massDelete: function () {

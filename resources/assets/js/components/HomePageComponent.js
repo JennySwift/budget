@@ -4,10 +4,9 @@ var HomePage = Vue.component('home-page', {
         return {
             page: 'home',
             budgetsRepository: BudgetsRepository.state,
-            transactions: [],
             colors: {},
             env: env,
-            tab: this.setTab(),
+            homePageRepository: HomePageRepository.state,
             hoveringTotalsButton: false
         };
     },
@@ -16,29 +15,19 @@ var HomePage = Vue.component('home-page', {
         budgets: function () {
           return this.budgetsRepository.budgets;
         },
+        tab: function () {
+            return this.homePageRepository.tab;
+        }
     },
     methods: {
-
-        /**
-         *
-         * @returns {string}
-         */
-        setTab: function () {
-            if (this.env === 'local') {
-                return 'transactions';
-            }
-            else {
-                return 'transactions';
-            }
-        },
 
         /**
          *
          * @param tab
          */
         switchTab: function (tab) {
-            this.tab = tab;
-            $.event.trigger('run-filter');
+            HomePageRepository.setTab(tab);
+            FilterRepository.runFilter(this);
         },
 
         /**

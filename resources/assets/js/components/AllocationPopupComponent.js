@@ -58,8 +58,7 @@ var AllocationPopup = Vue.component('allocation-popup', {
             }
 
             if (this.isNewTransaction) {
-                $.event.trigger('run-filter');
-                //$.event.trigger('update-new-transaction-allocation-in-js', [this.transaction]);
+                FilterRepository.runFilter(this);
             }
         },
 

@@ -4,6 +4,7 @@ var Transactions = Vue.component('transactions', {
         return {
             me: me,
             accountsRepository: AccountsRepository.state,
+            transactionsRepository: TransactionsRepository.state,
             showStatus: false,
             showDate: true,
             showDescription: true,
@@ -18,47 +19,19 @@ var Transactions = Vue.component('transactions', {
             showDelete: true,
         };
     },
-    components: {},
-    methods: {
-
-        /**
-        *
-        */
-        filterTransactions: function (newTransaction) {
-            $.event.trigger('show-loading');
-
-            var data = {
-                filter: FilterRepository.formatDates(this.filter)
-            };
-
-            this.$http.post('/api/filter/transactions', data, function (response) {
-                this.transactions = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
-
-        /**
-         *
-         */
-        listen: function () {
-            var that = this;
-
-            $(document).on('filter-transactions', function (event, filter) {
-                if (filter) {
-                    that.filter = filter;
-                }
-                that.filterTransactions();
-            });
+    computed: {
+        transactions: function () {
+          return this.transactionsRepository.transactions;
         }
     },
+    components: {},
+    methods: {
+        
+    },
     props: [
-        'transactions',
         'transactionPropertiesToShow'
     ],
     ready: function () {
-        this.listen();
+
     }
 });

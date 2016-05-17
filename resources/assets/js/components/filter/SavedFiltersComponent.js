@@ -3,10 +3,16 @@ var SavedFilters = Vue.component('saved-filters', {
     data: function () {
         return {
             savedFilters: [],
-            selectedSavedFilter: {}
+            selectedSavedFilter: {},
+            // filterRepository: FilterRepository.state
         };
     },
     components: {},
+    computed: {
+        // filter: function () {
+        //   return this.filterRepository.filter;
+        // }
+    },
     methods: {
         /**
          *
@@ -26,8 +32,8 @@ var SavedFilters = Vue.component('saved-filters', {
          *
          */
         chooseSavedFilter: function () {
-            this.filter = FilterRepository.setFields(this.filter, this.selectedSavedFilter.filter);
-            this.runFilter(this.filter);
+            FilterRepository.setFields(this.selectedSavedFilter.filter);
+            this.runFilter();
         },
 
         /**
@@ -58,8 +64,7 @@ var SavedFilters = Vue.component('saved-filters', {
         }
     },
     props: [
-        'runFilter',
-        'filter'
+        'runFilter'
     ],
     ready: function () {
         this.getSavedFilters();

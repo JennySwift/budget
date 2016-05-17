@@ -49,11 +49,9 @@ var Transaction = Vue.component('transaction', {
             $.event.trigger('clear-total-changes');
 
             this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
-                var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.transaction.id}));
-                this.transactions[index].reconciled = response.data.reconciled;
+                TransactionsRepository.updateTransaction(this.transaction);
                 $.event.trigger('get-sidebar-totals');
-                $.event.trigger('get-basic-filter-totals');
-                //this.transactions[index].name = response.name;
+                FilterRepository.getBasicFilterTotals(this);
                 //Todo: Remove the transaction from the JS transactions depending on the filter
                 $.event.trigger('provide-feedback', ['Transaction updated', 'success']);
                 $.event.trigger('hide-loading');
@@ -77,14 +75,7 @@ var Transaction = Vue.component('transaction', {
          */
         showEditTransactionPopup: function (transaction) {
             $.event.trigger('show-edit-transaction-popup', [transaction]);
-        },
-        
-        //listen: function () {
-        //    var that = this;
-        //    $(document).on('toggle-transaction-property', function (event, property) {
-        //        that[property] = !that[property];
-        //    });
-        //}
+        }
 
     },
     props: [

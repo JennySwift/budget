@@ -33297,8 +33297,17 @@ var FavouriteTransactionsRepository = {
 };
 var FilterRepository = {
 
+    state: {
+        filter: {},
+        filterTotals: {}
+    },
+
+    /**
+     *
+     * @returns {FilterRepository.state.filter|{}}
+     */
     resetFilter: function () {
-        this.filter = {
+        this.state.filter = {
 
             total: {
                 in: "",
@@ -33351,39 +33360,39 @@ var FilterRepository = {
             displayTo: 30
         };
 
-        $.event.trigger('reset-filter');
-
-        return this.filter;
+        return this.state.filter;
     },
 
     /**
      * For setting the filter when a saved filter is chosen
-     * @param filterToModify
-     * @param filterToCopy
+     * @param savedFilter
      * @returns {*}
      */
-    setFields: function (filterToModify, filterToCopy) {
-        filterToModify.total = filterToCopy.total;
-        filterToModify.types = filterToCopy.types;
-        filterToModify.accounts = filterToCopy.accounts;
-        filterToModify.singleDate = filterToCopy.singleDate;
-        filterToModify.fromDate = filterToCopy.fromDate;
-        filterToModify.toDate = filterToCopy.toDate;
-        filterToModify.description = filterToCopy.description;
-        filterToModify.merchant = filterToCopy.merchant;
-        filterToModify.budgets = filterToCopy.budgets;
-        filterToModify.numBudgets = filterToCopy.numBudgets;
-        filterToModify.reconciled = filterToCopy.reconciled;
-        filterToModify.invalidAllocation = filterToCopy.invalidAllocation;
-        filterToModify.offset = filterToCopy.offset;
-        filterToModify.numToFetch = filterToCopy.numToFetch;
-        filterToModify.displayFrom = filterToCopy.displayFrom;
-        filterToModify.displayTo = filterToCopy.displayTo;
-
-        return filterToModify;
+    setFields: function (savedFilter) {
+        this.state.filter.total = savedFilter.total;
+        this.state.filter.types = savedFilter.types;
+        this.state.filter.accounts = savedFilter.accounts;
+        this.state.filter.singleDate = savedFilter.singleDate;
+        this.state.filter.fromDate = savedFilter.fromDate;
+        this.state.filter.toDate = savedFilter.toDate;
+        this.state.filter.description = savedFilter.description;
+        this.state.filter.merchant = savedFilter.merchant;
+        this.state.filter.budgets = savedFilter.budgets;
+        this.state.filter.numBudgets = savedFilter.numBudgets;
+        this.state.filter.reconciled = savedFilter.reconciled;
+        this.state.filter.invalidAllocation = savedFilter.invalidAllocation;
+        this.state.filter.offset = savedFilter.offset;
+        this.state.filter.numToFetch = savedFilter.numToFetch;
+        this.state.filter.displayFrom = savedFilter.displayFrom;
+        this.state.filter.displayTo = savedFilter.displayTo;
     },
 
-    formatDates: function (filter) {
+    /**
+     *
+     * @returns {FilterRepository.state.filter|{}}
+     */
+    formatDates: function () {
+        var filter = FilterRepository.state.filter;
         if (filter.singleDate.in) {
             filter.singleDate.inSql = HelpersRepository.formatDate(filter.singleDate.in);
         }
@@ -33423,6 +33432,121 @@ var FilterRepository = {
 
         return filter;
     },
+
+    /**
+     * Updates filter.displayFrom and filter.displayTo values
+     */
+    updateRange: function (numToFetch) {
+        if (numToFetch) {
+            this.state.filter.numToFetch = numToFetch;
+        }
+
+        this.state.filter.displayFrom = this.state.filter.offset + 1;
+        this.state.filter.displayTo = this.state.filter.offset + (this.state.filter.numToFetch * 1);
+    },
+
+    /**
+     *
+     * @param that
+     */
+    prevResults: function (that) {
+        this.state.filter = that.filter;
+        //make it so the offset cannot be less than 0.
+        if (this.state.filter.offset - this.state.filter.numToFetch < 0) {
+            this.state.filter.offset = 0;
+        }
+        else {
+            this.state.filter.offset-= (this.state.filter.numToFetch * 1);
+            this.updateRange(this.state.filter.numToFetch);
+            that.runFilter();
+        }
+    },
+
+    /**
+     *
+     * @param that
+     */
+    nextResults: function (that) {
+        this.state.filter = that.filter;
+        if (this.state.filter.offset + (this.state.filter.numToFetch * 1) > that.filterTotals.numTransactions) {
+            //stop it going past the end.
+            return;
+        }
+
+        this.state.filter.offset+= (this.state.filter.numToFetch * 1);
+        this.updateRange(this.state.filter.numToFetch);
+        that.runFilter();
+    },
+
+    /**
+     * type1 is 'in' or 'out'.
+     * type2 is 'and' or 'or'.
+     * @param that
+     * @param type1
+     * @param type2
+     */
+    clearBudgetField: function (that, type1, type2) {
+        if (type2) {
+            this.state.filter.budgets[type1][type2] = [];
+        }
+        else {
+            this.state.filter.budgets[type1] = [];
+        }
+        that.runFilter();
+    },
+
+    /**
+     *
+     * @param that
+     * @param field
+     * @param type
+     */
+    clearFilterField: function (that, field, type) {
+        this.state.filter[field][type] = "";
+        that.runFilter();
+    },
+
+    /**
+     *
+     */
+    resetOffset: function () {
+        this.state.filter.offset = 0;
+    },
+
+    /**
+     * Todo: The ToolbarForFilterComponent also needs the totals
+     * Todo: should be GET not POST
+     */
+    getBasicFilterTotals: function (that) {
+        var filter = this.formatDates();
+
+        var data = {
+            filter: filter
+        };
+
+        $.event.trigger('show-loading');
+        that.$http.post('/api/filter/basicTotals', data, function (response) {
+            FilterRepository.state.filterTotals = response;
+            $.event.trigger('hide-loading');
+        })
+        .error(function (response) {
+            HelpersRepository.handleResponseError(response);
+        });
+    },
+
+    /**
+     *
+     * @param that
+     */
+    runFilter: function (that) {
+        this.getBasicFilterTotals(that);
+        if (HomePageRepository.state.tab === 'transactions') {
+            TransactionsRepository.filterTransactions(that);
+        }
+        else {
+            $.event.trigger('get-graph-totals');
+        }
+    }
 
 };
 
@@ -33610,6 +33734,33 @@ var HelpersRepository = {
         return hours + ':' + minutes;
     },
 
+};
+var HomePageRepository = {
+
+    state: {
+        tab: ''
+    },
+
+    /**
+     *
+     * @returns {string}
+     */
+    setDefaultTab: function () {
+        if (env === 'local') {
+            this.state.tab = 'transactions';
+        }
+        else {
+            this.state.tab = 'transactions';
+        }
+    },
+
+    /**
+     *
+     * @param tab
+     */
+    setTab: function (tab) {
+        this.state.tab = tab;
+    }
 };
 var NewTransactionRepository = {
 
@@ -33837,6 +33988,30 @@ var TotalsRepository = {
 var TransactionsRepository = {
     totals: {},
 
+    state: {
+        transactions: []
+    },
+
+    /**
+     *
+     */
+    filterTransactions: function (that) {
+        $.event.trigger('show-loading');
+
+        var data = {
+            filter: FilterRepository.formatDates()
+        };
+
+        that.$http.post('/api/filter/transactions', data, function (response) {
+            TransactionsRepository.state.transactions = response;
+            $.event.trigger('hide-loading');
+        })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+    },
+
+
     /**
      *
      * @param transaction
@@ -33908,20 +34083,22 @@ var TransactionsRepository = {
         });
     },
 
-    updateTransaction: function ($transaction) {
-        var $url = $transaction.path;
+    /**
+    *
+    * @param transaction
+    */
+    updateTransaction: function (transaction) {
+        var index = HelpersRepository.findIndexById(this.state.transactions, transaction.id);
+        this.state.transactions.$set(index, transaction);
+    },
 
-        $transaction.date = Date.parse($("#edit-transaction-date").val()).toString('yyyy-MM-dd');
-
-        //Make sure total is negative for an expense transaction
-        if ($transaction.type === 'expense' && $transaction.total > 0) {
-            $transaction.total = $transaction.total * -1;
-        }
-
-        //Convert duration from HH:MM format to minutes
-        $transaction.minutes = moment.duration($transaction.duration).asMinutes();
-
-        return $http.put($url, $transaction);
+    /**
+    *
+    * @param transaction
+    */
+    deleteTransaction: function (transaction) {
+        var index = HelpersRepository.findIndexById(this.state.transactions, transaction.id);
+        this.state.transactions = _.without(this.state.transactions, this.state.transactions[index]);
     },
 
     massDelete: function () {
@@ -33931,6 +34108,906 @@ var TransactionsRepository = {
     }
 
 };
+var AccountsFilter = Vue.component('accounts-filter', {
+    template: '#accounts-filter-template',
+    data: function () {
+        return {
+            showContent: false,
+            accountsRepository: AccountsRepository.state
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter',
+    ],
+    ready: function () {
+
+    }
+});
+var BudgetsFilter = Vue.component('budgets-filter', {
+    template: '#budgets-filter-template',
+    data: function () {
+        return {
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+        /**
+         * type1 is 'in' or 'out'.
+         * type2 is 'and' or 'or'.
+         * @param type1
+         * @param type2
+         */
+        clearBudgetField: function (type1, type2) {
+            FilterRepository.clearBudgetField(this, type1, type2);
+        }
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter',
+        'budgets'
+    ],
+    ready: function () {
+
+    },
+    events: {
+        'budget-chosen': function () {
+            this.runFilter();
+        },
+        'budget-removed': function () {
+            this.runFilter();
+        }
+    }
+});
+var DatesFilter = Vue.component('dates-filter', {
+    template: '#dates-filter-template',
+    data: function () {
+        return {
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter',
+        'clearFilterField'
+    ],
+    ready: function () {
+
+    }
+});
+var DescriptionsFilter = Vue.component('descriptions-filter', {
+    template: '#descriptions-filter-template',
+    data: function () {
+        return {
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        filterDescriptionOrMerchant: function () {
+            FilterRepository.resetOffset();
+            this.runFilter();
+        },
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter',
+        'clearFilterField'
+    ],
+    ready: function () {
+
+    }
+});
+
+var Filter = Vue.component('filter', {
+    template: '#filter-template',
+    data: function () {
+        return {
+            filterTab: 'show',
+            filterRepository: FilterRepository.state,
+            showFilter: false,
+        };
+    },
+    components: {},
+    computed: {
+        filter: function () {
+          return this.filterRepository.filter;
+        },
+        filterTotals: function () {
+            return this.filterRepository.filterTotals;
+        }
+    },
+    methods: {
+
+        /**
+         * 
+         */
+        runFilter: function () {
+            FilterRepository.runFilter(this);
+        },
+
+        /**
+         *
+         * @param field
+         * @param type - either 'in' or 'out'
+         */
+        clearFilterField: function (field, type) {
+            FilterRepository.clearFilterField(this, field, type);
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+
+            $(document).on('toggle-filter', function (event) {
+                that.showFilter = !that.showFilter;
+            });
+        }
+    },
+    props: [
+        'show',
+        'budgets',
+        'tab'
+    ],
+    ready: function () {
+        this.listen();
+        this.runFilter();
+    }
+});
+
+var Graphs = Vue.component('graphs', {
+    template: '#graphs-template',
+    data: function () {
+        return {
+            graphFigures: {months: []},
+            charts: {
+                lineChart: {},
+                barChart: {},
+                doughnutChart: {}
+            },
+            chartsCreated: false,
+            chartData: {
+                all: {},
+                doughnut: {}
+            },
+            filterRepository: FilterRepository.state
+        };
+    },
+    components: {},
+    filters: {
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
+    },
+    computed: {
+        // months: function () {
+        //   return _.pluck(this.graphFigures, 'months');
+        // }
+        filter: function () {
+            return this.filterRepository.filter;
+        },
+        debitForChart: function () {
+            var array = _.pluck(this.graphFigures.months, 'expenses');
+            return _.map(array, function (num) {
+                return num * -1;
+            })
+        },
+        negativeTransferTotals: function () {
+            var array = _.pluck(this.graphFigures.months, 'negativeTransferTotal');
+            return _.map(array, function (num) {
+                if (num === 0) {
+                    return num;
+                }
+                return num * -1;
+            })
+        },
+        spentOnBudgets: function () {
+            var array = _.pluck(this.chartData.doughnut, 'spentInDateRange');
+            return _.map(array, function (num) {
+                if (num === 0) {
+                    return num;
+                }
+                return num * -1;
+            })
+        }
+    },
+    methods: {
+
+        /**
+        *
+        */
+        getGraphTotals: function () {
+            $.event.trigger('show-loading');
+
+            var data = {filter: {}};
+
+            if (this.filter) {
+                this.filter = FilterRepository.formatDates(this.filter);
+                data = {
+                    filter: this.filter
+                };
+            }
+
+            this.$http.post('/api/filter/graphTotals', data, function (response) {
+                this.graphFigures = this.calculateGraphFigures(response);
+                this.chart();
+                this.getDoughnutChartData();
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+         *
+         * @param graphTotals
+         * @returns {{months: Array}}
+         */
+        calculateGraphFigures: function (graphTotals) {
+            var graphFigures = {
+                months: []
+            };
+
+            $(graphTotals.monthsTotals).each(function () {
+                var expenses = this.debit * -1;
+                var max = graphTotals.maxTotal;
+                var num = 500 / max;
+
+                graphFigures.months.push({
+                    incomeHeight: this.credit * num,
+                    expensesHeight: expenses * num,
+                    income: this.credit,
+                    expenses: this.debit,
+                    month: this.month,
+                    balanceFromBeginning: this.balanceFromBeginning,
+                    positiveTransferTotal: this.positiveTransferTotal,
+                    negativeTransferTotal: this.negativeTransferTotal,
+                });
+            });
+
+            return graphFigures;
+        },
+
+        /**
+         *
+         */
+        populateDoughnutChartData: function () {
+            this.chartData.doughnut = {
+                labels: _.pluck(this.chartData.doughnut, 'name'),
+                datasets: [
+                    //Spent on budgets in date range
+                    {
+                        data: this.spentOnBudgets,
+                        label: "Budgets",
+                        backgroundColor: [
+                            'rgba(0,0,0,.4)',
+                            'rgba(255,0,0,.4)',
+                            'rgba(0,255,0,.4)',
+                            'rgba(0,0,255,.4)',
+                            'rgba(0,255,255,.4)',
+                        ],
+                        hoverBackgroundColor: [
+                            'rgba(0,0,0,.6)',
+                            'rgba(255,0,0,.6)',
+                            'rgba(0,255,0,.6)',
+                            'rgba(0,0,255,.6)',
+                            'rgba(0,255,255,.6)',
+                        ],
+                    },
+                ]
+            }
+        },
+
+        /**
+         *
+         */
+        chart: function () {
+            var months = _.pluck(this.graphFigures.months, 'month');
+            this.chartData.all = {
+                labels: months,
+                datasets: [
+                    //Debit
+                    {
+                        data: this.debitForChart,
+                        label: "Debit",
+                        backgroundColor: "rgba(255,0,0,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 1,
+                        hoverBackgroundColor: "rgba(255,0,0,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                    },
+                    //Credit
+                    {
+                        data: _.pluck(this.graphFigures.months, 'income'),
+                        label: "Credit",
+                        backgroundColor: "rgba(0,255,0,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 1,
+                        hoverBackgroundColor: "rgba(0,255,0,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                    },
+                    //Balance from beginning
+                    {
+                        data: _.pluck(this.graphFigures.months, 'balanceFromBeginning'),
+                        label: "Balance",
+                        backgroundColor: "rgba(252, 167, 0, .2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 1,
+                        hoverBackgroundColor: "rgba(252, 167, 0, .4)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                    },
+                    //Positive transfers
+                    {
+                        data: _.pluck(this.graphFigures.months, 'positiveTransferTotal'),
+                        label: "Positive transfers",
+                        backgroundColor: "rgba(0,255,0,0.6)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 1,
+                        hoverBackgroundColor: "rgba(0,255,0,0.8)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                    },
+                    //Negative transfers
+                    {
+                        data: this.negativeTransferTotals,
+                        label: "Negative transfers",
+                        backgroundColor: "rgba(255,0,0,0.6)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 1,
+                        hoverBackgroundColor: "rgba(255,0,0,0.8)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                    }
+                ]
+            };
+
+            if (this.chartsCreated) {
+                this.destroyCharts();
+            }
+            this.createCharts();
+        },
+
+        /**
+         *
+         * @param data
+         */
+        destroyCharts: function () {
+            this.charts.barChart.destroy();
+            this.charts.lineChart.destroy();
+            this.charts.doughnutChart.destroy();
+        },
+
+        /**
+         *
+         * @param data
+         */
+        createCharts: function () {
+            var that = this;
+            setTimeout(function () {
+                that.charts.barChart = new Chart(document.querySelector('#bar-chart').getContext('2d'), {
+                    type: 'bar',
+                    data: that.chartData.all,
+                    options: {
+                        maintainAspectRatio: false
+                    }
+                });
+
+                that.charts.lineChart = new Chart(document.querySelector('#line-chart').getContext('2d'), {
+                    type: 'line',
+                    data: that.chartData.all,
+                    options: {
+                        maintainAspectRatio: false
+                    }
+                });
+
+                that.charts.doughnutChart = new Chart(document.querySelector('#doughnut-chart').getContext('2d'), {
+                    type: 'doughnut',
+                    data: that.chartData.doughnut,
+                    options: {
+                        maintainAspectRatio: false
+                    }
+                });
+
+                that.chartsCreated = true;
+            }, 1000);
+        },
+
+        /**
+        *
+        */
+        getDoughnutChartData: function () {
+            var from = '';
+            var to = '';
+            if (this.filter) {
+                from = this.filter.fromDate.inSql;
+                to = this.filter.toDate.inSql;
+            }
+
+            $.event.trigger('show-loading');
+            this.$http.get('/api/totals/spentOnBudgets?from=' + from + '&to=' + to, function (response) {
+                this.chartData.doughnut = response;
+                this.populateDoughnutChartData();
+                $.event.trigger('hide-loading');
+            })
+            .error(function (data, status, response) {
+                HelpersRepository.handleResponseError(data, status, response);
+            });
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('get-graph-totals', function (event) {
+                that.getGraphTotals();
+                that.getDoughnutChartData();
+            });
+        }
+    },
+    props: [
+
+    ],
+    ready: function () {
+        this.getGraphTotals();
+        this.listen();
+    }
+});
+var InvalidAllocationFilter = Vue.component('invalid-allocation-filter', {
+    template: '#invalid-allocation-filter-template',
+    data: function () {
+        return {
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
+    }
+});
+var MassTransactionUpdatePopup = Vue.component('mass-transaction-update-popup', {
+    template: '#mass-transaction-update-popup-template',
+    data: function () {
+        return {
+            showPopup: false,
+            budgetsToAdd: [],
+            count: 0,
+            showProgress: false,
+            transactionsRepository: TransactionsRepository.state
+        };
+    },
+    components: {},
+    computed: {
+        progressWidth: function () {
+            return 100 / (this.transactions.length / this.count);
+        },
+        transactions: function () {
+            return this.transactionsRepository.transactions;
+        }
+    },
+    methods: {
+
+        /**
+         *
+         */
+        addBudgetsToTransactions: function () {
+            this.count = 0;
+            this.showProgress = true;
+            for (var i = 0; i < this.transactions.length; i++) {
+                this.addBudgetsToTransaction(this.transactions[i]);
+            }
+        },
+
+        /**
+         *
+         * @param transaction
+         */
+        addBudgetsToTransaction: function (transaction) {
+            $.event.trigger('show-loading');
+
+            var data = {
+                addingBudgets: true,
+                budget_ids: _.pluck(this.budgetsToAdd, 'id')
+            };
+
+            this.$http.put('/api/transactions/' + transaction.id, data, function (response) {
+                var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: transaction.id}));
+                this.transactions[index].budgets = response.budgets;
+                this.transactions[index].multipleBudgets = response.multipleBudgets;
+                this.transactions[index].validAllocation = response.validAllocation;
+                this.count++;
+
+                if (this.count === this.transactions.length) {
+                    //$.event.trigger('provide-feedback', ['Done!', 'success']);
+                    //this.showPopup = false;
+                }
+
+                //$.event.trigger('provide-feedback', ['Transaction updated', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+         *
+         */
+        closePopup: function (event) {
+            HelpersRepository.closePopup(event, this);
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('show-mass-transaction-update-popup', function (event) {
+                that.showPopup = true;
+                that.showProgress = false;
+                that.budgetsToAdd = [];
+            });
+        }
+    },
+    props: [
+        'budgets'
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
+
+var MerchantsFilter = Vue.component('merchants-filter', {
+    template: '#merchants-filter-template',
+    data: function () {
+        return {
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        filterDescriptionOrMerchant: function () {
+            FilterRepository.resetOffset();
+            this.runFilter();
+        },
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter',
+        'clearFilterField'
+    ],
+    ready: function () {
+
+    }
+});
+
+var NewSavedFilter = Vue.component('new-saved-filter', {
+    template: '#new-saved-filter-template',
+    data: function () {
+        return {
+
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        insertSavedFilter: function () {
+            var name = prompt('Please name your filter');
+
+            $.event.trigger('show-loading');
+
+            var data = {
+                name: name,
+                filter: this.filter
+            };
+
+            this.$http.post('/api/savedFilters', data, function (response) {
+                    $.event.trigger('saved-filter-created', [response.data]);
+                    $.event.trigger('provide-feedback', ['Filter saved', 'success']);
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+        },
+
+    },
+    props: [
+        'filter'
+    ],
+    ready: function () {
+
+    }
+});
+
+var NumBudgetsFilter = Vue.component('num-budgets-filter', {
+    template: '#num-budgets-filter-template',
+    data: function () {
+        return {
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
+    }
+});
+var ReconciledFilter = Vue.component('reconciled-filter', {
+    template: '#reconciled-filter-template',
+    data: function () {
+        return {
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
+    }
+});
+var SavedFilters = Vue.component('saved-filters', {
+    template: '#saved-filters-template',
+    data: function () {
+        return {
+            savedFilters: [],
+            selectedSavedFilter: {},
+            // filterRepository: FilterRepository.state
+        };
+    },
+    components: {},
+    computed: {
+        // filter: function () {
+        //   return this.filterRepository.filter;
+        // }
+    },
+    methods: {
+        /**
+         *
+         */
+        getSavedFilters: function () {
+            $.event.trigger('show-loading');
+            this.$http.get('/api/savedFilters', function (response) {
+                    this.savedFilters = response;
+                    $.event.trigger('hide-loading');
+                })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+        },
+
+        /**
+         *
+         */
+        chooseSavedFilter: function () {
+            FilterRepository.setFields(this.selectedSavedFilter.filter);
+            this.runFilter();
+        },
+
+        /**
+        *
+        */
+        deleteSavedFilter: function (savedFilter) {
+            $.event.trigger('show-loading');
+            this.$http.delete('/api/savedFilters/' + savedFilter.id, function (response) {
+                // SavedFiltersRepository.deleteSavedFilter(this.selectedSavedFilter);
+                var index = HelpersRepository.findIndexById(this.savedFilters, savedFilter.id);
+                this.savedFilters = _.without(this.savedFilters, this.savedFilters[index]);
+                $.event.trigger('provide-feedback', ['SavedFilter deleted', 'success']);
+                $.event.trigger('hide-loading');
+            })
+                .error(function (data, status, response) {
+                    HelpersRepository.handleResponseError(data, status, response);
+                });
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+            $(document).on('saved-filter-created', function (event, savedFilter) {
+                that.savedFilters.push(savedFilter);
+            });
+        }
+    },
+    props: [
+        'runFilter'
+    ],
+    ready: function () {
+        this.getSavedFilters();
+        this.listen();
+    }
+});
+
+var ToolbarForFilter = Vue.component('toolbar-for-filter', {
+    template: '#toolbar-for-filter-template',
+    data: function () {
+        return {
+            filterRepository: FilterRepository.state
+        };
+    },
+    components: {},
+    computed: {
+        filter: function () {
+          return this.filterRepository.filter;
+        }
+    },
+    methods: {
+
+        /**
+         *
+         */
+        showMassTransactionUpdatePopup: function () {
+            $.event.trigger('show-mass-transaction-update-popup');
+        },
+
+        /**
+         * 
+         */
+        resetFilter: function () {
+            FilterRepository.resetFilter();
+            this.runFilter();
+        },
+
+        /**
+         *
+         */
+        changeNumToFetch: function () {
+            FilterRepository.updateRange(this.filter.numToFetch);
+            this.runFilter();
+        },
+
+        /**
+         * Todo: I might not need some of this code (not allowing offset to be less than 0)
+         * since I disabled the button if that is the case
+         */
+        prevResults: function () {
+            FilterRepository.prevResults(this);
+        },
+
+        /**
+         *
+         */
+        nextResults: function () {
+            FilterRepository.nextResults(this);
+        },
+
+        /**
+         *
+         */
+        listen: function () {
+            var that = this;
+        }
+    },
+    props: [
+        'filterTotals',
+        'runFilter'
+    ],
+    ready: function () {
+        this.listen();
+    }
+});
+var TotalsFilter = Vue.component('totals-filter', {
+    template: '#totals-filter-template',
+    data: function () {
+        return {
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter',
+        'clearFilterField'
+    ],
+    ready: function () {
+
+    }
+});
+var TotalsForFilter = Vue.component('totals-for-filter', {
+    template: '#totals-for-filter-template',
+    data: function () {
+        return {
+
+        };
+    },
+    components: {},
+    filters: {
+        numberFilter: function (number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
+    },
+    methods: {
+
+    },
+    props: [
+        'show',
+        'filter',
+        'filterTotals'
+    ],
+    ready: function () {
+
+    }
+});
+var TypesFilter = Vue.component('types-filter', {
+    template: '#types-filter-template',
+    data: function () {
+        return {
+            types: ["income", "expense", "transfer"],
+            showContent: false
+        };
+    },
+    components: {},
+    methods: {
+
+    },
+    props: [
+        'filter',
+        'filterTab',
+        'runFilter'
+    ],
+    ready: function () {
+
+    }
+});
+
+
+
 var Autocomplete = Vue.component('autocomplete', {
     template: '#autocomplete-template',
     data: function () {
@@ -34200,976 +35277,6 @@ var Autocomplete = Vue.component('autocomplete', {
     }
 });
 
-var AccountsFilter = Vue.component('accounts-filter', {
-    template: '#accounts-filter-template',
-    data: function () {
-        return {
-            showContent: false,
-            accountsRepository: AccountsRepository.state
-        };
-    },
-    components: {},
-    methods: {
-
-    },
-    props: [
-        'filter',
-        'filterTab',
-        'runFilter',
-    ],
-    ready: function () {
-
-    }
-});
-var BudgetsFilter = Vue.component('budgets-filter', {
-    template: '#budgets-filter-template',
-    data: function () {
-        return {
-            showContent: false
-        };
-    },
-    components: {},
-    methods: {
-        /**
-         * type1 is 'in' or 'out'.
-         * type2 is 'and' or 'or'.
-         * @param type1
-         * @param type2
-         */
-        clearBudgetField: function (type1, type2) {
-            if (type2) {
-                this.filter.budgets[type1][type2] = [];
-            }
-            else {
-                this.filter.budgets[type1] = [];
-            }
-            this.runFilter();
-        }
-
-    },
-    props: [
-        'filter',
-        'filterTab',
-        'runFilter',
-        'budgets'
-    ],
-    ready: function () {
-
-    },
-    events: {
-        'budget-chosen': function () {
-            this.runFilter();
-        },
-        'budget-removed': function () {
-            this.runFilter();
-        }
-    }
-});
-var DatesFilter = Vue.component('dates-filter', {
-    template: '#dates-filter-template',
-    data: function () {
-        return {
-            showContent: false
-        };
-    },
-    components: {},
-    methods: {
-
-    },
-    props: [
-        'filter',
-        'filterTab',
-        'runFilter',
-        'clearFilterField'
-    ],
-    ready: function () {
-
-    }
-});
-var DescriptionsFilter = Vue.component('descriptions-filter', {
-    template: '#descriptions-filter-template',
-    data: function () {
-        return {
-            showContent: false
-        };
-    },
-    components: {},
-    methods: {
-
-        /**
-         *
-         */
-        filterDescriptionOrMerchant: function () {
-            this.resetOffset();
-            this.runFilter();
-        },
-
-        /**
-         *
-         */
-        resetOffset: function () {
-            this.filter.offset = 0;
-        },
-
-    },
-    props: [
-        'filter',
-        'filterTab',
-        'runFilter',
-        'clearFilterField'
-    ],
-    ready: function () {
-
-    }
-});
-
-var Filter = Vue.component('filter', {
-    template: '#filter-template',
-    data: function () {
-        return {
-            filterTab: 'show',
-            filter: FilterRepository.filter,
-            showFilter: false,
-            filterTotals: {}
-        };
-    },
-    components: {},
-    methods: {
-
-        /**
-         * 
-         */
-        runFilter: function () {
-            $.event.trigger('run-filter');
-        },
-
-        /**
-         *
-         * @param field
-         * @param type - either 'in' or 'out'
-         */
-        clearFilterField: function (field, type) {
-            this.filter[field][type] = "";
-            this.runFilter();
-        },
-
-        /**
-         * This is here, not in the TotalsForFilterComponent, because the ToolbarForFilterComponent also needs the totals
-         * Todo: should be GET not POST
-         */
-        getBasicFilterTotals: function () {
-            this.filter = FilterRepository.formatDates(FilterRepository.filter);
-
-            var data = {
-                filter: this.filter
-            };
-
-            $.event.trigger('show-loading');
-            this.$http.post('/api/filter/basicTotals', data, function (response) {
-                    this.filterTotals = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
-        },
-
-        /**
-         *
-         */
-        listen: function () {
-            var that = this;
-
-            $(document).on('toggle-filter', function (event) {
-                that.showFilter = !that.showFilter;
-            });
-
-            $(document).on('run-filter', function (event) {
-                $.event.trigger('get-basic-filter-totals');
-                if (that.tab === 'transactions') {
-                    $.event.trigger('filter-transactions', [that.filter]);
-                }
-                else {
-                    $.event.trigger('get-graph-totals', [that.filter]);
-                }
-            });
-
-            $(document).on('reset-filter', function (event) {
-                that.filter = FilterRepository.filter;
-            });
-
-            $(document).on('get-basic-filter-totals', function (event) {
-                that.getBasicFilterTotals();
-            });
-        }
-    },
-    props: [
-        'show',
-        'budgets',
-        'tab'
-    ],
-    ready: function () {
-        this.listen();
-        this.getBasicFilterTotals();
-        this.runFilter();
-    }
-});
-
-var Graphs = Vue.component('graphs', {
-    template: '#graphs-template',
-    data: function () {
-        return {
-            graphFigures: {months: []},
-            charts: {
-                lineChart: {},
-                barChart: {},
-                doughnutChart: {}
-            },
-            chartsCreated: false,
-            chartData: {
-                all: {},
-                doughnut: {}
-            }
-        };
-    },
-    components: {},
-    filters: {
-        numberFilter: function (number, howManyDecimals) {
-            return HelpersRepository.numberFilter(number, howManyDecimals);
-        }
-    },
-    computed: {
-        // months: function () {
-        //   return _.pluck(this.graphFigures, 'months');
-        // }
-        debitForChart: function () {
-            var array = _.pluck(this.graphFigures.months, 'expenses');
-            return _.map(array, function (num) {
-                return num * -1;
-            })
-        },
-        negativeTransferTotals: function () {
-            var array = _.pluck(this.graphFigures.months, 'negativeTransferTotal');
-            return _.map(array, function (num) {
-                if (num === 0) {
-                    return num;
-                }
-                return num * -1;
-            })
-        },
-        spentOnBudgets: function () {
-            var array = _.pluck(this.chartData.doughnut, 'spentInDateRange');
-            return _.map(array, function (num) {
-                if (num === 0) {
-                    return num;
-                }
-                return num * -1;
-            })
-        }
-    },
-    methods: {
-
-        /**
-        *
-        */
-        getGraphTotals: function () {
-            $.event.trigger('show-loading');
-
-            var data = {filter: {}};
-
-            if (this.filter) {
-                this.filter = FilterRepository.formatDates(this.filter);
-                data = {
-                    filter: this.filter
-                };
-            }
-
-            this.$http.post('/api/filter/graphTotals', data, function (response) {
-                this.graphFigures = this.calculateGraphFigures(response);
-                this.chart();
-                this.getDoughnutChartData();
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
-
-        /**
-         *
-         * @param graphTotals
-         * @returns {{months: Array}}
-         */
-        calculateGraphFigures: function (graphTotals) {
-            var graphFigures = {
-                months: []
-            };
-
-            $(graphTotals.monthsTotals).each(function () {
-                var expenses = this.debit * -1;
-                var max = graphTotals.maxTotal;
-                var num = 500 / max;
-
-                graphFigures.months.push({
-                    incomeHeight: this.credit * num,
-                    expensesHeight: expenses * num,
-                    income: this.credit,
-                    expenses: this.debit,
-                    month: this.month,
-                    balanceFromBeginning: this.balanceFromBeginning,
-                    positiveTransferTotal: this.positiveTransferTotal,
-                    negativeTransferTotal: this.negativeTransferTotal,
-                });
-            });
-
-            return graphFigures;
-        },
-
-        /**
-         *
-         */
-        populateDoughnutChartData: function () {
-            this.chartData.doughnut = {
-                labels: _.pluck(this.chartData.doughnut, 'name'),
-                datasets: [
-                    //Spent on budgets in date range
-                    {
-                        data: this.spentOnBudgets,
-                        label: "Budgets",
-                        backgroundColor: [
-                            'rgba(0,0,0,.4)',
-                            'rgba(255,0,0,.4)',
-                            'rgba(0,255,0,.4)',
-                            'rgba(0,0,255,.4)',
-                            'rgba(0,255,255,.4)',
-                        ],
-                        hoverBackgroundColor: [
-                            'rgba(0,0,0,.6)',
-                            'rgba(255,0,0,.6)',
-                            'rgba(0,255,0,.6)',
-                            'rgba(0,0,255,.6)',
-                            'rgba(0,255,255,.6)',
-                        ],
-                    },
-                ]
-            }
-        },
-
-        /**
-         *
-         */
-        chart: function () {
-            var months = _.pluck(this.graphFigures.months, 'month');
-            this.chartData.all = {
-                labels: months,
-                datasets: [
-                    //Debit
-                    {
-                        data: this.debitForChart,
-                        label: "Debit",
-                        backgroundColor: "rgba(255,0,0,0.2)",
-                        borderColor: "rgba(255,99,132,1)",
-                        borderWidth: 1,
-                        hoverBackgroundColor: "rgba(255,0,0,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
-                    },
-                    //Credit
-                    {
-                        data: _.pluck(this.graphFigures.months, 'income'),
-                        label: "Credit",
-                        backgroundColor: "rgba(0,255,0,0.2)",
-                        borderColor: "rgba(255,99,132,1)",
-                        borderWidth: 1,
-                        hoverBackgroundColor: "rgba(0,255,0,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
-                    },
-                    //Balance from beginning
-                    {
-                        data: _.pluck(this.graphFigures.months, 'balanceFromBeginning'),
-                        label: "Balance",
-                        backgroundColor: "rgba(252, 167, 0, .2)",
-                        borderColor: "rgba(255,99,132,1)",
-                        borderWidth: 1,
-                        hoverBackgroundColor: "rgba(252, 167, 0, .4)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
-                    },
-                    //Positive transfers
-                    {
-                        data: _.pluck(this.graphFigures.months, 'positiveTransferTotal'),
-                        label: "Positive transfers",
-                        backgroundColor: "rgba(0,255,0,0.6)",
-                        borderColor: "rgba(255,99,132,1)",
-                        borderWidth: 1,
-                        hoverBackgroundColor: "rgba(0,255,0,0.8)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
-                    },
-                    //Negative transfers
-                    {
-                        data: this.negativeTransferTotals,
-                        label: "Negative transfers",
-                        backgroundColor: "rgba(255,0,0,0.6)",
-                        borderColor: "rgba(255,99,132,1)",
-                        borderWidth: 1,
-                        hoverBackgroundColor: "rgba(255,0,0,0.8)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
-                    }
-                ]
-            };
-
-            if (this.chartsCreated) {
-                this.destroyCharts();
-            }
-            this.createCharts();
-        },
-
-        /**
-         *
-         * @param data
-         */
-        destroyCharts: function () {
-            this.charts.barChart.destroy();
-            this.charts.lineChart.destroy();
-            this.charts.doughnutChart.destroy();
-        },
-
-        /**
-         *
-         * @param data
-         */
-        createCharts: function () {
-            var that = this;
-            setTimeout(function () {
-                that.charts.barChart = new Chart(document.querySelector('#bar-chart').getContext('2d'), {
-                    type: 'bar',
-                    data: that.chartData.all,
-                    options: {
-                        maintainAspectRatio: false
-                    }
-                });
-
-                that.charts.lineChart = new Chart(document.querySelector('#line-chart').getContext('2d'), {
-                    type: 'line',
-                    data: that.chartData.all,
-                    options: {
-                        maintainAspectRatio: false
-                    }
-                });
-
-                that.charts.doughnutChart = new Chart(document.querySelector('#doughnut-chart').getContext('2d'), {
-                    type: 'doughnut',
-                    data: that.chartData.doughnut,
-                    options: {
-                        maintainAspectRatio: false
-                    }
-                });
-
-                that.chartsCreated = true;
-            }, 1000);
-        },
-
-        /**
-        *
-        */
-        getDoughnutChartData: function () {
-            var from = '';
-            var to = '';
-            if (this.filter) {
-                from = this.filter.fromDate.inSql;
-                to = this.filter.toDate.inSql;
-            }
-
-            $.event.trigger('show-loading');
-            this.$http.get('/api/totals/spentOnBudgets?from=' + from + '&to=' + to, function (response) {
-                this.chartData.doughnut = response;
-                this.populateDoughnutChartData();
-                $.event.trigger('hide-loading');
-            })
-            .error(function (data, status, response) {
-                HelpersRepository.handleResponseError(data, status, response);
-            });
-        },
-
-        /**
-         *
-         */
-        listen: function () {
-            var that = this;
-            $(document).on('get-graph-totals', function (event, filter) {
-                that.filter = filter;
-                that.getGraphTotals();
-                that.getDoughnutChartData();
-            });
-        }
-    },
-    props: [
-
-    ],
-    ready: function () {
-        this.getGraphTotals();
-        this.listen();
-    }
-});
-var InvalidAllocationFilter = Vue.component('invalid-allocation-filter', {
-    template: '#invalid-allocation-filter-template',
-    data: function () {
-        return {
-            showContent: false
-        };
-    },
-    components: {},
-    methods: {
-
-    },
-    props: [
-        'filter',
-        'filterTab',
-        'runFilter'
-    ],
-    ready: function () {
-
-    }
-});
-var MassTransactionUpdatePopup = Vue.component('mass-transaction-update-popup', {
-    template: '#mass-transaction-update-popup-template',
-    data: function () {
-        return {
-            showPopup: false,
-            budgetsToAdd: [],
-            count: 0,
-            showProgress: false
-        };
-    },
-    components: {},
-    computed: {
-        progressWidth: function () {
-            return 100 / (this.transactions.length / this.count);
-        }
-    },
-    methods: {
-
-        /**
-         *
-         */
-        addBudgetsToTransactions: function () {
-            this.count = 0;
-            this.showProgress = true;
-            for (var i = 0; i < this.transactions.length; i++) {
-                this.addBudgetsToTransaction(this.transactions[i]);
-            }
-        },
-
-        /**
-         *
-         * @param transaction
-         */
-        addBudgetsToTransaction: function (transaction) {
-            $.event.trigger('show-loading');
-
-            var data = {
-                addingBudgets: true,
-                budget_ids: _.pluck(this.budgetsToAdd, 'id')
-            };
-
-            this.$http.put('/api/transactions/' + transaction.id, data, function (response) {
-                var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: transaction.id}));
-                this.transactions[index].budgets = response.budgets;
-                this.transactions[index].multipleBudgets = response.multipleBudgets;
-                this.transactions[index].validAllocation = response.validAllocation;
-                this.count++;
-
-                if (this.count === this.transactions.length) {
-                    //$.event.trigger('provide-feedback', ['Done!', 'success']);
-                    //this.showPopup = false;
-                }
-
-                //$.event.trigger('provide-feedback', ['Transaction updated', 'success']);
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
-
-        /**
-         *
-         */
-        closePopup: function (event) {
-            HelpersRepository.closePopup(event, this);
-        },
-
-        /**
-         *
-         */
-        listen: function () {
-            var that = this;
-            $(document).on('show-mass-transaction-update-popup', function (event) {
-                that.showPopup = true;
-                that.showProgress = false;
-                that.budgetsToAdd = [];
-            });
-        }
-    },
-    props: [
-        'transactions',
-        'budgets'
-    ],
-    ready: function () {
-        this.listen();
-    }
-});
-
-var MerchantsFilter = Vue.component('merchants-filter', {
-    template: '#merchants-filter-template',
-    data: function () {
-        return {
-            showContent: false
-        };
-    },
-    components: {},
-    methods: {
-
-        /**
-         *
-         */
-        filterDescriptionOrMerchant: function () {
-            this.resetOffset();
-            this.runFilter();
-        },
-
-        /**
-         *
-         */
-        resetOffset: function () {
-            this.filter.offset = 0;
-        },
-    },
-    props: [
-        'filter',
-        'filterTab',
-        'runFilter',
-        'clearFilterField'
-    ],
-    ready: function () {
-
-    }
-});
-
-var NewSavedFilter = Vue.component('new-saved-filter', {
-    template: '#new-saved-filter-template',
-    data: function () {
-        return {
-
-        };
-    },
-    components: {},
-    methods: {
-
-        /**
-         *
-         */
-        insertSavedFilter: function () {
-            var name = prompt('Please name your filter');
-
-            $.event.trigger('show-loading');
-
-            var data = {
-                name: name,
-                filter: this.filter
-            };
-
-            this.$http.post('/api/savedFilters', data, function (response) {
-                    $.event.trigger('saved-filter-created', [response.data]);
-                    $.event.trigger('provide-feedback', ['Filter saved', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
-        },
-
-    },
-    props: [
-        'filter'
-    ],
-    ready: function () {
-
-    }
-});
-
-var NumBudgetsFilter = Vue.component('num-budgets-filter', {
-    template: '#num-budgets-filter-template',
-    data: function () {
-        return {
-            showContent: false
-        };
-    },
-    components: {},
-    methods: {
-
-    },
-    props: [
-        'filter',
-        'filterTab',
-        'runFilter'
-    ],
-    ready: function () {
-
-    }
-});
-var ReconciledFilter = Vue.component('reconciled-filter', {
-    template: '#reconciled-filter-template',
-    data: function () {
-        return {
-            showContent: false
-        };
-    },
-    components: {},
-    methods: {
-
-    },
-    props: [
-        'filter',
-        'filterTab',
-        'runFilter'
-    ],
-    ready: function () {
-
-    }
-});
-var SavedFilters = Vue.component('saved-filters', {
-    template: '#saved-filters-template',
-    data: function () {
-        return {
-            savedFilters: [],
-            selectedSavedFilter: {}
-        };
-    },
-    components: {},
-    methods: {
-        /**
-         *
-         */
-        getSavedFilters: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/savedFilters', function (response) {
-                    this.savedFilters = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
-        },
-
-        /**
-         *
-         */
-        chooseSavedFilter: function () {
-            this.filter = FilterRepository.setFields(this.filter, this.selectedSavedFilter.filter);
-            this.runFilter(this.filter);
-        },
-
-        /**
-        *
-        */
-        deleteSavedFilter: function (savedFilter) {
-            $.event.trigger('show-loading');
-            this.$http.delete('/api/savedFilters/' + savedFilter.id, function (response) {
-                // SavedFiltersRepository.deleteSavedFilter(this.selectedSavedFilter);
-                var index = HelpersRepository.findIndexById(this.savedFilters, savedFilter.id);
-                this.savedFilters = _.without(this.savedFilters, this.savedFilters[index]);
-                $.event.trigger('provide-feedback', ['SavedFilter deleted', 'success']);
-                $.event.trigger('hide-loading');
-            })
-                .error(function (data, status, response) {
-                    HelpersRepository.handleResponseError(data, status, response);
-                });
-        },
-
-        /**
-         *
-         */
-        listen: function () {
-            var that = this;
-            $(document).on('saved-filter-created', function (event, savedFilter) {
-                that.savedFilters.push(savedFilter);
-            });
-        }
-    },
-    props: [
-        'runFilter',
-        'filter'
-    ],
-    ready: function () {
-        this.getSavedFilters();
-        this.listen();
-    }
-});
-
-var ToolbarForFilter = Vue.component('toolbar-for-filter', {
-    template: '#toolbar-for-filter-template',
-    data: function () {
-        return {
-            filter: FilterRepository.filter
-        };
-    },
-    components: {},
-    methods: {
-
-        /**
-         *
-         */
-        showMassTransactionUpdatePopup: function () {
-            $.event.trigger('show-mass-transaction-update-popup');
-        },
-
-        /**
-         * 
-         */
-        resetFilter: function () {
-            FilterRepository.resetFilter();
-            this.filter = FilterRepository.filter;
-            this.runFilter();
-        },
-
-        /**
-         *
-         */
-        changeNumToFetch: function () {
-            this.updateRange(this.filter.numToFetch);
-            this.runFilter();
-        },
-
-        /**
-         * Todo: I might not need some of this code (not allowing offset to be less than 0)
-         * since I disabled the button if that is the case
-         */
-        prevResults: function () {
-            //make it so the offset cannot be less than 0.
-            if (this.filter.offset - this.filter.numToFetch < 0) {
-                this.filter.offset = 0;
-            }
-            else {
-                this.filter.offset-= (this.filter.numToFetch * 1);
-                this.updateRange();
-                this.runFilter();
-            }
-        },
-
-        /**
-         *
-         */
-        nextResults: function () {
-            if (this.filter.offset + (this.filter.numToFetch * 1) > this.filterTotals.numTransactions) {
-                //stop it going past the end.
-                return;
-            }
-
-            this.filter.offset+= (this.filter.numToFetch * 1);
-            this.updateRange();
-            this.runFilter();
-        },
-
-        /**
-         * Updates filter.displayFrom and filter.displayTo values
-         */
-        updateRange: function (numToFetch) {
-            if (numToFetch) {
-                this.filter.numToFetch = numToFetch;
-            }
-
-            this.filter.displayFrom = this.filter.offset + 1;
-            this.filter.displayTo = this.filter.offset + (this.filter.numToFetch * 1);
-        },
-
-
-        /**
-         *
-         */
-        listen: function () {
-            var that = this;
-            //$(document).on('set-filter-in-toolbar', function (event) {
-            //    that.filter = FilterRepository.filter;
-            //});
-        }
-    },
-    props: [
-        'filterTotals',
-        'runFilter'
-    ],
-    ready: function () {
-        this.listen();
-    }
-});
-var TotalsFilter = Vue.component('totals-filter', {
-    template: '#totals-filter-template',
-    data: function () {
-        return {
-            showContent: false
-        };
-    },
-    components: {},
-    methods: {
-
-    },
-    props: [
-        'filter',
-        'filterTab',
-        'runFilter',
-        'clearFilterField'
-    ],
-    ready: function () {
-
-    }
-});
-var TotalsForFilter = Vue.component('totals-for-filter', {
-    template: '#totals-for-filter-template',
-    data: function () {
-        return {
-
-        };
-    },
-    components: {},
-    filters: {
-        numberFilter: function (number, howManyDecimals) {
-            return HelpersRepository.numberFilter(number, howManyDecimals);
-        }
-    },
-    methods: {
-
-    },
-    props: [
-        'show',
-        'filter',
-        'filterTotals'
-    ],
-    ready: function () {
-
-    }
-});
-var TypesFilter = Vue.component('types-filter', {
-    template: '#types-filter-template',
-    data: function () {
-        return {
-            types: ["income", "expense", "transfer"],
-            showContent: false
-        };
-    },
-    components: {},
-    methods: {
-
-    },
-    props: [
-        'filter',
-        'filterTab',
-        'runFilter'
-    ],
-    ready: function () {
-
-    }
-});
-
-
-
 var AccountsPage = Vue.component('accounts-page', {
     template: '#accounts-page-template',
     data: function () {
@@ -35266,8 +35373,7 @@ var AllocationPopup = Vue.component('allocation-popup', {
             }
 
             if (this.isNewTransaction) {
-                $.event.trigger('run-filter');
-                //$.event.trigger('update-new-transaction-allocation-in-js', [this.transaction]);
+                FilterRepository.runFilter(this);
             }
         },
 
@@ -35867,13 +35973,11 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
             $.event.trigger('clear-total-changes');
 
             this.$http.put('/api/transactions/' + this.selectedTransaction.id, data, function (response) {
-                var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.selectedTransaction.id}));
-                this.transactions[index] = response;
+                TransactionsRepository.updateTransaction(response);
                 $.event.trigger('get-sidebar-totals');
-                $.event.trigger('get-basic-filter-totals');
-                $.event.trigger('run-filter');
+                FilterRepository.getBasicFilterTotals(this);
+                FilterRepository.runFilter(this);
                 this.showPopup = false;
-                //this.transactions[index].name = response.name;
                 //Todo: Remove the transaction from the JS transactions depending on the filter
                 $.event.trigger('provide-feedback', ['Transaction updated', 'success']);
                 $.event.trigger('hide-loading');
@@ -35889,13 +35993,11 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
         deleteTransaction: function () {
             if (confirm("Are you sure?")) {
                 $.event.trigger('show-loading');
-                $.event.trigger('clear-total-changes');
-                $.event.trigger('get-sidebar-totals');
-                $.event.trigger('get-basic-filter-totals');
                 this.$http.delete('/api/transactions/' + this.selectedTransaction.id, function (response) {
-                    this.transactions = _.without(this.transactions, this.selectedTransaction);
-                    //var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.selectedTransaction.id}));
-                    //this.transactions = _.without(this.transactions, this.transactions[index]);
+                    TransactionsRepository.deleteTransaction(this.selectedTransaction);
+                    $.event.trigger('clear-total-changes');
+                    $.event.trigger('get-sidebar-totals');
+                    FilterRepository.getBasicFilterTotals(this);
                     this.showPopup = false;
                     $.event.trigger('provide-feedback', ['Transaction deleted', 'success']);
                     $.event.trigger('hide-loading');
@@ -36408,10 +36510,9 @@ var HomePage = Vue.component('home-page', {
         return {
             page: 'home',
             budgetsRepository: BudgetsRepository.state,
-            transactions: [],
             colors: {},
             env: env,
-            tab: this.setTab(),
+            homePageRepository: HomePageRepository.state,
             hoveringTotalsButton: false
         };
     },
@@ -36420,29 +36521,19 @@ var HomePage = Vue.component('home-page', {
         budgets: function () {
           return this.budgetsRepository.budgets;
         },
+        tab: function () {
+            return this.homePageRepository.tab;
+        }
     },
     methods: {
-
-        /**
-         *
-         * @returns {string}
-         */
-        setTab: function () {
-            if (this.env === 'local') {
-                return 'transactions';
-            }
-            else {
-                return 'transactions';
-            }
-        },
 
         /**
          *
          * @param tab
          */
         switchTab: function (tab) {
-            this.tab = tab;
-            $.event.trigger('run-filter');
+            HomePageRepository.setTab(tab);
+            FilterRepository.runFilter(this);
         },
 
         /**
@@ -36902,7 +36993,7 @@ var NewTransaction = Vue.component('new-transaction', {
                 //We'll run the filter after the allocation has been dealt with
             }
             else {
-                $.event.trigger('run-filter');
+                FilterRepository.runFilter(this);
             }
 
             $.event.trigger('provide-feedback', ['Transaction created', 'success']);
@@ -37468,11 +37559,9 @@ var Transaction = Vue.component('transaction', {
             $.event.trigger('clear-total-changes');
 
             this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
-                var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: this.transaction.id}));
-                this.transactions[index].reconciled = response.data.reconciled;
+                TransactionsRepository.updateTransaction(this.transaction);
                 $.event.trigger('get-sidebar-totals');
-                $.event.trigger('get-basic-filter-totals');
-                //this.transactions[index].name = response.name;
+                FilterRepository.getBasicFilterTotals(this);
                 //Todo: Remove the transaction from the JS transactions depending on the filter
                 $.event.trigger('provide-feedback', ['Transaction updated', 'success']);
                 $.event.trigger('hide-loading');
@@ -37496,14 +37585,7 @@ var Transaction = Vue.component('transaction', {
          */
         showEditTransactionPopup: function (transaction) {
             $.event.trigger('show-edit-transaction-popup', [transaction]);
-        },
-        
-        //listen: function () {
-        //    var that = this;
-        //    $(document).on('toggle-transaction-property', function (event, property) {
-        //        that[property] = !that[property];
-        //    });
-        //}
+        }
 
     },
     props: [
@@ -37522,6 +37604,7 @@ var Transactions = Vue.component('transactions', {
         return {
             me: me,
             accountsRepository: AccountsRepository.state,
+            transactionsRepository: TransactionsRepository.state,
             showStatus: false,
             showDate: true,
             showDescription: true,
@@ -37536,48 +37619,20 @@ var Transactions = Vue.component('transactions', {
             showDelete: true,
         };
     },
-    components: {},
-    methods: {
-
-        /**
-        *
-        */
-        filterTransactions: function (newTransaction) {
-            $.event.trigger('show-loading');
-
-            var data = {
-                filter: FilterRepository.formatDates(this.filter)
-            };
-
-            this.$http.post('/api/filter/transactions', data, function (response) {
-                this.transactions = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
-
-        /**
-         *
-         */
-        listen: function () {
-            var that = this;
-
-            $(document).on('filter-transactions', function (event, filter) {
-                if (filter) {
-                    that.filter = filter;
-                }
-                that.filterTransactions();
-            });
+    computed: {
+        transactions: function () {
+          return this.transactionsRepository.transactions;
         }
     },
+    components: {},
+    methods: {
+        
+    },
     props: [
-        'transactions',
         'transactionPropertiesToShow'
     ],
     ready: function () {
-        this.listen();
+
     }
 });
 var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
@@ -37754,6 +37809,7 @@ var App = Vue.component('app', {
         AccountsRepository.getAccounts(this);
         BudgetsRepository.getBudgets(this);
         FavouriteTransactionsRepository.getFavouriteTransactions(this);
+        HomePageRepository.setDefaultTab();
     }
 });
 

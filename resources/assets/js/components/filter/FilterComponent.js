@@ -3,19 +3,26 @@ var Filter = Vue.component('filter', {
     data: function () {
         return {
             filterTab: 'show',
-            filter: FilterRepository.filter,
+            filterRepository: FilterRepository.state,
             showFilter: false,
-            filterTotals: {}
         };
     },
     components: {},
+    computed: {
+        filter: function () {
+          return this.filterRepository.filter;
+        },
+        filterTotals: function () {
+            return this.filterRepository.filterTotals;
+        }
+    },
     methods: {
 
         /**
          * 
          */
         runFilter: function () {
-            $.event.trigger('run-filter');
+            FilterRepository.runFilter(this);
         },
 
         /**
@@ -24,29 +31,7 @@ var Filter = Vue.component('filter', {
          * @param type - either 'in' or 'out'
          */
         clearFilterField: function (field, type) {
-            this.filter[field][type] = "";
-            this.runFilter();
-        },
-
-        /**
-         * This is here, not in the TotalsForFilterComponent, because the ToolbarForFilterComponent also needs the totals
-         * Todo: should be GET not POST
-         */
-        getBasicFilterTotals: function () {
-            this.filter = FilterRepository.formatDates(FilterRepository.filter);
-
-            var data = {
-                filter: this.filter
-            };
-
-            $.event.trigger('show-loading');
-            this.$http.post('/api/filter/basicTotals', data, function (response) {
-                    this.filterTotals = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
+            FilterRepository.clearFilterField(this, field, type);
         },
 
         /**
@@ -58,24 +43,6 @@ var Filter = Vue.component('filter', {
             $(document).on('toggle-filter', function (event) {
                 that.showFilter = !that.showFilter;
             });
-
-            $(document).on('run-filter', function (event) {
-                $.event.trigger('get-basic-filter-totals');
-                if (that.tab === 'transactions') {
-                    $.event.trigger('filter-transactions', [that.filter]);
-                }
-                else {
-                    $.event.trigger('get-graph-totals', [that.filter]);
-                }
-            });
-
-            $(document).on('reset-filter', function (event) {
-                that.filter = FilterRepository.filter;
-            });
-
-            $(document).on('get-basic-filter-totals', function (event) {
-                that.getBasicFilterTotals();
-            });
         }
     },
     props: [
@@ -85,7 +52,6 @@ var Filter = Vue.component('filter', {
     ],
     ready: function () {
         this.listen();
-        this.getBasicFilterTotals();
         this.runFilter();
     }
 });

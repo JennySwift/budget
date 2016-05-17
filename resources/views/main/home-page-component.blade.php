@@ -6,7 +6,6 @@
         <new-transaction
             :show="show"
             :tab="tab"
-            :transactions.sync="transactions"
             :budgets="budgets"
         >
         </new-transaction>
@@ -20,12 +19,10 @@
             v-show="tab === 'transactions'"
             :show="show"
             :transaction-properties-to-show="transactionPropertiesToShow",
-            :transactions.sync="transactions"
         >
         </transactions>
 
         <mass-transaction-update-popup
-                :transactions.sync="transactions"
                 :budgets="budgets"
         >
         </mass-transaction-update-popup>
