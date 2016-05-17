@@ -29,7 +29,7 @@
                     <label for="accounts-filter-in-none">none</label>
                 </div>
 
-                <div v-for="account in accounts" class="checkbox-container">
+                <div v-for="account in accountsRepository.accounts" class="checkbox-container">
                     <input
                         type="checkbox"
                         :id="account.name"
@@ -51,7 +51,7 @@
             {{--Hide--}}
             <div v-show="filterTab === 'hide'">
 
-                <div v-for="account in accounts" class="checkbox-container">
+                <div v-for="account in accountsRepository.accounts" class="checkbox-container">
                     <input
                             type="checkbox"
                             :id="account.name"

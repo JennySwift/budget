@@ -3,7 +3,7 @@ var Transactions = Vue.component('transactions', {
     data: function () {
         return {
             me: me,
-            accounts: [],
+            accountsRepository: AccountsRepository.state,
             showStatus: false,
             showDate: true,
             showDescription: true,
@@ -20,20 +20,6 @@ var Transactions = Vue.component('transactions', {
     },
     components: {},
     methods: {
-
-        /**
-        *
-        */
-        getAccounts: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/accounts', function (response) {
-                this.accounts = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
 
         /**
         *
@@ -82,7 +68,6 @@ var Transactions = Vue.component('transactions', {
         'transactionPropertiesToShow'
     ],
     ready: function () {
-        this.getAccounts();
         this.listen();
     }
 });

@@ -12,7 +12,7 @@
             <label>Create a new account</label>
 
             <new-account
-                    :accounts.sync="accounts"
+                    :accounts.sync="accountsRepository.accounts"
             >
             </new-account>
 

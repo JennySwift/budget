@@ -10,7 +10,7 @@
             class="form-control"
         >
             <option
-                v-for="account in accounts"
+                v-for="account in accountsRepository.accounts"
                 v-bind:value="account"
             >
                 @{{ account.name }}
@@ -32,7 +32,7 @@
             class="form-control"
         >
             <option
-                v-for="account in accounts"
+                v-for="account in accountsRepository.accounts"
                 v-bind:value="account"
             >
                 @{{ account.name }}
@@ -54,7 +54,7 @@
             class="form-control"
         >
             <option
-                v-for="account in accounts"
+                v-for="account in accountsRepository.accounts"
                 v-bind:value="account"
             >
                 @{{ account.name }}

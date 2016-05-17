@@ -6,14 +6,14 @@
         <new-favourite-transaction
                 :budgets="budgets"
                 :favourite-transactions.sync="favouriteTransactions"
-                :accounts="accounts"
+                :accounts="accountsRepository.accounts"
         >
         </new-favourite-transaction>
 
         <update-favourite-transaction
                 :budgets="budgets"
                 :favourite-transactions.sync="favouriteTransactions"
-                :accounts="accounts"
+                :accounts="accountsRepository.accounts"
         >
         </update-favourite-transaction>
 

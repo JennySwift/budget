@@ -6,7 +6,7 @@
 
     <edit-transaction-popup
         :transactions.sync="transactions"
-        :accounts="accounts"
+        :accounts="accountsRepository.accounts"
     >
     </edit-transaction-popup>
 

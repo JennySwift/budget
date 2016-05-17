@@ -3,25 +3,12 @@ var AccountsFilter = Vue.component('accounts-filter', {
     data: function () {
         return {
             showContent: false,
-            accounts: []
+            accountsRepository: AccountsRepository.state
         };
     },
     components: {},
     methods: {
 
-        /**
-        *
-        */
-        getAccounts: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/accounts', function (response) {
-                this.accounts = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        }
     },
     props: [
         'filter',
@@ -29,6 +16,6 @@ var AccountsFilter = Vue.component('accounts-filter', {
         'runFilter',
     ],
     ready: function () {
-        this.getAccounts();
+
     }
 });

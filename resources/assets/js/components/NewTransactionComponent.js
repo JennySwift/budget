@@ -6,7 +6,7 @@ var NewTransaction = Vue.component('new-transaction', {
             dropdown: {},
             showNewTransaction: false,
             types: ["income", "expense", "transfer"],
-            accounts: [],
+            accountsRepository: AccountsRepository.state,
             favouriteTransactions: [],
             newTransaction: {},
             selectedFavouriteTransaction: {},
@@ -23,22 +23,6 @@ var NewTransaction = Vue.component('new-transaction', {
     },
     components: {},
     methods: {
-
-        /**
-        *
-        */
-        getAccounts: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/accounts', function (response) {
-                this.accounts = response;
-                this.newTransaction = NewTransactionRepository.getDefaults(this.env, this.accounts);
-                //this.newTransaction.account = this.accounts[0];
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
 
         /**
         *
@@ -177,6 +161,10 @@ var NewTransaction = Vue.component('new-transaction', {
             $(document).on('toggle-new-transaction', function (event) {
                 that.showNewTransaction = !that.showNewTransaction;
             });
+            $(document).on('accounts-loaded', function (event) {
+                that.newTransaction = NewTransactionRepository.getDefaults(that.env, that.accountsRepository.accounts);
+            });
+
         }
 
     },
@@ -186,7 +174,6 @@ var NewTransaction = Vue.component('new-transaction', {
         'budgets'
     ],
     ready: function () {
-        this.getAccounts();
         this.getFavouriteTransactions();
         this.listen();
     }
