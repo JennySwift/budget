@@ -202,10 +202,6 @@ class Filter implements Arrayable {
         foreach ($this->filters as $type => $value) {
 
             switch($type) {
-                case "bugFix":
-                    $query = $this->bugFix($query, $value);
-                    break;
-
                 case "singleDate":
                 case "fromDate":
                 case "toDate":
@@ -240,11 +236,6 @@ class Filter implements Arrayable {
                 case "merchant":
                     $query = $this->filterBasicsRepository->filterDescriptionOrMerchant($query, $type, $value);
                     break;
-
-//                case "validAllocation":
-//                    $query = $this->filterBasicsRepository->filterValidAllocation($query, $value);
-//                    break;
-
 
                 default:
                     // @TODO If nothing matches, throw an exception!!

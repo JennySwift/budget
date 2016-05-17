@@ -46,11 +46,6 @@ class Transaction extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'user_id'];
 
     /**
-     * @var array
-     */
-    protected $appends = ['path', 'userDate', 'reconciled', 'multipleBudgets'];
-
-    /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

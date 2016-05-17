@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Transformers\TransactionTransformer;
+use App\Models\Account;
 use App\Models\Filter;
 use App\Models\Transaction;
 use Illuminate\Http\Request;

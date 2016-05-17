@@ -13,17 +13,17 @@ class UnassignedBudgetTotal implements Arrayable, BudgetTotal {
 
     /**
      * Change to a static constructor or not, up to you
+     * @param null $budgets
      */
     public function __construct($budgets = NULL)
     {
         $this->type = Budget::TYPE_UNASSIGNED;
         $this->budgets = $budgets ? : Budget::forCurrentUser()->whereType(Budget::TYPE_UNASSIGNED)->get();
-//        $this->spent = $this->calculate('spent');
-//        $this->received = $this->calculate('received');
     }
 
     /**
      * Calculate budgets totals
+     * @param $column
      * @return mixed
      */
     public function calculate($column)
@@ -33,6 +33,7 @@ class UnassignedBudgetTotal implements Arrayable, BudgetTotal {
 
     /**
      * Calculate budgets totals and set property
+     * @param $column
      * @return mixed
      */
     public function calculateAndSet($column)
