@@ -36,7 +36,7 @@ class BudgetsUpdateTest extends TestCase
         $content = json_decode($response->getContent(), true);
 //        dd($content);
 
-        $this->checkBudgetKeysExist($content);
+        $this->checkBudgetKeysExist($content, true);
 
         $this->assertEquals(2, $content['id']);
         $this->assertEquals('http://localhost/api/budgets/2', $content['path']);
@@ -82,7 +82,7 @@ class BudgetsUpdateTest extends TestCase
         $content = json_decode($response->getContent(), true);
 //        dd($content);
 
-        $this->checkBudgetKeysExist($content);
+        $this->checkBudgetKeysExist($content, true);
 
         $this->assertEquals(4, $content['id']);
         $this->assertEquals('http://localhost/api/budgets/4', $content['path']);
@@ -126,6 +126,8 @@ class BudgetsUpdateTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 //        dd($content);
+
+        $this->checkBudgetKeysExist($content, true);
 
         $this->assertEquals(2, $content['id']);
         $this->assertEquals('http://localhost/api/budgets/2', $content['path']);
@@ -182,6 +184,8 @@ class BudgetsUpdateTest extends TestCase
         $content = json_decode($response->getContent(), true);
 //        dd($content);
 
+        $this->checkBudgetKeysExist($content, true);
+
         $this->assertEquals(1, $content['id']);
         $this->assertEquals('http://localhost/api/budgets/1', $content['path']);
         $this->assertEquals('bank fees', $content['name']);
@@ -221,7 +225,7 @@ class BudgetsUpdateTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->checkBudgetKeysExist($content);
+        $this->checkBudgetKeysExist($content, true);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('bananas', $content['name']);

@@ -57,25 +57,29 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	/**
 	 *
 	 * @param $budget
+	 * @param bool $extra
 	 */
-	public function checkBudgetKeysExist($budget)
+	public function checkBudgetKeysExist($budget, $extra = false)
 	{
 		$this->assertArrayHasKey('id', $budget);
 		$this->assertArrayHasKey('path', $budget);
 		$this->assertArrayHasKey('name', $budget);
-		$this->assertArrayHasKey('amount', $budget);
-		$this->assertArrayHasKey('calculatedAmount', $budget);
 		$this->assertArrayHasKey('type', $budget);
-		$this->assertArrayHasKey('formattedStartingDate', $budget);
-		$this->assertArrayHasKey('spent', $budget);
-		$this->assertArrayHasKey('received', $budget);
-		$this->assertArrayHasKey('spentAfterStartingDate', $budget);
-		$this->assertArrayHasKey('spentBeforeStartingDate', $budget);
-		$this->assertArrayHasKey('receivedAfterStartingDate', $budget);
-		$this->assertArrayHasKey('cumulativeMonthNumber', $budget);
-		$this->assertArrayHasKey('cumulative', $budget);
-		$this->assertArrayHasKey('remaining', $budget);
 		$this->assertArrayHasKey('transactionsCount', $budget);
+
+		if ($extra) {
+			$this->assertArrayHasKey('amount', $budget);
+			$this->assertArrayHasKey('calculatedAmount', $budget);
+			$this->assertArrayHasKey('formattedStartingDate', $budget);
+			$this->assertArrayHasKey('spent', $budget);
+			$this->assertArrayHasKey('received', $budget);
+			$this->assertArrayHasKey('spentAfterStartingDate', $budget);
+			$this->assertArrayHasKey('spentBeforeStartingDate', $budget);
+			$this->assertArrayHasKey('receivedAfterStartingDate', $budget);
+			$this->assertArrayHasKey('cumulativeMonthNumber', $budget);
+			$this->assertArrayHasKey('cumulative', $budget);
+			$this->assertArrayHasKey('remaining', $budget);
+		}
 	}
 
 	/**

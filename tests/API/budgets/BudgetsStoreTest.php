@@ -27,9 +27,9 @@ class BudgetsStoreTest extends TestCase
         ];
 
         $response = $this->apiCall('POST', '/api/budgets', $budget);
-        $content = json_decode($response->getContent(), true)['data'];
+        $content = json_decode($response->getContent(), true);
 
-        $this->checkBudgetKeysExist($content);
+        $this->checkBudgetKeysExist($content, true);
 
         $this->assertEquals('fixed', $content['type']);
         $this->assertEquals('surf', $content['name']);

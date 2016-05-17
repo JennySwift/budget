@@ -63,15 +63,15 @@ class TotalsTest extends TestCase {
     /**
      * @test
      */
-    public function it_checks_the_fixed_budget_attributes_are_correct()
+    public function it_checks_the_fixed_budget_attributes_are_correct_when_including_the_extra_budget_attributes()
     {
         $this->logInUser();
 
-        $response = $this->apiCall('GET', 'api/budgets?fixed=true');
+        $response = $this->apiCall('GET', 'api/budgets?fixed=true&includeExtra=true');
         $content = json_decode($response->getContent(), true);
         $budget = $content[0];
 
-        $this->checkBudgetKeysExist($budget);
+        $this->checkBudgetKeysExist($budget, true);
 
         // Check if the values are correct according to our seeders!!
         $this->assertEquals("http://localhost/api/budgets/2", $budget['path']);
@@ -96,18 +96,18 @@ class TotalsTest extends TestCase {
     /**
      * @test
      */
-    public function it_checks_the_flex_budget_attributes_are_correct()
+    public function it_checks_the_flex_budget_attributes_are_correct_when_including_the_extra_budget_attributes()
     {
         $this->logInUser();
 
-        $response = $this->apiCall('GET', 'api/budgets?flex=true');
+        $response = $this->apiCall('GET', 'api/budgets?flex=true&includeExtra=true');
         $content = json_decode($response->getContent(), true);
 //        dd($content);
 
         $budget = $content[0];
 //        dd($budget);
 
-        $this->checkBudgetKeysExist($budget);
+        $this->checkBudgetKeysExist($budget, true);
 
         // Check if the values are correct according to our seeders!!
         $this->assertEquals("http://localhost/api/budgets/4", $budget['path']);

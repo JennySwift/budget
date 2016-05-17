@@ -42,7 +42,8 @@ class BudgetsController extends Controller
         else if ($request->has('flex')) {
 //            $budgets = Budget::forCurrentUser()->whereType('flex')->get();
             $remainingBalance = app('remaining-balance')->calculate();
-            return $remainingBalance->flexBudgetTotals->budgets['data'];
+//            return $remainingBalance->flexBudgetTotals->budgets['data'];
+            $budgets = $remainingBalance->flexBudgetTotals->budgets;
         }
         else {
             $budgets = Budget::forCurrentUser()
@@ -50,14 +51,14 @@ class BudgetsController extends Controller
                 ->get();
         }
 
-        $budgets = $this->transform($this->createCollection($budgets, new BudgetTransformer))['data'];
+        $budgets = $this->transform($this->createCollection($budgets, new BudgetTransformer(['includeExtra' => true])))['data'];
         return response($budgets, Response::HTTP_OK);
     }
 
     /**
      * POST /api/budgets
      * @param CreateBudgetRequest $request
-     * @return mixed
+     * @return Response
      */
     public function store(CreateBudgetRequest $request)
     {
@@ -75,12 +76,8 @@ class BudgetsController extends Controller
             $budget->getCalculatedAmount($remainingBalance);
         }
 
-        $item = $this->createItem(
-            $budget,
-            new BudgetTransformer
-        );
-
-        return $this->responseWithTransformer($item, Response::HTTP_CREATED);
+        $budget = $this->transform($this->createItem($budget, new BudgetTransformer(['includeExtra' => true])))['data'];
+        return response($budget, Response::HTTP_CREATED);
     }
 
     /**
@@ -110,7 +107,7 @@ class BudgetsController extends Controller
         ]), $budget->toArray()));
 
         if(empty($data)) {
-            return response($this->transform($this->createItem($budget, new BudgetTransformer)), Response::HTTP_NOT_MODIFIED);
+            return response($this->transform($this->createItem($budget, new BudgetTransformer(['includeExtra' => true]))), Response::HTTP_NOT_MODIFIED);
         }
 
         $budget->update($data);
@@ -120,7 +117,7 @@ class BudgetsController extends Controller
 
         $budget->getCalculatedAmount($remainingBalance);
 
-        $budget = $this->transform($this->createItem($budget, new BudgetTransformer))['data'];
+        $budget = $this->transform($this->createItem($budget, new BudgetTransformer(['includeExtra' => true])))['data'];
 
         return response($budget, Response::HTTP_OK);
     }
