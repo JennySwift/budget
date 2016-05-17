@@ -86,5 +86,6 @@ var Filter = Vue.component('filter', {
     ready: function () {
         this.listen();
         this.getBasicFilterTotals();
+        this.runFilter();
     }
 });

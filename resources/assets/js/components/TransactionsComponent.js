@@ -52,15 +52,6 @@ var Transactions = Vue.component('transactions', {
                 }
                 that.filterTransactions();
             });
-            
-            //$(document).on('update-new-transaction-allocation-in-js', function (event, transaction) {
-            //    //Find the transaction in the JS, if it is there
-            //    var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: transaction.id}));
-            //    //Update the transaction if it is there on the page
-            //    if (index) {
-            //        this.transactions[index].allocated = transaction.allocated;
-            //    }
-            //});
         }
     },
     props: [

@@ -6,8 +6,8 @@ var HomePage = Vue.component('home-page', {
             budgetsRepository: BudgetsRepository.state,
             transactions: [],
             colors: {},
-            tab: '',
             env: env,
+            tab: this.setTab(),
             hoveringTotalsButton: false
         };
     },
@@ -15,22 +15,21 @@ var HomePage = Vue.component('home-page', {
     computed: {
         budgets: function () {
           return this.budgetsRepository.budgets;
-        }
+        },
     },
     methods: {
 
         /**
          *
+         * @returns {string}
          */
-        getTransactions: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/transactions', function (response) {
-                    this.transactions = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
+        setTab: function () {
+            if (this.env === 'local') {
+                return 'transactions';
+            }
+            else {
+                return 'transactions';
+            }
         },
 
         /**
@@ -39,31 +38,7 @@ var HomePage = Vue.component('home-page', {
          */
         switchTab: function (tab) {
             this.tab = tab;
-
-            //if (tab === 'transactions') {
-            //    this.show.basicTotals = true;
-            //    this.show.budgetTotals = true;
-            //    this.show.filter = false;
-            //}
-            //else if (tab === 'graphs') {
-            //    this.show.basicTotals = false;
-            //    this.show.budgetTotals = false;
-            //    this.show.filter = true;
-            //}
-
             $.event.trigger('run-filter');
-        },
-
-        /**
-         *
-         */
-        setTab: function () {
-            if (this.env === 'local') {
-                this.tab = 'transactions';
-            }
-            else {
-                this.tab = 'transactions';
-            }
         },
 
         /**
@@ -92,7 +67,6 @@ var HomePage = Vue.component('home-page', {
         'transactionPropertiesToShow'
     ],
     ready: function () {
-        this.setTab();
-        this.getTransactions();
+
     }
 });
