@@ -91,6 +91,18 @@ var HelpersRepository = {
 
     /**
      *
+     * @param array
+     * @param id
+     */
+    deleteById: function (array, id) {
+        var index = HelpersRepository.findIndexById(array, id);
+        array = _.without(array, array[index]);
+        
+        return array;
+    },
+
+    /**
+     *
      */
     closePopup: function ($event, that) {
         if ($event.target.className === 'popup-outer') {

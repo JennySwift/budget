@@ -33058,6 +33058,152 @@ var AutocompleteRepository = {
 };
 var BudgetsRepository = {
 
+    state: {
+        budgets: [],
+        fixedBudgets: [],
+        flexBudgets: [],
+        unassignedBudgets: []
+    },
+
+    /**
+     *
+     */
+    getBudgets: function (that) {
+        $.event.trigger('show-loading');
+        that.$http.get('/api/budgets', function (response) {
+            BudgetsRepository.state.budgets = response;
+            $.event.trigger('hide-loading');
+        })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+    },
+
+    /**
+     *
+     */
+    getFixedBudgets: function (that) {
+        $.event.trigger('show-loading');
+        that.$http.get('/api/budgets?fixed=true', function (response) {
+            BudgetsRepository.state.fixedBudgets = response;
+            $.event.trigger('hide-loading');
+        })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+    },
+
+    /**
+     *
+     */
+    getFlexBudgets: function (that) {
+        $.event.trigger('show-loading');
+        that.$http.get('/api/budgets?flex=true', function (response) {
+            BudgetsRepository.state.flexBudgets = response;
+            $.event.trigger('hide-loading');
+        })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+    },
+
+    /**
+     *
+     */
+    getUnassignedBudgets: function (that) {
+        $.event.trigger('show-loading');
+        that.$http.get('/api/budgets?unassigned=true', function (response) {
+            BudgetsRepository.state.unassignedBudgets = response;
+            $.event.trigger('hide-loading');
+        })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+    },
+
+    /**
+    *
+    * @param budget
+    */
+    updateBudget: function (budget, that) {
+        //Update the budgets array
+        var index = HelpersRepository.findIndexById(this.state.budgets, budget.id);
+        this.state.budgets.$set(index, budget);
+
+        if (that.page !== budget.type) {
+            //The budget type has changed. Remove it from the specific budgets array it was in, and add it to another specific budgets array.
+            this.deleteBudgetFromSpecificArray(budget, that);
+            this.addBudgetToSpecificArray(budget, that);
+        }
+        else {
+            //The budget type has not changed. Update the specific budgets array
+            switch(that.page) {
+                case 'fixed':
+                    index = HelpersRepository.findIndexById(this.state.fixedBudgets, budget.id);
+                    this.state.fixedBudgets.$set(index, budget);
+                    break;
+                case 'flex':
+                    index = HelpersRepository.findIndexById(this.state.flexBudgets, budget.id);
+                    this.state.flexBudgets.$set(index, budget);
+                    break;
+                case 'unassigned':
+                    index = HelpersRepository.findIndexById(this.state.unassignedBudgets, budget.id);
+                    this.state.unassignedBudgets.$set(index, budget);
+                    break;
+            }
+        }
+    },
+
+    /**
+     * Remove budget from budgets array as well as from specific budgets array
+     * @param budget
+     * @param that
+     */
+    deleteBudget: function (budget, that) {
+        //Remove from budgets array
+        this.state.budgets = HelpersRepository.deleteById(this.state.budgets, budget.id);
+
+        this.deleteBudgetFromSpecificArray(budget, that);
+    },
+
+    /**
+     *
+     * @param budget
+     * @param that
+     */
+    deleteBudgetFromSpecificArray: function(budget, that) {
+        switch(that.page) {
+            case 'fixed':
+                this.state.fixedBudgets = HelpersRepository.deleteById(this.state.fixedBudgets, budget.id);
+                break;
+            case 'flex':
+                this.state.flexBudgets = HelpersRepository.deleteById(this.state.flexBudgets, budget.id);
+                break;
+            case 'unassigned':
+                this.state.unassignedBudgets = HelpersRepository.deleteById(this.state.unassignedBudgets, budget.id);
+                break;
+        }
+    },
+
+    /**
+     *
+     * @param budget
+     * @param that
+     */
+    addBudgetToSpecificArray: function(budget, that) {
+        switch(budget.type) {
+            case 'fixed':
+                this.state.fixedBudgets.push(budget);
+                break;
+            case 'flex':
+                this.state.flexBudgets.push(budget);
+                break;
+            case 'unassigned':
+                this.state.unassignedBudgets.push(budget);
+                break;
+        }
+    },
+
     /**
      * 
      * @param budgets
@@ -33334,6 +33480,18 @@ var HelpersRepository = {
      */
     findIndexById: function (array, id) {
         return _.indexOf(array, _.findWhere(array, {id: id}));
+    },
+
+    /**
+     *
+     * @param array
+     * @param id
+     */
+    deleteById: function (array, id) {
+        var index = HelpersRepository.findIndexById(array, id);
+        array = _.without(array, array[index]);
+        
+        return array;
     },
 
     /**
@@ -35567,7 +35725,7 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
             $.event.trigger('clear-total-changes');
 
             this.$http.put('/api/budgets/' + this.selectedBudget.id, data, function (response) {
-                this.jsUpdateBudget(response);
+                BudgetsRepository.updateBudget(response, this);
                 this.updateBudgetTableTotals();
                 $.event.trigger('get-sidebar-totals');
                 this.showPopup = false;
@@ -35577,36 +35735,6 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
             .error(function (response) {
                 HelpersRepository.handleResponseError(response);
             });
-        },
-
-        /**
-         * @param budget
-         */
-        jsUpdateBudget: function (budget) {
-            var index = _.indexOf(this.budgets, _.findWhere(this.budgets, {id: this.selectedBudget.id}));
-
-            if (this.page !== budget.type) {
-                //Remove the budget from the table
-                this.budgets = _.without(this.budgets, this.budgets[index]);
-            }
-            else {
-                //Update the budget with the JS
-                this.budgets[index].name = budget.name;
-                this.budgets[index].amount = budget.amount;
-                this.budgets[index].calculatedAmount = budget.calculatedAmount;
-                this.budgets[index].cumulative = budget.cumulative;
-                this.budgets[index].cumulativeMonthNumber = budget.cumulativeMonthNumber;
-                this.budgets[index].formattedStartingDate = budget.formattedStartingDate;
-                this.budgets[index].path = budget.path;
-                this.budgets[index].received = budget.received;
-                this.budgets[index].receivedAfterStartingDate = budget.receivedAfterStartingDate;
-                this.budgets[index].remaining = budget.remaining;
-                this.budgets[index].spent = budget.spent;
-                this.budgets[index].spentAfterStartingDate = budget.spentAfterStartingDate;
-                this.budgets[index].spentBeforeStartingDate = budget.spentBeforeStartingDate;
-                this.budgets[index].transactionsCount = budget.transactionsCount;
-                this.budgets[index].type = budget.type;
-            }
         },
 
         /**
@@ -35630,7 +35758,7 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
                 this.$http.delete('/api/budgets/' + this.selectedBudget.id, function (response) {
                     $.event.trigger('get-sidebar-totals');
                     this.updateBudgetTableTotals();
-                    this.budgets = _.without(this.budgets, this.selectedBudget);
+                    BudgetsRepository.deleteBudget(this.selectedBudget, this);
                     this.showPopup = false;
                     $.event.trigger('provide-feedback', ['Budget deleted', 'success']);
                     $.event.trigger('hide-loading');
@@ -35679,25 +35807,16 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
                 {value: 'expense', name: 'debit'},
                 {value: 'transfer', name: 'transfer'},
             ],
-            budgets: []
+            budgetsRepository: BudgetsRepository.state
         };
     },
     components: {},
+    computed: {
+        budgets: function () {
+          return this.budgetsRepository.budgets;
+        }
+    },
     methods: {
-
-        /**
-        *
-        */
-        getBudgets: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/budgets', function (response) {
-                this.budgets = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
 
         /**
          *
@@ -35780,7 +35899,6 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
     ],
     ready: function () {
         this.listen();
-        this.getBudgets();
     }
 });
 
@@ -35790,13 +35908,18 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
         return {
             favouriteTransactions: [],
             accountsRepository: AccountsRepository.state,
-            budgets: [],
+            budgetsRepository: BudgetsRepository.state,
             newFavourite: {
                 budgets: []
             },
         };
     },
     components: {},
+    computed: {
+        budgets: function () {
+          return this.budgetsRepository.budgets;
+        }
+    },
     methods: {
 
         /**
@@ -35806,20 +35929,6 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
             $.event.trigger('show-loading');
             this.$http.get('/api/favouriteTransactions', function (response) {
                 this.favouriteTransactions = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
-
-        /**
-        *
-        */
-        getBudgets: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/budgets', function (response) {
-                this.budgets = response;
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {
@@ -35841,7 +35950,6 @@ var FavouriteTransactionsPage = Vue.component('favourite-transactions', {
     ],
     ready: function () {
         this.getFavouriteTransactions();
-        this.getBudgets();
     }
 });
 
@@ -36048,7 +36156,7 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         return {
             fixedBudgetTotals: [],
             show: ShowRepository.defaults,
-            fixedBudgets: [],
+            budgetsRepository: BudgetsRepository.state,
             orderByOptions: [
                 {name: 'name', value: 'name'},
                 {name: 'spent after starting date', value: 'spentAfterStartingDate'}
@@ -36058,6 +36166,11 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         };
     },
     components: {},
+    computed: {
+        fixedBudgets: function () {
+          return this.budgetsRepository.fixedBudgets;
+        }
+    },
     filters: {
         /**
          *
@@ -36092,20 +36205,6 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
          */
         toggleNewBudget: function () {
             $.event.trigger('toggle-new-budget');
-        },
-
-        /**
-         *
-         */
-        getFixedBudgets: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/budgets?fixed=true', function (response) {
-                    this.fixedBudgets = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
         },
 
         /**
@@ -36144,7 +36243,7 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         //data to be received from parent
     ],
     ready: function () {
-        this.getFixedBudgets();
+        BudgetsRepository.getFixedBudgets(this);
         this.getFixedBudgetTotals();
         this.listen();
     }
@@ -36155,7 +36254,7 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
     data: function () {
         return {
             show: ShowRepository.defaults,
-            flexBudgets: [],
+            budgetsRepository: BudgetsRepository.state,
             flexBudgetTotals: [],
             orderByOptions: [
                 {name: 'name', value: 'name'},
@@ -36166,6 +36265,11 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         };
     },
     components: {},
+    computed: {
+        flexBudgets: function () {
+          return this.budgetsRepository.flexBudgets;
+        }
+    },
     filters: {
         /**
          *
@@ -36202,21 +36306,7 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         toggleNewBudget: function () {
             $.event.trigger('toggle-new-budget');
         },
-
-        /**
-         *
-         */
-        getFlexBudgets: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/budgets?flex=true', function (response) {
-                    this.flexBudgets = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
-        },
-
+        
         /**
          *
          */
@@ -36253,7 +36343,7 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         //data to be received from parent
     ],
     ready: function () {
-        this.getFlexBudgets();
+        BudgetsRepository.getFlexBudgets(this);
         this.getFlexBudgetTotals();
         this.listen();
     }
@@ -36295,7 +36385,7 @@ var HomePage = Vue.component('home-page', {
     data: function () {
         return {
             page: 'home',
-            budgets: [],
+            budgetsRepository: BudgetsRepository.state,
             transactions: [],
             colors: {},
             tab: '',
@@ -36304,6 +36394,11 @@ var HomePage = Vue.component('home-page', {
         };
     },
     components: {},
+    computed: {
+        budgets: function () {
+          return this.budgetsRepository.budgets;
+        }
+    },
     methods: {
 
         /**
@@ -36318,20 +36413,6 @@ var HomePage = Vue.component('home-page', {
                 .error(function (response) {
                     HelpersRepository.handleResponseError(response);
                 });
-        },
-
-        /**
-        *
-        */
-        getBudgets: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/budgets', function (response) {
-                this.budgets = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
         },
 
         /**
@@ -36395,7 +36476,6 @@ var HomePage = Vue.component('home-page', {
     ready: function () {
         this.setTab();
         this.getTransactions();
-        this.getBudgets();
     }
 });
 Vue.component('loading', {
@@ -37530,10 +37610,15 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
     data: function () {
         return {
             show: ShowRepository.defaults,
-            unassignedBudgets: []
+            budgetsRepository: BudgetsRepository.state
         };
     },
     components: {},
+    computed: {
+        unassignedBudgets: function () {
+          return this.budgetsRepository.unassignedBudgets;
+        }
+    },
     methods: {
         /**
          *
@@ -37555,21 +37640,7 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
         toggleNewBudget: function () {
             $.event.trigger('toggle-new-budget');
         },
-
-        /**
-         *
-         */
-        getUnassignedBudgets: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/budgets?unassigned=true', function (response) {
-                    this.unassignedBudgets = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
-        },
-
+        
         /**
          *
          * @param budget
@@ -37582,7 +37653,7 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
         //data to be received from parent
     ],
     ready: function () {
-        this.getUnassignedBudgets();
+        BudgetsRepository.getUnassignedBudgets(this);
     }
 });
 
@@ -37722,6 +37793,7 @@ var App = Vue.component('app', {
     ready: function () {
         this.setHeights();
         AccountsRepository.getAccounts(this);
+        BudgetsRepository.getBudgets(this);
     }
 });
 

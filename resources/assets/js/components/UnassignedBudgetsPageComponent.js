@@ -3,10 +3,15 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
     data: function () {
         return {
             show: ShowRepository.defaults,
-            unassignedBudgets: []
+            budgetsRepository: BudgetsRepository.state
         };
     },
     components: {},
+    computed: {
+        unassignedBudgets: function () {
+          return this.budgetsRepository.unassignedBudgets;
+        }
+    },
     methods: {
         /**
          *
@@ -28,21 +33,7 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
         toggleNewBudget: function () {
             $.event.trigger('toggle-new-budget');
         },
-
-        /**
-         *
-         */
-        getUnassignedBudgets: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/budgets?unassigned=true', function (response) {
-                    this.unassignedBudgets = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
-        },
-
+        
         /**
          *
          * @param budget
@@ -55,6 +46,6 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
         //data to be received from parent
     ],
     ready: function () {
-        this.getUnassignedBudgets();
+        BudgetsRepository.getUnassignedBudgets(this);
     }
 });

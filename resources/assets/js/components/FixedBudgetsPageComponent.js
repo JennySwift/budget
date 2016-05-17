@@ -4,7 +4,7 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         return {
             fixedBudgetTotals: [],
             show: ShowRepository.defaults,
-            fixedBudgets: [],
+            budgetsRepository: BudgetsRepository.state,
             orderByOptions: [
                 {name: 'name', value: 'name'},
                 {name: 'spent after starting date', value: 'spentAfterStartingDate'}
@@ -14,6 +14,11 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         };
     },
     components: {},
+    computed: {
+        fixedBudgets: function () {
+          return this.budgetsRepository.fixedBudgets;
+        }
+    },
     filters: {
         /**
          *
@@ -48,20 +53,6 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
          */
         toggleNewBudget: function () {
             $.event.trigger('toggle-new-budget');
-        },
-
-        /**
-         *
-         */
-        getFixedBudgets: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/budgets?fixed=true', function (response) {
-                    this.fixedBudgets = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
         },
 
         /**
@@ -100,7 +91,7 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
         //data to be received from parent
     ],
     ready: function () {
-        this.getFixedBudgets();
+        BudgetsRepository.getFixedBudgets(this);
         this.getFixedBudgetTotals();
         this.listen();
     }

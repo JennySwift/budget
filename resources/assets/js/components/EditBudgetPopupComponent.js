@@ -26,7 +26,7 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
             $.event.trigger('clear-total-changes');
 
             this.$http.put('/api/budgets/' + this.selectedBudget.id, data, function (response) {
-                this.jsUpdateBudget(response);
+                BudgetsRepository.updateBudget(response, this);
                 this.updateBudgetTableTotals();
                 $.event.trigger('get-sidebar-totals');
                 this.showPopup = false;
@@ -36,36 +36,6 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
             .error(function (response) {
                 HelpersRepository.handleResponseError(response);
             });
-        },
-
-        /**
-         * @param budget
-         */
-        jsUpdateBudget: function (budget) {
-            var index = _.indexOf(this.budgets, _.findWhere(this.budgets, {id: this.selectedBudget.id}));
-
-            if (this.page !== budget.type) {
-                //Remove the budget from the table
-                this.budgets = _.without(this.budgets, this.budgets[index]);
-            }
-            else {
-                //Update the budget with the JS
-                this.budgets[index].name = budget.name;
-                this.budgets[index].amount = budget.amount;
-                this.budgets[index].calculatedAmount = budget.calculatedAmount;
-                this.budgets[index].cumulative = budget.cumulative;
-                this.budgets[index].cumulativeMonthNumber = budget.cumulativeMonthNumber;
-                this.budgets[index].formattedStartingDate = budget.formattedStartingDate;
-                this.budgets[index].path = budget.path;
-                this.budgets[index].received = budget.received;
-                this.budgets[index].receivedAfterStartingDate = budget.receivedAfterStartingDate;
-                this.budgets[index].remaining = budget.remaining;
-                this.budgets[index].spent = budget.spent;
-                this.budgets[index].spentAfterStartingDate = budget.spentAfterStartingDate;
-                this.budgets[index].spentBeforeStartingDate = budget.spentBeforeStartingDate;
-                this.budgets[index].transactionsCount = budget.transactionsCount;
-                this.budgets[index].type = budget.type;
-            }
         },
 
         /**
@@ -89,7 +59,7 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
                 this.$http.delete('/api/budgets/' + this.selectedBudget.id, function (response) {
                     $.event.trigger('get-sidebar-totals');
                     this.updateBudgetTableTotals();
-                    this.budgets = _.without(this.budgets, this.selectedBudget);
+                    BudgetsRepository.deleteBudget(this.selectedBudget, this);
                     this.showPopup = false;
                     $.event.trigger('provide-feedback', ['Budget deleted', 'success']);
                     $.event.trigger('hide-loading');

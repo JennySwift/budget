@@ -9,25 +9,16 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
                 {value: 'expense', name: 'debit'},
                 {value: 'transfer', name: 'transfer'},
             ],
-            budgets: []
+            budgetsRepository: BudgetsRepository.state
         };
     },
     components: {},
+    computed: {
+        budgets: function () {
+          return this.budgetsRepository.budgets;
+        }
+    },
     methods: {
-
-        /**
-        *
-        */
-        getBudgets: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/budgets', function (response) {
-                this.budgets = response;
-                $.event.trigger('hide-loading');
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
 
         /**
          *
@@ -110,6 +101,5 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
     ],
     ready: function () {
         this.listen();
-        this.getBudgets();
     }
 });

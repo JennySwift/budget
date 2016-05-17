@@ -3,7 +3,7 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
     data: function () {
         return {
             show: ShowRepository.defaults,
-            flexBudgets: [],
+            budgetsRepository: BudgetsRepository.state,
             flexBudgetTotals: [],
             orderByOptions: [
                 {name: 'name', value: 'name'},
@@ -14,6 +14,11 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         };
     },
     components: {},
+    computed: {
+        flexBudgets: function () {
+          return this.budgetsRepository.flexBudgets;
+        }
+    },
     filters: {
         /**
          *
@@ -50,21 +55,7 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         toggleNewBudget: function () {
             $.event.trigger('toggle-new-budget');
         },
-
-        /**
-         *
-         */
-        getFlexBudgets: function () {
-            $.event.trigger('show-loading');
-            this.$http.get('/api/budgets?flex=true', function (response) {
-                    this.flexBudgets = response;
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
-        },
-
+        
         /**
          *
          */
@@ -101,7 +92,7 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
         //data to be received from parent
     ],
     ready: function () {
-        this.getFlexBudgets();
+        BudgetsRepository.getFlexBudgets(this);
         this.getFlexBudgetTotals();
         this.listen();
     }
