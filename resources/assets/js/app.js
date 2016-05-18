@@ -18,6 +18,7 @@ var App = Vue.component('app', {
     },
     ready: function () {
         this.setHeights();
+        AccountsRepository.getAccounts(this);
         BudgetsRepository.getBudgets(this);
         BudgetsRepository.getUnassignedBudgets(this);
         FavouriteTransactionsRepository.getFavouriteTransactions(this);
