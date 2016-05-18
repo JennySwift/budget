@@ -46,6 +46,7 @@ var AccountsPage = Vue.component('accounts-page', {
         //data to be received from parent
     ],
     ready: function () {
-
+        //Putting this here rather than loading just on page load in case the account balances need updating when this page is visited
+        AccountsRepository.getAccounts(this);
     }
 });
