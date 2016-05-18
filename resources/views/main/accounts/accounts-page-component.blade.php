@@ -30,6 +30,9 @@
                     @{{ account.name }}
                 </td>
                 <td class="balance">@{{ account.balance | numberFilter 2 }}</td>
+                <td>
+                    <button v-on:click="viewTransactionsForAccount(account)" class="btn btn-default btn-sm">View Transactions</button>
+                </td>
             </tr>
         </table>
     </div>

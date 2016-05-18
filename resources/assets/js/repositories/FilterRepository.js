@@ -91,6 +91,15 @@ var FilterRepository = {
     },
 
     /**
+     * Used for switching to transactions page from accounts page,
+     * for viewing the transactions for the chosen account
+     * @param filter
+     */
+    setFilter: function (filter) {
+        this.state.filter = filter;
+    },
+
+    /**
      *
      * @returns {FilterRepository.state.filter|{}}
      */
