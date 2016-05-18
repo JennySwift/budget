@@ -46,6 +46,6 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
         //data to be received from parent
     ],
     ready: function () {
-        BudgetsRepository.getUnassignedBudgets(this);
+        
     }
 });

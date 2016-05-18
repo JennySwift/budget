@@ -37684,7 +37684,7 @@ var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
         //data to be received from parent
     ],
     ready: function () {
-        BudgetsRepository.getUnassignedBudgets(this);
+        
     }
 });
 
@@ -37809,6 +37809,7 @@ var App = Vue.component('app', {
         this.setHeights();
         AccountsRepository.getAccounts(this);
         BudgetsRepository.getBudgets(this);
+        BudgetsRepository.getUnassignedBudgets(this);
         FavouriteTransactionsRepository.getFavouriteTransactions(this);
         HomePageRepository.setDefaultTab();
         TotalsRepository.getSideBarTotals(this);
