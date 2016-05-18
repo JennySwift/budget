@@ -28,11 +28,11 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
 
             var data = TransactionsRepository.setFields(this.selectedTransaction);
 
-            $.event.trigger('clear-total-changes');
+            TotalsRepository.resetTotalChanges();
 
             this.$http.put('/api/transactions/' + this.selectedTransaction.id, data, function (response) {
                 TransactionsRepository.updateTransaction(response);
-                $.event.trigger('get-sidebar-totals');
+                TotalsRepository.getSideBarTotals(this);
                 FilterRepository.getBasicFilterTotals(this);
                 FilterRepository.runFilter(this);
                 this.showPopup = false;
@@ -54,7 +54,7 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
                 this.$http.delete('/api/transactions/' + this.selectedTransaction.id, function (response) {
                     TransactionsRepository.deleteTransaction(this.selectedTransaction);
                     $.event.trigger('clear-total-changes');
-                    $.event.trigger('get-sidebar-totals');
+                    TotalsRepository.getSideBarTotals(this);
                     FilterRepository.getBasicFilterTotals(this);
                     this.showPopup = false;
                     $.event.trigger('provide-feedback', ['Transaction deleted', 'success']);

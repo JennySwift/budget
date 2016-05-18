@@ -33944,12 +33944,23 @@ var ShowRepository = {
 };
 var TotalsRepository = {
 
-    /**
-     *
-     * @returns {{remainingBalance: number, remainingFixedBudget: number, cumulativeFixedBudget: number, credit: number, debit: number, balance: number, reconciledSum: number, expensesWithoutBudget: number, savings: number, expensesWithFixedBudgetBeforeStartingDate: number, expensesWithFixedBudgetAfterStartingDate: number, expensesWithFlexBudgetBeforeStartingDate: number, expensesWithFlexBudgetAfterStartingDate: number}}
-     */
-    resetTotalChanges: function () {
-        return {
+    state: {
+        sideBarTotals: {
+            remainingBalance: '',
+            remainingFixedBudget: '',
+            cumulativeFixedBudget: '',
+            credit: '',
+            debit: '',
+            balance: '',
+            reconciledSum: '',
+            expensesWithoutBudget: '',
+            savings: '',
+            expensesWithFixedBudgetBeforeStartingDate: '',
+            expensesWithFixedBudgetAfterStartingDate: '',
+            expensesWithFlexBudgetBeforeStartingDate: '',
+            expensesWithFlexBudgetAfterStartingDate: ''
+        },
+        totalChanges: {
             remainingBalance: 0,
             remainingFixedBudget: 0,
             cumulativeFixedBudget: 0,
@@ -33963,7 +33974,108 @@ var TotalsRepository = {
             expensesWithFixedBudgetAfterStartingDate: 0,
             expensesWithFlexBudgetBeforeStartingDate: 0,
             expensesWithFlexBudgetAfterStartingDate: 0,
-        };
+        },
+    },
+
+    /**
+     *
+     */
+    getSideBarTotals: function (that) {
+        that.totalsLoading = true;
+        var oldSideBarTotals = this.state.sideBarTotals;
+        that.$http.get('/api/totals/sidebar', function (response) {
+            TotalsRepository.state.sideBarTotals = response.data;
+            TotalsRepository.setTotalChanges(oldSideBarTotals);
+            that.totalsLoading = false;
+        })
+        .error(function (response) {
+            HelpersRepository.handleResponseError(response);
+        });
+    },
+
+    /**
+     *
+     * @returns {{remainingBalance: number, remainingFixedBudget: number, cumulativeFixedBudget: number, credit: number, debit: number, balance: number, reconciledSum: number, expensesWithoutBudget: number, savings: number, expensesWithFixedBudgetBeforeStartingDate: number, expensesWithFixedBudgetAfterStartingDate: number, expensesWithFlexBudgetBeforeStartingDate: number, expensesWithFlexBudgetAfterStartingDate: number}}
+     */
+    resetTotalChanges: function () {
+        var that = this;
+        $.each(this.state.totalChanges, function (key, value) {
+            that.state.totalChanges[key] = 0;
+        });
+    },
+
+    /**
+     *
+     * @param oldSideBarTotals
+     */
+    setTotalChanges: function (oldSideBarTotals) {
+        if (oldSideBarTotals.remainingBalance === '') {
+            //Totals were just loaded for the first time, not changing
+            return false;
+        }
+        var newSideBarTotals = this.state.sideBarTotals;
+
+        if (newSideBarTotals.credit !== oldSideBarTotals.credit) {
+            this.state.totalChanges.credit = this.calculateDifference(newSideBarTotals.credit, oldSideBarTotals.credit);
+        }
+
+        if (newSideBarTotals.debit !== oldSideBarTotals.debit) {
+            this.state.totalChanges.debit = this.calculateDifference(newSideBarTotals.debit, oldSideBarTotals.debit);
+        }
+
+        if (newSideBarTotals.balance !== oldSideBarTotals.balance) {
+            this.state.totalChanges.balance = this.calculateDifference(newSideBarTotals.balance, oldSideBarTotals.balance);
+        }
+
+        if (newSideBarTotals.reconciledSum !== oldSideBarTotals.reconciledSum) {
+            this.state.totalChanges.reconciledSum = this.calculateDifference(newSideBarTotals.reconciledSum, oldSideBarTotals.reconciledSum);
+        }
+
+        if (newSideBarTotals.savings !== oldSideBarTotals.savings) {
+            this.state.totalChanges.savings = this.calculateDifference(newSideBarTotals.savings, oldSideBarTotals.savings);
+        }
+
+        if (newSideBarTotals.expensesWithoutBudget !== oldSideBarTotals.expensesWithoutBudget) {
+            this.state.totalChanges.expensesWithoutBudget = this.calculateDifference(newSideBarTotals.expensesWithoutBudget, oldSideBarTotals.expensesWithoutBudget);
+        }
+
+        if (newSideBarTotals.remainingFixedBudget !== oldSideBarTotals.remainingFixedBudget) {
+            this.state.totalChanges.remainingFixedBudget = this.calculateDifference(newSideBarTotals.remainingFixedBudget, oldSideBarTotals.remainingFixedBudget);
+        }
+
+        if (newSideBarTotals.cumulativeFixedBudget !== oldSideBarTotals.cumulativeFixedBudget) {
+            this.state.totalChanges.cumulativeFixedBudget = this.calculateDifference(newSideBarTotals.cumulativeFixedBudget, oldSideBarTotals.cumulativeFixedBudget);
+        }
+
+        if (newSideBarTotals.expensesWithFixedBudgetBeforeStartingDate !== oldSideBarTotals.expensesWithFixedBudgetBeforeStartingDate) {
+            this.state.totalChanges.expensesWithFixedBudgetBeforeStartingDate = this.calculateDifference(newSideBarTotals.expensesWithFixedBudgetBeforeStartingDate, oldSideBarTotals.expensesWithFixedBudgetBeforeStartingDate);
+        }
+
+        if (newSideBarTotals.expensesWithFixedBudgetAfterStartingDate !== oldSideBarTotals.expensesWithFixedBudgetAfterStartingDate) {
+            this.state.totalChanges.expensesWithFixedBudgetAfterStartingDate = this.calculateDifference(newSideBarTotals.expensesWithFixedBudgetAfterStartingDate, oldSideBarTotals.expensesWithFixedBudgetAfterStartingDate);
+        }
+
+        if (newSideBarTotals.expensesWithFlexBudgetBeforeStartingDate !== oldSideBarTotals.expensesWithFlexBudgetBeforeStartingDate) {
+            this.state.totalChanges.expensesWithFlexBudgetBeforeStartingDate = this.calculateDifference(newSideBarTotals.expensesWithFlexBudgetBeforeStartingDate, oldSideBarTotals.expensesWithFlexBudgetBeforeStartingDate);
+        }
+
+        if (newSideBarTotals.expensesWithFlexBudgetAfterStartingDate !== oldSideBarTotals.expensesWithFlexBudgetAfterStartingDate) {
+            this.state.totalChanges.expensesWithFlexBudgetAfterStartingDate = this.calculateDifference(newSideBarTotals.expensesWithFlexBudgetAfterStartingDate, oldSideBarTotals.expensesWithFlexBudgetAfterStartingDate);
+        }
+
+        if (newSideBarTotals.remainingBalance !== oldSideBarTotals.remainingBalance) {
+            this.state.totalChanges.remainingBalance = this.calculateDifference(newSideBarTotals.remainingBalance, oldSideBarTotals.remainingBalance);
+        }
+    },
+
+    /**
+     * @param newValue
+     * @param oldValue
+     * @returns {string}
+     */
+    calculateDifference: function (newValue, oldValue) {
+        var diff = newValue - oldValue;
+        return diff.toFixed(2);
     },
 
     /**
@@ -35890,12 +36002,12 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
                 starting_date: HelpersRepository.formatDate(this.selectedBudget.formattedStartingDate),
             };
 
-            $.event.trigger('clear-total-changes');
+            TotalsRepository.resetTotalChanges();
 
             this.$http.put('/api/budgets/' + this.selectedBudget.id, data, function (response) {
                 BudgetsRepository.updateBudget(response, this);
                 this.updateBudgetTableTotals();
-                $.event.trigger('get-sidebar-totals');
+                TotalsRepository.getSideBarTotals(this);
                 this.showPopup = false;
                 $.event.trigger('provide-feedback', ['Budget updated', 'success']);
                 $.event.trigger('hide-loading');
@@ -35924,7 +36036,7 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
             if (confirm('You have ' + this.selectedBudget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?')) {
                 $.event.trigger('show-loading');
                 this.$http.delete('/api/budgets/' + this.selectedBudget.id, function (response) {
-                    $.event.trigger('get-sidebar-totals');
+                    TotalsRepository.getSideBarTotals(this);
                     this.updateBudgetTableTotals();
                     BudgetsRepository.deleteBudget(this.selectedBudget, this);
                     this.showPopup = false;
@@ -35994,11 +36106,11 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
 
             var data = TransactionsRepository.setFields(this.selectedTransaction);
 
-            $.event.trigger('clear-total-changes');
+            TotalsRepository.resetTotalChanges();
 
             this.$http.put('/api/transactions/' + this.selectedTransaction.id, data, function (response) {
                 TransactionsRepository.updateTransaction(response);
-                $.event.trigger('get-sidebar-totals');
+                TotalsRepository.getSideBarTotals(this);
                 FilterRepository.getBasicFilterTotals(this);
                 FilterRepository.runFilter(this);
                 this.showPopup = false;
@@ -36020,7 +36132,7 @@ var EditTransactionPopup = Vue.component('edit-transaction-popup', {
                 this.$http.delete('/api/transactions/' + this.selectedTransaction.id, function (response) {
                     TransactionsRepository.deleteTransaction(this.selectedTransaction);
                     $.event.trigger('clear-total-changes');
-                    $.event.trigger('get-sidebar-totals');
+                    TotalsRepository.getSideBarTotals(this);
                     FilterRepository.getBasicFilterTotals(this);
                     this.showPopup = false;
                     $.event.trigger('provide-feedback', ['Transaction deleted', 'success']);
@@ -36742,11 +36854,11 @@ var NewBudget = Vue.component('new-budget', {
                 starting_date: HelpersRepository.formatDate(this.newBudget.startingDate),
             };
 
-            $.event.trigger('clear-total-changes');
+            TotalsRepository.resetTotalChanges();
 
             this.$http.post('/api/budgets', data, function (response) {
                 this.jsInsertBudget(response);
-                $.event.trigger('get-sidebar-totals');
+                TotalsRepository.getSideBarTotals(this);
                 this.updateBudgetTableTotals();
                 $.event.trigger('provide-feedback', ['Budget created', 'success']);
                 $.event.trigger('hide-loading');
@@ -36960,7 +37072,7 @@ var NewTransaction = Vue.component('new-transaction', {
          */
         insertTransactionPreparation: function () {
             if (!this.anyErrors()) {
-                $.event.trigger('clear-total-changes');
+                TotalsRepository.resetTotalChanges();
 
                 if (this.newTransaction.type === 'transfer') {
                     var that = this;
@@ -37008,7 +37120,7 @@ var NewTransaction = Vue.component('new-transaction', {
          * @param response
          */
         insertTransactionResponse: function (response) {
-            $.event.trigger('get-sidebar-totals');
+            TotalsRepository.getSideBarTotals(this);
             this.clearNewTransactionFields();
             //this.newTransaction.dropdown = false;
 
@@ -37153,72 +37265,18 @@ var Totals = Vue.component('totals', {
     template: '#totals-template',
     data: function () {
         return {
-            totalChanges: TotalsRepository.resetTotalChanges(),
-            sideBarTotals: [],
+            totalsRepository: TotalsRepository.state,
             totalsLoading: false,
             me: me
         };
     },
     components: {},
-    watch: {
-        'sideBarTotals': function (newValue, oldValue) {
-            //Just checking it's not on page load with this if check, otherwise values will be NaN
-            if (newValue && (oldValue.remainingBalance || oldValue.remainingBalance === 0)) {
-
-                if (newValue.credit !== oldValue.credit) {
-                    this.totalChanges.credit = this.calculateDifference(newValue.credit, oldValue.credit);
-                }
-
-                if (newValue.debit !== oldValue.debit) {
-                    this.totalChanges.debit = this.calculateDifference(newValue.debit, oldValue.debit);
-                }
-
-                if (newValue.balance !== oldValue.balance) {
-                    this.totalChanges.balance = this.calculateDifference(newValue.balance, oldValue.balance);
-                }
-
-                if (newValue.reconciledSum !== oldValue.reconciledSum) {
-                    this.totalChanges.reconciledSum = this.calculateDifference(newValue.reconciledSum, oldValue.reconciledSum);
-                }
-
-                if (newValue.savings !== oldValue.savings) {
-                    this.totalChanges.savings = this.calculateDifference(newValue.savings, oldValue.savings);
-                }
-
-                if (newValue.expensesWithoutBudget !== oldValue.expensesWithoutBudget) {
-                    this.totalChanges.expensesWithoutBudget = this.calculateDifference(newValue.expensesWithoutBudget, oldValue.expensesWithoutBudget);
-                }
-
-                if (newValue.remainingFixedBudget !== oldValue.remainingFixedBudget) {
-                    this.totalChanges.remainingFixedBudget = this.calculateDifference(newValue.remainingFixedBudget, oldValue.remainingFixedBudget);
-                }
-
-                if (newValue.cumulativeFixedBudget !== oldValue.cumulativeFixedBudget) {
-                    this.totalChanges.cumulativeFixedBudget = this.calculateDifference(newValue.cumulativeFixedBudget, oldValue.cumulativeFixedBudget);
-                }
-
-                if (newValue.expensesWithFixedBudgetBeforeStartingDate !== oldValue.expensesWithFixedBudgetBeforeStartingDate) {
-                    this.totalChanges.expensesWithFixedBudgetBeforeStartingDate = this.calculateDifference(newValue.expensesWithFixedBudgetBeforeStartingDate, oldValue.expensesWithFixedBudgetBeforeStartingDate);
-                }
-
-                if (newValue.expensesWithFixedBudgetAfterStartingDate !== oldValue.expensesWithFixedBudgetAfterStartingDate) {
-                    this.totalChanges.expensesWithFixedBudgetAfterStartingDate = this.calculateDifference(newValue.expensesWithFixedBudgetAfterStartingDate, oldValue.expensesWithFixedBudgetAfterStartingDate);
-                }
-
-                if (newValue.expensesWithFlexBudgetBeforeStartingDate !== oldValue.expensesWithFlexBudgetBeforeStartingDate) {
-                    this.totalChanges.expensesWithFlexBudgetBeforeStartingDate = this.calculateDifference(newValue.expensesWithFlexBudgetBeforeStartingDate, oldValue.expensesWithFlexBudgetBeforeStartingDate);
-                }
-
-                if (newValue.expensesWithFlexBudgetAfterStartingDate !== oldValue.expensesWithFlexBudgetAfterStartingDate) {
-                    this.totalChanges.expensesWithFlexBudgetAfterStartingDate = this.calculateDifference(newValue.expensesWithFlexBudgetAfterStartingDate, oldValue.expensesWithFlexBudgetAfterStartingDate);
-                }
-
-                if (newValue.remainingBalance !== oldValue.remainingBalance) {
-                    this.totalChanges.remainingBalance = this.calculateDifference(newValue.remainingBalance, oldValue.remainingBalance);
-                }
-
-                this.sideBarTotals = newValue;
-            }
+    computed: {
+        sideBarTotals: function () {
+          return this.totalsRepository.sideBarTotals;
+        },
+        totalChanges: function () {
+            return this.totalsRepository.totalChanges;
         }
     },
     filters: {
@@ -37234,49 +37292,13 @@ var Totals = Vue.component('totals', {
     },
     methods: {
 
-        /**
-        *
-        */
-        getSideBarTotals: function () {
-            this.totalsLoading = true;
-            this.$http.get('/api/totals/sidebar', function (response) {
-                this.sideBarTotals = response.data;
-                this.totalsLoading = false;
-            })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-        },
 
-        /**
-         * @param newValue
-         * @param oldValue
-         * @returns {string}
-         */
-        calculateDifference: function (newValue, oldValue) {
-            var diff = newValue - oldValue;
-            return diff.toFixed(2);
-        },
-
-        /**
-         *
-         */
-        listen: function () {
-            var that = this;
-            $(document).on('get-sidebar-totals', function (event) {
-                that.getSideBarTotals();
-            });
-            $(document).on('clear-total-changes', function (event) {
-                that.totalChanges = TotalsRepository.resetTotalChanges();
-            });
-        }
     },
     props: [
         'show'
     ],
     ready: function () {
-        this.getSideBarTotals();
-        this.listen();
+
     }
 });
 
@@ -37534,12 +37556,12 @@ var Transaction = Vue.component('transaction', {
             $.event.trigger('show-loading');
 
             var data = TransactionsRepository.setFields(this.transaction);
-            
-            $.event.trigger('clear-total-changes');
+
+            TotalsRepository.resetTotalChanges();
 
             this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
                 TransactionsRepository.updateTransaction(this.transaction);
-                $.event.trigger('get-sidebar-totals');
+                TotalsRepository.getSideBarTotals(this);
                 FilterRepository.getBasicFilterTotals(this);
                 //Todo: Remove the transaction from the JS transactions depending on the filter
                 $.event.trigger('provide-feedback', ['Transaction updated', 'success']);
@@ -37789,6 +37811,7 @@ var App = Vue.component('app', {
         BudgetsRepository.getBudgets(this);
         FavouriteTransactionsRepository.getFavouriteTransactions(this);
         HomePageRepository.setDefaultTab();
+        TotalsRepository.getSideBarTotals(this);
     }
 });
 

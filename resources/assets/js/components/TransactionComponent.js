@@ -45,12 +45,12 @@ var Transaction = Vue.component('transaction', {
             $.event.trigger('show-loading');
 
             var data = TransactionsRepository.setFields(this.transaction);
-            
-            $.event.trigger('clear-total-changes');
+
+            TotalsRepository.resetTotalChanges();
 
             this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
                 TransactionsRepository.updateTransaction(this.transaction);
-                $.event.trigger('get-sidebar-totals');
+                TotalsRepository.getSideBarTotals(this);
                 FilterRepository.getBasicFilterTotals(this);
                 //Todo: Remove the transaction from the JS transactions depending on the filter
                 $.event.trigger('provide-feedback', ['Transaction updated', 'success']);

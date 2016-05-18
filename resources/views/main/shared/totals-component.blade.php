@@ -7,6 +7,7 @@
 
         <table class="totals-table">
 
+            {{--<tr><td><pre>@{{totalChanges | json}}</pre></td></tr>--}}
             <tr>
                 <th>Type</th>
                 <th>Total</th>

@@ -24,11 +24,11 @@ var NewBudget = Vue.component('new-budget', {
                 starting_date: HelpersRepository.formatDate(this.newBudget.startingDate),
             };
 
-            $.event.trigger('clear-total-changes');
+            TotalsRepository.resetTotalChanges();
 
             this.$http.post('/api/budgets', data, function (response) {
                 this.jsInsertBudget(response);
-                $.event.trigger('get-sidebar-totals');
+                TotalsRepository.getSideBarTotals(this);
                 this.updateBudgetTableTotals();
                 $.event.trigger('provide-feedback', ['Budget created', 'success']);
                 $.event.trigger('hide-loading');

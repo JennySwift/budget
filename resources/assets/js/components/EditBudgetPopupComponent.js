@@ -23,12 +23,12 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
                 starting_date: HelpersRepository.formatDate(this.selectedBudget.formattedStartingDate),
             };
 
-            $.event.trigger('clear-total-changes');
+            TotalsRepository.resetTotalChanges();
 
             this.$http.put('/api/budgets/' + this.selectedBudget.id, data, function (response) {
                 BudgetsRepository.updateBudget(response, this);
                 this.updateBudgetTableTotals();
-                $.event.trigger('get-sidebar-totals');
+                TotalsRepository.getSideBarTotals(this);
                 this.showPopup = false;
                 $.event.trigger('provide-feedback', ['Budget updated', 'success']);
                 $.event.trigger('hide-loading');
@@ -57,7 +57,7 @@ var EditBudgetPopup = Vue.component('edit-budget-popup', {
             if (confirm('You have ' + this.selectedBudget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?')) {
                 $.event.trigger('show-loading');
                 this.$http.delete('/api/budgets/' + this.selectedBudget.id, function (response) {
-                    $.event.trigger('get-sidebar-totals');
+                    TotalsRepository.getSideBarTotals(this);
                     this.updateBudgetTableTotals();
                     BudgetsRepository.deleteBudget(this.selectedBudget, this);
                     this.showPopup = false;

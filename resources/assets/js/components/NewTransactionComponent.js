@@ -78,7 +78,7 @@ var NewTransaction = Vue.component('new-transaction', {
          */
         insertTransactionPreparation: function () {
             if (!this.anyErrors()) {
-                $.event.trigger('clear-total-changes');
+                TotalsRepository.resetTotalChanges();
 
                 if (this.newTransaction.type === 'transfer') {
                     var that = this;
@@ -126,7 +126,7 @@ var NewTransaction = Vue.component('new-transaction', {
          * @param response
          */
         insertTransactionResponse: function (response) {
-            $.event.trigger('get-sidebar-totals');
+            TotalsRepository.getSideBarTotals(this);
             this.clearNewTransactionFields();
             //this.newTransaction.dropdown = false;
 
