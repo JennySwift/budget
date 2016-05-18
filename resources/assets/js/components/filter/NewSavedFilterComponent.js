@@ -22,13 +22,13 @@ var NewSavedFilter = Vue.component('new-saved-filter', {
             };
 
             this.$http.post('/api/savedFilters', data, function (response) {
-                    $.event.trigger('saved-filter-created', [response.data]);
-                    $.event.trigger('provide-feedback', ['Filter saved', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
+                SavedFiltersRepository.addSavedFilter(response.data);
+                $.event.trigger('provide-feedback', ['Filter saved', 'success']);
+                $.event.trigger('hide-loading');
+            })
+            .error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
         },
 
     },

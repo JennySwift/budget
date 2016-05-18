@@ -24,6 +24,7 @@ var App = Vue.component('app', {
         FavouriteTransactionsRepository.getFavouriteTransactions(this);
         HomePageRepository.setDefaultTab();
         TotalsRepository.getSideBarTotals(this);
+        SavedFiltersRepository.getSavedFilters(this);
     }
 });
 
