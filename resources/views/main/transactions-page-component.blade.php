@@ -1,4 +1,4 @@
-<script id="home-page-template" type="x-template">
+<script id="transactions-page-template" type="x-template">
 
     <div>
         @include('main.home.toolbar')
@@ -16,7 +16,6 @@
         </totals>
 
         <transactions
-            v-show="tab === 'transactions'"
             :show="show"
             :transaction-properties-to-show="transactionPropertiesToShow",
         >
@@ -27,14 +26,8 @@
         >
         </mass-transaction-update-popup>
 
-        <graphs
-            v-show="tab === 'graphs'"
-        >
-        </graphs>
-
         <filter
             :show="show"
-            :tab="tab"
             :budgets="budgets"
         ></filter>
     </div>

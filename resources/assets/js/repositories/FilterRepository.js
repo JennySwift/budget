@@ -252,11 +252,12 @@ var FilterRepository = {
      */
     runFilter: function (that) {
         this.getBasicFilterTotals(that);
-        if (HomePageRepository.state.tab === 'transactions') {
+        if (that.$route.path === '/') {
             TransactionsRepository.filterTransactions(that);
         }
         else {
-            $.event.trigger('get-graph-totals');
+            // $.event.trigger('get-graph-data');
+            that.$dispatch('get-graph-data');
         }
     }
 

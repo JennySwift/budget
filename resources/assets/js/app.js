@@ -34,7 +34,7 @@ var router = new VueRouter({
 
 router.map({
     '/': {
-        component: HomePage,
+        component: TransactionsPage,
         //subRoutes: {
         //    //default for if no id is specified
         //    '/': {
@@ -67,7 +67,7 @@ router.map({
         component: UnassignedBudgetsPage
     },
     '/graphs': {
-        component: Graphs
+        component: GraphsPage
     },
     '/favourite-transactions': {
         component: FavouriteTransactionsPage

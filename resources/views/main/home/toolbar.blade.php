@@ -20,7 +20,6 @@
 
     <div>
         <button
-            {{--v-on:click="show.basicTotals = !show.basicTotals"--}}
             v-on:mouseenter="respondToMouseEnterOnTotalsButton"
             v-on:mouseleave="respondToMouseLeaveOnTotalsButton"
             class="btn btn-default totals-btn"
@@ -29,20 +28,20 @@
         </button>
     </div>
 
-    <div class="btn-group">
-        <button
-                v-on:click="switchTab('transactions')"
-                v-bind:class="{'selected': tab === 'transactions'}"
-                class="btn">
-                Transactions
-        </button>
+    {{--<div class="btn-group">--}}
+        {{--<button--}}
+                {{--v-on:click="switchTab('transactions')"--}}
+                {{--v-bind:class="{'selected': tab === 'transactions'}"--}}
+                {{--class="btn">--}}
+                {{--Transactions--}}
+        {{--</button>--}}
 
-        <button
-                v-on:click="switchTab('graphs')"
-                v-bind:class="{'selected': tab === 'graphs'}"
-                class="btn">
-                Graphs
-        </button>
-    </div>
+        {{--<button--}}
+                {{--v-on:click="switchTab('graphs')"--}}
+                {{--v-bind:class="{'selected': tab === 'graphs'}"--}}
+                {{--class="btn">--}}
+                {{--Graphs--}}
+        {{--</button>--}}
+    {{--</div>--}}
     
 </div>

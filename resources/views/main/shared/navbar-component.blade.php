@@ -21,6 +21,14 @@
                 </a>
             </li>
 
+            <li>
+                <a
+                        v-link="{path: '/graphs'}"
+                >
+                    Graphs
+                </a>
+            </li>
+
             @include('templates.header.menu')
 
             @include('templates.header.show')
@@ -31,8 +39,8 @@
 
             @include('templates.header.help')
 
-            <li v-if="page === 'home'">
-                <a v-on:click="toggleFilter()" href="#" class="fa fa-search"></a>
+            <li>
+                <a v-on:click="toggleFilter()" class="fa fa-search"></a>
             </li>
 
         @endif

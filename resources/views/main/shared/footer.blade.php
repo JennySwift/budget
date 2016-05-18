@@ -2,7 +2,7 @@
 @include('main.shared.real-footer')
 
 {{--Pages--}}
-@include('main.home-page-component')
+@include('main.transactions-page-component')
 @include('main.help.help-page-component')
 @include('main.accounts.accounts-page-component')
 @include('main.preferences-page-component')
@@ -41,7 +41,7 @@
 
 {{--Filters--}}
 @include('main.filter.filter-component')
-@include('main.filter.graphs-component')
+@include('main.filter.graphs-page-component')
 @include('main.filter.accounts-filter-component')
 @include('main.filter.types-filter-component')
 @include('main.filter.totals-filter-component')

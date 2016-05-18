@@ -33549,17 +33549,111 @@ var FilterRepository = {
      */
     runFilter: function (that) {
         this.getBasicFilterTotals(that);
-        if (HomePageRepository.state.tab === 'transactions') {
+        if (that.$route.path === '/') {
             TransactionsRepository.filterTransactions(that);
         }
         else {
-            $.event.trigger('get-graph-totals');
+            // $.event.trigger('get-graph-data');
+            that.$dispatch('get-graph-data');
         }
     }
 
 };
 
 FilterRepository.resetFilter();
+var GraphsRepository = {
+
+    state: {
+        lineChartCreated: false,
+        barChartCreated: false,
+        doughnutChartCreated: false,
+
+        chartData: {
+            lineAndBar: {},
+            doughnut: {}
+        },
+
+        charts: {
+            lineChart: {},
+            barChart: {},
+            doughnutChart: {}
+        },
+    },
+
+    /**
+     *
+     * @param chartType
+     */
+    setChartCreated: function (chartType) {
+        this.state[chartType + 'ChartCreated'] = true;
+    },
+
+    /**
+     *
+     */
+    createLineChart: function () {
+        this.state.charts.lineChart = new Chart(document.querySelector('#line-chart').getContext('2d'), {
+            type: 'line',
+            data: GraphsRepository.state.chartData.lineAndBar,
+            options: {
+                maintainAspectRatio: false
+            }
+        });
+    },
+
+    /**
+     *
+     */
+    createBarChart: function () {
+        this.state.charts.barChart = new Chart(document.querySelector('#bar-chart').getContext('2d'), {
+            type: 'bar',
+            data: GraphsRepository.state.chartData.lineAndBar,
+            options: {
+                maintainAspectRatio: false
+            }
+        });
+    },
+
+    /**
+     *
+     */
+    createDoughnutChart: function () {
+        this.state.charts.doughnutChart = new Chart(document.querySelector('#doughnut-chart').getContext('2d'), {
+            type: 'doughnut',
+            data: GraphsRepository.state.chartData.doughnut,
+            options: {
+                maintainAspectRatio: false
+            }
+        });
+    },
+
+    /**
+     *
+     * @param data
+     */
+    setLineAndBarChartData: function (data) {
+        this.state.chartData.lineAndBar = data;
+    },
+
+    /**
+     *
+     * @param data
+     */
+    setDoughnutChartData: function (data) {
+        this.state.chartData.doughnut = data;
+    },
+
+    /**
+     *
+     * @param chartType
+     */
+    destroyChart: function (chartType) {
+        // this.state.charts[chartType + 'Chart'].destroy();
+        $('#' + chartType + '-chart').remove();
+        $('#' + chartType + '-chart-container').append('<canvas id="' + chartType + '-chart"></canvas>');
+    }
+
+};
 var HelpersRepository = {
 
     /**
@@ -34435,22 +34529,12 @@ var Filter = Vue.component('filter', {
     }
 });
 
-var Graphs = Vue.component('graphs', {
-    template: '#graphs-template',
+var GraphsPage = Vue.component('graphs-page', {
+    template: '#graphs-page-template',
     data: function () {
         return {
-            graphFigures: {months: []},
-            charts: {
-                lineChart: {},
-                barChart: {},
-                doughnutChart: {}
-            },
-            chartsCreated: false,
-            chartData: {
-                all: {},
-                doughnut: {}
-            },
-            filterRepository: FilterRepository.state
+            filterRepository: FilterRepository.state,
+            graphsRepository: GraphsRepository.state
         };
     },
     components: {},
@@ -34460,58 +34544,74 @@ var Graphs = Vue.component('graphs', {
         }
     },
     computed: {
-        // months: function () {
-        //   return _.pluck(this.graphFigures, 'months');
-        // }
+        graphDataLoaded: function () {
+            return this.graphsRepository.lineChartCreated && this.graphsRepository.barChartCreated && this.graphsRepository.doughnutChartCreated;
+        },
         filter: function () {
             return this.filterRepository.filter;
-        },
-        debitForChart: function () {
-            var array = _.pluck(this.graphFigures.months, 'expenses');
-            return _.map(array, function (num) {
-                return num * -1;
-            })
-        },
-        negativeTransferTotals: function () {
-            var array = _.pluck(this.graphFigures.months, 'negativeTransferTotal');
-            return _.map(array, function (num) {
-                if (num === 0) {
-                    return num;
-                }
-                return num * -1;
-            })
-        },
-        spentOnBudgets: function () {
-            var array = _.pluck(this.chartData.doughnut, 'spentInDateRange');
-            return _.map(array, function (num) {
-                if (num === 0) {
-                    return num;
-                }
-                return num * -1;
-            })
         }
     },
     methods: {
 
         /**
-        *
-        */
-        getGraphTotals: function () {
+         * 
+         */
+        getAllGraphData: function () {
+            this.getDoughnutChartData();
+            this.getLineAndBarChartData();
+        },
+
+        /**
+         *
+         * @param data
+         * @returns {*}
+         */
+        populateNegativeTransferTotals: function (data) {
+            var array = _.pluck(data, 'negativeTransferTotal');
+            return _.map(array, function (num) {
+                if (num === 0) {
+                    return num;
+                }
+                return num * -1;
+            })
+        },
+
+        /**
+         *
+         * @returns {*}
+         */
+        populateDebit: function (data) {
+            var array = _.pluck(data, 'debit');
+            return _.map(array, function (num) {
+                return num * -1;
+            })
+        },
+
+        /**
+         *
+         */
+        getLineAndBarChartData: function () {
+            var data = {
+                filter: FilterRepository.formatDates()
+            };
+
             $.event.trigger('show-loading');
-
-            var data = {filter: {}};
-
-            if (this.filter) {
-                this.filter = FilterRepository.formatDates(this.filter);
-                data = {
-                    filter: this.filter
-                };
-            }
-
             this.$http.post('/api/filter/graphTotals', data, function (response) {
-                this.graphFigures = this.calculateGraphFigures(response);
-                this.chart();
-                this.getDoughnutChartData();
+                var stuff = this.populateLineAndBarChartData(response);
+                GraphsRepository.setLineAndBarChartData(stuff);
+
+                //Destroy and create line chart
+                if (this.graphsRepository.lineChartCreated) {
+                    GraphsRepository.destroyChart('line');
+                }
+                this.createLineChart();
+
+                //Destroy and create bar chart
+                if (this.graphsRepository.barChartCreated) {
+                    GraphsRepository.destroyChart('bar');
+                }
+                this.createBarChart();
+
                 $.event.trigger('hide-loading');
             })
             .error(function (response) {
@@ -34521,44 +34621,57 @@ var Graphs = Vue.component('graphs', {
 
         /**
          *
-         * @param graphTotals
-         * @returns {{months: Array}}
          */
-        calculateGraphFigures: function (graphTotals) {
-            var graphFigures = {
-                months: []
-            };
+        getDoughnutChartData: function () {
+            var from = '';
+            var to = '';
+            if (this.filter) {
+                from = this.filter.fromDate.inSql;
+                to = this.filter.toDate.inSql;
+            }
 
-            $(graphTotals.monthsTotals).each(function () {
-                var expenses = this.debit * -1;
-                var max = graphTotals.maxTotal;
-                var num = 500 / max;
+            $.event.trigger('show-loading');
+            this.$http.get('/api/totals/spentOnBudgets?from=' + from + '&to=' + to, function (response) {
+                GraphsRepository.setDoughnutChartData(this.populateDoughnutChartData(response));
 
-                graphFigures.months.push({
-                    incomeHeight: this.credit * num,
-                    expensesHeight: expenses * num,
-                    income: this.credit,
-                    expenses: this.debit,
-                    month: this.month,
-                    balanceFromBeginning: this.balanceFromBeginning,
-                    positiveTransferTotal: this.positiveTransferTotal,
-                    negativeTransferTotal: this.negativeTransferTotal,
-                });
+                if (this.graphsRepository.doughnutChartCreated) {
+                    GraphsRepository.destroyChart('doughnut');
+                }
+                this.createDoughnutChart();
+
+                $.event.trigger('hide-loading');
+            })
+            .error(function (data, status, response) {
+                HelpersRepository.handleResponseError(data, status, response);
             });
-
-            return graphFigures;
         },
 
         /**
          *
+         * @param data
+         * @returns {*}
          */
-        populateDoughnutChartData: function () {
-            this.chartData.doughnut = {
-                labels: _.pluck(this.chartData.doughnut, 'name'),
+        calculateSpentOnBudgets: function (data) {
+            var array = _.pluck(data, 'spentInDateRange');
+            return _.map(array, function (num) {
+                if (num === 0) {
+                    return num;
+                }
+                return num * -1;
+            });
+        },
+
+        /**
+         *
+         * @param data
+         */
+        populateDoughnutChartData: function (data) {
+            return {
+                labels: _.pluck(data, 'name'),
                 datasets: [
                     //Spent on budgets in date range
                     {
-                        data: this.spentOnBudgets,
+                        data: this.calculateSpentOnBudgets(data),
                         label: "Budgets",
                         backgroundColor: [
                             'rgba(0,0,0,.4)',
@@ -34582,14 +34695,47 @@ var Graphs = Vue.component('graphs', {
         /**
          *
          */
-        chart: function () {
-            var months = _.pluck(this.graphFigures.months, 'month');
-            this.chartData.all = {
+        createLineChart: function () {
+            setTimeout(function () {
+                GraphsRepository.createLineChart();
+                GraphsRepository.setChartCreated('line');
+            }, 1000);
+        },
+
+        /**
+         *
+         */
+        createBarChart: function () {
+            setTimeout(function () {
+                GraphsRepository.createBarChart();
+                GraphsRepository.setChartCreated('bar');
+            }, 1000);
+
+        },
+
+        /**
+         *
+         */
+        createDoughnutChart: function () {
+            setTimeout(function () {
+                GraphsRepository.createDoughnutChart();
+                GraphsRepository.setChartCreated('doughnut');
+            }, 1000);
+        },
+
+        /**
+         *
+         * @returns {{labels, datasets: *[]}}
+         */
+        populateLineAndBarChartData: function (data) {
+            var months = _.pluck(data.monthTotals, 'month');
+            return {
                 labels: months,
                 datasets: [
+
                     //Debit
                     {
-                        data: this.debitForChart,
+                        data: this.populateDebit(data.monthTotals),
                         label: "Debit",
                         backgroundColor: "rgba(255,0,0,0.2)",
                         borderColor: "rgba(255,99,132,1)",
@@ -34597,9 +34743,10 @@ var Graphs = Vue.component('graphs', {
                         hoverBackgroundColor: "rgba(255,0,0,0.4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
                     },
+
                     //Credit
                     {
-                        data: _.pluck(this.graphFigures.months, 'income'),
+                        data: _.pluck(data.monthTotals, 'credit'),
                         label: "Credit",
                         backgroundColor: "rgba(0,255,0,0.2)",
                         borderColor: "rgba(255,99,132,1)",
@@ -34607,9 +34754,10 @@ var Graphs = Vue.component('graphs', {
                         hoverBackgroundColor: "rgba(0,255,0,0.4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
                     },
+
                     //Balance from beginning
                     {
-                        data: _.pluck(this.graphFigures.months, 'balanceFromBeginning'),
+                        data: _.pluck(data.monthTotals, 'balanceFromBeginning'),
                         label: "Balance",
                         backgroundColor: "rgba(252, 167, 0, .2)",
                         borderColor: "rgba(255,99,132,1)",
@@ -34617,9 +34765,10 @@ var Graphs = Vue.component('graphs', {
                         hoverBackgroundColor: "rgba(252, 167, 0, .4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
                     },
+
                     //Positive transfers
                     {
-                        data: _.pluck(this.graphFigures.months, 'positiveTransferTotal'),
+                        data: _.pluck(data.monthTotals, 'positiveTransferTotal'),
                         label: "Positive transfers",
                         backgroundColor: "rgba(0,255,0,0.6)",
                         borderColor: "rgba(255,99,132,1)",
@@ -34627,9 +34776,10 @@ var Graphs = Vue.component('graphs', {
                         hoverBackgroundColor: "rgba(0,255,0,0.8)",
                         hoverBorderColor: "rgba(255,99,132,1)",
                     },
+
                     //Negative transfers
                     {
-                        data: this.negativeTransferTotals,
+                        data: this.populateNegativeTransferTotals(data.monthTotals),
                         label: "Negative transfers",
                         backgroundColor: "rgba(255,0,0,0.6)",
                         borderColor: "rgba(255,99,132,1)",
@@ -34639,78 +34789,6 @@ var Graphs = Vue.component('graphs', {
                     }
                 ]
             };
-
-            if (this.chartsCreated) {
-                this.destroyCharts();
-            }
-            this.createCharts();
-        },
-
-        /**
-         *
-         * @param data
-         */
-        destroyCharts: function () {
-            this.charts.barChart.destroy();
-            this.charts.lineChart.destroy();
-            this.charts.doughnutChart.destroy();
-        },
-
-        /**
-         *
-         * @param data
-         */
-        createCharts: function () {
-            var that = this;
-            setTimeout(function () {
-                that.charts.barChart = new Chart(document.querySelector('#bar-chart').getContext('2d'), {
-                    type: 'bar',
-                    data: that.chartData.all,
-                    options: {
-                        maintainAspectRatio: false
-                    }
-                });
-
-                that.charts.lineChart = new Chart(document.querySelector('#line-chart').getContext('2d'), {
-                    type: 'line',
-                    data: that.chartData.all,
-                    options: {
-                        maintainAspectRatio: false
-                    }
-                });
-
-                that.charts.doughnutChart = new Chart(document.querySelector('#doughnut-chart').getContext('2d'), {
-                    type: 'doughnut',
-                    data: that.chartData.doughnut,
-                    options: {
-                        maintainAspectRatio: false
-                    }
-                });
-
-                that.chartsCreated = true;
-            }, 1000);
-        },
-
-        /**
-        *
-        */
-        getDoughnutChartData: function () {
-            var from = '';
-            var to = '';
-            if (this.filter) {
-                from = this.filter.fromDate.inSql;
-                to = this.filter.toDate.inSql;
-            }
-
-            $.event.trigger('show-loading');
-            this.$http.get('/api/totals/spentOnBudgets?from=' + from + '&to=' + to, function (response) {
-                this.chartData.doughnut = response;
-                this.populateDoughnutChartData();
-                $.event.trigger('hide-loading');
-            })
-            .error(function (data, status, response) {
-                HelpersRepository.handleResponseError(data, status, response);
-            });
         },
 
         /**
@@ -34718,18 +34796,27 @@ var Graphs = Vue.component('graphs', {
          */
         listen: function () {
             var that = this;
-            $(document).on('get-graph-totals', function (event) {
-                that.getGraphTotals();
-                that.getDoughnutChartData();
-            });
+            // $(document).on('get-graph-data', function (event) {
+            //     that.getAllGraphData();
+            // });
         }
     },
     props: [
-
+        'show'
     ],
+    events: {
+        'get-graph-data': function () {
+            this.getAllGraphData();
+        }
+    },
     ready: function () {
-        this.getGraphTotals();
+        //Putting this here because for each time I switched back to this page, the 'get-graph-data' event listener would fire an additional time
+        // $(document).off('get-graph-data');
         this.listen();
+        //Putting this here because when the get-graph-data event is triggered in FilterRepository, the listen method here hasn't fired yet
+        // if (!this.graphDataLoaded) {
+            this.getAllGraphData();
+        // }
     }
 });
 var InvalidAllocationFilter = Vue.component('invalid-allocation-filter', {
@@ -36652,67 +36739,6 @@ var HelpPage = Vue.component('help-page', {
     }
 });
 
-var HomePage = Vue.component('home-page', {
-    template: '#home-page-template',
-    data: function () {
-        return {
-            page: 'home',
-            budgetsRepository: BudgetsRepository.state,
-            colors: {},
-            env: env,
-            homePageRepository: HomePageRepository.state,
-            hoveringTotalsButton: false
-        };
-    },
-    components: {},
-    computed: {
-        budgets: function () {
-          return this.budgetsRepository.budgets;
-        },
-        tab: function () {
-            return this.homePageRepository.tab;
-        }
-    },
-    methods: {
-
-        /**
-         *
-         * @param tab
-         */
-        switchTab: function (tab) {
-            HomePageRepository.setTab(tab);
-            FilterRepository.runFilter(this);
-        },
-
-        /**
-         *
-         */
-        respondToMouseEnterOnTotalsButton: function () {
-            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        respondToMouseLeaveOnTotalsButton: function () {
-            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        toggleNewTransaction: function () {
-            $.event.trigger('toggle-new-transaction');
-        }
-    },
-    props: [
-        'show',
-        'transactionPropertiesToShow'
-    ],
-    ready: function () {
-
-    }
-});
 Vue.component('loading', {
     data: function () {
         return {
@@ -37648,6 +37674,67 @@ var Transactions = Vue.component('transactions', {
 
     }
 });
+var TransactionsPage = Vue.component('transactions-page', {
+    template: '#transactions-page-template',
+    data: function () {
+        return {
+            // page: 'home',
+            budgetsRepository: BudgetsRepository.state,
+            colors: {},
+            env: env,
+            homePageRepository: HomePageRepository.state,
+            hoveringTotalsButton: false
+        };
+    },
+    components: {},
+    computed: {
+        budgets: function () {
+          return this.budgetsRepository.budgets;
+        },
+        // tab: function () {
+        //     return this.homePageRepository.tab;
+        // }
+    },
+    methods: {
+
+        /**
+         *
+         * @param tab
+         */
+        // switchTab: function (tab) {
+        //     HomePageRepository.setTab(tab);
+        //     FilterRepository.runFilter(this);
+        // },
+
+        /**
+         *
+         */
+        respondToMouseEnterOnTotalsButton: function () {
+            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function () {
+            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        toggleNewTransaction: function () {
+            $.event.trigger('toggle-new-transaction');
+        }
+    },
+    props: [
+        'show',
+        'transactionPropertiesToShow'
+    ],
+    ready: function () {
+
+    }
+});
 var UnassignedBudgetsPage = Vue.component('unassigned-budgets-page', {
     template: '#unassigned-budgets-page-template',
     data: function () {
@@ -37835,7 +37922,7 @@ var router = new VueRouter({
 
 router.map({
     '/': {
-        component: HomePage,
+        component: TransactionsPage,
         //subRoutes: {
         //    //default for if no id is specified
         //    '/': {
@@ -37868,7 +37955,7 @@ router.map({
         component: UnassignedBudgetsPage
     },
     '/graphs': {
-        component: Graphs
+        component: GraphsPage
     },
     '/favourite-transactions': {
         component: FavouriteTransactionsPage

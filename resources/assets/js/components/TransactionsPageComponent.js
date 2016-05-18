@@ -1,8 +1,8 @@
-var HomePage = Vue.component('home-page', {
-    template: '#home-page-template',
+var TransactionsPage = Vue.component('transactions-page', {
+    template: '#transactions-page-template',
     data: function () {
         return {
-            page: 'home',
+            // page: 'home',
             budgetsRepository: BudgetsRepository.state,
             colors: {},
             env: env,
@@ -15,9 +15,9 @@ var HomePage = Vue.component('home-page', {
         budgets: function () {
           return this.budgetsRepository.budgets;
         },
-        tab: function () {
-            return this.homePageRepository.tab;
-        }
+        // tab: function () {
+        //     return this.homePageRepository.tab;
+        // }
     },
     methods: {
 
@@ -25,10 +25,10 @@ var HomePage = Vue.component('home-page', {
          *
          * @param tab
          */
-        switchTab: function (tab) {
-            HomePageRepository.setTab(tab);
-            FilterRepository.runFilter(this);
-        },
+        // switchTab: function (tab) {
+        //     HomePageRepository.setTab(tab);
+        //     FilterRepository.runFilter(this);
+        // },
 
         /**
          *

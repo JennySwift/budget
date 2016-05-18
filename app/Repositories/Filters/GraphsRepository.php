@@ -49,14 +49,14 @@ class GraphsRepository {
         $date = $maxDate;
 
         while ($minDate <= $date) {
-            $monthsTotals[] = $this->monthTotals($query, $date, $queryForCalculatingBalance);
+            $monthTotals[] = $this->monthTotals($query, $date, $queryForCalculatingBalance);
             $date = $date->subMonths(1);
 
         }
 
         return [
-            'monthsTotals' => array_reverse($monthsTotals),
-            'maxTotal' => $this->getMax($monthsTotals)
+            'monthTotals' => array_reverse($monthTotals),
+            'maxTotal' => $this->getMax($monthTotals)
         ];
     }
 
@@ -65,17 +65,17 @@ class GraphsRepository {
      * from the totals of the month, in order to calculate
      * the height of the bars
      */
-    private function getMax($monthsTotals)
+    private function getMax($monthTotals)
     {
         //These worked before I did the formatting in FilterTotals.php
-//        $maxIncome = max(collect($monthsTotals)->lists('income'));
-//        $maxExpenses = min(collect($monthsTotals)->lists('expenses')) * -1;
+//        $maxIncome = max(collect($monthTotals)->lists('income'));
+//        $maxExpenses = min(collect($monthTotals)->lists('expenses')) * -1;
 
-//        $maxIncome = max($this->getRawValues($monthsTotals, 'income'));
+//        $maxIncome = max($this->getRawValues($monthTotals, 'income'));
 
-        $maxIncome = max(array_pluck($monthsTotals, 'credit'));
+        $maxIncome = max(array_pluck($monthTotals, 'credit'));
 
-        $maxExpenses = min(array_pluck($monthsTotals, 'debit')) * -1;
+        $maxExpenses = min(array_pluck($monthTotals, 'debit')) * -1;
 
         return max($maxIncome, $maxExpenses);
     }

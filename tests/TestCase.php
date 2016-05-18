@@ -272,9 +272,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	 */
 	public function checkGraphTotalKeysExist($graphTotals)
 	{
-		$this->assertArrayHasKey('monthsTotals', $graphTotals);
+		$this->assertArrayHasKey('monthTotals', $graphTotals);
 
-		$monthData = $graphTotals['monthsTotals'][0];
+		$monthData = $graphTotals['monthTotals'][0];
 		$this->assertArrayHasKey('creditIncludingTransfers', $monthData);
 		$this->assertArrayHasKey('debitIncludingTransfers', $monthData);
 		$this->assertArrayHasKey('balance', $monthData);
