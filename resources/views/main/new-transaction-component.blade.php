@@ -1,7 +1,6 @@
 <script id="new-transaction-template" type="x-template">
 
     <div
-            v-show="tab === 'transactions'"
             id="new-transaction-container"
     >
         <div
