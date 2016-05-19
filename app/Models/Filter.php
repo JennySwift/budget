@@ -148,12 +148,13 @@ class Filter implements Arrayable {
      */
     public function getGraphTotals(array $filters = [])
     {
+        clock()->startEvent('graphTotals', 'graphTotals description');
         // Merge the argument with the defaults
         $this->filters = array_merge($this->defaults, $filters);
         $this->query = $this->setQuery();
         $this->queryForCalculatingBalance = $this->setQueryForCalculatingBalance();
         $this->setGraphTotals();
-
+        clock()->endEvent('graphTotals');
         return $this->graphTotals;
     }
 

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8a318741bf2376b6b0e69b9041ff39ea",
-    "content-hash": "61fb7ce834b348ffb28c5f719966734f",
+    "hash": "fb3db3eb7ed713b9adbf4e35ed62835d",
+    "content-hash": "1355677d0efb3989fca04871fff9b4eb",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -2760,6 +2760,51 @@
                 "fixtures"
             ],
             "time": "2015-05-29 06:29:14"
+        },
+        {
+            "name": "itsgoingd/clockwork",
+            "version": "v1.11.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/itsgoingd/clockwork.git",
+                "reference": "08f56e4445c45b21ba3a5ebb01f11dc5c7dde5d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/08f56e4445c45b21ba3a5ebb01f11dc5c7dde5d9",
+                "reference": "08f56e4445c45b21ba3a5ebb01f11dc5c7dde5d9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9",
+                "psr/log": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Clockwork": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "itsgoingd",
+                    "email": "itsgoingd@luzer.sk",
+                    "homepage": "http://twitter.com/itsgoingd"
+                }
+            ],
+            "description": "Server-side component of Clockwork, a Chrome extension for PHP development",
+            "homepage": "http://github.com/itsgoingd/clockwork",
+            "keywords": [
+                "debugging",
+                "laravel",
+                "logging",
+                "profiling"
+            ],
+            "time": "2016-03-16 23:33:19"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
