@@ -302,6 +302,7 @@ class Filter implements Arrayable {
                      ->skip($this->filters['offset'])
                      ->take($this->filters['numToFetch'])
                      ->with('budgets')
+                     ->with('assignedBudgets')
                      ->with('account')
                      ->get();
     }

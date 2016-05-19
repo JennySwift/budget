@@ -10,6 +10,8 @@ class TransactionsIndexTest extends TestCase
     use DatabaseTransactions;
 
     /**
+     * I'm not sure if this is still being used. I think the TransactionsController index method is for the autocompelte,
+     * where as for getting the transactions it's /api/filter/transactions
      * @test
      * @return void
      */

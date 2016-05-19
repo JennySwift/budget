@@ -34,11 +34,11 @@ class FilterGraphsTest extends FiltersTest
         $this->checkGraphTotalKeysExist($content);
         $this->assertArrayHasKey('maxTotal', $content);
 
-        $this->assertEquals('Jun 2013', $content['monthsTotals'][0]['month']);
-        $this->assertEquals('100', $content['monthsTotals'][0]['positiveTransferTotal']);
-        $this->assertEquals('-100', $content['monthsTotals'][0]['negativeTransferTotal']);
-        $this->assertEquals('0', $content['monthsTotals'][1]['positiveTransferTotal']);
-        $this->assertEquals('0', $content['monthsTotals'][1]['negativeTransferTotal']);
+        $this->assertEquals('Jun 2013', $content['monthTotals'][0]['month']);
+        $this->assertEquals('100', $content['monthTotals'][0]['positiveTransferTotal']);
+        $this->assertEquals('-100', $content['monthTotals'][0]['negativeTransferTotal']);
+        $this->assertEquals('0', $content['monthTotals'][1]['positiveTransferTotal']);
+        $this->assertEquals('0', $content['monthTotals'][1]['negativeTransferTotal']);
 
         $this->assertEquals(200, $response->getStatusCode());
     }
@@ -105,13 +105,13 @@ class FilterGraphsTest extends FiltersTest
         $this->checkGraphTotalKeysExist($content);
         $this->assertArrayHasKey('maxTotal', $content);
 
-        $this->assertEquals($date->copy()->addMonths(5)->format('M Y'), $content['monthsTotals'][0]['month']);
-        $this->assertEquals('855', $content['monthsTotals'][0]['balanceFromBeginning']);
-        $this->assertEquals('2255', $content['monthsTotals'][3]['balanceFromBeginning']);
-        $this->assertEquals('2190', $content['monthsTotals'][4]['balanceFromBeginning']);
+        $this->assertEquals($date->copy()->addMonths(5)->format('M Y'), $content['monthTotals'][0]['month']);
+        $this->assertEquals('855', $content['monthTotals'][0]['balanceFromBeginning']);
+        $this->assertEquals('2255', $content['monthTotals'][3]['balanceFromBeginning']);
+        $this->assertEquals('2190', $content['monthTotals'][4]['balanceFromBeginning']);
 
-        $this->assertEquals('0', $content['monthsTotals'][0]['negativeTransferTotal']);
-        $this->assertEquals('0', $content['monthsTotals'][0]['positiveTransferTotal']);
+        $this->assertEquals('0', $content['monthTotals'][0]['negativeTransferTotal']);
+        $this->assertEquals('0', $content['monthTotals'][0]['positiveTransferTotal']);
 
         $this->assertEquals(200, $response->getStatusCode());
     }

@@ -25,7 +25,6 @@ class TransactionTransformer extends TransformerAbstract
             'total' => $transaction->total,
             'reconciled' => $transaction->reconciled,
             'allocated' => $transaction->allocated,
-            //Todo: I think validAllocation and multipleBudgets are causing quite a lot of queries
             'validAllocation' => $transaction->validAllocation,
             'account_id' => $transaction->account_id,
             'account' => [
