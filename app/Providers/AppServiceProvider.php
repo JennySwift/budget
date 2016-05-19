@@ -38,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
 //		$this->app->bind('remaining-balance', function(){
 //			return $this->app->make('App\Models\Totals\RemainingBalance');
 //		});
+
+        if ($this->app->environment('local')) {
+            $this->app->register('Clockwork\Support\Laravel\ClockworkServiceProvider');
+        }
     }
 
 }

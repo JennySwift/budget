@@ -149,8 +149,7 @@ return [
 		'App\Providers\ValidationServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Spatie\Backup\BackupServiceProvider',
-        'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
-		'Clockwork\Support\Laravel\ClockworkServiceProvider'
+        'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider'
 
 	],
 
