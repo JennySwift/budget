@@ -41,6 +41,3 @@ Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => 'auth'], 
     });
 
 });
-
-// Not so important routes
-require app_path('Http/Routes/tests.php');
