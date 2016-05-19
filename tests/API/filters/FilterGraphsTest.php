@@ -128,6 +128,7 @@ class FilterGraphsTest extends FiltersTest
         $to = Carbon::today()->subMonths(2)->format('Y-m-d');
 
         $response = $this->call('GET', '/api/totals/spentOnBudgets?from=' . $from . '&to=' . $to);
+//        dd($response);
         $content = json_decode($response->getContent(), true);
 //      dd($content);
 
@@ -153,6 +154,7 @@ class FilterGraphsTest extends FiltersTest
         $this->logInUser();
 
         $response = $this->call('GET', '/api/totals/spentOnBudgets?from=' . '' . '&to=' . '');
+//        dd($response);
         $content = json_decode($response->getContent(), true);
 //      dd($content);
 

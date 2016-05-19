@@ -83,7 +83,7 @@ class TotalsController extends Controller
      */
     public function spentOnBudgets(Request $request)
     {
-        $budgets = Budget::forCurrentUser()->get();
+        $budgets = Budget::forCurrentUser()->with('transactions')->get();
         $totals = [];
 
         foreach ($budgets as $budget) {

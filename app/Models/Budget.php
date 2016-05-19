@@ -194,20 +194,38 @@ class Budget extends Model
      */
     public function getSpentInDateRange($fromDate, $toDate)
     {
-        $spentInDateRange = $this->transactions();
+//        $spentInDateRange = $this->transactions();
+//
+//        if ($fromDate) {
+//            $spentInDateRange = $spentInDateRange->where('date', '>=', $fromDate);
+//        }
+//        if ($toDate) {
+//            $spentInDateRange = $spentInDateRange->where('date', '<=', $toDate);
+//        }
+//
+//        $spentInDateRange = $spentInDateRange
+//            ->where('type', 'expense')
+//            ->sum('calculated_allocation');
+//
+//                return (float) $spentInDateRange;
+
+        $transactions = $this->transactions;
 
         if ($fromDate) {
-            $spentInDateRange = $spentInDateRange->where('date', '>=', $fromDate);
+            $transactions = $transactions->filter(function ($transaction) use ($fromDate) {
+                return $transaction->date >= $fromDate;
+            });
         }
         if ($toDate) {
-            $spentInDateRange = $spentInDateRange->where('date', '<=', $toDate);
+            $transactions = $transactions->filter(function ($transaction) use ($toDate) {
+                return $transaction->date <= $toDate;
+            });
         }
+        $transactions = $transactions->filter(function ($transaction) {
+            return $transaction->type === 'expense';
+        });
 
-        $spentInDateRange = $spentInDateRange
-            ->where('type', 'expense')
-            ->sum('calculated_allocation');
-
-        return (float) $spentInDateRange;
+        return $transactions->sum('pivot.calculated_allocation');
     }
 
     /**
