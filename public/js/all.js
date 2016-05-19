@@ -34789,16 +34789,6 @@ var GraphsPage = Vue.component('graphs-page', {
                     }
                 ]
             };
-        },
-
-        /**
-         *
-         */
-        listen: function () {
-            var that = this;
-            // $(document).on('get-graph-data', function (event) {
-            //     that.getAllGraphData();
-            // });
         }
     },
     props: [
@@ -34810,13 +34800,7 @@ var GraphsPage = Vue.component('graphs-page', {
         }
     },
     ready: function () {
-        //Putting this here because for each time I switched back to this page, the 'get-graph-data' event listener would fire an additional time
-        // $(document).off('get-graph-data');
-        this.listen();
-        //Putting this here because when the get-graph-data event is triggered in FilterRepository, the listen method here hasn't fired yet
-        // if (!this.graphDataLoaded) {
-            this.getAllGraphData();
-        // }
+
     }
 });
 var InvalidAllocationFilter = Vue.component('invalid-allocation-filter', {
