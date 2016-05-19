@@ -14,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         DB::listen(function ($sql, $bindings, $time) {
-            var_dump($sql . "\n");
+            if (app()->env) {
+                var_dump($sql . "\n");
+            }
         });
     }
 
