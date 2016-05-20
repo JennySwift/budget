@@ -70,6 +70,7 @@ class FilterGraphsTest extends FiltersTest
         ];
 
         $response = $this->apiCall('POST', '/api/filter/graphTotals', $data);
+//        dd($response);
         $content = json_decode($response->getContent(), true);
 
         $this->assertNull($content);

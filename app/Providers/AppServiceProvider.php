@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         DB::listen(function ($sql, $bindings, $time) {
             if (app()->env === 'testing') {
-                var_dump($sql . "\n" . $time . "seconds\n");
+//                var_dump($sql . "\n" . $time . "seconds\n");
             }
         });
     }

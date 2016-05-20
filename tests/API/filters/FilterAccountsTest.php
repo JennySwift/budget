@@ -33,9 +33,10 @@ class FilterAccountsTest extends FiltersTest
         $data = [
             'filter' => $this->filter
         ];
-        $this->setTransactions($data);
+        $response = $this->apiCall('POST', '/api/filter/transactions', $data);
+        $content = json_decode($response->getContent(), true);
 
-        foreach ($this->transactions as $transaction) {
+        foreach ($content as $transaction) {
             $this->assertEquals(1, $transaction['account']['id']);
         }
 
@@ -63,9 +64,10 @@ class FilterAccountsTest extends FiltersTest
         $data = [
             'filter' => $this->filter
         ];
-        $this->setTransactions($data);
+        $response = $this->apiCall('POST', '/api/filter/transactions', $data);
+        $content = json_decode($response->getContent(), true);
 
-        foreach ($this->transactions as $transaction) {
+        foreach ($content as $transaction) {
             $this->assertNotEquals(1, $transaction['account']['id']);
         }
 

@@ -8,7 +8,7 @@ namespace App\Repositories\Filters;
  * @package App\Repositories\Filters
  */
 class FilterBasicsRepository {
-
+    
     /**
      *
      * @param $query
