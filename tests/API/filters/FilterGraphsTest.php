@@ -32,7 +32,8 @@ class FilterGraphsTest extends FiltersTest
 //      dd($content);
 
         $this->checkGraphTotalKeysExist($content);
-        $this->assertArrayHasKey('maxTotal', $content);
+
+        $this->assertCount(33, $content['monthTotals']);
 
         $this->assertEquals('Jun 2013', $content['monthTotals'][0]['month']);
         $this->assertEquals('100', $content['monthTotals'][0]['positiveTransferTotal']);
@@ -103,7 +104,8 @@ class FilterGraphsTest extends FiltersTest
 //      dd($content);
 
         $this->checkGraphTotalKeysExist($content);
-        $this->assertArrayHasKey('maxTotal', $content);
+
+        $this->assertCount(5, $content['monthTotals']);
 
         $this->assertEquals($date->copy()->addMonths(5)->format('M Y'), $content['monthTotals'][0]['month']);
         $this->assertEquals('855', $content['monthTotals'][0]['balanceFromBeginning']);

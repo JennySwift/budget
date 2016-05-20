@@ -49,7 +49,7 @@ class FilterTotalsRepository {
      * @param $transactions
      * @return array
      */
-    private function calculateFilterTotals($transactions)
+    public function calculateFilterTotals($transactions)
     {
         $credit = 0;
         $debit = 0;
@@ -92,6 +92,7 @@ class FilterTotalsRepository {
             'debit' => $debit,
             'creditIncludingTransfers' => $creditIncludingTransfers,
             'debitIncludingTransfers' => $debitIncludingTransfers,
+            'balance' => $creditIncludingTransfers - $debitIncludingTransfers,
             'totalReconciled' => $totalReconciled,
             'positiveTransferTotal' => $positiveTransferTotal,
             'negativeTransferTotal' => $negativeTransferTotal,
