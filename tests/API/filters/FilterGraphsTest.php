@@ -16,7 +16,7 @@ class FilterGraphsTest extends FiltersTest
      * @test
      * @return void
      */
-    public function it_gets_the_graph_totals()
+    public function it_gets_the_graph_totals_with_default_filter()
     {
         $this->setFilterDefaults();
         $this->logInUser();
@@ -28,6 +28,7 @@ class FilterGraphsTest extends FiltersTest
         ];
 
         $response = $this->apiCall('POST', '/api/filter/graphTotals', $data);
+//        dd($response);
         $content = json_decode($response->getContent(), true);
 //      dd($content);
 

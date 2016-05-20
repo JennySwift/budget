@@ -57,9 +57,22 @@ class GraphsRepository {
         $totalsForAllMonths = [];
 
         while ($minDate <= $date) {
+//            $transactionsForMonth = $query
+//                ->whereMonth('date', '=', $date->month)
+//                ->whereYear('date', '=', $date->year)
+//                ->select('date', 'type', 'total', 'reconciled')
+//                ->orderBy('date', 'desc')
+//                ->get();
+
             $transactionsForMonth = $transactions->filter(function ($transaction) use ($date) {
                 return Carbon::createFromFormat('Y-m-d', $transaction->date)->year === $date->year && $transactionMonth = Carbon::createFromFormat('Y-m-d', $transaction->date)->month === $date->month;
             });
+            
+//            $transactionsFromBeginning = $queryForCalculatingBalance
+//                ->where('date', '<=', $date->copy()->endOfMonth()->format('Y-m-d'))
+//                ->select('date', 'type', 'total', 'reconciled')
+//                ->orderBy('date', 'desc')
+//                ->get();
 
             $transactionsFromBeginning = $transactionsFromBeginning->filter(function ($transaction) use ($date) {
                 return Carbon::createFromFormat('Y-m-d', $transaction->date) <= $date->copy()->endOfMonth();

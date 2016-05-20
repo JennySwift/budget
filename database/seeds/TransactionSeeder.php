@@ -68,14 +68,19 @@ class TransactionSeeder extends Seeder {
             $this->flexBudgetIds = $user->flexBudgets()->lists('id')->all();
             $this->mixedBudgetIds = [$this->fixedBudgetIds[0], $this->flexBudgetIds[0]];
 
+            $num = 1;
+            if ($user->id === 2) {
+                $num = 20;
+            }
+
             // Create transactions without budgets
-            $this->createIncomeTransactionsWithoutBudgets($user, 1);
-            $this->createExpenseTransactionsWithOutBudgets($user, 1);
-            $this->createTransferTransactions($user, 1);
+            $this->createIncomeTransactionsWithoutBudgets($user, $num);
+            $this->createExpenseTransactionsWithoutBudgets($user, $num);
+            $this->createTransferTransactions($user, $num);
 
             //Create transactions with budgets
-            $this->createExpenseTransactionsWithBudgets($user, 1);
-            $this->createIncomeTransactionsWithBudgets($user, 1);
+            $this->createExpenseTransactionsWithBudgets($user, $num);
+            $this->createIncomeTransactionsWithBudgets($user, $num);
         }
 	}
 
