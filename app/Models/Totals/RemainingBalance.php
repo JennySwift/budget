@@ -42,7 +42,7 @@ class RemainingBalance {
      * @param BasicTotal $basicTotals
      * @param FixedBudgetTotal $fixedBudgetTotals
      * @param FlexBudgetTotal $flexBudgetTotals
-     * @param UnassignedBudgetTotal $unassignedBudgetTotal
+     * @param UnassignedBudgetTotal $unassignedBudgetTotals
      */
     public function __construct(BasicTotal $basicTotals, FixedBudgetTotal $fixedBudgetTotals, FlexBudgetTotal $flexBudgetTotals, UnassignedBudgetTotal $unassignedBudgetTotals)
     {

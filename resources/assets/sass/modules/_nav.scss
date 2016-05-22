@@ -1,6 +1,6 @@
 #navbar {
-    display: none;
-//    display:flex;
+    //display: none;
+    display:flex;
     justify-content: space-around;
     position: fixed;
     top: 0;
@@ -14,7 +14,7 @@
         align-items: center;
         justify-content: center;
         position: relative;
-        height: 44px;
+        height: $navHeight;
         min-width: 70px;
         > a {
             transition: all .5s ease;
@@ -23,7 +23,10 @@
         }
         &:hover {
             > a {
-                font-size: 25px;
+                font-size: 19px;
+                &.fa {
+                    font-size: 25px;
+                }
             }
         }
     }
@@ -31,7 +34,7 @@
         color: #337ab7;
     }
     .gravatar-li {
-        min-width: 160px;
+        //min-width: 160px;
         .gravatar-container {
             margin-left: 5px;
             display: flex;
@@ -39,6 +42,30 @@
             .gravatar {
                 border-radius: 8px;
                 height: 32px;
+            }
+        }
+    }
+    .show-dropdown {
+        a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            span:first-child {
+                margin-right: 17px;
+            }
+            .fa-check {
+                font-size: 17px;
+            }
+        }
+        a[disabled=true] {
+            cursor: not-allowed;
+        }
+        .disabled {
+            color: #777;
+            font-weight: bold;
+            text-align: center;
+            &:hover {
+                background: white;
             }
         }
     }

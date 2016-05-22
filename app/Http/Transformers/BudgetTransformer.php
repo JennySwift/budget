@@ -10,30 +10,43 @@ use League\Fractal\TransformerAbstract;
 class BudgetTransformer extends TransformerAbstract
 {
     /**
-     * Transform transaction response
-     * @param Transaction $transaction
+     * BudgetTransformer constructor.
+     * @param array $params
+     */
+    public function __construct($params = [])
+    {
+        $this->params = $params;
+    }
+
+    /**
+     * @param Budget $budget
      * @return array
      */
     public function transform(Budget $budget)
     {
-        return [
+        $data = [
             'id' => $budget->id,
             'path' => $budget->path,
             'name' => $budget->name,
-            'amount' => $budget->amount,
-            'calculatedAmount' => $budget->calculatedAmount,
             'type' => $budget->type,
-            'formattedStartingDate' => $budget->formattedStartingDate,
-            'spent' => $budget->spent,
-            'received' => $budget->received,
-            'spentAfterStartingDate' => $budget->spentAfterStartingDate,
-            'spentBeforeStartingDate' => $budget->spentBeforeStartingDate,
-            'receivedAfterStartingDate' => $budget->receivedAfterStartingDate,
-            'cumulativeMonthNumber' => $budget->cumulativeMonthNumber,
-            'cumulative' => $budget->cumulative,
-            'remaining' => $budget->remaining,
             'transactionsCount' => $budget->transactionsCount
         ];
+
+        if (array_key_exists('includeExtra', $this->params) && $this->params['includeExtra']) {
+            $data['amount'] = $budget->amount;
+            $data['calculatedAmount'] = $budget->calculatedAmount;
+            $data['formattedStartingDate'] = $budget->formattedStartingDate;
+            $data['spent'] = $budget->spent;
+            $data['received'] = $budget->received;
+            $data['spentAfterStartingDate'] = $budget->spentAfterStartingDate;
+            $data['spentBeforeStartingDate'] = $budget->spentBeforeStartingDate;
+            $data['receivedAfterStartingDate'] = $budget->receivedAfterStartingDate;
+            $data['cumulativeMonthNumber'] = $budget->cumulativeMonthNumber;
+            $data['cumulative'] = $budget->cumulative;
+            $data['remaining'] = $budget->remaining;
+        }
+
+        return $data;
     }
 
 }

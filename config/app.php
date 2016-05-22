@@ -149,7 +149,8 @@ return [
 		'App\Providers\ValidationServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Spatie\Backup\BackupServiceProvider',
-        'Laracasts\Utilities\JavaScript\JavascriptServiceProvider'
+        'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
+		'Clockwork\Support\Laravel\ClockworkServiceProvider'
 
 	],
 
@@ -199,6 +200,7 @@ return [
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Debugbar' => 'Barryvdh\Debugbar\Facade',
+		'Clockwork' => 'Clockwork\Support\Laravel\Facade',
 
 	],
 

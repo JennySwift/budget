@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="" ng-app="budgetApp">
+<html lang="en" class="" v-app="budgetApp">
 <head>
     <meta charset="UTF-8">
     <title>Budget App</title>
@@ -11,7 +11,7 @@
 
 </head>
 
-<body ng-controller="mainCtrl">
+<body v-controller="mainCtrl">
 
 <div class="main">
 

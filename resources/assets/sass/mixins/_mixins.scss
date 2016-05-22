@@ -35,15 +35,19 @@
         &#description-autocomplete {
             right: 0;
         }
-        td, th {
-            max-width: 57px;
-            font-size: 13px;
-            padding: 0;
-            overflow: scroll;
-        }
-        .selected {
-//            background-color: lightblue;
-            color: #ffffff;
+        table {
+            border-radius: 0;
+            td, th {
+                max-width: 57px;
+                font-size: 13px;
+                padding: 0;
+                //overflow: scroll;
+                border-radius: 0;
+            }
+            .selected {
+                //            background-color: lightblue;
+                color: #ffffff;
+            }
         }
     }
 }
@@ -63,5 +67,9 @@
     .flex {
         display: flex;
         justify-content: space-between;
+        align-items: flex-end;
+        .form-group {
+            margin-bottom: 0;
+        }
     }
 }

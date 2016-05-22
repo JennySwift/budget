@@ -1,0 +1,45 @@
+.autocomplete {
+    margin-bottom: 20px;
+    position: relative;
+    .autocomplete-field {
+        margin-bottom: 0px;
+    }
+    .autocomplete-dropdown {
+        margin-top: 2px;
+        max-height: 217px;
+        border: 1px solid #777;
+        border-radius: 3px;
+        margin-bottom: 20px;
+        position: absolute;
+        //35px is better than 59px if the label isn't being used
+        //top: 35px;
+        top: 59px;
+        background: white;
+        width: 100%;
+        z-index: $zIndex1;
+        .autocomplete-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 5px;
+            .autocomplete-option-text {
+                flex-grow: 1;
+            }
+            .label {
+                margin-top: 1px;
+                margin-right: 4px;
+            }
+        }
+        .no-results {
+            padding: 3px 8px;
+        }
+    }
+    .scrollbar-container {
+        .mCSB_draggerContainer {
+            right: -7px;
+        }
+    }
+}
+
+

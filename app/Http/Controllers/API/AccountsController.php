@@ -7,10 +7,14 @@ use App\Http\Requests;
 use App\Http\Requests\Accounts\DeleteAccountRequest;
 use App\Http\Requests\Accounts\InsertAccountRequest;
 use App\Http\Requests\Accounts\UpdateAccountRequest;
+use App\Http\Transformers\AccountTransformer;
 use App\Models\Account;
 use Auth;
 use DB;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use JavaScript;
+use Pusher;
 
 /**
  * Class AccountsController
@@ -20,73 +24,94 @@ class AccountsController extends Controller
 {
 
     /**
-     * Create a new controller instance.
+     *
+     * @param Request $request
+     * @return Response
      */
-    public function __construct()
+    public function index(Request $request)
     {
-        $this->middleware('auth');
+        $accounts = Account::forCurrentUser()->orderBy('name', 'asc')->get();
+
+        $accounts = $this->transform($this->createCollection($accounts, new AccountTransformer(['includeBalance' => $request->get('includeBalance')])))['data'];
+        return response($accounts, Response::HTTP_OK);
     }
 
     /**
-     * GET api/accounts
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * POST /api/accounts/{accounts}
+     * @param InsertAccountRequest $request
+     * @return Response
      */
-    public function index()
+    public function store(InsertAccountRequest $request)
     {
-        return response(Account::forCurrentUser()->get(), 200);
-    }
-
-    /**
-     * POST api/accounts
-     * @param InsertAccountRequest $insertAccountRequest
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     */
-    public function store(InsertAccountRequest $insertAccountRequest)
-    {
-        $account = new Account(['name' => $insertAccountRequest->get('name')]);
+        $account = new Account($request->only(['name']));
         $account->user()->associate(Auth::user());
-
         $account->save();
 
-        return response($account, 201);
+        $account = $this->transform($this->createItem($account, new AccountTransformer))['data'];
+
+        $pusher = new Pusher(env('PUSHER_PUBLIC_KEY'), env('PUSHER_SECRET_KEY'), env('PUSHER_APP_ID'));
+
+        $data = 'account created!';
+
+        $pusher->trigger('myChannel', 'accountCreated', $data);
+
+        return response($account, Response::HTTP_CREATED);
     }
 
     /**
-     * Demonstration of Model Binding :)
-     * GET api/accounts/{accounts}
-     * @param $account
-     * @return Account
+     * GET /api/accounts/{accounts}
+     * @param Account $account
+     * @return Response
      */
     public function show(Account $account)
     {
-        return response($account, 200);
+        $account = $this->transform($this->createItem($account, new AccountTransformer))['data'];
+        return response($account, Response::HTTP_OK);
     }
-
+    
     /**
-     * PUT api/accounts/{accounts}
-     * @param UpdateAccountRequest $updateAccountRequest
-     * @param Account $account
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     */
-    public function update(UpdateAccountRequest $updateAccountRequest, Account $account)
+    * UPDATE /api/accounts/{accounts}
+    * @param UpdateAccountRequest $request
+    * @param Account $account
+    * @return Response
+    */
+    public function update(UpdateAccountRequest $request, Account $account)
     {
-        $account->name = $updateAccountRequest->get('name');
-        $account->save();
+        // Create an array with the new fields merged
+        $data = array_compare($account->toArray(), $request->only([
+            'name'
+        ]));
 
-        return response($account, 200);
+        $account->update($data);
+
+        $account = $this->transform($this->createItem($account, new AccountTransformer))['data'];
+        return response($account, Response::HTTP_OK);
     }
 
     /**
-     * Delete an account, only if it belongs to the user
-     * DELETE api/accounts/{accounts}
+     * DELETE /api/accounts/{accounts}
      * @param DeleteAccountRequest $deleteAccountRequest
-     * @param $account
-     * @return \Illuminate\Http\Response
+     * @param Account $account
+     * @return Response
      */
-    public function destroy(DeleteAccountRequest $deleteAccountRequest, $account)
+    public function destroy(DeleteAccountRequest $deleteAccountRequest, Account $account)
     {
-        $account->delete();
-
-        return $this->responseNoContent();
+        try {
+            $account->delete();
+            return response([], Response::HTTP_NO_CONTENT);
+        }
+        catch (\Exception $e) {
+            //Integrity constraint violation
+            if ($e->getCode() === '23000') {
+                $message = 'Account could not be deleted. It is in use.';
+            }
+            else {
+                $message = 'There was an error';
+            }
+            return response([
+                'error' => $message,
+                'status' => Response::HTTP_BAD_REQUEST
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 }

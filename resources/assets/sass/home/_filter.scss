@@ -6,7 +6,7 @@
 #filter {
     //animation
     animation: slideInRight .5s;
-    &.ng-hide {
+    &.filter-leave {
         animation: bounceOutRight 2s;
     }
 
@@ -24,8 +24,8 @@
     background: white;
 
     .toolbar-filter {
-        display: flex;
-        margin-bottom: 5px;
+        //display: flex;
+        margin-bottom: 12px;
         select {
             width: 60px;
         }
@@ -35,12 +35,36 @@
         display: flex;
     }
 
-    .btn-group {
+    .nav-tabs {
         display: flex;
-        button {
+        margin-bottom: 10px;
+        > li {
             flex-grow: 1;
+            text-align: center;
+        }
+        a:focus {
+            outline: none;
+        }
+        .show-tab.active {
+            a {
+                background: $success;
+                color: white;
+            }
+
+        }
+        .hide-tab.active {
+            a {
+                background: $danger;
+                color: white;
+            }
         }
     }
+    //.btn-group {
+    //    display: flex;
+    //    button {
+    //        flex-grow: 1;
+    //    }
+    //}
 
     .section {
         margin: 8px;
@@ -50,10 +74,14 @@
             background: black;
             color: #CFCFCF;
             cursor: pointer;
-            width: 235px;
         }
         .content {
             display: none;
+            padding-top: 15px;
+            .form-group {
+                margin-bottom: 0;
+                padding-bottom: 15px;
+            }
             label {
                 &.disabled {
 //                    text-decoration: line-through;
@@ -94,15 +122,9 @@
 	.tag-input-wrapper input {
 		width: auto;
 	}
-	.accounts, .types, .status, .budget {
-		> div {
-			display: flex;
-			align-items: center;
-		}
-	}
-	input[type = "radio"] {
-		width: 27px;
-		margin-right: 7px;
-	}
+	//input[type = "radio"] {
+	//	width: 27px;
+	//	margin-right: 7px;
+	//}
 
 }

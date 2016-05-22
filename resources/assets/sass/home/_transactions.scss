@@ -4,6 +4,7 @@
 	background: white;
     border: 2px solid #ddd;
     box-shadow: 3px 3px 10px #777;
+    margin: auto;
     thead {
         tr {
             background: white;
@@ -29,7 +30,6 @@
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
-//			height: 39px;
 		}
         .tooltip-container {
             visibility: hidden;
@@ -54,6 +54,9 @@
 			padding: 9px 0px 2px 0px;
 			height: 24px;
 		}
+        .type {
+            font-size: 6px;
+        }
 	}
     .results_inner_div {
         td {

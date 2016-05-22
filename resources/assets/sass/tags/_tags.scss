@@ -28,7 +28,35 @@
 
 }
 
+.tag-with-budget {
+    background: green;
+}
 
+.tag-with-fixed-budget {
+    background: $primary;
+    .type {
+        font-size: 6px;
+    }
+    //&:after {
+    //    content: ' fixed';
+    //    font-size: 6px;
+    //}
+}
 
+.tag-with-flex-budget {
+     background: $warning;
+     .type {
+         font-size: 6px;
+     }
+     //&:after {
+     //    content: ' flex';
+     //    font-size: 6px;
+     //}
+ }
 
+.tag-without-budget {
+    .type {
+        font-size: 6px;
+    }
+}
 

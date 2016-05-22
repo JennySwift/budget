@@ -13,25 +13,37 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Transaction extends Model
 {
-
     use ForCurrentUserTrait;
 
+    /**
+     *
+     */
     const DIRECTION_FROM = "from";
+
+    /**
+     *
+     */
     const DIRECTION_TO = "to";
 
+    /**
+     *
+     */
     const TYPE_TRANSFER = "transfer";
+
+    /**
+     *
+     */
     const TYPE_INCOME = "income";
+
+    /**
+     *
+     */
     const TYPE_EXPENSE = "expense";
 
     /**
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at', 'user_id'];
-
-    /**
-     * @var array
-     */
-    protected $appends = ['path', 'userDate', 'reconciled', 'multipleBudgets'];
 
     /**
      *
@@ -61,9 +73,7 @@ class Transaction extends Model
     public function assignedBudgets()
     {
         return $this->belongsToMany('App\Models\Budget', 'budgets_transactions')
-//            ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation')
             ->where('budgets.type', '!=', 'unassigned');
-//            ->orderBy('name', 'asc');
     }
 
     /**
@@ -72,12 +82,31 @@ class Transaction extends Model
      */
     public function getMultipleBudgetsAttribute()
     {
-        // $this->budgets->count()
         if (count($this->assignedBudgets) > 1) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Determine whether or not the total allocation for the transaction's
+     * assigned budgets matches the total of the transaction
+     */
+    public function getValidAllocationAttribute()
+    {
+        if (!$this->multipleBudgets) {
+            return null;
+        }
+
+        $totalAllocation = 0;
+        foreach ($this->budgets as $budget) {
+            if ($budget->isAssigned()) {
+                $totalAllocation+= $budget->pivot->calculated_allocation;
+            }
+        }
+
+        return (string)$totalAllocation === (string)$this->total;
     }
 
 
@@ -115,28 +144,6 @@ class Transaction extends Model
     }
 
     /**
-     * Get the transaction's tags that have a budget
-     * @return $this
-     */
-//    public function tagsWithBudget()
-//    {
-//        return $this->belongsToMany('App\Models\Tag', 'transactions_tags')
-//            ->where('budget_id', '!=', 'null')
-//            ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation');
-//    }
-
-    /**
-     * Get the transaction's tags that have a flex budget
-     * @return $this
-     */
-//    public function tagsWithFlexBudget()
-//    {
-//        return $this->belongsToMany('App\Models\Tag', 'transactions_tags')
-//                    ->where('budget_id', 2)
-//                    ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation');
-//    }
-
-    /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -163,17 +170,6 @@ class Transaction extends Model
         return static::where('user_id', Auth::user()->id)
             ->max('id');
     }
-
-    /**
-     * For when updating a transaction
-     * @param $transaction
-     */
-//    public function deleteAllBudgetsForTransaction($transaction)
-//    {
-//        DB::table('budgets_transactions')
-//            ->where('transaction_id', $transaction->id)
-//            ->delete();
-//    }
 
     /**
      *
@@ -215,7 +211,7 @@ class Transaction extends Model
     /**
      * Change the amount that is allocated to the tag, for one transaction
      * @param $allocated_fixed
-     * @param $tag
+     * @param $budget
      */
     public function updateAllocatedFixed($allocated_fixed, $budget)
     {
@@ -234,7 +230,8 @@ class Transaction extends Model
     /**
      * Change the amount (percentage of the transaction) that is allocated to the tag
      * @param $allocated_percent
-     * @param $tag
+     * @param $budget
+     * @return mixed
      */
     public function updateAllocatedPercent($allocated_percent, $budget)
     {
@@ -251,10 +248,11 @@ class Transaction extends Model
     }
 
     /**
-     * For when the user gives a tag an allocation of 100%, to automatically give the transaction's
+     * For when the user gives a tag an allocation of 100%,
+     * to automatically give the transaction's
      * other tags an allocation of 0%.
-     * $edited_tag is the tag the user gave the allocation to.
-     * @param $edited_tag
+     * $editedBudget is the budget the user gave the allocation to.
+     * @param $editedBudget
      * @param $percent
      */
     private function setAllocationAutomatically($editedBudget, $percent)
@@ -291,7 +289,7 @@ class Transaction extends Model
     /**
      * Updates calculated_allocation column for one row in transactions_tags,
      * where the tag has been given an allocated percent
-     * @param $tag_id
+     * @param $budgetId
      */
     public function updateAllocatedPercentCalculatedAllocation($budgetId)
     {

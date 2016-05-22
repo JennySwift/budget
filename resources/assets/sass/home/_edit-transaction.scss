@@ -1,0 +1,15 @@
+#edit-transaction {
+//    padding: 22px;
+//    @include transaction_popup;
+//    input {
+//        margin-bottom: 4px;
+//    }
+    .reconciled {
+        display: flex;
+        align-items: center;
+        label {
+            margin-bottom: 0;
+            margin-right: 2px;
+        }
+    }
+}

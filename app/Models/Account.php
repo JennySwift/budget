@@ -53,13 +53,17 @@ class Account extends Model
 
     /**
      *
-     * @return mixed
+     * @return float
      */
-    public static function getAccounts()
+    public function getBalanceAttribute()
     {
-        return Account::where('user_id', Auth::user()->id)
-            ->orderBy('name', 'asc')
-            ->get();
+        $balance = 0;
+
+        foreach ($this->transactions as $transaction) {
+            $balance+= $transaction->total;
+        }
+
+        return (float) $balance;
     }
 
 }

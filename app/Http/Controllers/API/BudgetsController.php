@@ -21,29 +21,53 @@ class BudgetsController extends Controller
 {
 
     /**
-     * @var budgetsRepository
+     * This method is only for the test at the moment
+     * @param Request $request
+     * @return Response
      */
-    protected $budgetsRepository;
-
-    /**
-     * Create a new controller instance.
-     * @param BudgetsRepository $budgetsRepository
-     */
-    public function __construct(BudgetsRepository $budgetsRepository)
+    public function index(Request $request)
     {
-        $this->middleware('auth');
-        $this->budgetsRepository = $budgetsRepository;
+        if ($request->has('fixed')) {
+            $budgets = Budget::forCurrentUser()
+                ->whereType('fixed')
+                ->orderBy('name', 'asc')
+                ->get();
+        }
+        else if ($request->has('unassigned')) {
+            $budgets = Budget::forCurrentUser()
+                ->whereType('unassigned')
+                ->orderBy('name', 'asc')
+                ->get();
+        }
+        else if ($request->has('flex')) {
+//            $budgets = Budget::forCurrentUser()->whereType('flex')->get();
+            $remainingBalance = app('remaining-balance')->calculate();
+//            return $remainingBalance->flexBudgetTotals->budgets['data'];
+            $budgets = $remainingBalance->flexBudgetTotals->budgets;
+        }
+        else {
+            $budgets = Budget::forCurrentUser()
+                ->orderBy('name', 'asc')
+                ->get();
+        }
+
+        $budgets = $this->transform($this->createCollection($budgets, new BudgetTransformer(['includeExtra' => true])))['data'];
+        return response($budgets, Response::HTTP_OK);
     }
 
     /**
-     * Create a budget
-     * POST api/budgets
-     * @param CreateBudgetRequest $createBudgetRequest
-     * @return \Illuminate\Http\Response
+     * POST /api/budgets
+     * @param CreateBudgetRequest $request
+     * @return Response
      */
-    public function store(CreateBudgetRequest $createBudgetRequest)
+    public function store(CreateBudgetRequest $request)
     {
-        $budget = new Budget($createBudgetRequest->only('type', 'name', 'amount', 'starting_date'));
+        $budget = new Budget($request->only([
+            'type',
+            'name',
+            'amount',
+            'starting_date'
+        ]));
         $budget->user()->associate(Auth::user());
         $budget->save();
 
@@ -52,45 +76,50 @@ class BudgetsController extends Controller
             $budget->getCalculatedAmount($remainingBalance);
         }
 
-        $item = $this->createItem(
-            $budget,
-            new BudgetTransformer
-        );
-
-        return $this->responseWithTransformer($item, Response::HTTP_CREATED);
+        $budget = $this->transform($this->createItem($budget, new BudgetTransformer(['includeExtra' => true])))['data'];
+        return response($budget, Response::HTTP_CREATED);
     }
 
     /**
-     * GET api/budgets{budgets}
+     * GET /api/budgets/{budgets}
+     * @param Budget $budget
+     * @return Response
      */
     public function show(Budget $budget)
     {
-        return $this->responseOk($budget);
+        $budget = $this->transform($this->createItem($budget, new BudgetTransformer))['data'];
+        return response($budget, Response::HTTP_OK);
     }
 
     /**
-     * Update the starting date for a budget
-     * PUT api/budgets/{budgets}
-     * @TODO Needs refactoring!!!!
+     * PUT /api/budgets/{budgets}
      * @param Request $request
      * @param budget $budget
      * @return array
      */
     public function update(Request $request, Budget $budget)
     {
-        $data = array_filter(array_diff_assoc($request->only(['name', 'type', 'amount', 'starting_date']), $budget->toArray()));
+        $data = array_filter(array_diff_assoc($request->only([
+            'name',
+            'type',
+            'amount',
+            'starting_date'
+        ]), $budget->toArray()));
 
         if(empty($data)) {
-            return $this->responseNotModified();
+            return response($this->transform($this->createItem($budget, new BudgetTransformer(['includeExtra' => true]))), Response::HTTP_NOT_MODIFIED);
         }
 
         $budget->update($data);
 
         //Put the calculated amount attribute on the budget
         $remainingBalance = app('remaining-balance')->calculate();
+
         $budget->getCalculatedAmount($remainingBalance);
 
-        return $this->responseOkWithTransformer($budget, new BudgetTransformer);
+        $budget = $this->transform($this->createItem($budget, new BudgetTransformer(['includeExtra' => true])))['data'];
+
+        return response($budget, Response::HTTP_OK);
     }
 
     /**
@@ -105,33 +134,5 @@ class BudgetsController extends Controller
         $budget->delete();
 
         return response([], 204);
-    }
-
-    /**
-     * This is just so I can write a test for the fixed budgets in TotalsTest.php
-     */
-    public function getFixedBudgets()
-    {
-        $budgets = Budget::forCurrentUser()->whereType('fixed')->get();
-
-        //Transform budgets
-        $resource = createCollection($budgets, new BudgetTransformer);
-        return transform($resource);
-    }
-
-    /**
-     * This is just so I can write a test for the flex budgets in TotalsTest.php
-     */
-    public function getFlexBudgets()
-    {
-//        $budgets = Budget::forCurrentUser()->whereType('flex')->get();
-
-        $remainingBalance = app('remaining-balance')->calculate();
-        $budgets = $remainingBalance->flexBudgetTotals->budgets['data'];
-        return $budgets;
-
-        //Transform budgets
-//        $resource = createCollection($budgets, new BudgetTransformer);
-//        return transform($resource);
     }
 }

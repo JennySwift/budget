@@ -18,15 +18,15 @@ return [
         "in" => [],
         "out" => []
     ],
-    "single_date" => [
+    "singleDate" => [
         "inSql" => "",
         "outSql" => "",
     ],
-    "from_date" => [
+    "fromDate" => [
         "inSql" => "",
         "outSql" => "",
     ],
-    "to_date" => [
+    "toDate" => [
         "inSql" => "",
         "outSql" => "",
     ],
@@ -49,8 +49,9 @@ return [
         "in" => "all",
         "out" => "none"
     ],
+    "invalidAllocation" => false,
     "reconciled" => "any",
     "offset" => 0,
-    "num_to_fetch" => 30
+    "numToFetch" => 30
 ]
 ];

@@ -137,8 +137,8 @@ class FlexBudgetTotal implements Arrayable, BudgetTotal {
         $this->unallocatedRemaining = $this->allocatedPlusUnallocatedRemaining - $this->remaining;
 
         //Transform budgets
-        $resource = createCollection($this->budgets, new BudgetTransformer);
-        $this->budgets = transform($resource);
+//        $resource = createCollection($this->budgets, new BudgetTransformer);
+//        $this->budgets = transform($resource);
     }
 
     /**

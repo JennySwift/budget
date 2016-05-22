@@ -1,6 +1,7 @@
 <?php namespace App\Exceptions;
 
 use Exception, Redirect;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\Response;
@@ -77,7 +78,23 @@ class Handler extends ExceptionHandler {
 			], Response::HTTP_BAD_REQUEST);
 		}
 
-	    return parent::render($request, $e);
+		// Model not found exception handler (app-wide)
+		if ($e instanceof ModelNotFoundException) {
+
+			// Build a "fake" instance of the model which was not found
+			// and fetch the shortname of the class
+			// Ex.: If we have a App\Models\Projects\Project model
+			// Then we would return Project
+			$model = (new \ReflectionClass($e->getModel()))->getShortName();
+
+			return response([
+				'error' => "{$model} not found.",
+				'status' => Response::HTTP_NOT_FOUND
+			], Response::HTTP_NOT_FOUND);
+		}
+
+
+		return parent::render($request, $e);
 	}
 
 }

@@ -5,16 +5,13 @@ namespace App\Http\Controllers\API;
 use App\Events\TransactionWasCreated;
 use App\Events\TransactionWasUpdated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Http\Transformers\TransactionTransformer;
-use App\Models\Budget;
+use App\Models\Account;
 use App\Models\Savings;
 use App\Models\Transaction;
 use App\Repositories\Savings\SavingsRepository;
-use App\Repositories\Transactions\TransactionsRepository;
+use App\Repositories\Transactions\BudgetTransactionRepository;
 use Auth;
-use DB;
-use Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -25,30 +22,224 @@ use Illuminate\Http\Response;
 class TransactionsController extends Controller
 {
     /**
-     * @var TransactionsRepository
-     */
-    protected $transactionsRepository;
-
-    /**
      * @var SavingsRepository
      */
     private $savingsRepository;
+    /**
+     * @var BudgetTransactionRepository
+     */
+    private $budgetTransactionRepository;
 
     /**
-     * @param TransactionsRepository $transactionsRepository
+     * @param SavingsRepository $savingsRepository
+     * @param BudgetTransactionRepository $budgetTransactionRepository
      */
-    public function __construct(TransactionsRepository $transactionsRepository, SavingsRepository $savingsRepository)
-    {
-        $this->transactionsRepository = $transactionsRepository;
+    public function __construct(SavingsRepository $savingsRepository, BudgetTransactionRepository $budgetTransactionRepository) {
         $this->savingsRepository = $savingsRepository;
+        $this->budgetTransactionRepository = $budgetTransactionRepository;
+    }
+
+    /**
+     * This is for the transaction autocomplete
+     * @param Request $request
+     * @return Response
+     */
+    public function index(Request $request)
+    {
+        $transactions = Transaction::forCurrentUser()
+            ->limit(50)
+            ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc')
+            ->with('account')
+            ->with('budgets');
+
+        if ($request->get('typing') || $request->get('typing') === '') {
+            $transactions = $transactions->where($request->get('column'), 'LIKE', '%' . $request->get('typing') . '%')
+                ->where('type', '!=', 'transfer');
+        }
+
+        $transactions = $transactions->get();
+
+        $transactions = $this->transform($this->createCollection($transactions, new TransactionTransformer))['data'];
+
+        return response($transactions, Response::HTTP_OK);
+    }
+
+    /**
+     * Get allocation totals
+     *
+     * @JS:
+     * It is good, but not ideal.
+     * Returning an AllocationTotal object that you could eventually use
+     * with a transformer would be a good idea.
+     * But it is fine to keep like this if you want :)
+     * @param Transaction $transaction
+     * @return Response
+     */
+    public function show(Transaction $transaction)
+    {
+        return $transaction->getAllocationTotals();
+    }
+
+    /**
+     * Todo: Do validations
+     * POST /api/transactions
+     * @param Request $request
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        $transaction = new Transaction($request->only([
+            'date',
+            'description',
+            'merchant',
+            'total',
+            'type',
+            'reconciled',
+            'minutes'
+        ]));
+
+        //Make sure total is negative for expense, negative for transfers from, and positive for income
+        if ($transaction->type === 'expense' && $transaction->total > 0) {
+            $transaction->total *= -1;
+        }
+        else {
+            if ($transaction->type === 'income' && $transaction->total < 0) {
+                $transaction->total *= -1;
+            }
+            else {
+                if ($transaction->type === 'transfer' && $request->get('direction') === Transaction::DIRECTION_FROM) {
+                    $transaction->total *= -1;
+                }
+            }
+        }
+
+        $transaction->account()->associate(Account::find($request->get('account_id')));
+        $transaction->user()->associate(Auth::user());
+        $transaction->save();
+
+        if ($transaction->type !== 'transfer') {
+            $this->budgetTransactionRepository->attachBudgetsWithDefaultAllocation($transaction, $request->get('budget_ids'));
+        }
+
+        //Fire event
+        event(new TransactionWasCreated($transaction));
+
+        $transaction = $this->transform($this->createItem($transaction, new TransactionTransformer))['data'];
+
+        return response($transaction, Response::HTTP_CREATED);
+    }
+
+    /**
+     * PUT /api/transactions/{transactions}
+     * @param Request $request
+     * @param Transaction $transaction
+     * @return Response
+     */
+    public function update(Request $request, Transaction $transaction)
+    {
+        //For adding budgets to many transactions at once
+        if ($request->has('addingBudgets')) {
+            $transaction = $this->budgetTransactionRepository->addBudgets($request, $transaction);
+        }
+        else {
+            $previousTotal = $transaction->total;
+            $data = array_filter(array_diff_assoc(
+                $request->only([
+                    'date',
+                    'description',
+                    'merchant',
+                    'total',
+                    'type',
+                    'reconciled',
+                    'allocated',
+                    'minutes'
+                ]),
+                $transaction->toArray()
+            ), 'removeFalseKeepZeroAndEmptyStrings');
+
+            if ($request->has('account_id')) {
+                $transaction->account()->associate(Account::findOrFail($request->get('account_id')));
+            }
+
+            //Make the total positive if the type has been changed from expense to income
+            if (isset($data['type']) && $transaction->type === 'expense' && $data['type'] === 'income') {
+                if (isset($data['total']) && $data['total'] < 0) {
+                    //The user has changed the total as well as the type,
+                    //but the total is negative and it should be positive
+                    $data['total'] *= -1;
+                }
+                else {
+                    //The user has changed the type but not the total
+                    $transaction->total *= -1;
+                    $transaction->save();
+                }
+            }
+
+            //Make the total negative if the type has been changed from income to expense
+            else if (isset($data['type']) && $transaction->type === 'income' && $data['type'] === 'expense') {
+                if (isset($data['total']) && $data['total'] > 0) {
+                    //The user has changed the total as well as the type,
+                    //but the total is positive and it should be negative
+                    $data['total'] *= -1;
+                }
+                else {
+                    //The user has changed the type but not the total
+                    $transaction->total *= -1;
+                    $transaction->save();
+                }
+            }
+            //Make the total negative if an expense
+            else if ($transaction->type === 'expense' && array_key_exists('total', $data) && $data['total'] > 0) {
+                $data['total']*=-1;
+            }
+            //Make the total positive if an income
+            else if ($transaction->type === 'income' && array_key_exists('total', $data) && $data['total'] < 0) {
+                $data['total']*=-1;
+            }
+
+//        if(empty($data)) {
+//            return $this->responseNotModified();
+//        }
+
+            //Fire event
+            //Todo: update the savings when event is fired
+            event(new TransactionWasUpdated($transaction, $data));
+
+            $transaction->update($data);
+            $transaction->save();
+
+            if ($request->has('budget_ids')) {
+                $transaction->budgets()->sync($request->get('budget_ids'));
+
+                //Change calculated_allocation from null to 0
+                $budgetsAdded = $transaction->budgets()->wherePivot('calculated_allocation', null)->get();
+                foreach ($budgetsAdded as $budget) {
+                    $transaction->budgets()->updateExistingPivot($budget->id, ['calculated_allocation' => '0']);
+                }
+            }
+            //If the total has changed, update the allocation if the allocation is a percentage of the transaction total
+            if ($previousTotal !== $transaction->total) {
+                $budgetsToUpdateAllocation = $transaction->budgets()->wherePivot('allocated_percent', '>', 0)->get();
+                foreach ($budgetsToUpdateAllocation as $budget) {
+                    $calculatedAllocation = $transaction->total / 100 * $budget->pivot->allocated_percent;
+                    $transaction->budgets()->updateExistingPivot($budget->id, ['calculated_allocation' => $calculatedAllocation]);
+                }
+            }
+        }
+
+        $transaction = $this->transform($this->createItem($transaction, new TransactionTransformer))['data'];
+
+        return response($transaction, Response::HTTP_OK);
     }
 
     /**
      * Delete a transaction, only if it belongs to the user
-     * @param Request $request
+     * @param Transaction $transaction
      * @return Response
+     * @throws \Exception
      */
-    public function destroy($transaction)
+    public function destroy(Transaction $transaction)
     {
         $transaction->delete();
 
@@ -59,139 +250,5 @@ class TransactionsController extends Controller
         }
 
         return $this->responseNoContent();
-    }
-
-    public function show($transaction)
-    {
-        return $this->responseOk($transaction);
-//        return $this->responseWithTransformer($item, Response::HTTP_OK);
-    }
-
-    /**
-     * Todo: Should be POST /api/accounts/{accounts}/transaction
-     * Todo: Do validations
-     * @param Request $request
-     * @return array
-     */
-    public function store(Request $request)
-    {
-        $data = $request->only([
-            'date',
-            'type',
-            'direction',
-            'description',
-            'merchant',
-            'total',
-            'reconciled',
-            'account_id',
-            'budgets',
-            'minutes'
-        ]);
-
-        $transaction = $this->transactionsRepository->create($data);
-
-        $item = $this->createItem(
-            $transaction,
-            new TransactionTransformer
-        );
-
-        return $this->responseWithTransformer($item, Response::HTTP_CREATED);
-    }
-
-    /**
-     * Update the transaction
-     * PUT api/transactions/{transactions}
-     * @param Request $request
-     * @param Transaction $transaction
-     * @return Response
-     */
-    public function update(Request $request, Transaction $transaction)
-    {
-        $data = array_filter(array_diff_assoc(
-            $request->only([
-                'date',
-                'account_id',
-                'description',
-                'merchant',
-                'total',
-                'reconciled',
-                'allocated',
-                'minutes'
-            ]),
-            $transaction->toArray()
-        ), 'removeFalseKeepZeroAndEmptyStrings');
-
-//        if(empty($data)) {
-//            return $this->responseNotModified();
-//        }
-
-        //Fire event
-        //Todo: update the savings when event is fired
-        event(new TransactionWasUpdated($transaction, $data));
-
-        $transaction->update($data);
-        $transaction->save();
-
-        $budgets = $request->get('budgets');
-        if (isset($budgets)) {
-            $transaction->budgets()->detach();
-        }
-
-        if ($budgets) {
-            $this->transactionsRepository->attachBudgets($transaction, $budgets);
-        }
-
-        $item = $this->createItem(
-            $transaction,
-            new TransactionTransformer
-        );
-
-        return $this->responseWithTransformer($item, Response::HTTP_OK);
-    }
-
-    /**
-     * For one transaction, change the amount that is allocated for one tag
-     * POST api/updateAllocation
-     *
-     * One route to update allocation for transactions linked to multiple budgets
-     * PUT api/budgets/{budgets}/transactions/{transactions} => ['type' => 'percent', 'amount' => 75]
-     *
-     * @param Request $request
-     * @return array
-     */
-    public function updateAllocation(Request $request)
-    {
-        $type = $request->get('type');
-        $value = $request->get('value');
-        $transaction = Transaction::find($request->get('transaction_id'));
-        $budget = Budget::find($request->get('budget_id'));
-
-        if ($type === 'percent') {
-            $transaction->updateAllocatedPercent($value, $budget);
-        }
-        elseif ($type === 'fixed') {
-            $transaction->updateAllocatedFixed($value, $budget);
-        }
-
-        return [
-//            "allocation_info" => $tag->getAllocationInfo($transaction, $tag),
-            "budgets" => $transaction->budgets,
-            "totals" => $transaction->getAllocationTotals()
-        ];
-    }
-
-    /**
-     * Get allocation totals
-     * POST /select/allocationTotals
-     * @param Request $request
-     * @return array
-     */
-    public function getAllocationTotals(Request $request)
-    {
-        $transaction = Transaction::find($request->get('transaction_id'));
-
-        // It is good, but not ideal. Returning an AllocationTotal object that you could eventually use
-        // with a transformer would be a good idea. But it is fine to keep like this if you want :)
-        return $transaction->getAllocationTotals();
     }
 }

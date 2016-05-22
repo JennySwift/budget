@@ -45,3 +45,16 @@
 
 }
 
+.scroll-btn {
+    position: fixed;
+    top: 100px;
+    left: 50px;
+}
+
+.help-page {
+    padding-top: 100px;
+    .help-container {
+        height: 200px;
+        overflow:scroll;
+    }
+}

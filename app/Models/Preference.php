@@ -16,7 +16,14 @@ class Preference extends Model
     /**
      * @var array
      */
-    protected $allowed = ['colors', 'clearFields'];
+    protected $allowed = [
+        'colors',
+        'clearFields',
+        'dateFormat',
+        'autocompleteDescription',
+        'autocompleteMerchant',
+        'show'
+    ];
 
     /**
      * @param User $user

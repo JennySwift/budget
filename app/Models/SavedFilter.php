@@ -18,8 +18,14 @@ class SavedFilter extends Model
      */
     protected $table = 'filters';
 
+    /**
+     * @var array
+     */
     protected $casts = ['filter' => 'json'];
 
+    /**
+     * @var array
+     */
     protected $fillable = ['name', 'filter'];
 
     /**

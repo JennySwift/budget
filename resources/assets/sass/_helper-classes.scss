@@ -8,26 +8,6 @@
 	}
 }
 
-.tag-with-budget {
-    background: green;
-}
-
-.tag-with-fixed-budget {
-    background: $primary;
-    &:after {
-        content: ' fixed';
-        font-size: 6px;
-    }
-}
-
-.tag-with-flex-budget {
-    background: $warning;
-    &:after {
-        content: ' flex';
-        font-size: 6px;
-    }
-}
-
 .list-group {
     //To prevent funny corners when I give it a box-shadow
     border-radius: 5px;
@@ -79,6 +59,43 @@
     }
 }
 
+.checkbox-container {
+	display: flex;
+	align-items: center;
+	margin-bottom: 4px;
+	label {
+		margin-bottom: 0;
+		font-weight: normal;
+		white-space: nowrap;
+	}
+	input {
+		margin-right: 5px;
+	}
+}
+
+//For my budget autocompletes in the filter with a button next to them
+.input-btn-container {
+	display: flex;
+	input {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	.input-group-btn {
+		width: auto;
+	}
+	&.xs {
+		input {
+			height: 20px;
+		}
+		button {
+			height: 20px;
+			line-height: 0;
+			font-size: 8px;
+			padding: 6px 4px;
+		}
+	}
+}
+
 .btn-group {
     .btn {
         margin: 0 -2px;
@@ -121,6 +138,7 @@
 
 .selected {
 	background: $select_blue;
+	color: white !important;
 }
 
 .absolute {
@@ -138,7 +156,7 @@
 
 .btn-xs {
 	font-size: 8px;
-	padding: 1px;
+	padding: 1px 3px;
 }
 
 // =================================font=================================

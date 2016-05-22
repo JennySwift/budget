@@ -7,28 +7,35 @@
     height: 100%;
     background: rgba(0,0,0,.4);
     z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .popup-inner {
-        position: relative;
         border-radius: 5px;
-        margin-top: 10%;
         background: white;
-        margin-left: auto;
-        margin-right: auto;
-        width: 80%;
         overflow: scroll;
-        height: 500px;
+        max-height: 650px;
         padding: 25px;
-        .popup-buttons {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            margin: 0px 3px;
+        margin: 0 30px;
+        .popup-title {
+            margin-bottom: 30px;
+            margin-top: 0;
+        }
+        .buttons {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            margin-top: 30px;
+            button {
+                margin: 0 5px;
+            }
+        }
+        .top-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
         }
     }
-}
-
-#recipe-method, #edit-recipe-method {
-    background: lightgrey;
 }
 
 @media all and (min-width: 680px) {

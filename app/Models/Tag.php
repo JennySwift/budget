@@ -91,22 +91,6 @@ class Tag extends Model implements Arrayable
     }
 
     /**
-     * For tags with a flex budget.
-     * This figure is dependant on what's left after fixed budget, savings,
-     * and perhaps other figures are taken care of.
-     * It is a percentage of what is left, hence the name 'flex' budget.
-     * @return float
-     */
-//    public function getCalculatedBudgetAttribute()
-//    {
-////        $RB = new RB();
-//        if ($this->budget_type === 'flex') {
-//            return 3;
-////            return $RB->withoutEFLB / 100 * $this->flex_budget;
-//        }
-//    }
-
-    /**
      *
      * @return mixed
      */
@@ -132,26 +116,6 @@ class Tag extends Model implements Arrayable
         return;
     }
 
-//    /**
-//     * Get the cumulative month number for a tag (CMN).
-//     * CMN is based on the starting date (CSD) for a tag.
-//     * @param $CSD
-//     * @return string
-//     */
-//    public function getCMNAttribute()
-//    {
-//        if ($this->starting_date) {
-//            $diff = Carbon::now()->diff(Carbon::createFromFormat('Y-m-d', $this->starting_date));
-//
-//            $CMN = $diff->format('%y') * 12 + $diff->format('%m') + 1;
-//        }
-//        else {
-//            $CMN = 1;
-//        }
-//
-//        return $CMN;
-//    }
-
     /**
      *
      * @param $tag
@@ -166,66 +130,14 @@ class Tag extends Model implements Arrayable
         }
     }
 
-    /**
-     * For one tag.
-     * For getting the updated info after updating the allocation for that tag.
-     * I'm now getting the info for all the transaction's tags (in the transaction model)
-     * @param $transaction
-     * @param $tag
-     * @return mixed|null
-     */
-//    public function getAllocationInfo($transaction, $tag)
-//    {
-//        $tag = $transaction->tags()
-//            ->where('tag_id', $tag->id)
-//            ->first();
-//
-//        $tag->setAllocationType();
-//
-//        return $tag;
-//    }
-
-//    public function spentAfterSD()
-//    {
-//        return $this->hasOne('App/Models/Tag')
-//            ->selectRaw('product_id, sum(available_stock) as aggregate');
-//    }
-
     //Todo: The four methods below are causing a lot of queries to run.
-
-//    /**
-//     * Get total spent on a given tag on or after starting date
-//     * @param $tag_id
-//     * @param $starting_date
-//     * @return mixed
-//     */
-//    public function getSpentAfterSDAttribute()
-//    {
-//        $total = DB::table('transactions_tags')
-//            ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
-//            ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
-//            ->where('transactions_tags.tag_id', $this->id);
-//
-//        if ($this->starting_date) {
-//            $total = $total->where('transactions.date', '>=', $this->starting_date);
-//        }
-//
-//        $total = $total
-//            ->where('transactions.type', 'expense')
-//            ->sum('calculated_allocation');
-//
-//        return $this->spentAfterSD = $total;
-//    }
 
     /**
      * Get total received on a given tag on or after starting date
-     * @param $tag_id
-     * @param $starting_date
      * @return mixed
      */
     public function getReceivedAfterSDAttribute()
     {
-//        return 3;
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
@@ -244,26 +156,10 @@ class Tag extends Model implements Arrayable
 
     /**
      * Get total spent on a given tag before starting date
-     * @param $tag_id
-     * @param $CSD
      * @return mixed
      */
     public function getSpentBeforeSDAttribute()
     {
-//        return 3;
-
-
-//        $total = Transaction::whereHas('tags', function($q)
-//        {
-//            $q->where('id', $this->id);
-//        });
-
-
-
-
-
-
-
         $total = DB::table('transactions_tags')
             ->join('tags', 'transactions_tags.tag_id', '=', 'tags.id')
             ->join('transactions', 'transactions_tags.transaction_id', '=', 'transactions.id')
@@ -286,12 +182,10 @@ class Tag extends Model implements Arrayable
      */
     public function getRemainingAttribute()
     {
-//        return 3;
         if ($this->budget_type === 'fixed') {
             return $this->remaining = $this->cumulative + $this->spentAfterSD + $this->receivedAfterSD;
         }
         elseif ($this->budget_type === 'flex') {
-//            dd($this->spentAfterSD);
             return $this->remaining = $this->calculated_budget + $this->spentAfterSD + $this->receivedAfterSD;
         }
     }

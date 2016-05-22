@@ -9,8 +9,17 @@ use App\Models\Savings;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
+ * Could use model binding for these routes
+ * so I don't have to fetch the savings each time.
+ * Route::put('increase/{savings}', 'SavingsController@increase');
+ *
+ * @TODO Should be returning the savings object,
+ * (with a transformer if you do not need everything :))
+ * not $savings->amount
+ *
  * Class SavingsController
  * @package App\Http\Controllers
  */
@@ -29,12 +38,7 @@ class SavingsController extends Controller
         $savings = Savings::forCurrentUser()->first();
         $savings->update(compact('amount'));
 
-        // @TODO Should be returning the savings object (with a transformer if you do not need everything :))
-        return $savings->amount;
-        // For consistency in your API, always return JSON
-//        return response([
-//            'amount' => $savings->amount
-//        ], 200);
+        return response($savings->amount, Response::HTTP_OK);
     }
 
     /**
@@ -51,7 +55,7 @@ class SavingsController extends Controller
         $savings->increase($amount);
         $savings->save();
 
-        return $savings->amount;
+        return response($savings->amount, Response::HTTP_OK);
     }
 
     /**
@@ -68,6 +72,6 @@ class SavingsController extends Controller
         $savings->decrease($amount);
         $savings->save();
 
-        return $savings->amount;
+        return response($savings->amount, Response::HTTP_OK);
     }
 }

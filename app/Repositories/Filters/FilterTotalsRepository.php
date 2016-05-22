@@ -14,17 +14,50 @@ class FilterTotalsRepository {
     /**
      *
      * @param $query
+     * @param $queryForCalculatingBalance
      * @return FilterTotals
      */
-    public function getFilterTotals($query)
+    public function getFilterTotals($query, $queryForCalculatingBalance = null)
     {
         $transactions = $this->getTransactions($query);
+        $balanceFromBeginning = null;
 
+        if ($queryForCalculatingBalance) {
+            $transactionsForCalculatingBalance = $this->getTransactions($queryForCalculatingBalance);
+            $resultsForCalculatingBalance = $this->calculateFilterTotals($transactionsForCalculatingBalance);
+            $balanceFromBeginning = $resultsForCalculatingBalance['creditIncludingTransfers'] + $resultsForCalculatingBalance['debitIncludingTransfers'];
+        }
+
+        $results = $this->calculateFilterTotals($transactions);
+
+        return new FilterTotals(
+            $results['credit'],
+            $results['debit'],
+            $results['creditIncludingTransfers'],
+            $results['debitIncludingTransfers'],
+            $results['creditIncludingTransfers'] + $results['debitIncludingTransfers'],
+            $results['totalReconciled'],
+            $this->countTransactions($query),
+            $balanceFromBeginning,
+            $results['positiveTransferTotal'],
+            $results['negativeTransferTotal']
+        );
+    }
+
+    /**
+     *
+     * @param $transactions
+     * @return array
+     */
+    public function calculateFilterTotals($transactions)
+    {
         $credit = 0;
         $debit = 0;
         $creditIncludingTransfers = 0;
         $debitIncludingTransfers = 0;
         $totalReconciled = 0;
+        $positiveTransferTotal = 0;
+        $negativeTransferTotal = 0;
 
         foreach ($transactions as $transaction) {
             switch($transaction->type) {
@@ -41,13 +74,12 @@ class FilterTotalsRepository {
                 case "transfer":
                     if ($transaction->total > 0) {
                         $creditIncludingTransfers += $transaction->total;
+                        $positiveTransferTotal += $transaction->total;
                     }
                     elseif ($transaction->total < 0) {
                         $debitIncludingTransfers += $transaction->total;
+                        $negativeTransferTotal+= $transaction->total;
                     }
-
-                default:
-                    // @TODO If nothing matches, throw an exception!!
             }
 
             if ($transaction->reconciled == 1) {
@@ -55,17 +87,16 @@ class FilterTotalsRepository {
             }
         }
 
-        //todo: format these values again elsewhere. I need them unformatted here.
-
-        return new FilterTotals(
-            $credit,
-            $debit,
-            $creditIncludingTransfers,
-            $debitIncludingTransfers,
-            $creditIncludingTransfers + $debitIncludingTransfers,
-            $totalReconciled,
-            $this->countTransactions($query)
-        );
+        return [
+            'credit' => $credit,
+            'debit' => $debit,
+            'creditIncludingTransfers' => $creditIncludingTransfers,
+            'debitIncludingTransfers' => $debitIncludingTransfers,
+            'balance' => $creditIncludingTransfers - $debitIncludingTransfers,
+            'totalReconciled' => $totalReconciled,
+            'positiveTransferTotal' => $positiveTransferTotal,
+            'negativeTransferTotal' => $negativeTransferTotal,
+        ];
     }
 
     /**

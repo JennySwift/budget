@@ -1,5 +1,0 @@
-<?php
-
-/**
- * Angular directive templates
- */

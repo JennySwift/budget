@@ -6,15 +6,15 @@
     <ul class="dropdown-menu" role="menu">
 
         <li>
-            <a href="/budgets/fixed">Fixed</a>
+            <a v-link="{path: '/fixed-budgets'}">Fixed</a>
         </li>
 
         <li>
-            <a href="/budgets/flex">Flex</a>
+            <a v-link="{path: '/flex-budgets'}">Flex</a>
         </li>
 
         <li>
-            <a href="/budgets/unassigned">Unassigned</a>
+            <a v-link="{path: '/unassigned-budgets'}">Unassigned</a>
         </li>
 
     </ul>

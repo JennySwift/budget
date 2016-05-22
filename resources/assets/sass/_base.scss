@@ -2,7 +2,6 @@
 
 html, body {
     max-width: 100%;
-    overflow-x: hidden;
     background: #fff;
     margin: 0;
     //for flexbox sticky footer
@@ -18,9 +17,10 @@ body {
     padding-top: 40px;
     color: #777;
     .main {
-        padding-bottom: 60px;
+        padding-bottom: 27px;
         min-height: 100%;
         display: none;
+        margin: 20px;
     }
     footer {
         display: none;
@@ -28,9 +28,9 @@ body {
         justify-content: space-around;
         padding: 11px;
         background: #000000;
-        height: 60px;
+        height: 27px;
         position: relative;
-        margin-top: -60px;
+        margin-top: -27px;
         li {
             display: flex;
             align-items: center;
@@ -83,7 +83,7 @@ select {
     }
 }
 
-input {
+input[type="text"] {
 	background: #fff;
 	border: 1px solid #ccc;
 	border-radius: 4px;
@@ -99,17 +99,16 @@ input {
 }
 
 input[type="checkbox"] {
-	height: 34px;
-	width: 34px;
+	//height: 34px;
+	//width: 34px;
 	margin: 0;
 }
 
 table {
     border-collapse: separate;
-    border-radius: 18px;
     text-align: center;
     th {
-        border-radius: 18px;
+        //border-radius: 18px;
         padding: 10px 10px;
         text-align: center;
     }
@@ -120,6 +119,9 @@ table {
             display: flex;
             align-items: center;
         }
+    }
+    &.table-rounded {
+        border-radius: 18px;
     }
 }
 

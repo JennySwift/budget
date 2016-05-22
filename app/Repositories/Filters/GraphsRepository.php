@@ -31,84 +31,66 @@ class GraphsRepository {
     /**
      *
      * @param $query
+     * @param $queryForCalculatingBalance
      * @return array
      */
-    public function getGraphTotals($query)
+    public function getGraphTotals($query, $queryForCalculatingBalance)
     {
-        if (Transaction::forCurrentUser()->count() < 1) {
-            //User doesn't have any transactions
-            return false;
+        $transactions = $query
+            ->select('date', 'type', 'total', 'reconciled')
+            ->orderBy('date', 'desc')
+            ->get();
+
+        $transactionsFromBeginning = $queryForCalculatingBalance
+            ->select('date', 'type', 'total', 'reconciled')
+            ->orderBy('date', 'desc')
+            ->get();
+
+        if (count($transactions) < 1) {
+            return null;
         }
 
-        $minDate = Carbon::createFromFormat('Y-m-d', $query->min('date'))->startOfMonth();
-        $maxDate = Carbon::createFromFormat('Y-m-d', $query->max('date'))->startOfMonth();
+        $minDate = Carbon::createFromFormat('Y-m-d', $transactions->min('date'))->startOfMonth();
+        $maxDate = Carbon::createFromFormat('Y-m-d', $transactions->max('date'))->startOfMonth();
 
         $date = $maxDate;
+        $totalsForAllMonths = [];
 
         while ($minDate <= $date) {
-            $monthsTotals[] = $this->monthTotals($query, $date);
-            $date = $date->subMonths(1);
+//            $transactionsForMonth = $query
+//                ->whereMonth('date', '=', $date->month)
+//                ->whereYear('date', '=', $date->year)
+//                ->select('date', 'type', 'total', 'reconciled')
+//                ->orderBy('date', 'desc')
+//                ->get();
 
+            $transactionsForMonth = $transactions->filter(function ($transaction) use ($date) {
+                return Carbon::createFromFormat('Y-m-d', $transaction->date)->year === $date->year && $transactionMonth = Carbon::createFromFormat('Y-m-d', $transaction->date)->month === $date->month;
+            });
+            
+//            $transactionsFromBeginning = $queryForCalculatingBalance
+//                ->where('date', '<=', $date->copy()->endOfMonth()->format('Y-m-d'))
+//                ->select('date', 'type', 'total', 'reconciled')
+//                ->orderBy('date', 'desc')
+//                ->get();
+
+            $transactionsFromBeginning = $transactionsFromBeginning->filter(function ($transaction) use ($date) {
+                return Carbon::createFromFormat('Y-m-d', $transaction->date) <= $date->copy()->endOfMonth();
+            });
+
+            $totalsForMonth = $this->filterTotalsRepository->calculateFilterTotals($transactionsForMonth);
+            $totalsForMonth['month'] = $date->format("M Y");
+
+            $totalsFromBeginning = $this->filterTotalsRepository->calculateFilterTotals($transactionsFromBeginning);
+            $totalsForMonth['balanceFromBeginning'] = $totalsFromBeginning['creditIncludingTransfers'] + $totalsFromBeginning['debitIncludingTransfers'];
+
+            $totalsForAllMonths[] = $totalsForMonth;
+
+            $date = $date->subMonths(1);
         }
 
         return [
-            'monthsTotals' => $monthsTotals,
-            'maxTotal' => $this->getMax($monthsTotals)
+            'monthTotals' => array_reverse($totalsForAllMonths)
         ];
     }
-
-    /**
-     * For the graph for the months, getting the max value, either income or expense,
-     * from the totals of the month, in order to calculate
-     * the height of the bars
-     */
-    private function getMax($monthsTotals)
-    {
-        //These worked before I did the formatting in FilterTotals.php
-//        $maxIncome = max(collect($monthsTotals)->lists('income'));
-//        $maxExpenses = min(collect($monthsTotals)->lists('expenses')) * -1;
-
-//        $maxIncome = max($this->getRawValues($monthsTotals, 'income'));
-
-        $maxIncome = max(array_pluck($monthsTotals, 'credit'));
-
-        $maxExpenses = min(array_pluck($monthsTotals, 'debit')) * -1;
-
-        return max($maxIncome, $maxExpenses);
-    }
-
-    /**
-     *
-     * @param $query
-     * @param $date
-     * @return \App\Models\Totals\FilterTotals
-     */
-    private function monthTotals($query, $date)
-    {
-        $queryClone = clone $query;
-        $queryClone = $queryClone
-            ->whereMonth('date', '=', $date->month)
-            ->whereYear('date', '=', $date->year);
-
-        $monthTotals = $this->filterTotalsRepository->getFilterTotals($queryClone);
-        $monthTotals->month = $date->format("M Y");
-
-        return $monthTotals;
-    }
-
-    /**
-     *
-     */
-//    private function getRawValues($array, $property)
-//    {
-//        $rawValues = [];
-//
-//        foreach ($array as $item) {
-//            dd($item);
-//            $rawValues[] = $item->{$property};
-//        }
-//
-//        return $rawValues;
-//    }
-
 }

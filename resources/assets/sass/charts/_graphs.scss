@@ -1,3 +1,14 @@
+#graphs-component {
+    flex-grow: 1;
+    max-width: calc(100% - 40px);
+    padding: 40px;
+    border: 1px solid #777;
+    border-radius: 4px;
+    .chart-container, .chart-container {
+        height: 335px;
+        max-width: 100%;
+    }
+}
 
 #graphs {
     display: flex;
@@ -24,8 +35,6 @@
                 flex-direction: column;
                 justify-content: center;
                 .span-container {
-//                    position: absolute;
-//                    bottom: 4px;
                     transform: rotate(90deg);
                 }
             }
@@ -34,27 +43,3 @@
 
 
 }
-
-
-//.bar_chart_div {
-//	display: flex;
-//	align-items: flex-end;
-//	justify-content: space-around;
-//	position: absolute;
-//	height: 370px;
-//	width: 100%;
-//	bottom: 0;
-//	border-radius: $border-radius;
-//	.bar_chart_li {
-//		position: relative;
-//		background: $lightgrey;
-//		height: 50%;
-//		width: 10px;
-//		text-align: center;
-//		p {
-//			position: absolute;
-//			width: 5px;
-//			bottom: 0;
-//		}
-//	}
-//}

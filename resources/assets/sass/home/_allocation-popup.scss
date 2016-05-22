@@ -1,50 +1,60 @@
 #allocation-popup {
 	max-width: 500px;
-	#allocation-table-container {
+
+	.warning {
 		display: flex;
-		justify-content: center;
-		td, th {
-			padding: 0;
-			overflow: scroll;
-			font-size: 9px;
-			@media (min-width: 400px) {
-				padding: 5px 5px;
-				font-size: 12px;
-			}
+		align-items: center;
+		.fa-exclamation-circle {
+			margin-right: 5px;
 		}
-		select {
-			font-size: 9px;
+		color: $danger;
+		font-weight: bold;
+		font-size: 13px;
+	}
+
+	table {
+		td, th {
+			//padding: 0;
+			////overflow: scroll;
+			//font-size: 9px;
+			//@media (min-width: 400px) {
+			//	padding: 5px 5px;
+			//	font-size: 12px;
+			//}
 		}
 		td {
 			height: 20px;
-			* {
-				height: 20px;
-			}
+			//* {
+			//	height: 20px;
+			//}
 			div {
+				height: 20px;
 				display: flex;
 				align-items: center;
 				justify-content: flex-end;
-				margin-right: 5px;
+				//margin-right: 5px;
 				text-align: right;
 				position: relative;
 				&.editable {
 					justify-content: space-between;
 				}
-				.edit {
-					width: 10px;
-					font-size: 5px;
-				}
+				//.edit {
+				//	width: 10px;
+				//	font-size: 5px;
+				//}
 			}
 			input {
-				width: 50px;
-				padding: 0;
-				border: none;
+				//height: 30px;
+				//width: 50px;
+				//padding: 0;
+				//border: none;
 			}
 		}
 		.totals {
 			@include totals;
 		}
 	}
+
 	p {
 		font-size: 11px;
 		@media (min-width: 400px) {

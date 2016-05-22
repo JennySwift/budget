@@ -8,7 +8,7 @@ namespace App\Repositories\Filters;
  * @package App\Repositories\Filters
  */
 class FilterBasicsRepository {
-
+    
     /**
      *
      * @param $query
@@ -88,8 +88,13 @@ class FilterBasicsRepository {
             $query = $query->where($type, 'LIKE', '%' . $value['in'] . '%');
         }
         if ($value['out']) {
-            $query = $query->where($type, 'NOT LIKE', '%' . $value['out'] . '%');
+            $query = $query->where(function($q) use ($type, $value)
+            {
+                $q->where($type, 'NOT LIKE', '%' . $value['out'] . '%')
+                    ->orWhereNull($type);
+            });
         }
+
         return $query;
     }
 
@@ -98,10 +103,12 @@ class FilterBasicsRepository {
      * @param $query
      * @param $type
      * @param $value
+     * @param $calculatingBalance
+     * @return mixed
      */
-    public function filterDates($query, $type, $value)
+    public function filterDates($query, $type, $value, $calculatingBalance)
     {
-        if ($type === "single_date") {
+        if ($type === "singleDate" && !$calculatingBalance) {
             if ($value['inSql']) {
                 $query = $query->where('date', $value['inSql']);
             }
@@ -110,13 +117,13 @@ class FilterBasicsRepository {
             }
         }
 
-        elseif ($type === "from_date") {
+        elseif ($type === "fromDate" && !$calculatingBalance) {
             if ($value['inSql']) {
                 $query = $query->where('date', '>=', $value['inSql']);
             }
         }
 
-        elseif ($type === "to_date") {
+        elseif ($type === "toDate") {
             if ($value['inSql']) {
                 $query = $query->where('date', '<=', $value['inSql']);
             }

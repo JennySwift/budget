@@ -1,17 +1,18 @@
 #loading {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     margin: auto;
-    font-size: 40px;
-    color: #5bc0de;
+    color: $info;
     display: flex;
-//    background: pink;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 60px;
-    z-index: 9999;
+    z-index: $zIndex4;
+    i {
+        font-size: 40px;
+    }
 }
 
 #page-loading {

@@ -1,7 +1,8 @@
 <?php namespace App\Models;
 
-use App, Cache;
+use App;
 use App\Traits\ForCurrentUserTrait;
+use Cache;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,24 +14,29 @@ class Budget extends Model
 {
     use ForCurrentUserTrait;
 
+    /**
+     *
+     */
     const TYPE_FIXED = "fixed";
+    /**
+     *
+     */
     const TYPE_FLEX = "flex";
+    /**
+     *
+     */
     const TYPE_UNASSIGNED = "unassigned";
 
+    /**
+     * @var array
+     */
     protected $fillable = ['type', 'name', 'amount', 'starting_date'];
 
+    /**
+     * @var array
+     */
     protected $appends = [
-        'path',
-//        'formattedStartingDate',
-//        'spent',
-//        'received',
-//        'spentAfterStartingDate',
-//        'spentBeforeStartingDate',
-//        'receivedAfterStartingDate',
-//        'cumulativeMonthNumber',
-//        'cumulative',
-//        'remaining',
-//        'transactionsCount'
+        'path'
     ];
 
     //Commenting this out for now because there's so much data I don't need
@@ -53,7 +59,7 @@ class Budget extends Model
     public function transactions()
     {
         return $this->belongsToMany('App\Models\Transaction', 'budgets_transactions')
-                    ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation');
+            ->withPivot('allocated_fixed', 'allocated_percent', 'calculated_allocation');
     }
 
     /**
@@ -100,32 +106,19 @@ class Budget extends Model
      */
     public function getAmountAttribute()
     {
-        return (float) $this->attributes['amount'];
+        return (float)$this->attributes['amount'];
     }
 
     /**
      *
      * @return string
      */
-//    public function getCalculatedAmountAttribute()
-//    {
-//        if($this->isFlex()) {
-//            //dd($this->remainingBalance);
-//            //return $remainingBalance / 100 * $this->attributes['amount'];
-//        }
-//
-//        return NULL;
-//    }
-
-    /**
- *
- * @return string
- */
     public function getStartingDateAttribute()
     {
         if (!$this->isUnassigned()) {
             return Carbon::createFromFormat('Y-m-d', $this->attributes['starting_date']);
         }
+
         return null;
     }
 
@@ -138,7 +131,8 @@ class Budget extends Model
         if (!$this->isUnassigned()) {
             return convertDate($this->starting_date);
         }
-        return NULL;
+
+        return null;
     }
 
     /**
@@ -147,7 +141,7 @@ class Budget extends Model
      */
     public function getSpentAttribute()
     {
-        return (float) $this->expenses()
+        return (float)$this->expenses()
             ->sum('calculated_allocation');
     }
 
@@ -157,7 +151,7 @@ class Budget extends Model
      */
     public function getReceivedAttribute()
     {
-        return (float) $this->incomes()
+        return (float)$this->incomes()
             ->sum('calculated_allocation');
     }
 
@@ -168,9 +162,10 @@ class Budget extends Model
     public function getSpentBeforeStartingDateAttribute()
     {
         if (!$this->isUnassigned()) {
-            return (float) $this->expenses()->where('date', '<', $this->starting_date)
+            return (float)$this->expenses()->where('date', '<', $this->starting_date)
                 ->sum('calculated_allocation');
         }
+
         return null;
     }
 
@@ -185,10 +180,52 @@ class Budget extends Model
                 ->where('type', 'expense')
                 ->sum('calculated_allocation');
 
-            return (float) $totalSpentAfterStartingDate;
+            return (float)$totalSpentAfterStartingDate;
         }
-        return null;
 
+        return null;
+    }
+
+    /**
+     * Get total spent on a given budget during a date range
+     * @param $fromDate (format Y-m-d)
+     * @param $toDate (format Y-m-d)
+     * @return mixed
+     */
+    public function getSpentInDateRange($fromDate, $toDate)
+    {
+//        $spentInDateRange = $this->transactions();
+//
+//        if ($fromDate) {
+//            $spentInDateRange = $spentInDateRange->where('date', '>=', $fromDate);
+//        }
+//        if ($toDate) {
+//            $spentInDateRange = $spentInDateRange->where('date', '<=', $toDate);
+//        }
+//
+//        $spentInDateRange = $spentInDateRange
+//            ->where('type', 'expense')
+//            ->sum('calculated_allocation');
+//
+//                return (float) $spentInDateRange;
+
+        $transactions = $this->transactions;
+
+        if ($fromDate) {
+            $transactions = $transactions->filter(function ($transaction) use ($fromDate) {
+                return $transaction->date >= $fromDate;
+            });
+        }
+        if ($toDate) {
+            $transactions = $transactions->filter(function ($transaction) use ($toDate) {
+                return $transaction->date <= $toDate;
+            });
+        }
+        $transactions = $transactions->filter(function ($transaction) {
+            return $transaction->type === 'expense';
+        });
+
+        return $transactions->sum('pivot.calculated_allocation');
     }
 
     /**
@@ -197,14 +234,14 @@ class Budget extends Model
      */
     public function getReceivedAfterStartingDateAttribute()
     {
-        if (!$this->isUnassigned())
-        {
+        if (!$this->isUnassigned()) {
             $totalReceivedAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date)
                 ->where('type', 'income')
                 ->sum('calculated_allocation');
 
-            return (float) $totalReceivedAfterStartingDate;
+            return (float)$totalReceivedAfterStartingDate;
         }
+
         return null;
 
     }
@@ -221,7 +258,8 @@ class Budget extends Model
 
             return $diff->format('%y') * 12 + $diff->format('%m') + 1;
         }
-        return NULL;
+
+        return null;
     }
 
     /**
@@ -231,8 +269,8 @@ class Budget extends Model
      */
     public function getCumulativeAttribute()
     {
-        if($this->isFixed()) {
-            return (float) $this->amount * $this->cumulativeMonthNumber;
+        if ($this->isFixed()) {
+            return (float)$this->amount * $this->cumulativeMonthNumber;
         }
     }
 
@@ -243,11 +281,11 @@ class Budget extends Model
      */
     public function getRemainingAttribute()
     {
-        if($this->isFlex()) {
+        if ($this->isFlex()) {
             return $this->calculatedAmount + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
         }
 
-        return (float) $this->cumulative + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
+        return (float)$this->cumulative + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
     }
 
     /**
@@ -257,6 +295,7 @@ class Budget extends Model
      */
     public function getCalculatedAmount($remainingBalance)
     {
+//        dd($this->calculatedAmount, $remainingBalance->amount, $this->amount);
         $this->calculatedAmount = $remainingBalance->amount / 100 * $this->amount;
     }
 

@@ -18,9 +18,15 @@
                 visibility: visible;
             }
         }
+        td, th {
+            text-align: left;
+        }
         td {
             font-size: 17px;
             height: 32px;
+        }
+        .balance {
+            text-align: right;
         }
     }
 }

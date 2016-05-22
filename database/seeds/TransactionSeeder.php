@@ -2,6 +2,7 @@
 
 use App\Models\Budget;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Models\Transaction;
@@ -37,6 +38,9 @@ class TransactionSeeder extends Seeder {
     protected $mixedBudgetIds;
 
     protected $date;
+    private $accounts;
+    private $expenseMerchants;
+    private $expenseMerchantsIndex;
 
     /**
      *
@@ -46,20 +50,37 @@ class TransactionSeeder extends Seeder {
         $this->faker = Faker::create();
 		$users = User::all();
 
+        $this->expenseMerchants = [
+            'John Doe',
+            'Jane Doe',
+            'John Smith',
+            'Sally Woods',
+            'Fred'
+        ];
+
+        $this->expenseMerchantsIndex = -1;
+
         foreach($users as $user) {
+            $this->accounts = Account::where('user_id', $user->id)->get();
+
             // Get budget ids for user
             $this->fixedBudgetIds = $user->fixedBudgets()->lists('id')->all();
             $this->flexBudgetIds = $user->flexBudgets()->lists('id')->all();
             $this->mixedBudgetIds = [$this->fixedBudgetIds[0], $this->flexBudgetIds[0]];
 
+            $num = 1;
+            if ($user->id === 2) {
+                $num = 20;
+            }
+
             // Create transactions without budgets
-            $this->createIncomeTransactionsWithoutBudgets($user, 1);
-            $this->createExpenseTransactionsWithOutBudgets($user, 1);
-            $this->createTransferTransactions($user, 1);
+            $this->createIncomeTransactionsWithoutBudgets($user, $num);
+            $this->createExpenseTransactionsWithoutBudgets($user, $num);
+            $this->createTransferTransactions($user, $num);
 
             //Create transactions with budgets
-            $this->createExpenseTransactionsWithBudgets($user, 1);
-            $this->createIncomeTransactionsWithBudgets($user, 1);
+            $this->createExpenseTransactionsWithBudgets($user, $num);
+            $this->createIncomeTransactionsWithBudgets($user, $num);
         }
 	}
 
@@ -70,39 +91,37 @@ class TransactionSeeder extends Seeder {
      */
     private function createExpenseTransactionsWithBudgets($user, $num)
     {
-        $dateBeforeStartingDate = '2013-01-01';
-        $dateAfterStartingDate = '2015-08-01';
-//        $dateBeforeStartingDate = $this->faker->dateTimeBetween('-2 years', '-1 years')->format('Y-m-d');
-//        $dateAfterStartingDate = $this->faker->dateTimeBetween('-1 months', 'now')->format('Y-m-d');
+        $dateBeforeStartingDate = Config::get('budgets.dateBeforeStartingDateForExpenseTransactions');
+        $dateAfterStartingDate = Config::get('budgets.dateAfterStartingDateForExpenseTransactions');
         $bankFeesId = Budget::where('user_id', $user->id)->whereName('bank fees')->pluck('id');
+
         foreach (range(1, $num) as $index) {
             //Create fixed budget expenses before starting date
-            $transaction = $this->createExpense($user, $dateBeforeStartingDate, 5, 1);
-//            $this->addBudgetsToTransaction($transaction, $this->getRandomFixedBudgetIds($user));
+            $transaction = $this->createExpense($user, $dateBeforeStartingDate, 5, 1, $this->accounts[0]);
             $this->addBudgetsToTransaction($transaction, $this->fixedBudgetIds);
 
             //Create fixed budget expenses after starting date
-            $transaction = $this->createExpense($user, $dateAfterStartingDate, 10, 0);
+            $transaction = $this->createExpense($user, $dateAfterStartingDate, 10, 0, $this->accounts[0]);
             $this->addBudgetsToTransaction($transaction, $this->fixedBudgetIds);
 
             //Create flex budget expenses before starting date
-            $transaction = $this->createExpense($user, $dateBeforeStartingDate, 15, 1);
+            $transaction = $this->createExpense($user, $dateBeforeStartingDate, 15, 1, $this->accounts[0]);
             $this->addBudgetsToTransaction($transaction, $this->flexBudgetIds);
 
             //Create flex budget expenses after starting date
-            $transaction = $this->createExpense($user, $dateAfterStartingDate, 20, 0);
+            $transaction = $this->createExpense($user, $dateAfterStartingDate, 20, 0, $this->accounts[0]);
             $this->addBudgetsToTransaction($transaction, $this->flexBudgetIds);
 
             //Create expenses before starting date with both fixed and flex budgets
-            $transaction = $this->createExpense($user, $dateBeforeStartingDate, 25, 1);
+            $transaction = $this->createExpense($user, $dateBeforeStartingDate, 25, 1, $this->accounts[1]);
             $this->addBudgetsToTransaction($transaction, $this->mixedBudgetIds);
 
             //Create expenses after starting date with both fixed and flex budgets
-            $transaction = $this->createExpense($user, $dateAfterStartingDate, 30, 0);
+            $transaction = $this->createExpense($user, $dateAfterStartingDate, 30, 0, $this->accounts[1]);
             $this->addBudgetsToTransaction($transaction, $this->mixedBudgetIds);
 
             //Create expenses with unassigned budget
-            $transaction = $this->createExpense($user, $dateAfterStartingDate, 5, 1);
+            $transaction = $this->createExpense($user, $dateAfterStartingDate, 5, 1, $this->accounts[1]);
             $this->addBudgetToTransaction($transaction, $bankFeesId);
         }
     }
@@ -114,10 +133,8 @@ class TransactionSeeder extends Seeder {
      */
     private function createIncomeTransactionsWithBudgets($user, $num)
     {
-        $dateBeforeStartingDate = '2013-02-01';
-        $dateAfterStartingDate = '2015-09-01';
-//        $dateBeforeStartingDate = $this->faker->dateTimeBetween('-2 years', '-1 years')->format('Y-m-d');
-//        $dateAfterStartingDate = $this->faker->dateTimeBetween('-1 months', 'now')->format('Y-m-d');
+        $dateBeforeStartingDate = Config::get('budgets.dateBeforeStartingDateForIncomeTransactions');
+        $dateAfterStartingDate = Config::get('budgets.dateAfterStartingDateForIncomeTransactions');
 
         $businessId = Budget::where('user_id', $user->id)->whereName('business')->pluck('id');
         $buskingId = Budget::where('user_id', $user->id)->whereName('busking')->pluck('id');
@@ -125,23 +142,23 @@ class TransactionSeeder extends Seeder {
 
         foreach (range(1, $num) as $index) {
             //Create fixed budget income before starting date for 'business' budget
-            $transaction = $this->createIncome($user, $dateBeforeStartingDate, 100, 1);
+            $transaction = $this->createIncome($user, $dateBeforeStartingDate, 100, 1, $this->accounts[0]);
             $this->addBudgetToTransaction($transaction, $businessId);
 
             //Create fixed budget income after starting date for 'business' budget
-            $transaction = $this->createIncome($user, $dateAfterStartingDate, 200, 0);
+            $transaction = $this->createIncome($user, $dateAfterStartingDate, 200, 0, $this->accounts[0]);
             $this->addBudgetToTransaction($transaction, $businessId);
 
             //Create flex budget income before starting date for 'busking' budget
-            $transaction = $this->createIncome($user, $dateBeforeStartingDate, 500, 1);
+            $transaction = $this->createIncome($user, $dateBeforeStartingDate, 500, 1, $this->accounts[0]);
             $this->addBudgetToTransaction($transaction, $buskingId);
 
             //Create flex budget income after starting date for 'busking' budget
-            $transaction = $this->createIncome($user, $dateAfterStartingDate, 1000, 0);
+            $transaction = $this->createIncome($user, $dateAfterStartingDate, 1000, 0, $this->accounts[1]);
             $this->addBudgetToTransaction($transaction, $buskingId);
 
             //Create income with unassigned budget
-            $transaction = $this->createIncome($user, $dateAfterStartingDate, 250, 1);
+            $transaction = $this->createIncome($user, $dateAfterStartingDate, 250, 1, $this->accounts[1]);
             $this->addBudgetToTransaction($transaction, $somethingId);
         }
     }
@@ -249,8 +266,7 @@ class TransactionSeeder extends Seeder {
     private function createIncomeTransactionsWithoutBudgets($user, $num)
     {
         foreach (range(1, $num) as $index) {
-            $transaction = $this->createIncome($user, '2015-06-01', 300, 1);
-//            $transaction = $this->createIncome($user, $this->faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d'), 300, 1);
+            $transaction = $this->createIncome($user, Carbon::today()->subMonths(7)->format('Y-m-d'), 300, 1, $this->accounts[0]);
         }
     }
 
@@ -274,25 +290,29 @@ class TransactionSeeder extends Seeder {
     private function createExpenseTransactionsWithoutBudgets($user, $num)
     {
         foreach (range(1, $num) as $index) {
-            $transaction = $this->createExpense($user, '2015-07-01', 50, 1);
-//            $transaction = $this->createExpense($user, $this->faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d'), 50, 1);
+            $transaction = $this->createExpense($user, Carbon::today()->subMonths(4)->format('Y-m-d'), 50, 1, $this->accounts[0]);
         }
     }
 
     /**
      *
      * @param $user
-     * @param $addBudgets
      * @param $date
+     * @param $total
+     * @param $reconciled
+     * @param $account
+     * @return Transaction
      */
-    private function createExpense($user, $date, $total, $reconciled)
+    private function createExpense($user, $date, $total, $reconciled, $account)
     {
+        $merchant = $this->setMerchant();
+
         $transaction = new Transaction([
             'type' => 'expense',
             'date' => $date,
-            'account_id' => Account::whereUserId($user->id)->get()->random(1)->id,
+            'account_id' => $account->id,
             'description' => $this->faker->sentence(1),
-            'merchant' => $this->faker->name(),
+            'merchant' => $merchant,
 //            'total' => $this->faker->randomElement([5, 10, 15, 20]) * -1,
             'total' => $total * -1,
             'reconciled' => $reconciled,
@@ -308,14 +328,33 @@ class TransactionSeeder extends Seeder {
 
     /**
      *
-     * @param $user
+     * @return mixed
      */
-    private function createIncome($user, $date, $total, $reconciled)
+    private function setMerchant()
+    {
+        $this->expenseMerchantsIndex++;
+        if ($this->expenseMerchantsIndex > count($this->expenseMerchants) - 1) {
+            $this->expenseMerchantsIndex = 0;
+        }
+
+        return $this->expenseMerchants[$this->expenseMerchantsIndex];
+    }
+
+    /**
+     *
+     * @param $user
+     * @param $date
+     * @param $total
+     * @param $reconciled
+     * @param $account
+     * @return Transaction
+     */
+    private function createIncome($user, $date, $total, $reconciled, $account)
     {
         $transaction = new Transaction([
             'type' => 'income',
             'date' => $date,
-            'account_id' => Account::whereUserId($user->id)->get()->random(1)->id,
+            'account_id' => $account->id,
             'description' => $this->faker->sentence(1),
             'merchant' => $this->faker->name(),
 //            'total' => $this->faker->randomElement([100, 500, 1000, 2000]),
@@ -337,18 +376,12 @@ class TransactionSeeder extends Seeder {
      */
     private function createTransfer($user)
     {
-        $from_account = Account::whereUserId($user->id)->get()->random(1);
-        $to_account = Account::whereUserId($user->id)->get()->random(1);
+        $from_account = Account::whereUserId($user->id)->offset(1)->first();
+        $to_account = Account::whereUserId($user->id)->first();
 
-//        $date = $this->faker->dateTimeBetween('-2 years', 'now')->format('Y-m-d H:i:s');
-//        $total = $this->faker->randomElement([5, 10, 15, 20]);
-        $date = '2013-03-01';
+        $date = Config::get('budgets.dateBeforeStartingDateForIncomeTransactions');
         $total = 100;
         $description = $this->faker->sentence(1);
-
-        while ($from_account->id == $to_account->id) {
-            $to_account = Account::whereUserId($user->id)->get()->random(1);
-        }
 
         $transaction = new Transaction([
             'type' => 'transfer',

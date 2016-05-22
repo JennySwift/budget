@@ -40,6 +40,19 @@ class FilterTotals implements Arrayable {
      * @var
      */
     public $debit;
+    /**
+     * @var
+     */
+
+    public $balanceFromBeginning;
+    /**
+     * @var
+     */
+    public $positiveTransferTotal;
+    /**
+     * @var
+     */
+    public $negativeTransferTotal;
 
     /**
      * @param $credit
@@ -49,11 +62,15 @@ class FilterTotals implements Arrayable {
      * @param $balance
      * @param $reconciled
      * @param $numTransactions
+     * @param $balanceFromBeginning - for calculating the balance at a given point in time
+     * (i.e., what would be shown on a bank statement), rather than just credit + debit for a given a time range
+     * @param $positiveTransferTotal
+     * @param $negativeTransferTotal
      * @VP: (less important) Why this error when I try to return the FilterTotal object in the FilterController:
      * The Response content must be a string or object implementing __toString(), "object" given.
      * Update: So I added a toArray method. But why couldn't the FilterController return an object?
      */
-    public function __construct($credit, $debit, $creditIncludingTransfers, $debitIncludingTransfers, $balance, $reconciled, $numTransactions)
+    public function __construct($credit, $debit, $creditIncludingTransfers, $debitIncludingTransfers, $balance, $reconciled, $numTransactions, $balanceFromBeginning, $positiveTransferTotal, $negativeTransferTotal)
     {
         $this->creditIncludingTransfers = $creditIncludingTransfers;
         $this->debitIncludingTransfers = $debitIncludingTransfers;
@@ -62,6 +79,9 @@ class FilterTotals implements Arrayable {
         $this->numTransactions = $numTransactions;
         $this->credit = $credit;
         $this->debit = $debit;
+        $this->balanceFromBeginning = $balanceFromBeginning;
+        $this->positiveTransferTotal = $positiveTransferTotal;
+        $this->negativeTransferTotal = $negativeTransferTotal;
     }
 
     /**
@@ -78,7 +98,10 @@ class FilterTotals implements Arrayable {
             'debitIncludingTransfers' => $this->debitIncludingTransfers,
             'balance' => $this->balance,
             'reconciled' => $this->reconciled,
-            'numTransactions' => $this->numTransactions
+            'numTransactions' => $this->numTransactions,
+            'balanceFromBeginning' => $this->balanceFromBeginning,
+            'positiveTransferTotal' => $this->positiveTransferTotal,
+            'negativeTransferTotal' => $this->negativeTransferTotal,
         ];
     }
 }

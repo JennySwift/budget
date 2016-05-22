@@ -11,9 +11,16 @@ class FixedBudgetTotal implements Arrayable, BudgetTotal {
 
     public $type;
     public $budgets;
+    public $amount;
+    public $remaining;
+    public $cumulative;
+    public $spentBeforeStartingDate;
+    public $spentAfterStartingDate;
+    public $receivedAfterStartingDate;
 
     /**
      * Change to a static constructor or not, up to you
+     * @param null $budgets
      */
     public function __construct($budgets = NULL)
     {
@@ -38,6 +45,7 @@ class FixedBudgetTotal implements Arrayable, BudgetTotal {
      * Why is $this->budgets->sum($column) working here even after I got rid of the
      * appended attributes? In other words, columns such as 'spentBeforeStartingDate'
      * are no longer appended, and yet the sum is still working here.
+     * @param $column
      * @return mixed
      */
     public function calculate($column)
@@ -47,6 +55,7 @@ class FixedBudgetTotal implements Arrayable, BudgetTotal {
 
     /**
      * Calculate budgets totals and set property
+     * @param $column
      * @return mixed
      */
     public function calculateAndSet($column)
