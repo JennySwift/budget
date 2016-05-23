@@ -3,6 +3,8 @@
 <div>
     <h1>Submit Feedback</h1>
 
+    <h3>Not available in demo version</h3>
+
     <div>
         <div class="form-group">
             <label for="new-feedback-title">Title</label>
