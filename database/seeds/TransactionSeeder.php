@@ -69,7 +69,7 @@ class TransactionSeeder extends Seeder {
             $this->mixedBudgetIds = [$this->fixedBudgetIds[0], $this->flexBudgetIds[0]];
 
             $num = 1;
-            if ($user->id === 2) {
+            if ($user->id === 3) {
                 $num = 20;
             }
 

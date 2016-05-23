@@ -10,7 +10,8 @@ class UserSeeder extends Seeder {
 
     protected $users = [
         'You' => 'jennyswiftcreations@gmail.com',
-        'Dummy' => 'cheezyspaghetti@gmail.com'
+        'Dummy' => 'cheezyspaghetti@gmail.com',
+        'John Doe' => 'john@nowhere.com',
     ];
 
 	public function run()
