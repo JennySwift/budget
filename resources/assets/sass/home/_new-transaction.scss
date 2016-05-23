@@ -5,6 +5,7 @@
     #new-transaction {
         @include transaction_popup;
         animation: slideInDown .5s;
+        margin-bottom: 27px;
         &.ng-hide {
             animation: slideOutUp .5s;
         }
