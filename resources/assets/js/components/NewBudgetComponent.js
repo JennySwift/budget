@@ -27,7 +27,7 @@ var NewBudget = Vue.component('new-budget', {
             TotalsRepository.resetTotalChanges();
 
             this.$http.post('/api/budgets', data, function (response) {
-                this.jsInsertBudget(response);
+                BudgetsRepository.addBudgetToSpecificArray(response, this);
                 TotalsRepository.getSideBarTotals(this);
                 this.updateBudgetTableTotals();
                 $.event.trigger('provide-feedback', ['Budget created', 'success']);
@@ -36,21 +36,6 @@ var NewBudget = Vue.component('new-budget', {
             .error(function (data, status, response) {
                 HelpersRepository.handleResponseError(data, status, response);
             });
-        },
-
-        /**
-         * If the type of the new budget created matches the budget page the user is on, add it to the budgets on that page
-         */
-        jsInsertBudget: function (response) {
-            if (this.page === 'fixedBudgets' && this.newBudget.type === 'fixed') {
-                this.budgets.push(response.data);
-            }
-            else if (this.page === 'flexBudgets' && this.newBudget.type === 'flex') {
-                this.budgets.push(response.data);
-            }
-            else if (this.page === 'unassignedBudgets' && this.newBudget.type === 'unassigned') {
-                this.budgets.push(response.data);
-            }
         },
 
         /**
