@@ -32942,119 +32942,86 @@ var AutocompleteRepository = {
 		}
 	},
 
-	removeDuplicates: function ($transactions) {
-		//for the transaction autocomplete
-		for (var i = 0; i < $transactions.length; i++) {
-			var $transaction = $transactions[i];
-			var $id = $transaction.id;
-			var $description = $transaction.description;
-			var $merchant = $transaction.merchant;
-			var $total = $transaction.total;
-			var $type = $transaction.type;
-			var $account = $transaction.account;
-			var $from_account = $transaction.from_account;
-			var $to_account = $transaction.to_account;
+	/**
+	 * For the transaction autocomplete
+	 * @param transactions
+	 * @returns {*}
+     */
+	removeDuplicates: function (transactions) {
+		for (var i = 0; i < transactions.length; i++) {
+			var transaction = transactions[i];
 
-			var $object_1;
+			var object1 = {
+				description: transaction.description,
+				merchant: transaction.merchant,
+				total: transaction.total,
+				type: transaction.type,
+				account: transaction.account
+			};
 
-			if ($type === 'transfer') {
-				$object_1 = {
-					description: $description,
-					total: $total,
-					from_account: $from_account,
-					to_account: $to_account
-				};
-			}
-			else {
-				$object_1 = {
-					description: $description,
-					merchant: $merchant,
-					total: $total,
-					type: $type,
-					account: $account
-				};
-			}
+			// We have the properties that we don't want to be duplicates in an object.
+			// Now we loop through the array again to make another object, then we can compare if the two objects are equal.
+			for (var j = 0; j < transactions.length; j++) {
+				var t = transactions[j];
+				var index = transactions.indexOf(t);
 
-			//we have the properties that we don't want to be duplicates in an object. now we loop through the array again to make another object, then we can compare if the two objects are equal.
-			for (var j = 0; j < $transactions.length; j++) {
-				var $t = $transactions[j];
-				var $index = $transactions.indexOf($t);
-				var $t_id = $t.id;
-				var $t_description = $t.description;
-				var $t_merchant = $t.merchant;
-				var $t_total = $t.total;
-				var $t_type = $t.type;
-				var $t_account = $t.account;
-				var $t_from_account = $t.from_account;
-				var $t_to_account = $t.to_account;
+				var object2 = {};
 
-				var $object_2 = {};
-
-				if ($t_id !== $id && $t_type === $type) {
+				if (t.id !== transaction.id && t.type === transaction.type) {
 					//they are the same type, and not the same transaction
-					if ($type === 'transfer') {
-						$object_2 = {
-							description: $t_description,
-							total: $t_total,
-							from_account: $t_from_account,
-							to_account: $t_to_account
-						};
-					}
-					else {
-						$object_2 = {
-							description: $t_description,
-							merchant: $t_merchant,
-							total: $t_total,
-							type: $t_type,
-							account: $t_account
-						};
-					}
+					object2 = {
+						description: t.description,
+						merchant: t.merchant,
+						total: t.total,
+						type: t.type,
+						account: t.account
+					};
 				}
 
-				if (_.isEqual($object_1, $object_2)) {
-					$transactions.splice($index, 1);
+				if (_.isEqual(object1, object2)) {
+					transactions.splice($index, 1);
 				}
 			}
 		}
 
-		return $transactions;
+		return transactions;
 	},
 
-	transferTransactions: function ($transactions) {
-		var $counter = 0;
-		var $from_account;
-		var $to_account;
-		var $total;
-
-		$($transactions).each(function () {
-			var $index = $transactions.indexOf(this);
-			if (this.type === "transfer") {
-				$counter++;
-				if (this.total < 0) {
-					//this is a negative transfer
-					$from_account = this.account;
-				}
-				else if (this.total > 0) {
-					//this is a positive transfer
-					$to_account = this.account;
-					$total = this.total;
-				}
-				if ($counter % 2 === 1) {
-					//remove every second transfer transaction from the array
-					$transactions.splice($index, 1);
-				}
-				else if ($counter % 2 === 0) {
-					//keep the first of every second transfer transaction and combine the two transfers into one
-					this.from_account = $from_account;
-					this.to_account = $to_account;
-					this.account = {};
-					//so the total is positive
-					this.total = $total;
-				}
-			}
-		});
-		return $transactions;
-	}
+	// transferTransactions: function ($transactions) {
+	// 	var $counter = 0;
+	// 	var $from_account;
+	// 	var $to_account;
+	// 	var $total;
+    //
+	// 	$($transactions).each(function () {
+	// 		var $index = $transactions.indexOf(this);
+	// 		if (this.type === "transfer") {
+	// 			$counter++;
+	// 			if (this.total < 0) {
+	// 				//this is a negative transfer
+	// 				$from_account = this.account;
+	// 			}
+	// 			else if (this.total > 0) {
+	// 				//this is a positive transfer
+	// 				$to_account = this.account;
+	// 				$total = this.total;
+	// 			}
+	// 			if ($counter % 2 === 1) {
+	// 				//remove every second transfer transaction from the array
+	// 				$transactions.splice($index, 1);
+	// 			}
+	// 			else if ($counter % 2 === 0) {
+	// 				//keep the first of every second transfer transaction and combine the two transfers into one
+	// 				this.from_account = $from_account;
+	// 				this.to_account = $to_account;
+	// 				this.account = {};
+	// 				//so the total is positive
+	// 				this.total = $total;
+	// 			}
+	// 		}
+	// 	});
+	// 	return $transactions;
+	// }
 };
 var BudgetsRepository = {
 
@@ -33871,6 +33838,7 @@ var NewTransactionRepository = {
         defaults: {
             userDate: 'today',
             type: 'expense',
+            account: {},
             duration: '',
             total: '',
             merchant: '',
@@ -34361,6 +34329,275 @@ var TransactionsRepository = {
     }
 
 };
+var Autocomplete = Vue.component('autocomplete', {
+    template: '#autocomplete-template',
+    data: function () {
+        return {
+            autocompleteOptions: [],
+            chosenOption: this.resetChosenOption(),
+            showDropdown: false,
+            currentIndex: 0,
+            timeSinceKeyPress: 0,
+            interval: '',
+            startedCounting: false
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         * @returns {{title: string, name: string}}
+         */
+        resetChosenOption: function () {
+            return {
+                title: '',
+                name: ''
+            }
+        },
+
+        /**
+         *
+         * @param keycode
+         */
+        respondToKeyup: function (keycode) {
+            if (keycode !== 13 && keycode !== 38 && keycode !== 40 && keycode !== 39 && keycode !== 37) {
+                //not enter, up, down, right or left arrows
+                if (!this.unfilteredAutocompleteOptions) {
+                    //We'll be searching the database, so create a delay before searching
+                    this.startCounting();
+                }
+                else {
+                    this.populateOptions();
+                }
+
+            }
+            else if (keycode === 38) {
+                //up arrow pressed
+                if (this.currentIndex !== 0) {
+                    this.currentIndex--;
+                }
+            }
+            else if (keycode === 40) {
+                //down arrow pressed
+                if (this.autocompleteOptions.length - 1 !== this.currentIndex) {
+                    this.currentIndex++;
+                }
+            }
+            else if (keycode === 13) {
+                this.respondToEnter();
+            }
+        },
+
+        /**
+         * Called each time a key is pressed that would fire the request to get the results (not enter, arrows, etc)
+         * So a request isn't fired each time a key is pressed if the user types quickly
+         */
+        startCounting: function () {
+            var that = this;
+            clearInterval(this.interval);
+            this.timeSinceKeyPress = 0;
+
+            this.interval = setInterval(function () {
+                that.timeSinceKeyPress++;
+                if (that.timeSinceKeyPress > 1) {
+                    that.populateOptions();
+                    clearInterval(that.interval);
+                }
+            }, 500);
+        },
+
+        /**
+         * Show all the options if the options are local
+         */
+        respondToFocus: function () {
+            if (this.clearFieldOnFocus) {
+                this.chosenOption = this.resetChosenOption();
+            }
+            if (this.unfilteredAutocompleteOptions) {
+                this.populateOptionsFromLocal();
+            }
+        },
+
+        /**
+         *
+         */
+        hideDropdown: function () {
+            this.showDropdown = false;
+        },
+
+        /**
+         *
+         */
+        populateOptions: function () {
+            if (!this.unfilteredAutocompleteOptions) {
+                this.populateOptionsFromDatabase();
+            }
+            else {
+                this.populateOptionsFromLocal();
+            }
+        },
+
+        /**
+         *
+         */
+        populateOptionsFromLocal: function () {
+            var that = this;
+            this.autocompleteOptions = this.unfilteredAutocompleteOptions.filter(function (option) {
+                return option[that.prop].toLowerCase().indexOf(that.chosenOption[that.prop].toLowerCase()) !== -1;
+            });
+            this.showDropdown = true;
+            this.updateScrollbar();
+            this.currentIndex = 0;
+        },
+
+        /**
+         *
+         */
+        updateScrollbar: function () {
+            var dropdown = $(this.$el).find('.scrollbar-container');
+            // dropdown.scrollTop(0).perfectScrollbar('update');
+            dropdown.mCustomScrollbar("scrollTo","top");
+        },
+
+        /**
+         *
+         */
+        populateOptionsFromDatabase: function () {
+            $.event.trigger('show-loading');
+            this.$http.get(this.url + '?filter=' + this.chosenOption[this.prop], function (response) {
+                this.autocompleteOptions = response;
+                this.showDropdown = true;
+                this.updateScrollbar();
+
+                this.currentIndex = 0;
+                $.event.trigger('hide-loading');
+            })
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
+        },
+
+        /**
+         *
+         */
+        respondToEnter: function () {
+            if (this.showDropdown) {
+                //enter is for the autocomplete
+                this.selectOption();
+            }
+            else {
+                //enter is to add the entry
+                this.functionOnEnter();
+            }
+        },
+
+        /**
+         *
+         * @param index
+         */
+        selectOption: function (index) {
+            if (index) {
+                //Item was chosen by clicking
+                this.currentIndex = index;
+            }
+            this.chosenOption = HelpersRepository.clone(this.autocompleteOptions[this.currentIndex]);
+            this.showDropdown = false;
+            if (this.idToFocusAfterAutocomplete) {
+                var that = this;
+                setTimeout(function () {
+                    $("#" + that.idToFocusAfterAutocomplete).focus();
+                }, 100);
+            }
+            this.$dispatch('option-chosen', this.chosenOption);
+            this.model = this.chosenOption;
+            this.functionWhenOptionIsChosen();
+
+            this.$nextTick(function () {
+                $(this.$els.inputField).blur();
+            });
+        },
+
+        /**
+         *
+         * @param index
+         */
+        hoverItem: function(index) {
+            this.currentIndex = index;
+        },
+
+        /**
+         *
+         * @param option
+         */
+        deleteOption: function (option) {
+            if (confirm("Are you sure?")) {
+                this.deleteFunction(option);
+                var index = HelpersRepository.findIndexById(this.autocompleteOptions, option.id);
+                this.autocompleteOptions = _.without(this.autocompleteOptions, this.autocompleteOptions[index]);
+            }
+        },
+
+        /**
+         * So that sometimes I can have a delete button that doesn't fire the selectOption event when pressed,
+         * and when I don't have a delete button, the selectOption method does get fired if clicked anywhere in the div.
+         * @param index
+         */
+        respondToMouseDownOnOption: function (index) {
+            if (!this.deleteFunction) {
+                this.selectOption(index);
+            }
+        },
+
+        /**
+         * Only fire the selectOption method if there is a delete button,
+         * because otherwise the method is fired when the parent is clicked
+         * @param index
+         */
+        respondToMouseDownOnText: function (index) {
+            if (this.deleteFunction) {
+                this.selectOption(index);
+            }
+        },
+
+        /**
+         *
+         * @param response
+         */
+        handleResponseError: function (response) {
+            $.event.trigger('response-error', [response]);
+            this.showLoading = false;
+        }
+    },
+    props: [
+        'url',
+        'inputLabel',
+        'autocompleteId',
+        'autocompleteFieldId',
+        'functionOnEnter',
+        'functionWhenOptionIsChosen',
+        //For if there is a button to delete one of the options
+        'deleteFunction',
+        'idToFocusAfterAutocomplete',
+        'model',
+        //For if items are local
+        'unfilteredAutocompleteOptions',
+        //Property of the chosen option to display in input field once option is chosen
+        'prop',
+        'labelForOption',
+        'inputPlaceholder',
+        'clearFieldOnFocus'
+    ],
+    events: {
+        'clear-autocomplete-field': function () {
+            this.chosenOption = this.resetChosenOption();
+        }
+    },
+    ready: function () {
+        HelpersRepository.scrollbars();
+    }
+});
+
 var AccountsFilter = Vue.component('accounts-filter', {
     template: '#accounts-filter-template',
     data: function () {
@@ -35210,275 +35447,6 @@ var TypesFilter = Vue.component('types-filter', {
 });
 
 
-
-var Autocomplete = Vue.component('autocomplete', {
-    template: '#autocomplete-template',
-    data: function () {
-        return {
-            autocompleteOptions: [],
-            chosenOption: this.resetChosenOption(),
-            showDropdown: false,
-            currentIndex: 0,
-            timeSinceKeyPress: 0,
-            interval: '',
-            startedCounting: false
-        };
-    },
-    components: {},
-    methods: {
-
-        /**
-         *
-         * @returns {{title: string, name: string}}
-         */
-        resetChosenOption: function () {
-            return {
-                title: '',
-                name: ''
-            }
-        },
-
-        /**
-         *
-         * @param keycode
-         */
-        respondToKeyup: function (keycode) {
-            if (keycode !== 13 && keycode !== 38 && keycode !== 40 && keycode !== 39 && keycode !== 37) {
-                //not enter, up, down, right or left arrows
-                if (!this.unfilteredAutocompleteOptions) {
-                    //We'll be searching the database, so create a delay before searching
-                    this.startCounting();
-                }
-                else {
-                    this.populateOptions();
-                }
-
-            }
-            else if (keycode === 38) {
-                //up arrow pressed
-                if (this.currentIndex !== 0) {
-                    this.currentIndex--;
-                }
-            }
-            else if (keycode === 40) {
-                //down arrow pressed
-                if (this.autocompleteOptions.length - 1 !== this.currentIndex) {
-                    this.currentIndex++;
-                }
-            }
-            else if (keycode === 13) {
-                this.respondToEnter();
-            }
-        },
-
-        /**
-         * Called each time a key is pressed that would fire the request to get the results (not enter, arrows, etc)
-         * So a request isn't fired each time a key is pressed if the user types quickly
-         */
-        startCounting: function () {
-            var that = this;
-            clearInterval(this.interval);
-            this.timeSinceKeyPress = 0;
-
-            this.interval = setInterval(function () {
-                that.timeSinceKeyPress++;
-                if (that.timeSinceKeyPress > 1) {
-                    that.populateOptions();
-                    clearInterval(that.interval);
-                }
-            }, 500);
-        },
-
-        /**
-         * Show all the options if the options are local
-         */
-        respondToFocus: function () {
-            if (this.clearFieldOnFocus) {
-                this.chosenOption = this.resetChosenOption();
-            }
-            if (this.unfilteredAutocompleteOptions) {
-                this.populateOptionsFromLocal();
-            }
-        },
-
-        /**
-         *
-         */
-        hideDropdown: function () {
-            this.showDropdown = false;
-        },
-
-        /**
-         *
-         */
-        populateOptions: function () {
-            if (!this.unfilteredAutocompleteOptions) {
-                this.populateOptionsFromDatabase();
-            }
-            else {
-                this.populateOptionsFromLocal();
-            }
-        },
-
-        /**
-         *
-         */
-        populateOptionsFromLocal: function () {
-            var that = this;
-            this.autocompleteOptions = this.unfilteredAutocompleteOptions.filter(function (option) {
-                return option[that.prop].toLowerCase().indexOf(that.chosenOption[that.prop].toLowerCase()) !== -1;
-            });
-            this.showDropdown = true;
-            this.updateScrollbar();
-            this.currentIndex = 0;
-        },
-
-        /**
-         *
-         */
-        updateScrollbar: function () {
-            var dropdown = $(this.$el).find('.scrollbar-container');
-            // dropdown.scrollTop(0).perfectScrollbar('update');
-            dropdown.mCustomScrollbar("scrollTo","top");
-        },
-
-        /**
-         *
-         */
-        populateOptionsFromDatabase: function () {
-            $.event.trigger('show-loading');
-            this.$http.get(this.url + '?filter=' + this.chosenOption[this.prop], function (response) {
-                this.autocompleteOptions = response;
-                this.showDropdown = true;
-                this.updateScrollbar();
-
-                this.currentIndex = 0;
-                $.event.trigger('hide-loading');
-            })
-                .error(function (response) {
-                    HelpersRepository.handleResponseError(response);
-                });
-        },
-
-        /**
-         *
-         */
-        respondToEnter: function () {
-            if (this.showDropdown) {
-                //enter is for the autocomplete
-                this.selectOption();
-            }
-            else {
-                //enter is to add the entry
-                this.functionOnEnter();
-            }
-        },
-
-        /**
-         *
-         * @param index
-         */
-        selectOption: function (index) {
-            if (index) {
-                //Item was chosen by clicking
-                this.currentIndex = index;
-            }
-            this.chosenOption = HelpersRepository.clone(this.autocompleteOptions[this.currentIndex]);
-            this.showDropdown = false;
-            if (this.idToFocusAfterAutocomplete) {
-                var that = this;
-                setTimeout(function () {
-                    $("#" + that.idToFocusAfterAutocomplete).focus();
-                }, 100);
-            }
-            this.$dispatch('option-chosen', this.chosenOption);
-            this.model = this.chosenOption;
-            this.functionWhenOptionIsChosen();
-
-            this.$nextTick(function () {
-                $(this.$els.inputField).blur();
-            });
-        },
-
-        /**
-         *
-         * @param index
-         */
-        hoverItem: function(index) {
-            this.currentIndex = index;
-        },
-
-        /**
-         *
-         * @param option
-         */
-        deleteOption: function (option) {
-            if (confirm("Are you sure?")) {
-                this.deleteFunction(option);
-                var index = HelpersRepository.findIndexById(this.autocompleteOptions, option.id);
-                this.autocompleteOptions = _.without(this.autocompleteOptions, this.autocompleteOptions[index]);
-            }
-        },
-
-        /**
-         * So that sometimes I can have a delete button that doesn't fire the selectOption event when pressed,
-         * and when I don't have a delete button, the selectOption method does get fired if clicked anywhere in the div.
-         * @param index
-         */
-        respondToMouseDownOnOption: function (index) {
-            if (!this.deleteFunction) {
-                this.selectOption(index);
-            }
-        },
-
-        /**
-         * Only fire the selectOption method if there is a delete button,
-         * because otherwise the method is fired when the parent is clicked
-         * @param index
-         */
-        respondToMouseDownOnText: function (index) {
-            if (this.deleteFunction) {
-                this.selectOption(index);
-            }
-        },
-
-        /**
-         *
-         * @param response
-         */
-        handleResponseError: function (response) {
-            $.event.trigger('response-error', [response]);
-            this.showLoading = false;
-        }
-    },
-    props: [
-        'url',
-        'inputLabel',
-        'autocompleteId',
-        'autocompleteFieldId',
-        'functionOnEnter',
-        'functionWhenOptionIsChosen',
-        //For if there is a button to delete one of the options
-        'deleteFunction',
-        'idToFocusAfterAutocomplete',
-        'model',
-        //For if items are local
-        'unfilteredAutocompleteOptions',
-        //Property of the chosen option to display in input field once option is chosen
-        'prop',
-        'labelForOption',
-        'inputPlaceholder',
-        'clearFieldOnFocus'
-    ],
-    events: {
-        'clear-autocomplete-field': function () {
-            this.chosenOption = this.resetChosenOption();
-        }
-    },
-    ready: function () {
-        HelpersRepository.scrollbars();
-    }
-});
 
 var AccountsPage = Vue.component('accounts-page', {
     template: '#accounts-page-template',
@@ -37459,12 +37427,15 @@ var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
             }
 
             this.newTransaction.type = this.selectedItem.type;
-            this.newTransaction.account = this.selectedItem.account;
 
-            if (this.selectedItem.fromAccount && this.selectedItem.toAccount) {
-                this.newTransaction.fromAccount = this.selectedItem.fromAccount;
-                this.newTransaction.toAccount = this.selectedItem.toAccount;
-            }
+            //It didn't work setting the whole object so I'm setting the account id and name
+            this.newTransaction.account.id = this.selectedItem.account.id;
+            this.newTransaction.account.name = this.selectedItem.account.name;
+
+            // if (this.selectedItem.fromAccount && this.selectedItem.toAccount) {
+            //     this.newTransaction.fromAccount = this.selectedItem.fromAccount;
+            //     this.newTransaction.toAccount = this.selectedItem.toAccount;
+            // }
 
             this.newTransaction.budgets = this.selectedItem.budgets;
         },
@@ -37492,8 +37463,7 @@ var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
             clearInterval(this.interval);
             this.$http.get('/api/transactions?column=' + this.placeholder + '&typing=' + this.typing, function (response) {
                 this.currentIndex = 0;
-                this.results = AutocompleteRepository.transferTransactions(response);
-                this.results = AutocompleteRepository.removeDuplicates(this.results);
+                this.results = AutocompleteRepository.removeDuplicates(response);
 
                 $.event.trigger('hide-loading');
             })

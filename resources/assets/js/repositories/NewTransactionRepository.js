@@ -4,6 +4,7 @@ var NewTransactionRepository = {
         defaults: {
             userDate: 'today',
             type: 'expense',
+            account: {},
             duration: '',
             total: '',
             merchant: '',

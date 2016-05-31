@@ -148,12 +148,15 @@ var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
             }
 
             this.newTransaction.type = this.selectedItem.type;
-            this.newTransaction.account = this.selectedItem.account;
 
-            if (this.selectedItem.fromAccount && this.selectedItem.toAccount) {
-                this.newTransaction.fromAccount = this.selectedItem.fromAccount;
-                this.newTransaction.toAccount = this.selectedItem.toAccount;
-            }
+            //It didn't work setting the whole object so I'm setting the account id and name
+            this.newTransaction.account.id = this.selectedItem.account.id;
+            this.newTransaction.account.name = this.selectedItem.account.name;
+
+            // if (this.selectedItem.fromAccount && this.selectedItem.toAccount) {
+            //     this.newTransaction.fromAccount = this.selectedItem.fromAccount;
+            //     this.newTransaction.toAccount = this.selectedItem.toAccount;
+            // }
 
             this.newTransaction.budgets = this.selectedItem.budgets;
         },
@@ -181,8 +184,7 @@ var TransactionAutocomplete = Vue.component('transaction-autocomplete', {
             clearInterval(this.interval);
             this.$http.get('/api/transactions?column=' + this.placeholder + '&typing=' + this.typing, function (response) {
                 this.currentIndex = 0;
-                this.results = AutocompleteRepository.transferTransactions(response);
-                this.results = AutocompleteRepository.removeDuplicates(this.results);
+                this.results = AutocompleteRepository.removeDuplicates(response);
 
                 $.event.trigger('hide-loading');
             })
