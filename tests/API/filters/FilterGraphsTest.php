@@ -36,7 +36,7 @@ class FilterGraphsTest extends FiltersTest
 
         $this->assertCount(33, $content['monthTotals']);
 
-        $this->assertEquals('Jun 2013', $content['monthTotals'][0]['month']);
+        $this->assertEquals(Carbon::today()->subMonths(35)->format('M Y'), $content['monthTotals'][0]['month']);
         $this->assertEquals('100', $content['monthTotals'][0]['positiveTransferTotal']);
         $this->assertEquals('-100', $content['monthTotals'][0]['negativeTransferTotal']);
         $this->assertEquals('0', $content['monthTotals'][1]['positiveTransferTotal']);
