@@ -57,7 +57,7 @@ var AutocompleteRepository = {
 				}
 
 				if (_.isEqual(object1, object2)) {
-					transactions.splice($index, 1);
+					transactions.splice(index, 1);
 				}
 			}
 		}
