@@ -18,6 +18,10 @@ describe('favourite-transaction-autocomplete', function () {
         expect(newTransaction.newTransaction.reconciled).toEqual(false);
         expect(newTransaction.newTransaction.multipleBudgets).toEqual(false);
         expect(newTransaction.newTransaction.budgets).toEqual([]);
+
+
+        //Why undefined?
+        // console.log($("#new-transaction-account").val());
     });
 
     it('fills the fields for the new transaction', function () {
@@ -35,6 +39,9 @@ describe('favourite-transaction-autocomplete', function () {
         expect(newTransaction.newTransaction.total).toEqual('25');
         expect(newTransaction.newTransaction.type).toEqual('income');
         expect(newTransaction.newTransaction.budgets).toEqual([]);
+
+        //This test is basically useless, because it was passing when the value of the select element wasn't changing in the browser,
+        //due to the objects not being equal. Not sure how to test the select element value.
         expect(newTransaction.newTransaction.account).toEqual({id: 1, name: 'business'});
     });
 });
