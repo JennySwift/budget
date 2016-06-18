@@ -1,8 +1,7 @@
-var NewTransaction = Vue.component('new-transaction', {
+var newTransaction = {
     template: '#new-transaction-template',
     data: function () {
         return {
-            me: me,
             dropdown: {},
             showNewTransaction: false,
             types: ["income", "expense", "transfer"],
@@ -10,7 +9,6 @@ var NewTransaction = Vue.component('new-transaction', {
             favouriteTransactionsRepository: FavouriteTransactionsRepository.state,
             newTransactionRepository: NewTransactionRepository.state,
             selectedFavouriteTransaction: {},
-            env: env,
             colors: {
                 newTransaction: {}
             },
@@ -19,10 +17,23 @@ var NewTransaction = Vue.component('new-transaction', {
     components: {},
     computed: {
         favouriteTransactions: function () {
-          return this.favouriteTransactionsRepository.favouriteTransactions;
+            return this.favouriteTransactionsRepository.favouriteTransactions;
         },
         newTransaction: function () {
             return this.newTransactionRepository.defaults;
+        },
+        //Putting this here so it isn't undefined in my test
+        me: function () {
+            return me;
+        },
+        env: function () {
+            return env;
+        },
+        accounts: function () {
+            //So the balance isn't included, messing up the autocomplete
+            return _.map(this.accountsRepository.accounts, function (account) {
+                return _.pick(account, 'id', 'name');
+            });
         }
     },
     methods: {
@@ -31,7 +42,7 @@ var NewTransaction = Vue.component('new-transaction', {
          *
          */
         clearNewTransactionFields: function () {
-            this.newTransaction = NewTransactionRepository.clearFields(env, me, this.newTransaction);
+            this.newTransaction = NewTransactionRepository.clearFields(this.env, this.me, this.newTransaction);
         },
 
         /**
@@ -94,8 +105,8 @@ var NewTransaction = Vue.component('new-transaction', {
         },
 
         /**
-        *
-        */
+         *
+         */
         insertTransaction: function (direction) {
             $.event.trigger('show-loading');
 
@@ -116,9 +127,9 @@ var NewTransaction = Vue.component('new-transaction', {
             this.$http.post('/api/transactions', data, function (response) {
                 this.insertTransactionResponse(response);
             })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
+                .error(function (response) {
+                    HelpersRepository.handleResponseError(response);
+                });
         },
 
         /**
@@ -151,7 +162,7 @@ var NewTransaction = Vue.component('new-transaction', {
                 that.showNewTransaction = !that.showNewTransaction;
             });
             $(document).on('accounts-loaded', function (event) {
-                NewTransactionRepository.getDefaults(that.env, that.accountsRepository.accounts);
+                NewTransactionRepository.getDefaults(that.env, that.accounts);
             });
 
         }
@@ -165,4 +176,6 @@ var NewTransaction = Vue.component('new-transaction', {
     ready: function () {
         this.listen();
     }
-});
+};
+
+Vue.component('new-transaction', newTransaction);
