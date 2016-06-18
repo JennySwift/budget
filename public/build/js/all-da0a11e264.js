@@ -33816,7 +33816,7 @@ var HomePageRepository = {
      * @returns {string}
      */
     setDefaultTab: function () {
-        if (env === 'local') {
+        if (env && env === 'local') {
             this.state.tab = 'transactions';
         }
         else {
@@ -35179,7 +35179,7 @@ var TypesFilter = Vue.component('types-filter', {
 
 
 
-var Autocomplete = Vue.component('autocomplete', {
+var Autocomplete = {
     template: '#autocomplete-template',
     data: function () {
         return {
@@ -35446,7 +35446,10 @@ var Autocomplete = Vue.component('autocomplete', {
     ready: function () {
         HelpersRepository.scrollbars();
     }
-});
+};
+
+//I'm separating this here from the data above so I can test the component
+Vue.component('autocomplete', Autocomplete);
 
 var AccountsPage = Vue.component('accounts-page', {
     template: '#accounts-page-template',
@@ -37903,8 +37906,6 @@ router.map({
 
 router.start(App, 'body');
 
-//$rootScope.show = ShowFactory.defaults;
-
 $(window).load(function () {
     $(".main").css('display', 'block');
     $("footer, #navbar").css('display', 'flex');
@@ -37913,23 +37914,6 @@ $(window).load(function () {
 
     smoothScroll.init();
 });
-
-//$rootScope.deleteUser = function () {
-//    if (confirm("Do you really want to delete your account?")) {
-//        if (confirm("You are about to delete your account! You will no longer be able to use the budget app. Are you sure this is what you want?")) {
-//            $rootScope.showLoading();
-//            UsersFactory.deleteAccount(me)
-//                .then(function (response) {
-//                    $rootScope.$broadcast('provideFeedback', 'Your account has been deleted');
-//                    $rootScope.hideLoading();
-//                })
-//                .catch(function (response) {
-//                    $rootScope.responseError(response);
-//                });
-//        }
-//    }
-//};
-
 
 
 

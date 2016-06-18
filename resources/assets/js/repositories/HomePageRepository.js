@@ -9,7 +9,7 @@ var HomePageRepository = {
      * @returns {string}
      */
     setDefaultTab: function () {
-        if (env === 'local') {
+        if (env && env === 'local') {
             this.state.tab = 'transactions';
         }
         else {

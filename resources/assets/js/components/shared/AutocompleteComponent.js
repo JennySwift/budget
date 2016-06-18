@@ -1,4 +1,4 @@
-var Autocomplete = Vue.component('autocomplete', {
+var Autocomplete = {
     template: '#autocomplete-template',
     data: function () {
         return {
@@ -265,4 +265,7 @@ var Autocomplete = Vue.component('autocomplete', {
     ready: function () {
         HelpersRepository.scrollbars();
     }
-});
+};
+
+//I'm separating this here from the data above so I can test the component
+Vue.component('autocomplete', Autocomplete);
