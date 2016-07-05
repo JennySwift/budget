@@ -28,9 +28,9 @@ class SidebarTotalTransformer extends TransformerAbstract
             'remainingBalance' => $remainingBalance->amount,
             'remainingFixedBudget' => $remainingBalance->fixedBudgetTotals->remaining,
             'cumulativeFixedBudget' => $remainingBalance->fixedBudgetTotals->cumulative,
-            'expensesWithFixedBudgetAfterStartingDate' => $remainingBalance->fixedBudgetTotals->spentAfterStartingDate,
+            'expensesWithFixedBudgetAfterStartingDate' => $remainingBalance->fixedBudgetTotals->spentOnOrAfterStartingDate,
             'expensesWithFixedBudgetBeforeStartingDate' => $remainingBalance->fixedBudgetTotals->spentBeforeStartingDate,
-            'expensesWithFlexBudgetAfterStartingDate' => $remainingBalance->flexBudgetTotals->spentAfterStartingDate,
+            'expensesWithFlexBudgetAfterStartingDate' => $remainingBalance->flexBudgetTotals->spentOnOrAfterStartingDate,
             'expensesWithFlexBudgetBeforeStartingDate' => $remainingBalance->flexBudgetTotals->spentBeforeStartingDate
         ];
     }

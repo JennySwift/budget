@@ -32,7 +32,7 @@ class FlexBudgetTotalsTest extends TestCase
         $this->assertEquals(1020, $totals['allocatedRemaining']);
         $this->assertEquals(40, $totals['allocatedCalculatedAmount']);
         $this->assertEquals(-15, $totals['spentBeforeStartingDate']);
-        $this->assertEquals(-20, $totals['spentAfterStartingDate']);
+        $this->assertEquals(-20, $totals['spentOnOrAfterStartingDate']);
         $this->assertEquals(1000, $totals['receivedAfterStartingDate']);
 
         $this->assertEquals(80, $totals['unallocatedAmount']);
@@ -69,7 +69,7 @@ class FlexBudgetTotalsTest extends TestCase
         $this->assertEquals(-35, $budget['spent']);
         $this->assertEquals(1500, $budget['received']);
         $this->assertEquals(-15, $budget['spentBeforeStartingDate']);
-        $this->assertEquals(-20, $budget['spentAfterStartingDate']);
+        $this->assertEquals(-20, $budget['spentOnOrAfterStartingDate']);
         $this->assertEquals(1000, $budget['receivedAfterStartingDate']);
         $this->assertEquals(9, $budget['cumulativeMonthNumber']);
         $this->assertEquals(null, $budget['cumulative']);

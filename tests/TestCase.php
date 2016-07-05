@@ -73,7 +73,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 			$this->assertArrayHasKey('formattedStartingDate', $budget);
 			$this->assertArrayHasKey('spent', $budget);
 			$this->assertArrayHasKey('received', $budget);
-			$this->assertArrayHasKey('spentAfterStartingDate', $budget);
+			$this->assertArrayHasKey('spentOnOrAfterStartingDate', $budget);
 			$this->assertArrayHasKey('spentBeforeStartingDate', $budget);
 			$this->assertArrayHasKey('receivedAfterStartingDate', $budget);
 			$this->assertArrayHasKey('cumulativeMonthNumber', $budget);
@@ -194,7 +194,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertArrayHasKey('remaining', $totals);
 		$this->assertArrayHasKey('cumulative', $totals);
 		$this->assertArrayHasKey('spentBeforeStartingDate', $totals);
-		$this->assertArrayHasKey('spentAfterStartingDate', $totals);
+		$this->assertArrayHasKey('spentOnOrAfterStartingDate', $totals);
 		$this->assertArrayHasKey('receivedAfterStartingDate', $totals);
 	}
 
@@ -223,7 +223,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertArrayHasKey('allocatedRemaining', $totals);
 		$this->assertArrayHasKey('allocatedCalculatedAmount', $totals);
 		$this->assertArrayHasKey('spentBeforeStartingDate', $totals);
-		$this->assertArrayHasKey('spentAfterStartingDate', $totals);
+		$this->assertArrayHasKey('spentOnOrAfterStartingDate', $totals);
 		$this->assertArrayHasKey('receivedAfterStartingDate', $totals);
 		$this->assertArrayHasKey('unallocatedAmount', $totals);
 		$this->assertArrayHasKey('allocatedPlusUnallocatedAmount', $totals);

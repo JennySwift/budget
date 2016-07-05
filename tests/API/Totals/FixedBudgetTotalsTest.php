@@ -27,7 +27,7 @@ class FixedBudgetTotalsTest extends TestCase
         $this->assertEquals(200, $totals['amount']);
         $this->assertEquals(1800, $totals['cumulative']);
         $this->assertEquals(-30, $totals['spentBeforeStartingDate']);
-        $this->assertEquals(-40, $totals['spentAfterStartingDate']);
+        $this->assertEquals(-40, $totals['spentOnOrAfterStartingDate']);
         $this->assertEquals(200, $totals['receivedAfterStartingDate']);
         $this->assertEquals(1960, $totals['remaining']);
 

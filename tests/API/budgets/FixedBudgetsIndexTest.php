@@ -53,7 +53,7 @@ class FixedBudgetsIndexTest extends TestCase
         $this->assertEquals(Carbon::today()->subMonths(8)->format('d/m/y'), $budget['formattedStartingDate']);
         $this->assertEquals(-70, $budget['spent']);
         $this->assertEquals(300, $budget['received']);
-        $this->assertEquals(-40, $budget['spentAfterStartingDate']);
+        $this->assertEquals(-40, $budget['spentOnOrAfterStartingDate']);
         $this->assertEquals(-30, $budget['spentBeforeStartingDate']);
         $this->assertEquals(200, $budget['receivedAfterStartingDate']);
         $this->assertEquals(9, $budget['cumulativeMonthNumber']);
@@ -89,7 +89,7 @@ class FixedBudgetsIndexTest extends TestCase
         $this->assertEquals(Carbon::today()->subMonths(8)->format('d/m/y'), $budget['formattedStartingDate']);
         $this->assertEquals(-270, $budget['spent']);
         $this->assertEquals(305, $budget['received']);
-        $this->assertEquals(-240, $budget['spentAfterStartingDate']);
+        $this->assertEquals(-240, $budget['spentOnOrAfterStartingDate']);
         $this->assertEquals(-30, $budget['spentBeforeStartingDate']);
         $this->assertEquals(205, $budget['receivedAfterStartingDate']);
         $this->assertEquals(9, $budget['cumulativeMonthNumber']);

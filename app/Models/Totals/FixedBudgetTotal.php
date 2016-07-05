@@ -15,7 +15,7 @@ class FixedBudgetTotal implements Arrayable, BudgetTotal {
     public $remaining;
     public $cumulative;
     public $spentBeforeStartingDate;
-    public $spentAfterStartingDate;
+    public $spentOnOrAfterStartingDate;
     public $receivedAfterStartingDate;
 
     /**
@@ -31,7 +31,7 @@ class FixedBudgetTotal implements Arrayable, BudgetTotal {
         $this->remaining = $this->calculate('remaining');
         $this->cumulative = $this->calculate('cumulative');
         $this->spentBeforeStartingDate = $this->calculate('spentBeforeStartingDate');
-        $this->spentAfterStartingDate = $this->calculate('spentAfterStartingDate');
+        $this->spentOnOrAfterStartingDate = $this->calculate('spentOnOrAfterStartingDate');
         $this->receivedAfterStartingDate = $this->calculate('receivedAfterStartingDate');
 
         //Transform budgets
@@ -75,7 +75,7 @@ class FixedBudgetTotal implements Arrayable, BudgetTotal {
             'remaining' => $this->remaining,
             'cumulative' => $this->cumulative,
             'spentBeforeStartingDate' => $this->spentBeforeStartingDate,
-            'spentAfterStartingDate' => $this->spentAfterStartingDate,
+            'spentOnOrAfterStartingDate' => $this->spentOnOrAfterStartingDate,
             'receivedAfterStartingDate' => $this->receivedAfterStartingDate,
         ];
     }

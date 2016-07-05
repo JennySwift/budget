@@ -173,14 +173,14 @@ class Budget extends Model
      * Get total spent on a given budget on or after starting date
      * @return mixed
      */
-    public function getSpentAfterStartingDateAttribute()
+    public function getSpentOnOrAfterStartingDateAttribute()
     {
         if (!$this->isUnassigned()) {
-            $totalSpentAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date->format('Y-m-d'))
+            $totalSpentOnOrAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date->format('Y-m-d'))
                 ->where('type', 'expense')
                 ->sum('calculated_allocation');
 
-            return (float)$totalSpentAfterStartingDate;
+            return (float)$totalSpentOnOrAfterStartingDate;
         }
 
         return null;
@@ -276,16 +276,16 @@ class Budget extends Model
 
     /**
      * Get the remaining for a budget (R).
-     * R is the cumulative + spentAfterStartingDate + receivedAfterStartingDate
+     * R is the cumulative + spentOnOrAfterStartingDate + receivedAfterStartingDate
      * @return string
      */
     public function getRemainingAttribute()
     {
         if ($this->isFlex()) {
-            return $this->calculatedAmount + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
+            return $this->calculatedAmount + $this->spentOnOrAfterStartingDate + $this->receivedAfterStartingDate;
         }
 
-        return (float)$this->cumulative + $this->spentAfterStartingDate + $this->receivedAfterStartingDate;
+        return (float)$this->cumulative + $this->spentOnOrAfterStartingDate + $this->receivedAfterStartingDate;
     }
 
     /**

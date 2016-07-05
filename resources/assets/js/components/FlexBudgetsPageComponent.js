@@ -7,7 +7,7 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
             flexBudgetTotals: [],
             orderByOptions: [
                 {name: 'name', value: 'name'},
-                {name: 'spent after starting date', value: 'spentAfterStartingDate'}
+                {name: 'spent after starting date', value: 'spentOnOrAfterStartingDate'}
             ],
             orderBy: 'name',
             reverseOrder: false

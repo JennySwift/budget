@@ -157,8 +157,8 @@ var BudgetsRepository = {
             case 'name':
                 budgets = _.sortBy(budgets, 'name');
                 break;
-            case 'spentAfterStartingDate':
-                budgets = _.sortBy(budgets, 'spentAfterStartingDate');
+            case 'spentOnOrAfterStartingDate':
+                budgets = _.sortBy(budgets, 'spentOnOrAfterStartingDate');
                 break;
         }
 

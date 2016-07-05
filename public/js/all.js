@@ -33182,8 +33182,8 @@ var BudgetsRepository = {
             case 'name':
                 budgets = _.sortBy(budgets, 'name');
                 break;
-            case 'spentAfterStartingDate':
-                budgets = _.sortBy(budgets, 'spentAfterStartingDate');
+            case 'spentOnOrAfterStartingDate':
+                budgets = _.sortBy(budgets, 'spentOnOrAfterStartingDate');
                 break;
         }
 
@@ -36475,7 +36475,7 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
             budgetsRepository: BudgetsRepository.state,
             orderByOptions: [
                 {name: 'name', value: 'name'},
-                {name: 'spent after starting date', value: 'spentAfterStartingDate'}
+                {name: 'spent after starting date', value: 'spentOnOrAfterStartingDate'}
             ],
             orderBy: 'name',
             reverseOrder: false
@@ -36574,7 +36574,7 @@ var FlexBudgetsPage = Vue.component('flex-budgets-page', {
             flexBudgetTotals: [],
             orderByOptions: [
                 {name: 'name', value: 'name'},
-                {name: 'spent after starting date', value: 'spentAfterStartingDate'}
+                {name: 'spent after starting date', value: 'spentOnOrAfterStartingDate'}
             ],
             orderBy: 'name',
             reverseOrder: false

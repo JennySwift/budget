@@ -7,7 +7,7 @@ var FixedBudgetsPage = Vue.component('fixed-budgets-page', {
             budgetsRepository: BudgetsRepository.state,
             orderByOptions: [
                 {name: 'name', value: 'name'},
-                {name: 'spent after starting date', value: 'spentAfterStartingDate'}
+                {name: 'spent after starting date', value: 'spentOnOrAfterStartingDate'}
             ],
             orderBy: 'name',
             reverseOrder: false

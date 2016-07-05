@@ -48,7 +48,7 @@ class BudgetsUpdateTest extends TestCase
 
         $this->assertEquals(-70, $content['spent']);
         $this->assertEquals(300, $content['received']);
-        $this->assertEquals(0, $content['spentAfterStartingDate']);
+        $this->assertEquals(0, $content['spentOnOrAfterStartingDate']);
         $this->assertEquals(-70, $content['spentBeforeStartingDate']);
         $this->assertEquals(0, $content['receivedAfterStartingDate']);
         $this->assertEquals(3, $content['cumulativeMonthNumber']);
@@ -96,7 +96,7 @@ class BudgetsUpdateTest extends TestCase
 
 //        $this->assertEquals(-70, $content['spent']);
 //        $this->assertEquals(300, $content['received']);
-//        $this->assertEquals(0, $content['spentAfterStartingDate']);
+//        $this->assertEquals(0, $content['spentOnOrAfterStartingDate']);
 //        $this->assertEquals(-70, $content['spentBeforeStartingDate']);
 //        $this->assertEquals(0, $content['receivedAfterStartingDate']);
 //        $this->assertEquals(1, $content['cumulativeMonthNumber']);
@@ -151,7 +151,7 @@ class BudgetsUpdateTest extends TestCase
 
         $this->assertEquals(-70, $content['spent']);
         $this->assertEquals(300, $content['received']);
-        $this->assertEquals(-40, $content['spentAfterStartingDate']);
+        $this->assertEquals(-40, $content['spentOnOrAfterStartingDate']);
         $this->assertEquals(-30, $content['spentBeforeStartingDate']);
         $this->assertEquals(200, $content['receivedAfterStartingDate']);
         $this->assertEquals(9, $content['cumulativeMonthNumber']);
@@ -198,7 +198,7 @@ class BudgetsUpdateTest extends TestCase
 
         $this->assertEquals(-5, $content['spent']);
         $this->assertEquals(0, $content['received']);
-        $this->assertEquals(-5, $content['spentAfterStartingDate']);
+        $this->assertEquals(-5, $content['spentOnOrAfterStartingDate']);
         $this->assertEquals(0, $content['spentBeforeStartingDate']);
         $this->assertEquals(0, $content['receivedAfterStartingDate']);
         $this->assertEquals(15, $content['cumulativeMonthNumber']);

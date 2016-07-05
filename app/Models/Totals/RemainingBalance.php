@@ -63,7 +63,7 @@ class RemainingBalance {
             + $this->basicTotals->expensesWithoutBudget
             + $this->flexBudgetTotals->spentBeforeStartingDate
             + $this->fixedBudgetTotals->spentBeforeStartingDate
-            + $this->fixedBudgetTotals->spentAfterStartingDate
+            + $this->fixedBudgetTotals->spentOnOrAfterStartingDate
             - $this->basicTotals->savings;
 
         $this->flexBudgetTotals->updateBudgets($this);
