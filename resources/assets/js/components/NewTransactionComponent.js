@@ -175,6 +175,7 @@ var newTransaction = {
     ],
     ready: function () {
         this.listen();
+        NewTransactionRepository.getDefaults(this.env, this.accounts);
     }
 };
 
