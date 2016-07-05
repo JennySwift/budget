@@ -50,7 +50,7 @@ class BudgetsUpdateTest extends TestCase
         $this->assertEquals(300, $content['received']);
         $this->assertEquals(0, $content['spentOnOrAfterStartingDate']);
         $this->assertEquals(-70, $content['spentBeforeStartingDate']);
-        $this->assertEquals(0, $content['receivedAfterStartingDate']);
+        $this->assertEquals(0, $content['receivedOnOrAfterStartingDate']);
         $this->assertEquals(3, $content['cumulativeMonthNumber']);
         $this->assertEquals(30, $content['cumulative']);
         $this->assertEquals(30, $content['remaining']);
@@ -98,7 +98,7 @@ class BudgetsUpdateTest extends TestCase
 //        $this->assertEquals(300, $content['received']);
 //        $this->assertEquals(0, $content['spentOnOrAfterStartingDate']);
 //        $this->assertEquals(-70, $content['spentBeforeStartingDate']);
-//        $this->assertEquals(0, $content['receivedAfterStartingDate']);
+//        $this->assertEquals(0, $content['receivedOnOrAfterStartingDate']);
 //        $this->assertEquals(1, $content['cumulativeMonthNumber']);
 //        $this->assertEquals(30, $content['cumulative']);
 //        $this->assertEquals(30, $content['remaining']);
@@ -153,7 +153,7 @@ class BudgetsUpdateTest extends TestCase
         $this->assertEquals(300, $content['received']);
         $this->assertEquals(-40, $content['spentOnOrAfterStartingDate']);
         $this->assertEquals(-30, $content['spentBeforeStartingDate']);
-        $this->assertEquals(200, $content['receivedAfterStartingDate']);
+        $this->assertEquals(200, $content['receivedOnOrAfterStartingDate']);
         $this->assertEquals(9, $content['cumulativeMonthNumber']);
         $this->assertNull($content['cumulative']);
         $this->assertEquals(1460, $content['remaining']);
@@ -200,7 +200,7 @@ class BudgetsUpdateTest extends TestCase
         $this->assertEquals(0, $content['received']);
         $this->assertEquals(-5, $content['spentOnOrAfterStartingDate']);
         $this->assertEquals(0, $content['spentBeforeStartingDate']);
-        $this->assertEquals(0, $content['receivedAfterStartingDate']);
+        $this->assertEquals(0, $content['receivedOnOrAfterStartingDate']);
         $this->assertEquals(15, $content['cumulativeMonthNumber']);
         $this->assertEquals(75, $content['cumulative']);
         $this->assertEquals(70, $content['remaining']);

@@ -55,7 +55,7 @@ class FixedBudgetsIndexTest extends TestCase
         $this->assertEquals(300, $budget['received']);
         $this->assertEquals(-40, $budget['spentOnOrAfterStartingDate']);
         $this->assertEquals(-30, $budget['spentBeforeStartingDate']);
-        $this->assertEquals(200, $budget['receivedAfterStartingDate']);
+        $this->assertEquals(200, $budget['receivedOnOrAfterStartingDate']);
         $this->assertEquals(9, $budget['cumulativeMonthNumber']);
         $this->assertEquals(900, $budget['cumulative']);
         $this->assertEquals(1060, $budget['remaining']);
@@ -91,7 +91,7 @@ class FixedBudgetsIndexTest extends TestCase
         $this->assertEquals(305, $budget['received']);
         $this->assertEquals(-240, $budget['spentOnOrAfterStartingDate']);
         $this->assertEquals(-30, $budget['spentBeforeStartingDate']);
-        $this->assertEquals(205, $budget['receivedAfterStartingDate']);
+        $this->assertEquals(205, $budget['receivedOnOrAfterStartingDate']);
         $this->assertEquals(9, $budget['cumulativeMonthNumber']);
         $this->assertEquals(900, $budget['cumulative']);
         $this->assertEquals(865, $budget['remaining']);

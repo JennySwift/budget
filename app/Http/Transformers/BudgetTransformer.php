@@ -40,7 +40,7 @@ class BudgetTransformer extends TransformerAbstract
             $data['received'] = $budget->received;
             $data['spentOnOrAfterStartingDate'] = $budget->spentOnOrAfterStartingDate;
             $data['spentBeforeStartingDate'] = $budget->spentBeforeStartingDate;
-            $data['receivedAfterStartingDate'] = $budget->receivedAfterStartingDate;
+            $data['receivedOnOrAfterStartingDate'] = $budget->receivedOnOrAfterStartingDate;
             $data['cumulativeMonthNumber'] = $budget->cumulativeMonthNumber;
             $data['cumulative'] = $budget->cumulative;
             $data['remaining'] = $budget->remaining;

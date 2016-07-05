@@ -51,7 +51,7 @@ class FlexBudgetTotal implements Arrayable, BudgetTotal {
     /**
      * @var mixed
      */
-    public $receivedAfterStartingDate;
+    public $receivedOnOrAfterStartingDate;
 
     /**
      * @var int
@@ -92,7 +92,7 @@ class FlexBudgetTotal implements Arrayable, BudgetTotal {
         $this->amount = $this->calculate('amount');
         $this->spentBeforeStartingDate = $this->calculate('spentBeforeStartingDate');
         $this->spentOnOrAfterStartingDate = $this->calculate('spentOnOrAfterStartingDate');
-        $this->receivedAfterStartingDate = $this->calculate('receivedAfterStartingDate');
+        $this->receivedOnOrAfterStartingDate = $this->calculate('receivedOnOrAfterStartingDate');
         $this->unallocatedAmount = 100 - $this->amount;
         $this->allocatedPlusUnallocatedAmount = 100;
     }
@@ -133,7 +133,7 @@ class FlexBudgetTotal implements Arrayable, BudgetTotal {
         $this->allocatedPlusUnallocatedCalculatedAmount = $remainingBalance->amount;
         $this->unallocatedCalculatedAmount = $remainingBalance->amount - $this->calculatedAmount;
         $this->unallocatedPlusCalculatedRemaining = $this->amount - $this->calculatedAmount;
-        $this->allocatedPlusUnallocatedRemaining = $remainingBalance->amount + $this->spentOnOrAfterStartingDate + $this->receivedAfterStartingDate;
+        $this->allocatedPlusUnallocatedRemaining = $remainingBalance->amount + $this->spentOnOrAfterStartingDate + $this->receivedOnOrAfterStartingDate;
         $this->unallocatedRemaining = $this->allocatedPlusUnallocatedRemaining - $this->remaining;
 
         //Transform budgets
@@ -154,7 +154,7 @@ class FlexBudgetTotal implements Arrayable, BudgetTotal {
             'allocatedCalculatedAmount' => $this->calculatedAmount,
             'spentBeforeStartingDate' => $this->spentBeforeStartingDate,
             'spentOnOrAfterStartingDate' => $this->spentOnOrAfterStartingDate,
-            'receivedAfterStartingDate' => $this->receivedAfterStartingDate,
+            'receivedOnOrAfterStartingDate' => $this->receivedOnOrAfterStartingDate,
             'unallocatedAmount' => $this->unallocatedAmount,
             'allocatedPlusUnallocatedAmount' => $this->allocatedPlusUnallocatedAmount,
             'allocatedPlusUnallocatedCalculatedAmount' => $this->allocatedPlusUnallocatedCalculatedAmount,

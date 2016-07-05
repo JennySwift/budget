@@ -87,7 +87,7 @@
 
         <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">@{{ budget.spentOnOrAfterStartingDate | numberFilter 2 }}</td>
 
-        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="received pointer">@{{ budget.receivedAfterStartingDate | numberFilter 2 }}</td>
+        <td v-on:click="showBudgetPopup(budget, 'fixed')" class="received pointer">@{{ budget.receivedOnOrAfterStartingDate | numberFilter 2 }}</td>
 
         <td v-on:click="showBudgetPopup(budget, 'fixed')" v-bind:class="{'negative-remaining': budget.remaining < 0}" class="remaining pointer">@{{ budget.remaining | numberFilter 2 }}</td>
 
@@ -102,7 +102,7 @@
         <td>@{{ fixedBudgetTotals.cumulative | numberFilter 2 }}</td>
         <td>@{{ fixedBudgetTotals.spentBeforeStartingDate | numberFilter 2 }}</td>
         <td>@{{ fixedBudgetTotals.spentOnOrAfterStartingDate | numberFilter 2 }}</td>
-        <td>@{{ fixedBudgetTotals.receivedAfterStartingDate | numberFilter 2 }}</td>
+        <td>@{{ fixedBudgetTotals.receivedOnOrAfterStartingDate | numberFilter 2 }}</td>
         <td>@{{ fixedBudgetTotals.remaining | numberFilter 2 }}</td>
     </tr>
 

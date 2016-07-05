@@ -16,7 +16,7 @@ class FixedBudgetTotal implements Arrayable, BudgetTotal {
     public $cumulative;
     public $spentBeforeStartingDate;
     public $spentOnOrAfterStartingDate;
-    public $receivedAfterStartingDate;
+    public $receivedOnOrAfterStartingDate;
 
     /**
      * Change to a static constructor or not, up to you
@@ -32,7 +32,7 @@ class FixedBudgetTotal implements Arrayable, BudgetTotal {
         $this->cumulative = $this->calculate('cumulative');
         $this->spentBeforeStartingDate = $this->calculate('spentBeforeStartingDate');
         $this->spentOnOrAfterStartingDate = $this->calculate('spentOnOrAfterStartingDate');
-        $this->receivedAfterStartingDate = $this->calculate('receivedAfterStartingDate');
+        $this->receivedOnOrAfterStartingDate = $this->calculate('receivedOnOrAfterStartingDate');
 
         //Transform budgets
         $resource = createCollection($this->budgets, new BudgetTransformer);
@@ -76,7 +76,7 @@ class FixedBudgetTotal implements Arrayable, BudgetTotal {
             'cumulative' => $this->cumulative,
             'spentBeforeStartingDate' => $this->spentBeforeStartingDate,
             'spentOnOrAfterStartingDate' => $this->spentOnOrAfterStartingDate,
-            'receivedAfterStartingDate' => $this->receivedAfterStartingDate,
+            'receivedOnOrAfterStartingDate' => $this->receivedOnOrAfterStartingDate,
         ];
     }
 }

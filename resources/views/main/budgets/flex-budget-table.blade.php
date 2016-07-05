@@ -80,7 +80,7 @@
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">@{{ budget.spentBeforeStartingDate |  numberFilter 2 }}</td>
 
         <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">@{{ budget.spentOnOrAfterStartingDate |  numberFilter 2 }}</td>
-        <td v-on:click="showBudgetPopup(budget, 'flex')" class="received pointer">@{{ budget.receivedAfterStartingDate |  numberFilter 2 }}</td>
+        <td v-on:click="showBudgetPopup(budget, 'flex')" class="received pointer">@{{ budget.receivedOnOrAfterStartingDate |  numberFilter 2 }}</td>
         <td v-on:click="showBudgetPopup(budget, 'flex')" v-bind:class="{'negative-remaining': budget.remaining < 0}" class="remaining pointer">@{{ budget.remaining |  numberFilter 2 }}</td>
     </tr>
     <!-- allocated -->
@@ -116,7 +116,7 @@
         <td>-</td>
         <td>@{{ flexBudgetTotals.spentBeforeStartingDate |  numberFilter 2 }}</td>
         <td>@{{ flexBudgetTotals.spentOnOrAfterStartingDate |  numberFilter 2 }}</td>
-        <td>@{{ flexBudgetTotals.receivedAfterStartingDate |  numberFilter 2 }}</td>
+        <td>@{{ flexBudgetTotals.receivedOnOrAfterStartingDate |  numberFilter 2 }}</td>
         <td>@{{ flexBudgetTotals.allocatedPlusUnallocatedRemaining |  numberFilter 2 }}</td>
     </tr>
 </table>
