@@ -33877,7 +33877,7 @@ var NewTransactionRepository = {
             ];
         }
     
-        if (accounts.length > 0) {
+        if (accounts && accounts.length > 0) {
             this.state.defaults.account = accounts[0];
             this.state.defaults.fromAccount = accounts[0];
             this.state.defaults.toAccount = accounts[0];
