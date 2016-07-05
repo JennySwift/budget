@@ -162,7 +162,7 @@ class Budget extends Model
     public function getSpentBeforeStartingDateAttribute()
     {
         if (!$this->isUnassigned()) {
-            return (float)$this->expenses()->where('date', '<', $this->starting_date)
+            return (float)$this->expenses()->where('date', '<', $this->starting_date->format('Y-m-d'))
                 ->sum('calculated_allocation');
         }
 
@@ -176,7 +176,7 @@ class Budget extends Model
     public function getSpentAfterStartingDateAttribute()
     {
         if (!$this->isUnassigned()) {
-            $totalSpentAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date)
+            $totalSpentAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date->format('Y-m-d'))
                 ->where('type', 'expense')
                 ->sum('calculated_allocation');
 
@@ -235,7 +235,7 @@ class Budget extends Model
     public function getReceivedAfterStartingDateAttribute()
     {
         if (!$this->isUnassigned()) {
-            $totalReceivedAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date)
+            $totalReceivedAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date->format('Y-m-d'))
                 ->where('type', 'income')
                 ->sum('calculated_allocation');
 
