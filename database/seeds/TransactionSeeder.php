@@ -93,7 +93,7 @@ class TransactionSeeder extends Seeder {
     {
         $dateBeforeStartingDate = Config::get('budgets.dateBeforeStartingDateForExpenseTransactions');
         $dateAfterStartingDate = Config::get('budgets.dateAfterStartingDateForExpenseTransactions');
-        $bankFeesId = Budget::where('user_id', $user->id)->whereName('bank fees')->pluck('id');
+        $bankFeesId = Budget::where('user_id', $user->id)->whereName('bank fees')->value('id');
 
         foreach (range(1, $num) as $index) {
             //Create fixed budget expenses before starting date
@@ -136,9 +136,9 @@ class TransactionSeeder extends Seeder {
         $dateBeforeStartingDate = Config::get('budgets.dateBeforeStartingDateForIncomeTransactions');
         $dateAfterStartingDate = Config::get('budgets.dateAfterStartingDateForIncomeTransactions');
 
-        $businessId = Budget::where('user_id', $user->id)->whereName('business')->pluck('id');
-        $buskingId = Budget::where('user_id', $user->id)->whereName('busking')->pluck('id');
-        $somethingId = Budget::where('user_id', $user->id)->whereName('something')->pluck('id');
+        $businessId = Budget::where('user_id', $user->id)->whereName('business')->value('id');
+        $buskingId = Budget::where('user_id', $user->id)->whereName('busking')->value('id');
+        $somethingId = Budget::where('user_id', $user->id)->whereName('something')->value('id');
 
         foreach (range(1, $num) as $index) {
             //Create fixed budget income before starting date for 'business' budget

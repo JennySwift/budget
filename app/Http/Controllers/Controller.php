@@ -3,7 +3,7 @@
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+//use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
@@ -16,7 +16,7 @@ use League\Fractal\TransformerAbstract;
 
 abstract class Controller extends BaseController {
 
-	use DispatchesCommands, ValidatesRequests;
+	use ValidatesRequests;
 
     /**
      * Create a 201 - Created response

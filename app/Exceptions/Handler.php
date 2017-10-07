@@ -1,12 +1,16 @@
 <?php namespace App\Exceptions;
 
 use Exception, Redirect;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Debugbar;
+
+use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler {
 
@@ -16,7 +20,11 @@ class Handler extends ExceptionHandler {
 	 * @var array
 	 */
 	protected $dontReport = [
-		'Symfony\Component\HttpKernel\Exception\HttpException'
+		'Symfony\Component\HttpKernel\Exception\HttpException',
+        AuthorizationException::class,
+        HttpException::class,
+        ModelNotFoundException::class,
+        ValidationException::class,
 	];
 
 	/**
@@ -92,6 +100,10 @@ class Handler extends ExceptionHandler {
 				'status' => Response::HTTP_NOT_FOUND
 			], Response::HTTP_NOT_FOUND);
 		}
+
+//		else {
+//		    dd($e);
+//        }
 
 
 		return parent::render($request, $e);

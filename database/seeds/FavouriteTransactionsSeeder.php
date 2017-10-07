@@ -89,7 +89,8 @@ class FavouriteTransactionsSeeder extends Seeder {
 
                 $budgetIds = [];
                 foreach($favourite['budgets'] as $budgetName) {
-                    $budgetIds[] = Budget::where('user_id', $user->id)->where('name', $budgetName)->pluck('id');
+                    $budgetId = Budget::where('user_id', $user->id)->where('name', $budgetName)->value('id');
+                    $budgetIds[] = $budgetId;
                 }
 
                 $newFavourite->budgets()->attach($budgetIds);

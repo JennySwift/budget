@@ -48,7 +48,7 @@ class UsersController extends Controller
     {
         return Preference::forCurrentUser()
             ->where('type', 'date_format')
-            ->pluck('value');
+            ->value('value');
     }
 
     /**
