@@ -3,22 +3,24 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Broadcast;
 
-/**
- * Class BroadcastServiceProvider
- * @package App\Providers
- */
 class BroadcastServiceProvider extends ServiceProvider
 {
-
     /**
-     * Register the service provider.
+     * Bootstrap any application services.
      *
      * @return void
      */
-    public function register()
+    public function boot()
     {
-        // TODO: Implement register() method.
-    }
+        Broadcast::routes();
 
+        /*
+         * Authenticate the user's personal channel...
+         */
+        Broadcast::channel('App.User.*', function ($user, $userId) {
+            return (int) $user->id === (int) $userId;
+        });
+    }
 }

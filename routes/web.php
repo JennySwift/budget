@@ -1,12 +1,12 @@
 <?php
+Auth::routes();
 
-// Important application routes
-require app_path('Http/Routes/auth.php');
+Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/', 'PagesController@home');
 Route::get('/home', 'PagesController@home');
 
 // API
-Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => 'auth'], function(){
+Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => ['auth', 'web']], function(){
     Route::resource('accounts', 'AccountsController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
     Route::resource('budgets', 'BudgetsController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
     Route::resource('savedFilters', 'SavedFiltersController', ['only' => ['index', 'store', 'destroy']]);

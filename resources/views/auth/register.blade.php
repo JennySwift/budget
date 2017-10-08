@@ -5,7 +5,7 @@
 
         <div id="trial-message">
             <p>Want to try it out before registering? You can do so by going <a
-                        href="http://budget_playground.jennyswiftcreations.com/auth/login">here</a> and logging in with these details:</p>
+                        href="http://budget_playground.jennyswiftcreations.com/login">here</a> and logging in with these details:</p>
             <ul>
                 <li>Email: jennyswiftcreations@gmail.com</li>
                 <li>Password: abcdefg</li>

@@ -80,6 +80,7 @@ class FavouriteTransactionsController extends Controller
             $favourite->fromAccount()->dissociate();
             $favourite->toAccount()->dissociate();
             $favourite->save();
+
         }
 
         if ($request->has('from_account_id')) {

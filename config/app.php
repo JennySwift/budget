@@ -17,6 +17,8 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'name' => 'Budget App',
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application URL
@@ -80,9 +82,9 @@ return [
 	|
 	*/
 
-	'key' => env('APP_KEY', 'SomeRandomString'),
+    'key' => env('APP_KEY'),
 
-	'cipher' => MCRYPT_RIJNDAEL_128,
+    'cipher' => 'AES-256-CBC',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -136,6 +138,7 @@ return [
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Broadcasting\BroadcastServiceProvider',
+        'Illuminate\Notifications\NotificationServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -147,6 +150,7 @@ return [
 		'App\Providers\RouteServiceProvider',
 		'App\Providers\TotalsServiceProvider',
 		'App\Providers\ValidationServiceProvider',
+		'App\Providers\BroadcastServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Spatie\Backup\BackupServiceProvider',
         'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
@@ -201,7 +205,8 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Debugbar' => 'Barryvdh\Debugbar\Facade',
 		'Clockwork' => 'Clockwork\Support\Laravel\Facade',
+        'Notification' => Illuminate\Support\Facades\Notification::class,
 
-	],
+    ],
 
 ];

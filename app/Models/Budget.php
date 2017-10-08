@@ -86,7 +86,7 @@ class Budget extends Model
      */
     public function getPathAttribute()
     {
-        return route('api.budgets.show', $this->id);
+        return route('budgets.show', $this->id);
     }
 
     /**

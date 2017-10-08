@@ -41,17 +41,17 @@ class FilterNumBudgetsRepository {
         if ($value['in'] === "zero") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', 0)
-                ->lists('id');
+                ->pluck('id')->all();
         }
         elseif ($value['in'] === "single") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', 1)
-                ->lists('id');
+                ->pluck('id')->all();
         }
         elseif ($value['in'] === "multiple") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', '>', 1)
-                ->lists('id');
+                ->pluck('id')->all();
         }
 
         return $query->whereIn('transactions.id', $ids);
@@ -68,17 +68,17 @@ class FilterNumBudgetsRepository {
         if ($value['out'] === "zero") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', 0)
-                ->lists('id');
+                ->pluck('id')->all();
         }
         elseif ($value['out'] === "single") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', 1)
-                ->lists('id');
+                ->pluck('id')->all();
         }
         elseif ($value['out'] === "multiple") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', '>', 1)
-                ->lists('id');
+                ->pluck('id')->all();
         }
 
         return $query->whereNotIn('transactions.id', $ids);

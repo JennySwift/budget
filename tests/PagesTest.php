@@ -19,7 +19,7 @@ class PagesTest extends TestCase {
 
 		$this->assertEquals(302, $response->getStatusCode());
 		$this->assertTrue($response->isRedirection());
-        $this->assertRedirectedTo($this->baseUrl.'/auth/login');
+        $this->assertRedirectedTo($this->baseUrl.'/login');
 	}
 
 	/**

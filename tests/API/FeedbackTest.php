@@ -17,6 +17,7 @@ class FeedbackTest extends TestCase
      */
     public function it_can_create_an_item_in_my_lists_app()
     {
+        $this->markTestSkipped('Skipping lists app test');
         DB::beginTransaction();
         $this->logInUser();
 

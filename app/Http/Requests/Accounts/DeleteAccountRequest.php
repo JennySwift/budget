@@ -12,7 +12,7 @@ class DeleteAccountRequest extends Request {
 	 */
 	public function authorize()
 	{
-		$account = $this->route()->parameter('accounts');
+		$account = $this->route()->parameter('account');
 
 		return Auth::id() == $account->user->id;
 	}

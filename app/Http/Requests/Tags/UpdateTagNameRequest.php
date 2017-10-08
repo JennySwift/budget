@@ -27,7 +27,7 @@ class UpdateTagNameRequest extends Request
      */
     public function rules()
     {
-        $tag = $this->route()->parameter('tags');
+        $tag = $this->route()->parameter('tag');
         $user_id = Auth::id();
 
         return [

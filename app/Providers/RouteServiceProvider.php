@@ -27,53 +27,86 @@ class RouteServiceProvider extends ServiceProvider {
 	/**
 	 * Define your route model bindings, pattern filters, etc.
 	 *
-	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
-	public function boot(Router $router)
+	public function boot()
 	{
-		parent::boot($router);
+		parent::boot();
 
 //		$router->model('accounts', Account::class);
 
-		Route::bind('accounts', function($id)
+		Route::bind('account', function($id)
 		{
 			return Account::forCurrentUser()->findOrFail($id);
 		});
 
-        Route::bind('budgets', function($id)
+        Route::bind('budget', function($id)
         {
             return Budget::forCurrentUser()->findOrFail($id);
         });
 
-        Route::bind('transactions', function($id)
+        Route::bind('transaction', function($id)
         {
             return Transaction::forCurrentUser()->findOrFail($id);
         });
 
-        Route::bind('favouriteTransactions', function($id)
+        Route::bind('favouriteTransaction', function($id)
         {
             return FavouriteTransaction::forCurrentUser()->findOrFail($id);
         });
 
-		Route::bind('savedFilters', function($id)
+		Route::bind('savedFilter', function($id)
 		{
 			return SavedFilter::forCurrentUser()->findOrFail($id);
 		});
 	}
 
-	/**
-	 * Define the routes for the application.
-	 *
-	 * @param  \Illuminate\Routing\Router  $router
-	 * @return void
-	 */
-	public function map(Router $router)
-	{
-		$router->group(['namespace' => $this->namespace], function($router)
-		{
-			require app_path('Http/routes.php');
-		});
-	}
+    /**
+     * Define the routes for the application.
+     *
+     * @return void
+     */
+    public function map()
+    {
+        $this->mapApiRoutes();
+
+        $this->mapWebRoutes();
+
+        //
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes()
+    {
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $this->namespace,
+        ], function ($router) {
+            require base_path('routes/web.php');
+        });
+    }
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        Route::group([
+            'middleware' => 'api',
+            'namespace' => $this->namespace,
+            'prefix' => 'api',
+        ], function ($router) {
+            require base_path('routes/api.php');
+        });
+    }
 
 }

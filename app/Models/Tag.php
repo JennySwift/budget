@@ -76,7 +76,7 @@ class Tag extends Model implements Arrayable
      */
     public function getPathAttribute()
     {
-        return route('api.tags.show', $this);
+        return route('tags.show', $this);
     }
 
     /**

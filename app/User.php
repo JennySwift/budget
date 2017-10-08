@@ -1,20 +1,18 @@
 <?php namespace App;
 
 use App\Models\Preference;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class User
  * @package App
  */
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends Authenticatable
 {
 
-    use Authenticatable, CanResetPassword;
+    use Notifiable;
 
     /**
      * The database table used by the model.
@@ -136,7 +134,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function getPathAttribute()
     {
-        return route('api.users.show', $this->id);
+        return route('users.show', $this->id);
     }
 
     /**

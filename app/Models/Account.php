@@ -48,7 +48,7 @@ class Account extends Model
      */
     public function getPathAttribute()
     {
-        return route('api.accounts.show', $this->id);
+        return route('accounts.show', $this->id);
     }
 
     /**
