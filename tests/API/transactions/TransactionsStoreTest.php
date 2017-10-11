@@ -122,26 +122,19 @@ class TransactionsStoreTest extends TestCase
 
         $this->assertEquals(201, $response->getStatusCode());
 
-        $this->seeInDatabase('transactions', [
-            'date' => '2015-01-01',
-            'account_id' => 1,
-            'type' => 'income',
-            'description' => 'interesting description',
-            'merchant' => 'some store',
-            'total' => 5,
-            'reconciled' => 0,
-            'allocated' => 0
-        ]);
+//        dd($content);
 
-        $this->seeInDatabase('budgets_transactions', [
-            'transaction_id' => $content['id'],
-            'budget_id' => 2
-        ]);
-
-        $this->seeInDatabase('budgets_transactions', [
-            'transaction_id' => $content['id'],
-            'budget_id' => 4
-        ]);
+        $this->assertEquals('2015-01-01', $content['date']);
+        $this->assertEquals(1, $content['account_id']);
+        $this->assertEquals('income', $content['type']);
+        $this->assertEquals('interesting description', $content['description']);
+        $this->assertEquals('some store', $content['merchant']);
+        $this->assertEquals(5, $content['total']);
+        $this->assertEquals(0, $content['reconciled']);
+        $this->assertEquals(0, $content['allocated']);
+        $this->assertEquals(2, $content['budgets'][0]['id']);
+        $this->assertEquals(4, $content['budgets'][1]['id']);
+        $this->assertCount(2, $content['budgets']);
 
         $this->checkTransactionKeysExist($content);
 
@@ -196,26 +189,17 @@ class TransactionsStoreTest extends TestCase
 
         $this->assertEquals(201, $response->getStatusCode());
 
-        $this->seeInDatabase('transactions', [
-            'date' => '2015-01-01',
-            'account_id' => 1,
-            'type' => 'expense',
-            'description' => 'interesting description',
-            'merchant' => 'some store',
-            'total' => -5,
-            'reconciled' => 0,
-            'allocated' => 0
-        ]);
-
-        $this->seeInDatabase('budgets_transactions', [
-            'transaction_id' => $content['id'],
-            'budget_id' => 2
-        ]);
-
-        $this->seeInDatabase('budgets_transactions', [
-            'transaction_id' => $content['id'],
-            'budget_id' => 4
-        ]);
+        $this->assertEquals('2015-01-01', $content['date']);
+        $this->assertEquals(1, $content['account_id']);
+        $this->assertEquals('expense', $content['type']);
+        $this->assertEquals('interesting description', $content['description']);
+        $this->assertEquals('some store', $content['merchant']);
+        $this->assertEquals(-5, $content['total']);
+        $this->assertEquals(0, $content['reconciled']);
+        $this->assertEquals(0, $content['allocated']);
+        $this->assertEquals(2, $content['budgets'][0]['id']);
+        $this->assertEquals(4, $content['budgets'][1]['id']);
+        $this->assertCount(2, $content['budgets']);
 
         $this->checkTransactionKeysExist($content);
 
@@ -262,15 +246,9 @@ class TransactionsStoreTest extends TestCase
 
         $this->assertEquals(201, $response->getStatusCode());
 
-        $this->seeInDatabase('budgets_transactions', [
-            'transaction_id' => $content['id'],
-            'budget_id' => 2
-        ]);
-
-        $this->seeInDatabase('budgets_transactions', [
-            'transaction_id' => $content['id'],
-            'budget_id' => 4
-        ]);
+        $this->assertEquals(2, $content['budgets'][0]['id']);
+        $this->assertEquals(4, $content['budgets'][1]['id']);
+        $this->assertCount(2, $content['budgets']);
 
         $this->checkTransactionKeysExist($content);
 

@@ -1,25 +1,23 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use App\Models\Preference;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-/**
- * Class User
- * @package App
- */
 class User extends Authenticatable
 {
-
     use Notifiable;
 
     /**
-     * The database table used by the model.
+     * The attributes that should be hidden for arrays.
      *
-     * @var string
+     * @var array
      */
-    protected $table = 'users';
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -37,13 +35,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = ['preferences' => 'json'];
-
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = ['password', 'remember_token'];
 
     /**
      *
@@ -153,5 +144,4 @@ class User extends Authenticatable
     {
         //todo
     }
-
 }

@@ -32,7 +32,7 @@ class FilterDefaultsTest extends FiltersTest
 
         $this->checkTransactionKeysExist($content[0]);
 
-        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
 }

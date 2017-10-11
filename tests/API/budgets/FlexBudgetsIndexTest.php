@@ -27,6 +27,6 @@ class FlexBudgetsIndexTest extends TestCase
             $this->assertEquals('flex', $budget['type']);
         }
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 }

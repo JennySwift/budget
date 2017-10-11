@@ -1,44 +1,36 @@
-<?php namespace App\Providers;
+<?php
 
-use App\Models\Account;
-use App\Models\Budget;
-use App\Models\FavouriteTransaction;
-use App\Models\SavedFilter;
-use App\Models\Tag;
-use App\Models\Transaction;
-use App\Traits\ForCurrentUserTrait;
-use Illuminate\Routing\Router;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+namespace App\Providers;
+
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-class RouteServiceProvider extends ServiceProvider {
+class RouteServiceProvider extends ServiceProvider
+{
+    /**
+     * This namespace is applied to your controller routes.
+     *
+     * In addition, it is set as the URL generator's root namespace.
+     *
+     * @var string
+     */
+    protected $namespace = 'App\Http\Controllers';
 
-    use ForCurrentUserTrait;
+    /**
+     * Define your route model bindings, pattern filters, etc.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        //
 
-	/**
-	 * This namespace is applied to the controller routes in your routes file.
-	 *
-	 * In addition, it is set as the URL generator's root namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'App\Http\Controllers';
+        parent::boot();
 
-	/**
-	 * Define your route model bindings, pattern filters, etc.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		parent::boot();
-
-//		$router->model('accounts', Account::class);
-
-		Route::bind('account', function($id)
-		{
-			return Account::forCurrentUser()->findOrFail($id);
-		});
+        Route::bind('account', function($id)
+        {
+            return Account::forCurrentUser()->findOrFail($id);
+        });
 
         Route::bind('budget', function($id)
         {
@@ -55,11 +47,11 @@ class RouteServiceProvider extends ServiceProvider {
             return FavouriteTransaction::forCurrentUser()->findOrFail($id);
         });
 
-		Route::bind('savedFilter', function($id)
-		{
-			return SavedFilter::forCurrentUser()->findOrFail($id);
-		});
-	}
+        Route::bind('savedFilter', function($id)
+        {
+            return SavedFilter::forCurrentUser()->findOrFail($id);
+        });
+    }
 
     /**
      * Define the routes for the application.
@@ -84,13 +76,11 @@ class RouteServiceProvider extends ServiceProvider {
      */
     protected function mapWebRoutes()
     {
-        Route::group([
-            'middleware' => 'web',
-            'namespace' => $this->namespace,
-        ], function ($router) {
-            require base_path('routes/web.php');
-        });
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/web.php'));
     }
+
     /**
      * Define the "api" routes for the application.
      *
@@ -100,13 +90,9 @@ class RouteServiceProvider extends ServiceProvider {
      */
     protected function mapApiRoutes()
     {
-        Route::group([
-            'middleware' => 'api',
-            'namespace' => $this->namespace,
-            'prefix' => 'api',
-        ], function ($router) {
-            require base_path('routes/api.php');
-        });
+        Route::prefix('api')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/api.php'));
     }
-
 }

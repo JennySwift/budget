@@ -2,6 +2,7 @@
 
 use App\Models\Budget;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 
 /**
  * Class BudgetsDestroyTest
@@ -22,11 +23,11 @@ class BudgetsDestroyTest extends TestCase
 
         $response = $this->apiCall('DELETE', '/api/budgets/'.$budget->id);
 
-        $this->assertEquals(204, $response->getStatusCode());
-        $this->missingFromDatabase('budgets', [
-            'user_id' => $this->user->id,
-            'name' => $budget->name
-        ]);
+        $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+
+        $response = $this->apiCall('DELETE', '/api/budgets/'.$budget->id);
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
 }

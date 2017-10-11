@@ -76,7 +76,7 @@ class FilterGraphsTest extends FiltersTest
 
         $this->assertNull($content);
 
-        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     /**

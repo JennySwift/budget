@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 
@@ -31,7 +30,7 @@ class FixedBudgetTotalsTest extends TestCase
         $this->assertEquals(200, $totals['receivedOnOrAfterStartingDate']);
         $this->assertEquals(1960, $totals['remaining']);
 
-        $this->assertResponseOk();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
 }

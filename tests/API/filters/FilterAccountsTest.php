@@ -40,7 +40,7 @@ class FilterAccountsTest extends FiltersTest
             $this->assertEquals(1, $transaction['account']['id']);
         }
 
-        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     /**
@@ -71,7 +71,7 @@ class FilterAccountsTest extends FiltersTest
             $this->assertNotEquals(1, $transaction['account']['id']);
         }
 
-        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
 }

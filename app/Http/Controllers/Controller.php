@@ -1,22 +1,25 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-//use Illuminate\Foundation\Bus\DispatchesCommands;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+namespace App\Http\Controllers;
+
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\Serializer\DataArraySerializer;
 use League\Fractal\TransformerAbstract;
 
-abstract class Controller extends BaseController {
-
-	use ValidatesRequests;
+class Controller extends BaseController
+{
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
      * Create a 201 - Created response

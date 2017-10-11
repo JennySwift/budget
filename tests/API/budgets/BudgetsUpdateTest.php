@@ -3,6 +3,7 @@
 use App\Models\Budget;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 
 /**
  * Each month, change starting date in config/budgets.php
@@ -247,13 +248,7 @@ class BudgetsUpdateTest extends TestCase
             'amount' => $budget->amount
         ]);
 
-        $this->seeInDatabase('budgets', [
-            'user_id' => $this->user->id,
-            'name' => $budget->name,
-            'amount' => $budget->amount
-        ]);
-
-        $this->assertEquals(304, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_NOT_MODIFIED, $response->getStatusCode());
     }
 
 }

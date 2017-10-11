@@ -18,10 +18,6 @@ class SavingsTest extends TestCase {
         $this->logInUser();
 
         $savings = Savings::forCurrentUser()->first();
-        $this->seeInDatabase('savings', [
-            'user_id' => $this->user->id,
-            'amount' => $savings->amount
-        ]);
 
 		$response = $this->apiCall('PUT', '/api/savings/set', [
             'amount' => 100
@@ -41,10 +37,6 @@ class SavingsTest extends TestCase {
         $this->logInUser();
 
         $savings = Savings::forCurrentUser()->first();
-        $this->seeInDatabase('savings', [
-            'user_id' => $this->user->id,
-            'amount' => $savings->amount
-        ]);
 
         $response = $this->apiCall('PUT', '/api/savings/increase', [
             'amount' => 100
@@ -64,10 +56,6 @@ class SavingsTest extends TestCase {
         $this->logInUser();
 
         $savings = Savings::forCurrentUser()->first();
-        $this->seeInDatabase('savings', [
-            'user_id' => $this->user->id,
-            'amount' => $savings->amount
-        ]);
 
         // Correct request
         $response = $this->apiCall('PUT', '/api/savings/decrease', [
@@ -113,10 +101,6 @@ class SavingsTest extends TestCase {
         $this->logInUser();
 
         $savings = Savings::forCurrentUser()->first();
-        $this->seeInDatabase('savings', [
-            'user_id' => $this->user->id,
-            'amount' => $savings->amount
-        ]);
 
         $response = $this->apiCall('PUT', '/api/savings/set', [
             'amount' => -100
@@ -135,10 +119,6 @@ class SavingsTest extends TestCase {
         $this->logInUser();
 
         $savings = Savings::forCurrentUser()->first();
-        $this->seeInDatabase('savings', [
-            'user_id' => $this->user->id,
-            'amount' => $savings->amount
-        ]);
 
         $response = $this->apiCall('PUT', '/api/savings/set', [
             'amount' => 'kangaroo'

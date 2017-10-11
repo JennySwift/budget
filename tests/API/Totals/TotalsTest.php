@@ -27,7 +27,7 @@ class TotalsTest extends TestCase {
         $response = $this->apiCall('GET', 'api/totals/sidebar');
         $content = json_decode($response->getContent(), false)->data;
 
-        $this->assertResponseOk();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         // Check if every attribute is present
         $this->assertObjectHasAttribute('credit', $content);

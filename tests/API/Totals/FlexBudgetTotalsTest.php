@@ -21,7 +21,7 @@ class FlexBudgetTotalsTest extends TestCase
         $response = $this->apiCall('GET', 'api/totals/flexBudget');
         $totals = json_decode($response->getContent(), true);
 
-        $this->assertResponseOk();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 //        dd($totals);
 
         // Check if every attribute is present
@@ -76,6 +76,6 @@ class FlexBudgetTotalsTest extends TestCase
         $this->assertEquals(1000, $budget['remaining']);
         $this->assertEquals(6, $budget['transactionsCount']);
 
-        $this->assertResponseOk();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 }

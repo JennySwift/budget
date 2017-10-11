@@ -3,6 +3,7 @@
 use App\Models\Savings;
 use App\Models\Transaction;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 
 /**
  * Class TransactionsDestroyTest
@@ -21,13 +22,7 @@ class TransactionsDestroyTest extends TestCase
 
         $transaction = Transaction::forCurrentUser()->first();
 
-        $response = $this->apiCall('DELETE', '/api/transactions/'.$transaction->id);
-
-        $this->assertEquals(204, $response->getStatusCode());
-        $this->missingFromDatabase('transactions', [
-            'user_id' => $this->user->id,
-            'id' => $transaction->id
-        ]);
+        $this->deleteTransaction($transaction);
     }
 
     /**
@@ -44,13 +39,7 @@ class TransactionsDestroyTest extends TestCase
             ->where('type', 'income')
             ->first();
 
-        $response = $this->apiCall('DELETE', '/api/transactions/'.$transaction->id);
-
-        $this->assertEquals(204, $response->getStatusCode());
-        $this->missingFromDatabase('transactions', [
-            'user_id' => $this->user->id,
-            'id' => $transaction->id
-        ]);
+        $this->deleteTransaction($transaction);
 
         //Check the savings decreased
         $this->assertEquals('20.00', Savings::forCurrentUser()->first()->amount);
@@ -70,16 +59,23 @@ class TransactionsDestroyTest extends TestCase
             ->where('type', 'expense')
             ->first();
 
-        $response = $this->apiCall('DELETE', '/api/transactions/'.$transaction->id);
-
-        $this->assertEquals(204, $response->getStatusCode());
-        $this->missingFromDatabase('transactions', [
-            'user_id' => $this->user->id,
-            'id' => $transaction->id
-        ]);
+        $this->deleteTransaction($transaction);
 
         //Check the savings decreased
         $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
+    }
+
+    /**
+     *
+     * @param $transaction
+     */
+    private function deleteTransaction($transaction)
+    {
+        $response = $this->apiCall('DELETE', '/api/transactions/' . $transaction->id);
+        $this->assertEquals(204, $response->getStatusCode());
+
+        $response = $this->apiCall('DELETE', '/api/transactions/' . $transaction->id);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
 }

@@ -61,7 +61,7 @@ class FixedBudgetsIndexTest extends TestCase
         $this->assertEquals(1060, $budget['remaining']);
         $this->assertEquals(6, $budget['transactionsCount']);
 
-        $this->assertResponseOk();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     /**
@@ -97,7 +97,7 @@ class FixedBudgetsIndexTest extends TestCase
         $this->assertEquals(865, $budget['remaining']);
         $this->assertEquals(8, $budget['transactionsCount']);
 
-        $this->assertResponseOk();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     /**
