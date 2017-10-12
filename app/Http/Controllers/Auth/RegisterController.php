@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Savings;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -62,10 +63,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = new User([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'preferences' => Config::get('user-preferences.defaults')
         ]);
+
+        $user->save();
+
+        $savings = new Savings(['amount' => 0]);
+        $savings->user()->associate($user);
+        $savings->save();
+
+        return $user;
     }
+
 }

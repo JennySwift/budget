@@ -65,3 +65,5 @@ Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => ['auth', 
     });
 
 });
+
+Route::get('/home', 'HomeController@index')->name('home');
