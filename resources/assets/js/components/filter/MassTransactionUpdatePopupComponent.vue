@@ -1,0 +1,143 @@
+<template>
+    <div
+        v-show="showPopup"
+        v-on:click="closePopup($event)"
+        class="popup-outer"
+    >
+
+        <div id="mass-transaction-update-popup" class="popup-inner">
+
+            <div class="messages">
+                <div v-if="!showProgress">
+                    <div>Clicking 'Go' will add the chosen budgets to the @{{ transactions.length }} transactions that you can see on the page.</div>
+                    <div class="warning">Duplicate budgets will be removed from your transactions, however, the allocation given to the budgets you choose here will be 100% of the transaction. So you may need to reallocate the transactions after doing this.</div>
+                </div>
+                <h5 v-if="count < transactions.length && showProgress">Updating @{{ transactions.length }} transactions</h5>
+                <h5 v-if="count === transactions.length">Done! The selected budgets have been added to @{{ transactions.length }} transactions.</h5>
+            </div>
+
+            <div v-show="showProgress" class="progress">
+                <div
+                    class="progress-bar progress-bar-success progress-bar-striped"
+                    role="progressbar"
+                    {{--aria-valuenow="40"--}}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    v-bind:style="{width: progressWidth + '%'}"
+                >
+
+                    @{{ count }}
+
+                </div>
+            </div>
+
+            Add budgets to transactions
+
+            <budget-autocomplete
+                :chosen-budgets.sync="budgetsToAdd"
+                :budgets="budgets"
+                multiple-budgets="true"
+            >
+            </budget-autocomplete>
+
+            <div class="buttons">
+                <button v-on:click="showPopup = false" class="btn btn-default">Close</button>
+                <button v-on:click="addBudgetsToTransactions()" class="btn btn-success">Go</button>
+            </div>
+
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        data: function () {
+            return {
+                showPopup: false,
+                budgetsToAdd: [],
+                count: 0,
+                showProgress: false,
+                transactionsRepository: TransactionsRepository.state
+            };
+        },
+        components: {},
+        computed: {
+            progressWidth: function () {
+                return 100 / (this.transactions.length / this.count);
+            },
+            transactions: function () {
+                return this.transactionsRepository.transactions;
+            }
+        },
+        methods: {
+
+            /**
+             *
+             */
+            addBudgetsToTransactions: function () {
+                this.count = 0;
+                this.showProgress = true;
+                for (var i = 0; i < this.transactions.length; i++) {
+                    this.addBudgetsToTransaction(this.transactions[i]);
+                }
+            },
+
+            /**
+             *
+             * @param transaction
+             */
+            addBudgetsToTransaction: function (transaction) {
+                $.event.trigger('show-loading');
+
+                var data = {
+                    addingBudgets: true,
+                    budget_ids: _.pluck(this.budgetsToAdd, 'id')
+                };
+
+                this.$http.put('/api/transactions/' + transaction.id, data, function (response) {
+                    var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: transaction.id}));
+                    this.transactions[index].budgets = response.budgets;
+                    this.transactions[index].multipleBudgets = response.multipleBudgets;
+                    this.transactions[index].validAllocation = response.validAllocation;
+                    this.count++;
+
+                    if (this.count === this.transactions.length) {
+                        //$.event.trigger('provide-feedback', ['Done!', 'success']);
+                        //this.showPopup = false;
+                    }
+
+                    //$.event.trigger('provide-feedback', ['Transaction updated', 'success']);
+                    $.event.trigger('hide-loading');
+                })
+                    .error(function (response) {
+                        HelpersRepository.handleResponseError(response);
+                    });
+            },
+
+            /**
+             *
+             */
+            closePopup: function (event) {
+                HelpersRepository.closePopup(event, this);
+            },
+
+            /**
+             *
+             */
+            listen: function () {
+                var that = this;
+                $(document).on('show-mass-transaction-update-popup', function (event) {
+                    that.showPopup = true;
+                    that.showProgress = false;
+                    that.budgetsToAdd = [];
+                });
+            }
+        },
+        props: [
+            'budgets'
+        ],
+        mounted: function () {
+            this.listen();
+        }
+    }
+</script>
