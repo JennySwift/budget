@@ -144,16 +144,7 @@ class TransactionsController extends Controller
         }
         else {
             $previousTotal = $transaction->total;
-            $data = getRequestData($request, $transaction, [
-                'date',
-                'description',
-                'merchant',
-                'total',
-                'type',
-                'reconciled',
-                'allocated',
-                'minutes'
-            ]);
+            $data = getRequestData($request, $transaction);
 
             if ($request->has('account_id')) {
                 $transaction->account()->associate(Account::findOrFail($request->get('account_id')));

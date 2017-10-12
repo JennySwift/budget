@@ -25,9 +25,9 @@ use League\Fractal\TransformerAbstract;
  * @param $model
  * @return array
  */
-function getRequestData(Request $request, $model, $fields)
+function getRequestData(Request $request, $model)
 {
-    $diff = array_diff_assoc($request->only($fields), $model->toArray());
+    $diff = array_diff_assoc($request->only($model->getEditableFields()), $model->toArray());
     $data = array_filter($diff, 'removeFalseKeepZeroAndEmptyStrings');
 
     return $data;
