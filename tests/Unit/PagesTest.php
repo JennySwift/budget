@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 /**
@@ -17,7 +18,7 @@ class PagesTest extends TestCase {
     {
         $response = $this->call('GET', '/');
 
-        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
         $this->assertTrue($response->isRedirection());
         $this->assertEquals($this->baseUrl . '/login', $response->headers->get('Location'));
     }

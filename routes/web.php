@@ -17,7 +17,7 @@ Auth::routes();
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::get('/', [function () {
+Route::get('/', ['middleware' => 'auth', function () {
     JavaScript::put([
         'env' => app()->env,
         'me' => Auth::user(),
