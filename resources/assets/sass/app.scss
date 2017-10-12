@@ -1,9 +1,23 @@
 
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
-// Variables
+@import "colors";
 @import "variables";
+@import "helpers/index";
+@import "base";
+@import "mixins/index";
+@import "modules/index";
+@import 'helper-classes';
+@import 'home/index';
+@import 'favouriteTransactions/index';
+@import 'budgets/index';
+@import 'charts/index';
+@import 'help/index';
+@import 'auth/index';
+@import 'tags/index';
+@import 'accounts/index';
+@import 'shared/index';
+@import 'preferences';
 
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+
+
+
