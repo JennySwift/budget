@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Account;
+use App\Models\Budget;
+use App\Models\FavouriteTransaction;
+use App\Models\SavedFilter;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 

@@ -179,10 +179,9 @@ return [
 
         App\Providers\TotalsServiceProvider::class,
 
-
+        'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
 //        Barryvdh\Debugbar\ServiceProvider::class,
 //        Spatie\Backup\BackupServiceProvider::class,
-//        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
 //        Clockwork\Support\Laravel\ClockworkServiceProvider::class
 
     ],
