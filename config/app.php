@@ -178,10 +178,12 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\TotalsServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-        Spatie\Backup\BackupServiceProvider::class,
-        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
-        Clockwork\Support\Laravel\ClockworkServiceProvider::class
+
+
+//        Barryvdh\Debugbar\ServiceProvider::class,
+//        Spatie\Backup\BackupServiceProvider::class,
+//        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+//        Clockwork\Support\Laravel\ClockworkServiceProvider::class
 
     ],
 
@@ -232,7 +234,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+//        'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Clockwork' => Clockwork\Support\Laravel\Facade::class,
 
     ],

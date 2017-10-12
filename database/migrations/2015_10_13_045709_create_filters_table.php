@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Filters extends Migration
+class CreateFiltersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class Filters extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('user_id')->unsigned()->index();
-            $table->json('filter');
+            $table->text('filter');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

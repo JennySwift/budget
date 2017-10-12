@@ -23,6 +23,12 @@ class CreateFavouriteTransactionsTable extends Migration
             $table->decimal('total', 10, 2)->index()->nullable();
             $table->timestamps();
 
+            $table->integer('from_account_id')->unsigned()->index()->nullable();
+            $table->foreign('from_account_id')->references('id')->on('accounts')->onDelete('cascade');
+
+            $table->integer('to_account_id')->unsigned()->index()->nullable();
+            $table->foreign('to_account_id')->references('id')->on('accounts')->onDelete('cascade');
+
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
