@@ -46,6 +46,24 @@ class Transaction extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'user_id'];
 
     /**
+     * For knowing which fields are editable from the controller
+     * @return array
+     */
+    public function getEditableFields()
+    {
+        return [
+            'date',
+            'description',
+            'merchant',
+            'total',
+            'type',
+            'reconciled',
+            'allocated',
+            'minutes'
+        ];
+    }
+
+    /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

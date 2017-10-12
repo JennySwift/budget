@@ -503,7 +503,6 @@ class TransactionsUpdateTest extends TestCase
         $content = json_decode($response->getContent(), true);
 
         $this->checkTransactionKeysExist($content);
-
         $this->assertEquals('', $content['description']);
 
         //Check the status code

@@ -53,7 +53,7 @@ class TransactionsController extends Controller
             ->with('account')
             ->with('budgets');
 
-        if ($request->get('typing') || $request->get('typing') === '') {
+        if ($request->exists('typing')) {
             $transactions = $transactions->where($request->get('column'), 'LIKE', '%' . $request->get('typing') . '%')
                 ->where('type', '!=', 'transfer');
         }
@@ -144,19 +144,16 @@ class TransactionsController extends Controller
         }
         else {
             $previousTotal = $transaction->total;
-            $data = array_filter(array_diff_assoc(
-                $request->only([
-                    'date',
-                    'description',
-                    'merchant',
-                    'total',
-                    'type',
-                    'reconciled',
-                    'allocated',
-                    'minutes'
-                ]),
-                $transaction->toArray()
-            ), 'removeFalseKeepZeroAndEmptyStrings');
+            $data = getRequestData($request, $transaction, [
+                'date',
+                'description',
+                'merchant',
+                'total',
+                'type',
+                'reconciled',
+                'allocated',
+                'minutes'
+            ]);
 
             if ($request->has('account_id')) {
                 $transaction->account()->associate(Account::findOrFail($request->get('account_id')));

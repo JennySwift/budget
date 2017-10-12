@@ -2,6 +2,7 @@
 use App\Exceptions\ModelAlreadyExistsException;
 use App\Exceptions\NotLoggedInException;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
@@ -17,6 +18,20 @@ use League\Fractal\TransformerAbstract;
 //        throw new NotLoggedInException;
 //    }
 //}
+
+/**
+ *
+ * @param Request $request
+ * @param $model
+ * @return array
+ */
+function getRequestData(Request $request, $model, $fields)
+{
+    $diff = array_diff_assoc($request->only($fields), $model->toArray());
+    $data = array_filter($diff, 'removeFalseKeepZeroAndEmptyStrings');
+
+    return $data;
+}
 
 /**
  * Merge two array together, passing the second array through array filter to remove null values
