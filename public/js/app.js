@@ -27674,6 +27674,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__budget_src_components_shared_AutocompleteComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__budget_src_components_shared_AutocompleteComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_FeedbackComponent_vue__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_FeedbackComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_FeedbackComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_NewTransactionComponent_vue__ = __webpack_require__(471);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_NewTransactionComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__budget_src_components_NewTransactionComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_TotalsComponent_vue__ = __webpack_require__(474);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_TotalsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__budget_src_components_TotalsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_TransactionsComponent_vue__ = __webpack_require__(481);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_TransactionsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__budget_src_components_TransactionsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__ = __webpack_require__(478);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__);
 
 
 // var vueTippy = require('vue-tippy');
@@ -27687,6 +27695,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
+
+
+
 //Shared components
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('navbar', __WEBPACK_IMPORTED_MODULE_1__budget_src_components_shared_NavbarComponent_vue___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('feedback', __WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_FeedbackComponent_vue___default.a);
@@ -27695,6 +27707,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('popup', __WEBPACK_IMPORTE
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('autocomplete', __WEBPACK_IMPORTED_MODULE_4__budget_src_components_shared_AutocompleteComponent_vue___default.a);
 
 // Components
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('new-transaction', __WEBPACK_IMPORTED_MODULE_6__budget_src_components_NewTransactionComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('totals', __WEBPACK_IMPORTED_MODULE_7__budget_src_components_TotalsComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transactions', __WEBPACK_IMPORTED_MODULE_8__budget_src_components_TransactionsComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('mass-transaction-update-popup', __WEBPACK_IMPORTED_MODULE_9__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default.a);
 
 /***/ }),
 /* 46 */
@@ -28779,30 +28795,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
+//    import store from '../../repositories/Store'
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            showLoading: false
+            shared: store.state
         };
     },
     template: "#loading-template",
-    props: [
-        //'showLoading'
-    ],
-    methods: {
-        listen: function listen() {
-            var that = this;
-            $(document).on('show-loading', function (event, message, type) {
-                that.showLoading = true;
-            });
-            $(document).on('hide-loading', function (event, message, type) {
-                that.showLoading = false;
-            });
+    computed: {
+        loading: function loading() {
+            return this.shared.loading;
         }
-    },
-    mounted: function mounted() {
-        this.listen();
     }
 });
 
@@ -28821,13 +28832,20 @@ var render = function() {
         {
           name: "show",
           rawName: "v-show",
-          value: _vm.showLoading,
-          expression: "showLoading"
+          value: _vm.loading,
+          expression: "loading"
         }
       ],
+      staticClass: "sk-three-bounce",
       attrs: { id: "loading" }
     },
-    [_c("i", { staticClass: "fa fa-spinner fa-pulse" })]
+    [
+      _c("div", { staticClass: "sk-child sk-bounce1" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "sk-child sk-bounce2" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "sk-child sk-bounce3" })
+    ]
   )
 }
 var staticRenderFns = []
@@ -29438,8 +29456,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
+var _ = __webpack_require__(466);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    template: "#feedback-template",
     data: function data() {
         return {
             feedbackMessages: []
@@ -29457,18 +29479,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 messages = [messages];
             }
 
-            var newMessage = {
+            var feedback = {
                 messages: messages,
                 type: type
             };
 
             var that = this;
 
-            this.feedbackMessages.push(newMessage);
+            this.feedbackMessages.push(feedback);
 
             setTimeout(function () {
-                that.feedbackMessages = _.without(that.feedbackMessages, newMessage);
-            }, 3000);
+                that.feedbackMessages = _.without(that.feedbackMessages, feedback);
+            }, 4000);
         },
 
         /**
@@ -29477,32 +29499,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * @param status
          * @returns {*}
          */
-        handleResponseError: function handleResponseError(data, status, response) {
-            if (typeof data !== "undefined") {
-                var messages = [];
+        handleResponseError: function handleResponseError(response) {
+            var messages = [];
+            var defaultMessage = 'There was an error';
 
-                if (data.status) {
-                    switch (data.status) {
-                        case 503:
-                            messages.push('Sorry, application under construction. Please try again later.');
-                            break;
-                        case 401:
-                            messages.push('You are not logged in');
-                            break;
-                        case 422:
-                            messages = this.setMessagesFrom422Status(data);
-                            break;
-                        default:
-                            messages.push(data.error);
-                            break;
-                    }
-                } else if (status) {
-                    if (status === 422) {
-                        messages = this.setMessagesFrom422Status(data);
-                    }
-                }
-            } else {
-                messages.push('There was an error');
+            if (!response || !response.status) {
+                messages.push(defaultMessage);
+                return messages;
+            }
+
+            switch (response.status) {
+                case 503:
+                    messages.push('Sorry, application under construction. Please try again later.');
+                    break;
+                case 401:
+                    messages.push('You are not logged in');
+                    break;
+                case 422:
+                    messages = this.setMessagesFrom422Status(response.data);
+                    break;
+                case 400:
+                    messages.push(response.data.error);
+                    break;
+                default:
+                    response && response.error ? messages.push(response.error) : messages.push(defaultMessage);
+                    break;
             }
 
             return messages;
@@ -29510,52 +29531,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         /**
          *
-         * @returns {string}
+         * @param errors
+         * @returns {Array}
          */
-        setMessagesFrom422Status: function setMessagesFrom422Status(data) {
+        setMessagesFrom422Status: function setMessagesFrom422Status(errors) {
             var messages = [];
+            var i;
 
-            //for (var i = 0; i < data.length; i++) {
-            //    var error = data[i];
-            //    for (var j = 0; j < error.length; j++) {
-            //        html += '<li>' + error[j] + '</li>';
-            //    }
-            //}
-
-            $.each(data, function (key, value) {
-                var error = this;
-                for (var j = 0; j < error.length; j++) {
-                    messages.push(error[j]);
+            for (i in errors) {
+                for (var j = 0; j < errors[i].length; j++) {
+                    messages.push(errors[i][j]);
                 }
-            });
+            }
 
             return messages;
-        },
-
-        /**
-         *
-         */
-        listen: function listen() {
-            var that = this;
-            $(document).on('provide-feedback', function (event, message, type) {
-                that.provideFeedback(message, type);
-            });
-            $(document).on('response-error', function (event, data, status, response) {
-                that.provideFeedback(that.handleResponseError(data, status, response), 'error');
-            });
         }
     },
-    events: {
-        'provide-feedback': function provideFeedback(message, type) {
-            this.provideFeedback(message, type);
-        },
-        'response-error': function responseError(response) {
-            this.provideFeedback(this.handleResponseError(response), 'error');
-        }
+    created: function created() {
+        var that = this;
+        this.$bus.$on('provide-feedback', this.provideFeedback);
+        this.$bus.$on('response-error', function (response) {
+            that.provideFeedback(that.handleResponseError(response), 'error');
+        });
     },
-    mounted: function mounted() {
-        this.listen();
-    }
+    ready: function ready() {}
 });
 
 /***/ }),
@@ -29569,14 +29568,10 @@ var render = function() {
   return _c(
     "div",
     { attrs: { id: "feedback" } },
-    _vm._l(_vm.feedbackMessages, function(feedback) {
+    _vm._l(_vm.feedbackMessages, function(feedback, index) {
       return _c(
         "div",
-        {
-          staticClass: "feedback-message",
-          class: feedback.type,
-          attrs: { "track-by": "$index" }
-        },
+        { key: index, staticClass: "feedback-message", class: feedback.type },
         [
           _c(
             "ul",
@@ -29725,24 +29720,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(477);
 //
 //
 //
@@ -29791,21 +29769,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             // page: 'home',
-            budgetsRepository: BudgetsRepository.state,
+            shared: store.state,
             colors: {},
-            env: env,
-            homePageRepository: HomePageRepository.state,
             hoveringTotalsButton: false
         };
     },
     components: {},
     computed: {
         budgets: function budgets() {
-            return this.budgetsRepository.budgets;
+            return this.shared.budgets;
         }
         // tab: function () {
         //     return this.homePageRepository.tab;
@@ -29826,14 +29804,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          *
          */
         respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
-            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseEnterOnTotalsButton(this);
         },
 
         /**
          *
          */
         respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
-            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseLeaveOnTotalsButton(this);
         },
 
         /**
@@ -29843,7 +29821,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             $.event.trigger('toggle-new-transaction');
         }
     },
-    props: ['show', 'transactionPropertiesToShow'],
+    props: [],
     mounted: function mounted() {}
 });
 
@@ -29860,7 +29838,7 @@ var render = function() {
     [
       _c("div", { attrs: { id: "toolbar" } }, [
         _c("div", [
-          !_vm.show.newTransaction
+          !_vm.shared.show.newTransaction
             ? _c(
                 "button",
                 {
@@ -29875,7 +29853,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.show.newTransaction
+          _vm.shared.show.newTransaction
             ? _c(
                 "button",
                 {
@@ -29906,23 +29884,15 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("new-transaction", {
-        attrs: { show: _vm.show, tab: _vm.tab, budgets: _vm.budgets }
-      }),
+      _c("new-transaction"),
       _vm._v(" "),
-      _c("totals", { attrs: { show: _vm.show } }),
+      _c("totals"),
       _vm._v(" "),
-      _c("transactions", {
-        attrs: {
-          show: _vm.show,
-          "transaction-properties-to-show": _vm.transactionPropertiesToShow,
-          ",": ""
-        }
-      }),
+      _c("transactions"),
       _vm._v(" "),
-      _c("mass-transaction-update-popup", { attrs: { budgets: _vm.budgets } }),
+      _c("mass-transaction-update-popup"),
       _vm._v(" "),
-      _c("filter", { attrs: { show: _vm.show, budgets: _vm.budgets } })
+      _c("filter")
     ],
     1
   )
@@ -40893,7 +40863,14 @@ Date.setLocale('en-AU');
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: {
-        me: { gravatar: '' },
+        me: {
+            gravatar: '',
+            preferences: {
+                show: {
+                    totals: ''
+                }
+            }
+        },
         //For home page tabs
         tab: '',
         loading: false,
@@ -40927,7 +40904,7 @@ Date.setLocale('en-AU');
         newItem: {},
         showPopup: false,
         showFilter: true,
-        defaultTransactionPropertiesToShow: {
+        show: {
             basicTotals: false,
             budgetTotals: false,
             filterTotals: true,
@@ -40984,12 +40961,11 @@ Date.setLocale('en-AU');
 
     /**
      *
-     * @param env
-     * @param accounts
-     * @returns {NewTransactionRepository.defaults|{type, account_id, date, merchant, description, reconciled, multiple_budgets, budgets}}
+     * @returns {*}
      */
-    getNewTransactionDefaults: function getNewTransactionDefaults(env, accounts) {
+    getNewTransactionDefaults: function getNewTransactionDefaults() {
         //Fill in the new transaction fields if development environment
+        //Todo: get env
         if (env === 'local') {
             this.state.defaults.total = 10;
             this.state.defaults.merchant = 'some merchant';
@@ -41001,7 +40977,7 @@ Date.setLocale('en-AU');
             }];
         }
 
-        if (accounts && accounts.length > 0) {
+        if (this.state.accounts && this.state.accounts.length > 0) {
             this.state.defaults.account = accounts[0];
             this.state.defaults.fromAccount = accounts[0];
             this.state.defaults.toAccount = accounts[0];
@@ -41017,7 +40993,8 @@ Date.setLocale('en-AU');
      * @param newTransaction
      * @returns {*}
      */
-    clearNewTransactionFields: function clearNewTransactionFields(env, me, newTransaction) {
+    clearNewTransactionFields: function clearNewTransactionFields(newTransaction) {
+        //Todo: need to fetch 'me'
         if (me.preferences.clearFields) {
             newTransaction.budgets = [];
             newTransaction.total = '';
@@ -103836,6 +103813,2354 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-1a4de177", module.exports)
+  }
+}
+
+/***/ }),
+/* 471 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(37)
+/* script */
+var __vue_script__ = __webpack_require__(472)
+/* template */
+var __vue_template__ = __webpack_require__(473)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/NewTransactionComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-71fcf1ca", Component.options)
+  } else {
+    hotAPI.reload("data-v-71fcf1ca", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 472 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            dropdown: {},
+            showNewTransaction: false,
+            types: ["income", "expense", "transfer"],
+            shared: store.state,
+            selectedFavouriteTransaction: {},
+            colors: {
+                newTransaction: {}
+            }
+        };
+    },
+    components: {},
+    computed: {
+        favouriteTransactions: function favouriteTransactions() {
+            return this.shared.favouriteTransactions;
+        },
+        newTransaction: function newTransaction() {
+            return this.shared.newTransaction.defaults;
+        },
+        //Putting this here so it isn't undefined in my test
+        //            me: function () {
+        //                return me;
+        //            },
+        //            env: function () {
+        //                return env;
+        //            },
+        accounts: function accounts() {
+            //So the balance isn't included, messing up the autocomplete
+            return _.map(this.accountsRepository.accounts, function (account) {
+                return _.pick(account, 'id', 'name');
+            });
+        }
+    },
+    methods: {
+
+        /**
+         *
+         */
+        clearNewTransactionFields: function clearNewTransactionFields() {
+            this.newTransaction = store.clearNewTransactionFields(this.newTransaction);
+        },
+
+        /**
+         * This is not for the transaction autocomplete,
+         * which is in the TransactionAutocomplete directive.
+         * I think it is for the favourite transactions feature.
+         */
+        fillFields: function fillFields() {
+            this.newTransaction.description = this.selectedFavouriteTransaction.description;
+            this.newTransaction.merchant = this.selectedFavouriteTransaction.merchant;
+            this.newTransaction.total = this.selectedFavouriteTransaction.total;
+            this.newTransaction.type = this.selectedFavouriteTransaction.type;
+            this.newTransaction.budgets = this.selectedFavouriteTransaction.budgets;
+
+            if (this.newTransaction.type === 'transfer') {
+                this.newTransaction.fromAccount = this.selectedFavouriteTransaction.fromAccount;
+                this.newTransaction.toAccount = this.selectedFavouriteTransaction.toAccount;
+            } else {
+                this.newTransaction.account = this.selectedFavouriteTransaction.account;
+            }
+        },
+
+        /**
+         * Return true if there are errors.
+         * @returns {boolean}
+         */
+        anyErrors: function anyErrors() {
+            var errorMessages = NewTransactionRepository.anyErrors(this.newTransaction);
+
+            if (errorMessages) {
+                for (var i = 0; i < errorMessages.length; i++) {
+                    __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.event.trigger('provide-feedback', [errorMessages[i], 'error']);
+                }
+
+                return true;
+            }
+
+            return false;
+        },
+
+        /**
+         *
+         */
+        insertTransactionPreparation: function insertTransactionPreparation() {
+            if (!this.anyErrors()) {
+                TotalsRepository.resetTotalChanges();
+
+                if (this.newTransaction.type === 'transfer') {
+                    var that = this;
+                    this.insertTransaction('from');
+                    setTimeout(function () {
+                        that.insertTransaction('to');
+                    }, 100);
+                } else {
+                    this.insertTransaction();
+                }
+            }
+        },
+
+        /**
+         *
+         */
+        insertTransaction: function insertTransaction(direction) {
+            __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.event.trigger('show-loading');
+
+            var data = TransactionsRepository.setFields(this.newTransaction);
+
+            if (direction) {
+                //It is a transfer transaction
+                data.direction = direction;
+
+                if (direction === 'from') {
+                    data.account_id = this.newTransaction.fromAccount.id;
+                } else if (direction === 'to') {
+                    data.account_id = this.newTransaction.toAccount.id;
+                }
+            }
+
+            this.$http.post('/api/transactions', data, function (response) {
+                this.insertTransactionResponse(response);
+            }).error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+         *
+         * @param response
+         */
+        insertTransactionResponse: function insertTransactionResponse(response) {
+            TotalsRepository.getSideBarTotals(this);
+            this.clearNewTransactionFields();
+            //this.newTransaction.dropdown = false;
+
+            if (response.multipleBudgets) {
+                __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.event.trigger('show-allocation-popup', [response, true]);
+                //We'll run the filter after the allocation has been dealt with
+            } else {
+                FilterRepository.runFilter(this);
+            }
+
+            __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.event.trigger('provide-feedback', ['Transaction created', 'success']);
+            __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.event.trigger('hide-loading');
+        },
+
+        /**
+         *
+         */
+        listen: function listen() {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).on('toggle-new-transaction', function (event) {
+                that.showNewTransaction = !that.showNewTransaction;
+            });
+            __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).on('accounts-loaded', function (event) {
+                store.getNewTransactionDefaults();
+            });
+        }
+
+    },
+    props: ['tab', 'transactions', 'budgets'],
+    mounted: function mounted() {
+        this.listen();
+        store.getNewTransactionDefaults();
+    }
+});
+
+/***/ }),
+/* 473 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-71fcf1ca", module.exports)
+  }
+}
+
+/***/ }),
+/* 474 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(37)
+/* script */
+var __vue_script__ = __webpack_require__(475)
+/* template */
+var __vue_template__ = __webpack_require__(476)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/TotalsComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-812503ac", Component.options)
+  } else {
+    hotAPI.reload("data-v-812503ac", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 475 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(477);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            totalsRepository: __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].state,
+            totalsLoading: false,
+            shared: store.state
+        };
+    },
+    components: {},
+    computed: {
+        sideBarTotals: function sideBarTotals() {
+            return this.totalsRepository.sideBarTotals;
+        },
+        totalChanges: function totalChanges() {
+            return this.totalsRepository.totalChanges;
+        }
+    },
+    filters: {
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function numberFilter(number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        }
+    },
+    methods: {},
+    props: [],
+    mounted: function mounted() {}
+});
+
+/***/ }),
+/* 476 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.shared.show.basicTotals,
+          expression: "shared.show.basicTotals"
+        }
+      ],
+      attrs: { id: "totals" }
+    },
+    [
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.shared.show.basicTotals,
+              expression: "shared.show.basicTotals"
+            }
+          ],
+          staticClass: "totals",
+          attrs: { id: "remaining-balance-totals" }
+        },
+        [
+          _vm.totalsLoading
+            ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("table", { staticClass: "totals-table" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals.credit
+              ? _c(
+                  "tr",
+                  { staticClass: "tooltipster", attrs: { title: "credit" } },
+                  [
+                    _c("td", [_vm._v("Credit:")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("span", { staticClass: "badge badge-success" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(_vm.sideBarTotals.credit)
+                          )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.credit
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges.credit
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals.remainingFixedBudget
+              ? _c(
+                  "tr",
+                  {
+                    staticClass: "tooltipster",
+                    attrs: {
+                      title:
+                        "remaining fixed budget (total of fixed budget info column R)"
+                    }
+                  },
+                  [
+                    _c("td", [_vm._v("Remaining fixed budget:")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("span", { staticClass: "badge badge-danger" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(
+                              _vm.sideBarTotals.remainingFixedBudget
+                            )
+                          )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.remainingFixedBudget
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges.remainingFixedBudget
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals.expensesWithoutBudget
+              ? _c(
+                  "tr",
+                  {
+                    staticClass: "tooltipster",
+                    attrs: {
+                      title: "total of expense transactions that have no budget"
+                    }
+                  },
+                  [
+                    _c("td", [
+                      _vm._v("Expenses with no fixed or flex budgets:")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("span", { staticClass: "badge badge-danger" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(
+                              _vm.sideBarTotals.expensesWithoutBudget
+                            )
+                          )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.expensesWithoutBudget
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges.expensesWithoutBudget
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals
+              .expensesWithFixedBudgetBeforeStartingDate
+              ? _c(
+                  "tr",
+                  {
+                    staticClass: "tooltipster",
+                    attrs: {
+                      title:
+                        "total of allocation of tags of expense transactions that have a fixed budget before its starting date"
+                    }
+                  },
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("span", { staticClass: "badge badge-danger" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(
+                              _vm.sideBarTotals
+                                .expensesWithFixedBudgetBeforeStartingDate
+                            )
+                          )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.expensesWithFixedBudgetBeforeStartingDate
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges
+                                    .expensesWithFixedBudgetBeforeStartingDate
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals
+              .expensesWithFixedBudgetAfterStartingDate
+              ? _c(
+                  "tr",
+                  {
+                    staticClass: "tooltipster",
+                    attrs: {
+                      title:
+                        "total of allocation of tags of expense transactions that have a fixed budget after its starting date"
+                    }
+                  },
+                  [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "badge badge-danger",
+                          attrs: { id: "total_income_span" }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("numberFilter 2")(
+                                _vm.sideBarTotals
+                                  .expensesWithFixedBudgetAfterStartingDate
+                              )
+                            )
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.expensesWithFixedBudgetAfterStartingDate
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges
+                                    .expensesWithFixedBudgetAfterStartingDate
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals
+              .expensesWithFlexBudgetBeforeStartingDate
+              ? _c(
+                  "tr",
+                  {
+                    staticClass: "tooltipster",
+                    attrs: {
+                      title:
+                        "total of allocation of tags of expense transactions that have a flex budget before its starting date"
+                    }
+                  },
+                  [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("span", { staticClass: "badge badge-danger" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(
+                              _vm.sideBarTotals
+                                .expensesWithFlexBudgetBeforeStartingDate
+                            )
+                          )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.expensesWithFlexBudgetBeforeStartingDate
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges
+                                    .expensesWithFlexBudgetBeforeStartingDate
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals.savings
+              ? _c(
+                  "tr",
+                  { staticClass: "tooltipster", attrs: { title: "savings" } },
+                  [
+                    _c("td", [_vm._v("Savings:")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("span", { staticClass: "badge badge-danger" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(_vm.sideBarTotals.savings)
+                          )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.savings
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges.savings
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals.remainingBalance
+              ? _c(
+                  "tr",
+                  {
+                    staticClass: "tooltipster",
+                    attrs: { title: "remaining balance without EFLB" }
+                  },
+                  [
+                    _c("td", [_vm._v("Remaining balance:")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("span", { staticClass: "badge badge-danger" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(
+                              _vm.sideBarTotals.remainingBalance
+                            )
+                          )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.remainingBalance
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges.remainingBalance
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals.debit
+              ? _c(
+                  "tr",
+                  { staticClass: "tooltipster", attrs: { title: "debit" } },
+                  [
+                    _c("td", [_vm._v("Debit:")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "badge badge-danger",
+                          attrs: { id: "total_income_span" }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("numberFilter 2")(_vm.sideBarTotals.debit)
+                            )
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.debit
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(_vm.totalChanges.debit)
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals.balance
+              ? _c(
+                  "tr",
+                  {
+                    staticClass: "tooltipster",
+                    attrs: { title: "balance (C - D)" }
+                  },
+                  [
+                    _c("td", [_vm._v("Balance:")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "badge badge-warning",
+                          attrs: { id: "total_income_span" }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("numberFilter 2")(
+                                _vm.sideBarTotals.balance
+                              )
+                            )
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.balance
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges.balance
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals.reconciled
+              ? _c(
+                  "tr",
+                  {
+                    staticClass: "tooltipster",
+                    attrs: { title: "reconciled" }
+                  },
+                  [
+                    _c("td", [_vm._v("Reconciled:")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "badge badge-info",
+                          attrs: { id: "total_income_span" }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("numberFilter 2")(
+                                _vm.sideBarTotals.reconciledSum
+                              )
+                            )
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.reconciledSum
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges.reconciledSum
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals.cumulativeFixedBudget
+              ? _c(
+                  "tr",
+                  {
+                    staticClass: "tooltipster",
+                    attrs: {
+                      title:
+                        "fixed budget (total of fixed budget info column C)"
+                    }
+                  },
+                  [
+                    _c("td", [_vm._v("Cumulative fixed budget:")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "badge badge-danger",
+                          attrs: { id: "total_income_span" }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("numberFilter 2")(
+                                _vm.sideBarTotals.cumulativeFixedBudget
+                              )
+                            )
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.cumulativeFixedBudget
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges.cumulativeFixedBudget
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.shared.me.preferences.show.totals
+              .expensesWithFlexBudgetAfterStartingDate
+              ? _c(
+                  "tr",
+                  {
+                    staticClass: "tooltipster",
+                    attrs: {
+                      title:
+                        "total of allocation of tags of expense transactions that have a flex budget"
+                    }
+                  },
+                  [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "badge badge-danger",
+                          attrs: { id: "total_income_span" }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("numberFilter 2")(
+                                _vm.sideBarTotals
+                                  .expensesWithFlexBudgetAfterStartingDate
+                              )
+                            )
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.totalChanges.expensesWithFlexBudgetAfterStartingDate
+                        ? _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("numberFilter 2")(
+                                  _vm.totalChanges
+                                    .expensesWithFlexBudgetAfterStartingDate
+                                )
+                              )
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Type")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Total")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Changed")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _vm._v("Expenses with "),
+      _c("b", [_vm._v("fixed")]),
+      _vm._v(" budget "),
+      _c("b", [_vm._v("before")]),
+      _vm._v(" starting date:")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _vm._v("Expenses with "),
+      _c("b", [_vm._v("fixed")]),
+      _vm._v(" budget "),
+      _c("b", [_vm._v("after")]),
+      _vm._v(" starting date:")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _vm._v("Expenses with "),
+      _c("b", [_vm._v("flex")]),
+      _vm._v(" budget "),
+      _c("b", [_vm._v("before")]),
+      _vm._v(" starting date:")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _vm._v("Expenses with "),
+      _c("b", [_vm._v("flex")]),
+      _vm._v(" budget "),
+      _c("b", [_vm._v("after")]),
+      _vm._v(" starting date:")
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-812503ac", module.exports)
+  }
+}
+
+/***/ }),
+/* 477 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+
+    state: {
+        sideBarTotals: {
+            remainingBalance: '',
+            remainingFixedBudget: '',
+            cumulativeFixedBudget: '',
+            credit: '',
+            debit: '',
+            balance: '',
+            reconciledSum: '',
+            expensesWithoutBudget: '',
+            savings: '',
+            expensesWithFixedBudgetBeforeStartingDate: '',
+            expensesWithFixedBudgetAfterStartingDate: '',
+            expensesWithFlexBudgetBeforeStartingDate: '',
+            expensesWithFlexBudgetAfterStartingDate: ''
+        },
+        totalChanges: {
+            remainingBalance: 0,
+            remainingFixedBudget: 0,
+            cumulativeFixedBudget: 0,
+            credit: 0,
+            debit: 0,
+            balance: 0,
+            reconciledSum: 0,
+            expensesWithoutBudget: 0,
+            savings: 0,
+            expensesWithFixedBudgetBeforeStartingDate: 0,
+            expensesWithFixedBudgetAfterStartingDate: 0,
+            expensesWithFlexBudgetBeforeStartingDate: 0,
+            expensesWithFlexBudgetAfterStartingDate: 0
+        }
+    },
+
+    /**
+     *
+     */
+    getSideBarTotals: function getSideBarTotals(that) {
+        that.totalsLoading = true;
+        var oldSideBarTotals = this.state.sideBarTotals;
+        that.$http.get('/api/totals/sidebar', function (response) {
+            TotalsRepository.state.sideBarTotals = response.data;
+            TotalsRepository.setTotalChanges(oldSideBarTotals);
+            that.totalsLoading = false;
+        }).error(function (response) {
+            HelpersRepository.handleResponseError(response);
+        });
+    },
+
+    /**
+     *
+     * @returns {{remainingBalance: number, remainingFixedBudget: number, cumulativeFixedBudget: number, credit: number, debit: number, balance: number, reconciledSum: number, expensesWithoutBudget: number, savings: number, expensesWithFixedBudgetBeforeStartingDate: number, expensesWithFixedBudgetAfterStartingDate: number, expensesWithFlexBudgetBeforeStartingDate: number, expensesWithFlexBudgetAfterStartingDate: number}}
+     */
+    resetTotalChanges: function resetTotalChanges() {
+        var that = this;
+        $.each(this.state.totalChanges, function (key, value) {
+            that.state.totalChanges[key] = 0;
+        });
+    },
+
+    /**
+     *
+     * @param oldSideBarTotals
+     */
+    setTotalChanges: function setTotalChanges(oldSideBarTotals) {
+        if (oldSideBarTotals.remainingBalance === '') {
+            //Totals were just loaded for the first time, not changing
+            return false;
+        }
+        var newSideBarTotals = this.state.sideBarTotals;
+
+        if (newSideBarTotals.credit !== oldSideBarTotals.credit) {
+            this.state.totalChanges.credit = this.calculateDifference(newSideBarTotals.credit, oldSideBarTotals.credit);
+        }
+
+        if (newSideBarTotals.debit !== oldSideBarTotals.debit) {
+            this.state.totalChanges.debit = this.calculateDifference(newSideBarTotals.debit, oldSideBarTotals.debit);
+        }
+
+        if (newSideBarTotals.balance !== oldSideBarTotals.balance) {
+            this.state.totalChanges.balance = this.calculateDifference(newSideBarTotals.balance, oldSideBarTotals.balance);
+        }
+
+        if (newSideBarTotals.reconciledSum !== oldSideBarTotals.reconciledSum) {
+            this.state.totalChanges.reconciledSum = this.calculateDifference(newSideBarTotals.reconciledSum, oldSideBarTotals.reconciledSum);
+        }
+
+        if (newSideBarTotals.savings !== oldSideBarTotals.savings) {
+            this.state.totalChanges.savings = this.calculateDifference(newSideBarTotals.savings, oldSideBarTotals.savings);
+        }
+
+        if (newSideBarTotals.expensesWithoutBudget !== oldSideBarTotals.expensesWithoutBudget) {
+            this.state.totalChanges.expensesWithoutBudget = this.calculateDifference(newSideBarTotals.expensesWithoutBudget, oldSideBarTotals.expensesWithoutBudget);
+        }
+
+        if (newSideBarTotals.remainingFixedBudget !== oldSideBarTotals.remainingFixedBudget) {
+            this.state.totalChanges.remainingFixedBudget = this.calculateDifference(newSideBarTotals.remainingFixedBudget, oldSideBarTotals.remainingFixedBudget);
+        }
+
+        if (newSideBarTotals.cumulativeFixedBudget !== oldSideBarTotals.cumulativeFixedBudget) {
+            this.state.totalChanges.cumulativeFixedBudget = this.calculateDifference(newSideBarTotals.cumulativeFixedBudget, oldSideBarTotals.cumulativeFixedBudget);
+        }
+
+        if (newSideBarTotals.expensesWithFixedBudgetBeforeStartingDate !== oldSideBarTotals.expensesWithFixedBudgetBeforeStartingDate) {
+            this.state.totalChanges.expensesWithFixedBudgetBeforeStartingDate = this.calculateDifference(newSideBarTotals.expensesWithFixedBudgetBeforeStartingDate, oldSideBarTotals.expensesWithFixedBudgetBeforeStartingDate);
+        }
+
+        if (newSideBarTotals.expensesWithFixedBudgetAfterStartingDate !== oldSideBarTotals.expensesWithFixedBudgetAfterStartingDate) {
+            this.state.totalChanges.expensesWithFixedBudgetAfterStartingDate = this.calculateDifference(newSideBarTotals.expensesWithFixedBudgetAfterStartingDate, oldSideBarTotals.expensesWithFixedBudgetAfterStartingDate);
+        }
+
+        if (newSideBarTotals.expensesWithFlexBudgetBeforeStartingDate !== oldSideBarTotals.expensesWithFlexBudgetBeforeStartingDate) {
+            this.state.totalChanges.expensesWithFlexBudgetBeforeStartingDate = this.calculateDifference(newSideBarTotals.expensesWithFlexBudgetBeforeStartingDate, oldSideBarTotals.expensesWithFlexBudgetBeforeStartingDate);
+        }
+
+        if (newSideBarTotals.expensesWithFlexBudgetAfterStartingDate !== oldSideBarTotals.expensesWithFlexBudgetAfterStartingDate) {
+            this.state.totalChanges.expensesWithFlexBudgetAfterStartingDate = this.calculateDifference(newSideBarTotals.expensesWithFlexBudgetAfterStartingDate, oldSideBarTotals.expensesWithFlexBudgetAfterStartingDate);
+        }
+
+        if (newSideBarTotals.remainingBalance !== oldSideBarTotals.remainingBalance) {
+            this.state.totalChanges.remainingBalance = this.calculateDifference(newSideBarTotals.remainingBalance, oldSideBarTotals.remainingBalance);
+        }
+    },
+
+    /**
+     * @param newValue
+     * @param oldValue
+     * @returns {string}
+     */
+    calculateDifference: function calculateDifference(newValue, oldValue) {
+        var diff = newValue - oldValue;
+        return diff.toFixed(2);
+    },
+
+    /**
+     *
+     * @param that
+     */
+    respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton(that) {
+        that.hoveringTotalsButton = true;
+        setTimeout(function () {
+            if (that.hoveringTotalsButton) {
+                that.show.basicTotals = true;
+                that.show.budgetTotals = true;
+            }
+        }, 500);
+    },
+
+    /**
+     * 
+     * @param that
+     */
+    respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton(that) {
+        that.hoveringTotalsButton = false;
+        setTimeout(function () {
+            if (!that.hoveringTotalsButton) {
+                that.show.basicTotals = false;
+                that.show.budgetTotals = false;
+            }
+        }, 500);
+    }
+});
+
+/***/ }),
+/* 478 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(37)
+/* script */
+var __vue_script__ = __webpack_require__(479)
+/* template */
+var __vue_template__ = __webpack_require__(480)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/filter/MassTransactionUpdatePopupComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1041d501", Component.options)
+  } else {
+    hotAPI.reload("data-v-1041d501", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 479 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            showPopup: false,
+            budgetsToAdd: [],
+            count: 0,
+            showProgress: false,
+            shared: store.state
+        };
+    },
+    components: {},
+    computed: {
+        progressWidth: function progressWidth() {
+            return 100 / (this.shared.transactions.length / this.count);
+        },
+        transactions: function transactions() {
+            return this.shared.transactions;
+        }
+    },
+    methods: {
+
+        /**
+         *
+         */
+        addBudgetsToTransactions: function addBudgetsToTransactions() {
+            this.count = 0;
+            this.showProgress = true;
+            for (var i = 0; i < this.shared.transactions.length; i++) {
+                this.addBudgetsToTransaction(this.transactions[i]);
+            }
+        },
+
+        /**
+         *
+         * @param transaction
+         */
+        addBudgetsToTransaction: function addBudgetsToTransaction(transaction) {
+            $.event.trigger('show-loading');
+
+            var data = {
+                addingBudgets: true,
+                budget_ids: _.pluck(this.budgetsToAdd, 'id')
+            };
+
+            this.$http.put('/api/transactions/' + transaction.id, data, function (response) {
+                var index = _.indexOf(this.transactions, _.findWhere(this.transactions, { id: transaction.id }));
+                this.transactions[index].budgets = response.budgets;
+                this.transactions[index].multipleBudgets = response.multipleBudgets;
+                this.transactions[index].validAllocation = response.validAllocation;
+                this.count++;
+
+                if (this.count === this.shared.transactions.length) {}
+                //$.event.trigger('provide-feedback', ['Done!', 'success']);
+                //this.showPopup = false;
+
+
+                //$.event.trigger('provide-feedback', ['Transaction updated', 'success']);
+                $.event.trigger('hide-loading');
+            }).error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        },
+
+        /**
+         *
+         */
+        closePopup: function closePopup(event) {
+            HelpersRepository.closePopup(event, this);
+        },
+
+        /**
+         *
+         */
+        listen: function listen() {
+            var that = this;
+            $(document).on('show-mass-transaction-update-popup', function (event) {
+                that.showPopup = true;
+                that.showProgress = false;
+                that.budgetsToAdd = [];
+            });
+        }
+    },
+    props: ['budgets'],
+    mounted: function mounted() {
+        this.listen();
+    }
+});
+
+/***/ }),
+/* 480 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showPopup,
+          expression: "showPopup"
+        }
+      ],
+      staticClass: "popup-outer",
+      on: {
+        click: function($event) {
+          _vm.closePopup($event)
+        }
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "popup-inner",
+          attrs: { id: "mass-transaction-update-popup" }
+        },
+        [
+          _c("div", { staticClass: "messages" }, [
+            !_vm.showProgress
+              ? _c("div", [
+                  _c("div", [
+                    _vm._v(
+                      "Clicking 'Go' will add the chosen budgets to the " +
+                        _vm._s(_vm.transactions.length) +
+                        " transactions that you can see on the page."
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "warning" }, [
+                    _vm._v(
+                      "Duplicate budgets will be removed from your transactions, however, the allocation given to the budgets you choose here will be 100% of the transaction. So you may need to reallocate the transactions after doing this."
+                    )
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.count < _vm.transactions.length && _vm.showProgress
+              ? _c("h5", [
+                  _vm._v(
+                    "Updating " +
+                      _vm._s(_vm.transactions.length) +
+                      " transactions"
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.count === _vm.transactions.length
+              ? _c("h5", [
+                  _vm._v(
+                    "Done! The selected budgets have been added to " +
+                      _vm._s(_vm.transactions.length) +
+                      " transactions."
+                  )
+                ])
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.showProgress,
+                  expression: "showProgress"
+                }
+              ],
+              staticClass: "progress"
+            },
+            [
+              _vm._v(
+                '\n                aria-valuemin="0"\n                aria-valuemax="100"\n                v-bind:style="{width: progressWidth + \'%\'}"\n            >\n\n                ' +
+                  _vm._s(_vm.count) +
+                  "\n\n            "
+              )
+            ]
+          )
+        ]
+      ),
+      _vm._v("\n\n        Add budgets to transactions\n\n        "),
+      _c("budget-autocomplete", {
+        attrs: {
+          "chosen-budgets": _vm.budgetsToAdd,
+          budgets: _vm.budgets,
+          "multiple-budgets": "true"
+        },
+        on: {
+          "update:chosenBudgets": function($event) {
+            _vm.budgetsToAdd = $event
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "buttons" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-default",
+            on: {
+              click: function($event) {
+                _vm.showPopup = false
+              }
+            }
+          },
+          [_vm._v("Close")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                _vm.addBudgetsToTransactions()
+              }
+            }
+          },
+          [_vm._v("Go")]
+        )
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1041d501", module.exports)
+  }
+}
+
+/***/ }),
+/* 481 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(37)
+/* script */
+var __vue_script__ = __webpack_require__(482)
+/* template */
+var __vue_template__ = __webpack_require__(483)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/TransactionsComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b3dda578", Component.options)
+  } else {
+    hotAPI.reload("data-v-b3dda578", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 482 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            shared: store.state,
+            showStatus: false,
+            showDate: true,
+            showDescription: true,
+            showMerchant: true,
+            showTotal: true,
+            showType: true,
+            showAccount: true,
+            showDuration: true,
+            showReconciled: true,
+            showAllocated: true,
+            showBudgets: true,
+            showDelete: true
+        };
+    },
+    computed: {
+        transactions: function transactions() {
+            return this.shared.transactions;
+        }
+    },
+    components: {},
+    methods: {},
+    props: [],
+    mounted: function mounted() {}
+});
+
+/***/ }),
+/* 483 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function(){},staticRenderFns:[]}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b3dda578", module.exports)
   }
 }
 

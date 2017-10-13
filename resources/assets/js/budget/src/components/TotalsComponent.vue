@@ -1,6 +1,6 @@
 <template>
-    <div v-show="show.basicTotals" id="totals">
-        <div v-show="show.basicTotals" id="remaining-balance-totals" class="totals">
+    <div v-show="shared.show.basicTotals" id="totals">
+        <div v-show="shared.show.basicTotals" id="remaining-balance-totals" class="totals">
 
             <i v-if="totalsLoading" class="fa fa-spinner fa-pulse"></i>
 
@@ -14,7 +14,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.credit"
+                    v-if="shared.me.preferences.show.totals.credit"
                     class="tooltipster"
                     title="credit"
                 >
@@ -24,7 +24,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.remainingFixedBudget"
+                    v-if="shared.me.preferences.show.totals.remainingFixedBudget"
                     class="tooltipster"
                     title="remaining fixed budget (total of fixed budget info column R)"
                 >
@@ -34,7 +34,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.expensesWithoutBudget"
+                    v-if="shared.me.preferences.show.totals.expensesWithoutBudget"
                     class="tooltipster"
                     title="total of expense transactions that have no budget"
                 >
@@ -44,7 +44,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate"
+                    v-if="shared.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate"
                     class="tooltipster"
                     title="total of allocation of tags of expense transactions that have a fixed budget before its starting date"
                 >
@@ -54,7 +54,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate"
+                    v-if="shared.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate"
                     class="tooltipster"
                     title="total of allocation of tags of expense transactions that have a fixed budget after its starting date"
                 >
@@ -64,7 +64,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate"
+                    v-if="shared.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate"
                     class="tooltipster"
                     title="total of allocation of tags of expense transactions that have a flex budget before its starting date"
                 >
@@ -74,7 +74,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.savings"
+                    v-if="shared.me.preferences.show.totals.savings"
                     class="tooltipster"
                     title="savings"
                 >
@@ -84,7 +84,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.remainingBalance"
+                    v-if="shared.me.preferences.show.totals.remainingBalance"
                     class="tooltipster"
                     title="remaining balance without EFLB"
                 >
@@ -96,7 +96,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.debit"
+                    v-if="shared.me.preferences.show.totals.debit"
                     class="tooltipster"
                     title="debit"
                 >
@@ -106,7 +106,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.balance"
+                    v-if="shared.me.preferences.show.totals.balance"
                     class="tooltipster"
                     title="balance (C - D)"
                 >
@@ -116,7 +116,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.reconciled"
+                    v-if="shared.me.preferences.show.totals.reconciled"
                     class="tooltipster"
                     title="reconciled"
                 >
@@ -126,7 +126,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.cumulativeFixedBudget"
+                    v-if="shared.me.preferences.show.totals.cumulativeFixedBudget"
                     class="tooltipster"
                     title="fixed budget (total of fixed budget info column C)"
                 >
@@ -136,7 +136,7 @@
                 </tr>
 
                 <tr
-                    v-if="me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate"
+                    v-if="shared.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate"
                     class="tooltipster"
                     title="total of allocation of tags of expense transactions that have a flex budget"
                 >
@@ -152,12 +152,14 @@
 </template>
 
 <script>
+    import TotalsRepository from '../repositories/TotalsRepository'
+
     export default {
         data: function () {
             return {
                 totalsRepository: TotalsRepository.state,
                 totalsLoading: false,
-                me: me
+                shared: store.state
             };
         },
         components: {},
@@ -184,9 +186,7 @@
 
 
         },
-        props: [
-            'show'
-        ],
+        props: [],
         mounted: function () {
 
         }

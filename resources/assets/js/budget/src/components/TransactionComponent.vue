@@ -151,7 +151,7 @@
              * @returns {*|String}
              */
             formatDateForUser: function (date) {
-                return HelpersRepository.formatDateForUser(date, me.preferences.dateFormat);
+                return HelpersRepository.formatDateForUser(date, shared.me.preferences.dateFormat);
             }
         },
         methods: {
@@ -197,11 +197,7 @@
             }
 
         },
-        props: [
-            'transactions',
-            'transaction',
-            'transactionPropertiesToShow'
-        ],
+        props: [],
         mounted: function () {
             //this.listen();
         }

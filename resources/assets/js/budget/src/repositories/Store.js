@@ -7,7 +7,14 @@ import Vue from 'vue'
 
 export default {
     state: {
-        me: {gravatar: ''},
+        me: {
+            gravatar: '',
+            preferences: {
+                show: {
+                    totals: ''
+                }
+            }
+        },
         //For home page tabs
         tab: '',
         loading: false,
@@ -47,7 +54,7 @@ export default {
         newItem: {},
         showPopup: false,
         showFilter: true,
-        defaultTransactionPropertiesToShow: {
+        show: {
             basicTotals: false,
             budgetTotals: false,
             filterTotals: true,
@@ -103,14 +110,14 @@ export default {
         this.state.tab = tab;
     },
 
+
     /**
      *
-     * @param env
-     * @param accounts
-     * @returns {NewTransactionRepository.defaults|{type, account_id, date, merchant, description, reconciled, multiple_budgets, budgets}}
+     * @returns {*}
      */
-    getNewTransactionDefaults: function (env, accounts) {
+    getNewTransactionDefaults: function () {
         //Fill in the new transaction fields if development environment
+        //Todo: get env
         if (env === 'local') {
             this.state.defaults.total = 10;
             this.state.defaults.merchant = 'some merchant';
@@ -129,7 +136,7 @@ export default {
             ];
         }
 
-        if (accounts && accounts.length > 0) {
+        if (this.state.accounts && this.state.accounts.length > 0) {
             this.state.defaults.account = accounts[0];
             this.state.defaults.fromAccount = accounts[0];
             this.state.defaults.toAccount = accounts[0];
@@ -145,7 +152,8 @@ export default {
      * @param newTransaction
      * @returns {*}
      */
-    clearNewTransactionFields: function (env, me, newTransaction) {
+    clearNewTransactionFields: function (newTransaction) {
+        //Todo: need to fetch 'me'
         if (me.preferences.clearFields) {
             newTransaction.budgets = [];
             newTransaction.total = '';

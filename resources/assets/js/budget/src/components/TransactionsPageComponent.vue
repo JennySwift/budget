@@ -6,14 +6,14 @@
             <div>
 
                 <button
-                    v-if="!show.newTransaction"
+                    v-if="!shared.show.newTransaction"
                     v-on:click="toggleNewTransaction()"
                     class="btn btn-info">
                     New transaction
                 </button>
 
                 <button
-                    v-if="show.newTransaction"
+                    v-if="shared.show.newTransaction"
                     v-on:click="toggleNewTransaction()"
                     class="btn btn-info">
                     Hide new transaction
@@ -32,53 +32,35 @@
             </div>
         </div>
 
-        <new-transaction
-            :show="show"
-            :tab="tab"
-            :budgets="budgets"
-        >
-        </new-transaction>
+        <new-transaction></new-transaction>
 
-        <totals
-            :show="show"
-        >
-        </totals>
+        <totals></totals>
 
-        <transactions
-            :show="show"
-            :transaction-properties-to-show="transactionPropertiesToShow",
-        >
-        </transactions>
+        <transactions></transactions>
 
-        <mass-transaction-update-popup
-            :budgets="budgets"
-        >
-        </mass-transaction-update-popup>
+        <mass-transaction-update-popup></mass-transaction-update-popup>
 
-        <filter
-            :show="show"
-            :budgets="budgets"
-        ></filter>
+        <filter></filter>
     </div>
 
 </template>
 
 <script>
+    import TotalsRepository from '../repositories/TotalsRepository'
+
     export default {
         data: function () {
             return {
                 // page: 'home',
-                budgetsRepository: BudgetsRepository.state,
+                shared: store.state,
                 colors: {},
-                env: env,
-                homePageRepository: HomePageRepository.state,
                 hoveringTotalsButton: false
             };
         },
         components: {},
         computed: {
             budgets: function () {
-                return this.budgetsRepository.budgets;
+                return this.shared.budgets;
             },
             // tab: function () {
             //     return this.homePageRepository.tab;
@@ -116,10 +98,7 @@
                 $.event.trigger('toggle-new-transaction');
             }
         },
-        props: [
-            'show',
-            'transactionPropertiesToShow'
-        ],
+        props: [],
         mounted: function () {
 
         }

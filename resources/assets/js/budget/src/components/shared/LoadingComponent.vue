@@ -1,33 +1,29 @@
 <template>
-    <div v-show="showLoading" id="loading">
-        <i class="fa fa-spinner fa-pulse"></i>
+    <!--<div v-show="loading" id="loading">-->
+    <!--<i class="fa fa-spinner fa-pulse"></i>-->
+    <!--</div>-->
+
+    <div v-show="loading" id="loading" class="sk-three-bounce">
+        <div class="sk-child sk-bounce1"></div>
+        <div class="sk-child sk-bounce2"></div>
+        <div class="sk-child sk-bounce3"></div>
     </div>
 </template>
 
 <script>
+//    import store from '../../repositories/Store'
     export default {
         data: function () {
             return {
-                showLoading: false
+                shared: store.state
             };
         },
         template: "#loading-template",
-        props: [
-            //'showLoading'
-        ],
-        methods: {
-            listen: function () {
-                var that = this;
-                $(document).on('show-loading', function (event, message, type) {
-                    that.showLoading = true;
-                });
-                $(document).on('hide-loading', function (event, message, type) {
-                    that.showLoading = false;
-                });
+        computed: {
+            loading: function () {
+                return this.shared.loading;
             }
-        },
-        mounted: function () {
-            this.listen();
         }
     }
 </script>
+

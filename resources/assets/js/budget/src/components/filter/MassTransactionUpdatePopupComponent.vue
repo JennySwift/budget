@@ -57,16 +57,16 @@
                 budgetsToAdd: [],
                 count: 0,
                 showProgress: false,
-                transactionsRepository: TransactionsRepository.state
+                shared: store.state
             };
         },
         components: {},
         computed: {
             progressWidth: function () {
-                return 100 / (this.transactions.length / this.count);
+                return 100 / (this.shared.transactions.length / this.count);
             },
             transactions: function () {
-                return this.transactionsRepository.transactions;
+                return this.shared.transactions;
             }
         },
         methods: {
@@ -77,7 +77,7 @@
             addBudgetsToTransactions: function () {
                 this.count = 0;
                 this.showProgress = true;
-                for (var i = 0; i < this.transactions.length; i++) {
+                for (var i = 0; i < this.shared.transactions.length; i++) {
                     this.addBudgetsToTransaction(this.transactions[i]);
                 }
             },
@@ -101,7 +101,7 @@
                     this.transactions[index].validAllocation = response.validAllocation;
                     this.count++;
 
-                    if (this.count === this.transactions.length) {
+                    if (this.count === this.shared.transactions.length) {
                         //$.event.trigger('provide-feedback', ['Done!', 'success']);
                         //this.showPopup = false;
                     }

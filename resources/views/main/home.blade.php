@@ -11,19 +11,15 @@
 <div id="app">
     <navbar></navbar>
 
-    {{--<feedback></feedback>--}}
-    {{--<loading></loading>--}}
+    <feedback></feedback>
+    <loading></loading>
 
 
-    {{--<div class="main">--}}
-        {{--<router-view--}}
-                {{--:show="show"--}}
-                {{--:transaction-properties-to-show="transactionPropertiesToShow"--}}
-        {{-->--}}
-        {{--</router-view>--}}
-    {{--</div>--}}
+    <div class="main">
+        <router-view></router-view>
+    </div>
 
-    {{--@include('main.shared.footer')--}}
+    @include('main.shared.footer')
 </div>
 
 @include('main.shared.scripts')

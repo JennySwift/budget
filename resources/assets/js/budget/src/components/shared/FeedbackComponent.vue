@@ -1,7 +1,8 @@
 <template>
     <div id="feedback">
+
         <div
-            v-for="feedback in feedbackMessages" track-by="$index"
+            v-for="(feedback, index) in feedbackMessages" v-bind:key="index"
             :class="feedback.type"
             class="feedback-message"
         >
@@ -16,7 +17,10 @@
 </template>
 
 <script>
+    var _ = require('underscore');
+
     export default {
+        template: "#feedback-template",
         data: function () {
             return {
                 feedbackMessages: []
@@ -34,18 +38,18 @@
                     messages = [messages];
                 }
 
-                var newMessage = {
+                var feedback = {
                     messages: messages,
                     type: type
                 };
 
                 var that = this;
 
-                this.feedbackMessages.push(newMessage);
+                this.feedbackMessages.push(feedback);
 
                 setTimeout(function () {
-                    that.feedbackMessages = _.without(that.feedbackMessages, newMessage);
-                }, 3000);
+                    that.feedbackMessages = _.without(that.feedbackMessages, feedback);
+                }, 4000);
             },
 
             /**
@@ -54,87 +58,64 @@
              * @param status
              * @returns {*}
              */
-            handleResponseError: function (data, status, response) {
-                if (typeof data !== "undefined") {
-                    var messages = [];
-
-                    if (data.status) {
-                        switch(data.status) {
-                            case 503:
-                                messages.push('Sorry, application under construction. Please try again later.');
-                                break;
-                            case 401:
-                                messages.push('You are not logged in');
-                                break;
-                            case 422:
-                                messages = this.setMessagesFrom422Status(data);
-                                break;
-                            default:
-                                messages.push(data.error);
-                                break;
-                        }
-                    }
-                    else if (status) {
-                        if (status === 422) {
-                            messages = this.setMessagesFrom422Status(data);
-                        }
-                    }
-                }
-                else {
-                    messages.push('There was an error');
-                }
-
-                return messages;
-
-            },
-
-            /**
-             *
-             * @returns {string}
-             */
-            setMessagesFrom422Status: function (data) {
+            handleResponseError: function (response) {
                 var messages = [];
+                var defaultMessage = 'There was an error';
 
-                //for (var i = 0; i < data.length; i++) {
-                //    var error = data[i];
-                //    for (var j = 0; j < error.length; j++) {
-                //        html += '<li>' + error[j] + '</li>';
-                //    }
-                //}
+                if (!response || !response.status) {
+                    messages.push(defaultMessage);
+                    return messages;
+                }
 
-                $.each(data, function (key, value) {
-                    var error = this;
-                    for (var j = 0; j < error.length; j++) {
-                        messages.push(error[j]);
-                    }
-                });
+                switch(response.status) {
+                    case 503:
+                        messages.push('Sorry, application under construction. Please try again later.');
+                        break;
+                    case 401:
+                        messages.push('You are not logged in');
+                        break;
+                    case 422:
+                        messages = this.setMessagesFrom422Status(response.data);
+                        break;
+                    case 400:
+                        messages.push(response.data.error);
+                        break;
+                    default:
+                        response && response.error ? messages.push(response.error) : messages.push(defaultMessage);
+                        break;
+                }
 
                 return messages;
             },
 
             /**
              *
+             * @param errors
+             * @returns {Array}
              */
-            listen: function () {
-                var that = this;
-                $(document).on('provide-feedback', function (event, message, type) {
-                    that.provideFeedback(message, type);
-                });
-                $(document).on('response-error', function (event, data, status, response) {
-                    that.provideFeedback(that.handleResponseError(data, status, response), 'error');
-                })
-            },
-        },
-        events: {
-            'provide-feedback': function (message, type) {
-                this.provideFeedback(message, type);
-            },
-            'response-error': function (response) {
-                this.provideFeedback(this.handleResponseError(response), 'error');
+            setMessagesFrom422Status: function (errors) {
+                var messages = [];
+                var i;
+
+                for (i in errors) {
+                    for (var j = 0; j < errors[i].length; j++) {
+                        messages.push(errors[i][j]);
+                    }
+                }
+
+                return messages;
             }
         },
-        mounted: function () {
-            this.listen();
+        created: function () {
+            var that = this;
+            this.$bus.$on('provide-feedback', this.provideFeedback);
+            this.$bus.$on('response-error', function (response) {
+                that.provideFeedback(that.handleResponseError(response), 'error')
+            });
+        },
+        ready: function () {
+
         },
     }
 </script>
+

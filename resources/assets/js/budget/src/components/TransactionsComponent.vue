@@ -46,7 +46,7 @@
                 :transaction-properties-to-show="transactionPropertiesToShow"
                 :transactions.sync="transactions"
                 :transaction="transaction"
-                v-bind:style="{color: me.preferences.colors[transaction.type]}"
+                v-bind:style="{color: shared.me.preferences.colors[transaction.type]}"
                 :id="transaction.id"
                 class="add_to_search_total results-transaction-tbody {{ transaction.type }}">
             </tbody>
@@ -58,9 +58,7 @@
     export default {
         data: function () {
             return {
-                me: me,
-                accountsRepository: AccountsRepository.state,
-                transactionsRepository: TransactionsRepository.state,
+                shared: store.state,
                 showStatus: false,
                 showDate: true,
                 showDescription: true,
@@ -77,16 +75,14 @@
         },
         computed: {
             transactions: function () {
-                return this.transactionsRepository.transactions;
+                return this.shared.transactions;
             }
         },
         components: {},
         methods: {
 
         },
-        props: [
-            'transactionPropertiesToShow'
-        ],
+        props: [],
         mounted: function () {
 
         }

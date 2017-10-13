@@ -18,11 +18,12 @@ Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/', ['middleware' => 'auth', function () {
-    JavaScript::put([
-        'env' => app()->env,
-        'me' => Auth::user(),
-        'page' => 'home',
-    ]);
+    //This caused an vue warning after upgrading
+//    JavaScript::put([
+//        'env' => app()->env,
+//        'me' => Auth::user(),
+//        'page' => 'home',
+//    ]);
 
     return view('main.home');
 }]);
