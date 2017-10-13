@@ -31,7 +31,7 @@
                         v-for="type in types"
                         v-bind:value="type"
                     >
-                        @{{ type }}
+                        {{ type }}
                     </option>
                 </select>
             </div>
@@ -85,7 +85,7 @@
                         v-for="account in accounts"
                         v-bind:value="account"
                     >
-                        @{{ account.name }}
+                        {{ account.name }}
                     </option>
                 </select>
             </div>
@@ -103,7 +103,7 @@
                         v-for="account in accounts"
                         v-bind:value="account"
                     >
-                        @{{ account.name }}
+                        {{ account.name }}
                     </option>
                 </select>
             </div>
@@ -121,7 +121,7 @@
                         v-for="account in accounts"
                         v-bind:value="account"
                     >
-                        @{{ account.name }}
+                        {{ account.name }}
                     </option>
                 </select>
             </div>

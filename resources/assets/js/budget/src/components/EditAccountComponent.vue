@@ -6,7 +6,7 @@
         class="popup-outer">
 
         <div class="popup-inner">
-            <h3>Edit @{{ selectedAccount.name }}</h3>
+            <h3>Edit {{ selectedAccount.name }}</h3>
 
             <div class="form-group">
                 <label for="edit-account-name">Name</label>

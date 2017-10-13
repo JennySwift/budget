@@ -1,6 +1,36 @@
 <template>
     <div>
-        @include('main.home.toolbar')
+        <!--Toolbar-->
+        <div id="toolbar">
+
+            <div>
+
+                <button
+                    v-if="!show.newTransaction"
+                    v-on:click="toggleNewTransaction()"
+                    class="btn btn-info">
+                    New transaction
+                </button>
+
+                <button
+                    v-if="show.newTransaction"
+                    v-on:click="toggleNewTransaction()"
+                    class="btn btn-info">
+                    Hide new transaction
+                </button>
+
+            </div>
+
+            <div>
+                <button
+                    v-on:mouseenter="respondToMouseEnterOnTotalsButton"
+                    v-on:mouseleave="respondToMouseLeaveOnTotalsButton"
+                    class="btn btn-default totals-btn"
+                >
+                    Totals
+                </button>
+            </div>
+        </div>
 
         <new-transaction
             :show="show"

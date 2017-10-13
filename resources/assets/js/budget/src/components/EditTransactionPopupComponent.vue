@@ -67,7 +67,7 @@
                         v-for="type in types"
                         v-bind:value="type.value"
                     >
-                        @{{ type.name }}
+                        {{ type.name }}
                     </option>
                 </select>
             </div>
@@ -84,7 +84,7 @@
                         v-for="account in accounts"
                         v-bind:value="account"
                     >
-                        @{{ account.name }}
+                        {{ account.name }}
                     </option>
                 </select>
             </div>
@@ -99,7 +99,7 @@
             <!--v-for="account in accounts"-->
             <!--v-bind:value="account"-->
             <!-->-->
-            <!--@{{ account.name }}-->
+            <!--{{ account.name }}-->
             <!--</option>-->
             <!--</select>-->
             <!--</div>-->
@@ -114,14 +114,14 @@
             <!--v-for="account in accounts"-->
             <!--v-bind:value="account"-->
             <!-->-->
-            <!--@{{ account.name }}-->
+            <!--{{ account.name }}-->
             <!--</option>-->
             <!--</select>-->
             <!--</div>-->
 
             <div class="form-group">
                 <label for="selected-transaction-duration">Duration</label>
-                <!--				<div>@{{ selectedTransaction.minutes }}</div>-->
+                <!--				<div>{{ selectedTransaction.minutes }}</div>-->
                 <input
                     v-model="selectedTransaction.duration"
                     type="text"

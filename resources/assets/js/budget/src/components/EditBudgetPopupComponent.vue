@@ -6,7 +6,7 @@
         class="popup-outer">
 
         <div class="popup-inner">
-            <h3>Edit @{{ selectedBudget.name }}</h3>
+            <h3>Edit {{ selectedBudget.name }}</h3>
 
             <div class="form-group">
                 <label for="selected-budget-name">Name</label>
@@ -32,7 +32,7 @@
                         v-for="type in types"
                         v-bind:value="type"
                     >
-                        @{{ type }}
+                        {{ type }}
                     </option>
                 </select>
             </div>

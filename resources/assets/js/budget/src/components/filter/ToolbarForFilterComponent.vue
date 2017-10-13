@@ -16,7 +16,7 @@
             <option value="100">100</option>
         </select>
 
-        <!--        <span class="badge">@{{ filter.displayFrom }} to @{{ filter.displayTo }} of @{{ filterTotals.numTransactions }}</span>-->
+        <!--        <span class="badge">{{ filter.displayFrom }} to {{ filter.displayTo }} of {{ filterTotals.numTransactions }}</span>-->
 
         <div class="btn-group">
 

@@ -1,7 +1,7 @@
 <template>
     <div :id="autocompleteId" class="autocomplete">
         <div class="form-group autocomplete-field">
-            <label v-if="inputLabel" :for="autocompleteFieldId">@{{ inputLabel | capitalize }}</label>
+            <label v-if="inputLabel" :for="autocompleteFieldId">{{ inputLabel | capitalize }}</label>
             <input
                 v-model="chosenOption[prop]"
                 v-el:input-field
@@ -33,7 +33,7 @@
                     v-on:mousedown="respondToMouseDownOnText($index)"
                     class="autocomplete-option-text"
                 >
-                    @{{ option[prop] }}
+                    {{ option[prop] }}
                 </div>
 
                 <!--Delete button-->

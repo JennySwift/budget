@@ -6,7 +6,7 @@
                 v-bind:class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex'}"
                 class="label label-default"
             >
-                @{{ budget.name }}
+                {{ budget.name }}
             </span>
             </div>
         </td>
@@ -46,7 +46,7 @@
                 <span
                     v-if="!editingAllocatedFixed"
                 >
-                @{{ budget.pivot.allocated_fixed }}
+                {{ budget.pivot.allocated_fixed }}
             </span>
 
             </div>
@@ -88,7 +88,7 @@
                 <span
                     v-if="!editingAllocatedPercent"
                 >
-                @{{ budget.pivot.allocated_percent }}
+                {{ budget.pivot.allocated_percent }}
             </span>
 
             </div>
@@ -96,7 +96,7 @@
 
         <td>
             <div>
-                <span>@{{ budget.pivot.calculated_allocation }}</span>
+                <span>{{ budget.pivot.calculated_allocation }}</span>
             </div>
         </td>
     </tr>

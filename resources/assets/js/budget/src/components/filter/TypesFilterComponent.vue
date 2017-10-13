@@ -34,7 +34,7 @@
                     :for="type"
                     v-bind:class="{'disabled': filter.types.out.indexOf(type) !== -1}"
                 >
-                    @{{type}}
+                    {{type}}
                 </label>
 
             </div>
@@ -57,7 +57,7 @@
                     :for="type + '-out'"
                     v-bind:class="{'disabled': filter.types.in.indexOf(type) !== -1}"
                 >
-                    @{{type}}
+                    {{type}}
                 </label>
 
             </div>

@@ -8,7 +8,7 @@
 
             <ul>
                 <li v-for="message in feedback.messages">
-                    @{{ message }}
+                    {{ message }}
                 </li>
             </ul>
         </div>

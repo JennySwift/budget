@@ -8,7 +8,7 @@
             v-on:click="showEditTransactionPopup(transaction)"
             class="pointer"
         >
-            @{{ transaction.date | formatDateForUser}}
+            {{ transaction.date | formatDateForUser}}
         </td>
 
         <td
@@ -17,11 +17,11 @@
             class="description pointer"
         >
             <div>
-                <div>@{{ transaction.description }}</div>
+                <div>{{ transaction.description }}</div>
             </div>
 
             <div v-if="transaction.description" class="tooltip-container">
-                <div class="tooltip">@{{ transaction.description }}</div>
+                <div class="tooltip">{{ transaction.description }}</div>
             </div>
         </td>
 
@@ -31,11 +31,11 @@
             class="merchant pointer"
         >
             <div>
-                <div>@{{ transaction.merchant }}</div>
+                <div>{{ transaction.merchant }}</div>
             </div>
 
             <div v-if="transaction.merchant" class="tooltip-container">
-                <div class="tooltip">@{{ transaction.merchant }}</div>
+                <div class="tooltip">{{ transaction.merchant }}</div>
             </div>
         </td>
 
@@ -44,8 +44,8 @@
             v-on:click="showEditTransactionPopup(transaction)"
             class="pointer"
         >
-            <!--<span class="badge badge-@{{ transaction.type }}">@{{ transaction.total }}</span>-->
-            @{{ transaction.total | numberFilter 2 }}
+            <!--<span class="badge badge-{{ transaction.type }}">{{ transaction.total }}</span>-->
+            {{ transaction.total | numberFilter 2 }}
         </td>
 
         <td
@@ -53,7 +53,7 @@
             v-on:click="showEditTransactionPopup(transaction)"
             class="max-width-md pointer"
         >
-            @{{ transaction.account.name }}
+            {{ transaction.account.name }}
         </td>
 
         <td
@@ -61,7 +61,7 @@
             v-on:click="showEditTransactionPopup(transaction)"
             class="pointer"
         >
-            <span v-if="transaction.minutes">@{{ transaction.minutes | formatDurationFilter }}</span>
+            <span v-if="transaction.minutes">{{ transaction.minutes | formatDurationFilter }}</span>
         </td>
 
         <td v-show="transactionPropertiesToShow.reconciled"
@@ -86,7 +86,32 @@
 
     </tr>
 
-    @include('main.home.transactions.budgets')
+    <!--Budgets-->
+    <tr
+        v-if="transaction.budgets"
+        v-show="transactionPropertiesToShow.budgets && transaction.budgets.length > 0"
+        class="tag-location-container">
+
+        <td colspan="9">
+            <li
+                v-for="budget in transaction.budgets"
+                v-bind:class="{
+                'tag-with-fixed-budget': budget.type === 'fixed',
+                'tag-with-flex-budget': budget.type === 'flex',
+                'tag-without-budget': budget.type === 'unassigned'
+            }"
+                class="label label-default budget"
+                <!--data-id="{{ tag.id }}"-->
+                <!--data-allocated-percent="{{ budget.allocated_percent }}"-->
+                <!--data-allocated-fixed="{{ budget.allocated_fixed }}"-->
+                <!--data-allocated_fixed="{{ budget.allocated_fixed }}"-->>
+                <span>{{ budget.name }}</span>
+                <span v-if="budget.pivot">{{ budget.pivot.calculated_allocation }}</span>
+                <span class="type">{{ budget.type }}</span>
+            </li>
+        </td>
+
+    </tr>
 
     </tbody>
 

@@ -28,7 +28,7 @@
         <!--v-for="savedFilter in savedFilters"-->
         <!--v-bind:value="savedFilter"-->
         <!-->-->
-        <!--@{{ savedFilter.name }}-->
+        <!--{{ savedFilter.name }}-->
         <!--<button class="btn btn-xs btn-danger">Delete</button>-->
         <!--</option>-->
         <!--</select>-->

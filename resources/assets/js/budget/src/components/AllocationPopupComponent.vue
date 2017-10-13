@@ -7,7 +7,7 @@
                 <span>The budget allocations do not match the total for this transaction.</span>
             </div>
 
-            <p class="width-100">The total for this transaction is <span class="bold">@{{ transaction.total }}</span>. You have more than one budget associated with this transaction. Specify what percentage of @{{  transaction.total }} you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
+            <p class="width-100">The total for this transaction is <span class="bold">{{ transaction.total }}</span>. You have more than one budget associated with this transaction. Specify what percentage of {{  transaction.total }} you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
 
             <table class="table table-bordered">
 
@@ -34,19 +34,19 @@
 
                     <td>
                         <div>
-                            <span>@{{ allocationTotals.fixedSum }}</span>
+                            <span>{{ allocationTotals.fixedSum }}</span>
                         </div>
                     </td>
 
                     <td>
                         <div>
-                            <span>@{{ allocationTotals.percentSum }}</span>
+                            <span>{{ allocationTotals.percentSum }}</span>
                         </div>
                     </td>
 
                     <td>
                         <div>
-                            <span>@{{ allocationTotals.calculatedAllocationSum }}</span>
+                            <span>{{ allocationTotals.calculatedAllocationSum }}</span>
                         </div>
                     </td>
 

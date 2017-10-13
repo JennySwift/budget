@@ -41,7 +41,7 @@
                         :for="account.name"
                         v-bind:class="{'disabled': filter.accounts.out.indexOf(account.id) !== -1}"
                     >
-                        @{{account.name}}
+                        {{account.name}}
                     </label>
                 </div>
 
@@ -63,7 +63,7 @@
                         :for="account.name"
                         v-bind:class="{'disabled': filter.accounts.in.indexOf(account.id) !== -1}"
                     >
-                        @{{account.name}}
+                        {{account.name}}
                     </label>
                 </div>
 

@@ -29,7 +29,7 @@
                     v-for="type in types"
                     v-bind:value="type"
                 >
-                    @{{ type }}
+                    {{ type }}
                 </option>
             </select>
         </div>

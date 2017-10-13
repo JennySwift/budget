@@ -6,7 +6,7 @@
         >
         </edit-budget-popup>
 
-        @include('main.budgets.toolbar')
+        <budgets-toolbar></budgets-toolbar>
 
         <new-budget
             :budgets.sync="unassignedBudgets"
@@ -22,7 +22,21 @@
             </totals>
 
             <div class="budget-table unassigned-budget-table">
-                @include('main.budgets.unassigned-budget-table')
+
+                <h1>Unassigned Budget Table</h1>
+
+                <table id="unassigned-budget-info-table" class="table table-bordered">
+
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+
+                    <!-- table content -->
+                    <tr v-for="budget in unassignedBudgets" class="budget_info_ul">
+                        <td v-on:click="showBudgetPopup(budget, 'unassigned')" class="pointer">{{ budget.name }}</td>
+                    </tr>
+
+                </table>
             </div>
 
             <span id="budget_hover_span" class="tooltipster" title=""></span>
@@ -35,13 +49,13 @@
         data: function () {
             return {
                 show: ShowRepository.defaults,
-                budgetsRepository: BudgetsRepository.state
+                shared: store.state
             };
         },
         components: {},
         computed: {
             unassignedBudgets: function () {
-                return this.budgetsRepository.unassignedBudgets;
+                return _.orderBy(this.shared.unassignedBudgets, 'name');
             }
         },
         methods: {

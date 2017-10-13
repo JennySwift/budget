@@ -38057,6 +38057,251 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -38130,11 +38375,7 @@ var render = function() {
     { staticStyle: { "z-index": "1000" }, attrs: { id: "navbar" } },
     [
       _vm._m(0),
-      _vm._v("\n\n    @if (Auth::guest())\n    "),
-      _vm._m(1),
       _vm._v(" "),
-      _vm._m(2),
-      _vm._v("\n\n    @else\n    "),
       _c("li", [
         _c("a", {
           directives: [
@@ -38165,9 +38406,547 @@ var render = function() {
           [_vm._v("\n            Graphs\n        ")]
         )
       ]),
-      _vm._v(
-        "\n\n    @include('templates.header.menu')\n\n    @include('templates.header.show')\n\n    @include('templates.header.user')\n\n    @include('templates.header.budgets')\n\n    @include('templates.header.help')\n\n    "
+      _vm._v(" "),
+      _c("li", { staticClass: "dropdown", attrs: { id: "menu-dropdown" } }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c("ul", { staticClass: "dropdown-menu", attrs: { role: "menu" } }, [
+          _c("li", [
+            _c(
+              "a",
+              {
+                directives: [
+                  {
+                    name: "link",
+                    rawName: "v-link",
+                    value: { path: "/accounts" },
+                    expression: "{path: '/accounts'}"
+                  }
+                ]
+              },
+              [_vm._v("Accounts")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c(
+              "a",
+              {
+                directives: [
+                  {
+                    name: "link",
+                    rawName: "v-link",
+                    value: { path: "/preferences" },
+                    expression: "{path: '/preferences'}"
+                  }
+                ]
+              },
+              [_vm._v("Preferences")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c(
+              "a",
+              {
+                directives: [
+                  {
+                    name: "link",
+                    rawName: "v-link",
+                    value: { path: "/favourite-transactions" },
+                    expression: "{path: '/favourite-transactions'}"
+                  }
+                ]
+              },
+              [_vm._v("Favourite transactions")]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "dropdown", attrs: { id: "menu-dropdown" } }, [
+        _vm._m(2),
+        _vm._v(" "),
+        _c(
+          "ul",
+          {
+            staticClass: "dropdown-menu show-dropdown",
+            attrs: { role: "menu" }
+          },
+          [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  staticClass: "pointer",
+                  on: {
+                    click: function($event) {
+                      _vm.show.basicTotals = !_vm.show.basicTotals
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("Totals")]),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.show.basicTotals,
+                        expression: "show.basicTotals"
+                      }
+                    ],
+                    staticClass: "fa fa-check"
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "divider", attrs: { role: "separator" } }),
+            _vm._v(" "),
+            _vm._m(4),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    disabled: _vm.transactionPropertiesToShow.all,
+                    href: "#"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.showAllTransactionProperties()
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("All")]),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.transactionPropertiesToShow.all,
+                        expression: "transactionPropertiesToShow.all"
+                      }
+                    ],
+                    staticClass: "fa fa-check"
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.toggleTransactionProperty("date")
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("Date")]),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.transactionPropertiesToShow.date,
+                        expression: "transactionPropertiesToShow.date"
+                      }
+                    ],
+                    staticClass: "fa fa-check"
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.toggleTransactionProperty("description")
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("Description")]),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.transactionPropertiesToShow.description,
+                        expression: "transactionPropertiesToShow.description"
+                      }
+                    ],
+                    staticClass: "fa fa-check"
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.toggleTransactionProperty("merchant")
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("Merchant")]),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.transactionPropertiesToShow.merchant,
+                        expression: "transactionPropertiesToShow.merchant"
+                      }
+                    ],
+                    staticClass: "fa fa-check"
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.toggleTransactionProperty("total")
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("Total")]),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.transactionPropertiesToShow.total,
+                        expression: "transactionPropertiesToShow.total"
+                      }
+                    ],
+                    staticClass: "fa fa-check"
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.toggleTransactionProperty("account")
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("Account")]),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.transactionPropertiesToShow.account,
+                        expression: "transactionPropertiesToShow.account"
+                      }
+                    ],
+                    staticClass: "fa fa-check"
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.toggleTransactionProperty("duration")
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("Duration")]),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.transactionPropertiesToShow.duration,
+                        expression: "transactionPropertiesToShow.duration"
+                      }
+                    ],
+                    staticClass: "fa fa-check"
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.toggleTransactionProperty("reconciled")
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("Reconciled")]),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.transactionPropertiesToShow.reconciled,
+                        expression: "transactionPropertiesToShow.reconciled"
+                      }
+                    ],
+                    staticClass: "fa fa-check"
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.toggleTransactionProperty("allocated")
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("Allocated")]),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.transactionPropertiesToShow.allocated,
+                        expression: "transactionPropertiesToShow.allocated"
+                      }
+                    ],
+                    staticClass: "fa fa-check"
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "javascript:void(0)" },
+                  on: {
+                    click: function($event) {
+                      _vm.toggleTransactionProperty("budgets")
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("Budgets")]),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.transactionPropertiesToShow.budgets,
+                        expression: "transactionPropertiesToShow.budgets"
+                      }
+                    ],
+                    staticClass: "fa fa-check"
+                  })
+                ]
+              )
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "li",
+        { staticClass: "dropdown gravatar-li", attrs: { id: "menu-dropdown" } },
+        [
+          _c("a", { attrs: { href: "#", "data-toggle": "dropdown" } }, [
+            _vm._v("\n            <?php echo Auth::user()->name; ?>\n        ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "gravatar-container",
+              attrs: { href: "#", "data-toggle": "dropdown" }
+            },
+            [
+              _c("img", {
+                staticClass: "gravatar",
+                attrs: { src: _vm.me.gravatar }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "caret" })
+            ]
+          ),
+          _vm._v(" "),
+          _c("ul", { staticClass: "dropdown-menu", attrs: { role: "menu" } }, [
+            _vm._m(5),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.deleteUser()
+                    }
+                  }
+                },
+                [_vm._v("Delete account")]
+              )
+            ])
+          ])
+        ]
       ),
+      _vm._v(" "),
+      _c("li", { staticClass: "dropdown", attrs: { id: "menu-dropdown" } }, [
+        _vm._m(6),
+        _vm._v(" "),
+        _c("ul", { staticClass: "dropdown-menu", attrs: { role: "menu" } }, [
+          _c("li", [
+            _c(
+              "a",
+              {
+                directives: [
+                  {
+                    name: "link",
+                    rawName: "v-link",
+                    value: { path: "/fixed-budgets" },
+                    expression: "{path: '/fixed-budgets'}"
+                  }
+                ]
+              },
+              [_vm._v("Fixed")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c(
+              "a",
+              {
+                directives: [
+                  {
+                    name: "link",
+                    rawName: "v-link",
+                    value: { path: "/flex-budgets" },
+                    expression: "{path: '/flex-budgets'}"
+                  }
+                ]
+              },
+              [_vm._v("Flex")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c(
+              "a",
+              {
+                directives: [
+                  {
+                    name: "link",
+                    rawName: "v-link",
+                    value: { path: "/unassigned-budgets" },
+                    expression: "{path: '/unassigned-budgets'}"
+                  }
+                ]
+              },
+              [_vm._v("Unassigned")]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "dropdown", attrs: { id: "menu-dropdown" } }, [
+        _vm._m(7),
+        _vm._v(" "),
+        _c("ul", { staticClass: "dropdown-menu", attrs: { role: "menu" } }, [
+          _c("li", [
+            _c(
+              "a",
+              {
+                directives: [
+                  {
+                    name: "link",
+                    rawName: "v-link",
+                    value: { path: "/help" },
+                    expression: "{path: '/help'}"
+                  }
+                ]
+              },
+              [_vm._v("Start here :)")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c(
+              "a",
+              {
+                directives: [
+                  {
+                    name: "link",
+                    rawName: "v-link",
+                    value: { path: "/feedback" },
+                    expression: "{path: '/feedback'}"
+                  }
+                ]
+              },
+              [_vm._v("Submit feedback")]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
       _c("li", [
         _c("a", {
           staticClass: "fa fa-search",
@@ -38177,8 +38956,7 @@ var render = function() {
             }
           }
         })
-      ]),
-      _vm._v("\n\n    @endif\n\n")
+      ])
     ]
   )
 }
@@ -38197,14 +38975,76 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", [_c("a", { attrs: { href: "/login" } }, [_vm._v("Login")])])
+    return _c(
+      "a",
+      {
+        staticClass: "dropdown-toggle fa fa-bars",
+        attrs: { href: "#", "data-toggle": "dropdown" }
+      },
+      [_c("span", { staticClass: "caret" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "dropdown-toggle",
+        attrs: { href: "#", "data-toggle": "dropdown" }
+      },
+      [
+        _vm._v("\n            Show\n            "),
+        _c("span", { staticClass: "caret" })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [_c("a", { staticClass: "disabled" }, [_vm._v("Totals")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("li", [
-      _c("a", { attrs: { href: "/register" } }, [_vm._v("Register")])
+      _c("a", { staticClass: "disabled" }, [_vm._v("Transaction Fields")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { href: "/auth/logout" } }, [_vm._v("Logout")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "dropdown-toggle",
+        attrs: { href: "#", "data-toggle": "dropdown" }
+      },
+      [
+        _vm._v("\n            Budgets\n            "),
+        _c("span", { staticClass: "caret" })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "#", "data-toggle": "dropdown" } }, [
+      _vm._v("\n            Help\n            "),
+      _c("span", { staticClass: "caret" })
     ])
   }
 ]
@@ -38716,7 +39556,7 @@ var render = function() {
       _c("div", { staticClass: "form-group autocomplete-field" }, [
         _vm.inputLabel
           ? _c("label", { attrs: { for: _vm.autocompleteFieldId } }, [
-              _vm._v("@" + _vm._s(_vm._f("capitalize")(_vm.inputLabel)))
+              _vm._v(_vm._s(_vm._f("capitalize")(_vm.inputLabel)))
             ])
           : _vm._e(),
         _vm._v(" "),
@@ -38809,7 +39649,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                @" +
+                      "\n                " +
                         _vm._s(option[_vm.prop]) +
                         "\n            "
                     )
@@ -39081,7 +39921,7 @@ var render = function() {
             _vm._l(feedback.messages, function(message) {
               return _c("li", [
                 _vm._v(
-                  "\n                @" + _vm._s(message) + "\n            "
+                  "\n                " + _vm._s(message) + "\n            "
                 )
               ])
             })
@@ -39258,6 +40098,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -39326,7 +40196,54 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._v("\n    @include('main.home.toolbar')\n\n    "),
+      _c("div", { attrs: { id: "toolbar" } }, [
+        _c("div", [
+          !_vm.show.newTransaction
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-info",
+                  on: {
+                    click: function($event) {
+                      _vm.toggleNewTransaction()
+                    }
+                  }
+                },
+                [_vm._v("\n                New transaction\n            ")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.show.newTransaction
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-info",
+                  on: {
+                    click: function($event) {
+                      _vm.toggleNewTransaction()
+                    }
+                  }
+                },
+                [_vm._v("\n                Hide new transaction\n            ")]
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-default totals-btn",
+              on: {
+                mouseenter: _vm.respondToMouseEnterOnTotalsButton,
+                mouseleave: _vm.respondToMouseLeaveOnTotalsButton
+              }
+            },
+            [_vm._v("\n                Totals\n            ")]
+          )
+        ])
+      ]),
+      _vm._v(" "),
       _c("new-transaction", {
         attrs: { show: _vm.show, tab: _vm.tab, budgets: _vm.budgets }
       }),
@@ -39569,7 +40486,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                    @" +
+                      "\n                    " +
                         _vm._s(account.name) +
                         "\n                "
                     )
@@ -39577,9 +40494,7 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("td", { staticClass: "balance" }, [
-                  _vm._v(
-                    "@" + _vm._s(_vm._f("numberFilter 2")(account.balance))
-                  )
+                  _vm._v(_vm._s(_vm._f("numberFilter 2")(account.balance)))
                 ]),
                 _vm._v(" "),
                 _c("td", [
@@ -39829,7 +40744,9 @@ var render = function() {
           }
         }
       }),
-      _vm._v("\n\n    @include('main.budgets.toolbar')\n\n    "),
+      _vm._v(" "),
+      _c("budgets-toolbar"),
+      _vm._v(" "),
       _c("new-budget", {
         attrs: { budgets: _vm.fixedBudgets, page: "fixedBudgets" },
         on: {
@@ -39845,11 +40762,12 @@ var render = function() {
         [
           _c("totals", { attrs: { show: _vm.show } }),
           _vm._v(" "),
-          _c("div", { staticClass: "budget-table fixed-budget-table" }, [
-            _vm._v(
-              "\n            @include('main.budgets.fixed-budget-table')\n        "
-            )
-          ]),
+          _c(
+            "div",
+            { staticClass: "budget-table fixed-budget-table" },
+            [_c("fixed-budgets-table")],
+            1
+          ),
           _vm._v(" "),
           _c("span", {
             staticClass: "tooltipster",
@@ -39926,6 +40844,127 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -40074,7 +41113,9 @@ var render = function() {
           }
         }
       }),
-      _vm._v("\n\n    @include('main.budgets.toolbar')\n\n    "),
+      _vm._v(" "),
+      _c("budgets-toolbar"),
+      _vm._v(" "),
       _c("new-budget", {
         attrs: { budgets: _vm.flexBudgets, page: "flexBudgets" },
         on: {
@@ -40091,8 +41132,447 @@ var render = function() {
           _c("totals", { attrs: { show: _vm.show } }),
           _vm._v(" "),
           _c("div", { staticClass: "budget-table flex-budget-table" }, [
-            _vm._v(
-              "\n            @include('main.budgets.flex-budget-table')\n        "
+            _c("h1", [_vm._v("Flex Budget Table")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "order-by" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "order-by" } }, [
+                  _vm._v("Order By")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.orderBy,
+                        expression: "orderBy"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "order-by" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.orderBy = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.orderByOptions, function(orderByOption) {
+                    return _c(
+                      "option",
+                      { domProps: { value: orderByOption.value } },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(orderByOption.name) +
+                            "\n                        "
+                        )
+                      ]
+                    )
+                  })
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "checkbox-container" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.reverseOrder,
+                      expression: "reverseOrder"
+                    }
+                  ],
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(_vm.reverseOrder)
+                      ? _vm._i(_vm.reverseOrder, null) > -1
+                      : _vm.reverseOrder
+                  },
+                  on: {
+                    __c: function($event) {
+                      var $$a = _vm.reverseOrder,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.reverseOrder = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.reverseOrder = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.reverseOrder = $$c
+                      }
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "reverse-order-" } }, [
+                  _vm._v("Reverse Order")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "table",
+              {
+                staticClass: "table table-bordered",
+                attrs: { id: "flex-budget-info-table" }
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._l(_vm.flexBudgets | _vm.orderBudgetsFilter, function(
+                  budget
+                ) {
+                  return _c("tr", { staticClass: "budget_info_ul" }, [
+                    _c(
+                      "td",
+                      {
+                        staticClass: "pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(budget.name))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "percent pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(budget.amount))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "amount pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(budget.calculatedAmount)
+                          )
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "CSD pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _c("span", [
+                          _vm._v(_vm._s(budget.formattedStartingDate))
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "month-number pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(budget.cumulativeMonthNumber))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(
+                              budget.spentBeforeStartingDate
+                            )
+                          )
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(
+                              budget.spentOnOrAfterStartingDate
+                            )
+                          )
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "received pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(
+                              budget.receivedOnOrAfterStartingDate
+                            )
+                          )
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "remaining pointer",
+                        class: { "negative-remaining": budget.remaining < 0 },
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(_vm._f("numberFilter 2")(budget.remaining))
+                        )
+                      ]
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  {
+                    staticClass: "budget_info_ul",
+                    attrs: { id: "flex-budget-totals" }
+                  },
+                  [
+                    _c("td", [_vm._v("allocated")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.allocatedAmount
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.allocatedCalculatedAmount
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.allocatedRemaining
+                          )
+                        )
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  {
+                    staticClass: "budget_info_ul",
+                    attrs: { id: "flex-budget-unallocated" }
+                  },
+                  [
+                    _c("td", [_vm._v("unallocated")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(_vm._s(_vm.flexBudgetTotals.unallocatedAmount))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.unallocatedCalculatedAmount
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.unallocatedRemaining
+                          )
+                        )
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  {
+                    staticClass: "budget_info_ul totals",
+                    attrs: { id: "flex-budget-totals" }
+                  },
+                  [
+                    _c("td", [_vm._v("totals")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.flexBudgetTotals.allocatedPlusUnallocatedAmount
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals
+                              .allocatedPlusUnallocatedCalculatedAmount
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.spentBeforeStartingDate
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.spentOnOrAfterStartingDate
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.receivedOnOrAfterStartingDate
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals
+                              .allocatedPlusUnallocatedRemaining
+                          )
+                        )
+                      )
+                    ])
+                  ]
+                )
+              ],
+              2
             )
           ]),
           _vm._v(" "),
@@ -40107,7 +41587,108 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c(
+        "th",
+        { staticClass: "tooltipster", attrs: { title: "# percent of F/I" } },
+        [
+          _c("div", [_vm._v("% of remaining")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("balance")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "amount (% column % of F/I)" }
+        },
+        [
+          _c("div", [_vm._v("Calculated")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("amount")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "cumulative starting date" }
+        },
+        [
+          _c("div", [_vm._v("Starting")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("date")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "cumulative month number" }
+        },
+        [
+          _c("div", [_vm._v("Month")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("number")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "spent before starting date" }
+        },
+        [
+          _c("div", [_vm._v("Spent <")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("starting date")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "spent after starting date" }
+        },
+        [
+          _c("div", [_vm._v("Spent >=")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("starting date")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "received after starting date" }
+        },
+        [
+          _c("div", [_vm._v("Received >=")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("starting date")])
+        ]
+      ),
+      _vm._v(" "),
+      _c("th", { staticClass: "tooltipster", attrs: { title: "remaining" } }, [
+        _vm._v("Remaining")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -40203,18 +41784,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             show: ShowRepository.defaults,
-            budgetsRepository: BudgetsRepository.state
+            shared: store.state
         };
     },
     components: {},
     computed: {
         unassignedBudgets: function unassignedBudgets() {
-            return this.budgetsRepository.unassignedBudgets;
+            return _.orderBy(this.shared.unassignedBudgets, 'name');
         }
     },
     methods: {
@@ -40273,7 +41868,9 @@ var render = function() {
           }
         }
       }),
-      _vm._v("\n\n    @include('main.budgets.toolbar')\n\n    "),
+      _vm._v(" "),
+      _c("budgets-toolbar"),
+      _vm._v(" "),
       _c("new-budget", {
         attrs: { budgets: _vm.unassignedBudgets, page: "unassignedBudgets" },
         on: {
@@ -40290,8 +41887,35 @@ var render = function() {
           _c("totals", { attrs: { show: _vm.show } }),
           _vm._v(" "),
           _c("div", { staticClass: "budget-table unassigned-budget-table" }, [
-            _vm._v(
-              "\n            @include('main.budgets.unassigned-budget-table')\n        "
+            _c("h1", [_vm._v("Unassigned Budget Table")]),
+            _vm._v(" "),
+            _c(
+              "table",
+              {
+                staticClass: "table table-bordered",
+                attrs: { id: "unassigned-budget-info-table" }
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._l(_vm.unassignedBudgets, function(budget) {
+                  return _c("tr", { staticClass: "budget_info_ul" }, [
+                    _c(
+                      "td",
+                      {
+                        staticClass: "pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "unassigned")
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(budget.name))]
+                    )
+                  ])
+                })
+              ],
+              2
             )
           ]),
           _vm._v(" "),
@@ -40306,7 +41930,14 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [_c("th", [_vm._v("Name")])])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -40943,26 +42574,24 @@ var render = function() {
                   }
                 },
                 [
-                  _c("td", [_vm._v("@" + _vm._s(favourite.name))]),
+                  _c("td", [_vm._v(_vm._s(favourite.name))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v("@" + _vm._s(favourite.type))]),
+                  _c("td", [_vm._v(_vm._s(favourite.type))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v("@" + _vm._s(favourite.description))]),
+                  _c("td", [_vm._v(_vm._s(favourite.description))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v("@" + _vm._s(favourite.merchant))]),
+                  _c("td", [_vm._v(_vm._s(favourite.merchant))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v("@" + _vm._s(favourite.total))]),
+                  _c("td", [_vm._v(_vm._s(favourite.total))]),
                   _vm._v(" "),
                   _c("td", [
                     favourite.account
-                      ? _c("span", [
-                          _vm._v("@" + _vm._s(favourite.account.name))
-                        ])
+                      ? _c("span", [_vm._v(_vm._s(favourite.account.name))])
                       : _vm._e(),
                     _vm._v(" "),
                     favourite.fromAccount
                       ? _c("span", [
-                          _vm._v("from @" + _vm._s(favourite.fromAccount.name))
+                          _vm._v("from " + _vm._s(favourite.fromAccount.name))
                         ])
                       : _vm._e(),
                     _vm._v(" "),
@@ -40972,7 +42601,7 @@ var render = function() {
                     _vm._v(" "),
                     favourite.toAccount
                       ? _c("span", [
-                          _vm._v("to @" + _vm._s(favourite.toAccount.name))
+                          _vm._v("to " + _vm._s(favourite.toAccount.name))
                         ])
                       : _vm._e()
                   ]),
@@ -40992,10 +42621,10 @@ var render = function() {
                           }
                         },
                         [
-                          _c("span", [_vm._v("@" + _vm._s(budget.name))]),
+                          _c("span", [_vm._v(_vm._s(budget.name))]),
                           _vm._v(" "),
                           _c("span", { staticClass: "type" }, [
-                            _vm._v("@" + _vm._s(budget.type))
+                            _vm._v(_vm._s(budget.type))
                           ])
                         ]
                       )
@@ -41110,6 +42739,244 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -41145,19 +43012,618 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("dropdown", {
+        staticClass: "dropdown-directive",
+        attrs: {
+          "animate-in-class": "flipInX",
+          "animate-out-class": "flipOutX",
+          "scroll-to": _vm.scrollTo,
+          id: "help-navigation-container"
+        },
+        inlineTemplate: {
+          render: function() {
+            var _vm = this
+            var _h = _vm.$createElement
+            var _c = _vm._self._c || _h
+            return _c("div", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-info",
+                  attrs: { tabindex: "-1" },
+                  on: {
+                    click: function($event) {
+                      _vm.toggleDropdown()
+                    }
+                  }
+                },
+                [
+                  _vm._v("\n                Navigation\n                "),
+                  _c("span", { staticClass: "caret" })
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "dropdown-content animated" }, [
+                _c(
+                  "div",
+                  { staticClass: "help", attrs: { id: "help-navigation" } },
+                  [
+                    _c("ul", [
+                      _c("li", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "javascript:void(0)" },
+                            on: {
+                              click: function($event) {
+                                _vm.scrollTo("concept-purpose-goal")
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Concept/Purpose/Goal\n                            "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "javascript:void(0)" },
+                            on: {
+                              click: function($event) {
+                                _vm.scrollTo("tags-link")
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Tags\n                            "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "javascript:void(0)" },
+                            on: {
+                              click: function($event) {
+                                _vm.scrollTo("accounts-link")
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n\n                                Accounts\n                            "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "javascript:void(0)" },
+                            on: {
+                              click: function($event) {
+                                _vm.scrollTo("transactions-link")
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Transactions\n                            "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("ul", [
+                        _c("li", [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "javascript:void(0)" },
+                              on: {
+                                click: function($event) {
+                                  _vm.scrollTo("allocating-link")
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Allocating the totals\n                                "
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("li", [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "javascript:void(0)" },
+                              on: {
+                                click: function($event) {
+                                  _vm.scrollTo("reconciling")
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Reconciling\n                                "
+                              )
+                            ]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "javascript:void(0)" },
+                            on: {
+                              click: function($event) {
+                                _vm.scrollTo("savings-link")
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n\n                                Savings\n                            "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "javascript:void(0)" },
+                            on: {
+                              click: function($event) {
+                                _vm.scrollTo("RB")
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Remaining Balance\n                            "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "javascript:void(0)" },
+                            on: {
+                              click: function($event) {
+                                _vm.scrollTo("totals")
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Totals\n                            "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "javascript:void(0)" },
+                            on: {
+                              click: function($event) {
+                                _vm.scrollTo("graphs-help")
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Graphs\n                            "
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            ])
+          },
+          staticRenderFns: []
+        }
+      }),
+      _vm._v(" "),
+      _c("h1", [_vm._v("Help")]),
+      _vm._v(" "),
+      _vm._m(0)
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _vm._v("\n\n    @include('main.help.help-navigation')\n\n    "),
-      _c("h1", [_vm._v("Help")]),
-      _vm._v(" "),
-      _c("div", { attrs: { id: "help" } }, [
-        _vm._v("\n        @include('main.help.help-content')\n    ")
+    return _c("div", { attrs: { id: "help" } }, [
+      _c("div", { attrs: { id: "help-content" } }, [
+        _c("div", { staticClass: "section" }, [
+          _c("h2", { attrs: { id: "concept-purpose-goal" } }, [
+            _vm._v("Concept/Purpose/Goal")
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "My brother wasn't aware of any budgeting apps for users who do not have a fixed income. In other words, whose income is unknown. It can vary from week to week. Apparently, other budgeting apps assume the user knows what their income will be."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "He had predetermined expenses, so he didn't want to overspend on the less important expenses and then not have enough to spend on the predetermined expenses."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "So he wanted to be able to specify in advance his predetermined expenses, and then for each of his remaining expense categories, to be able to specify a percentage of what he had remaining to spend on those."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "We call the 'predetermined' expenses 'fixed', and the others 'flex', i.e., flexible, because they are a percentage of what is remaining."
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "section" }, [
+          _c("h2", { attrs: { id: "tags-link" } }, [_vm._v("Tags/Budgets")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "To create budgets, delete them, or edit them, go to one of the pages from the budgets dropdown menu."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "Please note that I have recently changed the way the tags and budgets work and haven't really decided yet on the appropriate terminology. Currently, the tags referred to below are now known as budgets, and 'tags without budgets' are known as 'unassigned budgets.'"
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "A tag is a category of something you spend or earn money on. For example, food or clothes. It is these tags that you specify a budget for. You choose the budget type (either fixed or flex)."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "For a fixed budget, you specify the amount per month you need to spend on that tag."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "For a flex budget, you specify the percentage of what is remaining that you want to spend on that tag."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v("You can specify a starting date for a tag.")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "For the tags with fixed budgets, the starting date is taken into account. The amount calculated (the 'cumulative' column) is the amount column multiplied by the month number."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "We're not sure if the starting date for tags with flex budgets has a point yet. :)"
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "The tables on this budgets page show you totals for each tag you have given a budget for."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v("The fixed budgets table shows you, for each of those tags:")
+          ]),
+          _vm._v(" "),
+          _c("ul", [
+            _c("li", [_vm._v("the amount you have budgeted per month")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("the starting date")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("the month number")]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v("the amount per month multiplied by the month number")
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v(
+                "how much you have spent on the tag after it's starting date"
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v(
+                "how much you have spent on the tag before its starting date"
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v(
+                "how much you have received on the tag (for a tag like 'business' you might have both expenses as well as income)"
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [_vm._v("how much you have remaining")])
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v("The flex budgets table shows you")]),
+          _vm._v(" "),
+          _c("ul", [
+            _c("li", [
+              _vm._v("the percentage figure you have budgeted for the tag")
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v(
+                "the calculated amount you have budgeted per month (the percentage figure percent of your remaining balance)"
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [_vm._v("the starting date")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("the month number")]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v(
+                "how much you have spent on the tag after it's starting date"
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [_vm._v("how much you have received on the tag")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("how much you have remaining")])
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "Each table has a totals row, showing you the totals for each column, so you can see things such as the total amount you have budgeted, spent, or remaining on either the fixed or flex budgets."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Tags you might give a fixed budget to are:")]),
+          _vm._v(" "),
+          _c("ul", [
+            _c("li", [_vm._v("groceries")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("rent")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("licenses")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("insurance")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("conferences")])
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Tags you might give a flex budget to are:")]),
+          _vm._v(" "),
+          _c("ul", [
+            _c("li", [_vm._v("eating out")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("entertainment")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("recreation")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("holidays")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("gifts")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("books")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("clothes")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "section" }, [
+          _c("h2", { attrs: { id: "accounts-link" } }, [_vm._v("Accounts")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "To get started using the application, you'll need to have at least one account created. To do so, go to the accounts page from the "
+            ),
+            _c("i", { staticClass: "fa fa-bars" }),
+            _vm._v(" menu.")
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "Accounts are for keeping track of where your money is, so you might have a few different bank accounts as well as a cash account."
+            )
+          ]),
+          _vm._v(" "),
+          _c("h2", { attrs: { id: "transactions-link" } }, [
+            _vm._v("Transactions")
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "You can enter transactions from the home page. (Click on the "
+            ),
+            _c("i", { staticClass: "fa fa-home" }),
+            _vm._v(" button in the menu to go there.)")
+          ]),
+          _vm._v(" "),
+          _c("h4", { attrs: { id: "allocating-link" } }, [
+            _vm._v("Allocating the totals")
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "A transaction can be given multiple tags. However, if more than one of those tags has been given a budget, you'll need to specify the amounts (either a fixed amount or a percentage of the total of the transaction) that you want to be considered spent off your budgeted tags."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "It wouldn't make sense, and it would wreck up the totals, if you were to spend $10 and have $20 considered as spent because the transaction had two budgets associated with it."
+            )
+          ]),
+          _vm._v(" "),
+          _c("h4", { attrs: { id: "reconciling" } }, [_vm._v("Reconciling")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "You can mark transactions as reconciled (by checking the transaction's checkbox). This is so that when you receive your bank statement:"
+            )
+          ]),
+          _vm._v(" "),
+          _c("ul", [
+            _c("li", [
+              _vm._v(
+                "You can check the transactions you have entered into the app match those of your bank statement. (You might have made a mistake entering your transaction, or forgotten to enter it.)"
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v(
+                "Vice versa. (There might be a transaction on your bank statement that was made by someone else, and you can see it wasn't made by you by checking you didn't enter it into the app.)"
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("h2", { attrs: { id: "savings-link" } }, [_vm._v("Savings")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "This feature is relatively new and still has plenty of work to be done on. When income is earned, a percentage of what is earned is taken from the balance and put into savings."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "Currently it is 10%, but it is planned to make that customisable."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "The action is reversed when an income transaction is deleted (and on other similar occasions)."
+            )
+          ]),
+          _vm._v(" "),
+          _c("h2", { attrs: { id: "RB" } }, [_vm._v("Remaining Balance")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "The remaining balance is the balance before the flex budgets are calculated. It is the figure that the flex budgets are a percentage of."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "It has been perhaps the trickiest and most important figure to figure out, since the flexible budgets depend on it, and the flexible budgets are the point of the app!"
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "We're still not sure if we have it right, but currently the formula is:"
+            )
+          ]),
+          _vm._v(" "),
+          _c("ul", [
+            _c("li", [_vm._v("+ total credit ever earned")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("- remaining fixed budget")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("- total expenses with no associated budget")]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v(
+                "- total spent on flex budgets before their starting dates"
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v(
+                "- total spent on fixed budgets before their starting dates"
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v(
+                "- total spent on fixed budgets after their starting dates"
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [_vm._v("- savings")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "section" }, [
+          _c("h2", { attrs: { id: "totals" } }, [_vm._v("Totals")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "A lot of the figures in the totals sidebar are probably unnecessary for users, but they have been helpful in getting the totals working and understanding what is going on. A lot of them were for figuring out the remaining balance. Some are just the same figures as in the budget table totals columns."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "Probably the most relevant figures for the user are: credit, debit, remaining balance, savings, and the remaining columns in the budget tables, so the user can see how much they have left to spend on each tag."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "When actions are made, the changes made to the totals are displayed in the 'changes' column."
+            )
+          ]),
+          _vm._v(" "),
+          _c("h2", { attrs: { id: "graphs-help" } }, [_vm._v("Graphs")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "To see a visual representation of the transactions you have filtered, go to the home page and click on the 'graphs' tab. It is a pretty new feature."
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "section" }, [
+          _c("h2", [_vm._v("This page")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("You can find this page again in the help menu.")])
+        ])
       ])
     ])
   }
@@ -41225,6 +43691,98 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -41523,7 +44081,181 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "preferences-page" } }, [
     _c("h1", [_vm._v("Preferences")]),
-    _vm._v("\n\n    @include('main.preferences.colors')\n\n    "),
+    _vm._v(" "),
+    _c("div", [
+      _c("h3", { staticClass: "center" }, [_vm._v("Choose your colours")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "colors" }, [
+        _c("div", { staticClass: "color" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "income-color-picker" } }, [
+              _vm._v("Income")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.me.preferences.colors.income,
+                    expression: "me.preferences.colors.income"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "color",
+                  id: "income-color-picker",
+                  name: "income-color-picker",
+                  placeholder: "income"
+                },
+                domProps: { value: _vm.me.preferences.colors.income },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.me.preferences.colors.income = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "input-group-btn" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "default-color-button btn btn-default",
+                    on: {
+                      click: function($event) {
+                        _vm.defaultColor("income", "#017d00")
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Default\n                    "
+                    )
+                  ]
+                )
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "color" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "expense-color-picker" } }, [
+              _vm._v("Expense")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.me.preferences.colors.expense,
+                    expression: "me.preferences.colors.expense"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "color",
+                  id: "expense-color-picker",
+                  name: "expense-color-picker",
+                  placeholder: "expense"
+                },
+                domProps: { value: _vm.me.preferences.colors.expense },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.me.preferences.colors.expense = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "input-group-btn" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "default-color-button btn btn-default",
+                    on: {
+                      click: function($event) {
+                        _vm.defaultColor("expense", "#fb5e52")
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Default\n                    "
+                    )
+                  ]
+                )
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "color" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "transfer-color-picker" } }, [
+              _vm._v("Transfer")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.me.preferences.colors.transfer,
+                    expression: "me.preferences.colors.transfer"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "color",
+                  id: "transfer-color-picker",
+                  name: "transfer-color-picker",
+                  placeholder: "transfer"
+                },
+                domProps: { value: _vm.me.preferences.colors.transfer },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.me.preferences.colors.transfer = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "input-group-btn" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "default-color-button btn btn-default",
+                    on: {
+                      click: function($event) {
+                        _vm.defaultColor("transfer", "#fca700")
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Default\n                    "
+                    )
+                  ]
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
     _c("h3", [_vm._v("New Transaction")]),
     _vm._v(" "),
     _c("div", { staticClass: "new-transaction" }, [

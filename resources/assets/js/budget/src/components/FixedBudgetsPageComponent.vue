@@ -7,7 +7,7 @@
         >
         </edit-budget-popup>
 
-        @include('main.budgets.toolbar')
+        <budgets-toolbar></budgets-toolbar>
 
         <new-budget
             :budgets.sync="fixedBudgets"
@@ -23,7 +23,7 @@
             </totals>
 
             <div class="budget-table fixed-budget-table">
-                @include('main.budgets.fixed-budget-table')
+                <fixed-budgets-table></fixed-budgets-table>
             </div>
 
             <span id="budget_hover_span" class="tooltipster" title=""></span>

@@ -35,16 +35,16 @@
                     v-on:click="showUpdateFavouriteTransactionPopup(favourite)"
                     class="pointer"
                 >
-                    <td>@{{ favourite.name }}</td>
-                    <td>@{{ favourite.type }}</td>
-                    <td>@{{ favourite.description }}</td>
-                    <td>@{{ favourite.merchant }}</td>
-                    <td>@{{ favourite.total }}</td>
+                    <td>{{ favourite.name }}</td>
+                    <td>{{ favourite.type }}</td>
+                    <td>{{ favourite.description }}</td>
+                    <td>{{ favourite.merchant }}</td>
+                    <td>{{ favourite.total }}</td>
                     <td>
-                        <span v-if="favourite.account">@{{ favourite.account.name }}</span>
-                        <span v-if="favourite.fromAccount">from @{{ favourite.fromAccount.name }}</span>
+                        <span v-if="favourite.account">{{ favourite.account.name }}</span>
+                        <span v-if="favourite.fromAccount">from {{ favourite.fromAccount.name }}</span>
                         <span v-if="favourite.fromAccount && favourite.toAccount"> </span>
-                        <span v-if="favourite.toAccount">to @{{ favourite.toAccount.name }}</span>
+                        <span v-if="favourite.toAccount">to {{ favourite.toAccount.name }}</span>
                     </td>
 
                     <td class="budgets">
@@ -57,8 +57,8 @@
                             }"
                             class="label label-default"
                         >
-                            <span>@{{ budget.name }}</span>
-                            <span class="type">@{{ budget.type }}</span>
+                            <span>{{ budget.name }}</span>
+                            <span class="type">{{ budget.type }}</span>
                         </li>
                     </td>
 
