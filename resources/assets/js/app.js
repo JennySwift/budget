@@ -7,13 +7,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
-global.$ = require('jquery');
-global.jQuery = require('jquery');
+// global.$ = require('jquery');
+// global.jQuery = require('jquery');
 
 // import jQuery from 'jquery'
 // global._ = require('underscore');
 global._ = require('lodash');
 import store from './budget/src/repositories/Store'
+window.store = store;
 
 window.Event = new Vue();
 
@@ -35,8 +36,7 @@ const app = new Vue({
 var App = Vue.component('app', {
     data: function () {
         return {
-            show: ShowRepository.defaults,
-            transactionPropertiesToShow: ShowRepository.setTransactionDefaults()
+
         };
     },
     methods: {
@@ -46,31 +46,33 @@ var App = Vue.component('app', {
          */
         setHeights: function () {
             var height = $(window).height();
-            $('body,html').height(height);
+            //Uncomment after refactor
+            // $('body,html').height(height);
         }
     },
     ready: function () {
         this.setHeights();
-        AccountsRepository.getAccounts(this);
-        BudgetsRepository.getBudgets(this);
-        BudgetsRepository.getUnassignedBudgets(this);
-        FavouriteTransactionsRepository.getFavouriteTransactions(this);
-        HomePageRepository.setDefaultTab();
-        TotalsRepository.getSideBarTotals(this);
-        SavedFiltersRepository.getSavedFilters(this);
-        FilterRepository.resetFilter();
+        store.getAccounts();
+        store.getBudgets();
+        store.getUnassignedBudgets();
+        store.getFavouriteTransactions();
+        store.setDefaultTab();
+        store.getSideBarTotals();
+        store.getSavedFilters();
+        store.resetFilter();
+        store.setDefaultTransactionPropertiesToShow()
     }
 });
 
-
-$(window).load(function () {
-    $(".main").css('display', 'block');
-    $("footer, #navbar").css('display', 'flex');
-    $("#page-loading").hide();
-    //$rootScope.$emit('getSideBarTotals');
-
-    smoothScroll.init();
-});
+//Uncomment after refactor
+// $(window).load(function () {
+//     $(".main").css('display', 'block');
+//     $("footer, #navbar").css('display', 'flex');
+//     $("#page-loading").hide();
+//     //$rootScope.$emit('getSideBarTotals');
+//
+//     smoothScroll.init();
+// });
 
 
 

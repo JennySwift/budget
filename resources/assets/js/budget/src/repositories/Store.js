@@ -47,6 +47,39 @@ export default {
         newItem: {},
         showPopup: false,
         showFilter: true,
+        defaultTransactionPropertiesToShow: {
+            basicTotals: false,
+            budgetTotals: false,
+            filterTotals: true,
+            budget: false,
+            filter: false,
+            savingsTotal: {
+                input: false,
+                edit_btn: true
+            }
+        },
+        transactionPropertiesToShow: {}
+    },
+
+    /**
+     *
+     * @returns {{status: boolean, date: boolean, description: boolean, merchant: boolean, total: boolean, type: boolean, account: boolean, duration: boolean, reconciled: boolean, allocated: boolean, budgets: boolean}}
+     */
+    setDefaultTransactionPropertiesToShow: function () {
+        this.transactionPropertiesToShow = {
+            all: true,
+            status: true,
+            date: true,
+            description: true,
+            merchant: true,
+            total: true,
+            type: true,
+            account: true,
+            duration: true,
+            reconciled: true,
+            allocated: true,
+            budgets: true
+        }
     },
 
     /**

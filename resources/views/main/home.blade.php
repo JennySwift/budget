@@ -8,26 +8,25 @@
 </head>
 <body>
 
-<navbar
-    :show.sync="show",
-    :transaction-properties-to-show.sync="transactionPropertiesToShow",
->
-</navbar>
+<div id="app">
+    <navbar></navbar>
 
-<feedback></feedback>
-<loading></loading>
+    {{--<feedback></feedback>--}}
+    {{--<loading></loading>--}}
 
 
-<div class="main">
-    <router-view
-        :show="show"
-        :transaction-properties-to-show="transactionPropertiesToShow"
-    >
-    </router-view>
+    {{--<div class="main">--}}
+        {{--<router-view--}}
+                {{--:show="show"--}}
+                {{--:transaction-properties-to-show="transactionPropertiesToShow"--}}
+        {{-->--}}
+        {{--</router-view>--}}
+    {{--</div>--}}
+
+    {{--@include('main.shared.footer')--}}
 </div>
 
-@include('main.shared.footer')
-
+@include('main.shared.scripts')
 </body>
 </html>
 

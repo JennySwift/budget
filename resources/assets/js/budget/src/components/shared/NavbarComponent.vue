@@ -12,19 +12,11 @@
         <!--</li>-->
 
         <li>
-            <a
-                v-link="{path: '/'}"
-                class="fa fa-home"
-            >
-            </a>
+            <router-link to="/" class="fa fa-home"></router-link>
         </li>
 
         <li>
-            <a
-                v-link="{path: '/graphs'}"
-            >
-                Graphs
-            </a>
+            <router-link to="/graphs">Graphs</router-link>
         </li>
 
         <li id="menu-dropdown" class="dropdown">
@@ -34,15 +26,15 @@
             <ul class="dropdown-menu" role="menu">
 
                 <li>
-                    <a v-link="{path: '/accounts'}">Accounts</a>
+                    <router-link to="/accounts">Accounts</router-link>
                 </li>
 
                 <li>
-                    <a v-link="{path: '/preferences'}">Preferences</a>
+                    <router-link to="/preferences">Preferences</router-link>
                 </li>
 
                 <li>
-                    <a v-link="{path: '/favourite-transactions'}">Favourite transactions</a>
+                    <router-link to="/favourite-transactions">Favourite transactions</router-link>
                 </li>
 
             </ul>
@@ -63,12 +55,12 @@
                 <!--Basic totals-->
                 <li>
                     <a
-                        v-on:click="show.basicTotals = !show.basicTotals"
+                        v-on:click="shared.transactionPropertiesToShow.basicTotals = !shared.transactionPropertiesToShow.basicTotals"
                         class="pointer"
                     >
                         <span>Totals</span>
                         <i
-                            v-show="show.basicTotals"
+                            v-show="shared.transactionPropertiesToShow.basicTotals"
                             class="fa fa-check"></i>
                     </a>
                 </li>
@@ -83,12 +75,12 @@
                 <li>
                     <a
                         v-on:click="showAllTransactionProperties()"
-                        :disabled="transactionPropertiesToShow.all"
+                        :disabled="shared.transactionPropertiesToShow.all"
                         href="#"
                     >
                         <span>All</span>
                         <i
-                            v-show="transactionPropertiesToShow.all"
+                            v-show="shared.transactionPropertiesToShow.all"
                             class="fa fa-check"></i>
                     </a>
                 </li>
@@ -101,7 +93,7 @@
                     >
                         <span>Date</span>
                         <i
-                            v-show="transactionPropertiesToShow.date"
+                            v-show="shared.transactionPropertiesToShow.date"
                             class="fa fa-check"></i>
                     </a>
                 </li>
@@ -114,7 +106,7 @@
                     >
                         <span>Description</span>
                         <i
-                            v-show="transactionPropertiesToShow.description"
+                            v-show="shared.transactionPropertiesToShow.description"
                             class="fa fa-check"
                         >
                         </i>
@@ -129,7 +121,7 @@
                     >
                         <span>Merchant</span>
                         <i
-                            v-show="transactionPropertiesToShow.merchant"
+                            v-show="shared.transactionPropertiesToShow.merchant"
                             class="fa fa-check"
                         >
                         </i>
@@ -144,7 +136,7 @@
                     >
                         <span>Total</span>
                         <i
-                            v-show="transactionPropertiesToShow.total"
+                            v-show="shared.transactionPropertiesToShow.total"
                             class="fa fa-check"
                         >
                         </i>
@@ -159,7 +151,7 @@
                     >
                         <span>Account</span>
                         <i
-                            v-show="transactionPropertiesToShow.account"
+                            v-show="shared.transactionPropertiesToShow.account"
                             class="fa fa-check"
                         >
                         </i>
@@ -174,7 +166,7 @@
                     >
                         <span>Duration</span>
                         <i
-                            v-show="transactionPropertiesToShow.duration"
+                            v-show="shared.transactionPropertiesToShow.duration"
                             class="fa fa-check"
                         >
                         </i>
@@ -189,7 +181,7 @@
                     >
                         <span>Reconciled</span>
                         <i
-                            v-show="transactionPropertiesToShow.reconciled"
+                            v-show="shared.transactionPropertiesToShow.reconciled"
                             class="fa fa-check"
                         >
                         </i>
@@ -204,7 +196,7 @@
                     >
                         <span>Allocated</span>
                         <i
-                            v-show="transactionPropertiesToShow.allocated"
+                            v-show="shared.transactionPropertiesToShow.allocated"
                             class="fa fa-check"
                         >
                         </i>
@@ -219,7 +211,7 @@
                     >
                         <span>Budgets</span>
                         <i
-                            v-show="transactionPropertiesToShow.budgets"
+                            v-show="shared.transactionPropertiesToShow.budgets"
                             class="fa fa-check"
                         >
                         </i>
@@ -235,7 +227,7 @@
                 <?php echo Auth::user()->name; ?>
             </a>
             <a href="#" data-toggle="dropdown" class="gravatar-container">
-                <img v-bind:src="me.gravatar" class="gravatar"/>
+                <img v-bind:src="shared.me.gravatar" class="gravatar"/>
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
@@ -254,15 +246,15 @@
             <ul class="dropdown-menu" role="menu">
 
                 <li>
-                    <a v-link="{path: '/fixed-budgets'}">Fixed</a>
+                    <router-link to="/fixed-budgets">Fixed</router-link>
                 </li>
 
                 <li>
-                    <a v-link="{path: '/flex-budgets'}">Flex</a>
+                    <router-link to="flex-budgets">Flex</router-link>
                 </li>
 
                 <li>
-                    <a v-link="{path: '/unassigned-budgets'}">Unassigned</a>
+                    <router-link to="/unassigned-budgets">Unassigned</router-link>
                 </li>
 
             </ul>
@@ -276,12 +268,12 @@
             </a>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a v-link="{path: '/help'}">Start here :)</a>
+                    <router-link to="/help">Start here :)</router-link>
                 </li>
 
-                <li>
-                    <a v-link="{path: '/feedback'}">Submit feedback</a>
-                </li>
+                <!--<li>-->
+                    <!--<router-link to="/feedback">Submit feedback</router-link>-->
+                <!--</li>-->
             </ul>
         </li>
 
@@ -296,7 +288,7 @@
     export default {
         data: function () {
             return {
-                me: me,
+                shared: store.state,
                 page: 'home',
             };
         },
@@ -310,7 +302,7 @@
              *
              */
             showAllTransactionProperties: function () {
-                this.transactionPropertiesToShow = ShowRepository.setTransactionDefaults();
+                this.shared.transactionPropertiesToShow = ShowRepository.setTransactionDefaults();
             },
 
             /**
@@ -318,8 +310,8 @@
              * @param property
              */
             toggleTransactionProperty: function (property) {
-                this.transactionPropertiesToShow[property] = !this.transactionPropertiesToShow[property];
-                this.transactionPropertiesToShow.all = this.calculateIfAllTransactionPropertiesAreShown();
+                this.shared.transactionPropertiesToShow[property] = !this.shared.transactionPropertiesToShow[property];
+                this.shared.transactionPropertiesToShow.all = this.calculateIfAllTransactionPropertiesAreShown();
             },
 
             /**
@@ -329,7 +321,7 @@
             calculateIfAllTransactionPropertiesAreShown: function () {
                 var that = this;
                 var allShown = true;
-                $.each(this.transactionPropertiesToShow, function (key, value) {
+                $.each(this.shared.transactionPropertiesToShow, function (key, value) {
                     if (key !== 'all' && !value) {
                         allShown = false;
                     }
@@ -349,8 +341,8 @@
             }
         },
         props: [
-            'show',
-            'transactionPropertiesToShow'
+//            'show',
+//            'transactionPropertiesToShow'
         ],
         mounted: function () {
 
