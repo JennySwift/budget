@@ -44,7 +44,7 @@
             v-on:click="showEditTransactionPopup(transaction)"
             class="pointer"
         >
-            {{--<span class="badge badge-@{{ transaction.type }}">@{{ transaction.total }}</span>--}}
+            <!--<span class="badge badge-@{{ transaction.type }}">@{{ transaction.total }}</span>-->
             @{{ transaction.total | numberFilter 2 }}
         </td>
 

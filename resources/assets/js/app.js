@@ -11,7 +11,8 @@ global.$ = require('jquery');
 global.jQuery = require('jquery');
 
 // import jQuery from 'jquery'
-global._ = require('underscore');
+// global._ = require('underscore');
+global._ = require('lodash');
 import store from './budget/src/repositories/Store'
 
 window.Event = new Vue();

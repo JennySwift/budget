@@ -52,7 +52,7 @@
                             @{{ budget.name }}
                         </li>
                     </td>
-                    {{--<td colspan="1" class="budget-tag-info">@{{ transaction.allocate }}</td>--}}
+                    <!--<td colspan="1" class="budget-tag-info">@{{ transaction.allocate }}</td>-->
                 </tr>
 
                 </tbody>

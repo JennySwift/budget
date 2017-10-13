@@ -6,7 +6,7 @@
             <label for="new-favourite-name">Name</label>
             <input
                 v-model="newFavourite.name"
-                {{--v-on:keyup.13="insertFavouriteTransaction()"--}}
+                <!--v-on:keyup.13="insertFavouriteTransaction()"-->
                 v-on:focus="showFields = true"
                 type="text"
                 id="new-favourite-name"
@@ -73,7 +73,7 @@
             >
         </div>
 
-        {{--Account--}}
+        <!--Account-->
         <div v-show="showFields && newFavourite.type !== 'transfer'" class="form-group">
             <label for="new-favourite-transaction-account">Account</label>
 
@@ -92,7 +92,7 @@
             </select>
         </div>
 
-        {{--From account--}}
+        <!--From account-->
         <div v-show="showFields && newFavourite.type === 'transfer'" class="form-group">
             <label for="new-favourite-transaction-from-account">From Account</label>
 
@@ -111,7 +111,7 @@
             </select>
         </div>
 
-        {{--To account--}}
+        <!--To account-->
         <div v-show="showFields && newFavourite.type === 'transfer'" class="form-group">
             <label for="new-favourite-transaction-to-account">To Account</label>
 

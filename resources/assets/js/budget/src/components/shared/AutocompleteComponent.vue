@@ -36,7 +36,7 @@
                     @{{ option[prop] }}
                 </div>
 
-                {{--Delete button--}}
+                <!--Delete button-->
                 <button
                     v-if="deleteFunction"
                     v-on:mousedown="deleteOption(option)"
@@ -45,7 +45,7 @@
                     Delete
                 </button>
 
-                {{--Labels for option--}}
+                <!--Labels for option-->
                 <span v-if="option.assignedAlready && labelForOption" class="label label-default">
                         Assigned
                 </span>

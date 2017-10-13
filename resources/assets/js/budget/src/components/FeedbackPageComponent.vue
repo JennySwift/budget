@@ -29,18 +29,6 @@
                 >
             </div>
 
-            {{--<div class="form-group">--}}
-            {{--<label for="new-feedback-priority">Priority</label>--}}
-            {{--<input--}}
-            {{--v-model="newFeedback.priority"--}}
-            {{--type="text"--}}
-            {{--id="new-feedback-priority"--}}
-            {{--name="new-feedback-priority"--}}
-            {{--placeholder="priority"--}}
-            {{--class="form-control"--}}
-            {{-->--}}
-            {{--</div>--}}
-
             <div class="form-group">
                 <button v-on:click="submitFeedback()" class="btn btn-success">Submit</button>
             </div>

@@ -89,39 +89,39 @@
                 </select>
             </div>
 
-            {{--<div v-show="selectedTransaction.type === 'transfer'" class="col-xs-12">--}}
-            {{--<select--}}
-            {{--v-model="selectedTransaction.from_account"--}}
-            {{--id="selected-transaction-from-account"--}}
-            {{--class="form-control"--}}
-            {{-->--}}
-            {{--<option--}}
-            {{--v-for="account in accounts"--}}
-            {{--v-bind:value="account"--}}
-            {{-->--}}
-            {{--@{{ account.name }}--}}
-            {{--</option>--}}
-            {{--</select>--}}
-            {{--</div>--}}
+            <!--<div v-show="selectedTransaction.type === 'transfer'" class="col-xs-12">-->
+            <!--<select-->
+            <!--v-model="selectedTransaction.from_account"-->
+            <!--id="selected-transaction-from-account"-->
+            <!--class="form-control"-->
+            <!-->-->
+            <!--<option-->
+            <!--v-for="account in accounts"-->
+            <!--v-bind:value="account"-->
+            <!-->-->
+            <!--@{{ account.name }}-->
+            <!--</option>-->
+            <!--</select>-->
+            <!--</div>-->
 
-            {{--<div v-show="selectedTransaction.type === 'transfer'" class="col-xs-12">--}}
-            {{--<select--}}
-            {{--v-model="selectedTransaction.to_account"--}}
-            {{--id="selected-transaction-to-account"--}}
-            {{--class="form-control"--}}
-            {{-->--}}
-            {{--<option--}}
-            {{--v-for="account in accounts"--}}
-            {{--v-bind:value="account"--}}
-            {{-->--}}
-            {{--@{{ account.name }}--}}
-            {{--</option>--}}
-            {{--</select>--}}
-            {{--</div>--}}
+            <!--<div v-show="selectedTransaction.type === 'transfer'" class="col-xs-12">-->
+            <!--<select-->
+            <!--v-model="selectedTransaction.to_account"-->
+            <!--id="selected-transaction-to-account"-->
+            <!--class="form-control"-->
+            <!-->-->
+            <!--<option-->
+            <!--v-for="account in accounts"-->
+            <!--v-bind:value="account"-->
+            <!-->-->
+            <!--@{{ account.name }}-->
+            <!--</option>-->
+            <!--</select>-->
+            <!--</div>-->
 
             <div class="form-group">
                 <label for="selected-transaction-duration">Duration</label>
-                {{--				<div>@{{ selectedTransaction.minutes }}</div>--}}
+                <!--				<div>@{{ selectedTransaction.minutes }}</div>-->
                 <input
                     v-model="selectedTransaction.duration"
                     type="text"

@@ -14,7 +14,7 @@
         <td>
             <div class="editable">
 
-                {{--Input--}}
+                <!--Input-->
                 <div
                     v-if="editingAllocatedFixed"
                     class="input-btn-container xs"
@@ -35,14 +35,14 @@
                 </span>
                 </div>
 
-                {{--Edit button--}}
+                <!--Edit button-->
                 <button
                     v-if="!editingAllocatedFixed"
                     v-on:click="editingAllocatedFixed = true"
                     class="edit btn-default btn-xs">edit
                 </button>
 
-                {{--Amount--}}
+                <!--Amount-->
                 <span
                     v-if="!editingAllocatedFixed"
                 >
@@ -55,7 +55,7 @@
         <td>
             <div class="editable">
 
-                {{--Input--}}
+                <!--Input-->
                 <div
                     v-if="editingAllocatedPercent"
                     class="input-btn-container xs"
@@ -77,14 +77,14 @@
                 </span>
                 </div>
 
-                {{--Edit button--}}
+                <!--Edit button-->
                 <button
                     v-if="!editingAllocatedPercent"
                     v-on:click="editingAllocatedPercent = true"
                     class="edit btn btn-default btn-xs">edit
                 </button>
 
-                {{--Amount--}}
+                <!--Amount-->
                 <span
                     v-if="!editingAllocatedPercent"
                 >

@@ -22,7 +22,7 @@
                     <th>Name</th>
                     <th class="balance">Balance</th>
                 </tr>
-                <tr v-for="account in accountsRepository.accounts | orderBy 'name'">
+                <tr v-for="account in accounts">
                     <td
                         v-on:click="showEditAccountPopup(account)"
                         class="pointer">
@@ -42,8 +42,13 @@
     export default {
         data: function () {
             return {
-                accountsRepository: AccountsRepository.state,
+                shared: store.state,
             };
+        },
+        computed: {
+            accounts: function () {
+              return _.orderBy(this.shared.accounts, 'name');
+            }
         },
         components: {},
         filters: {

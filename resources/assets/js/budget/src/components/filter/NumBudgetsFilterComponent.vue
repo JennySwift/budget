@@ -5,11 +5,11 @@
 
         <div class="content budget">
 
-            {{--Filter in--}}
+            <!--Filter in-->
 
             <div v-show="filterTab === 'show'">
 
-                {{--Filter in all--}}
+                <!--Filter in all-->
                 <div class="radio inline">
                     <label>
                         <input
@@ -23,7 +23,7 @@
                     </label>
                 </div>
 
-                {{--Filter in transactions with no budgets--}}
+                <!--Filter in transactions with no budgets-->
                 <div class="radio">
                     <label>
                         <input
@@ -37,7 +37,7 @@
                     </label>
                 </div>
 
-                {{--Filter in transactions with single budgets--}}
+                <!--Filter in transactions with single budgets-->
                 <div class="radio">
                     <label>
                         <input
@@ -51,7 +51,7 @@
                     </label>
                 </div>
 
-                {{--Filter in transactions with multiple budgets--}}
+                <!--Filter in transactions with multiple budgets-->
                 <div class="radio">
                     <label>
                         <input
@@ -67,11 +67,11 @@
 
             </div>
 
-            {{--Filter out--}}
+            <!--Filter out-->
 
             <div v-show="filterTab === 'hide'">
 
-                {{--Filter out none--}}
+                <!--Filter out none-->
                 <div class="radio">
                     <label>
                         <input
@@ -85,7 +85,7 @@
                     </label>
                 </div>
 
-                {{--Filter out transactions with no budgets--}}
+                <!--Filter out transactions with no budgets-->
                 <div class="radio">
                     <label>
                         <input
@@ -99,7 +99,7 @@
                     </label>
                 </div>
 
-                {{--Filter out transactions with single budgets--}}
+                <!--Filter out transactions with single budgets-->
                 <div class="radio">
                     <label>
                         <input
@@ -113,7 +113,7 @@
                     </label>
                 </div>
 
-                {{--Filter out transactions with multiple budgets--}}
+                <!--Filter out transactions with multiple budgets-->
                 <div class="radio">
                     <label>
                         <input

@@ -72,7 +72,7 @@
                 >
             </div>
 
-            {{--Account--}}
+            <!--Account-->
             <div v-if="selectedFavourite.type !== 'transfer'" class="form-group">
                 <label for="selected-favourite-account">Account</label>
 
@@ -90,7 +90,7 @@
                 </select>
             </div>
 
-            {{--From account--}}
+            <!--From account-->
             <div v-if="selectedFavourite.type === 'transfer'" class="form-group">
                 <label for="selected-favourite-from-account">From Account</label>
 
@@ -108,7 +108,7 @@
                 </select>
             </div>
 
-            {{--To account--}}
+            <!--To account-->
             <div v-if="selectedFavourite.type === 'transfer'" class="form-group">
                 <label for="selected-favourite-to-account">To Account</label>
 

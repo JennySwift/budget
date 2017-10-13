@@ -20,7 +20,7 @@
                 <div
                     class="progress-bar progress-bar-success progress-bar-striped"
                     role="progressbar"
-                    {{--aria-valuenow="40"--}}
+                    <!--aria-valuenow="40"-->
                     aria-valuemin="0"
                     aria-valuemax="100"
                     v-bind:style="{width: progressWidth + '%'}"

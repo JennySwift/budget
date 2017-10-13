@@ -55,20 +55,20 @@
             </table>
 
             <!-- allocation checkbox -->
-            {{--<div class="center-contents">--}}
+            <!--<div class="center-contents">-->
 
-            {{--<div class="checkbox-container">--}}
-                {{--<input--}}
-                {{--v-model="transaction.allocated"--}}
-                {{--v-on:change="updateAllocationStatus()"--}}
-                {{--id="allocated-checkbox"--}}
-                {{--:value="transaction.allocated"--}}
-                {{--type="checkbox"--}}
-                {{-->--}}
-                {{--<label for="allocated-checkbox">Allocated</label>--}}
-                {{--</div>--}}
+            <!--<div class="checkbox-container">-->
+                <!--<input-->
+                <!--v-model="transaction.allocated"-->
+                <!--v-on:change="updateAllocationStatus()"-->
+                <!--id="allocated-checkbox"-->
+                <!--:value="transaction.allocated"-->
+                <!--type="checkbox"-->
+                <!-->-->
+                <!--<label for="allocated-checkbox">Allocated</label>-->
+                <!--</div>-->
 
-            {{--</div>--}}
+            <!--</div>-->
 
             <div class="buttons">
                 <button v-on:click="closePopup()" class="close-modal">Close</button>

@@ -8,7 +8,7 @@
 
         <div class="content">
 
-            {{--Single date in--}}
+            <!--Single date in-->
             <div
                 v-show="filterTab === 'show'"
                 v-if="filter.singleDate"
@@ -40,7 +40,7 @@
 
             </div>
 
-            {{--Single date out--}}
+            <!--Single date out-->
             <div
                 v-show="filterTab === 'hide'"
                 v-if="filter.singleDate"
@@ -72,7 +72,7 @@
 
             </div>
 
-            {{--From date in--}}
+            <!--From date in-->
             <div
                 v-show="filterTab === 'show'"
                 v-if="filter.fromDate"
@@ -104,7 +104,7 @@
 
             </div>
 
-            {{--To date in--}}
+            <!--To date in-->
             <div
                 v-show="filterTab === 'show'"
                 v-if="filter.toDate"

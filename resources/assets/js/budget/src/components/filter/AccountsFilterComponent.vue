@@ -5,7 +5,7 @@
 
         <div class="accounts content">
 
-            {{--Show--}}
+            <!--Show-->
             <div v-show="filterTab === 'show'">
 
                 <div class="checkbox-container">
@@ -47,7 +47,7 @@
 
             </div>
 
-            {{--Hide--}}
+            <!--Hide-->
             <div v-show="filterTab === 'hide'">
 
                 <div v-for="account in accountsRepository.accounts" class="checkbox-container">
