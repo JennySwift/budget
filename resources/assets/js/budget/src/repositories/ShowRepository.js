@@ -1,4 +1,4 @@
-var ShowRepository = {
+export default {
 
     defaults: {
         basicTotals: false,
@@ -33,4 +33,4 @@ var ShowRepository = {
         }
     }
 
-};
+}

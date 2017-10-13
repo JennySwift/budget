@@ -1,40 +1,35 @@
+// require('./config');
+//These lines from the Laravel install
+// require('./bootstrap');
+// window.Vue = require('vue');
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+Vue.use(VueRouter);
 
-require('./bootstrap');
+global.$ = require('jquery');
+global.jQuery = require('jquery');
 
-window.Vue = require('vue');
+// import jQuery from 'jquery'
+global._ = require('underscore');
+import store from './budget/src/repositories/Store'
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+window.Event = new Vue();
 
-Vue.component('example', require('./components/Example.vue'));
+require('./components.js');
+
+import routes from './routes'
+
+const router = new VueRouter({
+    routes // short for `routes: routes`
+})
+
+const bus = new Vue()
+Vue.prototype.$bus = bus
 
 const app = new Vue({
-    el: '#app'
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    router
+}).$mount('#app')
 
 var App = Vue.component('app', {
     data: function () {
@@ -62,56 +57,10 @@ var App = Vue.component('app', {
         HomePageRepository.setDefaultTab();
         TotalsRepository.getSideBarTotals(this);
         SavedFiltersRepository.getSavedFilters(this);
+        FilterRepository.resetFilter();
     }
 });
 
-var router = new VueRouter({
-    hashbang: false
-});
-
-router.map({
-    '/': {
-        component: TransactionsPage,
-        //subRoutes: {
-        //    //default for if no id is specified
-        //    '/': {
-        //        component: Item
-        //    },
-        //    '/:id': {
-        //        component: Item
-        //    }
-        //}
-    },
-    '/help': {
-        component: HelpPage
-    },
-    '/feedback': {
-        component: FeedbackPage
-    },
-    '/accounts': {
-        component: AccountsPage
-    },
-    '/preferences': {
-        component: PreferencesPage
-    },
-    '/fixed-budgets': {
-        component: FixedBudgetsPage
-    },
-    '/flex-budgets': {
-        component: FlexBudgetsPage
-    },
-    '/unassigned-budgets': {
-        component: UnassignedBudgetsPage
-    },
-    '/graphs': {
-        component: GraphsPage
-    },
-    '/favourite-transactions': {
-        component: FavouriteTransactionsPage
-    }
-});
-
-router.start(App, 'body');
 
 $(window).load(function () {
     $(".main").css('display', 'block');

@@ -17,5 +17,15 @@
     "laravel-mix": "^1.0",
     "lodash": "^4.17.4",
     "vue": "^2.1.10"
+  },
+  "dependencies": {
+    "animate.css": "^3.5.2",
+    "bootstrap": "^3.3.7",
+    "moment": "^2.13.0",
+    "sugar": "^1.4.1",
+    "sweetalert2": "^6.6.8",
+    "underscore": "^1.8.3",
+    "vue-router": "^2.7.0",
+    "vue-tippy": "^0.2.2"
   }
 }

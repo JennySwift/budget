@@ -1,4 +1,4 @@
-var TotalsRepository = {
+export default {
 
     state: {
         sideBarTotals: {

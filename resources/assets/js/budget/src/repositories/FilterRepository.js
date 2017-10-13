@@ -1,4 +1,4 @@
-var FilterRepository = {
+export default {
 
     state: {
         filter: {},
@@ -261,6 +261,4 @@ var FilterRepository = {
         }
     }
 
-};
-
-FilterRepository.resetFilter();
+}

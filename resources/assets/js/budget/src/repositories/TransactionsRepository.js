@@ -1,4 +1,4 @@
-var TransactionsRepository = {
+export default {
     totals: {},
 
     state: {

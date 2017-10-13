@@ -1,4 +1,4 @@
-var GraphsRepository = {
+export default {
 
     state: {
         lineChartCreated: false,
@@ -90,4 +90,4 @@ var GraphsRepository = {
         $('#' + chartType + '-chart-container').append('<canvas id="' + chartType + '-chart"></canvas>');
     }
 
-};
+}
