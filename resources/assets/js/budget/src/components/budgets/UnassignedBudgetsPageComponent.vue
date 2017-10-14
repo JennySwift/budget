@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import TotalsRepository from '../repositories/TotalsRepository'
+    import TotalsRepository from '../../repositories/TotalsRepository'
     export default {
         data: function () {
             return {

@@ -39,8 +39,8 @@
 </template>
 
 <script>
-    import helpers from '../repositories/Helpers'
-    import FilterRepository from '../repositories/FilterRepository'
+    import helpers from '../../repositories/Helpers'
+    import FilterRepository from '../../repositories/FilterRepository'
     export default {
         data: function () {
             return {

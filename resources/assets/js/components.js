@@ -12,12 +12,12 @@ import BudgetAutocompleteComponent from './budget/src/components/shared/BudgetAu
 // import ButtonsComponent from './budget/src/components/shared/ButtonsComponent.vue'
 import AutocompleteComponent from './budget/src/components/shared/AutocompleteComponent.vue'
 import FeedbackComponent from './budget/src/components/shared/FeedbackComponent.vue'
-import NewTransactionComponent from './budget/src/components/NewTransactionComponent.vue'
+import NewTransactionComponent from './budget/src/components/transactions/NewTransactionComponent.vue'
 import TotalsComponent from './budget/src/components/TotalsComponent.vue'
-import TransactionsComponent from './budget/src/components/TransactionsComponent.vue'
+import TransactionsComponent from './budget/src/components/transactions/TransactionsComponent.vue'
 import MassTransactionUpdatePopupComponent from './budget/src/components/filter/MassTransactionUpdatePopupComponent.vue'
-import EditTransactionPopupComponent from './budget/src/components/EditTransactionPopupComponent.vue'
-import AllocationPopupComponent from './budget/src/components/AllocationPopupComponent.vue'
+import EditTransactionPopupComponent from './budget/src/components/transactions/EditTransactionPopupComponent.vue'
+import AllocationPopupComponent from './budget/src/components/budgets/AllocationPopupComponent.vue'
 
 //Shared components
 Vue.component('navbar', NavbarComponent);

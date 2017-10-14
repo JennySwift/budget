@@ -79,8 +79,8 @@
 </template>
 
 <script>
-    import helpers from '../repositories/Helpers'
-    import FilterRepository from '../repositories/FilterRepository'
+    import helpers from '../../repositories/Helpers'
+    import FilterRepository from '../../repositories/FilterRepository'
     import $ from 'jquery'
     export default {
         data: function () {

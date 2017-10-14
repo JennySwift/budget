@@ -74,8 +74,8 @@
 </template>
 
 <script>
-    import TotalsRepository from '../repositories/TotalsRepository'
-    import helpers from '../repositories/Helpers'
+    import TotalsRepository from '../../repositories/TotalsRepository'
+    import helpers from '../../repositories/Helpers'
     export default {
         data: function () {
             return {

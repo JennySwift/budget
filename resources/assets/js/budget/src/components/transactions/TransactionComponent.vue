@@ -118,9 +118,9 @@
 </template>
 
 <script>
-    import helpers from '../repositories/Helpers'
-    import TotalsRepository from '../repositories/TotalsRepository'
-    import TransactionsRepository from '../repositories/TransactionsRepository'
+    import helpers from '../../repositories/Helpers'
+    import TotalsRepository from '../../repositories/TotalsRepository'
+    import TransactionsRepository from '../../repositories/TransactionsRepository'
     export default {
         data: function () {
             return {

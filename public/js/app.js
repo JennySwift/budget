@@ -96574,18 +96574,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_shared_AutocompleteComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__budget_src_components_shared_AutocompleteComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_shared_FeedbackComponent_vue__ = __webpack_require__(401);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_shared_FeedbackComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__budget_src_components_shared_FeedbackComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_NewTransactionComponent_vue__ = __webpack_require__(404);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_NewTransactionComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__budget_src_components_NewTransactionComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_transactions_NewTransactionComponent_vue__ = __webpack_require__(466);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_transactions_NewTransactionComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__budget_src_components_transactions_NewTransactionComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue__ = __webpack_require__(408);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__budget_src_components_TransactionsComponent_vue__ = __webpack_require__(411);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__budget_src_components_TransactionsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__budget_src_components_TransactionsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__budget_src_components_transactions_TransactionsComponent_vue__ = __webpack_require__(469);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__budget_src_components_transactions_TransactionsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__budget_src_components_transactions_TransactionsComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__ = __webpack_require__(414);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__budget_src_components_EditTransactionPopupComponent_vue__ = __webpack_require__(460);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__budget_src_components_EditTransactionPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__budget_src_components_EditTransactionPopupComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__budget_src_components_AllocationPopupComponent_vue__ = __webpack_require__(463);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__budget_src_components_AllocationPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__budget_src_components_AllocationPopupComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__budget_src_components_transactions_EditTransactionPopupComponent_vue__ = __webpack_require__(472);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__budget_src_components_transactions_EditTransactionPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__budget_src_components_transactions_EditTransactionPopupComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__budget_src_components_budgets_AllocationPopupComponent_vue__ = __webpack_require__(475);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__budget_src_components_budgets_AllocationPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__budget_src_components_budgets_AllocationPopupComponent_vue__);
 
 
 // var vueTippy = require('vue-tippy');
@@ -96617,12 +96617,12 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('dropdown', __WEBPACK_IMPO
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('budget-autocomplete', __WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_BudgetAutocompleteComponent_vue___default.a);
 
 // Components
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('new-transaction', __WEBPACK_IMPORTED_MODULE_8__budget_src_components_NewTransactionComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('new-transaction', __WEBPACK_IMPORTED_MODULE_8__budget_src_components_transactions_NewTransactionComponent_vue___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('totals', __WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transactions', __WEBPACK_IMPORTED_MODULE_10__budget_src_components_TransactionsComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transactions', __WEBPACK_IMPORTED_MODULE_10__budget_src_components_transactions_TransactionsComponent_vue___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('mass-transaction-update-popup', __WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('edit-transaction-popup', __WEBPACK_IMPORTED_MODULE_12__budget_src_components_EditTransactionPopupComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('allocation-popup', __WEBPACK_IMPORTED_MODULE_13__budget_src_components_AllocationPopupComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('edit-transaction-popup', __WEBPACK_IMPORTED_MODULE_12__budget_src_components_transactions_EditTransactionPopupComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('allocation-popup', __WEBPACK_IMPORTED_MODULE_13__budget_src_components_budgets_AllocationPopupComponent_vue___default.a);
 
 /***/ }),
 /* 389 */
@@ -98683,741 +98683,8 @@ if (false) {
 }
 
 /***/ }),
-/* 404 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(405)
-/* template */
-var __vue_template__ = __webpack_require__(407)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/budget/src/components/NewTransactionComponent.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-71fcf1ca", Component.options)
-  } else {
-    hotAPI.reload("data-v-71fcf1ca", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 405 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__repositories_TotalsRepository__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__repositories_TransactionsRepository__ = __webpack_require__(406);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            dropdown: {},
-            showNewTransaction: false,
-            types: ["income", "expense", "transfer"],
-            shared: store.state,
-            selectedFavouriteTransaction: {},
-            colors: {
-                newTransaction: {}
-            }
-        };
-    },
-    components: {},
-    computed: {
-        favouriteTransactions: function favouriteTransactions() {
-            return this.shared.favouriteTransactions;
-        },
-        newTransaction: function newTransaction() {
-            return this.shared.newTransaction.defaults;
-        },
-        //Putting this here so it isn't undefined in my test
-        //            me: function () {
-        //                return me;
-        //            },
-        //            env: function () {
-        //                return env;
-        //            },
-        accounts: function accounts() {
-            //So the balance isn't included, messing up the autocomplete
-            return _.map(this.shared.accounts, function (account) {
-                return _.pick(account, 'id', 'name');
-            });
-        }
-    },
-    methods: {
-
-        /**
-         *
-         */
-        clearNewTransactionFields: function clearNewTransactionFields() {
-            this.newTransaction = store.clearNewTransactionFields(this.newTransaction);
-        },
-
-        /**
-         * This is not for the transaction autocomplete,
-         * which is in the TransactionAutocomplete directive.
-         * I think it is for the favourite transactions feature.
-         */
-        fillFields: function fillFields() {
-            this.newTransaction.description = this.selectedFavouriteTransaction.description;
-            this.newTransaction.merchant = this.selectedFavouriteTransaction.merchant;
-            this.newTransaction.total = this.selectedFavouriteTransaction.total;
-            this.newTransaction.type = this.selectedFavouriteTransaction.type;
-            this.newTransaction.budgets = this.selectedFavouriteTransaction.budgets;
-
-            if (this.newTransaction.type === 'transfer') {
-                this.newTransaction.fromAccount = this.selectedFavouriteTransaction.fromAccount;
-                this.newTransaction.toAccount = this.selectedFavouriteTransaction.toAccount;
-            } else {
-                this.newTransaction.account = this.selectedFavouriteTransaction.account;
-            }
-        },
-
-        /**
-         * Return true if there are errors.
-         * @returns {boolean}
-         */
-        anyErrors: function anyErrors() {
-            var errorMessages = store.anyNewTransactionErrors(this.newTransaction);
-
-            if (errorMessages) {
-                for (var i = 0; i < errorMessages.length; i++) {
-                    __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.event.trigger('provide-feedback', [errorMessages[i], 'error']);
-                }
-
-                return true;
-            }
-
-            return false;
-        },
-
-        /**
-         *
-         */
-        insertTransactionPreparation: function insertTransactionPreparation() {
-            if (!this.anyErrors()) {
-                __WEBPACK_IMPORTED_MODULE_1__repositories_TotalsRepository__["a" /* default */].resetTotalChanges();
-
-                if (this.newTransaction.type === 'transfer') {
-                    var that = this;
-                    this.insertTransaction('from');
-                    setTimeout(function () {
-                        that.insertTransaction('to');
-                    }, 100);
-                } else {
-                    this.insertTransaction();
-                }
-            }
-        },
-
-        /**
-         *
-         */
-        insertTransaction: function insertTransaction(direction) {
-            var data = __WEBPACK_IMPORTED_MODULE_2__repositories_TransactionsRepository__["a" /* default */].setFields(this.newTransaction);
-
-            if (direction) {
-                //It is a transfer transaction
-                data.direction = direction;
-
-                if (direction === 'from') {
-                    data.account_id = this.newTransaction.fromAccount.id;
-                } else if (direction === 'to') {
-                    data.account_id = this.newTransaction.toAccount.id;
-                }
-            }
-
-            helpers.post({
-                url: '/api/transactions',
-                data: data,
-                message: 'Transaction created',
-                clearFields: this.clearFields,
-                callback: function (response) {
-                    this.insertTransactionResponse(response);
-                }.bind(this)
-            });
-        },
-
-        /**
-         *
-         * @param response
-         */
-        insertTransactionResponse: function insertTransactionResponse(response) {
-            __WEBPACK_IMPORTED_MODULE_1__repositories_TotalsRepository__["a" /* default */].getSideBarTotals(this);
-            this.clearNewTransactionFields();
-            //this.newTransaction.dropdown = false;
-
-            if (response.multipleBudgets) {
-                __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.event.trigger('show-allocation-popup', [response, true]);
-                //We'll run the filter after the allocation has been dealt with
-            } else {
-                FilterRepository.runFilter(this);
-            }
-        },
-
-        /**
-         *
-         */
-        listen: function listen() {
-            var that = this;
-            __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).on('toggle-new-transaction', function (event) {
-                that.showNewTransaction = !that.showNewTransaction;
-            });
-            __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).on('accounts-loaded', function (event) {
-                store.getNewTransactionDefaults();
-            });
-        }
-
-    },
-    props: ['tab'],
-    mounted: function mounted() {
-        this.listen();
-        store.getNewTransactionDefaults();
-    }
-});
-
-/***/ }),
+/* 404 */,
+/* 405 */,
 /* 406 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -99548,1264 +98815,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 407 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "new-transaction-container" } }, [
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.showNewTransaction,
-            expression: "showNewTransaction"
-          }
-        ],
-        style: {
-          color: _vm.shared.me.preferences.colors[_vm.newTransaction.type]
-        },
-        attrs: { id: "new-transaction" }
-      },
-      [
-        _c("div", { staticClass: "form-group" }, [
-          _vm._v("\n            >\n            ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "type" }, [
-          _c("div", { staticClass: "btn-group" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn",
-                style: { background: _vm.shared.me.preferences.colors.income },
-                on: {
-                  click: function($event) {
-                    _vm.newTransaction.type = "income"
-                  }
-                }
-              },
-              [_vm._v("Credit")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn",
-                style: { background: _vm.shared.me.preferences.colors.expense },
-                on: {
-                  click: function($event) {
-                    _vm.newTransaction.type = "expense"
-                  }
-                }
-              },
-              [_vm._v("Debit")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn",
-                style: {
-                  background: _vm.shared.me.preferences.colors.transfer
-                },
-                on: {
-                  click: function($event) {
-                    _vm.newTransaction.type = "transfer"
-                  }
-                }
-              },
-              [_vm._v("Transfer")]
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _c("div", [
-            _c(
-              "div",
-              { staticClass: "help-row" },
-              [
-                _c("label", [_vm._v("Enter the transaction's date")]),
-                _vm._v(" "),
-                _c("dropdown", {
-                  staticClass: "dropdown-directive",
-                  attrs: {
-                    "animate-in-class": "flipInX",
-                    "animate-out-class": "flipOutX"
-                  },
-                  inlineTemplate: {
-                    render: function() {
-                      var _vm = this
-                      var _h = _vm.$createElement
-                      var _c = _vm._self._c || _h
-                      return _c("div", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-info btn-xs",
-                            on: {
-                              click: function($event) {
-                                _vm.toggleDropdown()
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                Help\n                                "
-                            ),
-                            _c("span", { staticClass: "caret" })
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm._m(0)
-                      ])
-                    },
-                    staticRenderFns: [
-                      function() {
-                        var _vm = this
-                        var _h = _vm.$createElement
-                        var _c = _vm._self._c || _h
-                        return _c(
-                          "div",
-                          { staticClass: "dropdown-content animated" },
-                          [
-                            _c("div", { staticClass: "help" }, [
-                              _c("h3", [_vm._v("Acceptable formats")]),
-                              _vm._v(" "),
-                              _c("div", [
-                                _c("div", [
-                                  _vm._v(
-                                    "Days and months are case-insensitive and can be abbreviated (eg: mon or jan) or written in\n                                            full.\n                                        "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", [
-                                  _vm._v(
-                                    "Years can be written as either yy or yyyy."
-                                  )
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c("div", [
-                                _c("div", [_vm._v("today")]),
-                                _vm._v(" "),
-                                _c("div", [_vm._v("yesterday")]),
-                                _vm._v(" "),
-                                _c("div", [_vm._v("tomorrow")]),
-                                _vm._v(" "),
-                                _c("div", [_vm._v("next Thursday")]),
-                                _vm._v(" "),
-                                _c("div", [_vm._v("last Thursday")]),
-                                _vm._v(" "),
-                                _c("div", [
-                                  _vm._v("Thursday (The most recent Thursday)")
-                                ]),
-                                _vm._v(" "),
-                                _c("div", [
-                                  _vm._v(
-                                    "date/month (In the current year. Example: 31/12, or 1/1.)"
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", [_vm._v("date/month/year")]),
-                                _vm._v(" "),
-                                _c("div", [
-                                  _vm._v("12 Jan (In the current year)")
-                                ]),
-                                _vm._v(" "),
-                                _c("div", [_vm._v("12 Jan 15")])
-                              ])
-                            ])
-                          ]
-                        )
-                      }
-                    ]
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.newTransaction.userDate,
-                  expression: "newTransaction.userDate"
-                }
-              ],
-              staticClass: "date mousetrap form-control",
-              attrs: { id: "date", placeholder: "date", type: "text" },
-              domProps: { value: _vm.newTransaction.userDate },
-              on: {
-                keyup: function($event) {
-                  if (!("button" in $event) && $event.keyCode !== 13) {
-                    return null
-                  }
-                  _vm.insertTransaction()
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.newTransaction.userDate = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", [
-            _c(
-              "div",
-              { staticClass: "help-row" },
-              [
-                _c("label", [_vm._v("Enter the total")]),
-                _vm._v(" "),
-                _c("dropdown", {
-                  staticClass: "dropdown-directive",
-                  attrs: {
-                    "animate-in-class": "flipInX",
-                    "animate-out-class": "flipOutX"
-                  },
-                  inlineTemplate: {
-                    render: function() {
-                      var _vm = this
-                      var _h = _vm.$createElement
-                      var _c = _vm._self._c || _h
-                      return _c("div", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-info btn-xs",
-                            attrs: { tabindex: "-1" },
-                            on: {
-                              click: function($event) {
-                                _vm.toggleDropdown()
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                Help\n                                "
-                            ),
-                            _c("span", { staticClass: "caret" })
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm._m(0)
-                      ])
-                    },
-                    staticRenderFns: [
-                      function() {
-                        var _vm = this
-                        var _h = _vm.$createElement
-                        var _c = _vm._self._c || _h
-                        return _c(
-                          "div",
-                          { staticClass: "dropdown-content animated" },
-                          [
-                            _c("div", { staticClass: "help" }, [
-                              _c("div", [
-                                _vm._v(
-                                  "Enter a value without a dollar sign. No need to add a negative sign for an expense transaction."
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", [_vm._v("For example:")]),
-                              _vm._v(" "),
-                              _c("div", [
-                                _c("div", [_vm._v("5")]),
-                                _vm._v(" "),
-                                _c("div", [_vm._v("5.5")]),
-                                _vm._v(" "),
-                                _c("div", [_vm._v("5.55")])
-                              ])
-                            ])
-                          ]
-                        )
-                      }
-                    ]
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.newTransaction.total,
-                  expression: "newTransaction.total"
-                }
-              ],
-              staticClass: "total mousetrap form-control",
-              attrs: { placeholder: "$", type: "text" },
-              domProps: { value: _vm.newTransaction.total },
-              on: {
-                keyup: function($event) {
-                  if (!("button" in $event) && $event.keyCode !== 13) {
-                    return null
-                  }
-                  _vm.insertTransaction()
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.newTransaction.total = $event.target.value
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _c(
-            "div",
-            { staticClass: "autocomplete-container" },
-            [
-              _c(
-                "div",
-                { staticClass: "help-row" },
-                [
-                  _c("label", [_vm._v("Enter a merchant (optional)")]),
-                  _vm._v(" "),
-                  _c("dropdown", {
-                    staticClass: "dropdown-directive",
-                    attrs: {
-                      "animate-in-class": "flipInX",
-                      "animate-out-class": "flipOutX"
-                    },
-                    inlineTemplate: {
-                      render: function() {
-                        var _vm = this
-                        var _h = _vm.$createElement
-                        var _c = _vm._self._c || _h
-                        return _c("div", [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-info btn-xs",
-                              attrs: { tabindex: "-1" },
-                              on: {
-                                click: function($event) {
-                                  _vm.toggleDropdown()
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                Help\n                                "
-                              ),
-                              _c("span", { staticClass: "caret" })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _vm._m(0)
-                        ])
-                      },
-                      staticRenderFns: [
-                        function() {
-                          var _vm = this
-                          var _h = _vm.$createElement
-                          var _c = _vm._self._c || _h
-                          return _c(
-                            "div",
-                            { staticClass: "dropdown-content animated" },
-                            [
-                              _c("div", { staticClass: "help" }, [
-                                _c("div", [
-                                  _vm._v(
-                                    "As you type a merchant, previous transactions with a matching merchant will show up."
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", [
-                                  _vm._v(
-                                    "To fill in the fields with those of a previous transaction, either:"
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("ol", [
-                                  _c("li", [
-                                    _vm._v(
-                                      "Use the up and down arrow keys to select a previous transaction, then press enter."
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("li", [
-                                    _vm._v(
-                                      "Click on one of the previous transactions."
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", [
-                                  _vm._v(
-                                    "Alternatively, you can just keep typing if you don't want to use the autocomplete."
-                                  )
-                                ])
-                              ])
-                            ]
-                          )
-                        }
-                      ]
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              !_vm.shared.me.preferences.autocompleteMerchant
-                ? _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.newTransaction.merchant,
-                        expression: "newTransaction.merchant"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "merchant", type: "text" },
-                    domProps: { value: _vm.newTransaction.merchant },
-                    on: {
-                      keyup: function($event) {
-                        if (!("button" in $event) && $event.keyCode !== 13) {
-                          return null
-                        }
-                        _vm.insertTransaction()
-                      },
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.newTransaction.merchant = $event.target.value
-                      }
-                    }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.shared.me.preferences.autocompleteMerchant
-                ? _c("transaction-autocomplete", {
-                    attrs: {
-                      placeholder: "merchant",
-                      id: "new-transaction-merchant",
-                      typing: _vm.newTransaction.merchant,
-                      "new-transaction": _vm.newTransaction,
-                      "function-on-enter": _vm.insertTransaction
-                    },
-                    on: {
-                      "update:typing": function($event) {
-                        _vm.newTransaction.merchant = $event
-                      },
-                      "update:newTransaction": function($event) {
-                        _vm.newTransaction = $event
-                      }
-                    }
-                  })
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "autocomplete-container" },
-            [
-              _c(
-                "div",
-                { staticClass: "help-row" },
-                [
-                  _c("label", [_vm._v("Enter a description (optional)")]),
-                  _vm._v(" "),
-                  _c("dropdown", {
-                    staticClass: "dropdown-directive",
-                    attrs: {
-                      "animate-in-class": "flipInX",
-                      "animate-out-class": "flipOutX"
-                    },
-                    inlineTemplate: {
-                      render: function() {
-                        var _vm = this
-                        var _h = _vm.$createElement
-                        var _c = _vm._self._c || _h
-                        return _c("div", [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-info btn-xs",
-                              attrs: { tabindex: "-1" },
-                              on: {
-                                click: function($event) {
-                                  _vm.toggleDropdown()
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                Help\n                                "
-                              ),
-                              _c("span", { staticClass: "caret" })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _vm._m(0)
-                        ])
-                      },
-                      staticRenderFns: [
-                        function() {
-                          var _vm = this
-                          var _h = _vm.$createElement
-                          var _c = _vm._self._c || _h
-                          return _c(
-                            "div",
-                            { staticClass: "dropdown-content animated" },
-                            [
-                              _c("div", { staticClass: "help" }, [
-                                _c("div", [
-                                  _vm._v(
-                                    "As you type a description, previous transactions with a matching description will show up."
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", [
-                                  _vm._v(
-                                    "To fill in the fields with those of a previous transaction, either:"
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("ol", [
-                                  _c("li", [
-                                    _vm._v(
-                                      "Use the up and down arrow keys to select a previous transaction, then press enter."
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("li", [
-                                    _vm._v(
-                                      "Click on one of the previous transactions."
-                                    )
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _c("div", [
-                                  _vm._v(
-                                    "Alternatively, you can just keep typing if you don't want to use the autocomplete."
-                                  )
-                                ])
-                              ])
-                            ]
-                          )
-                        }
-                      ]
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              !_vm.shared.me.preferences.autocompleteDescription
-                ? _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.newTransaction.description,
-                        expression: "newTransaction.description"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { placeholder: "description", type: "text" },
-                    domProps: { value: _vm.newTransaction.description },
-                    on: {
-                      keyup: function($event) {
-                        if (!("button" in $event) && $event.keyCode !== 13) {
-                          return null
-                        }
-                        _vm.insertTransaction()
-                      },
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.newTransaction.description = $event.target.value
-                      }
-                    }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.shared.me.preferences.autocompleteDescription
-                ? _c("transaction-autocomplete", {
-                    attrs: {
-                      placeholder: "description",
-                      id: "new-transaction-description",
-                      typing: _vm.newTransaction.description,
-                      "new-transaction": _vm.newTransaction,
-                      "function-on-enter": _vm.insertTransaction
-                    },
-                    on: {
-                      "update:typing": function($event) {
-                        _vm.newTransaction.description = $event
-                      },
-                      "update:newTransaction": function($event) {
-                        _vm.newTransaction = $event
-                      }
-                    }
-                  })
-                : _vm._e()
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.newTransaction.type !== "transfer",
-                  expression: " newTransaction.type !== 'transfer'"
-                }
-              ]
-            },
-            [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "new-transaction-account" } }, [
-                  _vm._v("Account")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.newTransaction.account,
-                        expression: "newTransaction.account"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { id: "new-transaction-account" },
-                    on: {
-                      keyup: function($event) {
-                        if (!("button" in $event) && $event.keyCode !== 13) {
-                          return null
-                        }
-                        _vm.insertTransaction()
-                      },
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.newTransaction.account = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.accounts, function(account) {
-                    return _c("option", { domProps: { value: account } }, [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(account.name) +
-                          "\n                        "
-                      )
-                    ])
-                  })
-                )
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.newTransaction.type === "transfer",
-                  expression: " newTransaction.type === 'transfer'"
-                }
-              ]
-            },
-            [
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "label",
-                  { attrs: { for: "new-transaction-from-account" } },
-                  [
-                    _vm._v(
-                      "Select the account your are transferring money from"
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.newTransaction.fromAccount,
-                        expression: "newTransaction.fromAccount"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { id: "new-transaction-from-account" },
-                    on: {
-                      keyup: function($event) {
-                        if (!("button" in $event) && $event.keyCode !== 13) {
-                          return null
-                        }
-                        _vm.insertTransaction()
-                      },
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.newTransaction.fromAccount = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.accounts, function(account) {
-                    return _c("option", { domProps: { value: account } }, [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(account.name) +
-                          "\n                        "
-                      )
-                    ])
-                  })
-                )
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.newTransaction.type === "transfer",
-                  expression: " newTransaction.type === 'transfer'"
-                }
-              ]
-            },
-            [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "new-transaction-to-account" } }, [
-                  _vm._v("Select the account you are transferring money to")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.newTransaction.toAccount,
-                        expression: "newTransaction.toAccount"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { id: "new-transaction-to-account" },
-                    on: {
-                      keyup: function($event) {
-                        if (!("button" in $event) && $event.keyCode !== 13) {
-                          return null
-                        }
-                        _vm.insertTransaction()
-                      },
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.newTransaction.toAccount = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.accounts, function(account) {
-                    return _c("option", { domProps: { value: account } }, [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(account.name) +
-                          "\n                        "
-                      )
-                    ])
-                  })
-                )
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "reconcile" }, [
-            _c(
-              "div",
-              { staticClass: "help-row" },
-              [
-                _c("label", { attrs: { for: "new-transaction-reconciled" } }, [
-                  _vm._v("Check this box if your transaction is reconciled")
-                ]),
-                _vm._v(" "),
-                _c("dropdown", {
-                  staticClass: "dropdown-directive",
-                  attrs: {
-                    "animate-in-class": "flipInX",
-                    "animate-out-class": "flipOutX"
-                  },
-                  inlineTemplate: {
-                    render: function() {
-                      var _vm = this
-                      var _h = _vm.$createElement
-                      var _c = _vm._self._c || _h
-                      return _c("div", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-info btn-xs",
-                            attrs: { tabindex: "-1" },
-                            on: {
-                              click: function($event) {
-                                _vm.toggleDropdown()
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                Help\n                                "
-                            ),
-                            _c("span", { staticClass: "caret" })
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm._m(0)
-                      ])
-                    },
-                    staticRenderFns: [
-                      function() {
-                        var _vm = this
-                        var _h = _vm.$createElement
-                        var _c = _vm._self._c || _h
-                        return _c(
-                          "div",
-                          { staticClass: "dropdown-content animated" },
-                          [
-                            _c("div", { staticClass: "help" }, [
-                              _c("div", [
-                                _vm._v(
-                                  "The reconciled checkbox is so you can compare the transactions you enter here with those on your bank statement, verifying them, keeping them in sync."
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", [
-                                _vm._v(
-                                  "You can use the filter (click the magnifying glass icon at the top of the page) to see transactions that are/are not reconciled."
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", [
-                                _vm._v(
-                                  "If you don't reconcile the transaction now, you can reconcile it later by checking the reconciled checkbox for the transaction in the table below."
-                                )
-                              ])
-                            ])
-                          ]
-                        )
-                      }
-                    ]
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.newTransaction.reconciled,
-                  expression: "newTransaction.reconciled"
-                }
-              ],
-              attrs: { id: "new-transaction-reconciled", type: "checkbox" },
-              domProps: {
-                checked: Array.isArray(_vm.newTransaction.reconciled)
-                  ? _vm._i(_vm.newTransaction.reconciled, null) > -1
-                  : _vm.newTransaction.reconciled
-              },
-              on: {
-                __c: function($event) {
-                  var $$a = _vm.newTransaction.reconciled,
-                    $$el = $event.target,
-                    $$c = $$el.checked ? true : false
-                  if (Array.isArray($$a)) {
-                    var $$v = null,
-                      $$i = _vm._i($$a, $$v)
-                    if ($$el.checked) {
-                      $$i < 0 &&
-                        (_vm.newTransaction.reconciled = $$a.concat([$$v]))
-                    } else {
-                      $$i > -1 &&
-                        (_vm.newTransaction.reconciled = $$a
-                          .slice(0, $$i)
-                          .concat($$a.slice($$i + 1)))
-                    }
-                  } else {
-                    _vm.newTransaction.reconciled = $$c
-                  }
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _vm.newTransaction.type !== "transfer"
-            ? _c(
-                "div",
-                [
-                  _c(
-                    "div",
-                    { staticClass: "help-row" },
-                    [
-                      _c("label", [
-                        _vm._v("Add tags to your transaction (optional)")
-                      ]),
-                      _vm._v(" "),
-                      _c("dropdown", {
-                        staticClass: "dropdown-directive",
-                        attrs: {
-                          "animate-in-class": "flipInX",
-                          "animate-out-class": "flipOutX"
-                        },
-                        inlineTemplate: {
-                          render: function() {
-                            var _vm = this
-                            var _h = _vm.$createElement
-                            var _c = _vm._self._c || _h
-                            return _c("div", [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-info btn-xs",
-                                  attrs: { tabindex: "-1" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.toggleDropdown()
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                Help\n                                "
-                                  ),
-                                  _c("span", { staticClass: "caret" })
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _vm._m(0)
-                            ])
-                          },
-                          staticRenderFns: [
-                            function() {
-                              var _vm = this
-                              var _h = _vm.$createElement
-                              var _c = _vm._self._c || _h
-                              return _c(
-                                "div",
-                                { staticClass: "dropdown-content animated" },
-                                [
-                                  _c("div", { staticClass: "help" }, [
-                                    _c("div", [
-                                      _vm._v(
-                                        "To add tags to your transaction, start typing the name of your tag in the field, then use the up or down arrow keys to select a tag, then press enter."
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", [
-                                      _vm._v(
-                                        "Repeat the process to enter more than one tag."
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", [
-                                      _vm._v(
-                                        "The tag must first be created on the "
-                                      ),
-                                      _c("a", { attrs: { href: "/tags" } }, [
-                                        _vm._v("tags page")
-                                      ]),
-                                      _vm._v(
-                                        " in order for it to show up as an option here."
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", [
-                                      _vm._v(
-                                        "If you press enter with no tag selected, the transaction will be entered."
-                                      )
-                                    ])
-                                  ])
-                                ]
-                              )
-                            }
-                          ]
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("budget-autocomplete", {
-                    attrs: {
-                      "chosen-budgets": _vm.newTransaction.budgets,
-                      budgets: _vm.shared.budgets,
-                      "multiple-budgets": "true",
-                      "function-on-enter": _vm.insertTransaction
-                    },
-                    on: {
-                      "update:chosenBudgets": function($event) {
-                        _vm.newTransaction.budgets = $event
-                      }
-                    }
-                  })
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c("div", [
-            _c(
-              "div",
-              { staticClass: "help-row" },
-              [
-                _c("label", [
-                  _vm._v("Duration (optional)\n                    ")
-                ]),
-                _vm._v(" "),
-                _c("dropdown", {
-                  staticClass: "dropdown-directive",
-                  attrs: {
-                    "animate-in-class": "flipInX",
-                    "animate-out-class": "flipOutX"
-                  },
-                  inlineTemplate: {
-                    render: function() {
-                      var _vm = this
-                      var _h = _vm.$createElement
-                      var _c = _vm._self._c || _h
-                      return _c("div", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-info btn-xs",
-                            attrs: { tabindex: "-1" },
-                            on: {
-                              click: function($event) {
-                                _vm.toggleDropdown()
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                Help\n                                "
-                            ),
-                            _c("span", { staticClass: "caret" })
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm._m(0)
-                      ])
-                    },
-                    staticRenderFns: [
-                      function() {
-                        var _vm = this
-                        var _h = _vm.$createElement
-                        var _c = _vm._self._c || _h
-                        return _c(
-                          "div",
-                          { staticClass: "dropdown-content animated" },
-                          [
-                            _c("div", { staticClass: "help" }, [
-                              _c("div", [
-                                _vm._v("Enter the duration in H:M format.")
-                              ])
-                            ])
-                          ]
-                        )
-                      }
-                    ]
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.newTransaction.duration,
-                  expression: "newTransaction.duration"
-                }
-              ],
-              staticClass: "mousetrap form-control",
-              attrs: { placeholder: "H:M", type: "text" },
-              domProps: { value: _vm.newTransaction.duration },
-              on: {
-                keyup: function($event) {
-                  if (!("button" in $event) && $event.keyCode !== 13) {
-                    return null
-                  }
-                  _vm.insertTransaction()
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.newTransaction.duration = $event.target.value
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _c("div", [
-            _c(
-              "div",
-              { staticClass: "help-row" },
-              [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-success",
-                    attrs: { tabindex: "-1", id: "add-transaction" },
-                    on: {
-                      mousedown: function($event) {
-                        _vm.insertTransactionPreparation()
-                      }
-                    }
-                  },
-                  [_vm._v("Add transaction")]
-                ),
-                _vm._v(" "),
-                _c("dropdown", {
-                  staticClass: "dropdown-directive",
-                  attrs: {
-                    "animate-in-class": "flipInX",
-                    "animate-out-class": "flipOutX"
-                  },
-                  inlineTemplate: {
-                    render: function() {
-                      var _vm = this
-                      var _h = _vm.$createElement
-                      var _c = _vm._self._c || _h
-                      return _c("div", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-info btn-xs",
-                            attrs: { tabindex: "-1" },
-                            on: {
-                              click: function($event) {
-                                _vm.toggleDropdown()
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                Help\n                                "
-                            ),
-                            _c("span", { staticClass: "caret" })
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm._m(0)
-                      ])
-                    },
-                    staticRenderFns: [
-                      function() {
-                        var _vm = this
-                        var _h = _vm.$createElement
-                        var _c = _vm._self._c || _h
-                        return _c(
-                          "div",
-                          { staticClass: "dropdown-content animated" },
-                          [
-                            _c("div", { staticClass: "help" }, [
-                              _c("div", [
-                                _vm._v(
-                                  "You can also add a new transaction by pressing enter on your keyboard when the cursor is in one of the inputs (unless pressing enter is to select an item from one of the dropdown menus)."
-                                )
-                              ])
-                            ])
-                          ]
-                        )
-                      }
-                    ]
-                  }
-                })
-              ],
-              1
-            )
-          ])
-        ])
-      ]
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-71fcf1ca", module.exports)
-  }
-}
-
-/***/ }),
+/* 407 */,
 /* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -101738,332 +99748,9 @@ if (false) {
 }
 
 /***/ }),
-/* 411 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(412)
-/* template */
-var __vue_template__ = __webpack_require__(413)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/budget/src/components/TransactionsComponent.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b3dda578", Component.options)
-  } else {
-    hotAPI.reload("data-v-b3dda578", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 412 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            shared: store.state,
-            showStatus: false,
-            showDate: true,
-            showDescription: true,
-            showMerchant: true,
-            showTotal: true,
-            showType: true,
-            showAccount: true,
-            showDuration: true,
-            showReconciled: true,
-            showAllocated: true,
-            showBudgets: true,
-            showDelete: true
-        };
-    },
-    computed: {
-        transactions: function transactions() {
-            return this.shared.transactions;
-        }
-    },
-    components: {},
-    methods: {},
-    props: [],
-    mounted: function mounted() {}
-});
-
-/***/ }),
-/* 413 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _vm.shared.transactions.length === 0
-        ? _c("h3", [_vm._v("No transactions to show.")])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("edit-transaction-popup"),
-      _vm._v(" "),
-      _c("allocation-popup"),
-      _vm._v(" "),
-      _vm.shared.transactions.length > 0
-        ? _c(
-            "table",
-            { attrs: { id: "transactions" } },
-            [
-              _c("thead", [
-                _c("tr", [
-                  _c(
-                    "th",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.transactionPropertiesToShow.date,
-                          expression: "transactionPropertiesToShow.date"
-                        }
-                      ]
-                    },
-                    [_vm._v("Date")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.transactionPropertiesToShow.description,
-                          expression: "transactionPropertiesToShow.description"
-                        }
-                      ]
-                    },
-                    [_vm._v("Description")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.transactionPropertiesToShow.merchant,
-                          expression: "transactionPropertiesToShow.merchant"
-                        }
-                      ]
-                    },
-                    [_vm._v("Merchant")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.transactionPropertiesToShow.total,
-                          expression: "transactionPropertiesToShow.total"
-                        }
-                      ]
-                    },
-                    [_c("span", { staticClass: "total fa fa-dollar" })]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.transactionPropertiesToShow.account,
-                          expression: "transactionPropertiesToShow.account"
-                        }
-                      ]
-                    },
-                    [_vm._v("Account")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.transactionPropertiesToShow.duration,
-                          expression: "transactionPropertiesToShow.duration"
-                        }
-                      ]
-                    },
-                    [_vm._v("Duration")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.transactionPropertiesToShow.reconciled,
-                          expression: "transactionPropertiesToShow.reconciled"
-                        }
-                      ],
-                      staticClass: "reconcile"
-                    },
-                    [_vm._v("R")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.transactionPropertiesToShow.allocated,
-                          expression: "transactionPropertiesToShow.allocated"
-                        }
-                      ]
-                    },
-                    [_vm._v("Allocation")]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _vm._l(_vm.transactions, function(transaction) {
-                return _c("transaction", {
-                  tag: "tbody",
-                  class:
-                    "add_to_search_total results-transaction-tbody" +
-                    transaction.type,
-                  style: {
-                    color: _vm.shared.me.preferences.colors[transaction.type]
-                  },
-                  attrs: {
-                    "transaction-properties-to-show":
-                      _vm.transactionPropertiesToShow,
-                    transactions: _vm.transactions,
-                    transaction: transaction,
-                    id: transaction.id
-                  },
-                  on: {
-                    "update:transactions": function($event) {
-                      _vm.transactions = $event
-                    }
-                  }
-                })
-              })
-            ],
-            2
-          )
-        : _vm._e()
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-b3dda578", module.exports)
-  }
-}
-
-/***/ }),
+/* 411 */,
+/* 412 */,
+/* 413 */,
 /* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -102421,20 +100108,20 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__budget_src_components_TransactionsPageComponent_vue__ = __webpack_require__(418);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__budget_src_components_TransactionsPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__budget_src_components_TransactionsPageComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__budget_src_components_AccountsPageComponent_vue__ = __webpack_require__(421);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__budget_src_components_AccountsPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__budget_src_components_AccountsPageComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__budget_src_components_FixedBudgetsPageComponent_vue__ = __webpack_require__(424);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__budget_src_components_FixedBudgetsPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__budget_src_components_FixedBudgetsPageComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__budget_src_components_FlexBudgetsPageComponent_vue__ = __webpack_require__(427);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__budget_src_components_FlexBudgetsPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__budget_src_components_FlexBudgetsPageComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__budget_src_components_UnassignedBudgetsPageComponent_vue__ = __webpack_require__(430);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__budget_src_components_UnassignedBudgetsPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__budget_src_components_UnassignedBudgetsPageComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__budget_src_components_transactions_TransactionsPageComponent_vue__ = __webpack_require__(478);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__budget_src_components_transactions_TransactionsPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__budget_src_components_transactions_TransactionsPageComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__budget_src_components_accounts_AccountsPageComponent_vue__ = __webpack_require__(481);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__budget_src_components_accounts_AccountsPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__budget_src_components_accounts_AccountsPageComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__budget_src_components_budgets_FixedBudgetsPageComponent_vue__ = __webpack_require__(484);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__budget_src_components_budgets_FixedBudgetsPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__budget_src_components_budgets_FixedBudgetsPageComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__budget_src_components_budgets_FlexBudgetsPageComponent_vue__ = __webpack_require__(487);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__budget_src_components_budgets_FlexBudgetsPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__budget_src_components_budgets_FlexBudgetsPageComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__budget_src_components_budgets_UnassignedBudgetsPageComponent_vue__ = __webpack_require__(490);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__budget_src_components_budgets_UnassignedBudgetsPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__budget_src_components_budgets_UnassignedBudgetsPageComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__budget_src_components_filter_GraphsPageComponent_vue__ = __webpack_require__(433);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__budget_src_components_filter_GraphsPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__budget_src_components_filter_GraphsPageComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_FavouriteTransactionsComponent_vue__ = __webpack_require__(437);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_FavouriteTransactionsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__budget_src_components_FavouriteTransactionsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_favourite_transactions_FavouriteTransactionsComponent_vue__ = __webpack_require__(496);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_favourite_transactions_FavouriteTransactionsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__budget_src_components_favourite_transactions_FavouriteTransactionsComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_HelpPageComponent_vue__ = __webpack_require__(440);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_HelpPageComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__budget_src_components_HelpPageComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_PreferencesComponent_vue__ = __webpack_require__(443);
@@ -102454,25 +100141,25 @@ if (false) {
 
 /* harmony default export */ __webpack_exports__["a"] = ([{
     path: '/',
-    component: __WEBPACK_IMPORTED_MODULE_0__budget_src_components_TransactionsPageComponent_vue___default.a
+    component: __WEBPACK_IMPORTED_MODULE_0__budget_src_components_transactions_TransactionsPageComponent_vue___default.a
 }, {
     path: '/accounts',
-    component: __WEBPACK_IMPORTED_MODULE_1__budget_src_components_AccountsPageComponent_vue___default.a
+    component: __WEBPACK_IMPORTED_MODULE_1__budget_src_components_accounts_AccountsPageComponent_vue___default.a
 }, {
     path: '/fixed-budgets',
-    component: __WEBPACK_IMPORTED_MODULE_2__budget_src_components_FixedBudgetsPageComponent_vue___default.a
+    component: __WEBPACK_IMPORTED_MODULE_2__budget_src_components_budgets_FixedBudgetsPageComponent_vue___default.a
 }, {
     path: '/flex-budgets',
-    component: __WEBPACK_IMPORTED_MODULE_3__budget_src_components_FlexBudgetsPageComponent_vue___default.a
+    component: __WEBPACK_IMPORTED_MODULE_3__budget_src_components_budgets_FlexBudgetsPageComponent_vue___default.a
 }, {
     path: '/unassigned-budgets',
-    component: __WEBPACK_IMPORTED_MODULE_4__budget_src_components_UnassignedBudgetsPageComponent_vue___default.a
+    component: __WEBPACK_IMPORTED_MODULE_4__budget_src_components_budgets_UnassignedBudgetsPageComponent_vue___default.a
 }, {
     path: '/graphs',
     component: __WEBPACK_IMPORTED_MODULE_5__budget_src_components_filter_GraphsPageComponent_vue___default.a
 }, {
     path: '/favourite-transactions',
-    component: __WEBPACK_IMPORTED_MODULE_6__budget_src_components_FavouriteTransactionsComponent_vue___default.a
+    component: __WEBPACK_IMPORTED_MODULE_6__budget_src_components_favourite_transactions_FavouriteTransactionsComponent_vue___default.a
 }, {
     path: '/help',
     component: __WEBPACK_IMPORTED_MODULE_7__budget_src_components_HelpPageComponent_vue___default.a
@@ -102485,1927 +100172,21 @@ if (false) {
 }]);
 
 /***/ }),
-/* 418 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(419)
-/* template */
-var __vue_template__ = __webpack_require__(420)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/budget/src/components/TransactionsPageComponent.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7819a916", Component.options)
-  } else {
-    hotAPI.reload("data-v-7819a916", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 419 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(29);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            // page: 'home',
-            shared: store.state,
-            colors: {},
-            hoveringTotalsButton: false
-        };
-    },
-    components: {},
-    computed: {
-        budgets: function budgets() {
-            return this.shared.budgets;
-        }
-        // tab: function () {
-        //     return this.homePageRepository.tab;
-        // }
-    },
-    methods: {
-
-        /**
-         *
-         * @param tab
-         */
-        // switchTab: function (tab) {
-        //     HomePageRepository.setTab(tab);
-        //     FilterRepository.runFilter(this);
-        // },
-
-        /**
-         *
-         */
-        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
-            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseEnterOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
-            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseLeaveOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        toggleNewTransaction: function toggleNewTransaction() {
-            $.event.trigger('toggle-new-transaction');
-        }
-    },
-    props: [],
-    mounted: function mounted() {}
-});
-
-/***/ }),
-/* 420 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("div", { attrs: { id: "toolbar" } }, [
-        _c("div", [
-          !_vm.shared.show.newTransaction
-            ? _c(
-                "button",
-                {
-                  staticClass: "btn btn-info",
-                  on: {
-                    click: function($event) {
-                      _vm.toggleNewTransaction()
-                    }
-                  }
-                },
-                [_vm._v("\n                New transaction\n            ")]
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.shared.show.newTransaction
-            ? _c(
-                "button",
-                {
-                  staticClass: "btn btn-info",
-                  on: {
-                    click: function($event) {
-                      _vm.toggleNewTransaction()
-                    }
-                  }
-                },
-                [_vm._v("\n                Hide new transaction\n            ")]
-              )
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-default totals-btn",
-              on: {
-                mouseenter: _vm.respondToMouseEnterOnTotalsButton,
-                mouseleave: _vm.respondToMouseLeaveOnTotalsButton
-              }
-            },
-            [_vm._v("\n                Totals\n            ")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("new-transaction"),
-      _vm._v(" "),
-      _c("totals"),
-      _vm._v(" "),
-      _c("transactions"),
-      _vm._v(" "),
-      _c("mass-transaction-update-popup"),
-      _vm._v(" "),
-      _c("filter")
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7819a916", module.exports)
-  }
-}
-
-/***/ }),
-/* 421 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(422)
-/* template */
-var __vue_template__ = __webpack_require__(423)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/budget/src/components/AccountsPageComponent.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3078a1f8", Component.options)
-  } else {
-    hotAPI.reload("data-v-3078a1f8", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 422 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__ = __webpack_require__(235);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            shared: store.state
-        };
-    },
-    computed: {
-        accounts: function accounts() {
-            return _.orderBy(this.shared.accounts, 'name');
-        }
-    },
-    components: {},
-    filters: {
-        /**
-         *
-         * @param number
-         * @param howManyDecimals
-         * @returns {Number}
-         */
-        numberFilter: function numberFilter(number, howManyDecimals) {
-            return __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__["a" /* default */].numberFilter(number, howManyDecimals);
-        }
-    },
-    methods: {
-
-        /**
-         *
-         * @param account
-         */
-        showEditAccountPopup: function showEditAccountPopup(account) {
-            $.event.trigger('show-edit-account-popup', [account]);
-        },
-
-        /**
-         *
-         * @param account
-         */
-        viewTransactionsForAccount: function viewTransactionsForAccount(account) {
-            var currentNumToFetch = __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__["a" /* default */].state.filter.numToFetch;
-            var filter = __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__["a" /* default */].resetFilter();
-            filter.accounts.in.push(account.id);
-            //Show the same number of transactions as the filter was previously set to
-            filter.numToFetch = currentNumToFetch;
-            filter.displayTo = currentNumToFetch;
-            __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__["a" /* default */].setFilter(filter);
-            router.go('/');
-        }
-    },
-    props: [
-        //data to be received from parent
-    ],
-    mounted: function mounted() {
-        //Putting this here rather than loading just on page load in case the account balances need updating when this page is visited
-        store.getAccounts(this);
-    }
-});
-
-/***/ }),
-/* 423 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("edit-account", {
-        attrs: { accounts: _vm.accounts },
-        on: {
-          "update:accounts": function($event) {
-            _vm.accounts = $event
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("div", { attrs: { id: "accounts" } }, [
-        _c(
-          "div",
-          { staticClass: "create-new-account" },
-          [
-            _c("label", [_vm._v("Create a new account")]),
-            _vm._v(" "),
-            _c("new-account", {
-              attrs: { accounts: _vm.accountsRepository.accounts },
-              on: {
-                "update:accounts": function($event) {
-                  _vm.accountsRepository.accounts = $event
-                }
-              }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "table",
-          {},
-          [
-            _vm._m(0),
-            _vm._v(" "),
-            _vm._l(_vm.accounts, function(account) {
-              return _c("tr", [
-                _c(
-                  "td",
-                  {
-                    staticClass: "pointer",
-                    on: {
-                      click: function($event) {
-                        _vm.showEditAccountPopup(account)
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(account.name) +
-                        "\n                "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("td", { staticClass: "balance" }, [
-                  _vm._v(_vm._s(_vm._f("numberFilter 2")(account.balance)))
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-default btn-sm",
-                      on: {
-                        click: function($event) {
-                          _vm.viewTransactionsForAccount(account)
-                        }
-                      }
-                    },
-                    [_vm._v("View Transactions")]
-                  )
-                ])
-              ])
-            })
-          ],
-          2
-        )
-      ])
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("th", { staticClass: "balance" }, [_vm._v("Balance")])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-3078a1f8", module.exports)
-  }
-}
-
-/***/ }),
-/* 424 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(425)
-/* template */
-var __vue_template__ = __webpack_require__(426)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/budget/src/components/FixedBudgetsPageComponent.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-58764bb0", Component.options)
-  } else {
-    hotAPI.reload("data-v-58764bb0", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 425 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            fixedBudgetTotals: [],
-            show: store.state.show.defaults,
-            shared: store.state,
-            orderByOptions: [{ name: 'name', value: 'name' }, { name: 'spent after starting date', value: 'spentOnOrAfterStartingDate' }],
-            orderBy: 'name',
-            reverseOrder: false
-        };
-    },
-    components: {},
-    computed: {
-        fixedBudgets: function fixedBudgets() {
-            return this.shared.fixedBudgets;
-        }
-    },
-    filters: {
-        /**
-         *
-         * @param number
-         * @param howManyDecimals
-         * @returns {Number}
-         */
-        numberFilter: function numberFilter(number, howManyDecimals) {
-            return HelpersRepository.numberFilter(number, howManyDecimals);
-        },
-        orderBudgetsFilter: function orderBudgetsFilter(budgets) {
-            return BudgetsRepository.orderBudgetsFilter(budgets, this);
-        }
-    },
-    methods: {
-        /**
-         *
-         */
-        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
-            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
-            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        toggleNewBudget: function toggleNewBudget() {
-            $.event.trigger('toggle-new-budget');
-        },
-
-        /**
-        *
-        */
-        getFixedBudgetTotals: function getFixedBudgetTotals() {
-            helpers.get({
-                url: '/api/totals/fixedBudget',
-                storeProperty: 'fixedBudgetTotals',
-                callback: function (response) {
-                    this.fixedBudgetTotals = response;
-                }.bind(this)
-            });
-        },
-
-        /**
-         *
-         * @param budget
-         */
-        showBudgetPopup: function showBudgetPopup(budget) {
-            $.event.trigger('show-budget-popup', [budget]);
-        },
-
-        /**
-         *
-         */
-        listen: function listen() {
-            var that = this;
-            $(document).on('update-fixed-budget-table-totals', function (event, budget) {
-                that.getFixedBudgetTotals();
-            });
-        }
-    },
-    props: [
-        //data to be received from parent
-    ],
-    mounted: function mounted() {
-        store.getFixedBudgets();
-        this.getFixedBudgetTotals();
-        this.listen();
-    }
-});
-
-/***/ }),
-/* 426 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "budgets-page", attrs: { id: "fixed-budgets-page" } },
-    [
-      _c("edit-budget-popup", {
-        attrs: { budgets: _vm.fixedBudgets, page: "fixed" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.fixedBudgets = $event
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("budgets-toolbar"),
-      _vm._v(" "),
-      _c("new-budget", {
-        attrs: { budgets: _vm.fixedBudgets, page: "fixedBudgets" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.fixedBudgets = $event
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c(
-        "div",
-        { attrs: { id: "budget-content" } },
-        [
-          _c("totals", { attrs: { show: _vm.show } }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "budget-table fixed-budget-table" },
-            [_c("fixed-budgets-table")],
-            1
-          ),
-          _vm._v(" "),
-          _c("span", {
-            staticClass: "tooltipster",
-            attrs: { id: "budget_hover_span", title: "" }
-          })
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-58764bb0", module.exports)
-  }
-}
-
-/***/ }),
-/* 427 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(428)
-/* template */
-var __vue_template__ = __webpack_require__(429)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/budget/src/components/FlexBudgetsPageComponent.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7c6ddca6", Component.options)
-  } else {
-    hotAPI.reload("data-v-7c6ddca6", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 428 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(29);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            show: store.state.show.defaults,
-            shared: store.state,
-            flexBudgetTotals: [],
-            orderByOptions: [{ name: 'name', value: 'name' }, { name: 'spent after starting date', value: 'spentOnOrAfterStartingDate' }],
-            orderBy: 'name',
-            reverseOrder: false
-        };
-    },
-    components: {},
-    computed: {
-        flexBudgets: function flexBudgets() {
-            return this.shared.flexBudgets;
-        }
-    },
-    filters: {
-        /**
-         *
-         * @param number
-         * @param howManyDecimals
-         * @returns {Number}
-         */
-        numberFilter: function numberFilter(number, howManyDecimals) {
-            return helpers.numberFilter(number, howManyDecimals);
-        },
-        orderBudgetsFilter: function orderBudgetsFilter(budgets) {
-            return store.orderBudgetsFilter(budgets, this);
-        }
-    },
-    methods: {
-
-        /**
-         *
-         */
-        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
-            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseEnterOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
-            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseLeaveOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        toggleNewBudget: function toggleNewBudget() {
-            $.event.trigger('toggle-new-budget');
-        },
-
-        /**
-        *
-        */
-        getFlexBudgetTotals: function getFlexBudgetTotals() {
-            helpers.get({
-                url: '/api/totals/flexBudget',
-                //                    storeProperty: 'flexBudgetTotals',
-                callback: function (response) {
-                    this.flexBudgetTotals = response;
-                }.bind(this)
-            });
-        },
-
-        /**
-         *
-         * @param budget
-         */
-        showBudgetPopup: function showBudgetPopup(budget) {
-            $.event.trigger('show-budget-popup', [budget]);
-        },
-
-        /**
-         *
-         */
-        listen: function listen() {
-            var that = this;
-            $(document).on('update-flex-budget-table-totals', function (event) {
-                that.getFlexBudgetTotals();
-            });
-        }
-    },
-    props: [
-        //data to be received from parent
-    ],
-    mounted: function mounted() {
-        store.getFlexBudgets(this);
-        this.getFlexBudgetTotals();
-        this.listen();
-    }
-});
-
-/***/ }),
-/* 429 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "budgets-page", attrs: { id: "flex-budgets-page" } },
-    [
-      _c("edit-budget-popup", {
-        attrs: { budgets: _vm.flexBudgets, page: "flex" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.flexBudgets = $event
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("budgets-toolbar"),
-      _vm._v(" "),
-      _c("new-budget", {
-        attrs: { budgets: _vm.flexBudgets, page: "flexBudgets" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.flexBudgets = $event
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c(
-        "div",
-        { attrs: { id: "budget-content" } },
-        [
-          _c("totals", { attrs: { show: _vm.show } }),
-          _vm._v(" "),
-          _c("div", { staticClass: "budget-table flex-budget-table" }, [
-            _c("h1", [_vm._v("Flex Budget Table")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "order-by" }, [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "order-by" } }, [
-                  _vm._v("Order By")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.orderBy,
-                        expression: "orderBy"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { id: "order-by" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.orderBy = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.orderByOptions, function(orderByOption) {
-                    return _c(
-                      "option",
-                      { domProps: { value: orderByOption.value } },
-                      [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(orderByOption.name) +
-                            "\n                        "
-                        )
-                      ]
-                    )
-                  })
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "checkbox-container" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.reverseOrder,
-                      expression: "reverseOrder"
-                    }
-                  ],
-                  attrs: { type: "checkbox" },
-                  domProps: {
-                    checked: Array.isArray(_vm.reverseOrder)
-                      ? _vm._i(_vm.reverseOrder, null) > -1
-                      : _vm.reverseOrder
-                  },
-                  on: {
-                    __c: function($event) {
-                      var $$a = _vm.reverseOrder,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.reverseOrder = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.reverseOrder = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.reverseOrder = $$c
-                      }
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "reverse-order-" } }, [
-                  _vm._v("Reverse Order")
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "table",
-              {
-                staticClass: "table table-bordered",
-                attrs: { id: "flex-budget-info-table" }
-              },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _vm._l(_vm.flexBudgets | _vm.orderBudgetsFilter, function(
-                  budget
-                ) {
-                  return _c("tr", { staticClass: "budget_info_ul" }, [
-                    _c(
-                      "td",
-                      {
-                        staticClass: "pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(budget.name))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "percent pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(budget.amount))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "amount pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm._f("numberFilter 2")(budget.calculatedAmount)
-                          )
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "CSD pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [
-                        _c("span", [
-                          _vm._v(_vm._s(budget.formattedStartingDate))
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "month-number pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(budget.cumulativeMonthNumber))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm._f("numberFilter 2")(
-                              budget.spentBeforeStartingDate
-                            )
-                          )
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm._f("numberFilter 2")(
-                              budget.spentOnOrAfterStartingDate
-                            )
-                          )
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "received pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm._f("numberFilter 2")(
-                              budget.receivedOnOrAfterStartingDate
-                            )
-                          )
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "remaining pointer",
-                        class: { "negative-remaining": budget.remaining < 0 },
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(_vm._f("numberFilter 2")(budget.remaining))
-                        )
-                      ]
-                    )
-                  ])
-                }),
-                _vm._v(" "),
-                _c(
-                  "tr",
-                  {
-                    staticClass: "budget_info_ul",
-                    attrs: { id: "flex-budget-totals" }
-                  },
-                  [
-                    _c("td", [_vm._v("allocated")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.allocatedAmount
-                          )
-                        )
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.allocatedCalculatedAmount
-                          )
-                        )
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.allocatedRemaining
-                          )
-                        )
-                      )
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "tr",
-                  {
-                    staticClass: "budget_info_ul",
-                    attrs: { id: "flex-budget-unallocated" }
-                  },
-                  [
-                    _c("td", [_vm._v("unallocated")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(_vm._s(_vm.flexBudgetTotals.unallocatedAmount))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.unallocatedCalculatedAmount
-                          )
-                        )
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.unallocatedRemaining
-                          )
-                        )
-                      )
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "tr",
-                  {
-                    staticClass: "budget_info_ul totals",
-                    attrs: { id: "flex-budget-totals" }
-                  },
-                  [
-                    _c("td", [_vm._v("totals")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm.flexBudgetTotals.allocatedPlusUnallocatedAmount
-                        )
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals
-                              .allocatedPlusUnallocatedCalculatedAmount
-                          )
-                        )
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("-")]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.spentBeforeStartingDate
-                          )
-                        )
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.spentOnOrAfterStartingDate
-                          )
-                        )
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.receivedOnOrAfterStartingDate
-                          )
-                        )
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals
-                              .allocatedPlusUnallocatedRemaining
-                          )
-                        )
-                      )
-                    ])
-                  ]
-                )
-              ],
-              2
-            )
-          ]),
-          _vm._v(" "),
-          _c("span", {
-            staticClass: "tooltipster",
-            attrs: { id: "budget_hover_span", title: "" }
-          })
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c(
-        "th",
-        { staticClass: "tooltipster", attrs: { title: "# percent of F/I" } },
-        [
-          _c("div", [_vm._v("% of remaining")]),
-          _vm._v(" "),
-          _c("div", [_vm._v("balance")])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "th",
-        {
-          staticClass: "tooltipster",
-          attrs: { title: "amount (% column % of F/I)" }
-        },
-        [
-          _c("div", [_vm._v("Calculated")]),
-          _vm._v(" "),
-          _c("div", [_vm._v("amount")])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "th",
-        {
-          staticClass: "tooltipster",
-          attrs: { title: "cumulative starting date" }
-        },
-        [
-          _c("div", [_vm._v("Starting")]),
-          _vm._v(" "),
-          _c("div", [_vm._v("date")])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "th",
-        {
-          staticClass: "tooltipster",
-          attrs: { title: "cumulative month number" }
-        },
-        [
-          _c("div", [_vm._v("Month")]),
-          _vm._v(" "),
-          _c("div", [_vm._v("number")])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "th",
-        {
-          staticClass: "tooltipster",
-          attrs: { title: "spent before starting date" }
-        },
-        [
-          _c("div", [_vm._v("Spent <")]),
-          _vm._v(" "),
-          _c("div", [_vm._v("starting date")])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "th",
-        {
-          staticClass: "tooltipster",
-          attrs: { title: "spent after starting date" }
-        },
-        [
-          _c("div", [_vm._v("Spent >=")]),
-          _vm._v(" "),
-          _c("div", [_vm._v("starting date")])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "th",
-        {
-          staticClass: "tooltipster",
-          attrs: { title: "received after starting date" }
-        },
-        [
-          _c("div", [_vm._v("Received >=")]),
-          _vm._v(" "),
-          _c("div", [_vm._v("starting date")])
-        ]
-      ),
-      _vm._v(" "),
-      _c("th", { staticClass: "tooltipster", attrs: { title: "remaining" } }, [
-        _vm._v("Remaining")
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7c6ddca6", module.exports)
-  }
-}
-
-/***/ }),
-/* 430 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(431)
-/* template */
-var __vue_template__ = __webpack_require__(432)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/budget/src/components/UnassignedBudgetsPageComponent.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6fc42e1b", Component.options)
-  } else {
-    hotAPI.reload("data-v-6fc42e1b", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 431 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(29);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            show: ShowRepository.defaults,
-            shared: store.state
-        };
-    },
-    components: {},
-    computed: {
-        unassignedBudgets: function unassignedBudgets() {
-            return _.orderBy(this.shared.unassignedBudgets, 'name');
-        }
-    },
-    methods: {
-        /**
-         *
-         */
-        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
-            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseEnterOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
-            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseLeaveOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        toggleNewBudget: function toggleNewBudget() {
-            $.event.trigger('toggle-new-budget');
-        },
-
-        /**
-         *
-         * @param budget
-         */
-        showBudgetPopup: function showBudgetPopup(budget) {
-            $.event.trigger('show-budget-popup', [budget]);
-        }
-    },
-    props: [
-        //data to be received from parent
-    ],
-    mounted: function mounted() {}
-});
-
-/***/ }),
-/* 432 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "budgets-page", attrs: { id: "unassigned-budgets-page" } },
-    [
-      _c("edit-budget-popup", {
-        attrs: { budgets: _vm.unassignedBudgets, page: "unassigned" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.unassignedBudgets = $event
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("budgets-toolbar"),
-      _vm._v(" "),
-      _c("new-budget", {
-        attrs: { budgets: _vm.unassignedBudgets, page: "unassignedBudgets" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.unassignedBudgets = $event
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c(
-        "div",
-        { attrs: { id: "budget-content" } },
-        [
-          _c("totals", { attrs: { show: _vm.show } }),
-          _vm._v(" "),
-          _c("div", { staticClass: "budget-table unassigned-budget-table" }, [
-            _c("h1", [_vm._v("Unassigned Budget Table")]),
-            _vm._v(" "),
-            _c(
-              "table",
-              {
-                staticClass: "table table-bordered",
-                attrs: { id: "unassigned-budget-info-table" }
-              },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _vm._l(_vm.unassignedBudgets, function(budget) {
-                  return _c("tr", { staticClass: "budget_info_ul" }, [
-                    _c(
-                      "td",
-                      {
-                        staticClass: "pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "unassigned")
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(budget.name))]
-                    )
-                  ])
-                })
-              ],
-              2
-            )
-          ]),
-          _vm._v(" "),
-          _c("span", {
-            staticClass: "tooltipster",
-            attrs: { id: "budget_hover_span", title: "" }
-          })
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [_c("th", [_vm._v("Name")])])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6fc42e1b", module.exports)
-  }
-}
-
-/***/ }),
+/* 418 */,
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */,
+/* 425 */,
+/* 426 */,
+/* 427 */,
+/* 428 */,
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */,
 /* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -104909,330 +100690,9 @@ if (false) {
 }
 
 /***/ }),
-/* 437 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(438)
-/* template */
-var __vue_template__ = __webpack_require__(439)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/budget/src/components/FavouriteTransactionsComponent.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-e9a6abda", Component.options)
-  } else {
-    hotAPI.reload("data-v-e9a6abda", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 438 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            favouriteTransactions: [],
-            shared: store.state,
-            newFavourite: {
-                budgets: []
-            }
-        };
-    },
-    components: {},
-    computed: {
-        budgets: function budgets() {
-            return this.shared.budgets;
-        },
-        favouriteTransactions: function favouriteTransactions() {
-            return this.shared.favouriteTransactions;
-        }
-    },
-    methods: {
-
-        /**
-         *
-         * @param favouriteTransaction
-         */
-        showUpdateFavouriteTransactionPopup: function showUpdateFavouriteTransactionPopup(favouriteTransaction) {
-            $.event.trigger('show-update-favourite-transaction-popup', [favouriteTransaction]);
-        }
-
-    },
-    props: [
-        //data to be received from parent
-    ],
-    mounted: function mounted() {}
-});
-
-/***/ }),
-/* 439 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { attrs: { id: "favourite-transactions-page" } },
-    [
-      _c("new-favourite-transaction", {
-        attrs: {
-          budgets: _vm.budgets,
-          "favourite-transactions": _vm.favouriteTransactions,
-          accounts: _vm.accountsRepository.accounts
-        },
-        on: {
-          "update:favouriteTransactions": function($event) {
-            _vm.favouriteTransactions = $event
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("update-favourite-transaction", {
-        attrs: {
-          budgets: _vm.budgets,
-          "favourite-transactions": _vm.favouriteTransactions,
-          accounts: _vm.accountsRepository.accounts
-        },
-        on: {
-          "update:favouriteTransactions": function($event) {
-            _vm.favouriteTransactions = $event
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("div", [
-        _c("h2", [_vm._v("Favourite transactions")]),
-        _vm._v(" "),
-        _c(
-          "table",
-          { attrs: { id: "favourite-transactions" } },
-          [
-            _vm._m(0),
-            _vm._v(" "),
-            _vm._l(_vm.favouriteTransactions, function(favourite) {
-              return _c(
-                "tr",
-                {
-                  staticClass: "pointer",
-                  on: {
-                    click: function($event) {
-                      _vm.showUpdateFavouriteTransactionPopup(favourite)
-                    }
-                  }
-                },
-                [
-                  _c("td", [_vm._v(_vm._s(favourite.name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(favourite.type))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(favourite.description))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(favourite.merchant))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(favourite.total))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    favourite.account
-                      ? _c("span", [_vm._v(_vm._s(favourite.account.name))])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    favourite.fromAccount
-                      ? _c("span", [
-                          _vm._v("from " + _vm._s(favourite.fromAccount.name))
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    favourite.fromAccount && favourite.toAccount
-                      ? _c("span")
-                      : _vm._e(),
-                    _vm._v(" "),
-                    favourite.toAccount
-                      ? _c("span", [
-                          _vm._v("to " + _vm._s(favourite.toAccount.name))
-                        ])
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "td",
-                    { staticClass: "budgets" },
-                    _vm._l(favourite.budgets, function(budget) {
-                      return _c(
-                        "li",
-                        {
-                          staticClass: "label label-default",
-                          class: {
-                            "tag-with-fixed-budget": budget.type === "fixed",
-                            "tag-with-flex-budget": budget.type === "flex",
-                            "tag-without-budget": budget.type === "unassigned"
-                          }
-                        },
-                        [
-                          _c("span", [_vm._v(_vm._s(budget.name))]),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "type" }, [
-                            _vm._v(_vm._s(budget.type))
-                          ])
-                        ]
-                      )
-                    })
-                  )
-                ]
-              )
-            })
-          ],
-          2
-        )
-      ])
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Type")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Description")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Merchant")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Total")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Account")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Tags")])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-e9a6abda", module.exports)
-  }
-}
-
-/***/ }),
+/* 437 */,
+/* 438 */,
+/* 439 */,
 /* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -108640,15 +104100,21 @@ if (false) {
 }
 
 /***/ }),
-/* 460 */
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(461)
+var __vue_script__ = __webpack_require__(467)
 /* template */
-var __vue_template__ = __webpack_require__(462)
+var __vue_template__ = __webpack_require__(468)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -108665,7 +104131,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/budget/src/components/EditTransactionPopupComponent.vue"
+Component.options.__file = "resources/assets/js/budget/src/components/transactions/NewTransactionComponent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -108675,9 +104141,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-182fb0e1", Component.options)
+    hotAPI.createRecord("data-v-334262ce", Component.options)
   } else {
-    hotAPI.reload("data-v-182fb0e1", Component.options)
+    hotAPI.reload("data-v-334262ce", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -108688,7 +104154,2326 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 461 */
+/* 467 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__repositories_TotalsRepository__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__repositories_TransactionsRepository__ = __webpack_require__(406);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            dropdown: {},
+            showNewTransaction: false,
+            types: ["income", "expense", "transfer"],
+            shared: store.state,
+            selectedFavouriteTransaction: {},
+            colors: {
+                newTransaction: {}
+            }
+        };
+    },
+    components: {},
+    computed: {
+        favouriteTransactions: function favouriteTransactions() {
+            return this.shared.favouriteTransactions;
+        },
+        newTransaction: function newTransaction() {
+            return this.shared.newTransaction.defaults;
+        },
+        //Putting this here so it isn't undefined in my test
+        //            me: function () {
+        //                return me;
+        //            },
+        //            env: function () {
+        //                return env;
+        //            },
+        accounts: function accounts() {
+            //So the balance isn't included, messing up the autocomplete
+            return _.map(this.shared.accounts, function (account) {
+                return _.pick(account, 'id', 'name');
+            });
+        }
+    },
+    methods: {
+
+        /**
+         *
+         */
+        clearNewTransactionFields: function clearNewTransactionFields() {
+            this.newTransaction = store.clearNewTransactionFields(this.newTransaction);
+        },
+
+        /**
+         * This is not for the transaction autocomplete,
+         * which is in the TransactionAutocomplete directive.
+         * I think it is for the favourite transactions feature.
+         */
+        fillFields: function fillFields() {
+            this.newTransaction.description = this.selectedFavouriteTransaction.description;
+            this.newTransaction.merchant = this.selectedFavouriteTransaction.merchant;
+            this.newTransaction.total = this.selectedFavouriteTransaction.total;
+            this.newTransaction.type = this.selectedFavouriteTransaction.type;
+            this.newTransaction.budgets = this.selectedFavouriteTransaction.budgets;
+
+            if (this.newTransaction.type === 'transfer') {
+                this.newTransaction.fromAccount = this.selectedFavouriteTransaction.fromAccount;
+                this.newTransaction.toAccount = this.selectedFavouriteTransaction.toAccount;
+            } else {
+                this.newTransaction.account = this.selectedFavouriteTransaction.account;
+            }
+        },
+
+        /**
+         * Return true if there are errors.
+         * @returns {boolean}
+         */
+        anyErrors: function anyErrors() {
+            var errorMessages = store.anyNewTransactionErrors(this.newTransaction);
+
+            if (errorMessages) {
+                for (var i = 0; i < errorMessages.length; i++) {
+                    __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.event.trigger('provide-feedback', [errorMessages[i], 'error']);
+                }
+
+                return true;
+            }
+
+            return false;
+        },
+
+        /**
+         *
+         */
+        insertTransactionPreparation: function insertTransactionPreparation() {
+            if (!this.anyErrors()) {
+                __WEBPACK_IMPORTED_MODULE_1__repositories_TotalsRepository__["a" /* default */].resetTotalChanges();
+
+                if (this.newTransaction.type === 'transfer') {
+                    var that = this;
+                    this.insertTransaction('from');
+                    setTimeout(function () {
+                        that.insertTransaction('to');
+                    }, 100);
+                } else {
+                    this.insertTransaction();
+                }
+            }
+        },
+
+        /**
+         *
+         */
+        insertTransaction: function insertTransaction(direction) {
+            var data = __WEBPACK_IMPORTED_MODULE_2__repositories_TransactionsRepository__["a" /* default */].setFields(this.newTransaction);
+
+            if (direction) {
+                //It is a transfer transaction
+                data.direction = direction;
+
+                if (direction === 'from') {
+                    data.account_id = this.newTransaction.fromAccount.id;
+                } else if (direction === 'to') {
+                    data.account_id = this.newTransaction.toAccount.id;
+                }
+            }
+
+            helpers.post({
+                url: '/api/transactions',
+                data: data,
+                message: 'Transaction created',
+                clearFields: this.clearFields,
+                callback: function (response) {
+                    this.insertTransactionResponse(response);
+                }.bind(this)
+            });
+        },
+
+        /**
+         *
+         * @param response
+         */
+        insertTransactionResponse: function insertTransactionResponse(response) {
+            __WEBPACK_IMPORTED_MODULE_1__repositories_TotalsRepository__["a" /* default */].getSideBarTotals(this);
+            this.clearNewTransactionFields();
+            //this.newTransaction.dropdown = false;
+
+            if (response.multipleBudgets) {
+                __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.event.trigger('show-allocation-popup', [response, true]);
+                //We'll run the filter after the allocation has been dealt with
+            } else {
+                FilterRepository.runFilter(this);
+            }
+        },
+
+        /**
+         *
+         */
+        listen: function listen() {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).on('toggle-new-transaction', function (event) {
+                that.showNewTransaction = !that.showNewTransaction;
+            });
+            __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).on('accounts-loaded', function (event) {
+                store.getNewTransactionDefaults();
+            });
+        }
+
+    },
+    props: ['tab'],
+    mounted: function mounted() {
+        this.listen();
+        store.getNewTransactionDefaults();
+    }
+});
+
+/***/ }),
+/* 468 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "new-transaction-container" } }, [
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showNewTransaction,
+            expression: "showNewTransaction"
+          }
+        ],
+        style: {
+          color: _vm.shared.me.preferences.colors[_vm.newTransaction.type]
+        },
+        attrs: { id: "new-transaction" }
+      },
+      [
+        _c("div", { staticClass: "form-group" }, [
+          _vm._v("\n            >\n            ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "type" }, [
+          _c("div", { staticClass: "btn-group" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn",
+                style: { background: _vm.shared.me.preferences.colors.income },
+                on: {
+                  click: function($event) {
+                    _vm.newTransaction.type = "income"
+                  }
+                }
+              },
+              [_vm._v("Credit")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn",
+                style: { background: _vm.shared.me.preferences.colors.expense },
+                on: {
+                  click: function($event) {
+                    _vm.newTransaction.type = "expense"
+                  }
+                }
+              },
+              [_vm._v("Debit")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn",
+                style: {
+                  background: _vm.shared.me.preferences.colors.transfer
+                },
+                on: {
+                  click: function($event) {
+                    _vm.newTransaction.type = "transfer"
+                  }
+                }
+              },
+              [_vm._v("Transfer")]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("div", [
+            _c(
+              "div",
+              { staticClass: "help-row" },
+              [
+                _c("label", [_vm._v("Enter the transaction's date")]),
+                _vm._v(" "),
+                _c("dropdown", {
+                  staticClass: "dropdown-directive",
+                  attrs: {
+                    "animate-in-class": "flipInX",
+                    "animate-out-class": "flipOutX"
+                  },
+                  inlineTemplate: {
+                    render: function() {
+                      var _vm = this
+                      var _h = _vm.$createElement
+                      var _c = _vm._self._c || _h
+                      return _c("div", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-xs",
+                            on: {
+                              click: function($event) {
+                                _vm.toggleDropdown()
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Help\n                                "
+                            ),
+                            _c("span", { staticClass: "caret" })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(0)
+                      ])
+                    },
+                    staticRenderFns: [
+                      function() {
+                        var _vm = this
+                        var _h = _vm.$createElement
+                        var _c = _vm._self._c || _h
+                        return _c(
+                          "div",
+                          { staticClass: "dropdown-content animated" },
+                          [
+                            _c("div", { staticClass: "help" }, [
+                              _c("h3", [_vm._v("Acceptable formats")]),
+                              _vm._v(" "),
+                              _c("div", [
+                                _c("div", [
+                                  _vm._v(
+                                    "Days and months are case-insensitive and can be abbreviated (eg: mon or jan) or written in\n                                            full.\n                                        "
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v(
+                                    "Years can be written as either yy or yyyy."
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", [
+                                _c("div", [_vm._v("today")]),
+                                _vm._v(" "),
+                                _c("div", [_vm._v("yesterday")]),
+                                _vm._v(" "),
+                                _c("div", [_vm._v("tomorrow")]),
+                                _vm._v(" "),
+                                _c("div", [_vm._v("next Thursday")]),
+                                _vm._v(" "),
+                                _c("div", [_vm._v("last Thursday")]),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v("Thursday (The most recent Thursday)")
+                                ]),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v(
+                                    "date/month (In the current year. Example: 31/12, or 1/1.)"
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", [_vm._v("date/month/year")]),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v("12 Jan (In the current year)")
+                                ]),
+                                _vm._v(" "),
+                                _c("div", [_vm._v("12 Jan 15")])
+                              ])
+                            ])
+                          ]
+                        )
+                      }
+                    ]
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newTransaction.userDate,
+                  expression: "newTransaction.userDate"
+                }
+              ],
+              staticClass: "date mousetrap form-control",
+              attrs: { id: "date", placeholder: "date", type: "text" },
+              domProps: { value: _vm.newTransaction.userDate },
+              on: {
+                keyup: function($event) {
+                  if (!("button" in $event) && $event.keyCode !== 13) {
+                    return null
+                  }
+                  _vm.insertTransaction()
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newTransaction.userDate = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c(
+              "div",
+              { staticClass: "help-row" },
+              [
+                _c("label", [_vm._v("Enter the total")]),
+                _vm._v(" "),
+                _c("dropdown", {
+                  staticClass: "dropdown-directive",
+                  attrs: {
+                    "animate-in-class": "flipInX",
+                    "animate-out-class": "flipOutX"
+                  },
+                  inlineTemplate: {
+                    render: function() {
+                      var _vm = this
+                      var _h = _vm.$createElement
+                      var _c = _vm._self._c || _h
+                      return _c("div", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-xs",
+                            attrs: { tabindex: "-1" },
+                            on: {
+                              click: function($event) {
+                                _vm.toggleDropdown()
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Help\n                                "
+                            ),
+                            _c("span", { staticClass: "caret" })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(0)
+                      ])
+                    },
+                    staticRenderFns: [
+                      function() {
+                        var _vm = this
+                        var _h = _vm.$createElement
+                        var _c = _vm._self._c || _h
+                        return _c(
+                          "div",
+                          { staticClass: "dropdown-content animated" },
+                          [
+                            _c("div", { staticClass: "help" }, [
+                              _c("div", [
+                                _vm._v(
+                                  "Enter a value without a dollar sign. No need to add a negative sign for an expense transaction."
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", [_vm._v("For example:")]),
+                              _vm._v(" "),
+                              _c("div", [
+                                _c("div", [_vm._v("5")]),
+                                _vm._v(" "),
+                                _c("div", [_vm._v("5.5")]),
+                                _vm._v(" "),
+                                _c("div", [_vm._v("5.55")])
+                              ])
+                            ])
+                          ]
+                        )
+                      }
+                    ]
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newTransaction.total,
+                  expression: "newTransaction.total"
+                }
+              ],
+              staticClass: "total mousetrap form-control",
+              attrs: { placeholder: "$", type: "text" },
+              domProps: { value: _vm.newTransaction.total },
+              on: {
+                keyup: function($event) {
+                  if (!("button" in $event) && $event.keyCode !== 13) {
+                    return null
+                  }
+                  _vm.insertTransaction()
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newTransaction.total = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c(
+            "div",
+            { staticClass: "autocomplete-container" },
+            [
+              _c(
+                "div",
+                { staticClass: "help-row" },
+                [
+                  _c("label", [_vm._v("Enter a merchant (optional)")]),
+                  _vm._v(" "),
+                  _c("dropdown", {
+                    staticClass: "dropdown-directive",
+                    attrs: {
+                      "animate-in-class": "flipInX",
+                      "animate-out-class": "flipOutX"
+                    },
+                    inlineTemplate: {
+                      render: function() {
+                        var _vm = this
+                        var _h = _vm.$createElement
+                        var _c = _vm._self._c || _h
+                        return _c("div", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-info btn-xs",
+                              attrs: { tabindex: "-1" },
+                              on: {
+                                click: function($event) {
+                                  _vm.toggleDropdown()
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                Help\n                                "
+                              ),
+                              _c("span", { staticClass: "caret" })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(0)
+                        ])
+                      },
+                      staticRenderFns: [
+                        function() {
+                          var _vm = this
+                          var _h = _vm.$createElement
+                          var _c = _vm._self._c || _h
+                          return _c(
+                            "div",
+                            { staticClass: "dropdown-content animated" },
+                            [
+                              _c("div", { staticClass: "help" }, [
+                                _c("div", [
+                                  _vm._v(
+                                    "As you type a merchant, previous transactions with a matching merchant will show up."
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v(
+                                    "To fill in the fields with those of a previous transaction, either:"
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("ol", [
+                                  _c("li", [
+                                    _vm._v(
+                                      "Use the up and down arrow keys to select a previous transaction, then press enter."
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("li", [
+                                    _vm._v(
+                                      "Click on one of the previous transactions."
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v(
+                                    "Alternatively, you can just keep typing if you don't want to use the autocomplete."
+                                  )
+                                ])
+                              ])
+                            ]
+                          )
+                        }
+                      ]
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              !_vm.shared.me.preferences.autocompleteMerchant
+                ? _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newTransaction.merchant,
+                        expression: "newTransaction.merchant"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "merchant", type: "text" },
+                    domProps: { value: _vm.newTransaction.merchant },
+                    on: {
+                      keyup: function($event) {
+                        if (!("button" in $event) && $event.keyCode !== 13) {
+                          return null
+                        }
+                        _vm.insertTransaction()
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.newTransaction.merchant = $event.target.value
+                      }
+                    }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.shared.me.preferences.autocompleteMerchant
+                ? _c("transaction-autocomplete", {
+                    attrs: {
+                      placeholder: "merchant",
+                      id: "new-transaction-merchant",
+                      typing: _vm.newTransaction.merchant,
+                      "new-transaction": _vm.newTransaction,
+                      "function-on-enter": _vm.insertTransaction
+                    },
+                    on: {
+                      "update:typing": function($event) {
+                        _vm.newTransaction.merchant = $event
+                      },
+                      "update:newTransaction": function($event) {
+                        _vm.newTransaction = $event
+                      }
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "autocomplete-container" },
+            [
+              _c(
+                "div",
+                { staticClass: "help-row" },
+                [
+                  _c("label", [_vm._v("Enter a description (optional)")]),
+                  _vm._v(" "),
+                  _c("dropdown", {
+                    staticClass: "dropdown-directive",
+                    attrs: {
+                      "animate-in-class": "flipInX",
+                      "animate-out-class": "flipOutX"
+                    },
+                    inlineTemplate: {
+                      render: function() {
+                        var _vm = this
+                        var _h = _vm.$createElement
+                        var _c = _vm._self._c || _h
+                        return _c("div", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-info btn-xs",
+                              attrs: { tabindex: "-1" },
+                              on: {
+                                click: function($event) {
+                                  _vm.toggleDropdown()
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                Help\n                                "
+                              ),
+                              _c("span", { staticClass: "caret" })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(0)
+                        ])
+                      },
+                      staticRenderFns: [
+                        function() {
+                          var _vm = this
+                          var _h = _vm.$createElement
+                          var _c = _vm._self._c || _h
+                          return _c(
+                            "div",
+                            { staticClass: "dropdown-content animated" },
+                            [
+                              _c("div", { staticClass: "help" }, [
+                                _c("div", [
+                                  _vm._v(
+                                    "As you type a description, previous transactions with a matching description will show up."
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v(
+                                    "To fill in the fields with those of a previous transaction, either:"
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("ol", [
+                                  _c("li", [
+                                    _vm._v(
+                                      "Use the up and down arrow keys to select a previous transaction, then press enter."
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("li", [
+                                    _vm._v(
+                                      "Click on one of the previous transactions."
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v(
+                                    "Alternatively, you can just keep typing if you don't want to use the autocomplete."
+                                  )
+                                ])
+                              ])
+                            ]
+                          )
+                        }
+                      ]
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              !_vm.shared.me.preferences.autocompleteDescription
+                ? _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newTransaction.description,
+                        expression: "newTransaction.description"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "description", type: "text" },
+                    domProps: { value: _vm.newTransaction.description },
+                    on: {
+                      keyup: function($event) {
+                        if (!("button" in $event) && $event.keyCode !== 13) {
+                          return null
+                        }
+                        _vm.insertTransaction()
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.newTransaction.description = $event.target.value
+                      }
+                    }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.shared.me.preferences.autocompleteDescription
+                ? _c("transaction-autocomplete", {
+                    attrs: {
+                      placeholder: "description",
+                      id: "new-transaction-description",
+                      typing: _vm.newTransaction.description,
+                      "new-transaction": _vm.newTransaction,
+                      "function-on-enter": _vm.insertTransaction
+                    },
+                    on: {
+                      "update:typing": function($event) {
+                        _vm.newTransaction.description = $event
+                      },
+                      "update:newTransaction": function($event) {
+                        _vm.newTransaction = $event
+                      }
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.newTransaction.type !== "transfer",
+                  expression: " newTransaction.type !== 'transfer'"
+                }
+              ]
+            },
+            [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "new-transaction-account" } }, [
+                  _vm._v("Account")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newTransaction.account,
+                        expression: "newTransaction.account"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "new-transaction-account" },
+                    on: {
+                      keyup: function($event) {
+                        if (!("button" in $event) && $event.keyCode !== 13) {
+                          return null
+                        }
+                        _vm.insertTransaction()
+                      },
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.newTransaction.account = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.accounts, function(account) {
+                    return _c("option", { domProps: { value: account } }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(account.name) +
+                          "\n                        "
+                      )
+                    ])
+                  })
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.newTransaction.type === "transfer",
+                  expression: " newTransaction.type === 'transfer'"
+                }
+              ]
+            },
+            [
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "label",
+                  { attrs: { for: "new-transaction-from-account" } },
+                  [
+                    _vm._v(
+                      "Select the account your are transferring money from"
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newTransaction.fromAccount,
+                        expression: "newTransaction.fromAccount"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "new-transaction-from-account" },
+                    on: {
+                      keyup: function($event) {
+                        if (!("button" in $event) && $event.keyCode !== 13) {
+                          return null
+                        }
+                        _vm.insertTransaction()
+                      },
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.newTransaction.fromAccount = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.accounts, function(account) {
+                    return _c("option", { domProps: { value: account } }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(account.name) +
+                          "\n                        "
+                      )
+                    ])
+                  })
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.newTransaction.type === "transfer",
+                  expression: " newTransaction.type === 'transfer'"
+                }
+              ]
+            },
+            [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "new-transaction-to-account" } }, [
+                  _vm._v("Select the account you are transferring money to")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newTransaction.toAccount,
+                        expression: "newTransaction.toAccount"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "new-transaction-to-account" },
+                    on: {
+                      keyup: function($event) {
+                        if (!("button" in $event) && $event.keyCode !== 13) {
+                          return null
+                        }
+                        _vm.insertTransaction()
+                      },
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.newTransaction.toAccount = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.accounts, function(account) {
+                    return _c("option", { domProps: { value: account } }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(account.name) +
+                          "\n                        "
+                      )
+                    ])
+                  })
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "reconcile" }, [
+            _c(
+              "div",
+              { staticClass: "help-row" },
+              [
+                _c("label", { attrs: { for: "new-transaction-reconciled" } }, [
+                  _vm._v("Check this box if your transaction is reconciled")
+                ]),
+                _vm._v(" "),
+                _c("dropdown", {
+                  staticClass: "dropdown-directive",
+                  attrs: {
+                    "animate-in-class": "flipInX",
+                    "animate-out-class": "flipOutX"
+                  },
+                  inlineTemplate: {
+                    render: function() {
+                      var _vm = this
+                      var _h = _vm.$createElement
+                      var _c = _vm._self._c || _h
+                      return _c("div", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-xs",
+                            attrs: { tabindex: "-1" },
+                            on: {
+                              click: function($event) {
+                                _vm.toggleDropdown()
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Help\n                                "
+                            ),
+                            _c("span", { staticClass: "caret" })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(0)
+                      ])
+                    },
+                    staticRenderFns: [
+                      function() {
+                        var _vm = this
+                        var _h = _vm.$createElement
+                        var _c = _vm._self._c || _h
+                        return _c(
+                          "div",
+                          { staticClass: "dropdown-content animated" },
+                          [
+                            _c("div", { staticClass: "help" }, [
+                              _c("div", [
+                                _vm._v(
+                                  "The reconciled checkbox is so you can compare the transactions you enter here with those on your bank statement, verifying them, keeping them in sync."
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", [
+                                _vm._v(
+                                  "You can use the filter (click the magnifying glass icon at the top of the page) to see transactions that are/are not reconciled."
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", [
+                                _vm._v(
+                                  "If you don't reconcile the transaction now, you can reconcile it later by checking the reconciled checkbox for the transaction in the table below."
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      }
+                    ]
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newTransaction.reconciled,
+                  expression: "newTransaction.reconciled"
+                }
+              ],
+              attrs: { id: "new-transaction-reconciled", type: "checkbox" },
+              domProps: {
+                checked: Array.isArray(_vm.newTransaction.reconciled)
+                  ? _vm._i(_vm.newTransaction.reconciled, null) > -1
+                  : _vm.newTransaction.reconciled
+              },
+              on: {
+                __c: function($event) {
+                  var $$a = _vm.newTransaction.reconciled,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 &&
+                        (_vm.newTransaction.reconciled = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.newTransaction.reconciled = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.newTransaction.reconciled = $$c
+                  }
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _vm.newTransaction.type !== "transfer"
+            ? _c(
+                "div",
+                [
+                  _c(
+                    "div",
+                    { staticClass: "help-row" },
+                    [
+                      _c("label", [
+                        _vm._v("Add tags to your transaction (optional)")
+                      ]),
+                      _vm._v(" "),
+                      _c("dropdown", {
+                        staticClass: "dropdown-directive",
+                        attrs: {
+                          "animate-in-class": "flipInX",
+                          "animate-out-class": "flipOutX"
+                        },
+                        inlineTemplate: {
+                          render: function() {
+                            var _vm = this
+                            var _h = _vm.$createElement
+                            var _c = _vm._self._c || _h
+                            return _c("div", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-info btn-xs",
+                                  attrs: { tabindex: "-1" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.toggleDropdown()
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                Help\n                                "
+                                  ),
+                                  _c("span", { staticClass: "caret" })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm._m(0)
+                            ])
+                          },
+                          staticRenderFns: [
+                            function() {
+                              var _vm = this
+                              var _h = _vm.$createElement
+                              var _c = _vm._self._c || _h
+                              return _c(
+                                "div",
+                                { staticClass: "dropdown-content animated" },
+                                [
+                                  _c("div", { staticClass: "help" }, [
+                                    _c("div", [
+                                      _vm._v(
+                                        "To add tags to your transaction, start typing the name of your tag in the field, then use the up or down arrow keys to select a tag, then press enter."
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", [
+                                      _vm._v(
+                                        "Repeat the process to enter more than one tag."
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", [
+                                      _vm._v(
+                                        "The tag must first be created on the "
+                                      ),
+                                      _c("a", { attrs: { href: "/tags" } }, [
+                                        _vm._v("tags page")
+                                      ]),
+                                      _vm._v(
+                                        " in order for it to show up as an option here."
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", [
+                                      _vm._v(
+                                        "If you press enter with no tag selected, the transaction will be entered."
+                                      )
+                                    ])
+                                  ])
+                                ]
+                              )
+                            }
+                          ]
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("budget-autocomplete", {
+                    attrs: {
+                      "chosen-budgets": _vm.newTransaction.budgets,
+                      budgets: _vm.shared.budgets,
+                      "multiple-budgets": "true",
+                      "function-on-enter": _vm.insertTransaction
+                    },
+                    on: {
+                      "update:chosenBudgets": function($event) {
+                        _vm.newTransaction.budgets = $event
+                      }
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", [
+            _c(
+              "div",
+              { staticClass: "help-row" },
+              [
+                _c("label", [
+                  _vm._v("Duration (optional)\n                    ")
+                ]),
+                _vm._v(" "),
+                _c("dropdown", {
+                  staticClass: "dropdown-directive",
+                  attrs: {
+                    "animate-in-class": "flipInX",
+                    "animate-out-class": "flipOutX"
+                  },
+                  inlineTemplate: {
+                    render: function() {
+                      var _vm = this
+                      var _h = _vm.$createElement
+                      var _c = _vm._self._c || _h
+                      return _c("div", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-xs",
+                            attrs: { tabindex: "-1" },
+                            on: {
+                              click: function($event) {
+                                _vm.toggleDropdown()
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Help\n                                "
+                            ),
+                            _c("span", { staticClass: "caret" })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(0)
+                      ])
+                    },
+                    staticRenderFns: [
+                      function() {
+                        var _vm = this
+                        var _h = _vm.$createElement
+                        var _c = _vm._self._c || _h
+                        return _c(
+                          "div",
+                          { staticClass: "dropdown-content animated" },
+                          [
+                            _c("div", { staticClass: "help" }, [
+                              _c("div", [
+                                _vm._v("Enter the duration in H:M format.")
+                              ])
+                            ])
+                          ]
+                        )
+                      }
+                    ]
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newTransaction.duration,
+                  expression: "newTransaction.duration"
+                }
+              ],
+              staticClass: "mousetrap form-control",
+              attrs: { placeholder: "H:M", type: "text" },
+              domProps: { value: _vm.newTransaction.duration },
+              on: {
+                keyup: function($event) {
+                  if (!("button" in $event) && $event.keyCode !== 13) {
+                    return null
+                  }
+                  _vm.insertTransaction()
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newTransaction.duration = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("div", [
+            _c(
+              "div",
+              { staticClass: "help-row" },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success",
+                    attrs: { tabindex: "-1", id: "add-transaction" },
+                    on: {
+                      mousedown: function($event) {
+                        _vm.insertTransactionPreparation()
+                      }
+                    }
+                  },
+                  [_vm._v("Add transaction")]
+                ),
+                _vm._v(" "),
+                _c("dropdown", {
+                  staticClass: "dropdown-directive",
+                  attrs: {
+                    "animate-in-class": "flipInX",
+                    "animate-out-class": "flipOutX"
+                  },
+                  inlineTemplate: {
+                    render: function() {
+                      var _vm = this
+                      var _h = _vm.$createElement
+                      var _c = _vm._self._c || _h
+                      return _c("div", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-xs",
+                            attrs: { tabindex: "-1" },
+                            on: {
+                              click: function($event) {
+                                _vm.toggleDropdown()
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                Help\n                                "
+                            ),
+                            _c("span", { staticClass: "caret" })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(0)
+                      ])
+                    },
+                    staticRenderFns: [
+                      function() {
+                        var _vm = this
+                        var _h = _vm.$createElement
+                        var _c = _vm._self._c || _h
+                        return _c(
+                          "div",
+                          { staticClass: "dropdown-content animated" },
+                          [
+                            _c("div", { staticClass: "help" }, [
+                              _c("div", [
+                                _vm._v(
+                                  "You can also add a new transaction by pressing enter on your keyboard when the cursor is in one of the inputs (unless pressing enter is to select an item from one of the dropdown menus)."
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      }
+                    ]
+                  }
+                })
+              ],
+              1
+            )
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-334262ce", module.exports)
+  }
+}
+
+/***/ }),
+/* 469 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(470)
+/* template */
+var __vue_template__ = __webpack_require__(471)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/transactions/TransactionsComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4a763c42", Component.options)
+  } else {
+    hotAPI.reload("data-v-4a763c42", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 470 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            shared: store.state,
+            showStatus: false,
+            showDate: true,
+            showDescription: true,
+            showMerchant: true,
+            showTotal: true,
+            showType: true,
+            showAccount: true,
+            showDuration: true,
+            showReconciled: true,
+            showAllocated: true,
+            showBudgets: true,
+            showDelete: true
+        };
+    },
+    computed: {
+        transactions: function transactions() {
+            return this.shared.transactions;
+        }
+    },
+    components: {},
+    methods: {},
+    props: [],
+    mounted: function mounted() {}
+});
+
+/***/ }),
+/* 471 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _vm.shared.transactions.length === 0
+        ? _c("h3", [_vm._v("No transactions to show.")])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("edit-transaction-popup"),
+      _vm._v(" "),
+      _c("allocation-popup"),
+      _vm._v(" "),
+      _vm.shared.transactions.length > 0
+        ? _c(
+            "table",
+            { attrs: { id: "transactions" } },
+            [
+              _c("thead", [
+                _c("tr", [
+                  _c(
+                    "th",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.transactionPropertiesToShow.date,
+                          expression: "transactionPropertiesToShow.date"
+                        }
+                      ]
+                    },
+                    [_vm._v("Date")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.transactionPropertiesToShow.description,
+                          expression: "transactionPropertiesToShow.description"
+                        }
+                      ]
+                    },
+                    [_vm._v("Description")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.transactionPropertiesToShow.merchant,
+                          expression: "transactionPropertiesToShow.merchant"
+                        }
+                      ]
+                    },
+                    [_vm._v("Merchant")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.transactionPropertiesToShow.total,
+                          expression: "transactionPropertiesToShow.total"
+                        }
+                      ]
+                    },
+                    [_c("span", { staticClass: "total fa fa-dollar" })]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.transactionPropertiesToShow.account,
+                          expression: "transactionPropertiesToShow.account"
+                        }
+                      ]
+                    },
+                    [_vm._v("Account")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.transactionPropertiesToShow.duration,
+                          expression: "transactionPropertiesToShow.duration"
+                        }
+                      ]
+                    },
+                    [_vm._v("Duration")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.transactionPropertiesToShow.reconciled,
+                          expression: "transactionPropertiesToShow.reconciled"
+                        }
+                      ],
+                      staticClass: "reconcile"
+                    },
+                    [_vm._v("R")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.transactionPropertiesToShow.allocated,
+                          expression: "transactionPropertiesToShow.allocated"
+                        }
+                      ]
+                    },
+                    [_vm._v("Allocation")]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.transactions, function(transaction) {
+                return _c("transaction", {
+                  tag: "tbody",
+                  class:
+                    "add_to_search_total results-transaction-tbody" +
+                    transaction.type,
+                  style: {
+                    color: _vm.shared.me.preferences.colors[transaction.type]
+                  },
+                  attrs: {
+                    "transaction-properties-to-show":
+                      _vm.transactionPropertiesToShow,
+                    transactions: _vm.transactions,
+                    transaction: transaction,
+                    id: transaction.id
+                  },
+                  on: {
+                    "update:transactions": function($event) {
+                      _vm.transactions = $event
+                    }
+                  }
+                })
+              })
+            ],
+            2
+          )
+        : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4a763c42", module.exports)
+  }
+}
+
+/***/ }),
+/* 472 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(473)
+/* template */
+var __vue_template__ = __webpack_require__(474)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/transactions/EditTransactionPopupComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-618ce1df", Component.options)
+  } else {
+    hotAPI.reload("data-v-618ce1df", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 473 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -108950,7 +106735,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 462 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -109359,20 +107144,20 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-182fb0e1", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-618ce1df", module.exports)
   }
 }
 
 /***/ }),
-/* 463 */
+/* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(464)
+var __vue_script__ = __webpack_require__(476)
 /* template */
-var __vue_template__ = __webpack_require__(465)
+var __vue_template__ = __webpack_require__(477)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -109389,7 +107174,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/budget/src/components/AllocationPopupComponent.vue"
+Component.options.__file = "resources/assets/js/budget/src/components/budgets/AllocationPopupComponent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -109399,9 +107184,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-c849ea76", Component.options)
+    hotAPI.createRecord("data-v-219c3934", Component.options)
   } else {
-    hotAPI.reload("data-v-c849ea76", Component.options)
+    hotAPI.reload("data-v-219c3934", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -109412,7 +107197,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 464 */
+/* 476 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -109595,7 +107380,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 465 */
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -109730,7 +107515,2255 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-c849ea76", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-219c3934", module.exports)
+  }
+}
+
+/***/ }),
+/* 478 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(479)
+/* template */
+var __vue_template__ = __webpack_require__(480)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/transactions/TransactionsPageComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-fdc6e91a", Component.options)
+  } else {
+    hotAPI.reload("data-v-fdc6e91a", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 479 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(29);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            // page: 'home',
+            shared: store.state,
+            colors: {},
+            hoveringTotalsButton: false
+        };
+    },
+    components: {},
+    computed: {
+        budgets: function budgets() {
+            return this.shared.budgets;
+        }
+        // tab: function () {
+        //     return this.homePageRepository.tab;
+        // }
+    },
+    methods: {
+
+        /**
+         *
+         * @param tab
+         */
+        // switchTab: function (tab) {
+        //     HomePageRepository.setTab(tab);
+        //     FilterRepository.runFilter(this);
+        // },
+
+        /**
+         *
+         */
+        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseEnterOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseLeaveOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        toggleNewTransaction: function toggleNewTransaction() {
+            $.event.trigger('toggle-new-transaction');
+        }
+    },
+    props: [],
+    mounted: function mounted() {}
+});
+
+/***/ }),
+/* 480 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { attrs: { id: "toolbar" } }, [
+        _c("div", [
+          !_vm.shared.show.newTransaction
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-info",
+                  on: {
+                    click: function($event) {
+                      _vm.toggleNewTransaction()
+                    }
+                  }
+                },
+                [_vm._v("\n                New transaction\n            ")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.shared.show.newTransaction
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-info",
+                  on: {
+                    click: function($event) {
+                      _vm.toggleNewTransaction()
+                    }
+                  }
+                },
+                [_vm._v("\n                Hide new transaction\n            ")]
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-default totals-btn",
+              on: {
+                mouseenter: _vm.respondToMouseEnterOnTotalsButton,
+                mouseleave: _vm.respondToMouseLeaveOnTotalsButton
+              }
+            },
+            [_vm._v("\n                Totals\n            ")]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("new-transaction"),
+      _vm._v(" "),
+      _c("totals"),
+      _vm._v(" "),
+      _c("transactions"),
+      _vm._v(" "),
+      _c("mass-transaction-update-popup"),
+      _vm._v(" "),
+      _c("filter")
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-fdc6e91a", module.exports)
+  }
+}
+
+/***/ }),
+/* 481 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(482)
+/* template */
+var __vue_template__ = __webpack_require__(483)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/accounts/AccountsPageComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-35e6bb53", Component.options)
+  } else {
+    hotAPI.reload("data-v-35e6bb53", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 482 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__ = __webpack_require__(235);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            shared: store.state
+        };
+    },
+    computed: {
+        accounts: function accounts() {
+            return _.orderBy(this.shared.accounts, 'name');
+        }
+    },
+    components: {},
+    filters: {
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function numberFilter(number, howManyDecimals) {
+            return __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__["a" /* default */].numberFilter(number, howManyDecimals);
+        }
+    },
+    methods: {
+
+        /**
+         *
+         * @param account
+         */
+        showEditAccountPopup: function showEditAccountPopup(account) {
+            $.event.trigger('show-edit-account-popup', [account]);
+        },
+
+        /**
+         *
+         * @param account
+         */
+        viewTransactionsForAccount: function viewTransactionsForAccount(account) {
+            var currentNumToFetch = __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__["a" /* default */].state.filter.numToFetch;
+            var filter = __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__["a" /* default */].resetFilter();
+            filter.accounts.in.push(account.id);
+            //Show the same number of transactions as the filter was previously set to
+            filter.numToFetch = currentNumToFetch;
+            filter.displayTo = currentNumToFetch;
+            __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__["a" /* default */].setFilter(filter);
+            router.go('/');
+        }
+    },
+    props: [
+        //data to be received from parent
+    ],
+    mounted: function mounted() {
+        //Putting this here rather than loading just on page load in case the account balances need updating when this page is visited
+        store.getAccounts(this);
+    }
+});
+
+/***/ }),
+/* 483 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("edit-account", {
+        attrs: { accounts: _vm.accounts },
+        on: {
+          "update:accounts": function($event) {
+            _vm.accounts = $event
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "accounts" } }, [
+        _c(
+          "div",
+          { staticClass: "create-new-account" },
+          [
+            _c("label", [_vm._v("Create a new account")]),
+            _vm._v(" "),
+            _c("new-account", {
+              attrs: { accounts: _vm.accountsRepository.accounts },
+              on: {
+                "update:accounts": function($event) {
+                  _vm.accountsRepository.accounts = $event
+                }
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "table",
+          {},
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._l(_vm.accounts, function(account) {
+              return _c("tr", [
+                _c(
+                  "td",
+                  {
+                    staticClass: "pointer",
+                    on: {
+                      click: function($event) {
+                        _vm.showEditAccountPopup(account)
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(account.name) +
+                        "\n                "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("td", { staticClass: "balance" }, [
+                  _vm._v(_vm._s(_vm._f("numberFilter 2")(account.balance)))
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default btn-sm",
+                      on: {
+                        click: function($event) {
+                          _vm.viewTransactionsForAccount(account)
+                        }
+                      }
+                    },
+                    [_vm._v("View Transactions")]
+                  )
+                ])
+              ])
+            })
+          ],
+          2
+        )
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", { staticClass: "balance" }, [_vm._v("Balance")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-35e6bb53", module.exports)
+  }
+}
+
+/***/ }),
+/* 484 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(485)
+/* template */
+var __vue_template__ = __webpack_require__(486)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/budgets/FixedBudgetsPageComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6ffa872f", Component.options)
+  } else {
+    hotAPI.reload("data-v-6ffa872f", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 485 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            fixedBudgetTotals: [],
+            show: store.state.show.defaults,
+            shared: store.state,
+            orderByOptions: [{ name: 'name', value: 'name' }, { name: 'spent after starting date', value: 'spentOnOrAfterStartingDate' }],
+            orderBy: 'name',
+            reverseOrder: false
+        };
+    },
+    components: {},
+    computed: {
+        fixedBudgets: function fixedBudgets() {
+            return this.shared.fixedBudgets;
+        }
+    },
+    filters: {
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function numberFilter(number, howManyDecimals) {
+            return HelpersRepository.numberFilter(number, howManyDecimals);
+        },
+        orderBudgetsFilter: function orderBudgetsFilter(budgets) {
+            return BudgetsRepository.orderBudgetsFilter(budgets, this);
+        }
+    },
+    methods: {
+        /**
+         *
+         */
+        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
+            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
+            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        toggleNewBudget: function toggleNewBudget() {
+            $.event.trigger('toggle-new-budget');
+        },
+
+        /**
+        *
+        */
+        getFixedBudgetTotals: function getFixedBudgetTotals() {
+            helpers.get({
+                url: '/api/totals/fixedBudget',
+                storeProperty: 'fixedBudgetTotals',
+                callback: function (response) {
+                    this.fixedBudgetTotals = response;
+                }.bind(this)
+            });
+        },
+
+        /**
+         *
+         * @param budget
+         */
+        showBudgetPopup: function showBudgetPopup(budget) {
+            $.event.trigger('show-budget-popup', [budget]);
+        },
+
+        /**
+         *
+         */
+        listen: function listen() {
+            var that = this;
+            $(document).on('update-fixed-budget-table-totals', function (event, budget) {
+                that.getFixedBudgetTotals();
+            });
+        }
+    },
+    props: [
+        //data to be received from parent
+    ],
+    mounted: function mounted() {
+        store.getFixedBudgets();
+        this.getFixedBudgetTotals();
+        this.listen();
+    }
+});
+
+/***/ }),
+/* 486 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "budgets-page", attrs: { id: "fixed-budgets-page" } },
+    [
+      _c("edit-budget-popup", {
+        attrs: { budgets: _vm.fixedBudgets, page: "fixed" },
+        on: {
+          "update:budgets": function($event) {
+            _vm.fixedBudgets = $event
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("budgets-toolbar"),
+      _vm._v(" "),
+      _c("new-budget", {
+        attrs: { budgets: _vm.fixedBudgets, page: "fixedBudgets" },
+        on: {
+          "update:budgets": function($event) {
+            _vm.fixedBudgets = $event
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        { attrs: { id: "budget-content" } },
+        [
+          _c("totals", { attrs: { show: _vm.show } }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "budget-table fixed-budget-table" },
+            [_c("fixed-budgets-table")],
+            1
+          ),
+          _vm._v(" "),
+          _c("span", {
+            staticClass: "tooltipster",
+            attrs: { id: "budget_hover_span", title: "" }
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6ffa872f", module.exports)
+  }
+}
+
+/***/ }),
+/* 487 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(488)
+/* template */
+var __vue_template__ = __webpack_require__(489)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/budgets/FlexBudgetsPageComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-151fea4e", Component.options)
+  } else {
+    hotAPI.reload("data-v-151fea4e", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 488 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(29);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            show: store.state.show.defaults,
+            shared: store.state,
+            flexBudgetTotals: [],
+            orderByOptions: [{ name: 'name', value: 'name' }, { name: 'spent after starting date', value: 'spentOnOrAfterStartingDate' }],
+            orderBy: 'name',
+            reverseOrder: false
+        };
+    },
+    components: {},
+    computed: {
+        flexBudgets: function flexBudgets() {
+            return this.shared.flexBudgets;
+        }
+    },
+    filters: {
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function numberFilter(number, howManyDecimals) {
+            return helpers.numberFilter(number, howManyDecimals);
+        },
+        orderBudgetsFilter: function orderBudgetsFilter(budgets) {
+            return store.orderBudgetsFilter(budgets, this);
+        }
+    },
+    methods: {
+
+        /**
+         *
+         */
+        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseEnterOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseLeaveOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        toggleNewBudget: function toggleNewBudget() {
+            $.event.trigger('toggle-new-budget');
+        },
+
+        /**
+        *
+        */
+        getFlexBudgetTotals: function getFlexBudgetTotals() {
+            helpers.get({
+                url: '/api/totals/flexBudget',
+                //                    storeProperty: 'flexBudgetTotals',
+                callback: function (response) {
+                    this.flexBudgetTotals = response;
+                }.bind(this)
+            });
+        },
+
+        /**
+         *
+         * @param budget
+         */
+        showBudgetPopup: function showBudgetPopup(budget) {
+            $.event.trigger('show-budget-popup', [budget]);
+        },
+
+        /**
+         *
+         */
+        listen: function listen() {
+            var that = this;
+            $(document).on('update-flex-budget-table-totals', function (event) {
+                that.getFlexBudgetTotals();
+            });
+        }
+    },
+    props: [
+        //data to be received from parent
+    ],
+    mounted: function mounted() {
+        store.getFlexBudgets(this);
+        this.getFlexBudgetTotals();
+        this.listen();
+    }
+});
+
+/***/ }),
+/* 489 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "budgets-page", attrs: { id: "flex-budgets-page" } },
+    [
+      _c("edit-budget-popup", {
+        attrs: { budgets: _vm.flexBudgets, page: "flex" },
+        on: {
+          "update:budgets": function($event) {
+            _vm.flexBudgets = $event
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("budgets-toolbar"),
+      _vm._v(" "),
+      _c("new-budget", {
+        attrs: { budgets: _vm.flexBudgets, page: "flexBudgets" },
+        on: {
+          "update:budgets": function($event) {
+            _vm.flexBudgets = $event
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        { attrs: { id: "budget-content" } },
+        [
+          _c("totals", { attrs: { show: _vm.show } }),
+          _vm._v(" "),
+          _c("div", { staticClass: "budget-table flex-budget-table" }, [
+            _c("h1", [_vm._v("Flex Budget Table")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "order-by" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "order-by" } }, [
+                  _vm._v("Order By")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.orderBy,
+                        expression: "orderBy"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "order-by" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.orderBy = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.orderByOptions, function(orderByOption) {
+                    return _c(
+                      "option",
+                      { domProps: { value: orderByOption.value } },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(orderByOption.name) +
+                            "\n                        "
+                        )
+                      ]
+                    )
+                  })
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "checkbox-container" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.reverseOrder,
+                      expression: "reverseOrder"
+                    }
+                  ],
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(_vm.reverseOrder)
+                      ? _vm._i(_vm.reverseOrder, null) > -1
+                      : _vm.reverseOrder
+                  },
+                  on: {
+                    __c: function($event) {
+                      var $$a = _vm.reverseOrder,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.reverseOrder = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.reverseOrder = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.reverseOrder = $$c
+                      }
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "reverse-order-" } }, [
+                  _vm._v("Reverse Order")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "table",
+              {
+                staticClass: "table table-bordered",
+                attrs: { id: "flex-budget-info-table" }
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._l(_vm.flexBudgets | _vm.orderBudgetsFilter, function(
+                  budget
+                ) {
+                  return _c("tr", { staticClass: "budget_info_ul" }, [
+                    _c(
+                      "td",
+                      {
+                        staticClass: "pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(budget.name))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "percent pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(budget.amount))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "amount pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(budget.calculatedAmount)
+                          )
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "CSD pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _c("span", [
+                          _vm._v(_vm._s(budget.formattedStartingDate))
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "month-number pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(budget.cumulativeMonthNumber))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(
+                              budget.spentBeforeStartingDate
+                            )
+                          )
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(
+                              budget.spentOnOrAfterStartingDate
+                            )
+                          )
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "received pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter 2")(
+                              budget.receivedOnOrAfterStartingDate
+                            )
+                          )
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "remaining pointer",
+                        class: { "negative-remaining": budget.remaining < 0 },
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(_vm._f("numberFilter 2")(budget.remaining))
+                        )
+                      ]
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  {
+                    staticClass: "budget_info_ul",
+                    attrs: { id: "flex-budget-totals" }
+                  },
+                  [
+                    _c("td", [_vm._v("allocated")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.allocatedAmount
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.allocatedCalculatedAmount
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.allocatedRemaining
+                          )
+                        )
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  {
+                    staticClass: "budget_info_ul",
+                    attrs: { id: "flex-budget-unallocated" }
+                  },
+                  [
+                    _c("td", [_vm._v("unallocated")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(_vm._s(_vm.flexBudgetTotals.unallocatedAmount))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.unallocatedCalculatedAmount
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.unallocatedRemaining
+                          )
+                        )
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  {
+                    staticClass: "budget_info_ul totals",
+                    attrs: { id: "flex-budget-totals" }
+                  },
+                  [
+                    _c("td", [_vm._v("totals")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.flexBudgetTotals.allocatedPlusUnallocatedAmount
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals
+                              .allocatedPlusUnallocatedCalculatedAmount
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.spentBeforeStartingDate
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.spentOnOrAfterStartingDate
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals.receivedOnOrAfterStartingDate
+                          )
+                        )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("numberFilter 2")(
+                            _vm.flexBudgetTotals
+                              .allocatedPlusUnallocatedRemaining
+                          )
+                        )
+                      )
+                    ])
+                  ]
+                )
+              ],
+              2
+            )
+          ]),
+          _vm._v(" "),
+          _c("span", {
+            staticClass: "tooltipster",
+            attrs: { id: "budget_hover_span", title: "" }
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c(
+        "th",
+        { staticClass: "tooltipster", attrs: { title: "# percent of F/I" } },
+        [
+          _c("div", [_vm._v("% of remaining")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("balance")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "amount (% column % of F/I)" }
+        },
+        [
+          _c("div", [_vm._v("Calculated")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("amount")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "cumulative starting date" }
+        },
+        [
+          _c("div", [_vm._v("Starting")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("date")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "cumulative month number" }
+        },
+        [
+          _c("div", [_vm._v("Month")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("number")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "spent before starting date" }
+        },
+        [
+          _c("div", [_vm._v("Spent <")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("starting date")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "spent after starting date" }
+        },
+        [
+          _c("div", [_vm._v("Spent >=")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("starting date")])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "received after starting date" }
+        },
+        [
+          _c("div", [_vm._v("Received >=")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("starting date")])
+        ]
+      ),
+      _vm._v(" "),
+      _c("th", { staticClass: "tooltipster", attrs: { title: "remaining" } }, [
+        _vm._v("Remaining")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-151fea4e", module.exports)
+  }
+}
+
+/***/ }),
+/* 490 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(491)
+/* template */
+var __vue_template__ = __webpack_require__(492)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/budgets/UnassignedBudgetsPageComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1d376c08", Component.options)
+  } else {
+    hotAPI.reload("data-v-1d376c08", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 491 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(29);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            show: ShowRepository.defaults,
+            shared: store.state
+        };
+    },
+    components: {},
+    computed: {
+        unassignedBudgets: function unassignedBudgets() {
+            return _.orderBy(this.shared.unassignedBudgets, 'name');
+        }
+    },
+    methods: {
+        /**
+         *
+         */
+        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseEnterOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseLeaveOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        toggleNewBudget: function toggleNewBudget() {
+            $.event.trigger('toggle-new-budget');
+        },
+
+        /**
+         *
+         * @param budget
+         */
+        showBudgetPopup: function showBudgetPopup(budget) {
+            $.event.trigger('show-budget-popup', [budget]);
+        }
+    },
+    props: [
+        //data to be received from parent
+    ],
+    mounted: function mounted() {}
+});
+
+/***/ }),
+/* 492 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "budgets-page", attrs: { id: "unassigned-budgets-page" } },
+    [
+      _c("edit-budget-popup", {
+        attrs: { budgets: _vm.unassignedBudgets, page: "unassigned" },
+        on: {
+          "update:budgets": function($event) {
+            _vm.unassignedBudgets = $event
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("budgets-toolbar"),
+      _vm._v(" "),
+      _c("new-budget", {
+        attrs: { budgets: _vm.unassignedBudgets, page: "unassignedBudgets" },
+        on: {
+          "update:budgets": function($event) {
+            _vm.unassignedBudgets = $event
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        { attrs: { id: "budget-content" } },
+        [
+          _c("totals", { attrs: { show: _vm.show } }),
+          _vm._v(" "),
+          _c("div", { staticClass: "budget-table unassigned-budget-table" }, [
+            _c("h1", [_vm._v("Unassigned Budget Table")]),
+            _vm._v(" "),
+            _c(
+              "table",
+              {
+                staticClass: "table table-bordered",
+                attrs: { id: "unassigned-budget-info-table" }
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._l(_vm.unassignedBudgets, function(budget) {
+                  return _c("tr", { staticClass: "budget_info_ul" }, [
+                    _c(
+                      "td",
+                      {
+                        staticClass: "pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "unassigned")
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(budget.name))]
+                    )
+                  ])
+                })
+              ],
+              2
+            )
+          ]),
+          _vm._v(" "),
+          _c("span", {
+            staticClass: "tooltipster",
+            attrs: { id: "budget_hover_span", title: "" }
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [_c("th", [_vm._v("Name")])])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1d376c08", module.exports)
+  }
+}
+
+/***/ }),
+/* 493 */,
+/* 494 */,
+/* 495 */,
+/* 496 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(497)
+/* template */
+var __vue_template__ = __webpack_require__(498)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/favourite_transactions/FavouriteTransactionsComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3a90783f", Component.options)
+  } else {
+    hotAPI.reload("data-v-3a90783f", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 497 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            favouriteTransactions: [],
+            shared: store.state,
+            newFavourite: {
+                budgets: []
+            }
+        };
+    },
+    components: {},
+    computed: {
+        budgets: function budgets() {
+            return this.shared.budgets;
+        },
+        favouriteTransactions: function favouriteTransactions() {
+            return this.shared.favouriteTransactions;
+        }
+    },
+    methods: {
+
+        /**
+         *
+         * @param favouriteTransaction
+         */
+        showUpdateFavouriteTransactionPopup: function showUpdateFavouriteTransactionPopup(favouriteTransaction) {
+            $.event.trigger('show-update-favourite-transaction-popup', [favouriteTransaction]);
+        }
+
+    },
+    props: [
+        //data to be received from parent
+    ],
+    mounted: function mounted() {}
+});
+
+/***/ }),
+/* 498 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { attrs: { id: "favourite-transactions-page" } },
+    [
+      _c("new-favourite-transaction", {
+        attrs: {
+          budgets: _vm.budgets,
+          "favourite-transactions": _vm.favouriteTransactions,
+          accounts: _vm.accountsRepository.accounts
+        },
+        on: {
+          "update:favouriteTransactions": function($event) {
+            _vm.favouriteTransactions = $event
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("update-favourite-transaction", {
+        attrs: {
+          budgets: _vm.budgets,
+          "favourite-transactions": _vm.favouriteTransactions,
+          accounts: _vm.accountsRepository.accounts
+        },
+        on: {
+          "update:favouriteTransactions": function($event) {
+            _vm.favouriteTransactions = $event
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("div", [
+        _c("h2", [_vm._v("Favourite transactions")]),
+        _vm._v(" "),
+        _c(
+          "table",
+          { attrs: { id: "favourite-transactions" } },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._l(_vm.favouriteTransactions, function(favourite) {
+              return _c(
+                "tr",
+                {
+                  staticClass: "pointer",
+                  on: {
+                    click: function($event) {
+                      _vm.showUpdateFavouriteTransactionPopup(favourite)
+                    }
+                  }
+                },
+                [
+                  _c("td", [_vm._v(_vm._s(favourite.name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(favourite.type))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(favourite.description))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(favourite.merchant))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(favourite.total))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    favourite.account
+                      ? _c("span", [_vm._v(_vm._s(favourite.account.name))])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    favourite.fromAccount
+                      ? _c("span", [
+                          _vm._v("from " + _vm._s(favourite.fromAccount.name))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    favourite.fromAccount && favourite.toAccount
+                      ? _c("span")
+                      : _vm._e(),
+                    _vm._v(" "),
+                    favourite.toAccount
+                      ? _c("span", [
+                          _vm._v("to " + _vm._s(favourite.toAccount.name))
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    { staticClass: "budgets" },
+                    _vm._l(favourite.budgets, function(budget) {
+                      return _c(
+                        "li",
+                        {
+                          staticClass: "label label-default",
+                          class: {
+                            "tag-with-fixed-budget": budget.type === "fixed",
+                            "tag-with-flex-budget": budget.type === "flex",
+                            "tag-without-budget": budget.type === "unassigned"
+                          }
+                        },
+                        [
+                          _c("span", [_vm._v(_vm._s(budget.name))]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "type" }, [
+                            _vm._v(_vm._s(budget.type))
+                          ])
+                        ]
+                      )
+                    })
+                  )
+                ]
+              )
+            })
+          ],
+          2
+        )
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Type")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Description")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Merchant")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Total")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Account")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Tags")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3a90783f", module.exports)
   }
 }
 

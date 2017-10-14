@@ -505,8 +505,8 @@
 
 <script>
     import $ from 'jquery'
-    import TotalsRepository from '../repositories/TotalsRepository'
-    import TransactionsRepository from '../repositories/TransactionsRepository'
+    import TotalsRepository from '../../repositories/TotalsRepository'
+    import TransactionsRepository from '../../repositories/TransactionsRepository'
 
     export default {
         data: function () {
