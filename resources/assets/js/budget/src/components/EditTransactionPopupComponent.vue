@@ -81,7 +81,7 @@
                     class="form-control"
                 >
                     <option
-                        v-for="account in accounts"
+                        v-for="account in shared.accounts"
                         v-bind:value="account"
                     >
                         {{ account.name }}
@@ -140,7 +140,7 @@
             <budget-autocomplete
                 v-if="selectedTransaction.type !== 'transfer'"
                 :chosen-budgets.sync="selectedTransaction.budgets"
-                :budgets="budgets"
+                :budgets="shared.budgets"
                 multiple-budgets="true"
             >
             </budget-autocomplete>
@@ -161,6 +161,7 @@
     import FilterRepository from '../repositories/FilterRepository'
     import TotalsRepository from '../repositories/TotalsRepository'
     import helpers from '../repositories/Helpers'
+    import $ from 'jquery'
     export default {
         data: function () {
             return {
@@ -175,11 +176,6 @@
             };
         },
         components: {},
-        computed: {
-            budgets: function () {
-                return this.shared.budgets;
-            }
-        },
         methods: {
 
             /**
@@ -221,6 +217,7 @@
                         $.event.trigger('clear-total-changes');
                         TotalsRepository.getSideBarTotals(this);
                         FilterRepository.getBasicFilterTotals(this);
+                    }
                 });
             },
 

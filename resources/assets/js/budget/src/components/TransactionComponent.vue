@@ -89,7 +89,7 @@
     <!--Budgets-->
     <tr
         v-if="transaction.budgets"
-        v-show="transactionPropertiesToShow.budgets && transaction.budgets.length > 0"
+        v-show="shared.transactionPropertiesToShow.budgets && shared.transaction.budgets.length > 0"
         class="tag-location-container">
 
         <td colspan="9">

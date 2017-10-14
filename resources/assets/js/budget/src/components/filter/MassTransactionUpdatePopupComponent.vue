@@ -51,6 +51,7 @@
 
 <script>
     import Helpers from '../../repositories/Helpers'
+    import $ from 'jquery'
     export default {
         data: function () {
             return {

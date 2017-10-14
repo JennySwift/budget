@@ -6065,14 +6065,20 @@ Date.setLocale('en-AU');
             preferences: {
                 show: {
                     totals: ''
-                }
+                },
+                colors: {}
             }
         },
+        env: '',
         //For home page tabs
         tab: '',
         loading: false,
         accounts: [],
         budgets: [],
+        transaction: {
+            budgets: []
+        },
+        transactions: [],
         fixedBudgets: [],
         flexBudgets: [],
         unassignedBudgets: [],
@@ -6163,7 +6169,7 @@ Date.setLocale('en-AU');
     getNewTransactionDefaults: function getNewTransactionDefaults() {
         //Fill in the new transaction fields if development environment
         //Todo: get env
-        if (env === 'local') {
+        if (this.state.env === 'local') {
             this.state.defaults.total = 10;
             this.state.defaults.merchant = 'some merchant';
             this.state.defaults.description = 'some description';
@@ -96560,22 +96566,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__budget_src_components_shared_LoadingComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__budget_src_components_shared_LoadingComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__budget_src_components_shared_PopupComponent_vue__ = __webpack_require__(395);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__budget_src_components_shared_PopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__budget_src_components_shared_PopupComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__budget_src_components_shared_AutocompleteComponent_vue__ = __webpack_require__(398);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__budget_src_components_shared_AutocompleteComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__budget_src_components_shared_AutocompleteComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_FeedbackComponent_vue__ = __webpack_require__(401);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_FeedbackComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_FeedbackComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_NewTransactionComponent_vue__ = __webpack_require__(404);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_NewTransactionComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__budget_src_components_NewTransactionComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_TotalsComponent_vue__ = __webpack_require__(408);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_TotalsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__budget_src_components_TotalsComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_TransactionsComponent_vue__ = __webpack_require__(411);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_TransactionsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__budget_src_components_TransactionsComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__ = __webpack_require__(414);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__budget_src_components_shared_DropdownComponent_vue__ = __webpack_require__(454);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__budget_src_components_shared_DropdownComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__budget_src_components_shared_DropdownComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_BudgetAutocompleteComponent_vue__ = __webpack_require__(457);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_BudgetAutocompleteComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_BudgetAutocompleteComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_shared_AutocompleteComponent_vue__ = __webpack_require__(398);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_shared_AutocompleteComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__budget_src_components_shared_AutocompleteComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_shared_FeedbackComponent_vue__ = __webpack_require__(401);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_shared_FeedbackComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__budget_src_components_shared_FeedbackComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_NewTransactionComponent_vue__ = __webpack_require__(404);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_NewTransactionComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__budget_src_components_NewTransactionComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue__ = __webpack_require__(408);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__budget_src_components_TransactionsComponent_vue__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__budget_src_components_TransactionsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__budget_src_components_TransactionsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__ = __webpack_require__(414);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__budget_src_components_EditTransactionPopupComponent_vue__ = __webpack_require__(460);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__budget_src_components_EditTransactionPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__budget_src_components_EditTransactionPopupComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__budget_src_components_AllocationPopupComponent_vue__ = __webpack_require__(463);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__budget_src_components_AllocationPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__budget_src_components_AllocationPopupComponent_vue__);
 
 
 // var vueTippy = require('vue-tippy');
 // Vue.use(vueTippy);
+
+
 
 
 
@@ -96589,18 +96605,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
+
 //Shared components
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('navbar', __WEBPACK_IMPORTED_MODULE_1__budget_src_components_shared_NavbarComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('feedback', __WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_FeedbackComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('feedback', __WEBPACK_IMPORTED_MODULE_7__budget_src_components_shared_FeedbackComponent_vue___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('loading', __WEBPACK_IMPORTED_MODULE_2__budget_src_components_shared_LoadingComponent_vue___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('popup', __WEBPACK_IMPORTED_MODULE_3__budget_src_components_shared_PopupComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('autocomplete', __WEBPACK_IMPORTED_MODULE_4__budget_src_components_shared_AutocompleteComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('autocomplete', __WEBPACK_IMPORTED_MODULE_6__budget_src_components_shared_AutocompleteComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('dropdown', __WEBPACK_IMPORTED_MODULE_4__budget_src_components_shared_DropdownComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('budget-autocomplete', __WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_BudgetAutocompleteComponent_vue___default.a);
 
 // Components
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('new-transaction', __WEBPACK_IMPORTED_MODULE_6__budget_src_components_NewTransactionComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('totals', __WEBPACK_IMPORTED_MODULE_7__budget_src_components_TotalsComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transactions', __WEBPACK_IMPORTED_MODULE_8__budget_src_components_TransactionsComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('mass-transaction-update-popup', __WEBPACK_IMPORTED_MODULE_9__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('new-transaction', __WEBPACK_IMPORTED_MODULE_8__budget_src_components_NewTransactionComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('totals', __WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transactions', __WEBPACK_IMPORTED_MODULE_10__budget_src_components_TransactionsComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('mass-transaction-update-popup', __WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('edit-transaction-popup', __WEBPACK_IMPORTED_MODULE_12__budget_src_components_EditTransactionPopupComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('allocation-popup', __WEBPACK_IMPORTED_MODULE_13__budget_src_components_AllocationPopupComponent_vue___default.a);
 
 /***/ }),
 /* 389 */
@@ -99545,7 +99567,9 @@ var render = function() {
             expression: "showNewTransaction"
           }
         ],
-        style: { color: _vm.me.preferences.colors[_vm.newTransaction.type] },
+        style: {
+          color: _vm.shared.me.preferences.colors[_vm.newTransaction.type]
+        },
         attrs: { id: "new-transaction" }
       },
       [
@@ -99941,7 +99965,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              !_vm.me.preferences.autocompleteMerchant
+              !_vm.shared.me.preferences.autocompleteMerchant
                 ? _c("input", {
                     directives: [
                       {
@@ -99971,7 +99995,7 @@ var render = function() {
                   })
                 : _vm._e(),
               _vm._v(" "),
-              _vm.me.preferences.autocompleteMerchant
+              _vm.shared.me.preferences.autocompleteMerchant
                 ? _c("transaction-autocomplete", {
                     attrs: {
                       placeholder: "merchant",
@@ -100090,7 +100114,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              !_vm.me.preferences.autocompleteDescription
+              !_vm.shared.me.preferences.autocompleteDescription
                 ? _c("input", {
                     directives: [
                       {
@@ -100120,7 +100144,7 @@ var render = function() {
                   })
                 : _vm._e(),
               _vm._v(" "),
-              _vm.me.preferences.autocompleteDescription
+              _vm.shared.me.preferences.autocompleteDescription
                 ? _c("transaction-autocomplete", {
                     attrs: {
                       placeholder: "description",
@@ -100574,7 +100598,7 @@ var render = function() {
                   _c("budget-autocomplete", {
                     attrs: {
                       "chosen-budgets": _vm.newTransaction.budgets,
-                      budgets: _vm.budgets,
+                      budgets: _vm.shared.budgets,
                       "multiple-budgets": "true",
                       "function-on-enter": _vm.insertTransaction
                     },
@@ -101819,10 +101843,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -101864,25 +101884,15 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.transactions.length === 0
+      _vm.shared.transactions.length === 0
         ? _c("h3", [_vm._v("No transactions to show.")])
         : _vm._e(),
       _vm._v(" "),
-      _c("edit-transaction-popup", {
-        attrs: {
-          transactions: _vm.transactions,
-          accounts: _vm.accountsRepository.accounts
-        },
-        on: {
-          "update:transactions": function($event) {
-            _vm.transactions = $event
-          }
-        }
-      }),
+      _c("edit-transaction-popup"),
       _vm._v(" "),
       _c("allocation-popup"),
       _vm._v(" "),
-      _vm.transactions.length > 0
+      _vm.shared.transactions.length > 0
         ? _c(
             "table",
             { attrs: { id: "transactions" } },
@@ -102108,6 +102118,8 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery__);
 //
 //
 //
@@ -102159,6 +102171,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -102198,7 +102211,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * @param transaction
          */
         addBudgetsToTransaction: function addBudgetsToTransaction(transaction) {
-            $.event.trigger('show-loading');
+            __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.event.trigger('show-loading');
 
             var data = {
                 addingBudgets: true,
@@ -102238,7 +102251,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          */
         listen: function listen() {
             var that = this;
-            $(document).on('show-mass-transaction-update-popup', function (event) {
+            __WEBPACK_IMPORTED_MODULE_1_jquery___default()(document).on('show-mass-transaction-update-popup', function (event) {
                 that.showPopup = true;
                 that.showProgress = false;
                 that.budgetsToAdd = [];
@@ -108063,6 +108076,1663 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 450 */,
+/* 451 */,
+/* 452 */,
+/* 453 */,
+/* 454 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(455)
+/* template */
+var __vue_template__ = __webpack_require__(456)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/shared/DropdownComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b0029fd4", Component.options)
+  } else {
+    hotAPI.reload("data-v-b0029fd4", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 455 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {};
+    },
+    components: {},
+    methods: {
+        toggleDropdown: function toggleDropdown() {
+            if (__WEBPACK_IMPORTED_MODULE_0_jquery___default()(this.$el).find('.dropdown-content').hasClass(this.animateInClass)) {
+                this.hideDropdown();
+            } else {
+                this.showDropdown();
+            }
+        },
+
+        showDropdown: function showDropdown() {
+            __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this.$el).find('.dropdown-content').css('display', 'flex').removeClass(this.animateOutClass).addClass(this.animateInClass);
+        },
+
+        hideDropdown: function hideDropdown() {
+            __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this.$el).find('.dropdown-content').removeClass(this.animateInClass).addClass(this.animateOutClass);
+            //.css('display', 'none');
+        },
+
+        /**
+         *
+         */
+        listen: function listen() {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_0_jquery___default()("body").on('click', function (event) {
+                if (!that.$el || !that.$el.contains(event.target)) {
+                    that.hideDropdown();
+                }
+            });
+        }
+
+    },
+    props: ['animateInClass', 'animateOutClass', 'scrollTo'],
+    mounted: function mounted() {
+        this.listen();
+    }
+});
+
+/***/ }),
+/* 456 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b0029fd4", module.exports)
+  }
+}
+
+/***/ }),
+/* 457 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(458)
+/* template */
+var __vue_template__ = __webpack_require__(459)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/shared/BudgetAutocompleteComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1331635a", Component.options)
+  } else {
+    hotAPI.reload("data-v-1331635a", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 458 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            results: [],
+            messages: {},
+            currentIndex: 0,
+            typing: '',
+            showDropdown: false
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         * Check for duplicate budgets when adding a new budget to an array
+         * @param budgetId
+         * @param budgetArray
+         * @returns {boolean}
+         */
+        duplicateBudgetCheck: function duplicateBudgetCheck(budgetId, budgetArray) {
+            for (var i = 0; i < budgetArray.length; i++) {
+                if (budgetArray[i].id === budgetId) {
+                    return false; //it is a duplicate
+                }
+            }
+            return true; //it is not a duplicate
+        },
+
+        /**
+         *
+         * @param index
+         */
+        chooseBudget: function chooseBudget(index) {
+            if (index !== undefined) {
+                //Item was chosen by clicking, not by pressing enter
+                this.currentIndex = index;
+            }
+
+            if (this.multipleBudgets) {
+                this.addBudget();
+            } else {
+                this.fillField();
+            }
+        },
+
+        /**
+         * For if only one budget can be chosen
+         */
+        fillField: function fillField() {
+            this.typing = this.results[this.currentIndex].name;
+            this.model = this.results[this.currentIndex];
+            if (this.focusOnEnter) {
+                // Todo: This line doesn't work if budget is chosen with mouse click
+                $("#" + this.focusOnEnter).focus();
+            }
+            this.hideAndClear();
+        },
+
+        /**
+         * For if multiple budgets can be chosen
+         */
+        addBudget: function addBudget() {
+            var budgetId = this.results[this.currentIndex].id;
+
+            if (!this.duplicateBudgetCheck(budgetId, this.chosenBudgets)) {
+                //$rootScope.$broadcast('provideFeedback', 'You have already entered that budget');
+                this.hideAndClear();
+                return;
+            }
+
+            this.chosenBudgets.push(this.results[this.currentIndex]);
+            this.$dispatch('budget-chosen');
+            this.hideAndClear();
+        },
+
+        /**
+         * Hide the dropdown and clear the input field
+         */
+        hideAndClear: function hideAndClear() {
+            this.showDropdown = false;
+
+            if (this.multipleBudgets) {
+                this.typing = '';
+            }
+
+            this.currentIndex = null;
+            $('.highlight').removeClass('highlight');
+        },
+
+        /**
+         *
+         * @param response
+         * @param typing
+         * @returns {*}
+         */
+        highlightLetters: function highlightLetters(response, typing) {
+            typing = typing.toLowerCase();
+
+            for (var i = 0; i < response.length; i++) {
+                var name = response[i].name;
+                var index = name.toLowerCase().indexOf(typing);
+                var substr = name.substr(index, typing.length);
+
+                //var html = $sce.trustAsHtml(name.replace(substr, '<span class="highlight">' + substr + '</span>'));
+                var html = name.replace(substr, '<span class="highlight">' + substr + '</span>');
+                response[i].html = html;
+            }
+
+            return response;
+        },
+
+        /**
+         *
+         * @param index
+         */
+        hoverItem: function hoverItem(index) {
+            this.currentIndex = index;
+        },
+
+        /**
+         * Act on keypress for input field
+         * @param keycode
+         * @returns {boolean}
+         */
+        filterBudgets: function filterBudgets(keycode) {
+            if (keycode === 13) {
+                //enter is pressed
+                //this.chooseItem();
+
+                if (!this.results[this.currentIndex]) {
+                    //We are not adding a budget. We are inserting the transaction.
+                    this.functionOnEnter();
+                    return;
+                }
+                //We are choosing a budget
+                this.chooseBudget();
+
+                //resetting the dropdown to show all the budgets again after a budget has been added
+                this.results = this.budgets;
+            } else if (keycode === 38) {
+                //up arrow is pressed
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                }
+            } else if (keycode === 40) {
+                //down arrow is pressed
+                if (this.currentIndex + 1 < this.results.length) {
+                    this.currentIndex++;
+                }
+            } else {
+                //Not enter, up or down arrow
+                this.currentIndex = 0;
+                // Todo: when the new budget budget input is focused after entering a budget,
+                // todo: I don't want the dropdown to show. I had a lot of trouble and need help though.
+                this.showDropdown = true;
+                if (this.typing) {
+                    this.results = this.highlightLetters(this.searchLocal(), this.typing);
+                }
+            }
+        },
+
+        /**
+         *
+         * @returns {*}
+         */
+        searchLocal: function searchLocal() {
+            var that = this;
+            var filteredBudgets = _.filter(this.budgets, function (budget) {
+                return budget.name.toLowerCase().indexOf(that.typing.toLowerCase()) !== -1;
+            });
+
+            return filteredBudgets;
+        },
+
+        /**
+         *
+         * @param budget
+         */
+        removeBudget: function removeBudget(budget) {
+            this.chosenBudgets = _.without(this.chosenBudgets, budget);
+            this.$dispatch('budget-removed');
+        }
+    },
+    props: ['chosenBudgets',
+    //'dropdown',
+    'budgets', 'functionOnEnter', 'multipleBudgets', 'model', 'id', 'focusOnEnter'],
+    mounted: function mounted() {}
+
+});
+
+/***/ }),
+/* 459 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "budget-wrapper" }, [
+    _c("div", { staticClass: "budget-input-wrapper" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.typing,
+            expression: "typing"
+          }
+        ],
+        attrs: { placeholder: "budgets", type: "text", id: _vm.id + "-input" },
+        domProps: { value: _vm.typing },
+        on: {
+          focus: function($event) {
+            _vm.showDropdown = true
+          },
+          blur: function($event) {
+            _vm.showDropdown = false
+          },
+          keyup: function($event) {
+            _vm.filterBudgets($event.keyCode)
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.typing = $event.target.value
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.showDropdown,
+              expression: "showDropdown"
+            }
+          ],
+          staticClass: "budget-dropdown"
+        },
+        _vm._l(_vm.results, function(budget) {
+          return _c(
+            "div",
+            {
+              staticClass: "dropdown-item",
+              class: { selected: _vm.$index == _vm.currentIndex },
+              on: {
+                mousedown: function($event) {
+                  _vm.chooseBudget(_vm.$index)
+                },
+                mouseover: function($event) {
+                  _vm.hoverItem(_vm.$index)
+                }
+              }
+            },
+            [
+              _c("div", { domProps: { innerHTML: _vm._s(budget.html) } }),
+              _vm._v(" "),
+              _c("div", [
+                _c(
+                  "span",
+                  { class: "label label-default" + budget.type + "-label" },
+                  [_vm._v(_vm._s(budget.type))]
+                )
+              ])
+            ]
+          )
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _vm.chosenBudgets
+      ? _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.chosenBudgets.length > 0,
+                expression: "chosenBudgets.length > 0"
+              }
+            ],
+            staticClass: "budget-display"
+          },
+          _vm._l(_vm.chosenBudgets, function(budget) {
+            return _c(
+              "li",
+              {
+                staticClass: "label label-default removable-budget",
+                class: {
+                  "tag-with-fixed-budget": budget.type === "fixed",
+                  "tag-with-flex-budget": budget.type === "flex",
+                  "tag-without-budget": budget.type === "unassigned"
+                },
+                on: {
+                  click: function($event) {
+                    _vm.removeBudget(budget)
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v(_vm._s(budget.name))]),
+                _vm._v(" "),
+                _c("span", { staticClass: "type" }, [
+                  _vm._v(_vm._s(budget.type))
+                ]),
+                _vm._v(" "),
+                _c("i", { staticClass: "fa fa-times" })
+              ]
+            )
+          })
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1331635a", module.exports)
+  }
+}
+
+/***/ }),
+/* 460 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(461)
+/* template */
+var __vue_template__ = __webpack_require__(462)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/EditTransactionPopupComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-182fb0e1", Component.options)
+  } else {
+    hotAPI.reload("data-v-182fb0e1", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 461 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TransactionsRepository__ = __webpack_require__(406);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__ = __webpack_require__(235);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__repositories_TotalsRepository__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__repositories_Helpers__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_jquery__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            showPopup: false,
+            selectedTransaction: {},
+            types: [{ value: 'income', name: 'credit' }, { value: 'expense', name: 'debit' }, { value: 'transfer', name: 'transfer' }],
+            shared: store.state
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        updateTransaction: function updateTransaction() {
+            var data = __WEBPACK_IMPORTED_MODULE_0__repositories_TransactionsRepository__["a" /* default */].setFields(this.selectedTransaction);
+
+            __WEBPACK_IMPORTED_MODULE_2__repositories_TotalsRepository__["a" /* default */].resetTotalChanges();
+
+            __WEBPACK_IMPORTED_MODULE_3__repositories_Helpers__["a" /* default */].put({
+                url: '/api/transactions/' + this.selectedTransaction.id,
+                data: data,
+                property: 'transactions',
+                message: 'Transaction updated',
+                redirectTo: this.redirectTo,
+                callback: function (response) {
+                    __WEBPACK_IMPORTED_MODULE_0__repositories_TransactionsRepository__["a" /* default */].updateTransaction(response);
+                    __WEBPACK_IMPORTED_MODULE_2__repositories_TotalsRepository__["a" /* default */].getSideBarTotals(this);
+                    __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__["a" /* default */].getBasicFilterTotals(this);
+                    __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__["a" /* default */].runFilter(this);
+                    //Todo: Remove the transaction from the JS transactions depending on the filter
+                }.bind(this)
+            });
+        },
+
+        /**
+         *
+         */
+        deleteTransaction: function deleteTransaction() {
+            __WEBPACK_IMPORTED_MODULE_3__repositories_Helpers__["a" /* default */].delete({
+                url: '/api/transactions/' + this.selectedTransaction.id,
+                array: 'transactions',
+                itemToDelete: this.transaction,
+                message: 'Transaction deleted',
+                redirectTo: this.redirectTo,
+                callback: function callback() {
+                    __WEBPACK_IMPORTED_MODULE_0__repositories_TransactionsRepository__["a" /* default */].deleteTransaction(this.selectedTransaction);
+                    __WEBPACK_IMPORTED_MODULE_4_jquery___default.a.event.trigger('clear-total-changes');
+                    __WEBPACK_IMPORTED_MODULE_2__repositories_TotalsRepository__["a" /* default */].getSideBarTotals(this);
+                    __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__["a" /* default */].getBasicFilterTotals(this);
+                }
+            });
+        },
+
+        /**
+         *
+         */
+        closePopup: function closePopup($event) {
+            __WEBPACK_IMPORTED_MODULE_3__repositories_Helpers__["a" /* default */].closePopup($event, this);
+        },
+
+        /**
+         *
+         */
+        listen: function listen() {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_4_jquery___default()(document).on('show-edit-transaction-popup', function (event, transaction) {
+                that.selectedTransaction = transaction;
+
+                //save the original total so I can calculate
+                // the difference if the total changes,
+                // so I can remove the correct amount from savings if required.
+                that.selectedTransaction.originalTotal = that.selectedTransaction.total;
+                that.selectedTransaction.duration = HelpersRepository.formatDurationToMinutes(that.selectedTransaction.minutes);
+
+                that.showPopup = true;
+            });
+        }
+    },
+    props: [],
+    mounted: function mounted() {
+        this.listen();
+    }
+});
+
+/***/ }),
+/* 462 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showPopup,
+          expression: "showPopup"
+        }
+      ],
+      staticClass: "popup-outer",
+      on: {
+        click: function($event) {
+          _vm.closePopup($event)
+        }
+      }
+    },
+    [
+      _c(
+        "div",
+        { staticClass: "popup-inner", attrs: { id: "edit-transaction" } },
+        [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "selected-transaction-date" } }, [
+              _vm._v("Date")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedTransaction.userDate,
+                  expression: "selectedTransaction.userDate"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "selected-transaction-date",
+                name: "selected-transaction-date",
+                placeholder: "date"
+              },
+              domProps: { value: _vm.selectedTransaction.userDate },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.selectedTransaction.userDate = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              { attrs: { for: "selected-transaction-description" } },
+              [_vm._v("Description")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedTransaction.description,
+                  expression: "selectedTransaction.description"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "selected-transaction-description",
+                name: "selected-transaction-description",
+                placeholder: "description"
+              },
+              domProps: { value: _vm.selectedTransaction.description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.selectedTransaction.description = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "selected-transaction-merchant" } }, [
+              _vm._v("Merchant")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedTransaction.merchant,
+                  expression: "selectedTransaction.merchant"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "selected-transaction-merchant",
+                name: "selected-transaction-merchant",
+                placeholder: "merchant"
+              },
+              domProps: { value: _vm.selectedTransaction.merchant },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.selectedTransaction.merchant = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "selected-transaction-total" } }, [
+              _vm._v("Total")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedTransaction.total,
+                  expression: "selectedTransaction.total"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "selected-transaction-total",
+                name: "selected-transaction-total",
+                placeholder: "$"
+              },
+              domProps: { value: _vm.selectedTransaction.total },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.selectedTransaction.total = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "selected-transaction-type" } }, [
+              _vm._v("Type")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.selectedTransaction.type,
+                    expression: "selectedTransaction.type"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "selected-transaction-type" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.selectedTransaction.type = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.types, function(type) {
+                return _c("option", { domProps: { value: type.value } }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(type.name) +
+                      "\n                "
+                  )
+                ])
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "selected-transaction-account" } }, [
+              _vm._v("Account")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.selectedTransaction.account,
+                    expression: "selectedTransaction.account"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "selected-transaction-account" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.selectedTransaction.account = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.shared.accounts, function(account) {
+                return _c("option", { domProps: { value: account } }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(account.name) +
+                      "\n                "
+                  )
+                ])
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _vm._v("-->\n        "),
+          _vm._v(" "),
+          _vm._v("-->\n        "),
+          _vm._v(" "),
+          _vm._v("-->\n        "),
+          _vm._v(" "),
+          _vm._v("-->\n        "),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "selected-transaction-duration" } }, [
+              _vm._v("Duration")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedTransaction.duration,
+                  expression: "selectedTransaction.duration"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "selected-transaction-duration",
+                name: "selected-transaction-duration",
+                placeholder: "duration"
+              },
+              domProps: { value: _vm.selectedTransaction.duration },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.selectedTransaction.duration = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group reconciled" }, [
+            _c("label", { attrs: { for: "selected-transaction-reconciled" } }, [
+              _vm._v("Reconciled")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedTransaction.reconciled,
+                  expression: "selectedTransaction.reconciled"
+                }
+              ],
+              attrs: { type: "checkbox" },
+              domProps: {
+                checked: Array.isArray(_vm.selectedTransaction.reconciled)
+                  ? _vm._i(_vm.selectedTransaction.reconciled, null) > -1
+                  : _vm.selectedTransaction.reconciled
+              },
+              on: {
+                __c: function($event) {
+                  var $$a = _vm.selectedTransaction.reconciled,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 &&
+                        (_vm.selectedTransaction.reconciled = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.selectedTransaction.reconciled = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.selectedTransaction.reconciled = $$c
+                  }
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _vm.selectedTransaction.type !== "transfer"
+            ? _c("budget-autocomplete", {
+                attrs: {
+                  "chosen-budgets": _vm.selectedTransaction.budgets,
+                  budgets: _vm.shared.budgets,
+                  "multiple-budgets": "true"
+                },
+                on: {
+                  "update:chosenBudgets": function($event) {
+                    _vm.selectedTransaction.budgets = $event
+                  }
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "buttons" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-default",
+                on: {
+                  click: function($event) {
+                    _vm.showPopup = false
+                  }
+                }
+              },
+              [_vm._v("Cancel")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger",
+                on: {
+                  click: function($event) {
+                    _vm.deleteTransaction(_vm.transaction)
+                  }
+                }
+              },
+              [_vm._v("Delete")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                on: {
+                  click: function($event) {
+                    _vm.updateTransaction()
+                  }
+                }
+              },
+              [_vm._v("Save")]
+            )
+          ])
+        ],
+        1
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-182fb0e1", module.exports)
+  }
+}
+
+/***/ }),
+/* 463 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(464)
+/* template */
+var __vue_template__ = __webpack_require__(465)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/AllocationPopupComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c849ea76", Component.options)
+  } else {
+    hotAPI.reload("data-v-c849ea76", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 464 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__ = __webpack_require__(235);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            transaction: {},
+            allocationTotals: {},
+            showPopup: false,
+            isNewTransaction: false
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        //updateAllocationStatus: function () {
+        //    $.event.trigger('show-loading');
+        //
+        //    var data = {
+        //        allocated: HelpersRepository.convertBooleanToInteger(this.transaction.allocated)
+        //    };
+        //
+        //    this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
+        //        $.event.trigger('provide-feedback', ['Allocation updated', 'success']);
+        //        $.event.trigger('hide-loading');
+        //    })
+        //    .error(function (response) {
+        //        HelpersRepository.handleResponseError(response);
+        //    });
+        //},
+
+        /**
+         *
+         */
+        getAllocationTotals: function getAllocationTotals() {
+            __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__["a" /* default */].get({
+                url: '/api/transactions/' + this.transaction.id,
+                //                    storeProperty: '',
+                callback: function (response) {
+                    this.allocationTotals = response;
+                }.bind(this)
+            });
+        },
+
+        /**
+         *
+         */
+        closePopup: function closePopup(event) {
+            if (event) {
+                __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__["a" /* default */].closePopup(event, this);
+            } else {
+                //Close button was clicked
+                this.showPopup = false;
+            }
+
+            if (this.isNewTransaction) {
+                __WEBPACK_IMPORTED_MODULE_1__repositories_FilterRepository__["a" /* default */].runFilter(this);
+            }
+        },
+
+        /**
+         *
+         */
+        listen: function listen() {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()(document).on('show-allocation-popup', function (event, transaction, isNewTransaction) {
+                that.transaction = transaction;
+                that.isNewTransaction = isNewTransaction;
+                that.showPopup = true;
+                that.getAllocationTotals();
+            });
+        }
+    },
+    props: [
+        //data to be received from parent
+    ],
+    mounted: function mounted() {
+        this.listen();
+    },
+    events: {
+        'budget-allocation-updated': function budgetAllocationUpdated(response) {
+            this.getAllocationTotals();
+            this.transaction.budgets = response.budgets;
+            this.transaction.validAllocation = response.validAllocation;
+        }
+    }
+
+});
+
+/***/ }),
+/* 465 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showPopup,
+          expression: "showPopup"
+        }
+      ],
+      staticClass: "popup-outer"
+    },
+    [
+      _c(
+        "div",
+        { staticClass: "popup-inner", attrs: { id: "allocation-popup" } },
+        [
+          !_vm.transaction.validAllocation
+            ? _c("div", { staticClass: "warning" }, [
+                _c("i", { staticClass: "fa fa-exclamation-circle" }),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v(
+                    "The budget allocations do not match the total for this transaction."
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("p", { staticClass: "width-100" }, [
+            _vm._v("The total for this transaction is "),
+            _c("span", { staticClass: "bold" }, [
+              _vm._v(_vm._s(_vm.transaction.total))
+            ]),
+            _vm._v(
+              ". You have more than one budget associated with this transaction. Specify what percentage of " +
+                _vm._s(_vm.transaction.total) +
+                " you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "table",
+            { staticClass: "table table-bordered" },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._l(_vm.transaction.budgets, function(budget) {
+                return _c("budget-allocation", {
+                  tag: "tr",
+                  attrs: { budget: budget, transaction: _vm.transaction }
+                })
+              }),
+              _vm._v(" "),
+              _c("tr", { staticClass: "totals" }, [
+                _c("td", [_vm._v("totals")]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("div", [
+                    _c("span", [_vm._v(_vm._s(_vm.allocationTotals.fixedSum))])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("div", [
+                    _c("span", [
+                      _vm._v(_vm._s(_vm.allocationTotals.percentSum))
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("div", [
+                    _c("span", [
+                      _vm._v(
+                        _vm._s(_vm.allocationTotals.calculatedAllocationSum)
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _vm._v("-->\n            "),
+          _vm._v(" "),
+          _c("div", { staticClass: "buttons" }, [
+            _c(
+              "button",
+              {
+                staticClass: "close-modal",
+                on: {
+                  click: function($event) {
+                    _vm.closePopup()
+                  }
+                }
+              },
+              [_vm._v("Close")]
+            )
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("tag")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("allocated $")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("allocated %")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("calculated")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c849ea76", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

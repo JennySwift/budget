@@ -4,7 +4,7 @@
     >
         <div
             v-show="showNewTransaction"
-            v-bind:style="{color: me.preferences.colors[newTransaction.type]}"
+            v-bind:style="{color: shared.me.preferences.colors[newTransaction.type]}"
             id="new-transaction"
         >
 
@@ -185,7 +185,7 @@
                     </div>
 
                     <input
-                        v-if="!me.preferences.autocompleteMerchant"
+                        v-if="!shared.me.preferences.autocompleteMerchant"
                         v-model="newTransaction.merchant"
                         v-on:keyup.13="insertTransaction()"
                         class="form-control"
@@ -194,7 +194,7 @@
                     >
 
                     <transaction-autocomplete
-                        v-if="me.preferences.autocompleteMerchant"
+                        v-if="shared.me.preferences.autocompleteMerchant"
                         placeholder="merchant"
                         id="new-transaction-merchant"
                         :typing.sync="newTransaction.merchant"
@@ -246,7 +246,7 @@
                     </div>
 
                     <input
-                        v-if="!me.preferences.autocompleteDescription"
+                        v-if="!shared.me.preferences.autocompleteDescription"
                         v-model="newTransaction.description"
                         v-on:keyup.13="insertTransaction()"
                         class="form-control"
@@ -255,7 +255,7 @@
                     >
 
                     <transaction-autocomplete
-                        v-if="me.preferences.autocompleteDescription"
+                        v-if="shared.me.preferences.autocompleteDescription"
                         placeholder="description"
                         id="new-transaction-description"
                         :typing.sync="newTransaction.description"
@@ -414,7 +414,7 @@
 
                     <budget-autocomplete
                         :chosen-budgets.sync="newTransaction.budgets"
-                        :budgets="budgets"
+                        :budgets="shared.budgets"
                         multiple-budgets="true"
                         :function-on-enter="insertTransaction"
                     >

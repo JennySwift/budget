@@ -81,6 +81,7 @@
 <script>
     import helpers from '../repositories/Helpers'
     import FilterRepository from '../repositories/FilterRepository'
+    import $ from 'jquery'
     export default {
         data: function () {
             return {

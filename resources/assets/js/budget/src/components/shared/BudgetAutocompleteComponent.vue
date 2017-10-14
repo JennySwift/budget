@@ -9,7 +9,7 @@
                 v-on:keyup="filterBudgets($event.keyCode)"
                 placeholder="budgets"
                 type='text'
-                id="{{ id }}-input">
+                :id="id + '-input'">
 
             <div v-show="showDropdown" class="budget-dropdown">
                 <div
@@ -20,7 +20,7 @@
                     class="dropdown-item">
                     <div v-html="budget.html"></div>
                     <div>
-                        <span class="label label-default {{ budget.type }}-label">{{ budget.type }}</span>
+                        <span :class="'label label-default' + budget.type + '-label'">{{ budget.type }}</span>
                     </div>
                 </div>
             </div>

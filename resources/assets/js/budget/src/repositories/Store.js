@@ -12,14 +12,20 @@ export default {
             preferences: {
                 show: {
                     totals: ''
-                }
-            }
+                },
+                colors: {}
+            },
         },
+        env: '',
         //For home page tabs
         tab: '',
         loading: false,
         accounts: [],
         budgets: [],
+        transaction: {
+            budgets: []
+        },
+        transactions: [],
         fixedBudgets: [],
         flexBudgets: [],
         unassignedBudgets: [],
@@ -118,7 +124,7 @@ export default {
     getNewTransactionDefaults: function () {
         //Fill in the new transaction fields if development environment
         //Todo: get env
-        if (env === 'local') {
+        if (this.state.env === 'local') {
             this.state.defaults.total = 10;
             this.state.defaults.merchant = 'some merchant';
             this.state.defaults.description = 'some description';
