@@ -39,6 +39,8 @@
 </template>
 
 <script>
+    import helpers from '../repositories/Helpers'
+    import FilterRepository from '../repositories/FilterRepository'
     export default {
         data: function () {
             return {
@@ -59,7 +61,7 @@
              * @returns {Number}
              */
             numberFilter: function (number, howManyDecimals) {
-                return HelpersRepository.numberFilter(number, howManyDecimals);
+                return helpers.numberFilter(number, howManyDecimals);
             },
         },
         methods: {
@@ -92,7 +94,7 @@
         ],
         mounted: function () {
             //Putting this here rather than loading just on page load in case the account balances need updating when this page is visited
-            AccountsRepository.getAccounts(this);
+            store.getAccounts(this);
         }
     }
 </script>

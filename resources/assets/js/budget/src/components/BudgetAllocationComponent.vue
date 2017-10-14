@@ -126,14 +126,16 @@
                     value: value
                 };
 
-                this.$http.put('/api/budgets/' + this.budget.id + '/transactions/' + this.transaction.id, data, function (response) {
-                    this.$dispatch('budget-allocation-updated', response);
-                    $.event.trigger('provide-feedback', ['Allocation updated', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.put({
+                    url: '/api/budgets/' + this.budget.id + '/transactions/' + this.transaction.id,
+                    data: data,
+                    property: 'allocations',
+                    message: 'Allocation updated',
+                    redirectTo: this.redirectTo,
+                    callback: function (response) {
+                        this.$dispatch('budget-allocation-updated', response);
+                    }.bind(this)
+                });
             }
 
 

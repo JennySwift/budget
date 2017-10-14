@@ -50,6 +50,7 @@
 </template>
 
 <script>
+    import Helpers from '../../repositories/Helpers'
     export default {
         data: function () {
             return {
@@ -94,31 +95,32 @@
                     budget_ids: _.pluck(this.budgetsToAdd, 'id')
                 };
 
-                this.$http.put('/api/transactions/' + transaction.id, data, function (response) {
-                    var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: transaction.id}));
-                    this.transactions[index].budgets = response.budgets;
-                    this.transactions[index].multipleBudgets = response.multipleBudgets;
-                    this.transactions[index].validAllocation = response.validAllocation;
-                    this.count++;
+                helpers.put({
+                    url: '/api/transactions/' + transaction.id,
+                    data: data,
+                    property: 'stuffs',
+                    message: 'Stuff updated',
+                    redirectTo: this.redirectTo,
+                    callback: function (response) {
+                        var index = _.indexOf(this.transactions, _.findWhere(this.transactions, {id: transaction.id}));
+                        this.transactions[index].budgets = response.budgets;
+                        this.transactions[index].multipleBudgets = response.multipleBudgets;
+                        this.transactions[index].validAllocation = response.validAllocation;
+                        this.count++;
 
-                    if (this.count === this.shared.transactions.length) {
-                        //$.event.trigger('provide-feedback', ['Done!', 'success']);
-                        //this.showPopup = false;
-                    }
-
-                    //$.event.trigger('provide-feedback', ['Transaction updated', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                        if (this.count === this.shared.transactions.length) {
+                            //$.event.trigger('provide-feedback', ['Done!', 'success']);
+                            //this.showPopup = false;
+                        }
+                    }.bind(this)
+                });
             },
 
             /**
              *
              */
             closePopup: function (event) {
-                HelpersRepository.closePopup(event, this);
+                Helpers.closePopup(event, this);
             },
 
             /**

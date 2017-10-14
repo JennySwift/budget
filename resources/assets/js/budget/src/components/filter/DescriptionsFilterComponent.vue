@@ -71,6 +71,7 @@
 </template>
 
 <script>
+    import FilterRepository from '../../repositories/FilterRepository'
     export default {
         data: function () {
             return {

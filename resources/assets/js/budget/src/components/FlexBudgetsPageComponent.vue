@@ -152,11 +152,12 @@
 </template>
 
 <script>
+    import TotalsRepository from '../repositories/TotalsRepository'
     export default {
         data: function () {
             return {
-                show: ShowRepository.defaults,
-                budgetsRepository: BudgetsRepository.state,
+                show: store.state.show.defaults,
+                shared: store.state,
                 flexBudgetTotals: [],
                 orderByOptions: [
                     {name: 'name', value: 'name'},
@@ -169,7 +170,7 @@
         components: {},
         computed: {
             flexBudgets: function () {
-                return this.budgetsRepository.flexBudgets;
+                return this.shared.flexBudgets;
             }
         },
         filters: {
@@ -180,10 +181,10 @@
              * @returns {Number}
              */
             numberFilter: function (number, howManyDecimals) {
-                return HelpersRepository.numberFilter(number, howManyDecimals);
+                return helpers.numberFilter(number, howManyDecimals);
             },
             orderBudgetsFilter: function (budgets) {
-                return BudgetsRepository.orderBudgetsFilter(budgets, this);
+                return store.orderBudgetsFilter(budgets, this);
             },
         },
         methods: {
@@ -210,17 +211,16 @@
             },
 
             /**
-             *
-             */
+            *
+            */
             getFlexBudgetTotals: function () {
-                $.event.trigger('show-loading');
-                this.$http.get('/api/totals/flexBudget', function (response) {
-                    this.flexBudgetTotals = response;
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.get({
+                    url: '/api/totals/flexBudget',
+//                    storeProperty: 'flexBudgetTotals',
+                    callback: function (response) {
+                        this.flexBudgetTotals = response;
+                    }.bind(this)
+                });
             },
 
             /**
@@ -245,7 +245,7 @@
             //data to be received from parent
         ],
         mounted: function () {
-            BudgetsRepository.getFlexBudgets(this);
+            store.getFlexBudgets(this);
             this.getFlexBudgetTotals();
             this.listen();
         }

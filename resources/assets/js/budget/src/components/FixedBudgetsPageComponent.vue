@@ -36,8 +36,8 @@
         data: function () {
             return {
                 fixedBudgetTotals: [],
-                show: ShowRepository.defaults,
-                budgetsRepository: BudgetsRepository.state,
+                show: store.state.show.defaults,
+                shared: store.state,
                 orderByOptions: [
                     {name: 'name', value: 'name'},
                     {name: 'spent after starting date', value: 'spentOnOrAfterStartingDate'}
@@ -49,7 +49,7 @@
         components: {},
         computed: {
             fixedBudgets: function () {
-                return this.budgetsRepository.fixedBudgets;
+                return this.shared.fixedBudgets;
             }
         },
         filters: {
@@ -89,17 +89,16 @@
             },
 
             /**
-             *
-             */
+            *
+            */
             getFixedBudgetTotals: function () {
-                $.event.trigger('show-loading');
-                this.$http.get('/api/totals/fixedBudget', function (response) {
-                    this.fixedBudgetTotals = response;
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.get({
+                    url: '/api/totals/fixedBudget',
+                    storeProperty: 'fixedBudgetTotals',
+                    callback: function (response) {
+                        this.fixedBudgetTotals = response;
+                    }.bind(this)
+                });
             },
 
             /**
@@ -124,7 +123,7 @@
             //data to be received from parent
         ],
         mounted: function () {
-            BudgetsRepository.getFixedBudgets(this);
+            store.getFixedBudgets();
             this.getFixedBudgetTotals();
             this.listen();
         }

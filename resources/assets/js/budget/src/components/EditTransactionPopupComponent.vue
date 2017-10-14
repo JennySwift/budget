@@ -157,6 +157,10 @@
 </template>
 
 <script>
+    import TransactionsRepository from '../repositories/TransactionsRepository'
+    import FilterRepository from '../repositories/FilterRepository'
+    import TotalsRepository from '../repositories/TotalsRepository'
+    import helpers from '../repositories/Helpers'
     export default {
         data: function () {
             return {
@@ -167,13 +171,13 @@
                     {value: 'expense', name: 'debit'},
                     {value: 'transfer', name: 'transfer'},
                 ],
-                budgetsRepository: BudgetsRepository.state
+                shared: store.state
             };
         },
         components: {},
         computed: {
             budgets: function () {
-                return this.budgetsRepository.budgets;
+                return this.shared.budgets;
             }
         },
         methods: {
@@ -182,53 +186,49 @@
              *
              */
             updateTransaction: function () {
-                $.event.trigger('show-loading');
-
                 var data = TransactionsRepository.setFields(this.selectedTransaction);
 
                 TotalsRepository.resetTotalChanges();
 
-                this.$http.put('/api/transactions/' + this.selectedTransaction.id, data, function (response) {
-                    TransactionsRepository.updateTransaction(response);
-                    TotalsRepository.getSideBarTotals(this);
-                    FilterRepository.getBasicFilterTotals(this);
-                    FilterRepository.runFilter(this);
-                    this.showPopup = false;
-                    //Todo: Remove the transaction from the JS transactions depending on the filter
-                    $.event.trigger('provide-feedback', ['Transaction updated', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.put({
+                    url: '/api/transactions/' + this.selectedTransaction.id,
+                    data: data,
+                    property: 'transactions',
+                    message: 'Transaction updated',
+                    redirectTo: this.redirectTo,
+                    callback: function (response) {
+                        TransactionsRepository.updateTransaction(response);
+                        TotalsRepository.getSideBarTotals(this);
+                        FilterRepository.getBasicFilterTotals(this);
+                        FilterRepository.runFilter(this);
+                        //Todo: Remove the transaction from the JS transactions depending on the filter
+                    }.bind(this)
+                });
             },
 
             /**
              *
              */
             deleteTransaction: function () {
-                if (confirm("Are you sure?")) {
-                    $.event.trigger('show-loading');
-                    this.$http.delete('/api/transactions/' + this.selectedTransaction.id, function (response) {
+                helpers.delete({
+                    url: '/api/transactions/' + this.selectedTransaction.id,
+                    array: 'transactions',
+                    itemToDelete: this.transaction,
+                    message: 'Transaction deleted',
+                    redirectTo: this.redirectTo,
+                    callback: function () {
                         TransactionsRepository.deleteTransaction(this.selectedTransaction);
                         $.event.trigger('clear-total-changes');
                         TotalsRepository.getSideBarTotals(this);
                         FilterRepository.getBasicFilterTotals(this);
-                        this.showPopup = false;
-                        $.event.trigger('provide-feedback', ['Transaction deleted', 'success']);
-                        $.event.trigger('hide-loading');
-                    })
-                        .error(function (response) {
-                            HelpersRepository.handleResponseError(response);
-                        });
-                }
+                });
             },
 
             /**
              *
              */
             closePopup: function ($event) {
-                HelpersRepository.closePopup($event, this);
+                helpers.closePopup($event, this);
             },
 
             /**
@@ -249,10 +249,7 @@
                 });
             }
         },
-        props: [
-            'accounts',
-            'transactions'
-        ],
+        props: [],
         mounted: function () {
             this.listen();
         }

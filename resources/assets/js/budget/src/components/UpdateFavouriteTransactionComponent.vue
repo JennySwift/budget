@@ -144,6 +144,7 @@
 </template>
 
 <script>
+    import helpers from '../repositories/Helpers'
     export default {
         data: function () {
             return {
@@ -159,44 +160,41 @@
              *
              */
             closePopup: function ($event) {
-                HelpersRepository.closePopup($event, this);
+                helpers.closePopup($event, this);
             },
 
             /**
              *
              */
             updateFavouriteTransaction: function () {
-                $.event.trigger('show-loading');
+                var data = store.setFavouriteTransactionFields(this.selectedFavourite);
 
-                var data = FavouriteTransactionsRepository.setFields(this.selectedFavourite);
-
-                this.$http.put('/api/favouriteTransactions/' + this.selectedFavourite.id, data, function (response) {
-                    FavouriteTransactionsRepository.updateFavouriteTransaction(response);
-                    this.showPopup = false;
-                    $.event.trigger('provide-feedback', ['Favourite transaction updated', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.put({
+                    url: '/api/favouriteTransactions/' + this.selectedFavourite.id,
+                    data: data,
+                    property: 'favouriteTransactions',
+                    message: 'FavouriteTransaction updated',
+                    redirectTo: this.redirectTo,
+                    callback: function (response) {
+                        store.updateFavouriteTransaction(response);
+                    }.bind(this)
+                });
             },
 
             /**
              *
              */
             deleteFavouriteTransaction: function () {
-                if (confirm("Are you sure?")) {
-                    $.event.trigger('show-loading');
-                    this.$http.delete('/api/favouriteTransactions/' + this.selectedFavourite.id, function (response) {
-                        FavouriteTransactionsRepository.deleteFavouriteTransaction(this.selectedFavourite);
-                        $.event.trigger('provide-feedback', ['Favourite transaction deleted', 'success']);
-                        this.showPopup = false;
-                        $.event.trigger('hide-loading');
-                    })
-                        .error(function (response) {
-                            HelpersRepository.handleResponseError(response);
-                        });
-                }
+                helpers.delete({
+                    url: '/api/favouriteTransactions/' + this.selectedFavourite.id,
+                    array: 'favouriteTransactions',
+                    itemToDelete: this.favouriteTransaction,
+                    message: 'FavouriteTransaction deleted',
+                    redirectTo: this.redirectTo,
+                    callback: function () {
+                        store.deleteFavouriteTransaction(this.selectedFavourite);
+                    }.bind(this)
+                });
             },
 
             /**
@@ -210,11 +208,7 @@
                 });
             }
         },
-        props: [
-            'budgets',
-            'accounts',
-            'favouriteTransactions'
-        ],
+        props: [],
         mounted: function () {
             this.listen();
         }

@@ -30,29 +30,31 @@
         },
         components: {},
         methods: {
+
             /**
              *
              */
             insertAccount: function () {
-                $.event.trigger('show-loading');
                 var data = {
                     name: this.newAccount.name
                 };
 
-                this.$http.post('/api/accounts', data, function (response) {
-                    this.accounts.push(response);
-                    this.newAccount.name = '';
-                    $.event.trigger('provide-feedback', ['Account created', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.post({
+                    url: '/api/accounts',
+                    data: data,
+                    array: 'accounts',
+                    message: 'Account created',
+                    clearFields: this.clearFields,
+                    callback: function () {
+
+                    }.bind(this)
+                });
             },
+            clearFields () {
+                this.newAccount.name = '';
+            }
         },
-        props: [
-            'accounts'
-        ],
+        props: [],
         mounted: function () {
 
         }

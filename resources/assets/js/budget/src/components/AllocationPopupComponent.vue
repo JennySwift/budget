@@ -79,6 +79,8 @@
 </template>
 
 <script>
+    import helpers from '../repositories/Helpers'
+    import FilterRepository from '../repositories/FilterRepository'
     export default {
         data: function () {
             return {
@@ -114,14 +116,13 @@
              *
              */
             getAllocationTotals: function () {
-                $.event.trigger('show-loading');
-                this.$http.get('/api/transactions/' + this.transaction.id, function (response) {
-                    this.allocationTotals = response;
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.get({
+                    url: '/api/transactions/' + this.transaction.id,
+//                    storeProperty: '',
+                    callback: function (response) {
+                        this.allocationTotals = response;
+                    }.bind(this)
+                });
             },
 
 
@@ -130,7 +131,7 @@
              */
             closePopup: function (event) {
                 if (event) {
-                    HelpersRepository.closePopup(event, this);
+                    helpers.closePopup(event, this);
                 }
                 else {
                     //Close button was clicked

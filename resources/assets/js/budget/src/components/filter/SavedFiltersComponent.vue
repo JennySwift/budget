@@ -37,17 +37,19 @@
 </template>
 
 <script>
+    import FilterRepository from '../../repositories/FilterRepository'
     export default {
         data: function () {
             return {
                 savedFiltersRepository: SavedFiltersRepository.state,
                 selectedSavedFilter: {},
+                shared: store.state
             };
         },
         components: {},
         computed: {
             savedFilters: function () {
-                return this.savedFiltersRepository.savedFilters;
+                return this.shared.savedFilters;
             }
         },
         methods: {
@@ -64,15 +66,16 @@
              *
              */
             deleteSavedFilter: function (savedFilter) {
-                $.event.trigger('show-loading');
-                this.$http.delete('/api/savedFilters/' + savedFilter.id, function (response) {
-                    SavedFiltersRepository.deleteSavedFilter(this.selectedSavedFilter);
-                    $.event.trigger('provide-feedback', ['SavedFilter deleted', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (data, status, response) {
-                        HelpersRepository.handleResponseError(data, status, response);
-                    });
+                helpers.delete({
+                    url: '/api/savedFilters/' + savedFilter.id,
+                    array: 'savedFilters',
+                    itemToDelete: this.savedFilter,
+                    message: 'Saved filter deleted',
+                    redirectTo: this.redirectTo,
+                    callback: function () {
+                        store.deleteSavedFilter(this.selectedSavedFilter);
+                    }.bind(this)
+                });
             }
         },
         props: [

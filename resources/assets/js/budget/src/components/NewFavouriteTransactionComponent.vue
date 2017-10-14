@@ -193,25 +193,25 @@
              *
              */
             insertFavouriteTransaction: function () {
-                $.event.trigger('show-loading');
                 var data = FavouriteTransactionsRepository.setFields(this.newFavourite);
 
-                this.$http.post('/api/favouriteTransactions', data, function (response) {
-                    this.favouriteTransactions.push(response);
-                    this.showFields = false;
-                    this.emptyFields();
-                    $.event.trigger('provide-feedback', ['Favourite created', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.post({
+                    url: '/api/favouriteTransactions',
+                    data: data,
+                    array: 'favouriteTransactions',
+                    message: 'Favourite transaction created',
+                    clearFields: this.clearFields,
+                    redirectTo: this.redirectTo,
+                    callback: function () {
+                        this.showFields = false;
+                    }.bind(this)
+                });
             },
 
             /**
              *
              */
-            emptyFields: function () {
+            clearFields: function () {
                 this.newFavourite.name = '';
                 this.newFavourite.description = '';
                 this.newFavourite.merchant = '';
@@ -229,11 +229,7 @@
                 }, 500);
             }
         },
-        props: [
-            'budgets',
-            'favouriteTransactions',
-            'accounts'
-        ],
+        props: [],
         mounted: function () {
             this.setNewFavouriteAccount();
         }

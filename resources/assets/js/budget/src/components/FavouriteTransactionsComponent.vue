@@ -79,9 +79,7 @@
         data: function () {
             return {
                 favouriteTransactions: [],
-                accountsRepository: AccountsRepository.state,
-                budgetsRepository: BudgetsRepository.state,
-                favouriteTransactionsRepository: FavouriteTransactionsRepository.state,
+                shared: store.state,
                 newFavourite: {
                     budgets: []
                 },
@@ -90,10 +88,10 @@
         components: {},
         computed: {
             budgets: function () {
-                return this.budgetsRepository.budgets;
+                return this.shared.budgets;
             },
             favouriteTransactions: function () {
-                return this.favouriteTransactionsRepository.favouriteTransactions;
+                return this.shared.favouriteTransactions;
             }
         },
         methods: {

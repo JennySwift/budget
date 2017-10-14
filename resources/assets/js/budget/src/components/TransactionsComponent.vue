@@ -48,7 +48,7 @@
                 :transaction="transaction"
                 v-bind:style="{color: shared.me.preferences.colors[transaction.type]}"
                 :id="transaction.id"
-                class="add_to_search_total results-transaction-tbody {{ transaction.type }}">
+                :class="'add_to_search_total results-transaction-tbody' + transaction.type">
             </tbody>
         </table>
     </div>

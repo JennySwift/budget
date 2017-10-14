@@ -295,8 +295,6 @@
              *
              */
             updatePreferences: function () {
-                $.event.trigger('show-loading');
-
                 var data = {
                     preferences: {
                         clearFields: this.me.preferences.clearFields,
@@ -329,14 +327,16 @@
                     }
                 };
 
-                this.$http.put('/api/users/' + me.id, data, function (response) {
-                    this.me.preferences = response.preferences;
-                    $.event.trigger('provide-feedback', ['Preferences updated', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.put({
+                    url: '/api/users/' + this.shared.me.id,
+                    data: data,
+                    property: 'preferences',
+                    message: 'Preferences updated',
+                    redirectTo: this.redirectTo,
+                    callback: function (response) {
+                        this.me.preferences = response.preferences;
+                    }.bind(this)
+                });
             },
 
             /**

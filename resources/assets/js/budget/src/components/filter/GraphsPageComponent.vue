@@ -22,6 +22,9 @@
 </template>
 
 <script>
+    import FilterRepository from '../../repositories/FilterRepository'
+    import GraphsRepository from '../../repositories/GraphsRepository'
+    import Helpers from '../../repositories/Helpers'
     export default {
         data: function () {
             return {
@@ -32,7 +35,7 @@
         components: {},
         filters: {
             numberFilter: function (number, howManyDecimals) {
-                return HelpersRepository.numberFilter(number, howManyDecimals);
+                return Helpers.numberFilter(number, howManyDecimals);
             }
         },
         computed: {
@@ -87,28 +90,26 @@
                     filter: FilterRepository.formatDates()
                 };
 
-                $.event.trigger('show-loading');
-                this.$http.post('/api/filter/graphTotals', data, function (response) {
-                    var stuff = this.populateLineAndBarChartData(response);
-                    GraphsRepository.setLineAndBarChartData(stuff);
+                helpers.post({
+                    url: '/api/filter/graphTotals',
+                    data: data,
+                    callback: function (response) {
+                        var stuff = this.populateLineAndBarChartData(response);
+                        GraphsRepository.setLineAndBarChartData(stuff);
 
-                    //Destroy and create line chart
-                    if (this.graphsRepository.lineChartCreated) {
-                        GraphsRepository.destroyChart('line');
-                    }
-                    this.createLineChart();
+                        //Destroy and create line chart
+                        if (this.graphsRepository.lineChartCreated) {
+                            GraphsRepository.destroyChart('line');
+                        }
+                        this.createLineChart();
 
-                    //Destroy and create bar chart
-                    if (this.graphsRepository.barChartCreated) {
-                        GraphsRepository.destroyChart('bar');
-                    }
-                    this.createBarChart();
-
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                        //Destroy and create bar chart
+                        if (this.graphsRepository.barChartCreated) {
+                            GraphsRepository.destroyChart('bar');
+                        }
+                        this.createBarChart();
+                    }.bind(this)
+                });
             },
 
             /**
@@ -122,20 +123,19 @@
                     to = this.filter.toDate.inSql;
                 }
 
-                $.event.trigger('show-loading');
-                this.$http.get('/api/totals/spentOnBudgets?from=' + from + '&to=' + to, function (response) {
-                    GraphsRepository.setDoughnutChartData(this.populateDoughnutChartData(response));
+                helpers.get({
+                    url: '/api/totals/spentOnBudgets?from=' + from + '&to=' + to,
+                    storeProperty: 'dOubs',
+                    loadedProperty: 'dOubsLoaded',
+                    callback: function (response) {
+                        GraphsRepository.setDoughnutChartData(this.populateDoughnutChartData(response));
 
-                    if (this.graphsRepository.doughnutChartCreated) {
-                        GraphsRepository.destroyChart('doughnut');
-                    }
-                    this.createDoughnutChart();
-
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (data, status, response) {
-                        HelpersRepository.handleResponseError(data, status, response);
-                    });
+                        if (this.graphsRepository.doughnutChartCreated) {
+                            GraphsRepository.destroyChart('doughnut');
+                        }
+                        this.createDoughnutChart();
+                    }.bind(this)
+                });
             },
 
             /**

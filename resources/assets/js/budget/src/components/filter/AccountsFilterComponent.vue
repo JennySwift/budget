@@ -28,7 +28,7 @@
                     <label for="accounts-filter-in-none">none</label>
                 </div>
 
-                <div v-for="account in accountsRepository.accounts" class="checkbox-container">
+                <div v-for="account in shared.accounts" class="checkbox-container">
                     <input
                         type="checkbox"
                         :id="account.name"
@@ -80,7 +80,7 @@
         data: function () {
             return {
                 showContent: false,
-                accountsRepository: AccountsRepository.state
+                shared: store.state
             };
         },
         components: {},

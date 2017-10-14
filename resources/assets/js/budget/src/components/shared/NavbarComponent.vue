@@ -302,7 +302,7 @@
              *
              */
             showAllTransactionProperties: function () {
-                this.shared.transactionPropertiesToShow = ShowRepository.setTransactionDefaults();
+                this.shared.transactionPropertiesToShow = store.setTransactionDefaults();
             },
 
             /**

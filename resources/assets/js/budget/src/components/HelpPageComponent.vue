@@ -250,6 +250,7 @@
 </template>
 
 <script>
+    import helpers from '../repositories/Helpers'
     export default {
         data: function () {
             return {
@@ -275,7 +276,7 @@
             //data to be received from parent
         ],
         mounted: function () {
-            HelpersRepository.scrollbars();
+            helpers.scrollbars();
         }
     }
 </script>

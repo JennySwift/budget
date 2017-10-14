@@ -74,6 +74,7 @@
 </template>
 
 <script>
+    import TotalsRepository from '../repositories/TotalsRepository'
     export default {
         data: function () {
             return {
@@ -91,7 +92,6 @@
              *
              */
             insertBudget: function () {
-                $.event.trigger('show-loading');
                 var data = {
                     name: this.newBudget.name,
                     type: this.newBudget.type,
@@ -101,16 +101,19 @@
 
                 TotalsRepository.resetTotalChanges();
 
-                this.$http.post('/api/budgets', data, function (response) {
-                    BudgetsRepository.addBudgetToSpecificArray(response, this);
-                    TotalsRepository.getSideBarTotals(this);
-                    this.updateBudgetTableTotals();
-                    $.event.trigger('provide-feedback', ['Budget created', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (data, status, response) {
-                        HelpersRepository.handleResponseError(data, status, response);
-                    });
+                helpers.post({
+                    url: '/api/budgets',
+                    data: data,
+                    array: 'budgets',
+                    message: 'Budget created',
+                    clearFields: this.clearFields,
+                    redirectTo: this.redirectTo,
+                    callback: function (response) {
+                        store.addBudgetToSpecificArray(response, this);
+                        TotalsRepository.getSideBarTotals(this);
+                        this.updateBudgetTableTotals();
+                    }.bind(this)
+                });
             },
 
             /**
@@ -136,8 +139,7 @@
             }
         },
         props: [
-            'page',
-            'budgets'
+            'page'
         ],
         mounted: function () {
             this.listen();

@@ -52,6 +52,7 @@
 </template>
 
 <script>
+    import Helpers from '../../repositories/Helpers'
     export default {
         data: function () {
             return {
@@ -61,7 +62,7 @@
         components: {},
         filters: {
             numberFilter: function (number, howManyDecimals) {
-                return HelpersRepository.numberFilter(number, howManyDecimals);
+                return Helpers.numberFilter(number, howManyDecimals);
             }
         },
         methods: {

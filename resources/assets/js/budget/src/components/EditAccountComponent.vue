@@ -32,6 +32,7 @@
 </template>
 
 <script>
+    import helpers from '../repositories/Helpers'
     export default {
         data: function () {
             return {
@@ -46,46 +47,44 @@
              *
              */
             updateAccount: function (account) {
-                $.event.trigger('show-loading');
-
                 var data = {
                     name: this.selectedAccount.name
                 };
 
-                this.$http.put('/api/accounts/' + this.selectedAccount.id, data, function (response) {
-                    AccountsRepository.updateAccount(response);
-                    this.showPopup = false;
-                    $.event.trigger('provide-feedback', ['Account updated', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.put({
+                    url: '/api/accounts/' + this.selectedAccount.id,
+                    data: data,
+                    property: 'accounts',
+                    message: 'Account updated',
+                    redirectTo: this.redirectTo,
+                    callback: function (response) {
+                        store.updateAccount(response);
+                    }.bind(this)
+                });
             },
 
             /**
-             *
-             */
+            *
+            */
             deleteAccount: function () {
-                if (confirm("Are you sure?")) {
-                    $.event.trigger('show-loading');
-                    this.$http.delete('/api/accounts/' + this.selectedAccount.id, function (response) {
-                        AccountsRepository.deleteAccount(this.selectedAccount);
+                helpers.delete({
+                    url: '/api/accounts/' + this.selectedAccount.id,
+                    array: 'accounts',
+                    itemToDelete: this.account,
+                    message: 'Account deleted',
+                    redirectTo: this.redirectTo,
+                    callback: function () {
                         this.showPopup = false;
-                        $.event.trigger('provide-feedback', ['Account deleted', 'success']);
-                        $.event.trigger('hide-loading');
-                    })
-                        .error(function (response) {
-                            HelpersRepository.handleResponseError(response);
-                        });
-                }
+                        store.deleteAccount(this.selectedAccount);
+                    }.bind(this)
+                });
             },
 
             /**
              *
              */
             closePopup: function ($event) {
-                HelpersRepository.closePopup($event, this);
+                helpers.closePopup($event, this);
             },
 
             /**
@@ -99,9 +98,7 @@
                 });
             }
         },
-        props: [
-            'accounts'
-        ],
+        props: [],
         mounted: function () {
             this.listen();
         }

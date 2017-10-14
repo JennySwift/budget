@@ -153,6 +153,7 @@
 
 <script>
     import TotalsRepository from '../repositories/TotalsRepository'
+    import helpers from '../repositories/Helpers'
 
     export default {
         data: function () {
@@ -179,7 +180,7 @@
              * @returns {Number}
              */
             numberFilter: function (number, howManyDecimals) {
-                return HelpersRepository.numberFilter(number, howManyDecimals);
+                return helpers.numberFilter(number, howManyDecimals);
             }
         },
         methods: {

@@ -118,6 +118,9 @@
 </template>
 
 <script>
+    import helpers from '../repositories/Helpers'
+    import TotalsRepository from '../repositories/TotalsRepository'
+    import TransactionsRepository from '../repositories/TransactionsRepository'
     export default {
         data: function () {
             return {
@@ -132,7 +135,7 @@
              * @returns {*}
              */
             formatDurationFilter: function (minutes) {
-                return HelpersRepository.formatDurationToHoursAndMinutes(minutes);
+                return helpers.formatDurationToHoursAndMinutes(minutes);
             },
 
             /**
@@ -142,7 +145,7 @@
              * @returns {Number}
              */
             numberFilter: function (number, howManyDecimals) {
-                return HelpersRepository.numberFilter(number, howManyDecimals);
+                return helpers.numberFilter(number, howManyDecimals);
             },
 
             /**
@@ -151,7 +154,7 @@
              * @returns {*|String}
              */
             formatDateForUser: function (date) {
-                return HelpersRepository.formatDateForUser(date, shared.me.preferences.dateFormat);
+                return helpers.formatDateForUser(date, shared.me.preferences.dateFormat);
             }
         },
         methods: {
@@ -161,23 +164,23 @@
              * For the updating of a transaction from the popup, see EditTransactionPopupComponent
              */
             updateTransaction: function () {
-                $.event.trigger('show-loading');
-
                 var data = TransactionsRepository.setFields(this.transaction);
 
                 TotalsRepository.resetTotalChanges();
 
-                this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
-                    TransactionsRepository.updateTransaction(this.transaction);
-                    TotalsRepository.getSideBarTotals(this);
-                    FilterRepository.getBasicFilterTotals(this);
-                    //Todo: Remove the transaction from the JS transactions depending on the filter
-                    $.event.trigger('provide-feedback', ['Transaction updated', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.put({
+                    url: '/api/transactions/' + this.transaction.id,
+                    data: data,
+                    property: 'transactions',
+                    message: 'Transaction updated',
+                    redirectTo: this.redirectTo,
+                    callback: function (response) {
+                        TransactionsRepository.updateTransaction(this.transaction);
+                        TotalsRepository.getSideBarTotals(this);
+                        FilterRepository.getBasicFilterTotals(this);
+                        //Todo: Remove the transaction from the JS transactions depending on the filter
+                    }.bind(this)
+                });
             },
 
             /**

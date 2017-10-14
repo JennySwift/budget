@@ -74,6 +74,8 @@
 </template>
 
 <script>
+    import TotalsRepository from '../repositories/TotalsRepository'
+    import helpers from '../repositories/Helpers'
     export default {
         data: function () {
             return {
@@ -89,28 +91,27 @@
              *
              */
             updateBudget: function (budget) {
-                $.event.trigger('show-loading');
-
                 var data = {
                     name: this.selectedBudget.name,
                     amount: this.selectedBudget.amount,
                     type: this.selectedBudget.type,
-                    starting_date: HelpersRepository.formatDate(this.selectedBudget.formattedStartingDate),
+                    starting_date: helpers.formatDate(this.selectedBudget.formattedStartingDate),
                 };
 
                 TotalsRepository.resetTotalChanges();
 
-                this.$http.put('/api/budgets/' + this.selectedBudget.id, data, function (response) {
-                    BudgetsRepository.updateBudget(response, this);
-                    this.updateBudgetTableTotals();
-                    TotalsRepository.getSideBarTotals(this);
-                    this.showPopup = false;
-                    $.event.trigger('provide-feedback', ['Budget updated', 'success']);
-                    $.event.trigger('hide-loading');
-                })
-                    .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
-                    });
+                helpers.put({
+                    url: '/api/budgets/' + this.selectedBudget.id,
+                    data: data,
+                    property: 'budgets',
+                    message: 'Budget updated',
+                    redirectTo: this.redirectTo,
+                    callback: function (response) {
+                        store.updateBudget(response, this);
+                        this.updateBudgetTableTotals();
+                        TotalsRepository.getSideBarTotals(this);
+                    }.bind(this)
+                });
             },
 
             /**
@@ -129,27 +130,24 @@
              *
              */
             deleteBudget: function () {
-                if (confirm('You have ' + this.selectedBudget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?')) {
-                    $.event.trigger('show-loading');
-                    this.$http.delete('/api/budgets/' + this.selectedBudget.id, function (response) {
-                        TotalsRepository.getSideBarTotals(this);
-                        this.updateBudgetTableTotals();
-                        BudgetsRepository.deleteBudget(this.selectedBudget, this);
+                helpers.delete({
+                    url: '/api/budgets/' + this.selectedBudget.id,
+                    array: 'budgets',
+                    itemToDelete: this.budget,
+                    message: 'Budget deleted',
+                    redirectTo: this.redirectTo,
+                    confirmMessage: 'You have ' + this.selectedBudget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?',
+                    callback: function () {
                         this.showPopup = false;
-                        $.event.trigger('provide-feedback', ['Budget deleted', 'success']);
-                        $.event.trigger('hide-loading');
-                    })
-                        .error(function (response) {
-                            HelpersRepository.handleResponseError(response);
-                        });
-                }
+                    }.bind(this)
+                });
             },
 
             /**
              *
              */
             closePopup: function ($event) {
-                HelpersRepository.closePopup($event, this);
+                helpers.closePopup($event, this);
             },
 
             /**
@@ -164,7 +162,6 @@
             }
         },
         props: [
-            'budgets',
             'page'
         ],
         mounted: function () {
