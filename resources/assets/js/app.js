@@ -7,8 +7,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
-// global.$ = require('jquery');
-// global.jQuery = require('jquery');
+global.$ = require('jquery');
+global.jQuery = require('jquery');
 
 // import jQuery from 'jquery'
 // global._ = require('underscore');

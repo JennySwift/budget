@@ -285,6 +285,7 @@
 </template>
 
 <script>
+    require('bootstrap');
     export default {
         data: function () {
             return {
