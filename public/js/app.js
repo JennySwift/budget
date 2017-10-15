@@ -108378,6 +108378,7 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__repositories_Helpers_js__ = __webpack_require__(8);
 //
 //
 //
@@ -108526,11 +108527,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -108538,7 +108535,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             show: store.state.show.defaults,
             shared: store.state,
-            flexBudgetTotals: [],
             orderByOptions: [{ name: 'name', value: 'name' }, { name: 'spent after starting date', value: 'spentOnOrAfterStartingDate' }],
             orderBy: 'name',
             reverseOrder: false
@@ -108546,8 +108542,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     components: {},
     computed: {
-        flexBudgets: function flexBudgets() {
-            return this.shared.flexBudgets;
+        orderedFlexBudgets: function orderedFlexBudgets() {
+            return store.orderBudgetsFilter(this.shared.flexBudgets, this);
         }
     },
     filters: {
@@ -108558,10 +108554,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * @returns {Number}
          */
         numberFilter: function numberFilter(number, howManyDecimals) {
-            return helpers.numberFilter(number, howManyDecimals);
-        },
-        orderBudgetsFilter: function orderBudgetsFilter(budgets) {
-            return store.orderBudgetsFilter(budgets, this);
+            return __WEBPACK_IMPORTED_MODULE_1__repositories_Helpers_js__["a" /* default */].numberFilter(number, howManyDecimals);
         }
     },
     methods: {
@@ -108577,7 +108570,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         *
         */
         getFlexBudgetTotals: function getFlexBudgetTotals() {
-            helpers.get({
+            __WEBPACK_IMPORTED_MODULE_1__repositories_Helpers_js__["a" /* default */].get({
                 url: '/api/totals/flexBudget',
                 //                    storeProperty: 'flexBudgetTotals',
                 callback: function (response) {
@@ -108626,31 +108619,17 @@ var render = function() {
     "div",
     { staticClass: "budgets-page", attrs: { id: "flex-budgets-page" } },
     [
-      _c("edit-budget-popup", {
-        attrs: { budgets: _vm.flexBudgets, page: "flex" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.flexBudgets = $event
-          }
-        }
-      }),
+      _c("edit-budget-popup", { attrs: { page: "flex" } }),
       _vm._v(" "),
       _c("budgets-toolbar"),
       _vm._v(" "),
-      _c("new-budget", {
-        attrs: { budgets: _vm.flexBudgets, page: "flexBudgets" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.flexBudgets = $event
-          }
-        }
-      }),
+      _c("new-budget", { attrs: { page: "flexBudgets" } }),
       _vm._v(" "),
       _c(
         "div",
         { attrs: { id: "budget-content" } },
         [
-          _c("totals", { attrs: { show: _vm.show } }),
+          _c("totals"),
           _vm._v(" "),
           _c("div", { staticClass: "budget-table flex-budget-table" }, [
             _c("h1", [_vm._v("Flex Budget Table")]),
@@ -108760,168 +108739,168 @@ var render = function() {
               [
                 _vm._m(0),
                 _vm._v(" "),
-                _vm._l(
-                  _vm.shared.flexBudgets | _vm.orderBudgetsFilter,
-                  function(budget) {
-                    return _c("tr", { staticClass: "budget_info_ul" }, [
-                      _c(
-                        "td",
-                        {
-                          staticClass: "pointer",
-                          on: {
-                            click: function($event) {
-                              _vm.showBudgetPopup(budget, "flex")
-                            }
+                _vm._l(_vm.orderedFlexBudgets, function(budget) {
+                  return _c("tr", { staticClass: "budget_info_ul" }, [
+                    _c(
+                      "td",
+                      {
+                        staticClass: "pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
                           }
-                        },
-                        [_vm._v(_vm._s(budget.name))]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticClass: "percent pointer",
-                          on: {
-                            click: function($event) {
-                              _vm.showBudgetPopup(budget, "flex")
-                            }
+                        }
+                      },
+                      [_vm._v(_vm._s(budget.name))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "percent pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
                           }
-                        },
-                        [_vm._v(_vm._s(budget.amount))]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticClass: "amount pointer",
-                          on: {
-                            click: function($event) {
-                              _vm.showBudgetPopup(budget, "flex")
-                            }
+                        }
+                      },
+                      [_vm._v(_vm._s(budget.amount))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "amount pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
                           }
-                        },
-                        [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("numberFilter 2")(budget.calculatedAmount)
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter")(budget.calculatedAmount, 2)
+                          )
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "CSD pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _c("span", [
+                          _vm._v(_vm._s(budget.formattedStartingDate))
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "month-number pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(budget.cumulativeMonthNumber))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter")(
+                              budget.spentBeforeStartingDate,
+                              2
                             )
                           )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticClass: "CSD pointer",
-                          on: {
-                            click: function($event) {
-                              _vm.showBudgetPopup(budget, "flex")
-                            }
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
                           }
-                        },
-                        [
-                          _c("span", [
-                            _vm._v(_vm._s(budget.formattedStartingDate))
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticClass: "month-number pointer",
-                          on: {
-                            click: function($event) {
-                              _vm.showBudgetPopup(budget, "flex")
-                            }
-                          }
-                        },
-                        [_vm._v(_vm._s(budget.cumulativeMonthNumber))]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticClass: "pointer",
-                          on: {
-                            click: function($event) {
-                              _vm.showBudgetPopup(budget, "flex")
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("numberFilter 2")(
-                                budget.spentBeforeStartingDate
-                              )
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter")(
+                              budget.spentOnOrAfterStartingDate,
+                              2
                             )
                           )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticClass: "pointer",
-                          on: {
-                            click: function($event) {
-                              _vm.showBudgetPopup(budget, "flex")
-                            }
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "received pointer",
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
                           }
-                        },
-                        [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("numberFilter 2")(
-                                budget.spentOnOrAfterStartingDate
-                              )
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("numberFilter")(
+                              budget.receivedOnOrAfterStartingDate,
+                              2
                             )
                           )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticClass: "received pointer",
-                          on: {
-                            click: function($event) {
-                              _vm.showBudgetPopup(budget, "flex")
-                            }
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass: "remaining pointer",
+                        class: { "negative-remaining": budget.remaining < 0 },
+                        on: {
+                          click: function($event) {
+                            _vm.showBudgetPopup(budget, "flex")
                           }
-                        },
-                        [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("numberFilter 2")(
-                                budget.receivedOnOrAfterStartingDate
-                              )
-                            )
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticClass: "remaining pointer",
-                          class: { "negative-remaining": budget.remaining < 0 },
-                          on: {
-                            click: function($event) {
-                              _vm.showBudgetPopup(budget, "flex")
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            _vm._s(_vm._f("numberFilter 2")(budget.remaining))
-                          )
-                        ]
-                      )
-                    ])
-                  }
-                ),
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(_vm._f("numberFilter")(budget.remaining, 2))
+                        )
+                      ]
+                    )
+                  ])
+                }),
                 _vm._v(" "),
                 _c(
                   "tr",
@@ -108935,8 +108914,9 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.allocatedAmount
+                          _vm._f("numberFilter")(
+                            _vm.shared.flexBudgetTotals.allocatedAmount,
+                            2
                           )
                         )
                       )
@@ -108945,8 +108925,10 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.allocatedCalculatedAmount
+                          _vm._f("numberFilter")(
+                            _vm.shared.flexBudgetTotals
+                              .allocatedCalculatedAmount,
+                            2
                           )
                         )
                       )
@@ -108965,8 +108947,9 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.allocatedRemaining
+                          _vm._f("numberFilter")(
+                            _vm.shared.flexBudgetTotals.allocatedRemaining,
+                            2
                           )
                         )
                       )
@@ -108984,14 +108967,18 @@ var render = function() {
                     _c("td", [_vm._v("unallocated")]),
                     _vm._v(" "),
                     _c("td", [
-                      _vm._v(_vm._s(_vm.flexBudgetTotals.unallocatedAmount))
+                      _vm._v(
+                        _vm._s(_vm.shared.flexBudgetTotals.unallocatedAmount)
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", [
                       _vm._v(
                         _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.unallocatedCalculatedAmount
+                          _vm._f("numberFilter")(
+                            _vm.shared.flexBudgetTotals
+                              .unallocatedCalculatedAmount,
+                            2
                           )
                         )
                       )
@@ -109010,8 +108997,9 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.unallocatedRemaining
+                          _vm._f("numberFilter")(
+                            _vm.shared.flexBudgetTotals.unallocatedRemaining,
+                            2
                           )
                         )
                       )
@@ -109031,7 +109019,8 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         _vm._s(
-                          _vm.flexBudgetTotals.allocatedPlusUnallocatedAmount
+                          _vm.shared.flexBudgetTotals
+                            .allocatedPlusUnallocatedAmount
                         )
                       )
                     ]),
@@ -109039,9 +109028,10 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals
-                              .allocatedPlusUnallocatedCalculatedAmount
+                          _vm._f("numberFilter")(
+                            _vm.shared.flexBudgetTotals
+                              .allocatedPlusUnallocatedCalculatedAmount,
+                            2
                           )
                         )
                       )
@@ -109054,8 +109044,9 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.spentBeforeStartingDate
+                          _vm._f("numberFilter")(
+                            _vm.shared.flexBudgetTotals.spentBeforeStartingDate,
+                            2
                           )
                         )
                       )
@@ -109064,8 +109055,10 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.spentOnOrAfterStartingDate
+                          _vm._f("numberFilter")(
+                            _vm.shared.flexBudgetTotals
+                              .spentOnOrAfterStartingDate,
+                            2
                           )
                         )
                       )
@@ -109074,8 +109067,10 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals.receivedOnOrAfterStartingDate
+                          _vm._f("numberFilter")(
+                            _vm.shared.flexBudgetTotals
+                              .receivedOnOrAfterStartingDate,
+                            2
                           )
                         )
                       )
@@ -109084,9 +109079,10 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         _vm._s(
-                          _vm._f("numberFilter 2")(
-                            _vm.flexBudgetTotals
-                              .allocatedPlusUnallocatedRemaining
+                          _vm._f("numberFilter")(
+                            _vm.shared.flexBudgetTotals
+                              .allocatedPlusUnallocatedRemaining,
+                            2
                           )
                         )
                       )
