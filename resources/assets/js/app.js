@@ -34,6 +34,8 @@ const app = new Vue({
 }).$mount('#app')
 
 store.getUser();
+store.getAccounts();
+store.setHeights();
 
 var App = Vue.component('app', {
     data: function () {
@@ -43,18 +45,8 @@ var App = Vue.component('app', {
     },
     methods: {
 
-        /**
-         *
-         */
-        setHeights: function () {
-            var height = $(window).height();
-            //Uncomment after refactor
-            // $('body,html').height(height);
-        }
     },
     ready: function () {
-        this.setHeights();
-        store.getAccounts();
         store.getBudgets();
         store.getUnassignedBudgets();
         store.getFavouriteTransactions();
@@ -66,15 +58,13 @@ var App = Vue.component('app', {
     }
 });
 
-//Uncomment after refactor
-// $(window).load(function () {
-//     $(".main").css('display', 'block');
-//     $("footer, #navbar").css('display', 'flex');
-//     $("#page-loading").hide();
-//     //$rootScope.$emit('getSideBarTotals');
-//
-//     smoothScroll.init();
-// });
+$(window).on('load', function () {
+    $(".main").css('display', 'block');
+    $("footer, #navbar").css('display', 'flex');
+    $("#page-loading").hide();
+    //Uncomment after refactor
+    // smoothScroll.init();
+});
 
 
 

@@ -126,6 +126,15 @@ export default {
         this.state.tab = tab;
     },
 
+    /**
+     *
+     */
+    setHeights: function () {
+        var height = $(window).height();
+        //Uncomment after refactor
+        $('body,html').height(height);
+    },
+
 
     /**
      *

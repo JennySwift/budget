@@ -6177,6 +6177,15 @@ Date.setLocale('en-AU');
 
     /**
      *
+     */
+    setHeights: function setHeights() {
+        var height = $(window).height();
+        //Uncomment after refactor
+        $('body,html').height(height);
+    },
+
+    /**
+     *
      * @returns {*}
      */
     getNewTransactionDefaults: function getNewTransactionDefaults() {
@@ -65273,25 +65282,15 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 }).$mount('#app');
 
 __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getUser();
+__WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getAccounts();
+__WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].setHeights();
 
 var App = __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('app', {
     data: function data() {
         return {};
     },
-    methods: {
-
-        /**
-         *
-         */
-        setHeights: function setHeights() {
-            var height = $(window).height();
-            //Uncomment after refactor
-            // $('body,html').height(height);
-        }
-    },
+    methods: {},
     ready: function ready() {
-        this.setHeights();
-        __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getAccounts();
         __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getBudgets();
         __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getUnassignedBudgets();
         __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getFavouriteTransactions();
@@ -65303,15 +65302,13 @@ var App = __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('app', {
     }
 });
 
-//Uncomment after refactor
-// $(window).load(function () {
-//     $(".main").css('display', 'block');
-//     $("footer, #navbar").css('display', 'flex');
-//     $("#page-loading").hide();
-//     //$rootScope.$emit('getSideBarTotals');
-//
-//     smoothScroll.init();
-// });
+$(window).on('load', function () {
+    $(".main").css('display', 'block');
+    $("footer, #navbar").css('display', 'flex');
+    $("#page-loading").hide();
+    //Uncomment after refactor
+    // smoothScroll.init();
+});
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(12)))
 
 /***/ }),
@@ -96603,6 +96600,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__budget_src_components_transactions_EditTransactionPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__budget_src_components_transactions_EditTransactionPopupComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__budget_src_components_budgets_AllocationPopupComponent_vue__ = __webpack_require__(475);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__budget_src_components_budgets_AllocationPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__budget_src_components_budgets_AllocationPopupComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__budget_src_components_accounts_EditAccountComponent_vue__ = __webpack_require__(517);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__budget_src_components_accounts_EditAccountComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__budget_src_components_accounts_EditAccountComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__budget_src_components_accounts_NewAccountComponent_vue__ = __webpack_require__(520);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__budget_src_components_accounts_NewAccountComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__budget_src_components_accounts_NewAccountComponent_vue__);
 
 
 // var vueTippy = require('vue-tippy');
@@ -96615,6 +96616,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 // import NewPopupComponent from './budget/src/components/shared/NewPopupComponent.vue'
 // import ButtonsComponent from './budget/src/components/shared/ButtonsComponent.vue'
+
+
 
 
 
@@ -96642,6 +96645,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('mass-transaction-update-p
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('edit-transaction-popup', __WEBPACK_IMPORTED_MODULE_13__budget_src_components_transactions_EditTransactionPopupComponent_vue___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('allocation-popup', __WEBPACK_IMPORTED_MODULE_14__budget_src_components_budgets_AllocationPopupComponent_vue___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transaction-autocomplete', __WEBPACK_IMPORTED_MODULE_8__budget_src_components_shared_TransactionAutocompleteComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('edit-account', __WEBPACK_IMPORTED_MODULE_15__budget_src_components_accounts_EditAccountComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('new-account', __WEBPACK_IMPORTED_MODULE_16__budget_src_components_accounts_NewAccountComponent_vue___default.a);
 
 /***/ }),
 /* 389 */
@@ -107898,9 +107903,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -107988,14 +107990,7 @@ var render = function() {
           [
             _c("label", [_vm._v("Create a new account")]),
             _vm._v(" "),
-            _c("new-account", {
-              attrs: { accounts: _vm.accountsRepository.accounts },
-              on: {
-                "update:accounts": function($event) {
-                  _vm.accountsRepository.accounts = $event
-                }
-              }
-            })
+            _c("new-account")
           ],
           1
         ),
@@ -108028,7 +108023,7 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("td", { staticClass: "balance" }, [
-                  _vm._v(_vm._s(_vm._f("numberFilter 2")(account.balance)))
+                  _vm._v(_vm._s(_vm._f("numberFilter")(account.balance, 2)))
                 ]),
                 _vm._v(" "),
                 _c("td", [
@@ -123429,6 +123424,469 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
+
+/***/ }),
+/* 517 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(518)
+/* template */
+var __vue_template__ = __webpack_require__(519)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/accounts/EditAccountComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ae5c4a42", Component.options)
+  } else {
+    hotAPI.reload("data-v-ae5c4a42", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 518 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__ = __webpack_require__(8);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            selectedAccount: {},
+            showPopup: false
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        updateAccount: function updateAccount(account) {
+            var data = {
+                name: this.selectedAccount.name
+            };
+
+            __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__["a" /* default */].put({
+                url: '/api/accounts/' + this.selectedAccount.id,
+                data: data,
+                property: 'accounts',
+                message: 'Account updated',
+                redirectTo: this.redirectTo,
+                callback: function (response) {
+                    store.updateAccount(response);
+                }.bind(this)
+            });
+        },
+
+        /**
+        *
+        */
+        deleteAccount: function deleteAccount() {
+            __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__["a" /* default */].delete({
+                url: '/api/accounts/' + this.selectedAccount.id,
+                array: 'accounts',
+                itemToDelete: this.account,
+                message: 'Account deleted',
+                redirectTo: this.redirectTo,
+                callback: function () {
+                    this.showPopup = false;
+                    store.deleteAccount(this.selectedAccount);
+                }.bind(this)
+            });
+        },
+
+        /**
+         *
+         */
+        closePopup: function closePopup($event) {
+            __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__["a" /* default */].closePopup($event, this);
+        },
+
+        /**
+         *
+         */
+        listen: function listen() {
+            var that = this;
+            $(document).on('show-edit-account-popup', function (event, account) {
+                that.selectedAccount = account;
+                that.showPopup = true;
+            });
+        }
+    },
+    props: [],
+    mounted: function mounted() {
+        this.listen();
+    }
+});
+
+/***/ }),
+/* 519 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showPopup,
+          expression: "showPopup"
+        }
+      ],
+      staticClass: "popup-outer",
+      attrs: { id: "edit-account-name" },
+      on: {
+        click: function($event) {
+          _vm.closePopup($event)
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "popup-inner" }, [
+        _c("h3", [_vm._v("Edit " + _vm._s(_vm.selectedAccount.name))]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "edit-account-name" } }, [
+            _vm._v("Name")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.selectedAccount.name,
+                expression: "selectedAccount.name"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              id: "edit-account-name",
+              name: "edit-account-name",
+              placeholder: "name"
+            },
+            domProps: { value: _vm.selectedAccount.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.selectedAccount.name = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "buttons" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-default",
+              on: {
+                click: function($event) {
+                  _vm.showPopup = false
+                }
+              }
+            },
+            [_vm._v("Cancel")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              on: {
+                click: function($event) {
+                  _vm.updateAccount()
+                }
+              }
+            },
+            [_vm._v("Save")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger btn-sm",
+              on: {
+                click: function($event) {
+                  _vm.deleteAccount(_vm.account)
+                }
+              }
+            },
+            [_vm._v("Delete")]
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ae5c4a42", module.exports)
+  }
+}
+
+/***/ }),
+/* 520 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(521)
+/* template */
+var __vue_template__ = __webpack_require__(522)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/accounts/NewAccountComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-681ffe3b", Component.options)
+  } else {
+    hotAPI.reload("data-v-681ffe3b", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 521 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            newAccount: {}
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        insertAccount: function insertAccount() {
+            var data = {
+                name: this.newAccount.name
+            };
+
+            helpers.post({
+                url: '/api/accounts',
+                data: data,
+                array: 'accounts',
+                message: 'Account created',
+                clearFields: this.clearFields,
+                callback: function () {}.bind(this)
+            });
+        },
+        clearFields: function clearFields() {
+            this.newAccount.name = '';
+        }
+    },
+    props: [],
+    mounted: function mounted() {}
+});
+
+/***/ }),
+/* 522 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "flex" }, [
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "new-account-name" } }, [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.newAccount.name,
+            expression: "newAccount.name"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          id: "new-account-name",
+          name: "new-account-name",
+          placeholder: "name"
+        },
+        domProps: { value: _vm.newAccount.name },
+        on: {
+          keyup: function($event) {
+            if (!("button" in $event) && $event.keyCode !== 13) {
+              return null
+            }
+            _vm.insertAccount()
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.newAccount.name = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-success",
+          on: {
+            click: function($event) {
+              _vm.insertAccount()
+            }
+          }
+        },
+        [_vm._v("Create")]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-681ffe3b", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

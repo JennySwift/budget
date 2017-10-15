@@ -10,10 +10,7 @@
             <div class="create-new-account">
                 <label>Create a new account</label>
 
-                <new-account
-                    :accounts.sync="accountsRepository.accounts"
-                >
-                </new-account>
+                <new-account></new-account>
 
             </div>
 
@@ -28,7 +25,7 @@
                         class="pointer">
                         {{ account.name }}
                     </td>
-                    <td class="balance">{{ account.balance | numberFilter 2 }}</td>
+                    <td class="balance">{{ account.balance | numberFilter(2) }}</td>
                     <td>
                         <button v-on:click="viewTransactionsForAccount(account)" class="btn btn-default btn-sm">View Transactions</button>
                     </td>

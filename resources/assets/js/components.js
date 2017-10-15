@@ -19,6 +19,8 @@ import TransactionsComponent from './budget/src/components/transactions/Transact
 import MassTransactionUpdatePopupComponent from './budget/src/components/filter/MassTransactionUpdatePopupComponent.vue'
 import EditTransactionPopupComponent from './budget/src/components/transactions/EditTransactionPopupComponent.vue'
 import AllocationPopupComponent from './budget/src/components/budgets/AllocationPopupComponent.vue'
+import EditAccountComponent from './budget/src/components/accounts/EditAccountComponent.vue'
+import NewAccountComponent from './budget/src/components/accounts/NewAccountComponent.vue'
 
 //Shared components
 Vue.component('navbar', NavbarComponent);
@@ -38,3 +40,5 @@ Vue.component('mass-transaction-update-popup', MassTransactionUpdatePopupCompone
 Vue.component('edit-transaction-popup', EditTransactionPopupComponent);
 Vue.component('allocation-popup', AllocationPopupComponent);
 Vue.component('transaction-autocomplete', TransactionAutocompleteComponent);
+Vue.component('edit-account', EditAccountComponent);
+Vue.component('new-account', NewAccountComponent);
