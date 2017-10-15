@@ -17,7 +17,7 @@
 
                         <div class="input-group">
                             <input
-                                v-model="me.preferences.colors.income"
+                                v-model="shared.me.preferences.colors.income"
                                 type="color"
                                 id="income-color-picker"
                                 name="income-color-picker"
@@ -45,7 +45,7 @@
 
                         <div class="input-group">
                             <input
-                                v-model="me.preferences.colors.expense"
+                                v-model="shared.me.preferences.colors.expense"
                                 type="color"
                                 id="expense-color-picker"
                                 name="expense-color-picker"
@@ -73,7 +73,7 @@
 
                         <div class="input-group">
                             <input
-                                v-model="me.preferences.colors.transfer"
+                                v-model="shared.me.preferences.colors.transfer"
                                 type="color"
                                 id="transfer-color-picker"
                                 name="transfer-color-picker"
@@ -103,7 +103,7 @@
 
             <div class="checkbox-container">
                 <input
-                    v-model="me.preferences.clearFields"
+                    v-model="shared.me.preferences.clearFields"
                     id="preferences-clear-fields"
                     type="checkbox"
                 >
@@ -112,7 +112,7 @@
 
             <div class="checkbox-container">
                 <input
-                    v-model="me.preferences.autocompleteDescription"
+                    v-model="shared.me.preferences.autocompleteDescription"
                     id="preferences-autocomplete-description"
                     type="checkbox"
                 >
@@ -121,7 +121,7 @@
 
             <div class="checkbox-container">
                 <input
-                    v-model="me.preferences.autocompleteMerchant"
+                    v-model="shared.me.preferences.autocompleteMerchant"
                     id="preferences-autocomplete-merchant"
                     type="checkbox"
                 >
@@ -136,12 +136,12 @@
 
                 <div>
                     <label>DD/MM/YY</label>
-                    <input v-model="me.preferences.dateFormat" type="radio" value="DD/MM/YY">
+                    <input v-model="shared.me.preferences.dateFormat" type="radio" value="DD/MM/YY">
                 </div>
 
                 <div>
                     <label>DD/MM/YYYY</label>
-                    <input v-model="me.preferences.dateFormat" type="radio" value="DD/MM/YYYY">
+                    <input v-model="shared.me.preferences.dateFormat" type="radio" value="DD/MM/YYYY">
                 </div>
 
             </div>
@@ -154,7 +154,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.credit"
+                        v-model="shared.me.preferences.show.totals.credit"
                         id="preferences-show-credit"
                         type="checkbox"
                     >
@@ -163,7 +163,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.remainingFixedBudget"
+                        v-model="shared.me.preferences.show.totals.remainingFixedBudget"
                         id="preferences-show-remainingFixedBudget"
                         type="checkbox"
                     >
@@ -172,7 +172,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.expensesWithoutBudget"
+                        v-model="shared.me.preferences.show.totals.expensesWithoutBudget"
                         id="preferences-show-expenses-without-budget"
                         type="checkbox"
                     >
@@ -181,7 +181,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate"
+                        v-model="shared.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate"
                         id="preferences-show-expenses-with-fixed-budget-before-starting-date"
                         type="checkbox"
                     >
@@ -190,7 +190,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate"
+                        v-model="shared.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate"
                         id="preferences-show-expenses-with-fixed-budget-after-starting-date"
                         type="checkbox"
                     >
@@ -199,7 +199,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate"
+                        v-model="shared.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate"
                         id="preferences-show-expenses-with-flex-budget-before-starting-date"
                         type="checkbox"
                     >
@@ -208,7 +208,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate"
+                        v-model="shared.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate"
                         id="preferences-show-expenses-with-flex-budget-after-starting-date"
                         type="checkbox"
                     >
@@ -217,7 +217,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.savings"
+                        v-model="shared.me.preferences.show.totals.savings"
                         id="preferences-show-savings"
                         type="checkbox"
                     >
@@ -226,7 +226,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.remainingBalance"
+                        v-model="shared.me.preferences.show.totals.remainingBalance"
                         id="preferences-show-remaining-balance"
                         type="checkbox"
                     >
@@ -235,7 +235,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.debit"
+                        v-model="shared.me.preferences.show.totals.debit"
                         id="preferences-show-debit"
                         type="checkbox"
                     >
@@ -244,7 +244,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.balance"
+                        v-model="shared.me.preferences.show.totals.balance"
                         id="preferences-show-balance"
                         type="checkbox"
                     >
@@ -253,7 +253,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.reconciled"
+                        v-model="shared.me.preferences.show.totals.reconciled"
                         id="preferences-show-reconciled"
                         type="checkbox"
                     >
@@ -262,7 +262,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="me.preferences.show.totals.cumulativeFixedBudget"
+                        v-model="shared.me.preferences.show.totals.cumulativeFixedBudget"
                         id="preferences-show-cumulative-fixed-budget"
                         type="checkbox"
                     >
@@ -284,8 +284,8 @@
     export default {
         data: function () {
             return {
-                me: me,
-                preferences: []
+                shared: store.state,
+//                preferences: []
             };
         },
         components: {},
@@ -297,31 +297,31 @@
             updatePreferences: function () {
                 var data = {
                     preferences: {
-                        clearFields: this.me.preferences.clearFields,
+                        clearFields: this.shared.me.preferences.clearFields,
                         colors: {
-                            income: this.me.preferences.colors.income,
-                            expense: this.me.preferences.colors.expense,
-                            transfer: this.me.preferences.colors.transfer
+                            income: this.shared.me.preferences.colors.income,
+                            expense: this.shared.me.preferences.colors.expense,
+                            transfer: this.shared.me.preferences.colors.transfer
                         },
-                        dateFormat: this.me.preferences.dateFormat,
-                        autocompleteDescription: this.me.preferences.autocompleteDescription,
-                        autocompleteMerchant: this.me.preferences.autocompleteMerchant,
+                        dateFormat: this.shared.me.preferences.dateFormat,
+                        autocompleteDescription: this.shared.me.preferences.autocompleteDescription,
+                        autocompleteMerchant: this.shared.me.preferences.autocompleteMerchant,
 
                         show: {
                             totals: {
-                                credit: this.me.preferences.show.totals.credit,
-                                remainingFixedBudget: this.me.preferences.show.totals.remainingFixedBudget,
-                                expensesWithoutBudget: this.me.preferences.show.totals.expensesWithoutBudget,
-                                expensesWithFixedBudgetBeforeStartingDate: this.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate,
-                                expensesWithFixedBudgetAfterStartingDate: this.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate,
-                                expensesWithFlexBudgetBeforeStartingDate: this.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate,
-                                expensesWithFlexBudgetAfterStartingDate: this.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate,
-                                savings: this.me.preferences.show.totals.savings,
-                                remainingBalance: this.me.preferences.show.totals.remainingBalance,
-                                debit: this.me.preferences.show.totals.debit,
-                                balance: this.me.preferences.show.totals.balance,
-                                reconciled: this.me.preferences.show.totals.reconciled,
-                                cumulativeFixedBudget: this.me.preferences.show.totals.cumulativeFixedBudget
+                                credit: this.shared.me.preferences.show.totals.credit,
+                                remainingFixedBudget: this.shared.me.preferences.show.totals.remainingFixedBudget,
+                                expensesWithoutBudget: this.shared.me.preferences.show.totals.expensesWithoutBudget,
+                                expensesWithFixedBudgetBeforeStartingDate: this.shared.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate,
+                                expensesWithFixedBudgetAfterStartingDate: this.shared.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate,
+                                expensesWithFlexBudgetBeforeStartingDate: this.shared.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate,
+                                expensesWithFlexBudgetAfterStartingDate: this.shared.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate,
+                                savings: this.shared.me.preferences.show.totals.savings,
+                                remainingBalance: this.shared.me.preferences.show.totals.remainingBalance,
+                                debit: this.shared.me.preferences.show.totals.debit,
+                                balance: this.shared.me.preferences.show.totals.balance,
+                                reconciled: this.shared.me.preferences.show.totals.reconciled,
+                                cumulativeFixedBudget: this.shared.me.preferences.show.totals.cumulativeFixedBudget
                             }
                         }
                     }
@@ -334,7 +334,7 @@
                     message: 'Preferences updated',
                     redirectTo: this.redirectTo,
                     callback: function (response) {
-                        this.me.preferences = response.preferences;
+                        this.shared.me.preferences = response.preferences;
                     }.bind(this)
                 });
             },
@@ -346,13 +346,13 @@
              */
             defaultColor: function (type, defaultColor) {
                 if (type === 'income') {
-                    this.me.preferences.colors.income = defaultColor;
+                    this.shared.me.preferences.colors.income = defaultColor;
                 }
                 else if (type === 'expense') {
-                    this.me.preferences.colors.expense = defaultColor;
+                    this.shared.me.preferences.colors.expense = defaultColor;
                 }
                 else if (type === 'transfer') {
-                    this.me.preferences.colors.transfer = defaultColor;
+                    this.shared.me.preferences.colors.transfer = defaultColor;
                 }
             },
 

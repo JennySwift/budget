@@ -102049,8 +102049,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            me: me,
-            preferences: []
+            shared: store.state
+            //                preferences: []
         };
     },
     components: {},
@@ -102062,31 +102062,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         updatePreferences: function updatePreferences() {
             var data = {
                 preferences: {
-                    clearFields: this.me.preferences.clearFields,
+                    clearFields: this.shared.me.preferences.clearFields,
                     colors: {
-                        income: this.me.preferences.colors.income,
-                        expense: this.me.preferences.colors.expense,
-                        transfer: this.me.preferences.colors.transfer
+                        income: this.shared.me.preferences.colors.income,
+                        expense: this.shared.me.preferences.colors.expense,
+                        transfer: this.shared.me.preferences.colors.transfer
                     },
-                    dateFormat: this.me.preferences.dateFormat,
-                    autocompleteDescription: this.me.preferences.autocompleteDescription,
-                    autocompleteMerchant: this.me.preferences.autocompleteMerchant,
+                    dateFormat: this.shared.me.preferences.dateFormat,
+                    autocompleteDescription: this.shared.me.preferences.autocompleteDescription,
+                    autocompleteMerchant: this.shared.me.preferences.autocompleteMerchant,
 
                     show: {
                         totals: {
-                            credit: this.me.preferences.show.totals.credit,
-                            remainingFixedBudget: this.me.preferences.show.totals.remainingFixedBudget,
-                            expensesWithoutBudget: this.me.preferences.show.totals.expensesWithoutBudget,
-                            expensesWithFixedBudgetBeforeStartingDate: this.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate,
-                            expensesWithFixedBudgetAfterStartingDate: this.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate,
-                            expensesWithFlexBudgetBeforeStartingDate: this.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate,
-                            expensesWithFlexBudgetAfterStartingDate: this.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate,
-                            savings: this.me.preferences.show.totals.savings,
-                            remainingBalance: this.me.preferences.show.totals.remainingBalance,
-                            debit: this.me.preferences.show.totals.debit,
-                            balance: this.me.preferences.show.totals.balance,
-                            reconciled: this.me.preferences.show.totals.reconciled,
-                            cumulativeFixedBudget: this.me.preferences.show.totals.cumulativeFixedBudget
+                            credit: this.shared.me.preferences.show.totals.credit,
+                            remainingFixedBudget: this.shared.me.preferences.show.totals.remainingFixedBudget,
+                            expensesWithoutBudget: this.shared.me.preferences.show.totals.expensesWithoutBudget,
+                            expensesWithFixedBudgetBeforeStartingDate: this.shared.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate,
+                            expensesWithFixedBudgetAfterStartingDate: this.shared.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate,
+                            expensesWithFlexBudgetBeforeStartingDate: this.shared.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate,
+                            expensesWithFlexBudgetAfterStartingDate: this.shared.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate,
+                            savings: this.shared.me.preferences.show.totals.savings,
+                            remainingBalance: this.shared.me.preferences.show.totals.remainingBalance,
+                            debit: this.shared.me.preferences.show.totals.debit,
+                            balance: this.shared.me.preferences.show.totals.balance,
+                            reconciled: this.shared.me.preferences.show.totals.reconciled,
+                            cumulativeFixedBudget: this.shared.me.preferences.show.totals.cumulativeFixedBudget
                         }
                     }
                 }
@@ -102099,7 +102099,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 message: 'Preferences updated',
                 redirectTo: this.redirectTo,
                 callback: function (response) {
-                    this.me.preferences = response.preferences;
+                    this.shared.me.preferences = response.preferences;
                 }.bind(this)
             });
         },
@@ -102111,11 +102111,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          */
         defaultColor: function defaultColor(type, _defaultColor) {
             if (type === 'income') {
-                this.me.preferences.colors.income = _defaultColor;
+                this.shared.me.preferences.colors.income = _defaultColor;
             } else if (type === 'expense') {
-                this.me.preferences.colors.expense = _defaultColor;
+                this.shared.me.preferences.colors.expense = _defaultColor;
             } else if (type === 'transfer') {
-                this.me.preferences.colors.transfer = _defaultColor;
+                this.shared.me.preferences.colors.transfer = _defaultColor;
             }
         }
 
@@ -102171,8 +102171,8 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.me.preferences.colors.income,
-                    expression: "me.preferences.colors.income"
+                    value: _vm.shared.me.preferences.colors.income,
+                    expression: "shared.me.preferences.colors.income"
                   }
                 ],
                 staticClass: "form-control",
@@ -102182,13 +102182,14 @@ var render = function() {
                   name: "income-color-picker",
                   placeholder: "income"
                 },
-                domProps: { value: _vm.me.preferences.colors.income },
+                domProps: { value: _vm.shared.me.preferences.colors.income },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.me.preferences.colors.income = $event.target.value
+                    _vm.shared.me.preferences.colors.income =
+                      $event.target.value
                   }
                 }
               }),
@@ -102227,8 +102228,8 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.me.preferences.colors.expense,
-                    expression: "me.preferences.colors.expense"
+                    value: _vm.shared.me.preferences.colors.expense,
+                    expression: "shared.me.preferences.colors.expense"
                   }
                 ],
                 staticClass: "form-control",
@@ -102238,13 +102239,14 @@ var render = function() {
                   name: "expense-color-picker",
                   placeholder: "expense"
                 },
-                domProps: { value: _vm.me.preferences.colors.expense },
+                domProps: { value: _vm.shared.me.preferences.colors.expense },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.me.preferences.colors.expense = $event.target.value
+                    _vm.shared.me.preferences.colors.expense =
+                      $event.target.value
                   }
                 }
               }),
@@ -102283,8 +102285,8 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.me.preferences.colors.transfer,
-                    expression: "me.preferences.colors.transfer"
+                    value: _vm.shared.me.preferences.colors.transfer,
+                    expression: "shared.me.preferences.colors.transfer"
                   }
                 ],
                 staticClass: "form-control",
@@ -102294,13 +102296,14 @@ var render = function() {
                   name: "transfer-color-picker",
                   placeholder: "transfer"
                 },
-                domProps: { value: _vm.me.preferences.colors.transfer },
+                domProps: { value: _vm.shared.me.preferences.colors.transfer },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.me.preferences.colors.transfer = $event.target.value
+                    _vm.shared.me.preferences.colors.transfer =
+                      $event.target.value
                   }
                 }
               }),
@@ -102338,19 +102341,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.me.preferences.clearFields,
-              expression: "me.preferences.clearFields"
+              value: _vm.shared.me.preferences.clearFields,
+              expression: "shared.me.preferences.clearFields"
             }
           ],
           attrs: { id: "preferences-clear-fields", type: "checkbox" },
           domProps: {
-            checked: Array.isArray(_vm.me.preferences.clearFields)
-              ? _vm._i(_vm.me.preferences.clearFields, null) > -1
-              : _vm.me.preferences.clearFields
+            checked: Array.isArray(_vm.shared.me.preferences.clearFields)
+              ? _vm._i(_vm.shared.me.preferences.clearFields, null) > -1
+              : _vm.shared.me.preferences.clearFields
           },
           on: {
             __c: function($event) {
-              var $$a = _vm.me.preferences.clearFields,
+              var $$a = _vm.shared.me.preferences.clearFields,
                 $$el = $event.target,
                 $$c = $$el.checked ? true : false
               if (Array.isArray($$a)) {
@@ -102358,15 +102361,15 @@ var render = function() {
                   $$i = _vm._i($$a, $$v)
                 if ($$el.checked) {
                   $$i < 0 &&
-                    (_vm.me.preferences.clearFields = $$a.concat([$$v]))
+                    (_vm.shared.me.preferences.clearFields = $$a.concat([$$v]))
                 } else {
                   $$i > -1 &&
-                    (_vm.me.preferences.clearFields = $$a
+                    (_vm.shared.me.preferences.clearFields = $$a
                       .slice(0, $$i)
                       .concat($$a.slice($$i + 1)))
                 }
               } else {
-                _vm.me.preferences.clearFields = $$c
+                _vm.shared.me.preferences.clearFields = $$c
               }
             }
           }
@@ -102383,8 +102386,8 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.me.preferences.autocompleteDescription,
-              expression: "me.preferences.autocompleteDescription"
+              value: _vm.shared.me.preferences.autocompleteDescription,
+              expression: "shared.me.preferences.autocompleteDescription"
             }
           ],
           attrs: {
@@ -102392,13 +102395,18 @@ var render = function() {
             type: "checkbox"
           },
           domProps: {
-            checked: Array.isArray(_vm.me.preferences.autocompleteDescription)
-              ? _vm._i(_vm.me.preferences.autocompleteDescription, null) > -1
-              : _vm.me.preferences.autocompleteDescription
+            checked: Array.isArray(
+              _vm.shared.me.preferences.autocompleteDescription
+            )
+              ? _vm._i(
+                  _vm.shared.me.preferences.autocompleteDescription,
+                  null
+                ) > -1
+              : _vm.shared.me.preferences.autocompleteDescription
           },
           on: {
             __c: function($event) {
-              var $$a = _vm.me.preferences.autocompleteDescription,
+              var $$a = _vm.shared.me.preferences.autocompleteDescription,
                 $$el = $event.target,
                 $$c = $$el.checked ? true : false
               if (Array.isArray($$a)) {
@@ -102406,17 +102414,17 @@ var render = function() {
                   $$i = _vm._i($$a, $$v)
                 if ($$el.checked) {
                   $$i < 0 &&
-                    (_vm.me.preferences.autocompleteDescription = $$a.concat([
-                      $$v
-                    ]))
+                    (_vm.shared.me.preferences.autocompleteDescription = $$a.concat(
+                      [$$v]
+                    ))
                 } else {
                   $$i > -1 &&
-                    (_vm.me.preferences.autocompleteDescription = $$a
+                    (_vm.shared.me.preferences.autocompleteDescription = $$a
                       .slice(0, $$i)
                       .concat($$a.slice($$i + 1)))
                 }
               } else {
-                _vm.me.preferences.autocompleteDescription = $$c
+                _vm.shared.me.preferences.autocompleteDescription = $$c
               }
             }
           }
@@ -102435,19 +102443,22 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.me.preferences.autocompleteMerchant,
-              expression: "me.preferences.autocompleteMerchant"
+              value: _vm.shared.me.preferences.autocompleteMerchant,
+              expression: "shared.me.preferences.autocompleteMerchant"
             }
           ],
           attrs: { id: "preferences-autocomplete-merchant", type: "checkbox" },
           domProps: {
-            checked: Array.isArray(_vm.me.preferences.autocompleteMerchant)
-              ? _vm._i(_vm.me.preferences.autocompleteMerchant, null) > -1
-              : _vm.me.preferences.autocompleteMerchant
+            checked: Array.isArray(
+              _vm.shared.me.preferences.autocompleteMerchant
+            )
+              ? _vm._i(_vm.shared.me.preferences.autocompleteMerchant, null) >
+                -1
+              : _vm.shared.me.preferences.autocompleteMerchant
           },
           on: {
             __c: function($event) {
-              var $$a = _vm.me.preferences.autocompleteMerchant,
+              var $$a = _vm.shared.me.preferences.autocompleteMerchant,
                 $$el = $event.target,
                 $$c = $$el.checked ? true : false
               if (Array.isArray($$a)) {
@@ -102455,17 +102466,17 @@ var render = function() {
                   $$i = _vm._i($$a, $$v)
                 if ($$el.checked) {
                   $$i < 0 &&
-                    (_vm.me.preferences.autocompleteMerchant = $$a.concat([
-                      $$v
-                    ]))
+                    (_vm.shared.me.preferences.autocompleteMerchant = $$a.concat(
+                      [$$v]
+                    ))
                 } else {
                   $$i > -1 &&
-                    (_vm.me.preferences.autocompleteMerchant = $$a
+                    (_vm.shared.me.preferences.autocompleteMerchant = $$a
                       .slice(0, $$i)
                       .concat($$a.slice($$i + 1)))
                 }
               } else {
-                _vm.me.preferences.autocompleteMerchant = $$c
+                _vm.shared.me.preferences.autocompleteMerchant = $$c
               }
             }
           }
@@ -102489,17 +102500,17 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.me.preferences.dateFormat,
-                expression: "me.preferences.dateFormat"
+                value: _vm.shared.me.preferences.dateFormat,
+                expression: "shared.me.preferences.dateFormat"
               }
             ],
             attrs: { type: "radio", value: "DD/MM/YY" },
             domProps: {
-              checked: _vm._q(_vm.me.preferences.dateFormat, "DD/MM/YY")
+              checked: _vm._q(_vm.shared.me.preferences.dateFormat, "DD/MM/YY")
             },
             on: {
               __c: function($event) {
-                _vm.me.preferences.dateFormat = "DD/MM/YY"
+                _vm.shared.me.preferences.dateFormat = "DD/MM/YY"
               }
             }
           })
@@ -102513,17 +102524,20 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.me.preferences.dateFormat,
-                expression: "me.preferences.dateFormat"
+                value: _vm.shared.me.preferences.dateFormat,
+                expression: "shared.me.preferences.dateFormat"
               }
             ],
             attrs: { type: "radio", value: "DD/MM/YYYY" },
             domProps: {
-              checked: _vm._q(_vm.me.preferences.dateFormat, "DD/MM/YYYY")
+              checked: _vm._q(
+                _vm.shared.me.preferences.dateFormat,
+                "DD/MM/YYYY"
+              )
             },
             on: {
               __c: function($event) {
-                _vm.me.preferences.dateFormat = "DD/MM/YYYY"
+                _vm.shared.me.preferences.dateFormat = "DD/MM/YYYY"
               }
             }
           })
@@ -102541,19 +102555,22 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.me.preferences.show.totals.credit,
-                expression: "me.preferences.show.totals.credit"
+                value: _vm.shared.me.preferences.show.totals.credit,
+                expression: "shared.me.preferences.show.totals.credit"
               }
             ],
             attrs: { id: "preferences-show-credit", type: "checkbox" },
             domProps: {
-              checked: Array.isArray(_vm.me.preferences.show.totals.credit)
-                ? _vm._i(_vm.me.preferences.show.totals.credit, null) > -1
-                : _vm.me.preferences.show.totals.credit
+              checked: Array.isArray(
+                _vm.shared.me.preferences.show.totals.credit
+              )
+                ? _vm._i(_vm.shared.me.preferences.show.totals.credit, null) >
+                  -1
+                : _vm.shared.me.preferences.show.totals.credit
             },
             on: {
               __c: function($event) {
-                var $$a = _vm.me.preferences.show.totals.credit,
+                var $$a = _vm.shared.me.preferences.show.totals.credit,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
                 if (Array.isArray($$a)) {
@@ -102561,17 +102578,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.credit = $$a.concat([
-                        $$v
-                      ]))
+                      (_vm.shared.me.preferences.show.totals.credit = $$a.concat(
+                        [$$v]
+                      ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.credit = $$a
+                      (_vm.shared.me.preferences.show.totals.credit = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.credit = $$c
+                  _vm.shared.me.preferences.show.totals.credit = $$c
                 }
               }
             }
@@ -102588,8 +102605,10 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.me.preferences.show.totals.remainingFixedBudget,
-                expression: "me.preferences.show.totals.remainingFixedBudget"
+                value:
+                  _vm.shared.me.preferences.show.totals.remainingFixedBudget,
+                expression:
+                  "shared.me.preferences.show.totals.remainingFixedBudget"
               }
             ],
             attrs: {
@@ -102598,17 +102617,18 @@ var render = function() {
             },
             domProps: {
               checked: Array.isArray(
-                _vm.me.preferences.show.totals.remainingFixedBudget
+                _vm.shared.me.preferences.show.totals.remainingFixedBudget
               )
                 ? _vm._i(
-                    _vm.me.preferences.show.totals.remainingFixedBudget,
+                    _vm.shared.me.preferences.show.totals.remainingFixedBudget,
                     null
                   ) > -1
-                : _vm.me.preferences.show.totals.remainingFixedBudget
+                : _vm.shared.me.preferences.show.totals.remainingFixedBudget
             },
             on: {
               __c: function($event) {
-                var $$a = _vm.me.preferences.show.totals.remainingFixedBudget,
+                var $$a =
+                    _vm.shared.me.preferences.show.totals.remainingFixedBudget,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
                 if (Array.isArray($$a)) {
@@ -102616,17 +102636,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.remainingFixedBudget = $$a.concat(
+                      (_vm.shared.me.preferences.show.totals.remainingFixedBudget = $$a.concat(
                         [$$v]
                       ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.remainingFixedBudget = $$a
+                      (_vm.shared.me.preferences.show.totals.remainingFixedBudget = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.remainingFixedBudget = $$c
+                  _vm.shared.me.preferences.show.totals.remainingFixedBudget = $$c
                 }
               }
             }
@@ -102645,8 +102665,10 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.me.preferences.show.totals.expensesWithoutBudget,
-                expression: "me.preferences.show.totals.expensesWithoutBudget"
+                value:
+                  _vm.shared.me.preferences.show.totals.expensesWithoutBudget,
+                expression:
+                  "shared.me.preferences.show.totals.expensesWithoutBudget"
               }
             ],
             attrs: {
@@ -102655,17 +102677,18 @@ var render = function() {
             },
             domProps: {
               checked: Array.isArray(
-                _vm.me.preferences.show.totals.expensesWithoutBudget
+                _vm.shared.me.preferences.show.totals.expensesWithoutBudget
               )
                 ? _vm._i(
-                    _vm.me.preferences.show.totals.expensesWithoutBudget,
+                    _vm.shared.me.preferences.show.totals.expensesWithoutBudget,
                     null
                   ) > -1
-                : _vm.me.preferences.show.totals.expensesWithoutBudget
+                : _vm.shared.me.preferences.show.totals.expensesWithoutBudget
             },
             on: {
               __c: function($event) {
-                var $$a = _vm.me.preferences.show.totals.expensesWithoutBudget,
+                var $$a =
+                    _vm.shared.me.preferences.show.totals.expensesWithoutBudget,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
                 if (Array.isArray($$a)) {
@@ -102673,17 +102696,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.expensesWithoutBudget = $$a.concat(
+                      (_vm.shared.me.preferences.show.totals.expensesWithoutBudget = $$a.concat(
                         [$$v]
                       ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.expensesWithoutBudget = $$a
+                      (_vm.shared.me.preferences.show.totals.expensesWithoutBudget = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.expensesWithoutBudget = $$c
+                  _vm.shared.me.preferences.show.totals.expensesWithoutBudget = $$c
                 }
               }
             }
@@ -102703,10 +102726,10 @@ var render = function() {
                 name: "model",
                 rawName: "v-model",
                 value:
-                  _vm.me.preferences.show.totals
+                  _vm.shared.me.preferences.show.totals
                     .expensesWithFixedBudgetBeforeStartingDate,
                 expression:
-                  "me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate"
+                  "shared.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate"
               }
             ],
             attrs: {
@@ -102716,21 +102739,21 @@ var render = function() {
             },
             domProps: {
               checked: Array.isArray(
-                _vm.me.preferences.show.totals
+                _vm.shared.me.preferences.show.totals
                   .expensesWithFixedBudgetBeforeStartingDate
               )
                 ? _vm._i(
-                    _vm.me.preferences.show.totals
+                    _vm.shared.me.preferences.show.totals
                       .expensesWithFixedBudgetBeforeStartingDate,
                     null
                   ) > -1
-                : _vm.me.preferences.show.totals
+                : _vm.shared.me.preferences.show.totals
                     .expensesWithFixedBudgetBeforeStartingDate
             },
             on: {
               __c: function($event) {
                 var $$a =
-                    _vm.me.preferences.show.totals
+                    _vm.shared.me.preferences.show.totals
                       .expensesWithFixedBudgetBeforeStartingDate,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
@@ -102739,17 +102762,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate = $$a.concat(
+                      (_vm.shared.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate = $$a.concat(
                         [$$v]
                       ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate = $$a
+                      (_vm.shared.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate = $$c
+                  _vm.shared.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate = $$c
                 }
               }
             }
@@ -102774,10 +102797,10 @@ var render = function() {
                 name: "model",
                 rawName: "v-model",
                 value:
-                  _vm.me.preferences.show.totals
+                  _vm.shared.me.preferences.show.totals
                     .expensesWithFixedBudgetAfterStartingDate,
                 expression:
-                  "me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate"
+                  "shared.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate"
               }
             ],
             attrs: {
@@ -102787,21 +102810,21 @@ var render = function() {
             },
             domProps: {
               checked: Array.isArray(
-                _vm.me.preferences.show.totals
+                _vm.shared.me.preferences.show.totals
                   .expensesWithFixedBudgetAfterStartingDate
               )
                 ? _vm._i(
-                    _vm.me.preferences.show.totals
+                    _vm.shared.me.preferences.show.totals
                       .expensesWithFixedBudgetAfterStartingDate,
                     null
                   ) > -1
-                : _vm.me.preferences.show.totals
+                : _vm.shared.me.preferences.show.totals
                     .expensesWithFixedBudgetAfterStartingDate
             },
             on: {
               __c: function($event) {
                 var $$a =
-                    _vm.me.preferences.show.totals
+                    _vm.shared.me.preferences.show.totals
                       .expensesWithFixedBudgetAfterStartingDate,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
@@ -102810,17 +102833,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate = $$a.concat(
+                      (_vm.shared.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate = $$a.concat(
                         [$$v]
                       ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate = $$a
+                      (_vm.shared.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate = $$c
+                  _vm.shared.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate = $$c
                 }
               }
             }
@@ -102845,10 +102868,10 @@ var render = function() {
                 name: "model",
                 rawName: "v-model",
                 value:
-                  _vm.me.preferences.show.totals
+                  _vm.shared.me.preferences.show.totals
                     .expensesWithFlexBudgetBeforeStartingDate,
                 expression:
-                  "me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate"
+                  "shared.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate"
               }
             ],
             attrs: {
@@ -102858,21 +102881,21 @@ var render = function() {
             },
             domProps: {
               checked: Array.isArray(
-                _vm.me.preferences.show.totals
+                _vm.shared.me.preferences.show.totals
                   .expensesWithFlexBudgetBeforeStartingDate
               )
                 ? _vm._i(
-                    _vm.me.preferences.show.totals
+                    _vm.shared.me.preferences.show.totals
                       .expensesWithFlexBudgetBeforeStartingDate,
                     null
                   ) > -1
-                : _vm.me.preferences.show.totals
+                : _vm.shared.me.preferences.show.totals
                     .expensesWithFlexBudgetBeforeStartingDate
             },
             on: {
               __c: function($event) {
                 var $$a =
-                    _vm.me.preferences.show.totals
+                    _vm.shared.me.preferences.show.totals
                       .expensesWithFlexBudgetBeforeStartingDate,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
@@ -102881,17 +102904,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate = $$a.concat(
+                      (_vm.shared.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate = $$a.concat(
                         [$$v]
                       ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate = $$a
+                      (_vm.shared.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate = $$c
+                  _vm.shared.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate = $$c
                 }
               }
             }
@@ -102916,10 +102939,10 @@ var render = function() {
                 name: "model",
                 rawName: "v-model",
                 value:
-                  _vm.me.preferences.show.totals
+                  _vm.shared.me.preferences.show.totals
                     .expensesWithFlexBudgetAfterStartingDate,
                 expression:
-                  "me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate"
+                  "shared.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate"
               }
             ],
             attrs: {
@@ -102929,21 +102952,21 @@ var render = function() {
             },
             domProps: {
               checked: Array.isArray(
-                _vm.me.preferences.show.totals
+                _vm.shared.me.preferences.show.totals
                   .expensesWithFlexBudgetAfterStartingDate
               )
                 ? _vm._i(
-                    _vm.me.preferences.show.totals
+                    _vm.shared.me.preferences.show.totals
                       .expensesWithFlexBudgetAfterStartingDate,
                     null
                   ) > -1
-                : _vm.me.preferences.show.totals
+                : _vm.shared.me.preferences.show.totals
                     .expensesWithFlexBudgetAfterStartingDate
             },
             on: {
               __c: function($event) {
                 var $$a =
-                    _vm.me.preferences.show.totals
+                    _vm.shared.me.preferences.show.totals
                       .expensesWithFlexBudgetAfterStartingDate,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
@@ -102952,17 +102975,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate = $$a.concat(
+                      (_vm.shared.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate = $$a.concat(
                         [$$v]
                       ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate = $$a
+                      (_vm.shared.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate = $$c
+                  _vm.shared.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate = $$c
                 }
               }
             }
@@ -102986,19 +103009,22 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.me.preferences.show.totals.savings,
-                expression: "me.preferences.show.totals.savings"
+                value: _vm.shared.me.preferences.show.totals.savings,
+                expression: "shared.me.preferences.show.totals.savings"
               }
             ],
             attrs: { id: "preferences-show-savings", type: "checkbox" },
             domProps: {
-              checked: Array.isArray(_vm.me.preferences.show.totals.savings)
-                ? _vm._i(_vm.me.preferences.show.totals.savings, null) > -1
-                : _vm.me.preferences.show.totals.savings
+              checked: Array.isArray(
+                _vm.shared.me.preferences.show.totals.savings
+              )
+                ? _vm._i(_vm.shared.me.preferences.show.totals.savings, null) >
+                  -1
+                : _vm.shared.me.preferences.show.totals.savings
             },
             on: {
               __c: function($event) {
-                var $$a = _vm.me.preferences.show.totals.savings,
+                var $$a = _vm.shared.me.preferences.show.totals.savings,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
                 if (Array.isArray($$a)) {
@@ -103006,17 +103032,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.savings = $$a.concat([
-                        $$v
-                      ]))
+                      (_vm.shared.me.preferences.show.totals.savings = $$a.concat(
+                        [$$v]
+                      ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.savings = $$a
+                      (_vm.shared.me.preferences.show.totals.savings = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.savings = $$c
+                  _vm.shared.me.preferences.show.totals.savings = $$c
                 }
               }
             }
@@ -103033,8 +103059,8 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.me.preferences.show.totals.remainingBalance,
-                expression: "me.preferences.show.totals.remainingBalance"
+                value: _vm.shared.me.preferences.show.totals.remainingBalance,
+                expression: "shared.me.preferences.show.totals.remainingBalance"
               }
             ],
             attrs: {
@@ -103043,17 +103069,18 @@ var render = function() {
             },
             domProps: {
               checked: Array.isArray(
-                _vm.me.preferences.show.totals.remainingBalance
+                _vm.shared.me.preferences.show.totals.remainingBalance
               )
                 ? _vm._i(
-                    _vm.me.preferences.show.totals.remainingBalance,
+                    _vm.shared.me.preferences.show.totals.remainingBalance,
                     null
                   ) > -1
-                : _vm.me.preferences.show.totals.remainingBalance
+                : _vm.shared.me.preferences.show.totals.remainingBalance
             },
             on: {
               __c: function($event) {
-                var $$a = _vm.me.preferences.show.totals.remainingBalance,
+                var $$a =
+                    _vm.shared.me.preferences.show.totals.remainingBalance,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
                 if (Array.isArray($$a)) {
@@ -103061,17 +103088,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.remainingBalance = $$a.concat(
+                      (_vm.shared.me.preferences.show.totals.remainingBalance = $$a.concat(
                         [$$v]
                       ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.remainingBalance = $$a
+                      (_vm.shared.me.preferences.show.totals.remainingBalance = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.remainingBalance = $$c
+                  _vm.shared.me.preferences.show.totals.remainingBalance = $$c
                 }
               }
             }
@@ -103090,19 +103117,21 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.me.preferences.show.totals.debit,
-                expression: "me.preferences.show.totals.debit"
+                value: _vm.shared.me.preferences.show.totals.debit,
+                expression: "shared.me.preferences.show.totals.debit"
               }
             ],
             attrs: { id: "preferences-show-debit", type: "checkbox" },
             domProps: {
-              checked: Array.isArray(_vm.me.preferences.show.totals.debit)
-                ? _vm._i(_vm.me.preferences.show.totals.debit, null) > -1
-                : _vm.me.preferences.show.totals.debit
+              checked: Array.isArray(
+                _vm.shared.me.preferences.show.totals.debit
+              )
+                ? _vm._i(_vm.shared.me.preferences.show.totals.debit, null) > -1
+                : _vm.shared.me.preferences.show.totals.debit
             },
             on: {
               __c: function($event) {
-                var $$a = _vm.me.preferences.show.totals.debit,
+                var $$a = _vm.shared.me.preferences.show.totals.debit,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
                 if (Array.isArray($$a)) {
@@ -103110,15 +103139,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.debit = $$a.concat([$$v]))
+                      (_vm.shared.me.preferences.show.totals.debit = $$a.concat(
+                        [$$v]
+                      ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.debit = $$a
+                      (_vm.shared.me.preferences.show.totals.debit = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.debit = $$c
+                  _vm.shared.me.preferences.show.totals.debit = $$c
                 }
               }
             }
@@ -103135,19 +103166,22 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.me.preferences.show.totals.balance,
-                expression: "me.preferences.show.totals.balance"
+                value: _vm.shared.me.preferences.show.totals.balance,
+                expression: "shared.me.preferences.show.totals.balance"
               }
             ],
             attrs: { id: "preferences-show-balance", type: "checkbox" },
             domProps: {
-              checked: Array.isArray(_vm.me.preferences.show.totals.balance)
-                ? _vm._i(_vm.me.preferences.show.totals.balance, null) > -1
-                : _vm.me.preferences.show.totals.balance
+              checked: Array.isArray(
+                _vm.shared.me.preferences.show.totals.balance
+              )
+                ? _vm._i(_vm.shared.me.preferences.show.totals.balance, null) >
+                  -1
+                : _vm.shared.me.preferences.show.totals.balance
             },
             on: {
               __c: function($event) {
-                var $$a = _vm.me.preferences.show.totals.balance,
+                var $$a = _vm.shared.me.preferences.show.totals.balance,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
                 if (Array.isArray($$a)) {
@@ -103155,17 +103189,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.balance = $$a.concat([
-                        $$v
-                      ]))
+                      (_vm.shared.me.preferences.show.totals.balance = $$a.concat(
+                        [$$v]
+                      ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.balance = $$a
+                      (_vm.shared.me.preferences.show.totals.balance = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.balance = $$c
+                  _vm.shared.me.preferences.show.totals.balance = $$c
                 }
               }
             }
@@ -103182,19 +103216,24 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.me.preferences.show.totals.reconciled,
-                expression: "me.preferences.show.totals.reconciled"
+                value: _vm.shared.me.preferences.show.totals.reconciled,
+                expression: "shared.me.preferences.show.totals.reconciled"
               }
             ],
             attrs: { id: "preferences-show-reconciled", type: "checkbox" },
             domProps: {
-              checked: Array.isArray(_vm.me.preferences.show.totals.reconciled)
-                ? _vm._i(_vm.me.preferences.show.totals.reconciled, null) > -1
-                : _vm.me.preferences.show.totals.reconciled
+              checked: Array.isArray(
+                _vm.shared.me.preferences.show.totals.reconciled
+              )
+                ? _vm._i(
+                    _vm.shared.me.preferences.show.totals.reconciled,
+                    null
+                  ) > -1
+                : _vm.shared.me.preferences.show.totals.reconciled
             },
             on: {
               __c: function($event) {
-                var $$a = _vm.me.preferences.show.totals.reconciled,
+                var $$a = _vm.shared.me.preferences.show.totals.reconciled,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
                 if (Array.isArray($$a)) {
@@ -103202,17 +103241,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.reconciled = $$a.concat([
-                        $$v
-                      ]))
+                      (_vm.shared.me.preferences.show.totals.reconciled = $$a.concat(
+                        [$$v]
+                      ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.reconciled = $$a
+                      (_vm.shared.me.preferences.show.totals.reconciled = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.reconciled = $$c
+                  _vm.shared.me.preferences.show.totals.reconciled = $$c
                 }
               }
             }
@@ -103229,8 +103268,10 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.me.preferences.show.totals.cumulativeFixedBudget,
-                expression: "me.preferences.show.totals.cumulativeFixedBudget"
+                value:
+                  _vm.shared.me.preferences.show.totals.cumulativeFixedBudget,
+                expression:
+                  "shared.me.preferences.show.totals.cumulativeFixedBudget"
               }
             ],
             attrs: {
@@ -103239,17 +103280,18 @@ var render = function() {
             },
             domProps: {
               checked: Array.isArray(
-                _vm.me.preferences.show.totals.cumulativeFixedBudget
+                _vm.shared.me.preferences.show.totals.cumulativeFixedBudget
               )
                 ? _vm._i(
-                    _vm.me.preferences.show.totals.cumulativeFixedBudget,
+                    _vm.shared.me.preferences.show.totals.cumulativeFixedBudget,
                     null
                   ) > -1
-                : _vm.me.preferences.show.totals.cumulativeFixedBudget
+                : _vm.shared.me.preferences.show.totals.cumulativeFixedBudget
             },
             on: {
               __c: function($event) {
-                var $$a = _vm.me.preferences.show.totals.cumulativeFixedBudget,
+                var $$a =
+                    _vm.shared.me.preferences.show.totals.cumulativeFixedBudget,
                   $$el = $event.target,
                   $$c = $$el.checked ? true : false
                 if (Array.isArray($$a)) {
@@ -103257,17 +103299,17 @@ var render = function() {
                     $$i = _vm._i($$a, $$v)
                   if ($$el.checked) {
                     $$i < 0 &&
-                      (_vm.me.preferences.show.totals.cumulativeFixedBudget = $$a.concat(
+                      (_vm.shared.me.preferences.show.totals.cumulativeFixedBudget = $$a.concat(
                         [$$v]
                       ))
                   } else {
                     $$i > -1 &&
-                      (_vm.me.preferences.show.totals.cumulativeFixedBudget = $$a
+                      (_vm.shared.me.preferences.show.totals.cumulativeFixedBudget = $$a
                         .slice(0, $$i)
                         .concat($$a.slice($$i + 1)))
                   }
                 } else {
-                  _vm.me.preferences.show.totals.cumulativeFixedBudget = $$c
+                  _vm.shared.me.preferences.show.totals.cumulativeFixedBudget = $$c
                 }
               }
             }
