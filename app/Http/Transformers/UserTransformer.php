@@ -19,6 +19,7 @@ class UserTransformer extends TransformerAbstract
         $array = [
             'id' => $user->id,
             'name' => $user->name,
+            'preferences' => $user->preferences,
         ];
 
         return $array;
