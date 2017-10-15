@@ -20,6 +20,7 @@
     "font-awesome": "^4.7.0"
   },
   "dependencies": {
+    "accounting": "^0.4.1",
     "animate.css": "^3.5.2",
     "bootstrap": "^3.3.7",
     "moment": "^2.13.0",

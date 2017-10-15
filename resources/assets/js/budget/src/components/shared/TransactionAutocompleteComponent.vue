@@ -6,12 +6,12 @@
             v-on:blur="hideAndClear()"
             v-on:focus="focus()"
             v-on:keyup="respondToKeyup($event.keyCode)"
-            placeholder="{{ placeholder }}"
-            id="{{ id }}"
+            :placeholder="placeholder"
+            :id="id"
             class="form-control"
             type='text'>
 
-        <div v-show="showDropdown && !loading" id="{{ placeholder }}-autocomplete" class="transactions-autocomplete">
+        <div v-show="showDropdown && !loading" :id="placeholder + '-autocomplete'" class="transactions-autocomplete">
 
             <div v-show="results.length < 1" class="no-results">No results</div>
 
@@ -19,11 +19,10 @@
                 <tbody
                     v-for="transaction in results"
                     v-bind:style="{color: shared.me.preferences.colors[transaction.type]}"
-                    class="pointer"
                     v-on:mousedown="chooseItem($index)"
                     v-on:mouseover="hoverItem($index)"
                     v-bind:class="{'selected': $index == currentIndex}"
-                    class="dropdown-item">
+                    class="dropdown-item pointer">
 
                 <tr>
                     <th>description</th>
