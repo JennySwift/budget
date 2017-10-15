@@ -6123,6 +6123,16 @@ Date.setLocale('en-AU');
 
     /**
      *
+     */
+    getUser: function getUser() {
+        __WEBPACK_IMPORTED_MODULE_0__Helpers__["a" /* default */].get({
+            url: '/api/users/current',
+            storeProperty: 'me'
+        });
+    },
+
+    /**
+     *
      * @returns {{status: boolean, date: boolean, description: boolean, merchant: boolean, total: boolean, type: boolean, account: boolean, duration: boolean, reconciled: boolean, allocated: boolean, budgets: boolean}}
      */
     setDefaultTransactionPropertiesToShow: function setDefaultTransactionPropertiesToShow() {
@@ -65258,6 +65268,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$bus = bus;
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     router: router
 }).$mount('#app');
+
+__WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getUser();
 
 var App = __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('app', {
     data: function data() {

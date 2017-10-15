@@ -32,6 +32,8 @@ Route::get('/', ['middleware' => 'auth', function () {
 
 // API
 Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => ['auth', 'web']], function(){
+    Route::get('users/current', 'UsersController@showCurrentUser');
+
     Route::resource('accounts', 'AccountsController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
     Route::resource('budgets', 'BudgetsController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
     Route::resource('savedFilters', 'SavedFiltersController', ['only' => ['index', 'store', 'destroy']]);

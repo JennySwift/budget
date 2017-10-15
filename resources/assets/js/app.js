@@ -33,6 +33,8 @@ const app = new Vue({
     router
 }).$mount('#app')
 
+store.getUser();
+
 var App = Vue.component('app', {
     data: function () {
         return {

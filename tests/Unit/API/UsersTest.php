@@ -16,11 +16,30 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function it_can_show_the_logged_in_user()
+    public function it_can_show_the_logged_in_user_when_their_id_is_known()
     {
         $this->logInUser();
 
         $response = $this->call('GET', '/api/users/' . $this->user->id);
+        $content = $this->getContent($response);
+//        dd($content);
+
+        $this->checkUserKeysExist($content);
+
+        $this->assertEquals(1, $content['id']);
+        $this->assertEquals("Dummy", $content['name']);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_show_the_logged_in_user_when_their_id_is_not_known()
+    {
+        $this->logInUser();
+
+        $response = $this->call('GET', '/api/users/current');
         $content = $this->getContent($response);
 //        dd($content);
 

@@ -76,6 +76,16 @@ export default {
 
     /**
      *
+     */
+    getUser: function () {
+        helpers.get({
+            url: '/api/users/current',
+            storeProperty: 'me',
+        });
+    },
+
+    /**
+     *
      * @returns {{status: boolean, date: boolean, description: boolean, merchant: boolean, total: boolean, type: boolean, account: boolean, duration: boolean, reconciled: boolean, allocated: boolean, budgets: boolean}}
      */
     setDefaultTransactionPropertiesToShow: function () {

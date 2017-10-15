@@ -31,6 +31,15 @@ class UsersController extends Controller
     }
 
     /**
+     * GET /api/users/current
+     * @return Response
+     */
+    public function showCurrentUser()
+    {
+        return $this->respond(Auth::user(), new UserTransformer, 200);
+    }
+
+    /**
      *
      * @param Request $request
      * @param User $user
