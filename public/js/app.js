@@ -6081,6 +6081,8 @@ Date.setLocale('en-AU');
         transaction: {
             budgets: []
         },
+        fixedBudgetTotals: {},
+        flexBudgetTotals: {},
         transactions: [],
         fixedBudgets: [],
         flexBudgets: [],
@@ -6136,6 +6138,16 @@ Date.setLocale('en-AU');
 
     /**
      *
+     */
+    getFixedBudgetTotals: function getFixedBudgetTotals() {
+        __WEBPACK_IMPORTED_MODULE_0__Helpers__["a" /* default */].get({
+            url: '/api/totals/fixedBudget',
+            storeProperty: 'fixedBudgetTotals'
+        });
+    },
+
+    /**
+     *
      * @returns {{status: boolean, date: boolean, description: boolean, merchant: boolean, total: boolean, type: boolean, account: boolean, duration: boolean, reconciled: boolean, allocated: boolean, budgets: boolean}}
      */
     setDefaultTransactionPropertiesToShow: function setDefaultTransactionPropertiesToShow() {
@@ -6160,7 +6172,7 @@ Date.setLocale('en-AU');
      * @returns {string}
      */
     setDefaultTab: function setDefaultTab() {
-        if (env && env === 'local') {
+        if (this.state.env && this.state.env === 'local') {
             this.state.tab = 'transactions';
         } else {
             this.state.tab = 'transactions';
@@ -6318,6 +6330,16 @@ Date.setLocale('en-AU');
         }
 
         return data;
+    },
+
+    /**
+     *
+     */
+    getFavouriteTransactions: function getFavouriteTransactions() {
+        __WEBPACK_IMPORTED_MODULE_0__Helpers__["a" /* default */].get({
+            url: '/api/favouriteTransactions',
+            storeProperty: 'favouriteTransactions'
+        });
     },
 
     /**
@@ -65284,23 +65306,14 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getUser();
 __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getAccounts();
 __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].setHeights();
-
-var App = __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('app', {
-    data: function data() {
-        return {};
-    },
-    methods: {},
-    ready: function ready() {
-        __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getBudgets();
-        __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getUnassignedBudgets();
-        __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getFavouriteTransactions();
-        __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].setDefaultTab();
-        __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getSideBarTotals();
-        __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getSavedFilters();
-        __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].resetFilter();
-        __WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].setDefaultTransactionPropertiesToShow();
-    }
-});
+__WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getBudgets();
+__WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getUnassignedBudgets();
+__WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getFavouriteTransactions();
+__WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].setDefaultTab();
+// store.getSideBarTotals();
+__WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].getSavedFilters();
+// store.resetFilter();
+__WEBPACK_IMPORTED_MODULE_2__budget_src_repositories_Store__["a" /* default */].setDefaultTransactionPropertiesToShow();
 
 $(window).on('load', function () {
     $(".main").css('display', 'block');
@@ -96604,6 +96617,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__budget_src_components_accounts_EditAccountComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__budget_src_components_accounts_EditAccountComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__budget_src_components_accounts_NewAccountComponent_vue__ = __webpack_require__(520);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__budget_src_components_accounts_NewAccountComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__budget_src_components_accounts_NewAccountComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__budget_src_components_budgets_EditBudgetPopupComponent_vue__ = __webpack_require__(523);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__budget_src_components_budgets_EditBudgetPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__budget_src_components_budgets_EditBudgetPopupComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__budget_src_components_budgets_NewBudgetComponent_vue__ = __webpack_require__(526);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__budget_src_components_budgets_NewBudgetComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__budget_src_components_budgets_NewBudgetComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__budget_src_components_shared_BudgetsToolbarComponent_vue__ = __webpack_require__(529);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__budget_src_components_shared_BudgetsToolbarComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__budget_src_components_shared_BudgetsToolbarComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__budget_src_components_budgets_FixedBudgetsTable_vue__ = __webpack_require__(532);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__budget_src_components_budgets_FixedBudgetsTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__budget_src_components_budgets_FixedBudgetsTable_vue__);
 
 
 // var vueTippy = require('vue-tippy');
@@ -96616,6 +96637,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 // import NewPopupComponent from './budget/src/components/shared/NewPopupComponent.vue'
 // import ButtonsComponent from './budget/src/components/shared/ButtonsComponent.vue'
+
+
+
+
 
 
 
@@ -96647,6 +96672,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('allocation-popup', __WEBP
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transaction-autocomplete', __WEBPACK_IMPORTED_MODULE_8__budget_src_components_shared_TransactionAutocompleteComponent_vue___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('edit-account', __WEBPACK_IMPORTED_MODULE_15__budget_src_components_accounts_EditAccountComponent_vue___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('new-account', __WEBPACK_IMPORTED_MODULE_16__budget_src_components_accounts_NewAccountComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('edit-budget-popup', __WEBPACK_IMPORTED_MODULE_17__budget_src_components_budgets_EditBudgetPopupComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('new-budget', __WEBPACK_IMPORTED_MODULE_18__budget_src_components_budgets_NewBudgetComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('budgets-toolbar', __WEBPACK_IMPORTED_MODULE_19__budget_src_components_shared_BudgetsToolbarComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('fixed-budgets-table', __WEBPACK_IMPORTED_MODULE_20__budget_src_components_budgets_FixedBudgetsTable_vue___default.a);
 
 /***/ }),
 /* 389 */
@@ -108167,6 +108196,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__ = __webpack_require__(8);
 //
 //
 //
@@ -108194,77 +108224,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            fixedBudgetTotals: [],
-            show: store.state.show.defaults,
-            shared: store.state,
-            orderByOptions: [{ name: 'name', value: 'name' }, { name: 'spent after starting date', value: 'spentOnOrAfterStartingDate' }],
-            orderBy: 'name',
-            reverseOrder: false
+            shared: store.state
         };
     },
     components: {},
-    computed: {
-        fixedBudgets: function fixedBudgets() {
-            return this.shared.fixedBudgets;
-        }
-    },
-    filters: {
-        /**
-         *
-         * @param number
-         * @param howManyDecimals
-         * @returns {Number}
-         */
-        numberFilter: function numberFilter(number, howManyDecimals) {
-            return HelpersRepository.numberFilter(number, howManyDecimals);
-        },
-        orderBudgetsFilter: function orderBudgetsFilter(budgets) {
-            return BudgetsRepository.orderBudgetsFilter(budgets, this);
-        }
-    },
+    filters: {},
     methods: {
-        /**
-         *
-         */
-        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
-            TotalsRepository.respondToMouseEnterOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
-            TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
-        },
 
         /**
          *
          */
         toggleNewBudget: function toggleNewBudget() {
             $.event.trigger('toggle-new-budget');
-        },
-
-        /**
-        *
-        */
-        getFixedBudgetTotals: function getFixedBudgetTotals() {
-            helpers.get({
-                url: '/api/totals/fixedBudget',
-                storeProperty: 'fixedBudgetTotals',
-                callback: function (response) {
-                    this.fixedBudgetTotals = response;
-                }.bind(this)
-            });
         },
 
         /**
@@ -108281,7 +108257,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         listen: function listen() {
             var that = this;
             $(document).on('update-fixed-budget-table-totals', function (event, budget) {
-                that.getFixedBudgetTotals();
+                store.getFixedBudgetTotals();
             });
         }
     },
@@ -108290,7 +108266,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     ],
     mounted: function mounted() {
         store.getFixedBudgets();
-        this.getFixedBudgetTotals();
+        store.getFixedBudgetTotals();
         this.listen();
     }
 });
@@ -108307,31 +108283,17 @@ var render = function() {
     "div",
     { staticClass: "budgets-page", attrs: { id: "fixed-budgets-page" } },
     [
-      _c("edit-budget-popup", {
-        attrs: { budgets: _vm.fixedBudgets, page: "fixed" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.fixedBudgets = $event
-          }
-        }
-      }),
+      _c("edit-budget-popup", { attrs: { page: "fixed" } }),
       _vm._v(" "),
       _c("budgets-toolbar"),
       _vm._v(" "),
-      _c("new-budget", {
-        attrs: { budgets: _vm.fixedBudgets, page: "fixedBudgets" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.fixedBudgets = $event
-          }
-        }
-      }),
+      _c("new-budget", { attrs: { page: "fixedBudgets" } }),
       _vm._v(" "),
       _c(
         "div",
         { attrs: { id: "budget-content" } },
         [
-          _c("totals", { attrs: { show: _vm.show } }),
+          _c("totals"),
           _vm._v(" "),
           _c(
             "div",
@@ -108607,20 +108569,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         /**
          *
          */
-        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
-            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseEnterOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
-            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseLeaveOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
         toggleNewBudget: function toggleNewBudget() {
             $.event.trigger('toggle-new-budget');
         },
@@ -108812,167 +108760,168 @@ var render = function() {
               [
                 _vm._m(0),
                 _vm._v(" "),
-                _vm._l(_vm.flexBudgets | _vm.orderBudgetsFilter, function(
-                  budget
-                ) {
-                  return _c("tr", { staticClass: "budget_info_ul" }, [
-                    _c(
-                      "td",
-                      {
-                        staticClass: "pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
+                _vm._l(
+                  _vm.shared.flexBudgets | _vm.orderBudgetsFilter,
+                  function(budget) {
+                    return _c("tr", { staticClass: "budget_info_ul" }, [
+                      _c(
+                        "td",
+                        {
+                          staticClass: "pointer",
+                          on: {
+                            click: function($event) {
+                              _vm.showBudgetPopup(budget, "flex")
+                            }
                           }
-                        }
-                      },
-                      [_vm._v(_vm._s(budget.name))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "percent pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
+                        },
+                        [_vm._v(_vm._s(budget.name))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        {
+                          staticClass: "percent pointer",
+                          on: {
+                            click: function($event) {
+                              _vm.showBudgetPopup(budget, "flex")
+                            }
                           }
-                        }
-                      },
-                      [_vm._v(_vm._s(budget.amount))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "amount pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
+                        },
+                        [_vm._v(_vm._s(budget.amount))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        {
+                          staticClass: "amount pointer",
+                          on: {
+                            click: function($event) {
+                              _vm.showBudgetPopup(budget, "flex")
+                            }
                           }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm._f("numberFilter 2")(budget.calculatedAmount)
-                          )
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "CSD pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [
-                        _c("span", [
-                          _vm._v(_vm._s(budget.formattedStartingDate))
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "month-number pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(budget.cumulativeMonthNumber))]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm._f("numberFilter 2")(
-                              budget.spentBeforeStartingDate
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("numberFilter 2")(budget.calculatedAmount)
                             )
                           )
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        {
+                          staticClass: "CSD pointer",
+                          on: {
+                            click: function($event) {
+                              _vm.showBudgetPopup(budget, "flex")
+                            }
                           }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm._f("numberFilter 2")(
-                              budget.spentOnOrAfterStartingDate
+                        },
+                        [
+                          _c("span", [
+                            _vm._v(_vm._s(budget.formattedStartingDate))
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        {
+                          staticClass: "month-number pointer",
+                          on: {
+                            click: function($event) {
+                              _vm.showBudgetPopup(budget, "flex")
+                            }
+                          }
+                        },
+                        [_vm._v(_vm._s(budget.cumulativeMonthNumber))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        {
+                          staticClass: "pointer",
+                          on: {
+                            click: function($event) {
+                              _vm.showBudgetPopup(budget, "flex")
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("numberFilter 2")(
+                                budget.spentBeforeStartingDate
+                              )
                             )
                           )
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "received pointer",
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        {
+                          staticClass: "pointer",
+                          on: {
+                            click: function($event) {
+                              _vm.showBudgetPopup(budget, "flex")
+                            }
                           }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm._f("numberFilter 2")(
-                              budget.receivedOnOrAfterStartingDate
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("numberFilter 2")(
+                                budget.spentOnOrAfterStartingDate
+                              )
                             )
                           )
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      {
-                        staticClass: "remaining pointer",
-                        class: { "negative-remaining": budget.remaining < 0 },
-                        on: {
-                          click: function($event) {
-                            _vm.showBudgetPopup(budget, "flex")
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        {
+                          staticClass: "received pointer",
+                          on: {
+                            click: function($event) {
+                              _vm.showBudgetPopup(budget, "flex")
+                            }
                           }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(_vm._f("numberFilter 2")(budget.remaining))
-                        )
-                      ]
-                    )
-                  ])
-                }),
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("numberFilter 2")(
+                                budget.receivedOnOrAfterStartingDate
+                              )
+                            )
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        {
+                          staticClass: "remaining pointer",
+                          class: { "negative-remaining": budget.remaining < 0 },
+                          on: {
+                            click: function($event) {
+                              _vm.showBudgetPopup(budget, "flex")
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(_vm._f("numberFilter 2")(budget.remaining))
+                          )
+                        ]
+                      )
+                    ])
+                  }
+                ),
                 _vm._v(" "),
                 _c(
                   "tr",
@@ -109370,14 +109319,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            show: ShowRepository.defaults,
             shared: store.state
         };
     },
@@ -109388,19 +109334,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        /**
-         *
-         */
-        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
-            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseEnterOnTotalsButton(this);
-        },
-
-        /**
-         *
-         */
-        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
-            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseLeaveOnTotalsButton(this);
-        },
 
         /**
          *
@@ -109459,7 +109392,7 @@ var render = function() {
         "div",
         { attrs: { id: "budget-content" } },
         [
-          _c("totals", { attrs: { show: _vm.show } }),
+          _c("totals"),
           _vm._v(" "),
           _c("div", { staticClass: "budget-table unassigned-budget-table" }, [
             _c("h1", [_vm._v("Unassigned Budget Table")]),
@@ -109473,7 +109406,7 @@ var render = function() {
               [
                 _vm._m(0),
                 _vm._v(" "),
-                _vm._l(_vm.unassignedBudgets, function(budget) {
+                _vm._l(_vm.shared.unassignedBudgets, function(budget) {
                   return _c("tr", { staticClass: "budget_info_ul" }, [
                     _c(
                       "td",
@@ -123927,6 +123860,1675 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-681ffe3b", module.exports)
+  }
+}
+
+/***/ }),
+/* 523 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(524)
+/* template */
+var __vue_template__ = __webpack_require__(525)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/budgets/EditBudgetPopupComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0b1de6b5", Component.options)
+  } else {
+    hotAPI.reload("data-v-0b1de6b5", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 524 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__repositories_Helpers__ = __webpack_require__(8);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            showPopup: false,
+            selectedBudget: {},
+            types: ['fixed', 'flex', 'unassigned']
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        updateBudget: function updateBudget(budget) {
+            var data = {
+                name: this.selectedBudget.name,
+                amount: this.selectedBudget.amount,
+                type: this.selectedBudget.type,
+                starting_date: __WEBPACK_IMPORTED_MODULE_1__repositories_Helpers__["a" /* default */].formatDate(this.selectedBudget.formattedStartingDate)
+            };
+
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].resetTotalChanges();
+
+            __WEBPACK_IMPORTED_MODULE_1__repositories_Helpers__["a" /* default */].put({
+                url: '/api/budgets/' + this.selectedBudget.id,
+                data: data,
+                property: 'budgets',
+                message: 'Budget updated',
+                redirectTo: this.redirectTo,
+                callback: function (response) {
+                    store.updateBudget(response, this);
+                    this.updateBudgetTableTotals();
+                    __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].getSideBarTotals(this);
+                }.bind(this)
+            });
+        },
+
+        /**
+         *
+         */
+        updateBudgetTableTotals: function updateBudgetTableTotals() {
+            if (this.page == 'fixed') {
+                $.event.trigger('update-fixed-budget-table-totals');
+            } else if (this.page == 'flex') {
+                $.event.trigger('update-flex-budget-table-totals');
+            }
+        },
+
+        /**
+         *
+         */
+        deleteBudget: function deleteBudget() {
+            __WEBPACK_IMPORTED_MODULE_1__repositories_Helpers__["a" /* default */].delete({
+                url: '/api/budgets/' + this.selectedBudget.id,
+                array: 'budgets',
+                itemToDelete: this.budget,
+                message: 'Budget deleted',
+                redirectTo: this.redirectTo,
+                confirmMessage: 'You have ' + this.selectedBudget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?',
+                callback: function () {
+                    this.showPopup = false;
+                }.bind(this)
+            });
+        },
+
+        /**
+         *
+         */
+        closePopup: function closePopup($event) {
+            __WEBPACK_IMPORTED_MODULE_1__repositories_Helpers__["a" /* default */].closePopup($event, this);
+        },
+
+        /**
+         *
+         */
+        listen: function listen() {
+            var that = this;
+            $(document).on('show-budget-popup', function (event, budget) {
+                that.selectedBudget = budget;
+                that.showPopup = true;
+            });
+        }
+    },
+    props: ['page'],
+    mounted: function mounted() {
+        this.listen();
+    }
+});
+
+/***/ }),
+/* 525 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showPopup,
+          expression: "showPopup"
+        }
+      ],
+      staticClass: "popup-outer",
+      attrs: { id: "edit-budget" },
+      on: {
+        click: function($event) {
+          _vm.closePopup($event)
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "popup-inner" }, [
+        _c("h3", [_vm._v("Edit " + _vm._s(_vm.selectedBudget.name))]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "selected-budget-name" } }, [
+            _vm._v("Name")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.selectedBudget.name,
+                expression: "selectedBudget.name"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              id: "selected-budget-name",
+              name: "selected-budget-name",
+              placeholder: "name"
+            },
+            domProps: { value: _vm.selectedBudget.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.selectedBudget.name = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "selected-budget-type" } }, [
+            _vm._v("Type")
+          ]),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedBudget.type,
+                  expression: "selectedBudget.type"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { id: "selected-budget-type" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.selectedBudget.type = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(_vm.types, function(type) {
+              return _c("option", { domProps: { value: type } }, [
+                _vm._v(
+                  "\n                    " + _vm._s(type) + "\n                "
+                )
+              ])
+            })
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.selectedBudget.type !== "unassigned",
+                expression: "selectedBudget.type !== 'unassigned'"
+              }
+            ],
+            staticClass: "form-group"
+          },
+          [
+            _c("label", { attrs: { for: "selected-budget-starting-date" } }, [
+              _vm._v("Starting date")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedBudget.formattedStartingDate,
+                  expression: "selectedBudget.formattedStartingDate"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "selected-budget-starting-date",
+                name: "selected-budget-starting-date",
+                placeholder: "starting date"
+              },
+              domProps: { value: _vm.selectedBudget.formattedStartingDate },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.selectedBudget.formattedStartingDate = $event.target.value
+                }
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.selectedBudget.type !== "unassigned",
+                expression: "selectedBudget.type !== 'unassigned'"
+              }
+            ],
+            staticClass: "form-group"
+          },
+          [
+            _vm.selectedBudget.type === "fixed"
+              ? _c("label", { attrs: { for: "selected-budget-amount" } }, [
+                  _vm._v("Amount Per Month")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.selectedBudget.type === "flex"
+              ? _c("label", { attrs: { for: "selected-budget-amount" } }, [
+                  _vm._v("% of Remaining Balance")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.selectedBudget.amount,
+                  expression: "selectedBudget.amount"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "selected-budget-amount",
+                name: "selected-budget-amount",
+                placeholder: "amount"
+              },
+              domProps: { value: _vm.selectedBudget.amount },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.selectedBudget.amount = $event.target.value
+                }
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "buttons" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-default",
+              on: {
+                click: function($event) {
+                  _vm.showPopup = false
+                }
+              }
+            },
+            [_vm._v("Cancel")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              on: {
+                click: function($event) {
+                  _vm.deleteBudget(_vm.budget)
+                }
+              }
+            },
+            [_vm._v("Delete")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              on: {
+                click: function($event) {
+                  _vm.updateBudget()
+                }
+              }
+            },
+            [_vm._v("Save")]
+          )
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0b1de6b5", module.exports)
+  }
+}
+
+/***/ }),
+/* 526 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(527)
+/* template */
+var __vue_template__ = __webpack_require__(528)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/budgets/NewBudgetComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4610446d", Component.options)
+  } else {
+    hotAPI.reload("data-v-4610446d", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 527 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(29);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            showNewBudget: false,
+            newBudget: {
+                type: 'fixed'
+            },
+            types: ['fixed', 'flex', 'unassigned']
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        insertBudget: function insertBudget() {
+            var data = {
+                name: this.newBudget.name,
+                type: this.newBudget.type,
+                amount: this.newBudget.amount,
+                starting_date: HelpersRepository.formatDate(this.newBudget.startingDate)
+            };
+
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].resetTotalChanges();
+
+            helpers.post({
+                url: '/api/budgets',
+                data: data,
+                array: 'budgets',
+                message: 'Budget created',
+                clearFields: this.clearFields,
+                redirectTo: this.redirectTo,
+                callback: function (response) {
+                    store.addBudgetToSpecificArray(response, this);
+                    __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].getSideBarTotals(this);
+                    this.updateBudgetTableTotals();
+                }.bind(this)
+            });
+        },
+
+        /**
+         *
+         */
+        updateBudgetTableTotals: function updateBudgetTableTotals() {
+            if (this.page == 'fixedBudgets') {
+                $.event.trigger('update-fixed-budget-table-totals');
+            } else if (this.page == 'flexBudgets') {
+                $.event.trigger('update-flex-budget-table-totals');
+            }
+        },
+
+        /**
+         *
+         */
+        listen: function listen() {
+            var that = this;
+            $(document).on('toggle-new-budget', function (event) {
+                that.showNewBudget = !that.showNewBudget;
+            });
+        }
+    },
+    props: ['page'],
+    mounted: function mounted() {
+        this.listen();
+    }
+});
+
+/***/ }),
+/* 528 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showNewBudget,
+          expression: "showNewBudget"
+        }
+      ],
+      staticClass: "new-budget"
+    },
+    [
+      _c("h3", [_vm._v("Create a new budget")]),
+      _vm._v(" "),
+      _c("i", {
+        staticClass: "close fa fa-times",
+        on: {
+          click: function($event) {
+            _vm.showNewBudget = false
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "new-budget-name" } }, [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.newBudget.name,
+              expression: "newBudget.name"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            id: "new-budget-name",
+            name: "new-budget-name",
+            placeholder: "name"
+          },
+          domProps: { value: _vm.newBudget.name },
+          on: {
+            keyup: function($event) {
+              if (!("button" in $event) && $event.keyCode !== 13) {
+                return null
+              }
+              _vm.insertBudget()
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.newBudget.name = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "new-budget-type" } }, [_vm._v("Type")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.newBudget.type,
+                expression: "newBudget.type"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { id: "new-budget-type" },
+            on: {
+              keyup: function($event) {
+                if (!("button" in $event) && $event.keyCode !== 13) {
+                  return null
+                }
+                _vm.insertBudget()
+              },
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.newBudget.type = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          _vm._l(_vm.types, function(type) {
+            return _c("option", { domProps: { value: type } }, [
+              _vm._v("\n                " + _vm._s(type) + "\n            ")
+            ])
+          })
+        )
+      ]),
+      _vm._v(" "),
+      _vm.newBudget.type !== "unassigned"
+        ? _c("div", { staticClass: "form-group" }, [
+            _vm.newBudget.type === "fixed"
+              ? _c("label", { attrs: { for: "new-budget-amount" } }, [
+                  _vm._v("Amount Per Month")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.newBudget.type === "flex"
+              ? _c("label", { attrs: { for: "new-budget-amount" } }, [
+                  _vm._v("% of Remaining Balance")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newBudget.amount,
+                  expression: "newBudget.amount"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "new-budget-amount",
+                name: "new-budget-amount",
+                placeholder: "amount"
+              },
+              domProps: { value: _vm.newBudget.amount },
+              on: {
+                keyup: function($event) {
+                  if (!("button" in $event) && $event.keyCode !== 13) {
+                    return null
+                  }
+                  _vm.insertBudget()
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newBudget.amount = $event.target.value
+                }
+              }
+            })
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.newBudget.type !== "unassigned"
+        ? _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "new-budget-starting-date" } }, [
+              _vm._v("Starting date")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newBudget.startingDate,
+                  expression: "newBudget.startingDate"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "new-budget-starting-date",
+                name: "new-budget-starting-date",
+                placeholder: "starting date"
+              },
+              domProps: { value: _vm.newBudget.startingDate },
+              on: {
+                keyup: function($event) {
+                  if (!("button" in $event) && $event.keyCode !== 13) {
+                    return null
+                  }
+                  _vm.insertBudget()
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newBudget.startingDate = $event.target.value
+                }
+              }
+            })
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                _vm.insertBudget()
+              }
+            }
+          },
+          [_vm._v("\n            Create Budget\n        ")]
+        )
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4610446d", module.exports)
+  }
+}
+
+/***/ }),
+/* 529 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(530)
+/* template */
+var __vue_template__ = __webpack_require__(531)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/shared/BudgetsToolbarComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-9df96b4c", Component.options)
+  } else {
+    hotAPI.reload("data-v-9df96b4c", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 530 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__ = __webpack_require__(29);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    methods: {
+        /**
+         *
+         */
+        respondToMouseEnterOnTotalsButton: function respondToMouseEnterOnTotalsButton() {
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseEnterOnTotalsButton(this);
+        },
+
+        /**
+         *
+         */
+        respondToMouseLeaveOnTotalsButton: function respondToMouseLeaveOnTotalsButton() {
+            __WEBPACK_IMPORTED_MODULE_0__repositories_TotalsRepository__["a" /* default */].respondToMouseLeaveOnTotalsButton(this);
+        }
+    }
+});
+
+/***/ }),
+/* 531 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "budget-toolbar" } }, [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-info",
+        on: {
+          click: function($event) {
+            _vm.toggleNewBudget()
+          }
+        }
+      },
+      [_vm._v("New")]
+    ),
+    _vm._v(" "),
+    _c("div", [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-default totals-btn",
+          on: {
+            mouseenter: _vm.respondToMouseEnterOnTotalsButton,
+            mouseleave: _vm.respondToMouseLeaveOnTotalsButton
+          }
+        },
+        [_vm._v("\n            Totals\n        ")]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-9df96b4c", module.exports)
+  }
+}
+
+/***/ }),
+/* 532 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(533)
+/* template */
+var __vue_template__ = __webpack_require__(534)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/budgets/FixedBudgetsTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1907a0cf", Component.options)
+  } else {
+    hotAPI.reload("data-v-1907a0cf", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 533 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__ = __webpack_require__(8);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+//    import store from '../../repositories/Store'
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            shared: store.state,
+            orderByOptions: [{ name: 'name', value: 'name' }, { name: 'spent after starting date', value: 'spentOnOrAfterStartingDate' }],
+            orderBy: 'name',
+            reverseOrder: false
+        };
+    },
+    computed: {
+        orderedFixedBudgets: function orderedFixedBudgets() {
+            return store.orderBudgetsFilter(this.shared.fixedBudgets, this);
+        }
+    },
+    filters: {
+        /**
+         *
+         * @param number
+         * @param howManyDecimals
+         * @returns {Number}
+         */
+        numberFilter: function numberFilter(number, howManyDecimals) {
+            return __WEBPACK_IMPORTED_MODULE_0__repositories_Helpers__["a" /* default */].numberFilter(number, howManyDecimals);
+        }
+    }
+});
+
+/***/ }),
+/* 534 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("h1", [_vm._v("Fixed Budget Table")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "order-by" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "order-by" } }, [_vm._v("Order By")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.orderBy,
+                expression: "orderBy"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { id: "order-by" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.orderBy = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          _vm._l(_vm.orderByOptions, function(orderByOption) {
+            return _c("option", { domProps: { value: orderByOption.value } }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(orderByOption.name) +
+                  "\n                "
+              )
+            ])
+          })
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "checkbox-container" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.reverseOrder,
+              expression: "reverseOrder"
+            }
+          ],
+          attrs: { type: "checkbox" },
+          domProps: {
+            checked: Array.isArray(_vm.reverseOrder)
+              ? _vm._i(_vm.reverseOrder, null) > -1
+              : _vm.reverseOrder
+          },
+          on: {
+            __c: function($event) {
+              var $$a = _vm.reverseOrder,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.reverseOrder = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.reverseOrder = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.reverseOrder = $$c
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "reverse-order-" } }, [
+          _vm._v("Reverse Order")
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "table",
+      {
+        staticClass: "table table-bordered",
+        attrs: { id: "fixed-budget-info-table" }
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._l(_vm.orderedFixedBudgets, function(budget) {
+          return _c("tr", { staticClass: "budget_info_ul" }, [
+            _c(
+              "td",
+              {
+                staticClass: "pointer",
+                on: {
+                  click: function($event) {
+                    _vm.showBudgetPopup(budget, "fixed")
+                  }
+                }
+              },
+              [_vm._v(_vm._s(budget.name))]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "amount right pointer",
+                on: {
+                  click: function($event) {
+                    _vm.showBudgetPopup(budget, "fixed")
+                  }
+                }
+              },
+              [_vm._v(_vm._s(_vm._f("numberFilter")(budget.amount, 2)))]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "CSD pointer",
+                on: {
+                  click: function($event) {
+                    _vm.showBudgetPopup(budget, "fixed")
+                  }
+                }
+              },
+              [_c("span", [_vm._v(_vm._s(budget.formattedStartingDate))])]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "month-number pointer",
+                on: {
+                  click: function($event) {
+                    _vm.showBudgetPopup(budget, "fixed")
+                  }
+                }
+              },
+              [_vm._v(_vm._s(budget.cumulativeMonthNumber))]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "cumulative pointer",
+                on: {
+                  click: function($event) {
+                    _vm.showBudgetPopup(budget, "fixed")
+                  }
+                }
+              },
+              [_vm._v(_vm._s(_vm._f("numberFilter")(budget.cumulative, 2)))]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "pointer",
+                on: {
+                  click: function($event) {
+                    _vm.showBudgetPopup(budget, "fixed")
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  _vm._s(
+                    _vm._f("numberFilter")(budget.spentBeforeStartingDate, 2)
+                  )
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "pointer",
+                on: {
+                  click: function($event) {
+                    _vm.showBudgetPopup(budget, "fixed")
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  _vm._s(
+                    _vm._f("numberFilter")(budget.spentOnOrAfterStartingDate, 2)
+                  )
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "received pointer",
+                on: {
+                  click: function($event) {
+                    _vm.showBudgetPopup(budget, "fixed")
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  _vm._s(
+                    _vm._f("numberFilter")(
+                      budget.receivedOnOrAfterStartingDate,
+                      2
+                    )
+                  )
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "remaining pointer",
+                class: { "negative-remaining": budget.remaining < 0 },
+                on: {
+                  click: function($event) {
+                    _vm.showBudgetPopup(budget, "fixed")
+                  }
+                }
+              },
+              [_vm._v(_vm._s(_vm._f("numberFilter")(budget.remaining, 2)))]
+            )
+          ])
+        }),
+        _vm._v(" "),
+        _c(
+          "tr",
+          {
+            staticClass: "budget_info_ul totals",
+            attrs: { id: "fixed-budget-totals" }
+          },
+          [
+            _c("td", [_vm._v("totals")]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(
+                _vm._s(
+                  _vm._f("numberFilter")(_vm.shared.fixedBudgetTotals.amount, 2)
+                )
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [_vm._v("-")]),
+            _vm._v(" "),
+            _c("td", [_vm._v("-")]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(
+                _vm._s(
+                  _vm._f("numberFilter")(
+                    _vm.shared.fixedBudgetTotals.cumulative,
+                    2
+                  )
+                )
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(
+                _vm._s(
+                  _vm._f("numberFilter")(
+                    _vm.shared.fixedBudgetTotals.spentBeforeStartingDate,
+                    2
+                  )
+                )
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(
+                _vm._s(
+                  _vm._f("numberFilter")(
+                    _vm.shared.fixedBudgetTotals.spentOnOrAfterStartingDate,
+                    2
+                  )
+                )
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(
+                _vm._s(
+                  _vm._f("numberFilter")(
+                    _vm.shared.fixedBudgetTotals.receivedOnOrAfterStartingDate,
+                    2
+                  )
+                )
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(
+                _vm._s(
+                  _vm._f("numberFilter")(
+                    _vm.shared.fixedBudgetTotals.remaining,
+                    2
+                  )
+                )
+              )
+            ])
+          ]
+        )
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", [
+        _c("div", [_vm._v("Amount")]),
+        _vm._v(" "),
+        _c("div", [_vm._v("per month")])
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _c("div", [_vm._v("Starting")]),
+        _vm._v(" "),
+        _c("div", [_vm._v("date")])
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _c("div", [_vm._v("Month")]),
+        _vm._v(" "),
+        _c("div", [_vm._v("number")])
+      ]),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "cumulative (amount * cumulative month number)" }
+        },
+        [
+          _c("div", [_vm._v("Cumulative")]),
+          _vm._v(" "),
+          _c("div", [_vm._v("amount")])
+        ]
+      ),
+      _vm._v(" "),
+      _c("th", [
+        _c("div", [_vm._v("Spent <")]),
+        _vm._v(" "),
+        _c("div", [_vm._v("starting date")])
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _c("div", [_vm._v("Spent >=")]),
+        _vm._v(" "),
+        _c("div", [_vm._v("starting date")])
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _c("div", [_vm._v("Received >=")]),
+        _vm._v(" "),
+        _c("div", [_vm._v("starting date")])
+      ]),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass: "tooltipster",
+          attrs: { title: "remaining  (cumulative + spent + received)" }
+        },
+        [_vm._v("Remaining")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1907a0cf", module.exports)
   }
 }
 

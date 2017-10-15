@@ -1,5 +1,6 @@
 <template>
     <div id="unassigned-budgets-page" class="budgets-page">
+
         <edit-budget-popup
             :budgets.sync="unassignedBudgets"
             page="unassigned"
@@ -16,10 +17,7 @@
 
         <div id="budget-content">
 
-            <totals
-                :show="show"
-            >
-            </totals>
+            <totals></totals>
 
             <div class="budget-table unassigned-budget-table">
 
@@ -32,7 +30,7 @@
                     </tr>
 
                     <!-- table content -->
-                    <tr v-for="budget in unassignedBudgets" class="budget_info_ul">
+                    <tr v-for="budget in shared.unassignedBudgets" class="budget_info_ul">
                         <td v-on:click="showBudgetPopup(budget, 'unassigned')" class="pointer">{{ budget.name }}</td>
                     </tr>
 
@@ -49,7 +47,6 @@
     export default {
         data: function () {
             return {
-                show: ShowRepository.defaults,
                 shared: store.state
             };
         },
@@ -60,19 +57,6 @@
             }
         },
         methods: {
-            /**
-             *
-             */
-            respondToMouseEnterOnTotalsButton: function () {
-                TotalsRepository.respondToMouseEnterOnTotalsButton(this);
-            },
-
-            /**
-             *
-             */
-            respondToMouseLeaveOnTotalsButton: function () {
-                TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
-            },
 
             /**
              *

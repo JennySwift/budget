@@ -21,6 +21,10 @@ import EditTransactionPopupComponent from './budget/src/components/transactions/
 import AllocationPopupComponent from './budget/src/components/budgets/AllocationPopupComponent.vue'
 import EditAccountComponent from './budget/src/components/accounts/EditAccountComponent.vue'
 import NewAccountComponent from './budget/src/components/accounts/NewAccountComponent.vue'
+import EditBudgetPopupComponent from './budget/src/components/budgets/EditBudgetPopupComponent.vue'
+import NewBudgetComponent from './budget/src/components/budgets/NewBudgetComponent.vue'
+import BudgetsToolbarComponent from './budget/src/components/shared/BudgetsToolbarComponent.vue'
+import FixedBudgetsTableComponent from './budget/src/components/budgets/FixedBudgetsTable.vue'
 
 //Shared components
 Vue.component('navbar', NavbarComponent);
@@ -42,3 +46,7 @@ Vue.component('allocation-popup', AllocationPopupComponent);
 Vue.component('transaction-autocomplete', TransactionAutocompleteComponent);
 Vue.component('edit-account', EditAccountComponent);
 Vue.component('new-account', NewAccountComponent);
+Vue.component('edit-budget-popup', EditBudgetPopupComponent);
+Vue.component('new-budget', NewBudgetComponent);
+Vue.component('budgets-toolbar', BudgetsToolbarComponent);
+Vue.component('fixed-budgets-table', FixedBudgetsTableComponent);

@@ -36,27 +36,14 @@ const app = new Vue({
 store.getUser();
 store.getAccounts();
 store.setHeights();
-
-var App = Vue.component('app', {
-    data: function () {
-        return {
-
-        };
-    },
-    methods: {
-
-    },
-    ready: function () {
-        store.getBudgets();
-        store.getUnassignedBudgets();
-        store.getFavouriteTransactions();
-        store.setDefaultTab();
-        store.getSideBarTotals();
-        store.getSavedFilters();
-        store.resetFilter();
-        store.setDefaultTransactionPropertiesToShow()
-    }
-});
+store.getBudgets();
+store.getUnassignedBudgets();
+store.getFavouriteTransactions();
+store.setDefaultTab();
+// store.getSideBarTotals();
+store.getSavedFilters();
+// store.resetFilter();
+store.setDefaultTransactionPropertiesToShow()
 
 $(window).on('load', function () {
     $(".main").css('display', 'block');

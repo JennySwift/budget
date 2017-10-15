@@ -92,7 +92,7 @@
                         <th class="tooltipster" title="remaining">Remaining</th>
                     </tr>
                     <!-- table content -->
-                    <tr v-for="budget in flexBudgets | orderBudgetsFilter" class="budget_info_ul">
+                    <tr v-for="budget in shared.flexBudgets | orderBudgetsFilter" class="budget_info_ul">
                         <td v-on:click="showBudgetPopup(budget, 'flex')" class="pointer">{{ budget.name }}</td>
                         <td v-on:click="showBudgetPopup(budget, 'flex')" class="percent pointer">{{ budget.amount }}</td>
                         <td v-on:click="showBudgetPopup(budget, 'flex')" class="amount pointer">{{ budget.calculatedAmount |  numberFilter 2 }}</td>
@@ -188,20 +188,6 @@
             },
         },
         methods: {
-
-            /**
-             *
-             */
-            respondToMouseEnterOnTotalsButton: function () {
-                TotalsRepository.respondToMouseEnterOnTotalsButton(this);
-            },
-
-            /**
-             *
-             */
-            respondToMouseLeaveOnTotalsButton: function () {
-                TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
-            },
 
             /**
              *

@@ -15,7 +15,22 @@
 </template>
 
 <script>
+    import TotalsRepository from '../../repositories/TotalsRepository'
     export default {
+        methods: {
+            /**
+             *
+             */
+            respondToMouseEnterOnTotalsButton: function () {
+                TotalsRepository.respondToMouseEnterOnTotalsButton(this);
+            },
 
+            /**
+             *
+             */
+            respondToMouseLeaveOnTotalsButton: function () {
+                TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
+            },
+        }
     }
 </script>

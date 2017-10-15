@@ -25,6 +25,8 @@ export default {
         transaction: {
             budgets: []
         },
+        fixedBudgetTotals: {},
+        flexBudgetTotals: {},
         transactions: [],
         fixedBudgets: [],
         flexBudgets: [],
@@ -86,6 +88,16 @@ export default {
 
     /**
      *
+     */
+    getFixedBudgetTotals: function () {
+        helpers.get({
+            url: '/api/totals/fixedBudget',
+            storeProperty: 'fixedBudgetTotals',
+        });
+    },
+
+    /**
+     *
      * @returns {{status: boolean, date: boolean, description: boolean, merchant: boolean, total: boolean, type: boolean, account: boolean, duration: boolean, reconciled: boolean, allocated: boolean, budgets: boolean}}
      */
     setDefaultTransactionPropertiesToShow: function () {
@@ -110,7 +122,7 @@ export default {
      * @returns {string}
      */
     setDefaultTab: function () {
-        if (env && env === 'local') {
+        if (this.state.env && this.state.env === 'local') {
             this.state.tab = 'transactions';
         }
         else {
@@ -296,7 +308,15 @@ export default {
 
 
 
-
+    /**
+     *
+     */
+    getFavouriteTransactions: function () {
+        helpers.get({
+            url: '/api/favouriteTransactions',
+            storeProperty: 'favouriteTransactions'
+        });
+    },
 
     /**
      *
