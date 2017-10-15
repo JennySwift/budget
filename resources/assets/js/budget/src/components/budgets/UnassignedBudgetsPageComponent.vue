@@ -2,7 +2,6 @@
     <div id="unassigned-budgets-page" class="budgets-page">
 
         <edit-budget-popup
-            :budgets.sync="unassignedBudgets"
             page="unassigned"
         >
         </edit-budget-popup>
@@ -10,7 +9,6 @@
         <budgets-toolbar></budgets-toolbar>
 
         <new-budget
-            :budgets.sync="unassignedBudgets"
             page="unassignedBudgets"
         >
         </new-budget>
@@ -30,7 +28,7 @@
                     </tr>
 
                     <!-- table content -->
-                    <tr v-for="budget in shared.unassignedBudgets" class="budget_info_ul">
+                    <tr v-for="budget in orderedUnassignedBudgets" class="budget_info_ul">
                         <td v-on:click="showBudgetPopup(budget, 'unassigned')" class="pointer">{{ budget.name }}</td>
                     </tr>
 
@@ -52,7 +50,7 @@
         },
         components: {},
         computed: {
-            unassignedBudgets: function () {
+            orderedUnassignedBudgets: function () {
                 return _.orderBy(this.shared.unassignedBudgets, 'name');
             }
         },

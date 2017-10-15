@@ -109313,8 +109313,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -109325,7 +109323,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     components: {},
     computed: {
-        unassignedBudgets: function unassignedBudgets() {
+        orderedUnassignedBudgets: function orderedUnassignedBudgets() {
             return _.orderBy(this.shared.unassignedBudgets, 'name');
         }
     },
@@ -109364,25 +109362,11 @@ var render = function() {
     "div",
     { staticClass: "budgets-page", attrs: { id: "unassigned-budgets-page" } },
     [
-      _c("edit-budget-popup", {
-        attrs: { budgets: _vm.unassignedBudgets, page: "unassigned" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.unassignedBudgets = $event
-          }
-        }
-      }),
+      _c("edit-budget-popup", { attrs: { page: "unassigned" } }),
       _vm._v(" "),
       _c("budgets-toolbar"),
       _vm._v(" "),
-      _c("new-budget", {
-        attrs: { budgets: _vm.unassignedBudgets, page: "unassignedBudgets" },
-        on: {
-          "update:budgets": function($event) {
-            _vm.unassignedBudgets = $event
-          }
-        }
-      }),
+      _c("new-budget", { attrs: { page: "unassignedBudgets" } }),
       _vm._v(" "),
       _c(
         "div",
@@ -109402,7 +109386,7 @@ var render = function() {
               [
                 _vm._m(0),
                 _vm._v(" "),
-                _vm._l(_vm.shared.unassignedBudgets, function(budget) {
+                _vm._l(_vm.orderedUnassignedBudgets, function(budget) {
                   return _c("tr", { staticClass: "budget_info_ul" }, [
                     _c(
                       "td",
