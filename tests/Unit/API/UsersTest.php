@@ -3,6 +3,7 @@
 use App\Models\Preference;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 /**
@@ -11,6 +12,25 @@ use Tests\TestCase;
 class UsersTest extends TestCase
 {
     use DatabaseTransactions;
+
+    /**
+     * @test
+     */
+    public function it_can_show_the_logged_in_user()
+    {
+        $this->logInUser();
+
+        $response = $this->call('GET', '/api/users/' . $this->user->id);
+        $content = $this->getContent($response);
+//        dd($content);
+
+        $this->checkUserKeysExist($content);
+
+        $this->assertEquals(1, $content['id']);
+        $this->assertEquals("Dummy", $content['name']);
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
     
     /**
      * @test

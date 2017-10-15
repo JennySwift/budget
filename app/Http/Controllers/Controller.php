@@ -22,6 +22,27 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
+     *
+     * @param $resource
+     * @param TransformerAbstract $transformer
+     * @param $responseCode
+     * @param array|null $includes
+     * @param Request $request
+     * @return Response
+     */
+    public function respond($resource, TransformerAbstract $transformer, $responseCode, array $includes = null, Request $request = null)
+    {
+        if ($resource instanceof EloquentCollection) {
+            $resource = $this->transform($this->createCollection($resource, $transformer), $includes, $request)['data'];
+        }
+        else {
+            $resource = $this->transform($this->createItem($resource, $transformer), $includes, $request)['data'];
+        }
+
+        return response($resource, $responseCode);
+    }
+
+    /**
      * Create a 201 - Created response
      * @param Arrayable $data => Arrayable allows the method to accept any object with a toArray() method.
      * @return Response

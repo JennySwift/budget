@@ -46,6 +46,16 @@ abstract class TestCase extends BaseTestCase
 
     /**
      *
+     * @param $response
+     * @return mixed
+     */
+    protected function getContent($response)
+    {
+        return json_decode($response->getContent(), true);
+    }
+
+    /**
+     *
      * @param $budget
      * @param bool $extra
      */
@@ -186,6 +196,16 @@ abstract class TestCase extends BaseTestCase
         $this->assertArrayHasKey('spentBeforeStartingDate', $totals);
         $this->assertArrayHasKey('spentOnOrAfterStartingDate', $totals);
         $this->assertArrayHasKey('receivedOnOrAfterStartingDate', $totals);
+    }
+
+    /**
+     *
+     * @param $totals
+     */
+    public function checkUserKeysExist($totals)
+    {
+        $this->assertArrayHasKey('id', $totals);
+        $this->assertArrayHasKey('name', $totals);
     }
 
     /**

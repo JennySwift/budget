@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Exceptions\NotLoggedInException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Transformers\UserTransformer;
 use App\Models\Preference;
 use App\User;
 use Auth;
@@ -18,6 +19,16 @@ use Illuminate\Http\Response;
  */
 class UsersController extends Controller
 {
+
+    /**
+     * GET /api/users/{users}
+     * @param User $user
+     * @return Response
+     */
+    public function show(User $user)
+    {
+        return $this->respond($user, new UserTransformer, 200);
+    }
 
     /**
      *
