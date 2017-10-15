@@ -224,7 +224,7 @@
         <!--User-->
         <li id="menu-dropdown" class="dropdown gravatar-li">
             <a href="#" data-toggle="dropdown">
-                <?php echo Auth::user()->name; ?>
+                {{shared.me.name}}
             </a>
             <a href="#" data-toggle="dropdown" class="gravatar-container">
                 <img v-bind:src="shared.me.gravatar" class="gravatar"/>

@@ -97445,7 +97445,7 @@ var render = function() {
         { staticClass: "dropdown gravatar-li", attrs: { id: "menu-dropdown" } },
         [
           _c("a", { attrs: { href: "#", "data-toggle": "dropdown" } }, [
-            _vm._v("\n            <?php echo Auth::user()->name; ?>\n        ")
+            _vm._v("\n            " + _vm._s(_vm.shared.me.name) + "\n        ")
           ]),
           _vm._v(" "),
           _c(
