@@ -102,7 +102,7 @@
 
                             <li>
                                 <a
-                                    v-on:click="scrollTo('totals')"
+                                    v-on:click="scrollTo('help-page-totals')"
                                     href="javascript:void(0)"
                                 >
                                     Totals
@@ -230,7 +230,7 @@
                 </div>
 
                 <div class="section">
-                    <h2 id="totals">Totals</h2>
+                    <h2 id="help-page-totals">Totals</h2>
                     <p>A lot of the figures in the totals sidebar are probably unnecessary for users, but they have been helpful in getting the totals working and understanding what is going on. A lot of them were for figuring out the remaining balance. Some are just the same figures as in the budget table totals columns.</p>
                     <p>Probably the most relevant figures for the user are: credit, debit, remaining balance, savings, and the remaining columns in the budget tables, so the user can see how much they have left to spend on each tag.</p>
                     <p>When actions are made, the changes made to the totals are displayed in the 'changes' column.</p>

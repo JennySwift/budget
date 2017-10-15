@@ -101285,7 +101285,7 @@ var render = function() {
                             attrs: { href: "javascript:void(0)" },
                             on: {
                               click: function($event) {
-                                _vm.scrollTo("totals")
+                                _vm.scrollTo("help-page-totals")
                               }
                             }
                           },
@@ -101662,7 +101662,7 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "section" }, [
-          _c("h2", { attrs: { id: "totals" } }, [_vm._v("Totals")]),
+          _c("h2", { attrs: { id: "help-page-totals" } }, [_vm._v("Totals")]),
           _vm._v(" "),
           _c("p", [
             _vm._v(
