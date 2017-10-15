@@ -12,6 +12,7 @@ import BudgetAutocompleteComponent from './budget/src/components/shared/BudgetAu
 // import ButtonsComponent from './budget/src/components/shared/ButtonsComponent.vue'
 import AutocompleteComponent from './budget/src/components/shared/AutocompleteComponent.vue'
 import FeedbackComponent from './budget/src/components/shared/FeedbackComponent.vue'
+import TransactionAutocompleteComponent from './budget/src/components/shared/TransactionAutocompleteComponent.vue'
 import NewTransactionComponent from './budget/src/components/transactions/NewTransactionComponent.vue'
 import TotalsComponent from './budget/src/components/TotalsComponent.vue'
 import TransactionsComponent from './budget/src/components/transactions/TransactionsComponent.vue'
@@ -28,6 +29,7 @@ Vue.component('autocomplete', AutocompleteComponent);
 Vue.component('dropdown', DropdownComponent);
 Vue.component('budget-autocomplete', BudgetAutocompleteComponent);
 
+
 // Components
 Vue.component('new-transaction', NewTransactionComponent);
 Vue.component('totals', TotalsComponent);
@@ -35,3 +37,4 @@ Vue.component('transactions', TransactionsComponent);
 Vue.component('mass-transaction-update-popup', MassTransactionUpdatePopupComponent);
 Vue.component('edit-transaction-popup', EditTransactionPopupComponent);
 Vue.component('allocation-popup', AllocationPopupComponent);
+Vue.component('transaction-autocomplete', TransactionAutocompleteComponent);

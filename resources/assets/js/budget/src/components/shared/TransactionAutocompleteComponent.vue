@@ -18,7 +18,7 @@
             <table v-show="results.length > 0" class="table table-bordered">
                 <tbody
                     v-for="transaction in results"
-                    v-bind:style="{color: me.preferences.colors[transaction.type]}"
+                    v-bind:style="{color: shared.me.preferences.colors[transaction.type]}"
                     class="pointer"
                     v-on:mousedown="chooseItem($index)"
                     v-on:mouseover="hoverItem($index)"
@@ -67,7 +67,7 @@
     export default {
         data: function () {
             return {
-                me: me,
+                shared: store.state,
                 results: [],
                 selectedItem: {},
                 focused: false,
@@ -205,10 +205,10 @@
 
                 // If the user has the clearFields setting on,
                 // only fill in the total if they haven't entered a total yet
-                if (me.preferences.clearFields && this.newTransaction.total === '') {
+                if (shared.me.preferences.clearFields && this.newTransaction.total === '') {
                     this.newTransaction.total = this.selectedItem.total;
                 }
-                else if (!me.preferences.clearFields) {
+                else if (!shared.me.preferences.clearFields) {
                     this.newTransaction.total = this.selectedItem.total;
                 }
 

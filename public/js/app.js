@@ -96586,18 +96586,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__budget_src_components_shared_AutocompleteComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__budget_src_components_shared_AutocompleteComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_shared_FeedbackComponent_vue__ = __webpack_require__(401);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__budget_src_components_shared_FeedbackComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__budget_src_components_shared_FeedbackComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_transactions_NewTransactionComponent_vue__ = __webpack_require__(466);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_transactions_NewTransactionComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__budget_src_components_transactions_NewTransactionComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue__ = __webpack_require__(408);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__budget_src_components_transactions_TransactionsComponent_vue__ = __webpack_require__(469);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__budget_src_components_transactions_TransactionsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__budget_src_components_transactions_TransactionsComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__ = __webpack_require__(414);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__budget_src_components_transactions_EditTransactionPopupComponent_vue__ = __webpack_require__(472);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__budget_src_components_transactions_EditTransactionPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__budget_src_components_transactions_EditTransactionPopupComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__budget_src_components_budgets_AllocationPopupComponent_vue__ = __webpack_require__(475);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__budget_src_components_budgets_AllocationPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__budget_src_components_budgets_AllocationPopupComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_shared_TransactionAutocompleteComponent_vue__ = __webpack_require__(499);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__budget_src_components_shared_TransactionAutocompleteComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__budget_src_components_shared_TransactionAutocompleteComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_transactions_NewTransactionComponent_vue__ = __webpack_require__(466);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__budget_src_components_transactions_NewTransactionComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__budget_src_components_transactions_NewTransactionComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__budget_src_components_TotalsComponent_vue__ = __webpack_require__(408);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__budget_src_components_TotalsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__budget_src_components_TotalsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__budget_src_components_transactions_TransactionsComponent_vue__ = __webpack_require__(469);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__budget_src_components_transactions_TransactionsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__budget_src_components_transactions_TransactionsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__ = __webpack_require__(414);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__budget_src_components_transactions_EditTransactionPopupComponent_vue__ = __webpack_require__(472);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__budget_src_components_transactions_EditTransactionPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__budget_src_components_transactions_EditTransactionPopupComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__budget_src_components_budgets_AllocationPopupComponent_vue__ = __webpack_require__(475);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__budget_src_components_budgets_AllocationPopupComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__budget_src_components_budgets_AllocationPopupComponent_vue__);
 
 
 // var vueTippy = require('vue-tippy');
@@ -96619,6 +96621,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
 //Shared components
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('navbar', __WEBPACK_IMPORTED_MODULE_1__budget_src_components_shared_NavbarComponent_vue___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('feedback', __WEBPACK_IMPORTED_MODULE_7__budget_src_components_shared_FeedbackComponent_vue___default.a);
@@ -96629,12 +96632,13 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('dropdown', __WEBPACK_IMPO
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('budget-autocomplete', __WEBPACK_IMPORTED_MODULE_5__budget_src_components_shared_BudgetAutocompleteComponent_vue___default.a);
 
 // Components
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('new-transaction', __WEBPACK_IMPORTED_MODULE_8__budget_src_components_transactions_NewTransactionComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('totals', __WEBPACK_IMPORTED_MODULE_9__budget_src_components_TotalsComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transactions', __WEBPACK_IMPORTED_MODULE_10__budget_src_components_transactions_TransactionsComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('mass-transaction-update-popup', __WEBPACK_IMPORTED_MODULE_11__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('edit-transaction-popup', __WEBPACK_IMPORTED_MODULE_12__budget_src_components_transactions_EditTransactionPopupComponent_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('allocation-popup', __WEBPACK_IMPORTED_MODULE_13__budget_src_components_budgets_AllocationPopupComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('new-transaction', __WEBPACK_IMPORTED_MODULE_9__budget_src_components_transactions_NewTransactionComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('totals', __WEBPACK_IMPORTED_MODULE_10__budget_src_components_TotalsComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transactions', __WEBPACK_IMPORTED_MODULE_11__budget_src_components_transactions_TransactionsComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('mass-transaction-update-popup', __WEBPACK_IMPORTED_MODULE_12__budget_src_components_filter_MassTransactionUpdatePopupComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('edit-transaction-popup', __WEBPACK_IMPORTED_MODULE_13__budget_src_components_transactions_EditTransactionPopupComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('allocation-popup', __WEBPACK_IMPORTED_MODULE_14__budget_src_components_budgets_AllocationPopupComponent_vue___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('transaction-autocomplete', __WEBPACK_IMPORTED_MODULE_8__budget_src_components_shared_TransactionAutocompleteComponent_vue___default.a);
 
 /***/ }),
 /* 389 */
@@ -109776,6 +109780,330 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-3a90783f", module.exports)
+  }
+}
+
+/***/ }),
+/* 499 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(500)
+/* template */
+var __vue_template__ = __webpack_require__(501)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/budget/src/components/shared/TransactionAutocompleteComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4277d206", Component.options)
+  } else {
+    hotAPI.reload("data-v-4277d206", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 500 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            shared: store.state,
+            results: [],
+            selectedItem: {},
+            focused: false,
+            showDropdown: false,
+            currentIndex: 0,
+            interval: '',
+            timeSinceKeyPress: 0
+        };
+    },
+    components: {},
+    methods: {
+
+        /**
+         *
+         */
+        focus: function focus() {
+            this.focused = true;
+        },
+
+        /**
+         * Hide the dropdown and clear the input field
+         */
+        hideAndClear: function hideAndClear() {
+            this.focused = false;
+            this.showDropdown = false;
+            this.currentIndex = null;
+            $('.highlight').removeClass('highlight');
+        },
+
+        /**
+         *
+         * @param response
+         * @param typing
+         * @returns {*}
+         */
+        //highlightLetters: function (response, typing) {
+        //    typing = typing.toLowerCase();
+        //
+        //    for (var i = 0; i < response.length; i++) {
+        //        var name = response[i].name;
+        //        var index = name.toLowerCase().indexOf(typing);
+        //        var substr = name.substr(index, typing.length);
+        //
+        //        var html = name.replace(substr, '<span class="highlight">' + substr + '</span>');
+        //
+        //        response[i].html = html;
+        //    }
+        //    return response;
+        //},
+
+        /**
+         *
+         * @param index
+         */
+        hoverItem: function hoverItem(index) {
+            this.currentIndex = index;
+        },
+
+        /**
+         * @param keycode
+         * @returns {boolean}
+         */
+        respondToKeyup: function respondToKeyup(keycode) {
+            if (keycode === 13) {
+                //enter is pressed
+                if (!this.results[this.currentIndex]) {
+                    //We are not choosing a transaction. We are inserting the transaction.
+                    this.functionOnEnter();
+                    return;
+                }
+                this.chooseItem();
+            } else if (keycode === 38) {
+                //up arrow is pressed
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                }
+            } else if (keycode === 40) {
+                //down arrow is pressed
+                if (this.currentIndex + 1 < this.results.length) {
+                    this.currentIndex++;
+                }
+            } else if (keycode === 9) {
+                //tab is pressed
+                //this.hideDropdown();
+                //return false;
+            } else {
+                //Not enter, up or down arrow
+                this.startCounting();
+
+                if (!this.focused) {
+                    // The input is not focused anymore,
+                    // so the user is not interested in the autocomplete
+                    this.showDropdown = false;
+                    return false;
+                }
+
+                if (this.timeSinceKeyPress > 1) {
+                    //this.results = this.highlightLetters(this.searchDatabase(), this.typing);
+                    this.searchDatabase();
+                    clearInterval(this.interval);
+                }
+            }
+        },
+
+        /**
+         *
+         */
+        startCounting: function startCounting() {
+            var that = this;
+            clearInterval(this.interval);
+            this.timeSinceKeyPress = 0;
+            this.interval = setInterval(function () {
+                that.timeSinceKeyPress++;
+                that.showDropdown = true;
+                that.searchDatabase();
+            }, 500);
+        },
+
+        /**
+         *
+         */
+        fillFields: function fillFields() {
+            if (this.placeholder === 'description') {
+                this.typing = this.selectedItem.description;
+                this.newTransaction.merchant = this.selectedItem.merchant;
+            } else if (this.placeholder === 'merchant') {
+                this.typing = this.selectedItem.merchant;
+                this.newTransaction.description = this.selectedItem.description;
+            }
+
+            // If the user has the clearFields setting on,
+            // only fill in the total if they haven't entered a total yet
+            if (shared.me.preferences.clearFields && this.newTransaction.total === '') {
+                this.newTransaction.total = this.selectedItem.total;
+            } else if (!shared.me.preferences.clearFields) {
+                this.newTransaction.total = this.selectedItem.total;
+            }
+
+            this.newTransaction.type = this.selectedItem.type;
+
+            //It didn't work setting the whole object so I'm setting the account id and name
+            this.newTransaction.account.id = this.selectedItem.account.id;
+            this.newTransaction.account.name = this.selectedItem.account.name;
+
+            // if (this.selectedItem.fromAccount && this.selectedItem.toAccount) {
+            //     this.newTransaction.fromAccount = this.selectedItem.fromAccount;
+            //     this.newTransaction.toAccount = this.selectedItem.toAccount;
+            // }
+
+            this.newTransaction.budgets = this.selectedItem.budgets;
+        },
+
+        /**
+         *
+         * @param index
+         */
+        chooseItem: function chooseItem(index) {
+            if (index !== undefined) {
+                //Item was chosen by clicking, not by pressing enter
+                this.currentIndex = index;
+            }
+
+            this.selectedItem = this.results[this.currentIndex];
+            this.fillFields();
+            this.hideAndClear();
+        },
+
+        /**
+         * Query the database for transactions
+         */
+        searchDatabase: function searchDatabase() {
+            $.event.trigger('show-loading');
+            clearInterval(this.interval);
+            this.$http.get('/api/transactions?column=' + this.placeholder + '&typing=' + this.typing, function (response) {
+                this.currentIndex = 0;
+                this.results = AutocompleteRepository.removeDuplicates(response);
+
+                $.event.trigger('hide-loading');
+            }).error(function (response) {
+                HelpersRepository.handleResponseError(response);
+            });
+        }
+
+    },
+    props: ['placeholder', 'id', 'typing', 'newTransaction', 'functionOnEnter'],
+    mounted: function mounted() {}
+});
+
+/***/ }),
+/* 501 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function(){},staticRenderFns:[]}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4277d206", module.exports)
   }
 }
 
