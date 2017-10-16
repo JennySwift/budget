@@ -23,11 +23,21 @@ export default {
         accounts: [],
         budgets: [],
         transaction: {
-            budgets: []
+            account: {},
+            budgets: [
+                {name: ''}
+            ]
         },
         fixedBudgetTotals: {},
         flexBudgetTotals: {},
-        transactions: [],
+        transactions: [
+            {
+                account: {},
+                budgets: [
+                    {name: ''}
+                ]
+            }
+        ],
         fixedBudgets: [],
         flexBudgets: [],
         unassignedBudgets: [],

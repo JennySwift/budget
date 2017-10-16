@@ -54,7 +54,7 @@
             v-on:click="showEditTransactionPopup(transaction)"
             class="max-width-md pointer"
         >
-            <!--{{ transaction.account.name }}-->
+            {{ transaction.account.name }}
         </td>
 
         <td
@@ -85,7 +85,7 @@
             </button>
         </td>
 
-    </tr>
+    <!--</tr>-->
 
     <!--Budgets-->
     <tr
@@ -101,11 +101,12 @@
                 'tag-with-flex-budget': budget.type === 'flex',
                 'tag-without-budget': budget.type === 'unassigned'
             }"
-                class="label label-default budget"
+                class="label label-default budget">
                 <!--data-id="{{ tag.id }}"-->
                 <!--data-allocated-percent="{{ budget.allocated_percent }}"-->
                 <!--data-allocated-fixed="{{ budget.allocated_fixed }}"-->
-                <!--data-allocated_fixed="{{ budget.allocated_fixed }}"-->>
+                <!--data-allocated_fixed="{{ budget.allocated_fixed }}"-->
+
                 <span>{{ budget.name }}</span>
                 <span v-if="budget.pivot">{{ budget.pivot.calculated_allocation }}</span>
                 <span class="type">{{ budget.type }}</span>
@@ -155,7 +156,6 @@
              * @returns {*|String}
              */
             formatDateForUser: function (date) {
-                console.log(date);
 //                return helpers.formatDateForUser(date, this.shared.me.preferences.dateFormat);
             }
         },
@@ -207,7 +207,8 @@
 //                type: Object,
 //                default: function () {
 //                    return {
-//                        account: {}
+//                        account: {},
+//                        budgets: [{name: ''}]
 //                    }
 //                }
             },
