@@ -28,7 +28,7 @@ class FilterDefaultsTest extends FiltersTest
             'filter' => $this->filter
         ];
 
-        $response = $this->apiCall('POST', '/api/filter/transactions', $data);
+        $response = $this->apiCall('GET', '/api/filter/transactions', $data);
         $content = json_decode($response->getContent(), true);
 
         $this->checkTransactionKeysExist($content[0]);

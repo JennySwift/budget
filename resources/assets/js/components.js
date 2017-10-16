@@ -16,6 +16,7 @@ import TransactionAutocompleteComponent from './budget/src/components/shared/Tra
 import NewTransactionComponent from './budget/src/components/transactions/NewTransactionComponent.vue'
 import TotalsComponent from './budget/src/components/TotalsComponent.vue'
 import TransactionsComponent from './budget/src/components/transactions/TransactionsComponent.vue'
+import TransactionComponent from './budget/src/components/transactions/TransactionComponent.vue'
 import MassTransactionUpdatePopupComponent from './budget/src/components/filter/MassTransactionUpdatePopupComponent.vue'
 import EditTransactionPopupComponent from './budget/src/components/transactions/EditTransactionPopupComponent.vue'
 import AllocationPopupComponent from './budget/src/components/budgets/AllocationPopupComponent.vue'
@@ -25,6 +26,7 @@ import EditBudgetPopupComponent from './budget/src/components/budgets/EditBudget
 import NewBudgetComponent from './budget/src/components/budgets/NewBudgetComponent.vue'
 import BudgetsToolbarComponent from './budget/src/components/shared/BudgetsToolbarComponent.vue'
 import FixedBudgetsTableComponent from './budget/src/components/budgets/FixedBudgetsTable.vue'
+import FilterComponent from './budget/src/components/filter/FilterComponent.vue'
 
 //Shared components
 Vue.component('navbar', NavbarComponent);
@@ -40,6 +42,7 @@ Vue.component('budget-autocomplete', BudgetAutocompleteComponent);
 Vue.component('new-transaction', NewTransactionComponent);
 Vue.component('totals', TotalsComponent);
 Vue.component('transactions', TransactionsComponent);
+Vue.component('transaction', TransactionComponent);
 Vue.component('mass-transaction-update-popup', MassTransactionUpdatePopupComponent);
 Vue.component('edit-transaction-popup', EditTransactionPopupComponent);
 Vue.component('allocation-popup', AllocationPopupComponent);
@@ -50,3 +53,4 @@ Vue.component('edit-budget-popup', EditBudgetPopupComponent);
 Vue.component('new-budget', NewBudgetComponent);
 Vue.component('budgets-toolbar', BudgetsToolbarComponent);
 Vue.component('fixed-budgets-table', FixedBudgetsTableComponent);
+Vue.component('transactions-filter', FilterComponent);

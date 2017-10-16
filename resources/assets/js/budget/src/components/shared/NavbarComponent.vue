@@ -296,7 +296,7 @@
         components: {},
         methods: {
             toggleFilter: function () {
-                $.event.trigger('toggle-filter');
+                store.toggle('show.filter');
             },
 
             /**

@@ -1,7 +1,60 @@
+import TransactionsRepository from './TransactionsRepository'
+import FilterRepository from './FilterRepository'
+import helpers from './Helpers.js'
 export default {
 
     state: {
-        filter: {},
+        filter: {
+            total: {
+                in: "",
+                out: ""
+            },
+            types: {
+                in: [],
+                out: []
+            },
+            accounts: {
+                in: [],
+                out: []
+            },
+            singleDate: {
+                in: '',
+                out: ''
+            },
+            fromDate: {
+                in: '',
+                out: ''
+            },
+            toDate: {
+                in: '',
+                out: ''
+            },
+            description: {
+                in: "",
+                out: ""
+            },
+            merchant: {
+                in: "",
+                out: ""
+            },
+            budgets: {
+                in: {
+                    and: [],
+                    or: []
+                },
+                out: []
+            },
+            numBudgets: {
+                in: "all",
+                out: ""
+            },
+            reconciled: "any",
+            invalidAllocation: false,
+            offset: 0,
+            numToFetch: 30,
+            displayFrom: 1,
+            displayTo: 30
+        },
         filterTotals: {}
     },
 
@@ -104,39 +157,39 @@ export default {
      * @returns {FilterRepository.state.filter|{}}
      */
     formatDates: function () {
-        var filter = FilterRepository.state.filter;
+        var filter = this.state.filter;
         if (filter.singleDate.in) {
-            filter.singleDate.inSql = HelpersRepository.formatDate(filter.singleDate.in);
+            filter.singleDate.inSql = helpers.formatDate(filter.singleDate.in);
         }
         else {
             filter.singleDate.inSql = "";
         }
         if (filter.singleDate.out) {
-            filter.singleDate.outSql = HelpersRepository.formatDate(filter.singleDate.out);
+            filter.singleDate.outSql = helpers.formatDate(filter.singleDate.out);
         }
         else {
             filter.singleDate.outSql = "";
         }
         if (filter.fromDate.in) {
-            filter.fromDate.inSql = HelpersRepository.formatDate(filter.fromDate.in);
+            filter.fromDate.inSql = helpers.formatDate(filter.fromDate.in);
         }
         else {
             filter.fromDate.inSql = "";
         }
         if (filter.fromDate.out) {
-            filter.fromDate.outSql = HelpersRepository.formatDate(filter.fromDate.out);
+            filter.fromDate.outSql = helpers.formatDate(filter.fromDate.out);
         }
         else {
             filter.fromDate.outSql = "";
         }
         if (filter.toDate.in) {
-            filter.toDate.inSql = HelpersRepository.formatDate(filter.toDate.in);
+            filter.toDate.inSql = helpers.formatDate(filter.toDate.in);
         }
         else {
             filter.toDate.inSql = "";
         }
         if (filter.toDate.out) {
-            filter.toDate.outSql = HelpersRepository.formatDate(filter.toDate.out);
+            filter.toDate.outSql = helpers.formatDate(filter.toDate.out);
         }
         else {
             filter.toDate.outSql = "";
@@ -229,20 +282,19 @@ export default {
      * Todo: The ToolbarForFilterComponent also needs the totals
      * Todo: should be GET not POST
      */
-    getBasicFilterTotals: function (that) {
+    getBasicFilterTotals: function () {
         var filter = this.formatDates();
 
         var data = {
             filter: filter
         };
 
-        $.event.trigger('show-loading');
-        that.$http.post('/api/filter/basicTotals', data, function (response) {
-            FilterRepository.state.filterTotals = response;
-            $.event.trigger('hide-loading');
-        })
-        .error(function (response) {
-            HelpersRepository.handleResponseError(response);
+        helpers.post({
+            url: '/api/filter/basicTotals',
+            data: data,
+            callback: function (response) {
+                this.state.filterTotals = response;
+            }.bind(this)
         });
     },
 

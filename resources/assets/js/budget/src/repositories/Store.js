@@ -74,7 +74,20 @@ export default {
                 edit_btn: true
             }
         },
-        transactionPropertiesToShow: {}
+        transactionPropertiesToShow: {
+            status: false,
+            date: true,
+            description: true,
+            merchant: true,
+            total: true,
+            type: true,
+            account: true,
+            duration: true,
+            reconciled: true,
+            allocated: true,
+            budgets: true,
+            delete: true,
+        }
     },
 
     /**

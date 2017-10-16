@@ -29,12 +29,7 @@ class FilterAccountsTest extends FiltersTest
             ]
         ];
 
-        $this->filter = array_merge($this->defaults, $filter);
-
-        $data = [
-            'filter' => $this->filter
-        ];
-        $response = $this->apiCall('POST', '/api/filter/transactions', $data);
+        $response = $this->getResponse($filter);
         $content = json_decode($response->getContent(), true);
 
         foreach ($content as $transaction) {
@@ -60,12 +55,7 @@ class FilterAccountsTest extends FiltersTest
             ]
         ];
 
-        $this->filter = array_merge($this->defaults, $filter);
-
-        $data = [
-            'filter' => $this->filter
-        ];
-        $response = $this->apiCall('POST', '/api/filter/transactions', $data);
+        $response = $this->getResponse($filter);
         $content = json_decode($response->getContent(), true);
 
         foreach ($content as $transaction) {

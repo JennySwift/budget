@@ -180,7 +180,7 @@ return [
         App\Providers\TotalsServiceProvider::class,
 
         'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
-//        Barryvdh\Debugbar\ServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 //        Spatie\Backup\BackupServiceProvider::class,
 //        Clockwork\Support\Laravel\ClockworkServiceProvider::class
 
@@ -232,8 +232,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
-//        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Clockwork' => Clockwork\Support\Laravel\Facade::class,
 
     ],

@@ -70,7 +70,7 @@ class FiltersTest extends TestCase {
      */
     protected function setTransactions($data)
     {
-        $this->response = $this->apiCall('POST', '/api/filter/transactions', $data);
+        $this->response = $this->apiCall('GET', '/api/filter/transactions', $data);
         $content = json_decode($this->response->getContent(), true);
         $this->transactions = $content;
     }
@@ -92,6 +92,23 @@ class FiltersTest extends TestCase {
     protected function setFilterDefaults()
     {
         $this->defaults = Config::get('filters.defaults');
+    }
+
+    /**
+     *
+     * @param $filter
+     * @return Response
+     */
+    protected function getResponse($filter)
+    {
+        $this->filter = array_merge($this->defaults, $filter);
+
+        $data = [
+            'filter' => $this->filter
+        ];
+        $response = $this->apiCall('GET', '/api/filter/transactions', $data);
+
+        return $response;
     }
 
     /**

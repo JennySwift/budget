@@ -1,27 +1,25 @@
+import FilterRepository from './FilterRepository.js'
+import helpers from './Helpers'
 export default {
     totals: {},
 
     state: {
-        transactions: []
+        
     },
 
     /**
      *
      */
     filterTransactions: function (that) {
-        $.event.trigger('show-loading');
-
         var data = {
             filter: FilterRepository.formatDates()
         };
 
-        that.$http.post('/api/filter/transactions', data, function (response) {
-            TransactionsRepository.state.transactions = response;
-            $.event.trigger('hide-loading');
-        })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
+        helpers.get({
+            url: '/api/filter/transactions',
+            data: data,
+            storeProperty: 'transactions'
+        });
     },
 
 
@@ -32,16 +30,16 @@ export default {
      */
     setFields: function (transaction) {
         var data = {
-            date: HelpersRepository.formatDate(transaction.userDate),
+            date: helpers.formatDate(transaction.userDate),
             account_id: transaction.account.id,
             type: transaction.type,
             description: transaction.description,
             merchant: transaction.merchant,
             total: transaction.total,
-            reconciled: HelpersRepository.convertBooleanToInteger(transaction.reconciled),
+            reconciled: helpers.convertBooleanToInteger(transaction.reconciled),
             allocated: transaction.allocated,
             //Convert duration from HH:MM format to minutes
-            minutes: HelpersRepository.formatDurationToMinutes(transaction.duration),
+            minutes: helpers.formatDurationToMinutes(transaction.duration),
             budget_ids: _.pluck(transaction.budgets, 'id')
         };
 
@@ -101,7 +99,7 @@ export default {
     * @param transaction
     */
     updateTransaction: function (transaction) {
-        var index = HelpersRepository.findIndexById(this.state.transactions, transaction.id);
+        var index = helpers.findIndexById(this.state.transactions, transaction.id);
         this.state.transactions.$set(index, transaction);
     },
 
@@ -110,7 +108,7 @@ export default {
     * @param transaction
     */
     deleteTransaction: function (transaction) {
-        var index = HelpersRepository.findIndexById(this.state.transactions, transaction.id);
+        var index = helpers.findIndexById(this.state.transactions, transaction.id);
         this.state.transactions = _.without(this.state.transactions, this.state.transactions[index]);
     },
 

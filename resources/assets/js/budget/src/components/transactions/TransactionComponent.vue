@@ -1,10 +1,11 @@
 <template>
     <tbody>
 
+
     <tr class="results_inner_div">
 
         <td
-            v-show="transactionPropertiesToShow.date"
+            v-show="shared.transactionPropertiesToShow.date"
             v-on:click="showEditTransactionPopup(transaction)"
             class="pointer"
         >
@@ -12,7 +13,7 @@
         </td>
 
         <td
-            v-show="transactionPropertiesToShow.description"
+            v-show="shared.transactionPropertiesToShow.description"
             v-on:click="showEditTransactionPopup(transaction)"
             class="description pointer"
         >
@@ -26,7 +27,7 @@
         </td>
 
         <td
-            v-show="transactionPropertiesToShow.merchant"
+            v-show="shared.transactionPropertiesToShow.merchant"
             v-on:click="showEditTransactionPopup(transaction)"
             class="merchant pointer"
         >
@@ -40,36 +41,36 @@
         </td>
 
         <td
-            v-show="transactionPropertiesToShow.total"
+            v-show="shared.transactionPropertiesToShow.total"
             v-on:click="showEditTransactionPopup(transaction)"
             class="pointer"
         >
             <!--<span class="badge badge-{{ transaction.type }}">{{ transaction.total }}</span>-->
-            {{ transaction.total | numberFilter 2 }}
+            {{ transaction.total | numberFilter(2) }}
         </td>
 
         <td
-            v-show="transactionPropertiesToShow.account"
+            v-show="shared.transactionPropertiesToShow.account"
             v-on:click="showEditTransactionPopup(transaction)"
             class="max-width-md pointer"
         >
-            {{ transaction.account.name }}
+            <!--{{ transaction.account.name }}-->
         </td>
 
         <td
-            v-show="transactionPropertiesToShow.duration"
+            v-show="shared.transactionPropertiesToShow.duration"
             v-on:click="showEditTransactionPopup(transaction)"
             class="pointer"
         >
             <span v-if="transaction.minutes">{{ transaction.minutes | formatDurationFilter }}</span>
         </td>
 
-        <td v-show="transactionPropertiesToShow.reconciled"
+        <td v-show="shared.transactionPropertiesToShow.reconciled"
         >
             <input v-model="transaction.reconciled" v-on:change="updateTransaction()" type="checkbox">
         </td>
 
-        <td v-show="transactionPropertiesToShow.allocated">
+        <td v-show="shared.transactionPropertiesToShow.allocated">
             <button
                 v-if="transaction.multipleBudgets"
                 v-bind:class="{
@@ -124,7 +125,7 @@
     export default {
         data: function () {
             return {
-
+                shared: store.state
             };
         },
         components: {},
@@ -154,7 +155,8 @@
              * @returns {*|String}
              */
             formatDateForUser: function (date) {
-                return helpers.formatDateForUser(date, shared.me.preferences.dateFormat);
+                console.log(date);
+//                return helpers.formatDateForUser(date, this.shared.me.preferences.dateFormat);
             }
         },
         methods: {
@@ -200,7 +202,16 @@
             }
 
         },
-        props: [],
+        props: {
+            transaction: {
+//                type: Object,
+//                default: function () {
+//                    return {
+//                        account: {}
+//                    }
+//                }
+            },
+        },
         mounted: function () {
             //this.listen();
         }

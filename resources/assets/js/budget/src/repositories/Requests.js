@@ -15,11 +15,10 @@ export default {
     /**
      * storeProperty is the store property to set once the items are loaded.
      * loadedProperty is the store property to set once the items are loaded, to indicate that the items are loaded.
-     * todo: allow for sending data: add {params:data} as second argument
      */
     get: function (options) {
         store.showLoading();
-        Vue.http.get(options.url).then(function (response) {
+        Vue.http.get(options.url, {params: options.data}).then(function (response) {
             if (options.storeProperty) {
                 if (options.updatingArray) {
                     //Update the array the item is in

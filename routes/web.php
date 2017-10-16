@@ -62,7 +62,7 @@ Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => ['auth', 
 
     Route::group(['prefix' => 'filter'], function ()
     {
-        Route::post('transactions', 'FilterController@transactions');
+        Route::get('transactions', 'FilterController@transactions');
         Route::post('basicTotals', 'FilterController@basicTotals');
         Route::post('graphTotals', 'FilterController@graphTotals');
     });

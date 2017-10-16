@@ -14,6 +14,8 @@ global.jQuery = require('jquery');
 // global._ = require('underscore');
 global._ = require('lodash');
 import store from './budget/src/repositories/Store'
+import TotalsRepository from './budget/src/repositories/TotalsRepository'
+import FilterRepository from './budget/src/repositories/FilterRepository'
 window.store = store;
 
 window.Event = new Vue();
@@ -40,9 +42,9 @@ store.getBudgets();
 store.getUnassignedBudgets();
 store.getFavouriteTransactions();
 store.setDefaultTab();
-// store.getSideBarTotals();
+TotalsRepository.getSideBarTotals();
 store.getSavedFilters();
-// store.resetFilter();
+FilterRepository.resetFilter();
 store.setDefaultTransactionPropertiesToShow()
 
 $(window).on('load', function () {

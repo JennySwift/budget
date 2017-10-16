@@ -21,7 +21,7 @@ class TransactionsIndexTest extends TestCase
         $this->logInUser();
         $response = $this->call('GET', '/api/transactions');
         $content = json_decode($response->getContent(), true);
-//      dd($content);
+//      dd($content[0]);
 
         $this->checkTransactionKeysExist($content[0]);
 

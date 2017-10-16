@@ -13,18 +13,15 @@
 	position: fixed;
 	top: 49px;
 	right: 0px;
-//	opacity: .8;
 	height: 660px;
     overflow: scroll;
     width: 400px;
-	overflow: scroll;
 	padding: 8px;
 	z-index: 9;
     box-shadow: -4px 4px 6px #777;
     background: white;
 
     .toolbar-filter {
-        //display: flex;
         margin-bottom: 12px;
         select {
             width: 60px;
@@ -59,13 +56,6 @@
             }
         }
     }
-    //.btn-group {
-    //    display: flex;
-    //    button {
-    //        flex-grow: 1;
-    //    }
-    //}
-
     .section {
         margin: 8px;
         h4 {
@@ -122,9 +112,4 @@
 	.tag-input-wrapper input {
 		width: auto;
 	}
-	//input[type = "radio"] {
-	//	width: 27px;
-	//	margin-right: 7px;
-	//}
-
 }

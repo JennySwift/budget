@@ -40,7 +40,7 @@
 
         <mass-transaction-update-popup></mass-transaction-update-popup>
 
-        <filter></filter>
+        <transactions-filter></transactions-filter>
     </div>
 
 </template>
@@ -59,9 +59,6 @@
         },
         components: {},
         computed: {
-            budgets: function () {
-                return this.shared.budgets;
-            },
             // tab: function () {
             //     return this.homePageRepository.tab;
             // }

@@ -1,6 +1,8 @@
+import helpers from '../repositories/Helpers'
 export default {
 
     state: {
+        totalsLoading: false,
         sideBarTotals: {
             remainingBalance: '',
             remainingFixedBudget: '',
@@ -36,16 +38,19 @@ export default {
     /**
      *
      */
-    getSideBarTotals: function (that) {
-        that.totalsLoading = true;
+    getSideBarTotals: function () {
+        this.state.totalsLoading = true;
         var oldSideBarTotals = this.state.sideBarTotals;
-        that.$http.get('/api/totals/sidebar', function (response) {
-            TotalsRepository.state.sideBarTotals = response.data;
-            TotalsRepository.setTotalChanges(oldSideBarTotals);
-            that.totalsLoading = false;
-        })
-        .error(function (response) {
-            HelpersRepository.handleResponseError(response);
+
+        helpers.get({
+            url: '/api/totals/sidebar',
+            // storeProperty: 'items',
+            // loadedProperty: 'itemsLoaded',
+            callback: function (response) {
+                this.state.sideBarTotals = response.data;
+                this.setTotalChanges(oldSideBarTotals);
+                this.state.totalsLoading = false;
+            }.bind(this)
         });
     },
 
