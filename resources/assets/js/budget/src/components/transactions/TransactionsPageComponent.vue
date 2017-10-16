@@ -95,7 +95,7 @@
              *
              */
             toggleNewTransaction: function () {
-                $.event.trigger('toggle-new-transaction');
+                store.toggle('show.newTransaction');
             }
         },
         props: [],

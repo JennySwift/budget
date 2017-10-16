@@ -663,9 +663,6 @@
              */
             listen: function () {
                 var that = this;
-                $(document).on('toggle-new-transaction', function (event) {
-                    that.showNewTransaction = !that.showNewTransaction;
-                });
                 $(document).on('accounts-loaded', function (event) {
                     store.getNewTransactionDefaults();
                 });

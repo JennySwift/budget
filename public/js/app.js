@@ -6113,6 +6113,7 @@ Date.setLocale('en-AU');
         showPopup: false,
         showFilter: true,
         show: {
+            newTransaction: false,
             basicTotals: false,
             budgetTotals: false,
             filterTotals: true,
@@ -104945,9 +104946,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          */
         listen: function listen() {
             var that = this;
-            __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).on('toggle-new-transaction', function (event) {
-                that.showNewTransaction = !that.showNewTransaction;
-            });
             __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).on('accounts-loaded', function (event) {
                 store.getNewTransactionDefaults();
             });
@@ -107792,7 +107790,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          *
          */
         toggleNewTransaction: function toggleNewTransaction() {
-            $.event.trigger('toggle-new-transaction');
+            store.toggle('show.newTransaction');
         }
     },
     props: [],

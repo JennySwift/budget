@@ -63,6 +63,7 @@ export default {
         showPopup: false,
         showFilter: true,
         show: {
+            newTransaction: false,
             basicTotals: false,
             budgetTotals: false,
             filterTotals: true,
