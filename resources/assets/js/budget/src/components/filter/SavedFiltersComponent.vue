@@ -41,7 +41,6 @@
     export default {
         data: function () {
             return {
-                savedFiltersRepository: SavedFiltersRepository.state,
                 selectedSavedFilter: {},
                 shared: store.state
             };

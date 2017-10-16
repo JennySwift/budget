@@ -50,7 +50,7 @@
             <!--Hide-->
             <div v-show="filterTab === 'hide'">
 
-                <div v-for="account in accountsRepository.accounts" class="checkbox-container">
+                <div v-for="account in shared.accounts" class="checkbox-container">
                     <input
                         type="checkbox"
                         :id="account.name"

@@ -1,142 +1,152 @@
 <template>
-    <div id="filter">I am the filter!</div>
-    <!--<div-->
-        <!--v-cloak-->
-        <!--v-show="shared.show.filter"-->
-        <!--transition="filter"-->
-        <!--id="filter"-->
-        <!--class="margin-bottom"-->
-    <!--&gt;-->
+    <div
+        v-cloak
+        v-show="shared.show.filter"
+        transition="filter"
+        id="filter"
+        class="margin-bottom"
+    >
 
-        <!--<ul class="nav nav-tabs">-->
-            <!--<li-->
-                <!--role="presentation"-->
-                <!--v-on:click="filterTab = 'show'"-->
-                <!--v-bind:class="{'active': filterTab === 'show'}"-->
-                <!--class="show-tab"-->
-            <!--&gt;-->
-                <!--<a href="#">-->
-                    <!--Show-->
-                <!--</a>-->
-            <!--</li>-->
+        <ul class="nav nav-tabs">
+            <li
+                role="presentation"
+                v-on:click="filterTab = 'show'"
+                v-bind:class="{'active': filterTab === 'show'}"
+                class="show-tab"
+            >
+                <a href="#">
+                    Show
+                </a>
+            </li>
 
-            <!--<li-->
-                <!--role="presentation"-->
-                <!--v-on:click="filterTab = 'hide'"-->
-                <!--v-bind:class="{'active': filterTab === 'hide'}"-->
-                <!--class="hide-tab"-->
-            <!--&gt;-->
-                <!--<a href="#">-->
-                    <!--Hide-->
-                <!--</a>-->
-            <!--</li>-->
-        <!--</ul>-->
+            <li
+                role="presentation"
+                v-on:click="filterTab = 'hide'"
+                v-bind:class="{'active': filterTab === 'hide'}"
+                class="hide-tab"
+            >
+                <a href="#">
+                    Hide
+                </a>
+            </li>
+        </ul>
 
-        <!--<saved-filters-->
-            <!--:run-filter="runFilter"-->
-            <!--:filter.sync="filter"-->
-        <!--&gt;-->
-        <!--</saved-filters>-->
+        <saved-filters
+            :run-filter="runFilter"
+            :filter.sync="filter"
+        >
+        </saved-filters>
 
-        <!--<toolbar-for-filter-->
-            <!--:filter="filter"-->
-            <!--:filter-totals="filterTotals"-->
-            <!--:run-filter="runFilter"-->
-        <!--&gt;-->
-        <!--</toolbar-for-filter>-->
+        <toolbar-for-filter
+            :filter="filter"
+            :filter-totals="filterTotals"
+            :run-filter="runFilter"
+        >
+        </toolbar-for-filter>
 
-        <!--<div>-->
-            <!--<totals-for-filter-->
-                <!--:show="show"-->
-                <!--:filter="filter"-->
-                <!--:filter-totals="filterTotals"-->
-            <!--&gt;-->
-            <!--</totals-for-filter>-->
+        <div>
+            <totals-for-filter
+                :filter="filter"
+                :filter-totals="filterTotals"
+            >
+            </totals-for-filter>
 
-            <!--<div>-->
-                <!--<accounts-filter-->
-                    <!--:filter="filter"-->
-                    <!--:filter-tab="filterTab"-->
-                    <!--:run-filter="runFilter"-->
-                <!--&gt;-->
-                <!--</accounts-filter>-->
+            <div>
+                <accounts-filter
+                    :filter="filter"
+                    :filter-tab="filterTab"
+                    :run-filter="runFilter"
+                >
+                </accounts-filter>
 
-                <!--<types-filter-->
-                    <!--:filter="filter"-->
-                    <!--:filter-tab="filterTab"-->
-                    <!--:run-filter="runFilter"-->
-                <!--&gt;-->
-                <!--</types-filter>-->
+                <types-filter
+                    :filter="filter"
+                    :filter-tab="filterTab"
+                    :run-filter="runFilter"
+                >
+                </types-filter>
 
-                <!--<descriptions-filter-->
-                    <!--:filter="filter"-->
-                    <!--:filter-tab="filterTab"-->
-                    <!--:run-filter="runFilter"-->
-                    <!--:clear-filter-field="clearFilterField"-->
-                <!--&gt;-->
-                <!--</descriptions-filter>-->
+                <descriptions-filter
+                    :filter="filter"
+                    :filter-tab="filterTab"
+                    :run-filter="runFilter"
+                    :clear-filter-field="clearFilterField"
+                >
+                </descriptions-filter>
 
-                <!--<merchants-filter-->
-                    <!--:filter="filter"-->
-                    <!--:filter-tab="filterTab"-->
-                    <!--:run-filter="runFilter"-->
-                    <!--:clear-filter-field="clearFilterField"-->
-                <!--&gt;-->
-                <!--</merchants-filter>-->
+                <merchants-filter
+                    :filter="filter"
+                    :filter-tab="filterTab"
+                    :run-filter="runFilter"
+                    :clear-filter-field="clearFilterField"
+                >
+                </merchants-filter>
 
-                <!--<budgets-filter-->
-                    <!--:filter="filter"-->
-                    <!--:filter-tab="filterTab"-->
-                    <!--:run-filter="runFilter"-->
-                    <!--:budgets="budgets"-->
-                <!--&gt;-->
-                <!--</budgets-filter>-->
+                <budgets-filter
+                    :filter="filter"
+                    :filter-tab="filterTab"
+                    :run-filter="runFilter"
+                >
+                </budgets-filter>
 
-                <!--<dates-filter-->
-                    <!--:filter="filter"-->
-                    <!--:filter-tab="filterTab"-->
-                    <!--:run-filter="runFilter"-->
-                    <!--:clear-filter-field="clearFilterField"-->
-                <!--&gt;-->
-                <!--</dates-filter>-->
+                <dates-filter
+                    :filter="filter"
+                    :filter-tab="filterTab"
+                    :run-filter="runFilter"
+                    :clear-filter-field="clearFilterField"
+                >
+                </dates-filter>
 
-                <!--<totals-filter-->
-                    <!--:filter="filter"-->
-                    <!--:filter-tab="filterTab"-->
-                    <!--:run-filter="runFilter"-->
-                    <!--:clear-filter-field="clearFilterField"-->
-                <!--&gt;-->
-                <!--</totals-filter>-->
+                <totals-filter
+                    :filter="filter"
+                    :filter-tab="filterTab"
+                    :run-filter="runFilter"
+                    :clear-filter-field="clearFilterField"
+                >
+                </totals-filter>
 
-                <!--<reconciled-filter-->
-                    <!--:filter="filter"-->
-                    <!--:filter-tab="filterTab"-->
-                    <!--:run-filter="runFilter"-->
-                <!--&gt;-->
-                <!--</reconciled-filter>-->
+                <reconciled-filter
+                    :filter="filter"
+                    :filter-tab="filterTab"
+                    :run-filter="runFilter"
+                >
+                </reconciled-filter>
 
-                <!--<invalid-allocation-filter-->
-                    <!--:filter="filter"-->
-                    <!--:filter-tab="filterTab"-->
-                    <!--:run-filter="runFilter"-->
-                <!--&gt;-->
-                <!--</invalid-allocation-filter>-->
+                <invalid-allocation-filter
+                    :filter="filter"
+                    :filter-tab="filterTab"
+                    :run-filter="runFilter"
+                >
+                </invalid-allocation-filter>
 
-                <!--<num-budgets-filter-->
-                    <!--:filter="filter"-->
-                    <!--:filter-tab="filterTab"-->
-                    <!--:run-filter="runFilter"-->
-                <!--&gt;-->
-                <!--</num-budgets-filter>-->
+                <num-budgets-filter
+                    :filter="filter"
+                    :filter-tab="filterTab"
+                    :run-filter="runFilter"
+                >
+                </num-budgets-filter>
 
-            <!--</div>-->
-        <!--</div>-->
+            </div>
+        </div>
 
-    <!--</div>-->
+    </div>
 </template>
 
 <script>
     import FilterRepository from '../../repositories/FilterRepository'
+    import SavedFiltersComponent from '../../components/filter/SavedFiltersComponent.vue'
+    import ToolbarForFilterComponent from '../../components/filter/ToolbarForFilterComponent.vue'
+    import TotalsForFilterComponent from '../../components/filter/TotalsForFilterComponent.vue'
+    import AccountsFilterComponent from '../../components/filter/AccountsFilterComponent.vue'
+    import TypesFilterComponent from '../../components/filter/TypesFilterComponent.vue'
+    import DescriptionsFilterComponent from '../../components/filter/DescriptionsFilterComponent.vue'
+    import MerchantsFilterComponent from '../../components/filter/MerchantsFilterComponent.vue'
+    import BudgetsFilterComponent from '../../components/filter/BudgetsFilterComponent.vue'
+    import DatesFilterComponent from '../../components/filter/DatesFilterComponent.vue'
+    import TotalsFilterComponent from '../../components/filter/TotalsFilterComponent.vue'
+    import ReconciledFilterComponent from '../../components/filter/ReconciledFilterComponent.vue'
+    import InvalidAllocationFilterComponent from '../../components/filter/InvalidAllocationFilterComponent.vue'
+    import NumBudgetsFilterComponent from '../../components/filter/NumBudgetsFilterComponent.vue'
     export default {
         data: function () {
             return {
@@ -145,13 +155,27 @@
                 filterRepository: FilterRepository.state,
             };
         },
-        components: {},
+        components: {
+            'saved-filters': SavedFiltersComponent,
+            'toolbar-for-filter': ToolbarForFilterComponent,
+            'totals-for-filter': TotalsForFilterComponent,
+            'accounts-filter': AccountsFilterComponent,
+            'types-filter': TypesFilterComponent,
+            'descriptions-filter': DescriptionsFilterComponent,
+            'merchants-filter': MerchantsFilterComponent,
+            'budgets-filter': BudgetsFilterComponent,
+            'dates-filter': DatesFilterComponent,
+            'totals-filter': TotalsFilterComponent,
+            'reconciled-filter': ReconciledFilterComponent,
+            'invalid-allocation-filter': InvalidAllocationFilterComponent,
+            'num-budgets-filter': NumBudgetsFilterComponent,
+        },
         computed: {
             filter: function () {
-                return filterRepository.filter;
+                return this.filterRepository.filter;
             },
             filterTotals: function () {
-                return filterRepository.filterTotals;
+                return this.filterRepository.filterTotals;
             }
         },
         methods: {

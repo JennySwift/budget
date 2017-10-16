@@ -66,13 +66,16 @@
 
 <script>
     import FilterRepository from '../../repositories/FilterRepository'
+    import NewSavedFilterComponent from '../../components/filter/NewSavedFilterComponent.vue'
     export default {
         data: function () {
             return {
                 filterRepository: FilterRepository.state
             };
         },
-        components: {},
+        components: {
+            'new-saved-filter': NewSavedFilterComponent,
+        },
         computed: {
             filter: function () {
                 return this.filterRepository.filter;

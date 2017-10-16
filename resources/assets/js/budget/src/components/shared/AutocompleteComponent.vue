@@ -1,64 +1,66 @@
 <template>
-    <div :id="autocompleteId" class="autocomplete">
-        <div class="form-group autocomplete-field">
-            <label v-if="inputLabel" :for="autocompleteFieldId">{{ inputLabel | capitalize }}</label>
-            <input
-                v-model="chosenOption[prop]"
-                v-el:input-field
-                v-on:keyup="respondToKeyup($event.keyCode)"
-                v-on:focus="respondToFocus()"
-                v-on:blur="hideDropdown()"
-                type="text"
-                :id="autocompleteFieldId"
-                :name="autocompleteFieldId"
-                :placeholder="inputPlaceholder"
-                class="form-control"
-            >
-        </div>
+    <!--<div :id="autocompleteId" class="autocomplete">-->
+        <!--<div class="form-group autocomplete-field">-->
+            <!--&lt;!&ndash;Todo: capitalize filter doesn't work after upgrade&ndash;&gt;-->
+            <!--&lt;!&ndash;<label v-if="inputLabel" :for="autocompleteFieldId">{{ inputLabel | capitalize }}</label>&ndash;&gt;-->
+            <!--<input-->
+                <!--v-model="chosenOption[prop]"-->
+                <!--v-el:input-field-->
+                <!--v-on:keyup="respondToKeyup($event.keyCode)"-->
+                <!--v-on:focus="respondToFocus()"-->
+                <!--v-on:blur="hideDropdown()"-->
+                <!--type="text"-->
+                <!--:id="autocompleteFieldId"-->
+                <!--:name="autocompleteFieldId"-->
+                <!--:placeholder="inputPlaceholder"-->
+                <!--class="form-control"-->
+            <!--&gt;-->
+        <!--</div>-->
 
-        <div
-            v-show="showDropdown"
-            transition="fade"
-            class="autocomplete-dropdown scrollbar-container"
-        >
-            <div
-                v-for="option in autocompleteOptions"
-                v-show="autocompleteOptions.length > 0"
-                v-bind:class="{'selected': currentIndex === $index}"
-                v-on:mouseover="hoverItem($index)"
-                class="autocomplete-option"
-                v-on:mousedown="respondToMouseDownOnOption($index)"
-            >
-                <div
-                    v-on:mousedown="respondToMouseDownOnText($index)"
-                    class="autocomplete-option-text"
-                >
-                    {{ option[prop] }}
-                </div>
+        <!--<div-->
+            <!--v-show="showDropdown"-->
+            <!--transition="fade"-->
+            <!--class="autocomplete-dropdown scrollbar-container"-->
+        <!--&gt;-->
+            <!--<div-->
+                <!--v-for="option in autocompleteOptions"-->
+                <!--v-show="autocompleteOptions.length > 0"-->
+                <!--v-bind:class="{'selected': currentIndex === $index}"-->
+                <!--v-on:mouseover="hoverItem($index)"-->
+                <!--class="autocomplete-option"-->
+                <!--v-on:mousedown="respondToMouseDownOnOption($index)"-->
+            <!--&gt;-->
+                <!--<div-->
+                    <!--v-on:mousedown="respondToMouseDownOnText($index)"-->
+                    <!--class="autocomplete-option-text"-->
+                <!--&gt;-->
+                    <!--{{ option[prop] }}-->
+                <!--</div>-->
 
-                <!--Delete button-->
-                <button
-                    v-if="deleteFunction"
-                    v-on:mousedown="deleteOption(option)"
-                    class="btn btn-xs btn-danger"
-                >
-                    Delete
-                </button>
+                <!--&lt;!&ndash;Delete button&ndash;&gt;-->
+                <!--<button-->
+                    <!--v-if="deleteFunction"-->
+                    <!--v-on:mousedown="deleteOption(option)"-->
+                    <!--class="btn btn-xs btn-danger"-->
+                <!--&gt;-->
+                    <!--Delete-->
+                <!--</button>-->
 
-                <!--Labels for option-->
-                <span v-if="option.assignedAlready && labelForOption" class="label label-default">
-                        Assigned
-                </span>
-                <span v-if="!option.assignedAlready && labelForOption" class="label label-danger">Unassigned</span>
+                <!--&lt;!&ndash;Labels for option&ndash;&gt;-->
+                <!--<span v-if="option.assignedAlready && labelForOption" class="label label-default">-->
+                        <!--Assigned-->
+                <!--</span>-->
+                <!--<span v-if="!option.assignedAlready && labelForOption" class="label label-danger">Unassigned</span>-->
 
-            </div>
-            <div v-if="autocompleteOptions.length === 0" class="no-results">No results</div>
-        </div>
-    </div>
+            <!--</div>-->
+            <!--<div v-if="autocompleteOptions.length === 0" class="no-results">No results</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
 </template>
 
 <script>
+    import helpers from '../../repositories/Helpers'
     export default {
         data: function () {
             return {
@@ -203,7 +205,7 @@
                     $.event.trigger('hide-loading');
                 })
                     .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
+                        helpers.handleResponseError(response);
                     });
             },
 
@@ -230,7 +232,7 @@
                     //Item was chosen by clicking
                     this.currentIndex = index;
                 }
-                this.chosenOption = HelpersRepository.clone(this.autocompleteOptions[this.currentIndex]);
+                this.chosenOption = helpers.clone(this.autocompleteOptions[this.currentIndex]);
                 this.showDropdown = false;
                 if (this.idToFocusAfterAutocomplete) {
                     var that = this;
@@ -262,7 +264,7 @@
             deleteOption: function (option) {
                 if (confirm("Are you sure?")) {
                     this.deleteFunction(option);
-                    var index = HelpersRepository.findIndexById(this.autocompleteOptions, option.id);
+                    var index = helpers.findIndexById(this.autocompleteOptions, option.id);
                     this.autocompleteOptions = _.without(this.autocompleteOptions, this.autocompleteOptions[index]);
                 }
             },
@@ -323,7 +325,7 @@
             }
         },
         mounted: function () {
-            HelpersRepository.scrollbars();
+            helpers.scrollbars();
         }
     }
 </script>
