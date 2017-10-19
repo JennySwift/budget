@@ -48,9 +48,9 @@ FilterRepository.resetFilter();
 store.setDefaultTransactionPropertiesToShow()
 
 $(window).on('load', function () {
-    $(".main").css('display', 'block');
-    $("footer, #navbar").css('display', 'flex');
-    $("#page-loading").hide();
+    // $(".main").css('display', 'block');
+    // $("footer, #navbar").css('display', 'flex');
+    // $("#page-loading").hide();
     //Uncomment after refactor
     // smoothScroll.init();
 });
