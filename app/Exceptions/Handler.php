@@ -82,9 +82,20 @@ class Handler extends ExceptionHandler
             ], Response::HTTP_NOT_FOUND);
         }
 
-//		else {
+		else {
+//		    dd($request->decodedPath());
+            return response([
+                'error' => $exception->getMessage(),
+                'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
+                'request' => [
+                    'queryString' => $request->getQueryString(),
+                    'requestUri' => $request->getRequestUri(),
+                    'toArray' => $request->toArray()
+                ]
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+//		    return $exception;
 //		    dd($exception);
-//        }
+        }
 
 
         return parent::render($request, $exception);

@@ -82,6 +82,7 @@
                         break;
                     default:
                         response && response.error ? messages.push(response.error) : messages.push(defaultMessage);
+                        console.log(response);
                         break;
                 }
 
