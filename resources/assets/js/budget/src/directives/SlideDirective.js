@@ -9,7 +9,7 @@ export default {
         if (binding.value && binding.value !== binding.oldValue) {
             content.slideDown();
         }
-        else {
+        else if (!binding.value && binding.value !== binding.oldValue) {
             content.slideUp();
         }
 

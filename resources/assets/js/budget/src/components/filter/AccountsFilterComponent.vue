@@ -1,7 +1,7 @@
 <template>
     <div v-slide="showContent" class="section">
 
-        <h4 v-on:click="showContent = !showContent" class="center">accounts</h4>
+        <h4 v-on:click="toggleContent()" class="center">accounts</h4>
 
         <div class="accounts content">
 
@@ -85,7 +85,10 @@
         },
         components: {},
         methods: {
-
+            toggleContent: function () {
+                console.log('clicked');
+                this.showContent = !this.showContent;
+            }
         },
         props: [
             'filter',
