@@ -1,19 +1,14 @@
 <template>
     <div class="form-group">
-        <!--<label for="saved-filter">Saved Filters</label>-->
-
-
-
         <autocomplete
             input-label="Saved Filters"
             id-to-focus-after-autocomplete=""
-            autocomplete-field-id="saved-filter"
-            :unfiltered-autocomplete-options="savedFilters"
+            input-id="saved-filter"
+            :unfiltered-options="shared.savedFilters"
             prop="name"
             label-for-option=""
             :function-on-enter="chooseSavedFilter"
-            :function-when-option-is-chosen="chooseSavedFilter"
-            :model.sync="selectedSavedFilter"
+            :selected.sync="selectedSavedFilter"
             :delete-function="deleteSavedFilter"
         >
         </autocomplete>
@@ -31,11 +26,6 @@
             };
         },
         components: {},
-        computed: {
-            savedFilters: function () {
-                return this.shared.savedFilters;
-            }
-        },
         methods: {
 
             /**

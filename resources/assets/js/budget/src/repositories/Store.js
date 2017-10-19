@@ -78,7 +78,7 @@ export default {
             budgetTotals: false,
             filterTotals: true,
             budget: false,
-            filter: false,
+            filter: true,
             savingsTotal: {
                 input: false,
                 edit_btn: true
@@ -273,7 +273,7 @@ export default {
     getSavedFilters: function () {
         helpers.get({
             url: '/api/savedFilters',
-            storeProperty: 'accounts'
+            storeProperty: 'savedFilters'
         });
     },
 
