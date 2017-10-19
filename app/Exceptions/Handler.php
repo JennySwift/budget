@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -82,8 +83,15 @@ class Handler extends ExceptionHandler
             ], Response::HTTP_NOT_FOUND);
         }
 
-		else {
-//		    dd($request->decodedPath());
+        else if ($exception instanceof ValidationException) {
+            return parent::render($request, $exception);
+        }
+
+        else if ($exception instanceof AuthenticationException) {
+            return parent::render($request, $exception);
+        }
+
+		else if ($exception->getMessage()) {
             return response([
                 'error' => $exception->getMessage(),
                 'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
@@ -93,8 +101,6 @@ class Handler extends ExceptionHandler
                     'toArray' => $request->toArray()
                 ]
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
-//		    return $exception;
-//		    dd($exception);
         }
 
 
