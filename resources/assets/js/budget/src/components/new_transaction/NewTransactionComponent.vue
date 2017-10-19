@@ -96,31 +96,13 @@
         },
         methods: {
 
-            /**
-             *
-             */
-            clearNewTransactionFields: function () {
-                this.shared.newTransaction = store.clearNewTransactionFields(this.shared.newTransaction);
-            },
-
-            /**
-             *
-             */
-            listen: function () {
-                var that = this;
-                $(document).on('accounts-loaded', function (event) {
-                    store.getNewTransactionDefaults();
-                });
-
-            }
 
         },
         props: [
             'tab'
         ],
         mounted: function () {
-            this.listen();
-            store.getNewTransactionDefaults();
+
         }
     }
 </script>

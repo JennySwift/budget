@@ -13,6 +13,8 @@
 |
 */
 
+use Illuminate\Http\Response;
+
 Auth::routes();
 
 Route::get('/logout', 'Auth\LoginController@logout');
@@ -65,6 +67,11 @@ Route::group(['namespace' => 'API', 'prefix' => 'api', 'middleware' => ['auth', 
         Route::get('transactions', 'FilterController@transactions');
         Route::post('basicTotals', 'FilterController@basicTotals');
         Route::post('graphTotals', 'FilterController@graphTotals');
+    });
+
+    Route::get('environment', function () {
+//        dd(app()->environment());
+        return response(app()->environment(), Response::HTTP_OK);
     });
 
 });

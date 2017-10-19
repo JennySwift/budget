@@ -1,6 +1,7 @@
 import TotalsRepository from './TotalsRepository'
 import TransactionsRepository from './TransactionsRepository'
 import helpers from './Helpers'
+import FilterRepository from './FilterRepository'
 
 export default {
 
@@ -9,7 +10,7 @@ export default {
      *
      */
     insertTransaction: function (direction) {
-        if (!this.anyErrors()) {
+        if (!this.showErrorsIfExist()) {
             TotalsRepository.resetTotalChanges();
 
             if (this.newTransaction.type === 'transfer') {
@@ -66,11 +67,25 @@ export default {
     },
 
     /**
+     *
+     */
+    clearNewTransactionFields: function () {
+        if (store.state.me.preferences.clearFields) {
+            store.set([], 'newTransaction.budgets');
+            store.set('', 'newTransaction.total');
+            store.set('', 'newTransaction.description');
+            store.set('', 'newTransaction.merchant');
+            store.set(false, 'newTransaction.reconciled');
+            store.set(false, 'newTransaction.multipleBudgets');
+        }
+    },
+
+    /**
      * Return true if there are errors.
      * @returns {boolean}
      */
-    anyErrors: function () {
-        var errorMessages = store.anyNewTransactionErrors(this.shared.newTransaction);
+    showErrorsIfExist: function () {
+        var errorMessages = this.anyNewTransactionErrors();
 
         if (errorMessages) {
             for (var i = 0; i < errorMessages.length; i++) {
@@ -78,6 +93,34 @@ export default {
             }
 
             return true;
+        }
+
+        return false;
+    },
+
+    /**
+     *
+     * @returns {*}
+     */
+    anyNewTransactionErrors: function () {
+        var messages = [];
+
+        //if (!Date.parse(newTransaction.userDate)) {
+        //    messages.push('Date is not valid');
+        //}
+        //else {
+        //    newTransaction.date = Date.parse(newTransaction.userDate).toString('yyyy-MM-dd');
+        //}
+
+        if (store.state.newTransaction.total === "") {
+            messages.push('Total is required');
+        }
+        else if (!$.isNumeric(store.state.newTransaction.total)) {
+            messages.push('Total is not a valid number');
+        }
+
+        if (messages.length > 0) {
+            return messages;
         }
 
         return false;

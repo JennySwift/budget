@@ -36,6 +36,7 @@ const app = new Vue({
 }).$mount('#app')
 
 store.getUser();
+store.getEnvironment();
 store.getAccounts();
 store.setHeights();
 store.getBudgets();

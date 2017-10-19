@@ -86,7 +86,7 @@ export default {
         showPopup: false,
         showFilter: true,
         show: {
-            newTransaction: false,
+            newTransaction: true,
             basicTotals: false,
             budgetTotals: false,
             filterTotals: true,
@@ -126,10 +126,103 @@ export default {
     /**
      *
      */
+    getEnvironment: function () {
+        helpers.get({
+            url: '/api/environment',
+            storeProperty: 'env',
+        });
+    },
+
+    /**
+     *
+     */
+    getFavouriteTransactions: function () {
+        helpers.get({
+            url: '/api/favouriteTransactions',
+            storeProperty: 'favouriteTransactions'
+        });
+    },
+
+    /**
+     *
+     */
+    getBudgets: function () {
+        helpers.get({
+            url: '/api/budgets',
+            storeProperty: 'budgets'
+        });
+    },
+
+    /**
+     *
+     */
+    getFixedBudgets: function () {
+        helpers.get({
+            url: '/api/budgets?fixed=true',
+            storeProperty: 'fixedBudgets'
+        });
+    },
+
+    /**
+     *
+     */
+    getFlexBudgets: function () {
+        helpers.get({
+            url: '/api/budgets?flex=true',
+            storeProperty: 'flexBudgets'
+        });
+    },
+
+    /**
+     *
+     */
+    getUnassignedBudgets: function () {
+        helpers.get({
+            url: '/api/budgets?unassigned=true',
+            storeProperty: 'unassignedBudgets'
+        });
+    },
+
+    /**
+     *
+     */
     getFixedBudgetTotals: function () {
         helpers.get({
             url: '/api/totals/fixedBudget',
             storeProperty: 'fixedBudgetTotals',
+        });
+    },
+
+    /**
+     *
+     */
+    getAccounts: function () {
+        helpers.get({
+            url: '/api/accounts?includeBalance=true',
+            storeProperty: 'accounts',
+            callback: function () {
+                store.setNewTransactionDefaults();
+            }
+        });
+    },
+
+    /**
+     *
+     */
+    getSavedFilters: function () {
+        helpers.get({
+            url: '/api/savedFilters',
+            storeProperty: 'savedFilters'
+        });
+    },
+
+    /**
+     *
+     */
+    getFavouriteTransactions: function () {
+        helpers.get({
+            url: '/api/favouriteTransactions',
+            storeProperty: 'favouriteTransactions'
         });
     },
 
@@ -187,118 +280,34 @@ export default {
 
     /**
      *
-     * @returns {*}
      */
-    getNewTransactionDefaults: function () {
-        //Fill in the new transaction fields if development environment
-        //Todo: get env
-        // if (this.state.env === 'local') {
-        //     this.state.newTransactionDefaults.total = 10;
-        //     this.state.newTransactionDefaults.merchant = 'some merchant';
-        //     this.state.newTransactionDefaults.description = 'some description';
-        //     this.state.newTransactionDefaults.budgets = [
-        //         {
-        //             id: '2',
-        //             name: 'business',
-        //             type: 'fixed'
-        //         },
-        //         //{
-        //         //    id: '4',
-        //         //    name: 'busking',
-        //         //    type: 'flex'
-        //         //}
-        //     ];
-        // }
-        //
-        // if (this.state.accounts && this.state.accounts.length > 0) {
-        //     this.state.newTransactionDefaults.account = accounts[0];
-        //     this.state.newTransactionDefaults.fromAccount = accounts[0];
-        //     this.state.newTransactionDefaults.toAccount = accounts[0];
-        // }
-        //
-        // return this.state.newTransactionDefaults;
-    },
-
-    /**
-     *
-     * @param env
-     * @param me
-     * @param newTransaction
-     * @returns {*}
-     */
-    clearNewTransactionFields: function (newTransaction) {
-        //Todo: need to fetch 'me'
-        if (me.preferences.clearFields) {
-            newTransaction.budgets = [];
-            newTransaction.total = '';
-            newTransaction.description = '';
-            newTransaction.merchant = '';
-            newTransaction.reconciled = false;
-            newTransaction.multipleBudgets = false;
+    setNewTransactionDefaults: function () {
+        if (this.state.env === 'local') {
+            this.state.newTransaction.total = 10;
+            this.state.newTransaction.merchant = 'some merchant';
+            this.state.newTransaction.description = 'some description';
+            this.state.newTransaction.budgets = [
+                {
+                    id: '2',
+                    name: 'business',
+                    type: 'fixed'
+                },
+                //{
+                //    id: '4',
+                //    name: 'busking',
+                //    type: 'flex'
+                //}
+            ];
         }
 
-        return newTransaction;
-    },
-
-
-    /**
-     *
-     * @param newTransaction
-     * @returns {*}
-     */
-    anyNewTransactionErrors: function (newTransaction) {
-        var messages = [];
-
-        //if (!Date.parse(newTransaction.userDate)) {
-        //    messages.push('Date is not valid');
-        //}
-        //else {
-        //    newTransaction.date = Date.parse(newTransaction.userDate).toString('yyyy-MM-dd');
-        //}
-
-        if (newTransaction.total === "") {
-            messages.push('Total is required');
+        if (this.state.accounts && this.state.accounts.length > 0) {
+            this.state.newTransaction.account = this.state.accounts[0];
+            this.state.newTransaction.fromAccount = this.state.accounts[0];
+            this.state.newTransaction.toAccount = this.state.accounts[0];
         }
-        else if (!$.isNumeric(newTransaction.total)) {
-            messages.push('Total is not a valid number');
-        }
-
-        if (messages.length > 0) {
-            return messages;
-        }
-
-        return false;
     },
 
-    /**
-     *
-     */
-    getAccounts: function () {
-        helpers.get({
-            url: '/api/accounts?includeBalance=true',
-            storeProperty: 'accounts'
-        });
-    },
 
-    /**
-     *
-     */
-    getSavedFilters: function () {
-        helpers.get({
-            url: '/api/savedFilters',
-            storeProperty: 'savedFilters'
-        });
-    },
-
-    /**
-     *
-     */
-    favouriteTransactions: function () {
-        helpers.get({
-            url: '/api/favouriteTransactions',
-            storeProperty: 'favouriteTransactions'
-        });
-    },
 
     /**
      *
@@ -345,55 +354,6 @@ export default {
 
 
 
-    /**
-     *
-     */
-    getFavouriteTransactions: function () {
-        helpers.get({
-            url: '/api/favouriteTransactions',
-            storeProperty: 'favouriteTransactions'
-        });
-    },
-
-    /**
-     *
-     */
-    getBudgets: function () {
-        helpers.get({
-            url: '/api/budgets',
-            storeProperty: 'budgets'
-        });
-    },
-
-    /**
-     *
-     */
-    getFixedBudgets: function () {
-        helpers.get({
-            url: '/api/budgets?fixed=true',
-            storeProperty: 'fixedBudgets'
-        });
-    },
-
-    /**
-     *
-     */
-    getFlexBudgets: function () {
-        helpers.get({
-            url: '/api/budgets?flex=true',
-            storeProperty: 'flexBudgets'
-        });
-    },
-
-    /**
-     *
-     */
-    getUnassignedBudgets: function () {
-        helpers.get({
-            url: '/api/budgets?unassigned=true',
-            storeProperty: 'unassignedBudgets'
-        });
-    },
 
     /**
      *
@@ -541,17 +501,6 @@ export default {
      */
     hideLoading: function () {
         this.state.loading = false;
-    },
-
-    getItems: function () {
-        helpers.get({
-            url: ItemsRepository.getUrl(),
-            storeProperty: 'items',
-            loadedProperty: 'itemsLoaded',
-            callback: function (response) {
-                this.zoom(response);
-            }.bind(this)
-        });
     },
 
 
