@@ -14,9 +14,8 @@
 
             <div>
                 <date></date>
+                <total></total>
             </div>
-
-            <total></total>
 
             <div>
                 <merchant></merchant>
@@ -31,7 +30,6 @@
 
             <div>
                 <budgets></budgets>
-
                 <duration></duration>
             </div>
 

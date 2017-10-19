@@ -3,6 +3,7 @@
         <autocomplete
             input-label="Favourites"
             id-to-focus-after-autocomplete=""
+            autocomplete-id="new-transaction-favourites"
             input-id="new-transaction-favourites"
             :unfiltered-options="shared.favouriteTransactions"
             prop="name"
@@ -12,8 +13,8 @@
             clear-field-on-focus="true"
         >
         </autocomplete>
-
     </div>
+
 </template>
 
 <script>

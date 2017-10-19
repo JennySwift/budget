@@ -1,5 +1,5 @@
 <template>
-    <div class="autocomplete">
+    <div :id="autocompleteId" class="autocomplete">
 
         <!--<pre>inputValue: {{$data.inputValue}}</pre>-->
         <!--<pre>selected: {{$data.selected}}</pre>-->
@@ -435,6 +435,7 @@
         props: {
             'url': {},
             'inputLabel': {},
+            'autocompleteId': {},
             'inputId': {},
             'functionOnEnter': {},
             'functionWhenOptionIsChosen': {},
