@@ -20,10 +20,10 @@ class FilterNumBudgetsRepository {
      */
     public function filterNumBudgets($query, $value)
     {
-        if ($value['in'] && $value['in'] !== 'all') {
+        if (isset($value['in']) && $value['in'] && $value['in'] !== 'all') {
             $query = $this->filterInNumBudgets($query, $value);
         }
-        if ($value['out'] && $value['out'] !== 'none') {
+        if (isset($value['out']) && $value['out'] && $value['out'] !== 'none') {
             $query = $this->filterOutNumBudgets($query, $value);
         }
 
@@ -38,17 +38,17 @@ class FilterNumBudgetsRepository {
      */
     private function filterInNumBudgets($query, $value)
     {
-        if ($value['in'] === "zero") {
+        if (isset($value['in']) && $value['in'] === "zero") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', 0)
                 ->pluck('id')->all();
         }
-        elseif ($value['in'] === "single") {
+        elseif (isset($value['in']) && $value['in'] === "single") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', 1)
                 ->pluck('id')->all();
         }
-        elseif ($value['in'] === "multiple") {
+        elseif (isset($value['in']) && $value['in'] === "multiple") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', '>', 1)
                 ->pluck('id')->all();
@@ -65,17 +65,17 @@ class FilterNumBudgetsRepository {
      */
     private function filterOutNumBudgets($query, $value)
     {
-        if ($value['out'] === "zero") {
+        if (isset($value['out']) && $value['out'] === "zero") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', 0)
                 ->pluck('id')->all();
         }
-        elseif ($value['out'] === "single") {
+        elseif (isset($value['out']) && $value['out'] === "single") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', 1)
                 ->pluck('id')->all();
         }
-        elseif ($value['out'] === "multiple") {
+        elseif (isset($value['out']) && $value['out'] === "multiple") {
             $ids = Transaction::forCurrentUser()
                 ->has('assignedBudgets', '>', 1)
                 ->pluck('id')->all();
