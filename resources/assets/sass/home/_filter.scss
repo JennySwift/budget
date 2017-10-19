@@ -6,7 +6,7 @@
 #filter {
     //animation
     animation: slideInRight .5s;
-    &.filter-leave {
+    &.filter-leave-active {
         animation: bounceOutRight 2s;
     }
 
