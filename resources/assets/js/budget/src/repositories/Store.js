@@ -3,6 +3,7 @@ var object = require('lodash/object');
 require('sugar');
 Date.setLocale('en-AU');
 import Vue from 'vue'
+// import NewTransactionRepository from './NewTransactionRepository'
 
 
 export default {
@@ -43,21 +44,33 @@ export default {
         unassignedBudgets: [],
         favouriteTransactions: [],
         newTransaction: {
-            defaults: {
-                userDate: 'today',
-                type: 'expense',
-                account: {},
-                fromAccount: {},
-                toAccount: {},
-                duration: '',
-                total: '',
-                merchant: '',
-                description: '',
-                reconciled: false,
-                multipleBudgets: false,
-                budgets: []
-            }
+            userDate: 'today',
+            type: 'expense',
+            account: {},
+            fromAccount: {},
+            toAccount: {},
+            duration: '',
+            total: '',
+            merchant: '',
+            description: '',
+            reconciled: false,
+            multipleBudgets: false,
+            budgets: []
         },
+        // newTransactionDefaults: {
+        //     userDate: 'today',
+        //     type: 'expense',
+        //     account: {},
+        //     fromAccount: {},
+        //     toAccount: {},
+        //     duration: '',
+        //     total: '',
+        //     merchant: '',
+        //     description: '',
+        //     reconciled: false,
+        //     multipleBudgets: false,
+        //     budgets: []
+        // },
         filters: {
 
         },
@@ -179,31 +192,31 @@ export default {
     getNewTransactionDefaults: function () {
         //Fill in the new transaction fields if development environment
         //Todo: get env
-        if (this.state.env === 'local') {
-            this.state.defaults.total = 10;
-            this.state.defaults.merchant = 'some merchant';
-            this.state.defaults.description = 'some description';
-            this.state.defaults.budgets = [
-                {
-                    id: '2',
-                    name: 'business',
-                    type: 'fixed'
-                },
-                //{
-                //    id: '4',
-                //    name: 'busking',
-                //    type: 'flex'
-                //}
-            ];
-        }
-
-        if (this.state.accounts && this.state.accounts.length > 0) {
-            this.state.defaults.account = accounts[0];
-            this.state.defaults.fromAccount = accounts[0];
-            this.state.defaults.toAccount = accounts[0];
-        }
-
-        return this.state.defaults;
+        // if (this.state.env === 'local') {
+        //     this.state.newTransactionDefaults.total = 10;
+        //     this.state.newTransactionDefaults.merchant = 'some merchant';
+        //     this.state.newTransactionDefaults.description = 'some description';
+        //     this.state.newTransactionDefaults.budgets = [
+        //         {
+        //             id: '2',
+        //             name: 'business',
+        //             type: 'fixed'
+        //         },
+        //         //{
+        //         //    id: '4',
+        //         //    name: 'busking',
+        //         //    type: 'flex'
+        //         //}
+        //     ];
+        // }
+        //
+        // if (this.state.accounts && this.state.accounts.length > 0) {
+        //     this.state.newTransactionDefaults.account = accounts[0];
+        //     this.state.newTransactionDefaults.fromAccount = accounts[0];
+        //     this.state.newTransactionDefaults.toAccount = accounts[0];
+        // }
+        //
+        // return this.state.newTransactionDefaults;
     },
 
     /**

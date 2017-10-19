@@ -3,10 +3,6 @@ import helpers from './Helpers'
 export default {
     totals: {},
 
-    state: {
-        
-    },
-
     /**
      *
      */
@@ -20,6 +16,10 @@ export default {
             data: data,
             storeProperty: 'transactions'
         });
+    },
+
+    state: {
+
     },
 
 

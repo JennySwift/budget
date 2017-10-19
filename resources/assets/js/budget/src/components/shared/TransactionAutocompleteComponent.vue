@@ -262,7 +262,6 @@
             'placeholder',
             'id',
             'typing',
-            'newTransaction',
             'functionOnEnter'
         ],
         mounted: function () {

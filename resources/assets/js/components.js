@@ -13,7 +13,7 @@ import BudgetAutocompleteComponent from './budget/src/components/shared/BudgetAu
 import AutocompleteComponent from './budget/src/components/shared/AutocompleteComponent.vue'
 import FeedbackComponent from './budget/src/components/shared/FeedbackComponent.vue'
 import TransactionAutocompleteComponent from './budget/src/components/shared/TransactionAutocompleteComponent.vue'
-import NewTransactionComponent from './budget/src/components/transactions/NewTransactionComponent.vue'
+import NewTransactionComponent from './budget/src/components/new_transaction/NewTransactionComponent.vue'
 import TotalsComponent from './budget/src/components/TotalsComponent.vue'
 import TransactionsComponent from './budget/src/components/transactions/TransactionsComponent.vue'
 import TransactionComponent from './budget/src/components/transactions/TransactionComponent.vue'

@@ -155,6 +155,7 @@
                 this.setInputValue();
                 this.hideDropdown();
                 this.focusNextField();
+                this.functionWhenOptionIsChosen();
                 this.$bus.$emit('autocomplete-option-chosen', this.mutableSelected, this.inputId);
             },
 
@@ -436,6 +437,7 @@
             'inputLabel': {},
             'inputId': {},
             'functionOnEnter': {},
+            'functionWhenOptionIsChosen': {},
             'idToFocusAfterAutocomplete': {},
             //For if items are local
             'unfilteredOptions': {},
