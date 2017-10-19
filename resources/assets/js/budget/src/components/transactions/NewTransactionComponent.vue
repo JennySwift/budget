@@ -3,7 +3,7 @@
         id="new-transaction-container"
     >
         <div
-            v-show="showNewTransaction"
+            v-show="shared.show.newTransaction"
             v-bind:style="{color: shared.me.preferences.colors[newTransaction.type]}"
             id="new-transaction"
         >
@@ -512,7 +512,6 @@
         data: function () {
             return {
                 dropdown: {},
-                showNewTransaction: false,
                 types: ["income", "expense", "transfer"],
                 shared: store.state,
                 selectedFavouriteTransaction: {},
