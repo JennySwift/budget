@@ -17,21 +17,6 @@
             :delete-function="deleteSavedFilter"
         >
         </autocomplete>
-
-        <!--<select-->
-        <!--v-model="selectedSavedFilter"-->
-        <!--v-on:change="chooseSavedFilter()"-->
-        <!--id="saved-filter"-->
-        <!--class="form-control"-->
-        <!-->-->
-        <!--<option-->
-        <!--v-for="savedFilter in savedFilters"-->
-        <!--v-bind:value="savedFilter"-->
-        <!-->-->
-        <!--{{ savedFilter.name }}-->
-        <!--<button class="btn btn-xs btn-danger">Delete</button>-->
-        <!--</option>-->
-        <!--</select>-->
     </div>
 
 </template>

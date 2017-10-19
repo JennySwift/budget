@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-show="shared.show.filterTotals" id="filter-totals" class="col-sm-2">
+        <div v-show="shared.show.filterTotals" id="filter-totals">
             <ul class="list-group">
                 <li class="list-group-item list-group-heading">
                     Filter totals
