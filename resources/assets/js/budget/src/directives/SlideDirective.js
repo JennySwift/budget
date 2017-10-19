@@ -4,12 +4,12 @@ export default {
         // e.g. add event listeners or expensive stuff
         // that needs to be run only once
     },
-    update: function (newValue, oldValue) {
+    update: function (el, newValue, oldValue) {
         if (newValue) {
-            $(this.el).find('.content').slideDown();
+            $(el).find('.content').slideDown();
         }
         else {
-            $(this.el).find('.content').slideUp();
+            $(el).find('.content').slideUp();
         }
 
         // do something based on the updated value

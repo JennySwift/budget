@@ -20,7 +20,6 @@
                                 :chosen-budgets.sync="filter.budgets.in.and"
                                 :budgets="budgets"
                                 multiple-budgets="true"
-                                :function-on-enter="insertTransaction"
                             >
                             </budget-autocomplete>
 
@@ -42,7 +41,6 @@
                                 :chosen-budgets.sync="filter.budgets.in.or"
                                 :budgets="budgets"
                                 multiple-budgets="true"
-                                :function-on-enter="insertTransaction"
                             >
                             </budget-autocomplete>
                             <span class="input-group-btn">
@@ -65,7 +63,6 @@
                                 :chosen-budgets.sync="filter.budgets.out"
                                 :budgets="budgets"
                                 multiple-budgets="true"
-                                :function-on-enter="insertTransaction"
                             >
                             </budget-autocomplete>
 
