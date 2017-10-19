@@ -54,3 +54,7 @@ Vue.component('new-budget', NewBudgetComponent);
 Vue.component('budgets-toolbar', BudgetsToolbarComponent);
 Vue.component('fixed-budgets-table', FixedBudgetsTableComponent);
 Vue.component('transactions-filter', FilterComponent);
+
+//Directives
+import SlideDirective from './budget/src/directives/SlideDirective.js'
+Vue.directive('slide', SlideDirective);
