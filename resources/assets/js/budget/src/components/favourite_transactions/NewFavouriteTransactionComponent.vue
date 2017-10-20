@@ -6,7 +6,6 @@
             <label for="new-favourite-name">Name</label>
             <input
                 v-model="shared.newFavouriteTransaction.name"
-                <!--v-on:keyup.13="insertFavouriteTransaction()"-->
                 v-on:focus="showFields = true"
                 type="text"
                 id="new-favourite-name"
