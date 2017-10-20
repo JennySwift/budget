@@ -44,6 +44,13 @@ export default {
         flexBudgets: [],
         unassignedBudgets: [],
         favouriteTransactions: [],
+        newFavouriteTransaction: {
+            account: {},
+            fromAccount: {},
+            toAccount: {},
+            budgets: [],
+            type: 'expense'
+        },
         newTransaction: {
             userDate: 'today',
             type: 'expense',
@@ -203,8 +210,13 @@ export default {
             storeProperty: 'accounts',
             callback: function () {
                 store.setNewTransactionDefaults();
+                store.setNewFavouriteTransactionAccount();
             }
         });
+    },
+
+    setNewFavouriteTransactionAccount: function () {
+        store.set(this.state.accounts[0], 'newFavouriteTransaction.account');
     },
 
     /**
@@ -315,26 +327,26 @@ export default {
      * @param favouriteTransaction
      * @returns {{name: *, type: *, description: *, merchant: *, total: *, budget_ids}}
      */
-    setFavouriteTransactionFields: function (favouriteTransaction) {
+    setFavouriteTransactionFields: function () {
         var data = {
-            name: favouriteTransaction.name,
-            type: favouriteTransaction.type,
-            description: favouriteTransaction.description,
-            merchant: favouriteTransaction.merchant,
-            total: favouriteTransaction.total,
-            budget_ids: _.map(favouriteTransaction.budgets, 'id')
+            name: this.state.newFavouriteTransaction.name,
+            type: this.state.newFavouriteTransaction.type,
+            description: this.state.newFavouriteTransaction.description,
+            merchant: this.state.newFavouriteTransaction.merchant,
+            total: this.state.newFavouriteTransaction.total,
+            budget_ids: _.map(this.state.newFavouriteTransaction.budgets, 'id')
         };
 
-        if (favouriteTransaction.account && favouriteTransaction.type !== 'transfer') {
-            data.account_id = favouriteTransaction.account.id;
+        if (this.state.newFavouriteTransaction.account && this.state.newFavouriteTransaction.type !== 'transfer') {
+            data.account_id = this.state.newFavouriteTransaction.account.id;
         }
 
-        if (favouriteTransaction.fromAccount && favouriteTransaction.type === 'transfer') {
-            data.from_account_id = favouriteTransaction.fromAccount.id;
+        if (this.state.newFavouriteTransaction.fromAccount && this.state.newFavouriteTransaction.type === 'transfer') {
+            data.from_account_id = this.state.newFavouriteTransaction.fromAccount.id;
         }
 
-        if (favouriteTransaction.toAccount && favouriteTransaction.type === 'transfer') {
-            data.to_account_id = favouriteTransaction.toAccount.id;
+        if (this.state.newFavouriteTransaction.toAccount && this.state.newFavouriteTransaction.type === 'transfer') {
+            data.to_account_id = this.state.newFavouriteTransaction.toAccount.id;
         }
 
         return data;

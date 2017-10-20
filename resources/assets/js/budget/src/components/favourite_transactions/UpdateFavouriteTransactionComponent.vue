@@ -82,7 +82,7 @@
                     class="form-control"
                 >
                     <option
-                        v-for="account in accounts"
+                        v-for="account in shared.accounts"
                         v-bind:value="account"
                     >
                         {{ account.name }}
@@ -100,7 +100,7 @@
                     class="form-control"
                 >
                     <option
-                        v-for="account in accounts"
+                        v-for="account in shared.accounts"
                         v-bind:value="account"
                     >
                         {{ account.name }}
@@ -118,7 +118,7 @@
                     class="form-control"
                 >
                     <option
-                        v-for="account in accounts"
+                        v-for="account in shared.accounts"
                         v-bind:value="account"
                     >
                         {{ account.name }}
@@ -128,7 +128,6 @@
 
             <budget-autocomplete
                 :chosen-budgets.sync="selectedFavourite.budgets"
-                :budgets="budgets"
                 multiple-budgets="true"
             >
             </budget-autocomplete>
@@ -149,6 +148,7 @@
         data: function () {
             return {
                 showPopup: false,
+                shared: store.state,
                 selectedFavourite: {},
                 types: ["income", "expense", "transfer"],
             };

@@ -5,7 +5,7 @@
         <div class="form-group">
             <label for="new-favourite-name">Name</label>
             <input
-                v-model="newFavourite.name"
+                v-model="shared.newFavouriteTransaction.name"
                 <!--v-on:keyup.13="insertFavouriteTransaction()"-->
                 v-on:focus="showFields = true"
                 type="text"
@@ -20,7 +20,7 @@
             <label for="new-favourite-type">Type</label>
 
             <select
-                v-model="newFavourite.type"
+                v-model="shared.newFavouriteTransaction.type"
                 v-on:keyup.13="insertFavouriteTransaction()"
                 id="new-favourite-type"
                 class="form-control"
@@ -37,7 +37,7 @@
         <div v-show="showFields" class="form-group">
             <label for="new-favourite-description">Description</label>
             <input
-                v-model="newFavourite.description"
+                v-model="shared.newFavouriteTransaction.description"
                 v-on:keyup.13="insertFavouriteTransaction()"
                 type="text"
                 id="new-favourite-description"
@@ -50,7 +50,7 @@
         <div v-show="showFields" class="form-group">
             <label for="new-favourite-merchant">Merchant</label>
             <input
-                v-model="newFavourite.merchant"
+                v-model="shared.newFavouriteTransaction.merchant"
                 v-on:keyup.13="insertFavouriteTransaction()"
                 type="text"
                 id="new-favourite-merchant"
@@ -63,7 +63,7 @@
         <div v-show="showFields" class="form-group">
             <label for="new-favourite-total">Total</label>
             <input
-                v-model="newFavourite.total"
+                v-model="shared.newFavouriteTransaction.total"
                 v-on:keyup.13="insertFavouriteTransaction()"
                 type="text"
                 id="new-favourite-total"
@@ -74,17 +74,17 @@
         </div>
 
         <!--Account-->
-        <div v-show="showFields && newFavourite.type !== 'transfer'" class="form-group">
+        <div v-show="showFields && shared.newFavouriteTransaction.type !== 'transfer'" class="form-group">
             <label for="new-favourite-transaction-account">Account</label>
 
             <select
-                v-model="newFavourite.account"
+                v-model="shared.newFavouriteTransaction.account"
                 v-on:keyup.13="insertFavouriteTransaction()"
                 id="new-favourite-transaction-account"
                 class="form-control"
             >
                 <option
-                    v-for="account in accounts"
+                    v-for="account in shared.accounts"
                     v-bind:value="account"
                 >
                     {{ account.name }}
@@ -93,17 +93,17 @@
         </div>
 
         <!--From account-->
-        <div v-show="showFields && newFavourite.type === 'transfer'" class="form-group">
+        <div v-show="showFields && shared.newFavouriteTransaction.type === 'transfer'" class="form-group">
             <label for="new-favourite-transaction-from-account">From Account</label>
 
             <select
-                v-model="newFavourite.fromAccount"
+                v-model="shared.newFavouriteTransaction.fromAccount"
                 v-on:keyup.13="insertFavouriteTransaction()"
                 id="new-favourite-transaction-account"
                 class="form-control"
             >
                 <option
-                    v-for="account in accounts"
+                    v-for="account in shared.accounts"
                     v-bind:value="account"
                 >
                     {{ account.name }}
@@ -112,17 +112,17 @@
         </div>
 
         <!--To account-->
-        <div v-show="showFields && newFavourite.type === 'transfer'" class="form-group">
+        <div v-show="showFields && shared.newFavouriteTransaction.type === 'transfer'" class="form-group">
             <label for="new-favourite-transaction-to-account">To Account</label>
 
             <select
-                v-model="newFavourite.toAccount"
+                v-model="shared.newFavouriteTransaction.toAccount"
                 v-on:keyup.13="insertFavouriteTransaction()"
                 id="new-favourite-transaction-account"
                 class="form-control"
             >
                 <option
-                    v-for="account in accounts"
+                    v-for="account in shared.accounts"
                     v-bind:value="account"
                 >
                     {{ account.name }}
@@ -134,8 +134,7 @@
             <label>Budgets</label>
 
             <budget-autocomplete
-                :chosen-budgets.sync="newFavourite.budgets"
-                :budgets="budgets"
+                :chosen-budgets.sync="shared.newFavouriteTransaction.budgets"
                 multiple-budgets="true"
                 :function-on-enter="insertFavouriteTransaction"
             >
@@ -165,13 +164,7 @@
     export default {
         data: function () {
             return {
-                newFavourite: {
-                    account: {},
-                    fromAccount: {},
-                    toAccount: {},
-                    budgets: [],
-                    type: 'expense'
-                },
+                shared: store.state,
                 showFields: false,
                 types: [
                     {
@@ -193,7 +186,7 @@
              *
              */
             insertFavouriteTransaction: function () {
-                var data = FavouriteTransactionsRepository.setFields(this.newFavourite);
+                var data = store.setFavouriteTransactionFields();
 
                 helpers.post({
                     url: '/api/favouriteTransactions',
@@ -212,26 +205,16 @@
              *
              */
             clearFields: function () {
-                this.newFavourite.name = '';
-                this.newFavourite.description = '';
-                this.newFavourite.merchant = '';
-                this.newFavourite.total = '';
-                this.newFavourite.budgets = [];
+                store.set('', 'newFavouriteTransaction.name');
+                store.set('', 'newFavouriteTransaction.description');
+                store.set('', 'newFavouriteTransaction.merchant');
+                store.set('', 'newFavouriteTransaction.total');
+                store.set([], 'newFavouriteTransaction.budgets');
             },
-
-            /**
-             * Set the default new favourite account to the first account, when the accounts are loaded
-             */
-            setNewFavouriteAccount: function () {
-                var that = this;
-                setTimeout(function () {
-                    that.newFavourite.account = that.accounts[0];
-                }, 500);
-            }
         },
         props: [],
         mounted: function () {
-            this.setNewFavouriteAccount();
+
         }
     }
 </script>

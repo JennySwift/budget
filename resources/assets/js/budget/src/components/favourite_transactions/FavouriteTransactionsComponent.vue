@@ -2,19 +2,9 @@
     <div id="favourite-transactions-page">
 
 
-        <new-favourite-transaction
-            :budgets="budgets"
-            :favourite-transactions.sync="favouriteTransactions"
-            :accounts="accountsRepository.accounts"
-        >
-        </new-favourite-transaction>
+        <new-favourite-transaction></new-favourite-transaction>
 
-        <update-favourite-transaction
-            :budgets="budgets"
-            :favourite-transactions.sync="favouriteTransactions"
-            :accounts="accountsRepository.accounts"
-        >
-        </update-favourite-transaction>
+        <update-favourite-transaction></update-favourite-transaction>
 
         <div>
             <h2>Favourite transactions</h2>
@@ -31,7 +21,7 @@
                 </tr>
 
                 <tr
-                    v-for="favourite in favouriteTransactions"
+                    v-for="favourite in shared.favouriteTransactions"
                     v-on:click="showUpdateFavouriteTransactionPopup(favourite)"
                     class="pointer"
                 >
@@ -75,24 +65,23 @@
 </template>
 
 <script>
+    import NewFavouriteTransactionComponent from './NewFavouriteTransactionComponent.vue'
+    import UpdateFavouriteTransactionComponent from './UpdateFavouriteTransactionComponent.vue'
     export default {
         data: function () {
             return {
-                favouriteTransactions: [],
                 shared: store.state,
                 newFavourite: {
                     budgets: []
                 },
             };
         },
-        components: {},
+        components: {
+            'new-favourite-transaction': NewFavouriteTransactionComponent,
+            'update-favourite-transaction': UpdateFavouriteTransactionComponent
+        },
         computed: {
-            budgets: function () {
-                return this.shared.budgets;
-            },
-            favouriteTransactions: function () {
-                return this.shared.favouriteTransactions;
-            }
+
         },
         methods: {
 
