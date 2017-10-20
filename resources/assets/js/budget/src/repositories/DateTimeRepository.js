@@ -63,8 +63,8 @@ export default {
      * @param date
      * @returns {*|String}
      */
-    formatDateForUser: function (date, format) {
-        return moment(date, 'YYYY-MM-DD').format(format);
+    formatDateForUser: function (date) {
+        return moment(date, 'YYYY-MM-DD').format(store.state.me.preferences.dateFormat);
     },
 
     /**

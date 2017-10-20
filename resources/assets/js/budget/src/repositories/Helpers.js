@@ -31,6 +31,7 @@ export default {
     convertToMySqlDate: dateandtime.convertToMySqlDate,
     formatDurationToHoursAndMinutes: dateandtime.formatDurationToHoursAndMinutes,
     formatDurationToMinutes: dateandtime.formatDurationToMinutes,
+    formatDateForUser: dateandtime.formatDateForUser,
 
     /**
      *

@@ -156,7 +156,7 @@
              * @returns {*|String}
              */
             formatDateForUser: function (date) {
-//                return helpers.formatDateForUser(date, this.shared.me.preferences.dateFormat);
+                return helpers.formatDateForUser(date);
             }
         },
         methods: {
