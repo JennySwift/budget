@@ -263,6 +263,7 @@ abstract class TestCase extends BaseTestCase
     {
         $this->assertArrayHasKey('id', $account);
         $this->assertArrayHasKey('name', $account);
+//        $this->assertArrayHasKey('balance', $account);
 //		$this->assertArrayHasKey('path', $account);
     }
 

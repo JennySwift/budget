@@ -9,6 +9,21 @@ use League\Fractal\TransformerAbstract;
 class FavouriteTransactionTransformer extends TransformerAbstract
 {
     /**
+     * @var array
+     */
+//    protected $defaultIncludes = ['account'];
+
+    /**
+    *
+    * @param FavouriteTransaction $favouriteTransaction
+    * @return \League\Fractal\Resource\
+    */
+//    public function includeAccount(FavouriteTransaction $favouriteTransaction)
+//    {
+//        return $this->item($favouriteTransaction->account, new AccountTransformer);
+//    }
+
+    /**
      *
      * @param FavouriteTransaction $favourite
      * @return array
@@ -28,19 +43,22 @@ class FavouriteTransactionTransformer extends TransformerAbstract
         if ($favourite->account) {
             $array['account'] = [
                 'id' => $favourite->account->id,
-                'name' => $favourite->account->name
+                'name' => $favourite->account->name,
+//                'balance' => $favourite->account->balance
             ];
         }
         if ($favourite->fromAccount) {
             $array['fromAccount'] = [
                 'id' => $favourite->fromAccount->id,
-                'name' => $favourite->fromAccount->name
+                'name' => $favourite->fromAccount->name,
+//                'balance' => $favourite->fromAcount->balance
             ];
         }
         if ($favourite->toAccount) {
             $array['toAccount'] = [
                 'id' => $favourite->toAccount->id,
-                'name' => $favourite->toAccount->name
+                'name' => $favourite->toAccount->name,
+//                'balance' => $favourite->toAccount->balance
             ];
         }
 

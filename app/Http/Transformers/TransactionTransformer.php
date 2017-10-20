@@ -1,5 +1,6 @@
 <?php namespace App\Http\Transformers;
 
+use App\Models\Account;
 use App\Models\Transaction;
 use League\Fractal\TransformerAbstract;
 
@@ -8,6 +9,22 @@ use League\Fractal\TransformerAbstract;
  */
 class TransactionTransformer extends TransformerAbstract
 {
+
+    /**
+     * @var array
+     */
+//    protected $defaultIncludes = ['account'];
+
+    /**
+    *
+    * @param Transaction $transaction
+    * @return \League\Fractal\Resource\
+    */
+//    public function includeAccount(Transaction $transaction)
+//    {
+//        return $this->item($transaction->account, new AccountTransformer);
+//    }
+
     /**
      * @param Transaction $transaction
      * @return array

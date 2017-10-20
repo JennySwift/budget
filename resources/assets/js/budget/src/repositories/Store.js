@@ -23,6 +23,7 @@ export default {
         tab: '',
         loading: false,
         accounts: [],
+        accountsWithBalances: [],
         budgets: [],
         transaction: {
             account: {},
@@ -205,9 +206,23 @@ export default {
     /**
      *
      */
-    getAccounts: function () {
+    getAccountsWithBalances: function () {
         helpers.get({
             url: '/api/accounts?includeBalance=true',
+            storeProperty: 'accountsWithBalances',
+            callback: function () {
+                // store.setNewTransactionDefaults();
+                // store.setNewFavouriteTransactionAccount();
+            }
+        });
+    },
+
+    /**
+     * Do not get the account balances
+     */
+    getAccounts: function () {
+        helpers.get({
+            url: '/api/accounts',
             storeProperty: 'accounts',
             callback: function () {
                 store.setNewTransactionDefaults();
