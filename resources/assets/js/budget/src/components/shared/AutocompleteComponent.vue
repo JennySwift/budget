@@ -155,7 +155,7 @@
                 this.setInputValue();
                 this.hideDropdown();
                 this.focusNextField();
-                this.functionWhenOptionIsChosen();
+//                this.functionWhenOptionIsChosen();
                 this.$bus.$emit('autocomplete-option-chosen', this.mutableSelected, this.inputId);
             },
 

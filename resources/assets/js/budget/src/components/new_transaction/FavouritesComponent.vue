@@ -9,7 +9,6 @@
             prop="name"
             label-for-option=""
             :function-when-option-is-chosen="fillFields"
-            :selected.sync="selectedFavouriteTransaction"
             clear-field-on-focus="true"
         >
         </autocomplete>
@@ -22,28 +21,37 @@
         data: function () {
             return {
                 shared: store.state,
-                selectedFavouriteTransaction: {},
             };
         },
         methods: {
+
+            optionChosen: function (option, inputId) {
+                if (inputId === 'new-transaction-favourites') {
+                    this.fillFields(option);
+                }
+            },
+
             /**
              *
              */
-            fillFields: function () {
-                store.set(this.selectedFavouriteTransaction.description, 'newTransaction.description');
-                store.set(this.selectedFavouriteTransaction.merchant, 'newTransaction.merchant');
-                store.set(this.selectedFavouriteTransaction.total, 'newTransaction.total');
-                store.set(this.selectedFavouriteTransaction.type, 'newTransaction.type');
+            fillFields: function (selectedFavouriteTransaction) {
+                store.set(selectedFavouriteTransaction.description, 'newTransaction.description');
+                store.set(selectedFavouriteTransaction.merchant, 'newTransaction.merchant');
+                store.set(selectedFavouriteTransaction.total, 'newTransaction.total');
+                store.set(selectedFavouriteTransaction.type, 'newTransaction.type');
 
 
                 if (this.shared.newTransaction.type === 'transfer') {
-                    store.set(this.selectedFavouriteTransaction.fromAccount, 'newTransaction.fromAccount');
-                    store.set(this.selectedFavouriteTransaction.toAccount, 'newTransaction.toAccount');
+                    store.set(selectedFavouriteTransaction.fromAccount, 'newTransaction.fromAccount');
+                    store.set(selectedFavouriteTransaction.toAccount, 'newTransaction.toAccount');
                 }
                 else {
-                    store.set(this.selectedFavouriteTransaction.account, 'newTransaction.account');
+                    store.set(selectedFavouriteTransaction.account, 'newTransaction.account');
                 }
             },
+        },
+        created: function () {
+            this.$bus.$on('autocomplete-option-chosen', this.optionChosen);
         }
     }
 </script>
