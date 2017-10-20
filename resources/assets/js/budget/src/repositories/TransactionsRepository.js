@@ -98,15 +98,6 @@ export default {
     *
     * @param transaction
     */
-    updateTransaction: function (transaction) {
-        var index = helpers.findIndexById(this.state.transactions, transaction.id);
-        this.state.transactions.$set(index, transaction);
-    },
-
-    /**
-    *
-    * @param transaction
-    */
     deleteTransaction: function (transaction) {
         var index = helpers.findIndexById(this.state.transactions, transaction.id);
         this.state.transactions = _.without(this.state.transactions, this.state.transactions[index]);

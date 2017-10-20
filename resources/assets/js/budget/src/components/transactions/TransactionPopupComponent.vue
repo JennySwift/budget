@@ -192,7 +192,7 @@
                     message: 'Transaction updated',
                     redirectTo: this.redirectTo,
                     callback: function (response) {
-                        TransactionsRepository.updateTransaction(response);
+                        store.update(response, 'transactions');
                         TotalsRepository.getSideBarTotals(this);
                         FilterRepository.getBasicFilterTotals(this);
                         FilterRepository.runFilter(this);
