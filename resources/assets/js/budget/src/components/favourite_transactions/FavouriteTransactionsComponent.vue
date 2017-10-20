@@ -67,6 +67,7 @@
 <script>
     import NewFavouriteTransactionComponent from './NewFavouriteTransactionComponent.vue'
     import UpdateFavouriteTransactionComponent from './UpdateFavouriteTransactionComponent.vue'
+    import helpers from '../../repositories/Helpers'
     export default {
         data: function () {
             return {
@@ -90,7 +91,8 @@
              * @param favouriteTransaction
              */
             showUpdateFavouriteTransactionPopup: function (favouriteTransaction) {
-                $.event.trigger('show-update-favourite-transaction-popup', [favouriteTransaction]);
+                store.set(favouriteTransaction, 'selectedFavouriteTransaction');
+                helpers.showPopup('favourite-transaction-popup');
             },
 
         },

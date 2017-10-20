@@ -51,6 +51,7 @@ export default {
             budgets: [],
             type: 'expense'
         },
+        selectedFavouriteTransaction: {},
         newTransaction: {
             userDate: 'today',
             type: 'expense',
