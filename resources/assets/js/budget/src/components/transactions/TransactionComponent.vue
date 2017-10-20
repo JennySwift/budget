@@ -6,7 +6,7 @@
 
         <td
             v-show="shared.transactionPropertiesToShow.date"
-            v-on:click="showEditTransactionPopup(transaction)"
+            v-on:click="showTransactionPopup(transaction)"
             class="pointer"
         >
             {{ transaction.date | formatDateForUser}}
@@ -14,7 +14,7 @@
 
         <td
             v-show="shared.transactionPropertiesToShow.description"
-            v-on:click="showEditTransactionPopup(transaction)"
+            v-on:click="showTransactionPopup(transaction)"
             class="description pointer"
         >
             <div>
@@ -28,7 +28,7 @@
 
         <td
             v-show="shared.transactionPropertiesToShow.merchant"
-            v-on:click="showEditTransactionPopup(transaction)"
+            v-on:click="showTransactionPopup(transaction)"
             class="merchant pointer"
         >
             <div>
@@ -42,7 +42,7 @@
 
         <td
             v-show="shared.transactionPropertiesToShow.total"
-            v-on:click="showEditTransactionPopup(transaction)"
+            v-on:click="showTransactionPopup(transaction)"
             class="pointer"
         >
             <!--<span class="badge badge-{{ transaction.type }}">{{ transaction.total }}</span>-->
@@ -51,7 +51,7 @@
 
         <td
             v-show="shared.transactionPropertiesToShow.account"
-            v-on:click="showEditTransactionPopup(transaction)"
+            v-on:click="showTransactionPopup(transaction)"
             class="max-width-md pointer"
         >
             {{ transaction.account.name }}
@@ -59,7 +59,7 @@
 
         <td
             v-show="shared.transactionPropertiesToShow.duration"
-            v-on:click="showEditTransactionPopup(transaction)"
+            v-on:click="showTransactionPopup(transaction)"
             class="pointer"
         >
             <span v-if="transaction.minutes">{{ transaction.minutes | formatDurationFilter }}</span>
@@ -197,8 +197,16 @@
              *
              * @param transaction
              */
-            showEditTransactionPopup: function (transaction) {
-                $.event.trigger('show-edit-transaction-popup', [transaction]);
+            showTransactionPopup: function (transaction) {
+                store.set(transaction, 'selectedTransaction');
+
+                //save the original total so I can calculate
+                // the difference if the total changes,
+                // so I can remove the correct amount from savings if required.
+                store.set(transaction.total, 'selectedTransaction.originalTotal');
+                store.set(helpers.formatDurationToMinutes(transaction.minutes), 'selectedTransaction.duration');
+
+                helpers.showPopup('transaction-popup');
             }
 
         },

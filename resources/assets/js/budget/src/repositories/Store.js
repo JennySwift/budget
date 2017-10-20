@@ -31,6 +31,7 @@ export default {
                 {name: ''}
             ]
         },
+        selectedTransaction: {},
         fixedBudgetTotals: {},
         flexBudgetTotals: {},
         transactions: [
