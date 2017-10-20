@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Http\Requests\Request;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -64,7 +65,8 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \InvalidArgumentException) {
             return response([
                 'error' => $exception->getMessage(),
-                'status' => Response::HTTP_BAD_REQUEST
+                'status' => Response::HTTP_BAD_REQUEST,
+                'request' => $this->getRequestData($request)
             ], Response::HTTP_BAD_REQUEST);
         }
 
@@ -95,16 +97,26 @@ class Handler extends ExceptionHandler
             return response([
                 'error' => $exception->getMessage(),
                 'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
-                'request' => [
-                    'queryString' => $request->getQueryString(),
-                    'requestUri' => $request->getRequestUri(),
-                    'toArray' => $request->toArray()
-                ]
+                'request' => $this->getRequestData($request)
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
 
         return parent::render($request, $exception);
+    }
+
+    /**
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    private function getRequestData(\Illuminate\Http\Request $request)
+    {
+        return [
+            'queryString' => $request->getQueryString(),
+            'requestUri' => $request->getRequestUri(),
+            'toArray' => $request->toArray()
+        ];
     }
 
     /**

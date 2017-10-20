@@ -93,7 +93,7 @@
 
                 var data = {
                     addingBudgets: true,
-                    budget_ids: _.pluck(this.budgetsToAdd, 'id')
+                    budget_ids: _.map(this.budgetsToAdd, 'id')
                 };
 
                 helpers.put({

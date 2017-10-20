@@ -3,6 +3,7 @@ var object = require('lodash/object');
 require('sugar');
 Date.setLocale('en-AU');
 import Vue from 'vue'
+import GraphsRepository from './GraphsRepository'
 // import NewTransactionRepository from './NewTransactionRepository'
 
 
@@ -321,7 +322,7 @@ export default {
             description: favouriteTransaction.description,
             merchant: favouriteTransaction.merchant,
             total: favouriteTransaction.total,
-            budget_ids: _.pluck(favouriteTransaction.budgets, 'id')
+            budget_ids: _.map(favouriteTransaction.budgets, 'id')
         };
 
         if (favouriteTransaction.account && favouriteTransaction.type !== 'transfer') {
@@ -459,6 +460,14 @@ export default {
         }
 
         return budgets;
+    },
+
+    /**
+     *
+     */
+    getAllGraphData: function () {
+        GraphsRepository.getDoughnutChartData();
+        GraphsRepository.getLineAndBarChartData();
     },
 
 

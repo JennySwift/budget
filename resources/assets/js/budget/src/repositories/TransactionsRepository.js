@@ -6,7 +6,7 @@ export default {
     /**
      *
      */
-    filterTransactions: function (that) {
+    filterTransactions: function () {
         var data = {
             filter: FilterRepository.formatDates()
         };
@@ -30,7 +30,7 @@ export default {
      */
     setFields: function (transaction) {
         var data = {
-            date: helpers.formatDate(transaction.userDate),
+            date: helpers.convertToMySqlDate(transaction.userDate),
             account_id: transaction.account.id,
             type: transaction.type,
             description: transaction.description,
@@ -40,7 +40,7 @@ export default {
             allocated: transaction.allocated,
             //Convert duration from HH:MM format to minutes
             minutes: helpers.formatDurationToMinutes(transaction.duration),
-            budget_ids: _.pluck(transaction.budgets, 'id')
+            budget_ids: _.map(transaction.budgets, 'id')
         };
 
         if (transaction.type === 'expense' && transaction.total > 0) {

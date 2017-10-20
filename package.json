@@ -23,6 +23,7 @@
     "accounting": "^0.4.1",
     "animate.css": "^3.5.2",
     "bootstrap": "^3.3.7",
+    "chart.js": "^2.7.0",
     "moment": "^2.13.0",
     "sugar": "^1.4.1",
     "sweetalert2": "^6.6.8",

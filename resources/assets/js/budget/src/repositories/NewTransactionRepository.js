@@ -13,7 +13,7 @@ export default {
         if (!this.showErrorsIfExist()) {
             TotalsRepository.resetTotalChanges();
 
-            if (this.newTransaction.type === 'transfer') {
+            if (store.state.newTransaction.type === 'transfer') {
                 var that = this;
                 this.insertTransaction('from');
                 setTimeout(function(){
@@ -21,17 +21,17 @@ export default {
                 }, 100);
             }
             else {
-                var data = TransactionsRepository.setFields(this.newTransaction);
+                var data = TransactionsRepository.setFields(store.state.newTransaction);
 
                 if (direction) {
                     //It is a transfer transaction
                     data.direction = direction;
 
                     if (direction === 'from') {
-                        data.account_id = this.newTransaction.fromAccount.id;
+                        data.account_id = store.state.newTransaction.fromAccount.id;
                     }
                     else if (direction === 'to') {
-                        data.account_id = this.newTransaction.toAccount.id;
+                        data.account_id = store.state.newTransaction.toAccount.id;
                     }
                 }
 

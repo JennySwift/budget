@@ -1,6 +1,7 @@
 import TransactionsRepository from './TransactionsRepository'
 import FilterRepository from './FilterRepository'
 import helpers from './Helpers.js'
+import Vue from 'vue'
 export default {
 
     state: {
@@ -300,16 +301,16 @@ export default {
 
     /**
      *
-     * @param that
      */
-    runFilter: function (that) {
-        this.getBasicFilterTotals(that);
-        if (that.$route.path === '/') {
-            TransactionsRepository.filterTransactions(that);
+    runFilter: function () {
+        // console.log('running filter...route path is: ' + helpers.getRoutePath());
+        this.getBasicFilterTotals();
+
+        if (helpers.getRoutePath()) {
+            TransactionsRepository.filterTransactions();
         }
         else {
-            // $.event.trigger('get-graph-data');
-            that.$dispatch('get-graph-data');
+            store.getAllGraphData();
         }
     }
 

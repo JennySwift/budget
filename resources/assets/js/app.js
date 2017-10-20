@@ -46,6 +46,7 @@ store.setDefaultTab();
 TotalsRepository.getSideBarTotals();
 store.getSavedFilters();
 FilterRepository.resetFilter();
+// FilterRepository.runFilter();
 store.setDefaultTransactionPropertiesToShow()
 
 $(window).on('load', function () {

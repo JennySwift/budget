@@ -59,6 +59,7 @@
              * @returns {*}
              */
             handleResponseError: function (response) {
+                console.log(response);
                 var messages = [];
                 var defaultMessage = 'There was an error';
 
@@ -82,7 +83,6 @@
                         break;
                     default:
                         response && response.error ? messages.push(response.error) : messages.push(defaultMessage);
-                        console.log(response);
                         break;
                 }
 

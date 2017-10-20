@@ -199,7 +199,12 @@
             'tab'
         ],
         mounted: function () {
-            this.runFilter();
+            var that = this;
+            //If I don't do this timeout, app.__vue__ is undefined when I need it
+            setTimeout(function () {
+                that.runFilter();
+            }, 100);
+//            this.runFilter();
         }
     }
 </script>
