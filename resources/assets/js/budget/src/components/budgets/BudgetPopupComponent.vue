@@ -95,7 +95,7 @@
                     name: this.shared.selectedBudget.name,
                     amount: this.shared.selectedBudget.amount,
                     type: this.shared.selectedBudget.type,
-                    starting_date: helpers.formatDate(this.shared.selectedBudget.formattedStartingDate),
+                    starting_date: helpers.convertToMySqlDate(this.shared.selectedBudget.formattedStartingDate),
                 };
 
                 TotalsRepository.resetTotalChanges();

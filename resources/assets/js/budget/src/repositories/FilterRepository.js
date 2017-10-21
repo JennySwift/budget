@@ -160,37 +160,37 @@ export default {
     formatDates: function () {
         var filter = this.state.filter;
         if (filter.singleDate.in) {
-            filter.singleDate.inSql = helpers.formatDate(filter.singleDate.in);
+            filter.singleDate.inSql = helpers.convertToMySqlDate(filter.singleDate.in);
         }
         else {
             filter.singleDate.inSql = "";
         }
         if (filter.singleDate.out) {
-            filter.singleDate.outSql = helpers.formatDate(filter.singleDate.out);
+            filter.singleDate.outSql = helpers.convertToMySqlDate(filter.singleDate.out);
         }
         else {
             filter.singleDate.outSql = "";
         }
         if (filter.fromDate.in) {
-            filter.fromDate.inSql = helpers.formatDate(filter.fromDate.in);
+            filter.fromDate.inSql = helpers.convertToMySqlDate(filter.fromDate.in);
         }
         else {
             filter.fromDate.inSql = "";
         }
         if (filter.fromDate.out) {
-            filter.fromDate.outSql = helpers.formatDate(filter.fromDate.out);
+            filter.fromDate.outSql = helpers.convertToMySqlDate(filter.fromDate.out);
         }
         else {
             filter.fromDate.outSql = "";
         }
         if (filter.toDate.in) {
-            filter.toDate.inSql = helpers.formatDate(filter.toDate.in);
+            filter.toDate.inSql = helpers.convertToMySqlDate(filter.toDate.in);
         }
         else {
             filter.toDate.inSql = "";
         }
         if (filter.toDate.out) {
-            filter.toDate.outSql = helpers.formatDate(filter.toDate.out);
+            filter.toDate.outSql = helpers.convertToMySqlDate(filter.toDate.out);
         }
         else {
             filter.toDate.outSql = "";
