@@ -31,82 +31,84 @@
         </div>
 
         <table id="fixed-budget-info-table" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>
+                        <div>Amount</div>
+                        <div>per month</div>
+                    </th>
+                    <th>
+                        <div>Starting</div>
+                        <div>date</div>
+                    </th>
+                    <th>
+                        <div>Month</div>
+                        <div>number</div>
+                    </th>
+                    <th class="tooltipster" title="cumulative (amount * cumulative month number)">
+                        <div>Cumulative</div>
+                        <div>amount</div>
+                    </th>
 
-            <tr>
-                <th>Name</th>
-                <th>
-                    <div>Amount</div>
-                    <div>per month</div>
-                </th>
-                <th>
-                    <div>Starting</div>
-                    <div>date</div>
-                </th>
-                <th>
-                    <div>Month</div>
-                    <div>number</div>
-                </th>
-                <th class="tooltipster" title="cumulative (amount * cumulative month number)">
-                    <div>Cumulative</div>
-                    <div>amount</div>
-                </th>
+                    <th>
+                        <div>Spent <</div>
+                        <div>starting date</div>
+                    </th>
 
-                <th>
-                    <div>Spent <</div>
-                    <div>starting date</div>
-                </th>
+                    <th>
+                        <div>Spent >=</div>
+                        <div>starting date</div>
+                    </th>
 
-                <th>
-                    <div>Spent >=</div>
-                    <div>starting date</div>
-                </th>
+                    <th>
+                        <div>Received >=</div>
+                        <div>starting date</div>
+                    </th>
 
-                <th>
-                    <div>Received >=</div>
-                    <div>starting date</div>
-                </th>
-
-                <th class="tooltipster" title="remaining  (cumulative + spent + received)">Remaining</th>
-            </tr>
-
+                    <th class="tooltipster" title="remaining  (cumulative + spent + received)">Remaining</th>
+                </tr>
+            </thead>
             <!-- table content -->
-            <tr v-for="budget in orderedFixedBudgets" class="budget_info_ul">
+            <tbody>
+                <tr v-for="budget in orderedFixedBudgets" class="budget_info_ul">
 
-                <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">{{ budget.name }}</td>
+                    <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">{{ budget.name }}</td>
 
-                <td v-on:click="showBudgetPopup(budget, 'fixed')" class="amount right pointer">{{ budget.amount | numberFilter(2) }}</td>
+                    <td v-on:click="showBudgetPopup(budget, 'fixed')" class="amount right pointer">{{ budget.amount | numberFilter(2) }}</td>
 
-                <td v-on:click="showBudgetPopup(budget, 'fixed')" class="CSD pointer">
-                    <span>{{ budget.formattedStartingDate }}</span>
-                </td>
+                    <td v-on:click="showBudgetPopup(budget, 'fixed')" class="CSD pointer">
+                        <span>{{ budget.formattedStartingDate }}</span>
+                    </td>
 
-                <td v-on:click="showBudgetPopup(budget, 'fixed')" class="month-number pointer">{{ budget.cumulativeMonthNumber }}</td>
+                    <td v-on:click="showBudgetPopup(budget, 'fixed')" class="month-number pointer">{{ budget.cumulativeMonthNumber }}</td>
 
-                <td v-on:click="showBudgetPopup(budget, 'fixed')" class="cumulative pointer">{{ budget.cumulative | numberFilter(2) }}</td>
+                    <td v-on:click="showBudgetPopup(budget, 'fixed')" class="cumulative pointer">{{ budget.cumulative | numberFilter(2) }}</td>
 
-                <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">{{ budget.spentBeforeStartingDate | numberFilter(2) }}</td>
+                    <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">{{ budget.spentBeforeStartingDate | numberFilter(2) }}</td>
 
-                <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">{{ budget.spentOnOrAfterStartingDate | numberFilter(2) }}</td>
+                    <td v-on:click="showBudgetPopup(budget, 'fixed')" class="pointer">{{ budget.spentOnOrAfterStartingDate | numberFilter(2) }}</td>
 
-                <td v-on:click="showBudgetPopup(budget, 'fixed')" class="received pointer">{{ budget.receivedOnOrAfterStartingDate | numberFilter(2) }}</td>
+                    <td v-on:click="showBudgetPopup(budget, 'fixed')" class="received pointer">{{ budget.receivedOnOrAfterStartingDate | numberFilter(2) }}</td>
 
-                <td v-on:click="showBudgetPopup(budget, 'fixed')" v-bind:class="{'negative-remaining': budget.remaining < 0}" class="remaining pointer">{{ budget.remaining | numberFilter(2) }}</td>
+                    <td v-on:click="showBudgetPopup(budget, 'fixed')" v-bind:class="{'negative-remaining': budget.remaining < 0}" class="remaining pointer">{{ budget.remaining | numberFilter(2) }}</td>
 
-            </tr>
+                </tr>
 
-            <!-- fixed budget totals -->
-            <tr id="fixed-budget-totals" class="budget_info_ul totals">
-                <td>totals</td>
-                <td>{{ shared.fixedBudgetTotals.amount | numberFilter(2) }}</td>
-                <td>-</td>
-                <td>-</td>
-                <td>{{ shared.fixedBudgetTotals.cumulative | numberFilter(2) }}</td>
-                <td>{{ shared.fixedBudgetTotals.spentBeforeStartingDate | numberFilter(2) }}</td>
-                <td>{{ shared.fixedBudgetTotals.spentOnOrAfterStartingDate | numberFilter(2) }}</td>
-                <td>{{ shared.fixedBudgetTotals.receivedOnOrAfterStartingDate | numberFilter(2) }}</td>
-                <td>{{ shared.fixedBudgetTotals.remaining | numberFilter(2) }}</td>
-            </tr>
+                <!-- fixed budget totals -->
+                <tr id="fixed-budget-totals" class="budget_info_ul totals">
+                    <td>totals</td>
+                    <td>{{ shared.fixedBudgetTotals.amount | numberFilter(2) }}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{{ shared.fixedBudgetTotals.cumulative | numberFilter(2) }}</td>
+                    <td>{{ shared.fixedBudgetTotals.spentBeforeStartingDate | numberFilter(2) }}</td>
+                    <td>{{ shared.fixedBudgetTotals.spentOnOrAfterStartingDate | numberFilter(2) }}</td>
+                    <td>{{ shared.fixedBudgetTotals.receivedOnOrAfterStartingDate | numberFilter(2) }}</td>
+                    <td>{{ shared.fixedBudgetTotals.remaining | numberFilter(2) }}</td>
+                </tr>
 
+            </tbody>
         </table>
     </div>
 </template>
