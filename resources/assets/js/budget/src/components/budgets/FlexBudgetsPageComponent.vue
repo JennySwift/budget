@@ -184,13 +184,6 @@
         methods: {
 
             /**
-             *
-             */
-            toggleNewBudget: function () {
-                $.event.trigger('toggle-new-budget');
-            },
-
-            /**
             *
             */
             getFlexBudgetTotals: function () {

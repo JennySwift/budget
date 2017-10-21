@@ -41,13 +41,6 @@
 
             /**
              *
-             */
-            toggleNewBudget: function () {
-                $.event.trigger('toggle-new-budget');
-            },
-
-            /**
-             *
              * @param budget
              */
             showBudgetPopup: function (budget) {

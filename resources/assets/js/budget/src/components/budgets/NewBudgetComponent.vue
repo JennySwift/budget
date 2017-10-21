@@ -1,5 +1,5 @@
 <template>
-    <div v-show="showNewBudget" class="new-budget">
+    <div v-show="shared.show.newBudget" class="new-budget">
         <h3>Create a new budget</h3>
         <i v-on:click="showNewBudget = false" class="close fa fa-times"></i>
 
@@ -75,10 +75,11 @@
 
 <script>
     import TotalsRepository from '../../repositories/TotalsRepository'
+    import helpers from '../../repositories/Helpers'
     export default {
         data: function () {
             return {
-                showNewBudget: false,
+                shared: store.state,
                 newBudget: {
                     type: 'fixed'
                 },
@@ -96,7 +97,7 @@
                     name: this.newBudget.name,
                     type: this.newBudget.type,
                     amount: this.newBudget.amount,
-                    starting_date: HelpersRepository.formatDate(this.newBudget.startingDate),
+                    starting_date: helpers.convertToMySqlDate(this.newBudget.startingDate),
                 };
 
                 TotalsRepository.resetTotalChanges();
@@ -126,23 +127,13 @@
                 else if (this.page == 'flexBudgets') {
                     $.event.trigger('update-flex-budget-table-totals');
                 }
-            },
-
-            /**
-             *
-             */
-            listen: function () {
-                var that = this;
-                $(document).on('toggle-new-budget', function (event) {
-                    that.showNewBudget = !that.showNewBudget;
-                });
             }
         },
         props: [
             'page'
         ],
         mounted: function () {
-            this.listen();
+
         }
     }
 </script>

@@ -17,6 +17,11 @@
 <script>
     import TotalsRepository from '../../repositories/TotalsRepository'
     export default {
+        data: function () {
+            return {
+                shared: store.state
+            }
+        },
         methods: {
             /**
              *
@@ -31,6 +36,10 @@
             respondToMouseLeaveOnTotalsButton: function () {
                 TotalsRepository.respondToMouseLeaveOnTotalsButton(this);
             },
+
+            toggleNewBudget: function () {
+                store.toggle('show.newBudget');
+            }
         }
     }
 </script>

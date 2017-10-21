@@ -106,7 +106,8 @@ export default {
             savingsTotal: {
                 input: false,
                 edit_btn: true
-            }
+            },
+            newBudget: false
         },
         transactionPropertiesToShow: {
             status: false,
