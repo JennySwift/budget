@@ -121,10 +121,10 @@ export default {
         }
         else {
             //Confirm before deleting
-            var confirmTitle = options.confirmTitle ? options.confirmTitle : 'Are you sure?';
+            var confirmTitle = options.confirmMessageTitle ? options.confirmMessageTitle : 'Are you sure?';
             swal({
                 title: confirmTitle,
-                text: options.confirmText,
+                text: options.confirmMessageText,
                 showCancelButton: true,
                 confirmButtonText: 'Yes',
                 cancelButtonText: 'Cancel',
@@ -153,6 +153,7 @@ export default {
             }
 
             store.hideLoading();
+            store.set(false, 'showPopup');
 
             if (options.message) {
                 app.__vue__.$bus.$emit('provide-feedback', options.message, 'success');

@@ -144,5 +144,15 @@
                 return helpers.numberFilter(number, howManyDecimals);
             }
         },
+        methods: {
+            /**
+             *
+             * @param budget
+             */
+            showBudgetPopup: function (budget) {
+                store.set(budget, 'selectedBudget');
+                helpers.showPopup('budget-popup');
+            },
+        }
     }
 </script>

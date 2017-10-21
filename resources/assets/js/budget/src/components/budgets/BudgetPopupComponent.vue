@@ -112,17 +112,7 @@
                         if (this.page !== response.type) {
                             //The budget type has changed.
                             //Remove the budget from the specific budgets array it was in
-                            switch(this.page) {
-                                case 'fixed':
-                                    store.delete(response, 'fixedBudgets');
-                                    break;
-                                case 'flex':
-                                    store.delete(response, 'flexBudgets');
-                                    break;
-                                case 'unassigned':
-                                    store.delete(response, 'unassignedBudgets');
-                                    break;
-                            }
+                            this.removeBudgetFromArray(response, this.page);
                             //Add the budget to the correct array
                             switch(response.type) {
                                 case 'fixed':
@@ -170,18 +160,36 @@
             },
 
             /**
+             * Used in both updating and deleting a budget, if the budget type is changed in the update
+             */
+            removeBudgetFromArray: function (budget, type) {
+                switch(type) {
+                    case 'fixed':
+                        store.delete(budget, 'fixedBudgets');
+                        break;
+                    case 'flex':
+                        store.delete(budget, 'flexBudgets');
+                        break;
+                    case 'unassigned':
+                        store.delete(budget, 'unassignedBudgets');
+                        break;
+                }
+            },
+
+            /**
              *
              */
             deleteBudget: function () {
                 helpers.delete({
                     url: '/api/budgets/' + this.shared.selectedBudget.id,
                     array: 'budgets',
-                    itemToDelete: this.budget,
+                    itemToDelete: this.shared.selectedBudget,
                     message: 'Budget deleted',
                     redirectTo: this.redirectTo,
-                    confirmMessage: 'You have ' + this.shared.selectedBudget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?',
+                    confirmMessageTitle: 'Are you sure?',
+                    confirmMessageText: 'You have ' + this.shared.selectedBudget.transactionsCount + ' transactions with this budget.',
                     callback: function () {
-                        this.showPopup = false;
+                        this.removeBudgetFromArray(this.shared.selectedBudget, this.shared.selectedBudget.type);
                     }.bind(this)
                 });
             }
