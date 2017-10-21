@@ -1,17 +1,16 @@
 <template>
-    <div
-        v-show="showPopup"
-        v-on:click="closePopup($event)"
-        id="edit-budget"
-        class="popup-outer">
 
-        <div class="popup-inner">
-            <h3>Edit {{ selectedBudget.name }}</h3>
+    <new-popup
+        id="budget-popup"
+        :redirect-to="redirectTo"
+    >
+        <div slot="content">
+            <h3>Edit {{ shared.selectedBudget.name }}</h3>
 
             <div class="form-group">
                 <label for="selected-budget-name">Name</label>
                 <input
-                    v-model="selectedBudget.name"
+                    v-model="shared.selectedBudget.name"
                     type="text"
                     id="selected-budget-name"
                     name="selected-budget-name"
@@ -24,7 +23,7 @@
                 <label for="selected-budget-type">Type</label>
 
                 <select
-                    v-model="selectedBudget.type"
+                    v-model="shared.selectedBudget.type"
                     id="selected-budget-type"
                     class="form-control"
                 >
@@ -37,10 +36,10 @@
                 </select>
             </div>
 
-            <div v-show="selectedBudget.type !== 'unassigned'" class="form-group">
+            <div v-show="shared.selectedBudget.type !== 'unassigned'" class="form-group">
                 <label for="selected-budget-starting-date">Starting date</label>
                 <input
-                    v-model="selectedBudget.formattedStartingDate"
+                    v-model="shared.selectedBudget.formattedStartingDate"
                     type="text"
                     id="selected-budget-starting-date"
                     name="selected-budget-starting-date"
@@ -49,11 +48,11 @@
                 >
             </div>
 
-            <div v-show="selectedBudget.type !== 'unassigned'" class="form-group">
-                <label v-if="selectedBudget.type === 'fixed'" for="selected-budget-amount">Amount Per Month</label>
-                <label v-if="selectedBudget.type === 'flex'" for="selected-budget-amount">% of Remaining Balance</label>
+            <div v-show="shared.selectedBudget.type !== 'unassigned'" class="form-group">
+                <label v-if="shared.selectedBudget.type === 'fixed'" for="selected-budget-amount">Amount Per Month</label>
+                <label v-if="shared.selectedBudget.type === 'flex'" for="selected-budget-amount">% of Remaining Balance</label>
                 <input
-                    v-model="selectedBudget.amount"
+                    v-model="shared.selectedBudget.amount"
                     type="text"
                     id="selected-budget-amount"
                     name="selected-budget-amount"
@@ -61,15 +60,16 @@
                     class="form-control"
                 >
             </div>
-
-            <div class="buttons">
-                <button v-on:click="showPopup = false" class="btn btn-default">Cancel</button>
-                <button v-on:click="deleteBudget(budget)" class="btn btn-danger">Delete</button>
-                <button v-on:click="updateBudget()" class="btn btn-success">Save</button>
-            </div>
         </div>
 
-    </div>
+        <popup-buttons slot="buttons"
+                 :save="updateBudget"
+                 :destroy="deleteBudget"
+                 :redirect-to="redirectTo"
+        >
+        </popup-buttons>
+
+    </new-popup>
 
 </template>
 
@@ -79,9 +79,9 @@
     export default {
         data: function () {
             return {
-                showPopup: false,
-                selectedBudget: {},
-                types: ['fixed', 'flex', 'unassigned']
+                shared: store.state,
+                types: ['fixed', 'flex', 'unassigned'],
+                redirectTo: false
             };
         },
         components: {},
@@ -92,16 +92,16 @@
              */
             updateBudget: function (budget) {
                 var data = {
-                    name: this.selectedBudget.name,
-                    amount: this.selectedBudget.amount,
-                    type: this.selectedBudget.type,
-                    starting_date: helpers.formatDate(this.selectedBudget.formattedStartingDate),
+                    name: this.shared.selectedBudget.name,
+                    amount: this.shared.selectedBudget.amount,
+                    type: this.shared.selectedBudget.type,
+                    starting_date: helpers.formatDate(this.shared.selectedBudget.formattedStartingDate),
                 };
 
                 TotalsRepository.resetTotalChanges();
 
                 helpers.put({
-                    url: '/api/budgets/' + this.selectedBudget.id,
+                    url: '/api/budgets/' + this.shared.selectedBudget.id,
                     data: data,
                     property: 'budgets',
                     message: 'Budget updated',
@@ -131,33 +131,15 @@
              */
             deleteBudget: function () {
                 helpers.delete({
-                    url: '/api/budgets/' + this.selectedBudget.id,
+                    url: '/api/budgets/' + this.shared.selectedBudget.id,
                     array: 'budgets',
                     itemToDelete: this.budget,
                     message: 'Budget deleted',
                     redirectTo: this.redirectTo,
-                    confirmMessage: 'You have ' + this.selectedBudget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?',
+                    confirmMessage: 'You have ' + this.shared.selectedBudget.transactionsCount + ' transactions with this budget. Are you sure you want to delete it?',
                     callback: function () {
                         this.showPopup = false;
                     }.bind(this)
-                });
-            },
-
-            /**
-             *
-             */
-            closePopup: function ($event) {
-                helpers.closePopup($event, this);
-            },
-
-            /**
-             *
-             */
-            listen: function () {
-                var that = this;
-                $(document).on('show-budget-popup', function (event, budget) {
-                    that.selectedBudget = budget;
-                    that.showPopup = true;
                 });
             }
         },
@@ -165,7 +147,7 @@
             'page'
         ],
         mounted: function () {
-            this.listen();
+
         }
     }
 </script>

@@ -1,10 +1,10 @@
 <template>
     <div id="fixed-budgets-page" class="budgets-page">
 
-        <edit-budget-popup
+        <budget-popup
             page="fixed"
         >
-        </edit-budget-popup>
+        </budget-popup>
 
         <budgets-toolbar></budgets-toolbar>
 
@@ -44,7 +44,8 @@
              * @param budget
              */
             showBudgetPopup: function (budget) {
-                $.event.trigger('show-budget-popup', [budget]);
+                store.set(budget, 'selectedBudget');
+                helpers.showPopup('budget-popup');
             },
 
             /**

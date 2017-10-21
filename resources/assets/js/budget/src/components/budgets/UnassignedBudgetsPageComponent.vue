@@ -1,10 +1,10 @@
 <template>
     <div id="unassigned-budgets-page" class="budgets-page">
 
-        <edit-budget-popup
+        <budget-popup
             page="unassigned"
         >
-        </edit-budget-popup>
+        </budget-popup>
 
         <budgets-toolbar></budgets-toolbar>
 
@@ -42,6 +42,7 @@
 
 <script>
     import TotalsRepository from '../../repositories/TotalsRepository'
+    import helpers from '../../repositories/Helpers'
     export default {
         data: function () {
             return {
@@ -61,7 +62,8 @@
              * @param budget
              */
             showBudgetPopup: function (budget) {
-                $.event.trigger('show-budget-popup', [budget]);
+                store.set(budget, 'selectedBudget');
+                helpers.showPopup('budget-popup');
             },
         },
         props: [
