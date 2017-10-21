@@ -1,9 +1,6 @@
 <template>
     <div>
-        <edit-account
-            :accounts.sync="accounts"
-        >
-        </edit-account>
+        <account-popup></account-popup>
 
         <div id="accounts">
 
@@ -19,9 +16,9 @@
                     <th>Name</th>
                     <th class="balance">Balance</th>
                 </tr>
-                <tr v-for="account in accounts">
+                <tr v-for="account in shared.accounts">
                     <td
-                        v-on:click="showEditAccountPopup(account)"
+                        v-on:click="showAccountPopup(account)"
                         class="pointer">
                         {{ account.name }}
                     </td>
@@ -38,6 +35,8 @@
 <script>
     import helpers from '../../repositories/Helpers'
     import FilterRepository from '../../repositories/FilterRepository'
+    import NewAccountComponent from './NewAccountComponent.vue'
+    import AccountPopupComponent from './AccountPopupComponent.vue'
     export default {
         data: function () {
             return {
@@ -49,7 +48,10 @@
               return _.orderBy(this.shared.accounts, 'name');
             }
         },
-        components: {},
+        components: {
+            'account-popup': AccountPopupComponent,
+            'new-account': NewAccountComponent
+        },
         filters: {
             /**
              *
@@ -67,8 +69,9 @@
              *
              * @param account
              */
-            showEditAccountPopup: function (account) {
-                $.event.trigger('show-edit-account-popup', [account]);
+            showAccountPopup: function (account) {
+                store.set(account, 'selectedAccount');
+                helpers.showPopup('account-popup');
             },
 
             /**

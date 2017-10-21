@@ -33,6 +33,7 @@ export default {
         },
         selectedTransaction: {},
         selectedBudget: {},
+        selectedAccount: {},
         fixedBudgetTotals: {},
         flexBudgetTotals: {},
         transactions: [
@@ -389,17 +390,7 @@ export default {
 
 
 
-    /**
-     * Remove budget from budgets array as well as from specific budgets array
-     * @param budget
-     * @param that
-     */
-    deleteBudget: function (budget, that) {
-        //Remove from budgets array
-        this.state.budgets = helpers.deleteById(this.state.budgets, budget.id);
 
-        this.deleteBudgetFromSpecificArray(budget, that);
-    },
 
     /**
      *
