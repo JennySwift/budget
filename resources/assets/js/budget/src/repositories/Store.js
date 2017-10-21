@@ -387,38 +387,7 @@ export default {
 
 
 
-    /**
-     *
-     * @param budget
-     */
-    updateBudget: function (budget, that) {
-        //Update the budgets array
-        var index = HelpersRepository.findIndexById(this.state.budgets, budget.id);
-        this.state.budgets.$set(index, budget);
 
-        if (that.page !== budget.type) {
-            //The budget type has changed. Remove it from the specific budgets array it was in, and add it to another specific budgets array.
-            this.deleteBudgetFromSpecificArray(budget, that);
-            this.addBudgetToSpecificArray(budget, that);
-        }
-        else {
-            //The budget type has not changed. Update the specific budgets array
-            switch(that.page) {
-                case 'fixed':
-                    index = HelpersRepository.findIndexById(this.state.fixedBudgets, budget.id);
-                    this.state.fixedBudgets.$set(index, budget);
-                    break;
-                case 'flex':
-                    index = HelpersRepository.findIndexById(this.state.flexBudgets, budget.id);
-                    this.state.flexBudgets.$set(index, budget);
-                    break;
-                case 'unassigned':
-                    index = HelpersRepository.findIndexById(this.state.unassignedBudgets, budget.id);
-                    this.state.unassignedBudgets.$set(index, budget);
-                    break;
-            }
-        }
-    },
 
     /**
      * Remove budget from budgets array as well as from specific budgets array
@@ -427,47 +396,9 @@ export default {
      */
     deleteBudget: function (budget, that) {
         //Remove from budgets array
-        this.state.budgets = HelpersRepository.deleteById(this.state.budgets, budget.id);
+        this.state.budgets = helpers.deleteById(this.state.budgets, budget.id);
 
         this.deleteBudgetFromSpecificArray(budget, that);
-    },
-
-    /**
-     *
-     * @param budget
-     * @param that
-     */
-    deleteBudgetFromSpecificArray: function(budget, that) {
-        switch(that.page) {
-            case 'fixed':
-                this.state.fixedBudgets = HelpersRepository.deleteById(this.state.fixedBudgets, budget.id);
-                break;
-            case 'flex':
-                this.state.flexBudgets = HelpersRepository.deleteById(this.state.flexBudgets, budget.id);
-                break;
-            case 'unassigned':
-                this.state.unassignedBudgets = HelpersRepository.deleteById(this.state.unassignedBudgets, budget.id);
-                break;
-        }
-    },
-
-    /**
-     *
-     * @param budget
-     * @param that
-     */
-    addBudgetToSpecificArray: function(budget, that) {
-        switch(budget.type) {
-            case 'fixed':
-                this.state.fixedBudgets.push(budget);
-                break;
-            case 'flex':
-                this.state.flexBudgets.push(budget);
-                break;
-            case 'unassigned':
-                this.state.unassignedBudgets.push(budget);
-                break;
-        }
     },
 
     /**

@@ -107,7 +107,50 @@
                     message: 'Budget updated',
                     redirectTo: this.redirectTo,
                     callback: function (response) {
-                        store.updateBudget(response, this);
+                        //Update the budgets array
+                        store.update(response, 'budgets');
+                        if (this.page !== response.type) {
+                            //The budget type has changed.
+                            //Remove the budget from the specific budgets array it was in
+                            switch(this.page) {
+                                case 'fixed':
+                                    store.delete(response, 'fixedBudgets');
+                                    break;
+                                case 'flex':
+                                    store.delete(response, 'flexBudgets');
+                                    break;
+                                case 'unassigned':
+                                    store.delete(response, 'unassignedBudgets');
+                                    break;
+                            }
+                            //Add the budget to the correct array
+                            switch(response.type) {
+                                case 'fixed':
+                                    store.add(response, 'fixedBudgets');
+                                    break;
+                                case 'flex':
+                                    store.add(response, 'flexBudgets');
+                                    break;
+                                case 'unassigned':
+                                    store.add(response, 'unassignedBudgets');
+                                    break;
+                            }
+                        }
+                        else {
+                            //The budget type has not changed. Update the specific budgets array
+                            switch(this.page) {
+                                case 'fixed':
+                                    store.update(response, 'fixedBudgets');
+                                    break;
+                                case 'flex':
+                                    store.update(response, 'flexBudgets');
+                                    break;
+                                case 'unassigned':
+                                    store.update(response, 'unassignedBudgets');
+                                    break;
+                            }
+                        }
+
                         this.updateBudgetTableTotals();
                         TotalsRepository.getSideBarTotals(this);
                     }.bind(this)

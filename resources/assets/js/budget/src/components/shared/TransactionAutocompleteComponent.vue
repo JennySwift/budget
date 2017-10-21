@@ -253,7 +253,7 @@
                     $.event.trigger('hide-loading');
                 })
                     .error(function (response) {
-                        HelpersRepository.handleResponseError(response);
+                        helpers.handleResponseError(response);
                     });
             },
 

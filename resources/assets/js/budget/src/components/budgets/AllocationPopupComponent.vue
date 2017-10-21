@@ -101,7 +101,7 @@
             //    $.event.trigger('show-loading');
             //
             //    var data = {
-            //        allocated: HelpersRepository.convertBooleanToInteger(this.transaction.allocated)
+            //        allocated: helpers.convertBooleanToInteger(this.transaction.allocated)
             //    };
             //
             //    this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
@@ -109,7 +109,7 @@
             //        $.event.trigger('hide-loading');
             //    })
             //    .error(function (response) {
-            //        HelpersRepository.handleResponseError(response);
+            //        helpers.handleResponseError(response);
             //    });
             //},
 
