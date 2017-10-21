@@ -1,6 +1,6 @@
 <template>
-    <div v-show="shared.show.basicTotals" id="totals">
-        <div v-show="shared.show.basicTotals" id="remaining-balance-totals" class="totals">
+    <div v-show="shared.show.totals" id="totals">
+        <div v-show="shared.show.totals" id="remaining-balance-totals" class="totals">
 
             <i v-if="totalsLoading" class="fa fa-spinner fa-pulse"></i>
 

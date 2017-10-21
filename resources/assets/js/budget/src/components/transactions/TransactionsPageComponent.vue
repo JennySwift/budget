@@ -1,36 +1,36 @@
 <template>
     <div>
         <!--Toolbar-->
-        <div id="toolbar">
+        <!--<div id="toolbar">-->
 
-            <div>
+            <!--<div>-->
 
-                <button
-                    v-if="!shared.show.newTransaction"
-                    v-on:click="toggleNewTransaction()"
-                    class="btn btn-info">
-                    New transaction
-                </button>
+                <!--<button-->
+                    <!--v-if="!shared.show.newTransaction"-->
+                    <!--v-on:click="toggleNewTransaction()"-->
+                    <!--class="btn btn-info">-->
+                    <!--New transaction-->
+                <!--</button>-->
 
-                <button
-                    v-if="shared.show.newTransaction"
-                    v-on:click="toggleNewTransaction()"
-                    class="btn btn-info">
-                    Hide new transaction
-                </button>
+                <!--<button-->
+                    <!--v-if="shared.show.newTransaction"-->
+                    <!--v-on:click="toggleNewTransaction()"-->
+                    <!--class="btn btn-info">-->
+                    <!--Hide new transaction-->
+                <!--</button>-->
 
-            </div>
+            <!--</div>-->
 
-            <div>
-                <button
-                    v-on:mouseenter="respondToMouseEnterOnTotalsButton"
-                    v-on:mouseleave="respondToMouseLeaveOnTotalsButton"
-                    class="btn btn-default totals-btn"
-                >
-                    Totals
-                </button>
-            </div>
-        </div>
+            <!--<div>-->
+                <!--<button-->
+                    <!--v-on:mouseenter="respondToMouseEnterOnTotalsButton"-->
+                    <!--v-on:mouseleave="respondToMouseLeaveOnTotalsButton"-->
+                    <!--class="btn btn-default totals-btn"-->
+                <!--&gt;-->
+                    <!--Totals-->
+                <!--</button>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <new-transaction></new-transaction>
 

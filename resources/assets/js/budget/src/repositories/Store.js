@@ -99,9 +99,10 @@ export default {
         showPopup: false,
         showFilter: true,
         show: {
-            newTransaction: true,
-            basicTotals: false,
-            budgetTotals: false,
+            newTransaction: false,
+            totals: false,
+            // basicTotals: false,
+            // budgetTotals: false,
             filterTotals: true,
             budget: false,
             filter: true,

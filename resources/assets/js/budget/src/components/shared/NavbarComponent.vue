@@ -48,19 +48,29 @@
             </a>
             <ul class="dropdown-menu show-dropdown" role="menu">
 
-                <li>
-                    <a class="disabled">Totals</a>
-                </li>
+                <!--<li>-->
+                    <!--<a class="disabled">Totals</a>-->
+                <!--</li>-->
 
-                <!--Basic totals-->
                 <li>
                     <a
-                        v-on:click="shared.transactionPropertiesToShow.basicTotals = !shared.transactionPropertiesToShow.basicTotals"
+                        v-on:click="toggleTotals()"
                         class="pointer"
                     >
                         <span>Totals</span>
                         <i
-                            v-show="shared.transactionPropertiesToShow.basicTotals"
+                            v-show="shared.show.totals"
+                            class="fa fa-check"></i>
+                    </a>
+                </li>
+                <li>
+                    <a
+                        v-on:click="toggleNewTransaction()"
+                        class="pointer"
+                    >
+                        <span>New Transaction</span>
+                        <i
+                            v-show="shared.show.newTransaction"
                             class="fa fa-check"></i>
                     </a>
                 </li>
@@ -299,6 +309,14 @@
                 store.toggle('show.filter');
             },
 
+            toggleTotals: function () {
+                store.toggle('show.totals');
+            },
+
+            toggleNewTransaction () {
+                store.toggle('show.newTransaction');
+            },
+
             /**
              *
              */
@@ -342,8 +360,7 @@
             }
         },
         props: [
-//            'show',
-//            'transactionPropertiesToShow'
+
         ],
         mounted: function () {
 
