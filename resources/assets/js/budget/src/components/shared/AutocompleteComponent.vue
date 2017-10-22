@@ -71,7 +71,7 @@
             <div v-if="options.length === 0" class="no-results">No results</div>
         </div>
 
-        <div v-if="multipleSelections" class="budget-display">
+        <div v-if="multipleSelections" class="chosen-options">
 
             <li
                 v-for="option in chosenOptions"
@@ -81,7 +81,7 @@
                     'tag-with-flex-budget': option.type === 'flex',
                     'tag-without-budget': option.type === 'unassigned'
                 }"
-                class="label label-default removable-budget"
+                class="label label-default removable-option"
             >
                 <span>{{ option.name }}</span>
                 <span class="type">{{ option.type }}</span>
@@ -610,6 +610,26 @@
         .scrollbar-container {
             .mCSB_draggerContainer {
                 right: -7px;
+            }
+        }
+        .chosen-options {
+            height: 34px;
+            .removable-option {
+                cursor: pointer;
+                transition: all, .3s, ease;
+                //position: relative;
+                &:hover {
+                    padding: .4em 1.6em .4em;
+                    .fa-times {
+                        display: inline;
+                    }
+                }
+                .fa-times {
+                    font-size: 10px;
+                    //position: relative;
+                    //left: 8px;
+                    display: none;
+                }
             }
         }
     }
