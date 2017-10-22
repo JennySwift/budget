@@ -1,131 +1,136 @@
 <template>
-    <transition
-        name="filter"
-        v-cloak
-        class="margin-bottom"
-    >
-        <div v-show="shared.show.filter" id="filter">
-            <ul class="nav nav-tabs">
-                <li
-                    role="presentation"
-                    v-on:click="filterTab = 'show'"
-                    v-bind:class="{'active': filterTab === 'show'}"
-                    class="show-tab"
-                >
-                    <a href="#">
-                        Show
-                    </a>
-                </li>
-
-                <li
-                    role="presentation"
-                    v-on:click="filterTab = 'hide'"
-                    v-bind:class="{'active': filterTab === 'hide'}"
-                    class="hide-tab"
-                >
-                    <a href="#">
-                        Hide
-                    </a>
-                </li>
-            </ul>
-
-            <saved-filters
-                :run-filter="runFilter"
-                :filter.sync="filter"
+    <transition name="filter-wrapper">
+        <div v-show="shared.show.filter" id="filter-wrapper">
+            <transition
+                name="filter"
+                v-cloak
+                class="margin-bottom"
             >
-            </saved-filters>
+                <div v-show="shared.show.filter" id="filter">
+                    <ul class="nav nav-tabs">
+                        <li
+                            role="presentation"
+                            v-on:click="filterTab = 'show'"
+                            v-bind:class="{'active': filterTab === 'show'}"
+                            class="show-tab"
+                        >
+                            <a href="#">
+                                Show
+                            </a>
+                        </li>
 
-            <toolbar-for-filter
-                :filter="filter"
-                :filter-totals="filterTotals"
-                :run-filter="runFilter"
-            >
-            </toolbar-for-filter>
+                        <li
+                            role="presentation"
+                            v-on:click="filterTab = 'hide'"
+                            v-bind:class="{'active': filterTab === 'hide'}"
+                            class="hide-tab"
+                        >
+                            <a href="#">
+                                Hide
+                            </a>
+                        </li>
+                    </ul>
 
-            <div>
-                <totals-for-filter
-                    :filter="filter"
-                    :filter-totals="filterTotals"
-                >
-                </totals-for-filter>
+                    <saved-filters
+                        :run-filter="runFilter"
+                        :filter.sync="filter"
+                    >
+                    </saved-filters>
 
-                <div>
-                    <accounts-filter
+                    <toolbar-for-filter
                         :filter="filter"
-                        :filter-tab="filterTab"
+                        :filter-totals="filterTotals"
                         :run-filter="runFilter"
                     >
-                    </accounts-filter>
+                    </toolbar-for-filter>
 
-                    <types-filter
-                        :filter="filter"
-                        :filter-tab="filterTab"
-                        :run-filter="runFilter"
-                    >
-                    </types-filter>
+                    <div>
+                        <totals-for-filter
+                            :filter="filter"
+                            :filter-totals="filterTotals"
+                        >
+                        </totals-for-filter>
 
-                    <descriptions-filter
-                        :filter="filter"
-                        :filter-tab="filterTab"
-                        :run-filter="runFilter"
-                        :clear-filter-field="clearFilterField"
-                    >
-                    </descriptions-filter>
+                        <div>
+                            <accounts-filter
+                                :filter="filter"
+                                :filter-tab="filterTab"
+                                :run-filter="runFilter"
+                            >
+                            </accounts-filter>
 
-                    <merchants-filter
-                        :filter="filter"
-                        :filter-tab="filterTab"
-                        :run-filter="runFilter"
-                        :clear-filter-field="clearFilterField"
-                    >
-                    </merchants-filter>
+                            <types-filter
+                                :filter="filter"
+                                :filter-tab="filterTab"
+                                :run-filter="runFilter"
+                            >
+                            </types-filter>
 
-                    <budgets-filter
-                        :filter="filter"
-                        :filter-tab="filterTab"
-                        :run-filter="runFilter"
-                    >
-                    </budgets-filter>
+                            <descriptions-filter
+                                :filter="filter"
+                                :filter-tab="filterTab"
+                                :run-filter="runFilter"
+                                :clear-filter-field="clearFilterField"
+                            >
+                            </descriptions-filter>
 
-                    <dates-filter
-                        :filter="filter"
-                        :filter-tab="filterTab"
-                        :run-filter="runFilter"
-                        :clear-filter-field="clearFilterField"
-                    >
-                    </dates-filter>
+                            <merchants-filter
+                                :filter="filter"
+                                :filter-tab="filterTab"
+                                :run-filter="runFilter"
+                                :clear-filter-field="clearFilterField"
+                            >
+                            </merchants-filter>
 
-                    <totals-filter
-                        :filter="filter"
-                        :filter-tab="filterTab"
-                        :run-filter="runFilter"
-                        :clear-filter-field="clearFilterField"
-                    >
-                    </totals-filter>
+                            <budgets-filter
+                                :filter="filter"
+                                :filter-tab="filterTab"
+                                :run-filter="runFilter"
+                            >
+                            </budgets-filter>
 
-                    <reconciled-filter
-                        :filter="filter"
-                        :filter-tab="filterTab"
-                        :run-filter="runFilter"
-                    >
-                    </reconciled-filter>
+                            <dates-filter
+                                :filter="filter"
+                                :filter-tab="filterTab"
+                                :run-filter="runFilter"
+                                :clear-filter-field="clearFilterField"
+                            >
+                            </dates-filter>
 
-                    <invalid-allocation-filter
-                        :filter="filter"
-                        :filter-tab="filterTab"
-                        :run-filter="runFilter"
-                    >
-                    </invalid-allocation-filter>
+                            <totals-filter
+                                :filter="filter"
+                                :filter-tab="filterTab"
+                                :run-filter="runFilter"
+                                :clear-filter-field="clearFilterField"
+                            >
+                            </totals-filter>
 
-                    <num-budgets-filter
-                        :filter="filter"
-                        :filter-tab="filterTab"
-                        :run-filter="runFilter"
-                    >
-                    </num-budgets-filter>
+                            <reconciled-filter
+                                :filter="filter"
+                                :filter-tab="filterTab"
+                                :run-filter="runFilter"
+                            >
+                            </reconciled-filter>
 
+                            <invalid-allocation-filter
+                                :filter="filter"
+                                :filter-tab="filterTab"
+                                :run-filter="runFilter"
+                            >
+                            </invalid-allocation-filter>
+
+                            <num-budgets-filter
+                                :filter="filter"
+                                :filter-tab="filterTab"
+                                :run-filter="runFilter"
+                            >
+                            </num-budgets-filter>
+
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+            </transition>
         </div>
 
     </transition>

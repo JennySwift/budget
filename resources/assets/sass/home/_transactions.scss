@@ -3,6 +3,17 @@
     > * {
         margin: 0 10px;
     }
+
+    .filter-wrapper-enter-active {
+        transition: all .5s ease-out;
+    }
+    .filter-wrapper-leave-active {
+        transition: all .5s ease-in;
+    }
+    .filter-wrapper-enter, .filter-wrapper-leave-to {
+        width: 0;
+    }
+
     #transactions {
         flex-grow: 1;
         table {

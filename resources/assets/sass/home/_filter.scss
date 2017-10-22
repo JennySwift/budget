@@ -3,11 +3,14 @@
         padding: 5px 15px;
     }
 }
+#filter-wrapper {
+    width: 392px;
+}
 #filter {
     //animation
     animation: slideInRight .5s;
     &.filter-leave-active {
-        animation: bounceOutRight 2s;
+        animation: slideOutRight 2s;
     }
 
     #saved-filters-autocomplete {
