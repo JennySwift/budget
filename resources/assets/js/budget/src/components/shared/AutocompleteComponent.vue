@@ -49,9 +49,9 @@
                 <!--<div v-if="multiple-selections">-->
 
                 <!--</div>-->
-                <!--<div>-->
-                    <!--<span :class="'label label-default' + budget.type + '-label'">{{ budget.type }}</span>-->
-                <!--</div>-->
+                <div>
+                    <span :class="'label label-default ' + option.type + '-label'">{{ option.type }}</span>
+                </div>
 
                 <!--Delete button-->
                 <button
@@ -549,6 +549,7 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
+    @import '../../../../../sass/variables';
     $zIndex1: 9;
     $zIndex2: 99;
     $selected: #5cb85c;
@@ -611,6 +612,12 @@
             .mCSB_draggerContainer {
                 right: -7px;
             }
+        }
+        .flex-label {
+            background: $warning;
+        }
+        .fixed-label {
+            background: $primary;
         }
         .chosen-options {
             height: 34px;
