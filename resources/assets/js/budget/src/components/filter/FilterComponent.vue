@@ -189,6 +189,12 @@
                     this.runFilter();
                 }
             },
+            chosenOptionRemoved: function (option, inputId) {
+                if (inputId === 'filter-budgets-in-and-input') {
+                    store.delete(option, 'filter.budgets.in.and');
+                    this.runFilter();
+                }
+            },
         },
         props: [
             'tab'
@@ -203,6 +209,7 @@
         },
         created: function () {
             this.$bus.$on('autocomplete-option-chosen', this.optionChosen);
+            this.$bus.$on('autocomplete-chosen-option-removed', this.chosenOptionRemoved);
         }
     }
 </script>
