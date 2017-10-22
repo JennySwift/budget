@@ -46,26 +46,11 @@
 
                 <!--For budget autocomplete-->
                 <!--<div v-html="budget.html"></div>-->
+                <!--<div v-if="multiple-selections">-->
+
+                <!--</div>-->
                 <!--<div>-->
                     <!--<span :class="'label label-default' + budget.type + '-label'">{{ budget.type }}</span>-->
-                <!--</div>-->
-                <!--<div v-if="chosenBudgets" v-show="chosenBudgets.length > 0" class="budget-display">-->
-
-                    <!--<li-->
-                        <!--v-for="budget in chosenBudgets"-->
-                        <!--v-on:click="removeBudget(budget)"-->
-                        <!--v-bind:class="{-->
-                        <!--'tag-with-fixed-budget': budget.type === 'fixed',-->
-                        <!--'tag-with-flex-budget': budget.type === 'flex',-->
-                        <!--'tag-without-budget': budget.type === 'unassigned'-->
-                    <!--}"-->
-                        <!--class="label label-default removable-budget"-->
-                    <!--&gt;-->
-                        <!--<span>{{ budget.name }}</span>-->
-                        <!--<span class="type">{{ budget.type }}</span>-->
-                        <!--<i class="fa fa-times"></i>-->
-                    <!--</li>-->
-
                 <!--</div>-->
 
                 <!--Delete button-->
@@ -85,6 +70,25 @@
             </div>
             <div v-if="options.length === 0" class="no-results">No results</div>
         </div>
+
+        <div v-if="multipleSelections" class="budget-display">
+
+            <li
+                v-for="option in chosenOptions"
+                v-on:click="removeChosenOption(option)"
+                v-bind:class="{
+                    'tag-with-fixed-budget': option.type === 'fixed',
+                    'tag-with-flex-budget': option.type === 'flex',
+                    'tag-without-budget': option.type === 'unassigned'
+                }"
+                class="label label-default removable-budget"
+            >
+                <span>{{ option.name }}</span>
+                <span class="type">{{ option.type }}</span>
+                <i class="fa fa-times"></i>
+            </li>
+
+        </div>
     </div>
 </template>
 
@@ -103,7 +107,9 @@
                 interval: '',
                 startedCounting: false,
                 inputValue: '',
-                mutableSelected: this.selected
+                mutableSelected: this.selected,
+                //If multiple options can be chosen
+                chosenOptions: []
             };
         },
         components: {},
@@ -127,12 +133,12 @@
 
             /**
              *
-             * @param budget
+             * @param option
              */
-//            removeBudget: function (budget) {
-//                this.chosenBudgets = _.without(this.chosenBudgets, budget);
-//                this.$dispatch('budget-removed');
-//            },
+            removeChosenOption: function (option) {
+                this.chosenOptions = _.without(this.chosenOptions, option);
+                this.$bus.$emit('autocomplete-chosen-option-removed', option, this.inputId);
+            },
 
             /**
              * For if multiple budgets can be chosen
@@ -222,6 +228,7 @@
                 this.focusNextField();
 //                this.functionWhenOptionIsChosen();
                 this.$bus.$emit('autocomplete-option-chosen', this.mutableSelected, this.inputId);
+                this.chosenOptions.push(this.mutableSelected);
             },
 
             /**
