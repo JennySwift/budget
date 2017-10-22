@@ -8,7 +8,7 @@
             <div class="radio">
                 <label>
                     <input
-                        v-model="filter.reconciled"
+                        v-model="shared.filter.reconciled"
                         v-on:change="runFilter()"
                         type="radio"
                         name="status"
@@ -21,7 +21,7 @@
             <div class="radio">
                 <label>
                     <input
-                        v-model="filter.reconciled"
+                        v-model="shared.filter.reconciled"
                         v-on:change="runFilter()"
                         type="radio"
                         name="status"
@@ -34,7 +34,7 @@
             <div class="radio">
                 <label>
                     <input
-                        v-model="filter.reconciled"
+                        v-model="shared.filter.reconciled"
                         v-on:change="runFilter()"
                         type="radio"
                         name="status"
@@ -53,7 +53,8 @@
     export default {
         data: function () {
             return {
-                showContent: false
+                showContent: false,
+                shared: store.state
             };
         },
         components: {},
@@ -61,7 +62,6 @@
 
         },
         props: [
-            'filter',
             'filterTab',
             'runFilter'
         ],

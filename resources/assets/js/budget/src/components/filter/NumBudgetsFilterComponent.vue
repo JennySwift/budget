@@ -13,7 +13,7 @@
                 <div class="radio inline">
                     <label>
                         <input
-                            v-model="filter.numBudgets.in"
+                            v-model="shared.filter.numBudgets.in"
                             v-on:change="runFilter()"
                             type="radio"
                             name="filter-num-budgets-in"
@@ -27,7 +27,7 @@
                 <div class="radio">
                     <label>
                         <input
-                            v-model="filter.numBudgets.in"
+                            v-model="shared.filter.numBudgets.in"
                             v-on:change="runFilter()"
                             type="radio"
                             name="filter-num-budgets-in"
@@ -41,7 +41,7 @@
                 <div class="radio">
                     <label>
                         <input
-                            v-model="filter.numBudgets.in"
+                            v-model="shared.filter.numBudgets.in"
                             v-on:change="runFilter()"
                             type="radio"
                             name="filter-num-budgets-in"
@@ -55,7 +55,7 @@
                 <div class="radio">
                     <label>
                         <input
-                            v-model="filter.numBudgets.in"
+                            v-model="shared.filter.numBudgets.in"
                             v-on:change="runFilter()"
                             type="radio"
                             name="filter-num-budgets-in"
@@ -75,7 +75,7 @@
                 <div class="radio">
                     <label>
                         <input
-                            v-model="filter.numBudgets.out"
+                            v-model="shared.filter.numBudgets.out"
                             v-on:change="runFilter()"
                             type="radio"
                             name="filter-num-budgets-out"
@@ -89,7 +89,7 @@
                 <div class="radio">
                     <label>
                         <input
-                            v-model="filter.numBudgets.out"
+                            v-model="shared.filter.numBudgets.out"
                             v-on:change="runFilter()"
                             type="radio"
                             name="filter-num-budgets-out"
@@ -103,7 +103,7 @@
                 <div class="radio">
                     <label>
                         <input
-                            v-model="filter.numBudgets.out"
+                            v-model="shared.filter.numBudgets.out"
                             v-on:change="runFilter()"
                             type="radio"
                             name="filter-num-budgets-out"
@@ -117,7 +117,7 @@
                 <div class="radio">
                     <label>
                         <input
-                            v-model="filter.numBudgets.out"
+                            v-model="shared.filter.numBudgets.out"
                             v-on:change="runFilter()"
                             type="radio"
                             name="filter-num-budgets-out"
@@ -138,7 +138,8 @@
     export default {
         data: function () {
             return {
-                showContent: false
+                showContent: false,
+                shared: store.state
             };
         },
         components: {},
@@ -146,7 +147,6 @@
 
         },
         props: [
-            'filter',
             'filterTab',
             'runFilter'
         ],

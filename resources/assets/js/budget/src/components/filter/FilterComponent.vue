@@ -33,41 +33,32 @@
 
                     <saved-filters
                         :run-filter="runFilter"
-                        :filter.sync="filter"
                     >
                     </saved-filters>
 
                     <toolbar-for-filter
-                        :filter="filter"
                         :filter-totals="filterTotals"
                         :run-filter="runFilter"
                     >
                     </toolbar-for-filter>
 
                     <div>
-                        <totals-for-filter
-                            :filter="filter"
-                            :filter-totals="filterTotals"
-                        >
-                        </totals-for-filter>
+                        <totals-for-filter></totals-for-filter>
 
                         <div>
                             <accounts-filter
-                                :filter="filter"
                                 :filter-tab="filterTab"
                                 :run-filter="runFilter"
                             >
                             </accounts-filter>
 
                             <types-filter
-                                :filter="filter"
                                 :filter-tab="filterTab"
                                 :run-filter="runFilter"
                             >
                             </types-filter>
 
                             <descriptions-filter
-                                :filter="filter"
                                 :filter-tab="filterTab"
                                 :run-filter="runFilter"
                                 :clear-filter-field="clearFilterField"
@@ -75,7 +66,6 @@
                             </descriptions-filter>
 
                             <merchants-filter
-                                :filter="filter"
                                 :filter-tab="filterTab"
                                 :run-filter="runFilter"
                                 :clear-filter-field="clearFilterField"
@@ -83,14 +73,12 @@
                             </merchants-filter>
 
                             <budgets-filter
-                                :filter="filter"
                                 :filter-tab="filterTab"
                                 :run-filter="runFilter"
                             >
                             </budgets-filter>
 
                             <dates-filter
-                                :filter="filter"
                                 :filter-tab="filterTab"
                                 :run-filter="runFilter"
                                 :clear-filter-field="clearFilterField"
@@ -98,7 +86,6 @@
                             </dates-filter>
 
                             <totals-filter
-                                :filter="filter"
                                 :filter-tab="filterTab"
                                 :run-filter="runFilter"
                                 :clear-filter-field="clearFilterField"
@@ -106,21 +93,18 @@
                             </totals-filter>
 
                             <reconciled-filter
-                                :filter="filter"
                                 :filter-tab="filterTab"
                                 :run-filter="runFilter"
                             >
                             </reconciled-filter>
 
                             <invalid-allocation-filter
-                                :filter="filter"
                                 :filter-tab="filterTab"
                                 :run-filter="runFilter"
                             >
                             </invalid-allocation-filter>
 
                             <num-budgets-filter
-                                :filter="filter"
                                 :filter-tab="filterTab"
                                 :run-filter="runFilter"
                             >
@@ -198,7 +182,13 @@
              */
             clearFilterField: function (field, type) {
                 FilterRepository.clearFilterField(this, field, type);
-            }
+            },
+            optionChosen: function (option, inputId) {
+                if (inputId === 'filter-budgets-in-and-input') {
+                    store.add(option, 'filter.budgets.in.and');
+                    this.runFilter();
+                }
+            },
         },
         props: [
             'tab'
@@ -210,6 +200,9 @@
                 that.runFilter();
             }, 100);
 //            this.runFilter();
+        },
+        created: function () {
+            this.$bus.$on('autocomplete-option-chosen', this.optionChosen);
         }
     }
 </script>

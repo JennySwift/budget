@@ -5,58 +5,7 @@ import Vue from 'vue'
 export default {
 
     state: {
-        filter: {
-            total: {
-                in: "",
-                out: ""
-            },
-            types: {
-                in: [],
-                out: []
-            },
-            accounts: {
-                in: [],
-                out: []
-            },
-            singleDate: {
-                in: '',
-                out: ''
-            },
-            fromDate: {
-                in: '',
-                out: ''
-            },
-            toDate: {
-                in: '',
-                out: ''
-            },
-            description: {
-                in: "",
-                out: ""
-            },
-            merchant: {
-                in: "",
-                out: ""
-            },
-            budgets: {
-                in: {
-                    and: [],
-                    or: []
-                },
-                out: []
-            },
-            numBudgets: {
-                in: "all",
-                out: ""
-            },
-            reconciled: "any",
-            invalidAllocation: false,
-            offset: 0,
-            numToFetch: 30,
-            displayFrom: 1,
-            displayTo: 30
-        },
-        filterTotals: {}
+
     },
 
     /**
@@ -64,7 +13,7 @@ export default {
      * @returns {FilterRepository.state.filter|{}}
      */
     resetFilter: function () {
-        this.state.filter = {
+        var filter = {
 
             total: {
                 in: "",
@@ -116,8 +65,7 @@ export default {
             displayFrom: 1,
             displayTo: 30
         };
-
-        return this.state.filter;
+        store.set(filter, 'filter');
     },
 
     /**
@@ -126,22 +74,23 @@ export default {
      * @returns {*}
      */
     setFields: function (savedFilter) {
-        this.state.filter.total = savedFilter.total;
-        this.state.filter.types = savedFilter.types;
-        this.state.filter.accounts = savedFilter.accounts;
-        this.state.filter.singleDate = savedFilter.singleDate;
-        this.state.filter.fromDate = savedFilter.fromDate;
-        this.state.filter.toDate = savedFilter.toDate;
-        this.state.filter.description = savedFilter.description;
-        this.state.filter.merchant = savedFilter.merchant;
-        this.state.filter.budgets = savedFilter.budgets;
-        this.state.filter.numBudgets = savedFilter.numBudgets;
-        this.state.filter.reconciled = savedFilter.reconciled;
-        this.state.filter.invalidAllocation = savedFilter.invalidAllocation;
-        this.state.filter.offset = savedFilter.offset;
-        this.state.filter.numToFetch = savedFilter.numToFetch;
-        this.state.filter.displayFrom = savedFilter.displayFrom;
-        this.state.filter.displayTo = savedFilter.displayTo;
+        store.set(savedFilter, 'filter');
+
+        // this.state.filter.types = savedFilter.types;
+        // this.state.filter.accounts = savedFilter.accounts;
+        // this.state.filter.singleDate = savedFilter.singleDate;
+        // this.state.filter.fromDate = savedFilter.fromDate;
+        // this.state.filter.toDate = savedFilter.toDate;
+        // this.state.filter.description = savedFilter.description;
+        // this.state.filter.merchant = savedFilter.merchant;
+        // this.state.filter.budgets = savedFilter.budgets;
+        // this.state.filter.numBudgets = savedFilter.numBudgets;
+        // this.state.filter.reconciled = savedFilter.reconciled;
+        // this.state.filter.invalidAllocation = savedFilter.invalidAllocation;
+        // this.state.filter.offset = savedFilter.offset;
+        // this.state.filter.numToFetch = savedFilter.numToFetch;
+        // this.state.filter.displayFrom = savedFilter.displayFrom;
+        // this.state.filter.displayTo = savedFilter.displayTo;
     },
 
     /**
@@ -150,7 +99,7 @@ export default {
      * @param filter
      */
     setFilter: function (filter) {
-        this.state.filter = filter;
+        store.set(filter, 'filter');
     },
 
     /**
@@ -158,7 +107,7 @@ export default {
      * @returns {FilterRepository.state.filter|{}}
      */
     formatDates: function () {
-        var filter = this.state.filter;
+        var filter = store.state.filter;
         if (filter.singleDate.in) {
             filter.singleDate.inSql = helpers.convertToMySqlDate(filter.singleDate.in);
         }
@@ -204,27 +153,25 @@ export default {
      */
     updateRange: function (numToFetch) {
         if (numToFetch) {
-            this.state.filter.numToFetch = numToFetch;
+            store.set(numToFetch, 'filter.numToFetch');
         }
-
-        this.state.filter.displayFrom = this.state.filter.offset + 1;
-        this.state.filter.displayTo = this.state.filter.offset + (this.state.filter.numToFetch * 1);
+        store.set(store.state.filter.offset+1, 'filter.displayFrom');
+        store.set(store.state.filter.offset+(store.state.filter.numToFetch * 1), 'filter.displayTo');
     },
 
     /**
      *
      * @param that
      */
-    prevResults: function (that) {
-        this.state.filter = that.filter;
+    prevResults: function () {
         //make it so the offset cannot be less than 0.
-        if (this.state.filter.offset - this.state.filter.numToFetch < 0) {
-            this.state.filter.offset = 0;
+        if (store.state.filter.offset - store.state.filter.numToFetch < 0) {
+            store.set(0, 'filter.offset');
         }
         else {
-            this.state.filter.offset-= (this.state.filter.numToFetch * 1);
-            this.updateRange(this.state.filter.numToFetch);
-            that.runFilter();
+            store.set(store.state.filter.offset - (store.state.filter.numToFetch * 1), 'filter.offset');
+            this.updateRange(store.state.filter.numToFetch);
+            this.runFilter();
         }
     },
 
@@ -232,51 +179,50 @@ export default {
      *
      * @param that
      */
-    nextResults: function (that) {
-        this.state.filter = that.filter;
-        if (this.state.filter.offset + (this.state.filter.numToFetch * 1) > that.filterTotals.numTransactions) {
+    nextResults: function () {
+        if (store.state.filter.offset + (store.state.filter.numToFetch * 1) > store.filterTotals.numTransactions) {
             //stop it going past the end.
             return;
         }
 
-        this.state.filter.offset+= (this.state.filter.numToFetch * 1);
-        this.updateRange(this.state.filter.numToFetch);
-        that.runFilter();
+        store.set(store.state.filter.offset+(store.state.filter.numToFetch * 1), 'filter.offset');
+        this.updateRange(store.state.filter.numToFetch);
+        this.runFilter();
     },
 
     /**
      * type1 is 'in' or 'out'.
      * type2 is 'and' or 'or'.
-     * @param that
      * @param type1
      * @param type2
      */
-    clearBudgetField: function (that, type1, type2) {
+    clearBudgetField: function (type1, type2) {
+        //Todo: don't edit store state like this
         if (type2) {
-            this.state.filter.budgets[type1][type2] = [];
+            store.state.filter.budgets[type1][type2] = [];
         }
         else {
-            this.state.filter.budgets[type1] = [];
+            store.state.filter.budgets[type1] = [];
         }
-        that.runFilter();
+        this.runFilter();
     },
 
     /**
      *
-     * @param that
      * @param field
      * @param type
      */
-    clearFilterField: function (that, field, type) {
+    clearFilterField: function (field, type) {
+        //Todo: don't edit store state like this
         this.state.filter[field][type] = "";
-        that.runFilter();
+        this.runFilter();
     },
 
     /**
      *
      */
     resetOffset: function () {
-        this.state.filter.offset = 0;
+        store.set(0, 'filter.offset');
     },
 
     /**
@@ -294,7 +240,7 @@ export default {
             url: '/api/filter/basicTotals',
             data: data,
             callback: function (response) {
-                this.state.filterTotals = response;
+                store.set(response, 'filterTotals');
             }.bind(this)
         });
     },

@@ -35,7 +35,6 @@
 
             <budget-autocomplete
                 :chosen-budgets.sync="budgetsToAdd"
-                :budgets="budgets"
                 multiple-budgets="true"
             >
             </budget-autocomplete>
@@ -137,7 +136,7 @@
             }
         },
         props: [
-            'budgets'
+
         ],
         mounted: function () {
             this.listen();

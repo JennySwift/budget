@@ -8,7 +8,7 @@
             <div class="radio">
                 <label>
                     <input
-                        v-model="filter.invalidAllocation"
+                        v-model="shared.filter.invalidAllocation"
                         v-on:change="runFilter()"
                         type="radio"
                         name="invalid-allocation"
@@ -21,7 +21,7 @@
             <div class="radio">
                 <label>
                     <input
-                        v-model="filter.invalidAllocation"
+                        v-model="shared.filter.invalidAllocation"
                         v-on:change="runFilter()"
                         type="radio"
                         name="invalid-allocation"
@@ -40,7 +40,8 @@
     export default {
         data: function () {
             return {
-                showContent: false
+                showContent: false,
+                shared: store.state
             };
         },
         components: {},
@@ -48,7 +49,6 @@
 
         },
         props: [
-            'filter',
             'filterTab',
             'runFilter'
         ],

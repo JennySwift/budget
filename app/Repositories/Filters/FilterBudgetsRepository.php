@@ -42,7 +42,7 @@ class FilterBudgetsRepository {
             }
         }
 
-        if ($budgets['in']['or']) {
+        if (isset($budgets['in']['or']) && $budgets['in']['or']) {
             //Make an array of the budget ids searched for
             $budget_ids = array();
             foreach ($budgets['in']['or'] as $budget) {

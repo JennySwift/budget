@@ -44,6 +44,30 @@
                 <!--No longer works with Vue-->
                 <!--<partial :name="optionPartial"></partial>-->
 
+                <!--For budget autocomplete-->
+                <!--<div v-html="budget.html"></div>-->
+                <!--<div>-->
+                    <!--<span :class="'label label-default' + budget.type + '-label'">{{ budget.type }}</span>-->
+                <!--</div>-->
+                <!--<div v-if="chosenBudgets" v-show="chosenBudgets.length > 0" class="budget-display">-->
+
+                    <!--<li-->
+                        <!--v-for="budget in chosenBudgets"-->
+                        <!--v-on:click="removeBudget(budget)"-->
+                        <!--v-bind:class="{-->
+                        <!--'tag-with-fixed-budget': budget.type === 'fixed',-->
+                        <!--'tag-with-flex-budget': budget.type === 'flex',-->
+                        <!--'tag-without-budget': budget.type === 'unassigned'-->
+                    <!--}"-->
+                        <!--class="label label-default removable-budget"-->
+                    <!--&gt;-->
+                        <!--<span>{{ budget.name }}</span>-->
+                        <!--<span class="type">{{ budget.type }}</span>-->
+                        <!--<i class="fa fa-times"></i>-->
+                    <!--</li>-->
+
+                <!--</div>-->
+
                 <!--Delete button-->
                 <button
                     v-if="deleteFunction"
@@ -100,6 +124,47 @@
             }
         },
         methods: {
+
+            /**
+             *
+             * @param budget
+             */
+//            removeBudget: function (budget) {
+//                this.chosenBudgets = _.without(this.chosenBudgets, budget);
+//                this.$dispatch('budget-removed');
+//            },
+
+            /**
+             * For if multiple budgets can be chosen
+             */
+//            addBudget: function () {
+//                var budgetId = this.results[this.currentIndex].id;
+//
+//                if (!this.duplicateBudgetCheck(budgetId, this.chosenBudgets)) {
+//                    //$rootScope.$broadcast('provideFeedback', 'You have already entered that budget');
+//                    this.hideAndClear();
+//                    return;
+//                }
+//
+//                this.chosenBudgets.push(this.results[this.currentIndex]);
+//                this.$dispatch('budget-chosen');
+//                this.hideAndClear();
+//            },
+
+            /**
+             * Check for duplicate budgets when adding a new budget to an array
+             * @param budgetId
+             * @param budgetArray
+             * @returns {boolean}
+             */
+//            duplicateBudgetCheck: function (budgetId, budgetArray) {
+//                for (var i = 0; i < budgetArray.length; i++) {
+//                    if (budgetArray[i].id === budgetId) {
+//                        return false; //it is a duplicate
+//                    }
+//                }
+//                return true; //it is not a duplicate
+//            },
 
             /**
              *
@@ -440,6 +505,8 @@
             'functionOnEnter': {},
             'functionWhenOptionIsChosen': {},
             'idToFocusAfterAutocomplete': {},
+            //Can the user choose more than one option?
+            'multipleSelections': {},
             //For if items are local
             'unfilteredOptions': {},
             //Property of the chosen option to display in input field once option is chosen

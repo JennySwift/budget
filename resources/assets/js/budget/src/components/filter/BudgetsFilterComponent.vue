@@ -16,12 +16,14 @@
                         <label>Transactions will contain all of the budgets entered here</label>
 
                         <div class="input-btn-container">
-                            <budget-autocomplete
-                                :chosen-budgets.sync="filter.budgets.in.and"
-                                :budgets="budgets"
-                                multiple-budgets="true"
+                            <autocomplete
+                                autocomplete-id="filter-budgets-in-and-autocomplete"
+                                input-id="filter-budgets-in-and-input"
+                                :unfiltered-options="shared.budgets"
+                                prop="name"
+                                multiple-selections="true"
                             >
-                            </budget-autocomplete>
+                            </autocomplete>
 
                             <span class="input-group-btn">
                             <button v-on:click="clearBudgetField('in', 'and')" class="clear-search-button btn btn-default">clear</button>
@@ -38,8 +40,7 @@
                             class="input-btn-container"
                         >
                             <budget-autocomplete
-                                :chosen-budgets.sync="filter.budgets.in.or"
-                                :budgets="budgets"
+                                :chosen-budgets.sync="shared.filter.budgets.in.or"
                                 multiple-budgets="true"
                             >
                             </budget-autocomplete>
@@ -60,8 +61,7 @@
 
                         <div class="input-btn-container">
                             <budget-autocomplete
-                                :chosen-budgets.sync="filter.budgets.out"
-                                :budgets="budgets"
+                                :chosen-budgets.sync="shared.filter.budgets.out"
                                 multiple-budgets="true"
                             >
                             </budget-autocomplete>
@@ -87,7 +87,8 @@
     export default {
         data: function () {
             return {
-                showContent: false
+                showContent: false,
+                shared: store.state
             };
         },
         components: {},
@@ -104,10 +105,8 @@
 
         },
         props: [
-            'filter',
             'filterTab',
-            'runFilter',
-            'budgets'
+            'runFilter'
         ],
         mounted: function () {
 

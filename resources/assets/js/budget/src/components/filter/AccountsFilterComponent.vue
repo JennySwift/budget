@@ -10,7 +10,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="filter.accounts.in"
+                        v-model="shared.filter.accounts.in"
                         value="all"
                         type="checkbox"
                         id="accounts-filter-in-all"
@@ -20,7 +20,7 @@
 
                 <div class="checkbox-container">
                     <input
-                        v-model="filter.accounts.in"
+                        v-model="shared.filter.accounts.in"
                         value="none"
                         type="checkbox"
                         id="accounts-filter-in-none"
@@ -33,13 +33,13 @@
                         type="checkbox"
                         :id="account.name"
                         :value="account.id"
-                        :disabled="filter.accounts.out.indexOf(account.id) !== -1"
-                        v-model="filter.accounts.in"
+                        :disabled="shared.filter.accounts.out.indexOf(account.id) !== -1"
+                        v-model="shared.filter.accounts.in"
                         v-on:change="runFilter()"
                     >
                     <label
                         :for="account.name"
-                        v-bind:class="{'disabled': filter.accounts.out.indexOf(account.id) !== -1}"
+                        v-bind:class="{'disabled': shared.filter.accounts.out.indexOf(account.id) !== -1}"
                     >
                         {{account.name}}
                     </label>
@@ -55,13 +55,13 @@
                         type="checkbox"
                         :id="account.name"
                         :value="account.id"
-                        :disabled="filter.accounts.in.indexOf(account.id) !== -1"
-                        v-model="filter.accounts.out"
+                        :disabled="shared.filter.accounts.in.indexOf(account.id) !== -1"
+                        v-model="shared.filter.accounts.out"
                         v-on:change="runFilter()"
                     >
                     <label
                         :for="account.name"
-                        v-bind:class="{'disabled': filter.accounts.in.indexOf(account.id) !== -1}"
+                        v-bind:class="{'disabled': shared.filter.accounts.in.indexOf(account.id) !== -1}"
                     >
                         {{account.name}}
                     </label>
@@ -86,12 +86,10 @@
         components: {},
         methods: {
             toggleContent: function () {
-                console.log('clicked');
                 this.showContent = !this.showContent;
             }
         },
         props: [
-            'filter',
             'filterTab',
             'runFilter',
         ],

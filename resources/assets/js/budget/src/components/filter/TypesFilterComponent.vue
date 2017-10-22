@@ -17,22 +17,22 @@
 
             <div
                 v-show="filterTab === 'show'"
-                v-if="filter.types"
+                v-if="shared.filter.types"
                 v-for="type in types"
                 class="checkbox-container"
             >
 
                 <input
-                    v-model="filter.types.in"
+                    v-model="shared.filter.types.in"
                     v-on:change="runFilter()"
                     :id="type"
                     :value="type"
-                    :disabled="filter.types.out.indexOf(type) !== -1"
+                    :disabled="shared.filter.types.out.indexOf(type) !== -1"
                     type="checkbox"
                 >
                 <label
                     :for="type"
-                    v-bind:class="{'disabled': filter.types.out.indexOf(type) !== -1}"
+                    v-bind:class="{'disabled': shared.filter.types.out.indexOf(type) !== -1}"
                 >
                     {{type}}
                 </label>
@@ -41,21 +41,21 @@
 
             <div
                 v-show="filterTab === 'hide'"
-                v-if="filter.types"
+                v-if="shared.filter.types"
                 v-for="type in types"
                 class="checkbox-container"
             >
                 <input
-                    v-model="filter.types.out"
+                    v-model="shared.filter.types.out"
                     v-on:change="runFilter()"
                     :id="type + '-out'"
                     :value="type"
-                    :disabled="filter.types.in.indexOf(type) !== -1"
+                    :disabled="shared.filter.types.in.indexOf(type) !== -1"
                     type="checkbox"
                 >
                 <label
                     :for="type + '-out'"
-                    v-bind:class="{'disabled': filter.types.in.indexOf(type) !== -1}"
+                    v-bind:class="{'disabled': shared.filter.types.in.indexOf(type) !== -1}"
                 >
                     {{type}}
                 </label>
@@ -73,7 +73,8 @@
         data: function () {
             return {
                 types: ["income", "expense", "transfer"],
-                showContent: false
+                showContent: false,
+                shared: store.state
             };
         },
         components: {},
@@ -81,7 +82,6 @@
 
         },
         props: [
-            'filter',
             'filterTab',
             'runFilter'
         ],

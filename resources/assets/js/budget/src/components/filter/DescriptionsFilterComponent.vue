@@ -6,7 +6,7 @@
         <div class="content">
 
             <div
-                v-if="filter.description"
+                v-if="shared.filter.description"
                 v-show="filterTab === 'show'"
                 class="form-group"
             >
@@ -14,7 +14,7 @@
 
                 <div class="input-group">
                     <input
-                        v-model="filter.description.in"
+                        v-model="shared.filter.description.in"
                         v-on:keyup.13="filterDescriptionOrMerchant()"
                         type="text"
                         id="filter-description-in"
@@ -37,7 +37,7 @@
 
 
             <div
-                v-if="filter.description"
+                v-if="shared.filter.description"
                 v-show="filterTab === 'hide'"
                 class="form-group"
             >
@@ -45,7 +45,7 @@
 
                 <div class="input-group">
                     <input
-                        v-model="filter.description.out"
+                        v-model="shared.filter.description.out"
                         v-on:keyup.13="filterDescriptionOrMerchant()"
                         type="text"
                         id="filter-description-out"
@@ -75,7 +75,8 @@
     export default {
         data: function () {
             return {
-                showContent: false
+                showContent: false,
+                shared: store.state
             };
         },
         components: {},
@@ -91,7 +92,6 @@
 
         },
         props: [
-            'filter',
             'filterTab',
             'runFilter',
             'clearFilterField'

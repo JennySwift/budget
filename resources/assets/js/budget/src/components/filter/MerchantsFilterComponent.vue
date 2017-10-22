@@ -8,7 +8,7 @@
 
                 <div
                     v-show="filterTab === 'show'"
-                    v-if="filter.merchant"
+                    v-if="shared.filter.merchant"
                     class="form-group"
                 >
 
@@ -18,7 +18,7 @@
                         class="input-group"
                     >
                         <input
-                            v-model="filter.merchant.in"
+                            v-model="shared.filter.merchant.in"
                             v-on:keyup.13="filterDescriptionOrMerchant()"
                             type="text"
                             id="filter-merchant-in"
@@ -39,7 +39,7 @@
 
                 <div
                     v-show="filterTab === 'hide'"
-                    v-if="filter.merchant"
+                    v-if="shared.filter.merchant"
                     class="form-group"
                 >
 
@@ -49,7 +49,7 @@
                         class="input-group"
                     >
                         <input
-                            v-model="filter.merchant.out"
+                            v-model="shared.filter.merchant.out"
                             v-on:keyup.13="filterDescriptionOrMerchant()"
                             type="text"
                             id="filter-merchant-out"
@@ -80,7 +80,8 @@
     export default {
         data: function () {
             return {
-                showContent: false
+                showContent: false,
+                shared: store.state
             };
         },
         components: {},
@@ -95,7 +96,6 @@
             },
         },
         props: [
-            'filter',
             'filterTab',
             'runFilter',
             'clearFilterField'

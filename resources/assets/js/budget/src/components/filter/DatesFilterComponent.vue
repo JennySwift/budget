@@ -11,7 +11,7 @@
             <!--Single date in-->
             <div
                 v-show="filterTab === 'show'"
-                v-if="filter.singleDate"
+                v-if="shared.filter.singleDate"
                 class="form-group"
             >
                 <label for="filter-single-date-in">Filter in by date</label>
@@ -20,7 +20,7 @@
                     class="input-group"
                 >
                     <input
-                        v-model="filter.singleDate.in"
+                        v-model="shared.filter.singleDate.in"
                         v-on:keyup.13="runFilter()"
                         type="text"
                         id="filter-single-date-in"
@@ -43,7 +43,7 @@
             <!--Single date out-->
             <div
                 v-show="filterTab === 'hide'"
-                v-if="filter.singleDate"
+                v-if="shared.filter.singleDate"
                 class="form-group"
             >
                 <label for="filter-single-date-out">Filter out by date</label>
@@ -52,7 +52,7 @@
                     class="input-group"
                 >
                     <input
-                        v-model="filter.singleDate.out"
+                        v-model="shared.filter.singleDate.out"
                         v-on:keyup.13="runFilter()"
                         type="text"
                         id="filter-single-date-out"
@@ -75,7 +75,7 @@
             <!--From date in-->
             <div
                 v-show="filterTab === 'show'"
-                v-if="filter.fromDate"
+                v-if="shared.filter.fromDate"
                 class="form-group"
             >
                 <label for="filter-from-date-in">Filter in by date on or after...</label>
@@ -84,7 +84,7 @@
                     class="input-group"
                 >
                     <input
-                        v-model="filter.fromDate.in"
+                        v-model="shared.filter.fromDate.in"
                         v-on:keyup.13="runFilter()"
                         type="text"
                         id="filter-from-date-in"
@@ -107,7 +107,7 @@
             <!--To date in-->
             <div
                 v-show="filterTab === 'show'"
-                v-if="filter.toDate"
+                v-if="shared.filter.toDate"
                 class="form-group"
             >
                 <label for="filter-to-date-in">Filter in by date on or before...</label>
@@ -116,7 +116,7 @@
                     class="input-group"
                 >
                     <input
-                        v-model="filter.toDate.in"
+                        v-model="shared.filter.toDate.in"
                         v-on:keyup.13="runFilter()"
                         type="text"
                         id="filter-to-date-in"
@@ -145,7 +145,8 @@
     export default {
         data: function () {
             return {
-                showContent: false
+                showContent: false,
+                shared: store.state
             };
         },
         components: {},
@@ -153,7 +154,6 @@
 
         },
         props: [
-            'filter',
             'filterTab',
             'runFilter',
             'clearFilterField'

@@ -7,7 +7,7 @@
 
             <div
                 v-show="filterTab === 'show'"
-                v-if="filter.total"
+                v-if="shared.filter.total"
                 class="form-group"
             >
 
@@ -17,7 +17,7 @@
                     class="input-group"
                 >
                     <input
-                        v-model="filter.total.in"
+                        v-model="shared.filter.total.in"
                         v-on:keyup.13="runFilter()"
                         type="text"
                         id="filter-total-in"
@@ -39,7 +39,7 @@
 
             <div
                 v-show="filterTab === 'hide'"
-                v-if="filter.total"
+                v-if="shared.filter.total"
                 class="form-group">
 
                 <label for="filter-total-out">Filter out by total (negative sign required for expenses)</label>
@@ -48,7 +48,7 @@
                     class="input-group"
                 >
                     <input
-                        v-model="filter.total.out"
+                        v-model="shared.filter.total.out"
                         v-on:keyup.13="runFilter()"
                         type="text"
                         id="filter-total-out"
@@ -78,7 +78,8 @@
     export default {
         data: function () {
             return {
-                showContent: false
+                showContent: false,
+                shared: store.state
             };
         },
         components: {},
@@ -86,7 +87,6 @@
 
         },
         props: [
-            'filter',
             'filterTab',
             'runFilter',
             'clearFilterField'

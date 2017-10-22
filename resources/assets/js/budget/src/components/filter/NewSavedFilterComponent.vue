@@ -10,7 +10,7 @@
     export default {
         data: function () {
             return {
-
+                shared: store.state
             };
         },
         components: {},
@@ -24,7 +24,7 @@
 
                 var data = {
                     name: name,
-                    filter: this.filter
+                    filter: this.shared.filter
                 };
 
                 helpers.post({
@@ -38,9 +38,7 @@
             },
 
         },
-        props: [
-            'filter'
-        ],
+        props: [],
         mounted: function () {
 
         }
