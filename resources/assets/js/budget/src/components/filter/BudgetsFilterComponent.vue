@@ -5,7 +5,7 @@
             class="section"
         >
 
-            <h4 v-on:click="showContent = !showContent" class="center">budgets</h4>
+            <h4 v-on:click="showContent = !showContent">Budgets <dropdown-arrow :content-visible="showContent"></dropdown-arrow></h4>
 
             <div class="content">
 

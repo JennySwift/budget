@@ -1,6 +1,6 @@
 <template>
-    <div v-show="shared.show.totals" id="totals">
-        <div v-show="shared.show.totals" id="remaining-balance-totals" class="totals">
+    <transition name="totals">
+        <div v-show="shared.show.totals" id="totals" class="totals">
 
             <i v-if="totalsLoading" class="fa fa-spinner fa-pulse"></i>
 
@@ -148,7 +148,7 @@
             </table>
 
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>

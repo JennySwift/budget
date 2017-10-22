@@ -1,7 +1,7 @@
 <template>
     <div v-slide="showContent" class="section">
 
-        <h4 v-on:click="toggleContent()" class="center">accounts</h4>
+        <h4 v-on:click="toggleContent()">Accounts <dropdown-arrow :content-visible="showContent"></dropdown-arrow></h4>
 
         <div class="accounts content">
 

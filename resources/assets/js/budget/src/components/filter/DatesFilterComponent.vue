@@ -4,7 +4,7 @@
         class="section"
     >
 
-        <h4 v-on:click="showContent = !showContent" class="center">date</h4>
+        <h4 v-on:click="showContent = !showContent">Dates <dropdown-arrow :content-visible="showContent"></dropdown-arrow></h4>
 
         <div class="content">
 

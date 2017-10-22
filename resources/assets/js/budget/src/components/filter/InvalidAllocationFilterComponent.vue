@@ -1,7 +1,7 @@
 <template>
     <div v-show="filterTab === 'show'" v-slide="showContent" class="section">
 
-        <h4 v-on:click="showContent = !showContent" class="center">Invalid allocation</h4>
+        <h4 v-on:click="showContent = !showContent">Invalid Allocations <dropdown-arrow :content-visible="showContent"></dropdown-arrow></h4>
 
         <div class="content status">
 

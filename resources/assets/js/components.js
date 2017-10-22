@@ -23,6 +23,7 @@ import AllocationPopupComponent from './budget/src/components/budgets/Allocation
 import BudgetPopupComponent from './budget/src/components/budgets/BudgetPopupComponent.vue'
 import NewBudgetComponent from './budget/src/components/budgets/NewBudgetComponent.vue'
 import BudgetsToolbarComponent from './budget/src/components/shared/BudgetsToolbarComponent.vue'
+import DropdownArrowComponent from './budget/src/components/shared/DropdownArrowComponent.vue'
 import FixedBudgetsTableComponent from './budget/src/components/budgets/FixedBudgetsTable.vue'
 import FilterComponent from './budget/src/components/filter/FilterComponent.vue'
 
@@ -36,6 +37,7 @@ Vue.component('new-popup', NewPopupComponent);
 Vue.component('autocomplete', AutocompleteComponent);
 Vue.component('dropdown', DropdownComponent);
 Vue.component('budget-autocomplete', BudgetAutocompleteComponent);
+Vue.component('dropdown-arrow', DropdownArrowComponent);
 
 
 // Components

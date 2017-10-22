@@ -1,7 +1,7 @@
 <template>
     <div v-slide="showContent" class="section">
 
-        <h4 v-on:click="showContent = !showContent" class="center">number of budgets</h4>
+        <h4 v-on:click="showContent = !showContent">Number of Budgets <dropdown-arrow :content-visible="showContent"></dropdown-arrow></h4>
 
         <div class="content budget">
 

@@ -1,10 +1,11 @@
 <template>
-    <div class="toolbar-filter">
+    <div id="filter-toolbar">
 
 
         <select
             v-model="filter.numToFetch"
             v-on:change="changeNumToFetch()"
+            id="filter-how-many"
             class="form-control"
         >
             <option value="2">2</option>
@@ -18,7 +19,7 @@
 
         <!--        <span class="badge">{{ filter.displayFrom }} to {{ filter.displayTo }} of {{ filterTotals.numTransactions }}</span>-->
 
-        <div class="btn-group">
+        <div id="filter-navigation-buttons" class="btn-group">
 
             <button
                 v-on:click="prevResults()"

@@ -75,6 +75,30 @@
                     </a>
                 </li>
 
+                <li>
+                    <a
+                        v-on:click="toggleFilter()"
+                        class="pointer"
+                    >
+                        <span>Filter</span>
+                        <i
+                            v-show="shared.show.filter"
+                            class="fa fa-check"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        v-on:click="toggleFilterTotals()"
+                        class="pointer"
+                    >
+                        <span>Filter Totals</span>
+                        <i
+                            v-show="shared.show.filterTotals"
+                            class="fa fa-check"></i>
+                    </a>
+                </li>
+
                 <li role="separator" class="divider"></li>
 
                 <li>
@@ -307,6 +331,10 @@
         methods: {
             toggleFilter: function () {
                 store.toggle('show.filter');
+            },
+
+            toggleFilterTotals: function () {
+                store.toggle('show.filterTotals');
             },
 
             toggleTotals: function () {

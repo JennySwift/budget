@@ -1,19 +1,17 @@
 <template>
-    <div class="form-group">
-        <autocomplete
-            input-label="Saved Filters"
-            id-to-focus-after-autocomplete=""
-            input-id="saved-filter"
-            :unfiltered-options="shared.savedFilters"
-            prop="name"
-            label-for-option=""
-            :function-on-enter="chooseSavedFilter"
-            :selected.sync="selectedSavedFilter"
-            :delete-function="deleteSavedFilter"
-        >
-        </autocomplete>
-    </div>
-
+    <autocomplete
+        input-label="Saved Filters"
+        id-to-focus-after-autocomplete=""
+        autocomplete-id="saved-filters-autocomplete"
+        input-id="saved-filter"
+        :unfiltered-options="shared.savedFilters"
+        prop="name"
+        label-for-option=""
+        :function-on-enter="chooseSavedFilter"
+        :selected.sync="selectedSavedFilter"
+        :delete-function="deleteSavedFilter"
+    >
+    </autocomplete>
 </template>
 
 <script>

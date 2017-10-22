@@ -1,13 +1,15 @@
 <template>
-    <div>
+    <div id="transactions">
 
         <h3 v-if="shared.transactions.length === 0">No transactions to show.</h3>
 
         <edit-transaction-popup></edit-transaction-popup>
 
+        <mass-transaction-update-popup></mass-transaction-update-popup>
+
         <allocation-popup></allocation-popup>
 
-        <table v-if="shared.transactions.length > 0" id="transactions" class="">
+        <table v-if="shared.transactions.length > 0">
 
             <!--Table header-->
             <thead>

@@ -100,7 +100,7 @@ export default {
         showFilter: true,
         show: {
             newTransaction: false,
-            totals: false,
+            totals: true,
             // basicTotals: false,
             // budgetTotals: false,
             filterTotals: true,

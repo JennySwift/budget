@@ -1,46 +1,14 @@
 <template>
-    <div>
-        <!--Toolbar-->
-        <!--<div id="toolbar">-->
-
-            <!--<div>-->
-
-                <!--<button-->
-                    <!--v-if="!shared.show.newTransaction"-->
-                    <!--v-on:click="toggleNewTransaction()"-->
-                    <!--class="btn btn-info">-->
-                    <!--New transaction-->
-                <!--</button>-->
-
-                <!--<button-->
-                    <!--v-if="shared.show.newTransaction"-->
-                    <!--v-on:click="toggleNewTransaction()"-->
-                    <!--class="btn btn-info">-->
-                    <!--Hide new transaction-->
-                <!--</button>-->
-
-            <!--</div>-->
-
-            <!--<div>-->
-                <!--<button-->
-                    <!--v-on:mouseenter="respondToMouseEnterOnTotalsButton"-->
-                    <!--v-on:mouseleave="respondToMouseLeaveOnTotalsButton"-->
-                    <!--class="btn btn-default totals-btn"-->
-                <!--&gt;-->
-                    <!--Totals-->
-                <!--</button>-->
-            <!--</div>-->
-        <!--</div>-->
-
+    <div id="transactions-page">
         <new-transaction></new-transaction>
 
-        <totals></totals>
+        <div id="totals-transactions-filter-container">
+            <totals></totals>
 
-        <transactions></transactions>
+            <transactions></transactions>
 
-        <mass-transaction-update-popup></mass-transaction-update-popup>
-
-        <transactions-filter></transactions-filter>
+            <transactions-filter></transactions-filter>
+        </div>
     </div>
 
 </template>

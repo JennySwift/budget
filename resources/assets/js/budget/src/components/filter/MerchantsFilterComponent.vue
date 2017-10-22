@@ -2,7 +2,7 @@
     <div>
         <div v-slide="showContent" class="section">
 
-            <h4 v-on:click="showContent = !showContent" class="center">merchant</h4>
+            <h4 v-on:click="showContent = !showContent">Merchant <dropdown-arrow :content-visible="showContent"></dropdown-arrow></h4>
 
             <div class="content">
 
