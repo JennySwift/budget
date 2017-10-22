@@ -39,11 +39,15 @@
                         <div
                             class="input-btn-container"
                         >
-                            <budget-autocomplete
-                                :chosen-budgets.sync="shared.filter.budgets.in.or"
-                                multiple-budgets="true"
+                            <autocomplete
+                                autocomplete-id="filter-budgets-in-or-autocomplete"
+                                input-id="filter-budgets-in-or-input"
+                                :unfiltered-options="shared.budgets"
+                                prop="name"
+                                multiple-selections="true"
                             >
-                            </budget-autocomplete>
+                            </autocomplete>
+
                             <span class="input-group-btn">
                             <button v-on:click="clearBudgetField('in', 'or')" class="clear-search-button btn btn-default">clear</button>
                         </span>
@@ -60,11 +64,14 @@
                         <label>Transactions will contain none of the budgets entered here</label>
 
                         <div class="input-btn-container">
-                            <budget-autocomplete
-                                :chosen-budgets.sync="shared.filter.budgets.out"
-                                multiple-budgets="true"
+                            <autocomplete
+                                autocomplete-id="filter-budgets-out-autocomplete"
+                                input-id="filter-budgets-out-input"
+                                :unfiltered-options="shared.budgets"
+                                prop="name"
+                                multiple-selections="true"
                             >
-                            </budget-autocomplete>
+                            </autocomplete>
 
                             <span class="input-group-btn">
                         <button v-on:click="clearBudgetField('out')" class="clear-search-button btn btn-default">clear</button>

@@ -184,15 +184,35 @@
                 FilterRepository.clearFilterField(this, field, type);
             },
             optionChosen: function (option, inputId) {
-                if (inputId === 'filter-budgets-in-and-input') {
-                    store.add(option, 'filter.budgets.in.and');
-                    this.runFilter();
+                switch(inputId) {
+                    case 'filter-budgets-in-and-input':
+                        store.add(option, 'filter.budgets.in.and');
+                        this.runFilter();
+                        break;
+                    case 'filter-budgets-in-or-input':
+                        store.add(option, 'filter.budgets.in.or');
+                        this.runFilter();
+                        break;
+                    case 'filter-budgets-out-input':
+                        store.add(option, 'filter.budgets.out');
+                        this.runFilter();
+                        break;
                 }
             },
             chosenOptionRemoved: function (option, inputId) {
-                if (inputId === 'filter-budgets-in-and-input') {
-                    store.delete(option, 'filter.budgets.in.and');
-                    this.runFilter();
+                switch(inputId) {
+                    case 'filter-budgets-in-and-input':
+                        store.delete(option, 'filter.budgets.in.and');
+                        this.runFilter();
+                        break;
+                    case 'filter-budgets-in-or-input':
+                        store.delete(option, 'filter.budgets.in.or');
+                        this.runFilter();
+                        break;
+                    case 'filter-budgets-out-input':
+                        store.delete(option, 'filter.budgets.out');
+                        this.runFilter();
+                        break;
                 }
             },
         },
