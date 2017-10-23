@@ -55,7 +55,7 @@
         },
         methods: {
             insertTransaction () {
-                NewTransactionRepository.insertTransaction();
+                NewTransactionRepository.insertTransactionSetup();
             },
             optionChosen: function (option, inputId) {
                 switch(inputId) {

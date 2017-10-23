@@ -9,8 +9,8 @@ export default {
     /**
      *
      */
-    insertTransaction: function (direction) {
-        if (!this.showErrorsIfExist()) {
+    insertTransactionSetup: function () {
+        if (!this.isInvalidData()) {
             TotalsRepository.resetTotalChanges();
 
             if (store.state.newTransaction.type === 'transfer') {
@@ -21,49 +21,35 @@ export default {
                 }, 100);
             }
             else {
-                var data = TransactionsRepository.setFields(store.state.newTransaction);
-
-                if (direction) {
-                    //It is a transfer transaction
-                    data.direction = direction;
-
-                    if (direction === 'from') {
-                        data.account_id = store.state.newTransaction.fromAccount.id;
-                    }
-                    else if (direction === 'to') {
-                        data.account_id = store.state.newTransaction.toAccount.id;
-                    }
-                }
-
-                helpers.post({
-                    url: '/api/transactions',
-                    data: data,
-                    message: 'Transaction created',
-                    clearFields: this.clearFields,
-                    callback: function (response) {
-                        this.insertTransactionResponse(response);
-                    }.bind(this)
-                });
+                this.insertTransaction();
             }
         }
     },
 
     /**
-     *
-     * @param response
+     * Direction can be 'from' or 'to' for a transfer transaction, or undefined for a credit or debit transaction
+     * @param direction
      */
-    insertTransactionResponse: function (response) {
-        TotalsRepository.getSideBarTotals(this);
-        this.clearNewTransactionFields();
-        //this.newTransaction.dropdown = false;
+    insertTransaction: function (direction) {
+        var data = TransactionsRepository.setFields(store.state.newTransaction, direction);
 
-        if (response.multipleBudgets) {
-            $.event.trigger('show-allocation-popup', [response, true]);
-            //We'll run the filter after the allocation has been dealt with
-        }
-        else {
-            FilterRepository.runFilter(this);
-        }
+        helpers.post({
+            url: '/api/transactions',
+            data: data,
+            message: 'Transaction created',
+            clearFields: this.clearFields,
+            callback: function (response) {
+                TotalsRepository.getSideBarTotals(this);
+                this.clearNewTransactionFields();
+
+                if (response.multipleBudgets) {
+                    store.showAllocationPopup(response);
+                }
+                else {
+                    FilterRepository.runFilter(this);
+                }
+            }.bind(this)
+        });
     },
 
     /**
@@ -81,29 +67,11 @@ export default {
     },
 
     /**
-     * Return true if there are errors.
-     * @returns {boolean}
-     */
-    showErrorsIfExist: function () {
-        var errorMessages = this.anyNewTransactionErrors();
-
-        if (errorMessages) {
-            for (var i = 0; i < errorMessages.length; i++) {
-                $.event.trigger('provide-feedback', [errorMessages[i], 'error']);
-            }
-
-            return true;
-        }
-
-        return false;
-    },
-
-    /**
      *
      * @returns {*}
      */
-    anyNewTransactionErrors: function () {
-        var messages = [];
+    isInvalidData: function () {
+        var errorMessages = [];
 
         //if (!Date.parse(newTransaction.userDate)) {
         //    messages.push('Date is not valid');
@@ -113,14 +81,16 @@ export default {
         //}
 
         if (store.state.newTransaction.total === "") {
-            messages.push('Total is required');
+            errorMessages.push('Total is required');
         }
         else if (!$.isNumeric(store.state.newTransaction.total)) {
-            messages.push('Total is not a valid number');
+            errorMessages.push('Total is not a valid number');
         }
 
-        if (messages.length > 0) {
-            return messages;
+        if (errorMessages.length > 0) {
+            helpers.provideFeedback(errorMessages, 'error');
+
+            return errorMessages;
         }
 
         return false;

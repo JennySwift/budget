@@ -74,6 +74,7 @@ export default {
             displayTo: 30
         },
         filterTotals: {},
+        allocationTotals: {},
         accounts: [],
         accountsWithBalances: [],
         budgets: [],
@@ -84,6 +85,7 @@ export default {
             ]
         },
         selectedTransaction: {},
+        selectedTransactionForAllocation: {},
         selectedBudget: {},
         selectedAccount: {},
         fixedBudgetTotals: {},
@@ -194,10 +196,14 @@ export default {
      *
      */
     getEnvironment: function () {
-        helpers.get({
-            url: '/api/environment',
-            storeProperty: 'env',
-        });
+        // helpers.get({
+        //     url: '/api/environment',
+        //     storeProperty: 'env',
+        // });
+    },
+
+    isLocalEnvironment: function () {
+        return location.hostname === "budget.dev";
     },
 
     /**
@@ -207,6 +213,26 @@ export default {
         helpers.get({
             url: '/api/favouriteTransactions',
             storeProperty: 'favouriteTransactions'
+        });
+    },
+
+    /**
+     *
+     * @param transaction
+     */
+    showAllocationPopup: function (transaction) {
+        store.set(transaction, 'selectedTransactionForAllocation');
+        store.getAllocationTotals();
+        helpers.showPopup('-allocation-popup');
+    },
+
+    /**
+     *
+     */
+    getAllocationTotals: function () {
+        helpers.get({
+            url: '/api/transactions/' + this.state.selectedTransactionForAllocation.id,
+            storeProperty: 'allocationTotals'
         });
     },
 
@@ -368,7 +394,7 @@ export default {
      *
      */
     setNewTransactionDefaults: function () {
-        if (this.state.env === 'local') {
+        if (this.isLocalEnvironment()) {
             this.state.newTransaction.total = 10;
             this.state.newTransaction.merchant = 'some merchant';
             this.state.newTransaction.description = 'some description';

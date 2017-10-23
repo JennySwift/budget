@@ -49,7 +49,7 @@
         },
         methods: {
             insertTransaction () {
-                NewTransactionRepository.insertTransaction();
+                NewTransactionRepository.insertTransactionSetup();
             }
         }
     }

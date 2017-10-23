@@ -26,9 +26,10 @@ export default {
     /**
      *
      * @param transaction
-     * @returns {{date: (*|newTransaction.date|{}|NewTransactionRepository.defaults.date|{entered}|string), account_id: (*|number), description: *, merchant: *, total: *, reconciled: (*|number|string|boolean), allocated: *, minutes: *, budgets: *}}
+     * @param direction
+     * @returns {{date: *, account_id: number, type: *, description: *, merchant: (*|string|filter.merchant|{in, out}|boolean|state.filter.merchant), total: *, reconciled, allocated: (*|boolean), minutes: *, budget_ids: Array}}
      */
-    setFields: function (transaction) {
+    setFields: function (transaction, direction) {
         var data = {
             date: helpers.convertToMySqlDate(transaction.userDate),
             account_id: transaction.account.id,
@@ -46,6 +47,18 @@ export default {
         if (transaction.type === 'expense' && transaction.total > 0) {
             //transaction is an expense without the negative sign
             data.total*= -1;
+        }
+
+        if (direction) {
+            //It is a transfer transaction
+            data.direction = direction;
+
+            if (direction === 'from') {
+                data.account_id = store.state.newTransaction.fromAccount.id;
+            }
+            else if (direction === 'to') {
+                data.account_id = store.state.newTransaction.toAccount.id;
+            }
         }
 
         return data;

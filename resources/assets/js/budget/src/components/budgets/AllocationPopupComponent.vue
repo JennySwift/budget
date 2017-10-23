@@ -1,13 +1,16 @@
 <template>
-    <div v-show="showPopup" v-cloak class="popup-outer">
-        <div id="allocation-popup" class="popup-inner">
 
-            <div v-if="!transaction.validAllocation" class="warning">
+    <new-popup
+        id="allocation-popup"
+        :redirect-to="redirectTo"
+    >
+        <div slot="content">
+            <div v-if="!shared.selectedTransactionForAllocation.validAllocation" class="warning">
                 <i class="fa fa-exclamation-circle"></i>
                 <span>The budget allocations do not match the total for this transaction.</span>
             </div>
 
-            <p class="width-100">The total for this transaction is <span class="bold">{{ transaction.total }}</span>. You have more than one budget associated with this transaction. Specify what percentage of {{  transaction.total }} you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
+            <p class="width-100">The total for this transaction is <span class="bold">{{ shared.selectedTransactionForAllocation.total }}</span>. You have more than one budget associated with this transaction. Specify what percentage of {{  shared.selectedTransactionForAllocation.total }} you would like to be taken off each of the following budgets. Or, set a fixed amount to be taken off. </p>
 
             <table class="table table-bordered">
 
@@ -21,10 +24,10 @@
 
                 <!-- table content -->
                 <tr
-                    v-for="budget in transaction.budgets"
+                    v-for="budget in shared.selectedTransactionForAllocation.budgets"
                     is="budget-allocation"
                     :budget="budget"
-                    :transaction="transaction"
+                    :transaction="shared.selectedTransactionForAllocation"
                 >
                 </tr>
 
@@ -34,19 +37,19 @@
 
                     <td>
                         <div>
-                            <span>{{ allocationTotals.fixedSum }}</span>
+                            <span>{{ shared.allocationTotals.fixedSum }}</span>
                         </div>
                     </td>
 
                     <td>
                         <div>
-                            <span>{{ allocationTotals.percentSum }}</span>
+                            <span>{{ shared.allocationTotals.percentSum }}</span>
                         </div>
                     </td>
 
                     <td>
                         <div>
-                            <span>{{ allocationTotals.calculatedAllocationSum }}</span>
+                            <span>{{ shared.allocationTotals.calculatedAllocationSum }}</span>
                         </div>
                     </td>
 
@@ -58,24 +61,28 @@
             <!--<div class="center-contents">-->
 
             <!--<div class="checkbox-container">-->
-                <!--<input-->
-                <!--v-model="transaction.allocated"-->
-                <!--v-on:change="updateAllocationStatus()"-->
-                <!--id="allocated-checkbox"-->
-                <!--:value="transaction.allocated"-->
-                <!--type="checkbox"-->
-                <!-->-->
-                <!--<label for="allocated-checkbox">Allocated</label>-->
-                <!--</div>-->
+            <!--<input-->
+            <!--v-model="shared.selectedTransactionForAllocation.allocated"-->
+            <!--v-on:change="updateAllocationStatus()"-->
+            <!--id="allocated-checkbox"-->
+            <!--:value="shared.selectedTransactionForAllocation.allocated"-->
+            <!--type="checkbox"-->
+            <!-->-->
+            <!--<label for="allocated-checkbox">Allocated</label>-->
+            <!--</div>-->
 
             <!--</div>-->
 
-            <div class="buttons">
-                <button v-on:click="closePopup()" class="close-modal">Close</button>
-            </div>
-
         </div>
-    </div>
+
+        <!--Todo: Run FilterRepository.runFilter(); on close-->
+        <popup-buttons slot="buttons"
+
+        >
+        </popup-buttons>
+
+    </new-popup>
+
 </template>
 
 <script>
@@ -85,10 +92,8 @@
     export default {
         data: function () {
             return {
-                transaction: {},
-                allocationTotals: {},
-                showPopup: false,
-                isNewTransaction: false
+                shared: store.state,
+                redirectTo: '/'
             };
         },
         components: {},
@@ -101,10 +106,10 @@
             //    $.event.trigger('show-loading');
             //
             //    var data = {
-            //        allocated: helpers.convertBooleanToInteger(this.transaction.allocated)
+            //        allocated: helpers.convertBooleanToInteger(this.shared.selectedTransactionForAllocation.allocated)
             //    };
             //
-            //    this.$http.put('/api/transactions/' + this.transaction.id, data, function (response) {
+            //    this.$http.put('/api/transactions/' + this.shared.selectedTransactionForAllocation.id, data, function (response) {
             //        $.event.trigger('provide-feedback', ['Allocation updated', 'success']);
             //        $.event.trigger('hide-loading');
             //    })
@@ -112,62 +117,18 @@
             //        helpers.handleResponseError(response);
             //    });
             //},
-
-            /**
-             *
-             */
-            getAllocationTotals: function () {
-                helpers.get({
-                    url: '/api/transactions/' + this.transaction.id,
-//                    storeProperty: '',
-                    callback: function (response) {
-                        this.allocationTotals = response;
-                    }.bind(this)
-                });
-            },
-
-
-            /**
-             *
-             */
-            closePopup: function (event) {
-                if (event) {
-                    helpers.closePopup(event, this);
-                }
-                else {
-                    //Close button was clicked
-                    this.showPopup = false;
-                }
-
-                if (this.isNewTransaction) {
-                    FilterRepository.runFilter(this);
-                }
-            },
-
-            /**
-             *
-             */
-            listen: function () {
-                var that = this;
-                $(document).on('show-allocation-popup', function (event, transaction, isNewTransaction) {
-                    that.transaction = transaction;
-                    that.isNewTransaction = isNewTransaction;
-                    that.showPopup = true;
-                    that.getAllocationTotals();
-                });
-            }
         },
         props: [
             //data to be received from parent
         ],
         mounted: function () {
-            this.listen();
+
         },
         events: {
             'budget-allocation-updated': function (response) {
-                this.getAllocationTotals();
-                this.transaction.budgets = response.budgets;
-                this.transaction.validAllocation = response.validAllocation;
+                store.getAllocationTotals();
+                this.shared.selectedTransactionForAllocation.budgets = response.budgets;
+                this.shared.selectedTransactionForAllocation.validAllocation = response.validAllocation;
             }
         }
 

@@ -46,6 +46,15 @@ export default {
         $.event.trigger('hide-loading');
     },
 
+    /**
+     *
+     * @param messages
+     * @param type
+     */
+    provideFeedback: function (messages, type) {
+        app.__vue__.$bus.$emit('provide-feedback', messages, type);
+    },
+
     getRouter: function () {
         if (app.__vue__) {
             return app.__vue__.$router;
