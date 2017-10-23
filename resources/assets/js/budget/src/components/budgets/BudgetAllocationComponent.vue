@@ -103,13 +103,16 @@
 </template>
 
 <script>
+    import helpers from '../../repositories/Helpers'
+    import FilterRepository from '../../repositories/FilterRepository'
     export default {
         data: function () {
             return {
                 editingAllocatedFixed: false,
                 editingAllocatedPercent: false,
                 allocatedFixed: '',
-                allocatedPercent: ''
+                allocatedPercent: '',
+                shared: store.state
             };
         },
         components: {},
@@ -119,8 +122,6 @@
              *
              */
             updateAllocation: function (type, value) {
-                $.event.trigger('show-loading');
-
                 var data = {
                     type: type,
                     value: value
@@ -129,11 +130,14 @@
                 helpers.put({
                     url: '/api/budgets/' + this.budget.id + '/transactions/' + this.transaction.id,
                     data: data,
-                    property: 'allocations',
+//                    property: 'selectedTransactionForAllocation',
                     message: 'Allocation updated',
                     redirectTo: this.redirectTo,
                     callback: function (response) {
-                        this.$dispatch('budget-allocation-updated', response);
+                        store.getAllocationTotals();
+                        this.shared.selectedTransactionForAllocation.budgets = response.budgets;
+                        this.shared.selectedTransactionForAllocation.validAllocation = response.validAllocation;
+                        FilterRepository.runFilter();
                     }.bind(this)
                 });
             }

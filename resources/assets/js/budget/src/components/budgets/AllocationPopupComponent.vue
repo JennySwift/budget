@@ -67,7 +67,7 @@
             <!--id="allocated-checkbox"-->
             <!--:value="shared.selectedTransactionForAllocation.allocated"-->
             <!--type="checkbox"-->
-            <!-->-->
+            <!-->
             <!--<label for="allocated-checkbox">Allocated</label>-->
             <!--</div>-->
 
@@ -75,9 +75,7 @@
 
         </div>
 
-        <!--Todo: Run FilterRepository.runFilter(); on close-->
         <popup-buttons slot="buttons"
-
         >
         </popup-buttons>
 
@@ -88,6 +86,7 @@
 <script>
     import helpers from '../../repositories/Helpers'
     import FilterRepository from '../../repositories/FilterRepository'
+    import BudgetAllocationComponent from './BudgetAllocationComponent.vue'
     import $ from 'jquery'
     export default {
         data: function () {
@@ -96,7 +95,9 @@
                 redirectTo: '/'
             };
         },
-        components: {},
+        components: {
+            'budget-allocation': BudgetAllocationComponent
+        },
         methods: {
 
             /**
@@ -124,13 +125,5 @@
         mounted: function () {
 
         },
-        events: {
-            'budget-allocation-updated': function (response) {
-                store.getAllocationTotals();
-                this.shared.selectedTransactionForAllocation.budgets = response.budgets;
-                this.shared.selectedTransactionForAllocation.validAllocation = response.validAllocation;
-            }
-        }
-
     }
 </script>
