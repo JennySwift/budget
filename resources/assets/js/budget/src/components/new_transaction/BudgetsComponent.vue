@@ -31,12 +31,16 @@
             </dropdown>
         </div>
 
-        <budget-autocomplete
-            :chosen-budgets.sync="shared.newTransaction.budgets"
-            multiple-budgets="true"
+        <autocomplete
+            autocomplete-id="new-transaction-budgets-autocomplete"
+            input-id="new-transaction-budgets-input"
+            :unfiltered-options="shared.budgets"
+            prop="name"
+            multiple-selections="true"
+            :chosen-options="shared.newTransaction.budgets"
             :function-on-enter="insertTransaction"
         >
-        </budget-autocomplete>
+        </autocomplete>
 
     </div>
 </template>
@@ -52,7 +56,25 @@
         methods: {
             insertTransaction () {
                 NewTransactionRepository.insertTransaction();
-            }
+            },
+            optionChosen: function (option, inputId) {
+                switch(inputId) {
+                    case 'new-transaction-budgets-input':
+                        store.add(option, 'newTransaction.budgets');
+                        break;
+                }
+            },
+            chosenOptionRemoved: function (option, inputId) {
+                switch(inputId) {
+                    case 'new-transaction-budgets-input':
+                        store.delete(option, 'newTransaction.budgets');
+                        break;
+                }
+            },
+        },
+        created: function () {
+            this.$bus.$on('autocomplete-option-chosen', this.optionChosen);
+            this.$bus.$on('autocomplete-chosen-option-removed', this.chosenOptionRemoved);
         }
     }
 </script>

@@ -108,8 +108,7 @@
                 startedCounting: false,
                 inputValue: '',
                 mutableSelected: this.selected,
-                //If multiple options can be chosen
-                chosenOptions: []
+                mutableChosenOptions: this.chosenOptions
             };
         },
         components: {},
@@ -136,7 +135,7 @@
              * @param option
              */
             removeChosenOption: function (option) {
-                this.chosenOptions = _.without(this.chosenOptions, option);
+                this.mutableChosenOptions = _.without(this.mutableChosenOptions, option);
                 this.$bus.$emit('autocomplete-chosen-option-removed', option, this.inputId);
             },
 
@@ -228,7 +227,7 @@
                 this.focusNextField();
 //                this.functionWhenOptionIsChosen();
                 this.$bus.$emit('autocomplete-option-chosen', this.mutableSelected, this.inputId);
-                this.chosenOptions.push(this.mutableSelected);
+                this.mutableChosenOptions.push(this.mutableSelected);
             },
 
             /**
@@ -514,6 +513,12 @@
             'idToFocusAfterAutocomplete': {},
             //Can the user choose more than one option?
             'multipleSelections': {},
+            //If multiple options can be chosen
+            chosenOptions: {
+                default: function () {
+                    return [];
+                }
+            },
             //For if items are local
             'unfilteredOptions': {},
             //Property of the chosen option to display in input field once option is chosen
