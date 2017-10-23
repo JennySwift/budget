@@ -1,6 +1,6 @@
 <template>
 
-    <new-popup
+    <popup
         id="budget-popup"
         :redirect-to="redirectTo"
     >
@@ -69,7 +69,7 @@
         >
         </popup-buttons>
 
-    </new-popup>
+    </popup>
 
 </template>
 

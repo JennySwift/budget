@@ -1,6 +1,6 @@
 <template>
 
-    <new-popup
+    <popup
         id="update-favourite-transaction-popup"
         :redirect-to="redirectTo"
     >
@@ -139,7 +139,7 @@
         >
         </popup-buttons>
 
-    </new-popup>
+    </popup>
 
 </template>
 
