@@ -3,6 +3,8 @@
     <popup
         popup-name="transaction"
         id="transaction-popup"
+        :save="updateTransaction"
+        :destroy="deleteTransaction"
         :redirect-to="redirectTo"
     >
         <div slot="content">
@@ -136,22 +138,19 @@
                 <input v-model="shared.selectedTransaction.reconciled" type="checkbox">
             </div>
 
-            <budget-autocomplete
+            <autocomplete
                 v-if="shared.selectedTransaction.type !== 'transfer'"
-                :chosen-budgets.sync="shared.selectedTransaction.budgets"
-                :budgets="shared.budgets"
-                multiple-budgets="true"
+                autocomplete-id="transaction-budgets-autocomplete"
+                input-id="transaction-budgets-input"
+                :unfiltered-options="shared.budgets"
+                prop="name"
+                multiple-selections="true"
+                :chosen-options="shared.selectedTransaction.budgets"
+                :function-on-enter="updateTransaction"
             >
-            </budget-autocomplete>
+            </autocomplete>
 
         </div>
-
-        <popup-buttons slot="buttons"
-                 :save="updateTransaction"
-                 :destroy="deleteTransaction"
-                 :redirect-to="redirectTo"
-        >
-        </popup-buttons>
 
     </popup>
 
@@ -219,11 +218,30 @@
                         FilterRepository.getBasicFilterTotals(this);
                     }
                 });
-            }
+            },
+
+            optionChosen: function (option, inputId) {
+                switch(inputId) {
+                    case 'transaction-budgets-input':
+                        store.add(option, 'selectedTransaction.budgets');
+                        break;
+                }
+            },
+            chosenOptionRemoved: function (option, inputId) {
+                switch(inputId) {
+                    case 'transaction-budgets-input':
+                        store.delete(option, 'selectedTransaction.budgets');
+                        break;
+                }
+            },
         },
         props: [],
         mounted: function () {
 
+        },
+        created: function () {
+            this.$bus.$on('autocomplete-option-chosen', this.optionChosen);
+            this.$bus.$on('autocomplete-chosen-option-removed', this.chosenOptionRemoved);
         }
     }
 </script>
