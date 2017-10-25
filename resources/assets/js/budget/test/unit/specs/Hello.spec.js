@@ -4,7 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 
 global.$ = require('jquery');
 global.jQuery = require('jquery');
-global.store = require('../../../src/repositories/Store');
+
 const bus = new Vue();
 Vue.prototype.$bus = bus;
 
