@@ -3,7 +3,7 @@
 
         <h3 v-if="shared.transactions.length === 0">No transactions to show.</h3>
 
-        <edit-transaction-popup></edit-transaction-popup>
+        <transaction-popup></transaction-popup>
 
         <mass-transaction-update-popup></mass-transaction-update-popup>
 
@@ -51,13 +51,17 @@
 </template>
 
 <script>
+    import TransactionPopupComponent from './TransactionPopupComponent.vue'
+
     export default {
         data: function () {
             return {
                 shared: store.state,
             };
         },
-        components: {},
+        components: {
+            'transaction-popup': TransactionPopupComponent
+        },
         methods: {
 
         },

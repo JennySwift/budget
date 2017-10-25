@@ -206,7 +206,7 @@
                 store.set(transaction.total, 'selectedTransaction.originalTotal');
                 store.set(helpers.formatDurationToMinutes(transaction.minutes), 'selectedTransaction.duration');
 
-                helpers.showPopup('transaction-popup');
+                helpers.showPopup('transaction');
             }
 
         },

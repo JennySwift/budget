@@ -1,6 +1,7 @@
 <template>
 
     <popup
+        popup-name="transaction"
         id="transaction-popup"
         :redirect-to="redirectTo"
     >

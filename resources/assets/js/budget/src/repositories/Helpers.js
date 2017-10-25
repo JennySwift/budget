@@ -85,7 +85,7 @@ export default {
     // },
 
     showPopup: function (popupName) {
-        store.set(true, 'showPopup')
+        store.set(true, 'show.popup.' + popupName);
     },
 
     hidePopup: function () {

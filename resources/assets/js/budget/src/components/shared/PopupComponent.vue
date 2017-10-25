@@ -1,13 +1,13 @@
 <template>
     <div
-        v-show="shared.showPopup"
+        v-show="shared.show.popup[popupName]"
         transition="popup-outer"
         v-on:click="closePopup($event)"
         class="popup-outer animate"
     >
 
         <div
-            v-show="shared.showPopup"
+            v-show="shared.show.popup[popupName]"
             transition="popup-inner"
             :id="id"
             class="popup-inner animate"
@@ -39,7 +39,9 @@
             };
         },
         computed: {
-
+            showPopup: function () {
+                return this.shared.show.popup[this.popupName];
+            }
         },
         components: {},
         methods: {
@@ -51,7 +53,7 @@
             }
         },
         props: [
-            'showPopup',
+            'popupName',
             'id',
             'redirectTo'
         ]
