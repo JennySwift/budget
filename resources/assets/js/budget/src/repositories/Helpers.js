@@ -88,8 +88,9 @@ export default {
         store.set(true, 'show.popup.' + popupName);
     },
 
-    hidePopup: function () {
-        store.set(false, 'showPopup');
+    hidePopup: function (popupName) {
+        console.log('hiding: ' + popupName);
+        store.set(false, 'show.popup.' + popupName);
     },
 
     /**
@@ -99,7 +100,7 @@ export default {
         if ($($event.target).hasClass('popup-outer')) {
             // that.$emit('update:showPopup', false);
             // that.$router.push(routeToGoTo);
-            store.set(false, 'showPopup');
+            store.set(false, 'show.popup.' + that.popupName);
         }
     },
 

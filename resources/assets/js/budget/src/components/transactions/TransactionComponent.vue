@@ -190,7 +190,7 @@
              * @param transaction
              */
             showAllocationPopup: function (transaction) {
-                $.event.trigger('show-allocation-popup', [transaction]);
+                store.showAllocationPopup(transaction);
             },
 
             /**

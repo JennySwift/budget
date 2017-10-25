@@ -1,6 +1,7 @@
 <template>
 
     <popup
+        popup-name="allocation"
         id="allocation-popup"
         :redirect-to="redirectTo"
     >
@@ -74,10 +75,6 @@
             <!--</div>-->
 
         </div>
-
-        <popup-buttons slot="buttons"
-        >
-        </popup-buttons>
 
     </popup>
 

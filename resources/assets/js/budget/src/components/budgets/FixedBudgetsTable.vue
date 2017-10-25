@@ -151,7 +151,7 @@
              */
             showBudgetPopup: function (budget) {
                 store.set(budget, 'selectedBudget');
-                helpers.showPopup('budget-popup');
+                helpers.showPopup('budget');
             },
         }
     }

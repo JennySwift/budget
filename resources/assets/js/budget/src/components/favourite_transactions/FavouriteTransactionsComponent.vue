@@ -4,7 +4,7 @@
 
         <new-favourite-transaction></new-favourite-transaction>
 
-        <update-favourite-transaction></update-favourite-transaction>
+        <favourite-transaction></favourite-transaction>
 
         <div>
             <h2>Favourite transactions</h2>
@@ -22,7 +22,7 @@
 
                 <tr
                     v-for="favourite in shared.favouriteTransactions"
-                    v-on:click="showUpdateFavouriteTransactionPopup(favourite)"
+                    v-on:click="showFavouriteTransactionPopup(favourite)"
                     class="pointer"
                 >
                     <td>{{ favourite.name }}</td>
@@ -66,7 +66,7 @@
 
 <script>
     import NewFavouriteTransactionComponent from './NewFavouriteTransactionComponent.vue'
-    import UpdateFavouriteTransactionComponent from './UpdateFavouriteTransactionComponent.vue'
+    import FavouriteTransactionComponent from './FavouriteTransactionComponent.vue'
     import helpers from '../../repositories/Helpers'
     export default {
         data: function () {
@@ -79,7 +79,7 @@
         },
         components: {
             'new-favourite-transaction': NewFavouriteTransactionComponent,
-            'update-favourite-transaction': UpdateFavouriteTransactionComponent
+            'favourite-transaction': FavouriteTransactionComponent
         },
         computed: {
 
@@ -90,9 +90,9 @@
              *
              * @param favouriteTransaction
              */
-            showUpdateFavouriteTransactionPopup: function (favouriteTransaction) {
+            showFavouriteTransactionPopup: function (favouriteTransaction) {
                 store.set(favouriteTransaction, 'selectedFavouriteTransaction');
-                helpers.showPopup('favourite-transaction-popup');
+                helpers.showPopup('favourite-transaction');
             },
 
         },

@@ -8,7 +8,6 @@ import LoadingComponent from './budget/src/components/shared/LoadingComponent.vu
 import PopupComponent from './budget/src/components/shared/PopupComponent.vue'
 import DropdownComponent from './budget/src/components/shared/DropdownComponent.vue'
 import BudgetAutocompleteComponent from './budget/src/components/shared/BudgetAutocompleteComponent.vue'
-import PopupButtonsComponent from './budget/src/components/shared/PopupButtonsComponent.vue'
 import AutocompleteComponent from './budget/src/components/shared/AutocompleteComponent.vue'
 import FeedbackComponent from './budget/src/components/shared/FeedbackComponent.vue'
 import TransactionAutocompleteComponent from './budget/src/components/shared/TransactionAutocompleteComponent.vue'
@@ -30,7 +29,6 @@ Vue.component('navbar', NavbarComponent);
 Vue.component('feedback', FeedbackComponent);
 Vue.component('loading', LoadingComponent);
 Vue.component('popup', PopupComponent);
-Vue.component('popup-buttons', PopupButtonsComponent);
 Vue.component('autocomplete', AutocompleteComponent);
 Vue.component('dropdown', DropdownComponent);
 Vue.component('budget-autocomplete', BudgetAutocompleteComponent);

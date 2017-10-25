@@ -71,7 +71,7 @@
              */
             showAccountPopup: function (account) {
                 store.set(account, 'selectedAccount');
-                helpers.showPopup('account-popup');
+                helpers.showPopup('account');
             },
 
             /**

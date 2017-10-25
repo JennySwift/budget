@@ -1,7 +1,10 @@
 <template>
 
     <popup
+        popup-name="budget"
         id="budget-popup"
+        :save="updateBudget"
+        :destroy="deleteBudget"
         :redirect-to="redirectTo"
     >
         <div slot="content">
@@ -61,13 +64,6 @@
                 >
             </div>
         </div>
-
-        <popup-buttons slot="buttons"
-                 :save="updateBudget"
-                 :destroy="deleteBudget"
-                 :redirect-to="redirectTo"
-        >
-        </popup-buttons>
 
     </popup>
 

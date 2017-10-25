@@ -101,7 +101,11 @@ export default {
             if (options.redirectTo) {
                 that.getRouter().push(options.redirectTo);
             }
-            helpers.hidePopup();
+
+            //Hide all the popups for now.
+            _.forEach(store.state.show.popup, function (value, key) {
+                helpers.hidePopup(key);
+            });
 
         }, function (response) {
             helpers.handleResponseError(response);
@@ -153,7 +157,11 @@ export default {
             }
 
             store.hideLoading();
-            store.set(false, 'showPopup');
+
+            //Hide all the popups for now.
+            _.forEach(store.state.show.popup, function (value, key) {
+                helpers.hidePopup(key);
+            });
 
             if (options.message) {
                 app.__vue__.$bus.$emit('provide-feedback', options.message, 'success');

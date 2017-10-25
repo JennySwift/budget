@@ -1,6 +1,9 @@
 <template>
     <popup
+        popup-name="account"
         id="account-popup"
+        :save="updateAccount"
+        :destroy="deleteAccount"
         :redirect-to="redirectTo"
     >
         <div slot="content">
@@ -18,13 +21,6 @@
                 >
             </div>
         </div>
-
-        <popup-buttons slot="buttons"
-                 :save="updateAccount"
-                 :destroy="deleteAccount"
-                 :redirect-to="redirectTo"
-        >
-        </popup-buttons>
 
     </popup>
 

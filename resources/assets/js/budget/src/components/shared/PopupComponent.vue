@@ -19,9 +19,39 @@
                 </div>
 
                 <div class="buttons">
-                    <slot name="buttons">
+                    <router-link
+                        v-if=redirectTo
+                        v-on:click.native="hidePopup"
+                        :to="redirectTo"
+                        tag="button"
+                        class="btn btn-default"
+                    >
+                        Cancel
+                    </router-link>
 
-                    </slot>
+                    <button
+                        v-if="!redirectTo"
+                        v-on:click="hidePopup()"
+                        class="btn btn-default"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        v-if="destroy"
+                        v-on:click="destroy()"
+                        class="btn btn-danger"
+                    >
+                        Delete
+                    </button>
+
+                    <button
+                        v-if="save"
+                        v-on:click="save()"
+                        class="btn btn-success"
+                    >
+                        Save
+                    </button>
                 </div>
             </div>
 
@@ -50,11 +80,16 @@
              */
             closePopup: function ($event) {
                 helpers.closePopup($event, this, this.redirectTo);
+            },
+            hidePopup () {
+                helpers.hidePopup(this.popupName);
             }
         },
         props: [
             'popupName',
             'id',
+            'save',
+            'destroy',
             'redirectTo'
         ]
     }

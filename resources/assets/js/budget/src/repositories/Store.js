@@ -153,7 +153,11 @@ export default {
         showFilter: true,
         show: {
             popup: {
-                'transaction': false
+                'transaction': false,
+                'allocation': false,
+                'account': false,
+                'budget': false,
+                'favourite-transaction': false
             },
             newTransaction: false,
             totals: true,
@@ -225,7 +229,7 @@ export default {
     showAllocationPopup: function (transaction) {
         store.set(transaction, 'selectedTransactionForAllocation');
         store.getAllocationTotals();
-        helpers.showPopup('allocation-popup');
+        helpers.showPopup('allocation');
     },
 
     /**

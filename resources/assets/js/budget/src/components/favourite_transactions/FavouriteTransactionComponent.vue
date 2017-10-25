@@ -1,7 +1,10 @@
 <template>
 
     <popup
-        id="update-favourite-transaction-popup"
+        popup-name="favourite-transaction"
+        id="favourite-transaction-popup"
+        :save="updateFavouriteTransaction"
+        :destroy="deleteFavouriteTransaction"
         :redirect-to="redirectTo"
     >
         <div slot="content">
@@ -131,13 +134,6 @@
             </budget-autocomplete>
 
         </div>
-
-        <popup-buttons slot="buttons"
-                 :save="updateFavouriteTransaction"
-                 :destroy="deleteFavouriteTransaction"
-                 :redirect-to="redirectTo"
-        >
-        </popup-buttons>
 
     </popup>
 
