@@ -13,4 +13,5 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
     .sourceMaps()
+    // .browserSync('budget.dev:8000')
    .sass('resources/assets/sass/app.scss', 'public/css');
