@@ -163,7 +163,7 @@
 
             /**
              * I think this is just for the reconciled checkbox.
-             * For the updating of a transaction from the popup, see EditTransactionPopupComponent
+             * For the updating of a transaction from the popup, see TransactionPopupComponent
              */
             updateTransaction: function () {
                 var data = TransactionsRepository.setFields(this.transaction);

@@ -84,6 +84,11 @@ export default {
         store.showLoading();
         var that = this;
         Vue.http.put(options.url, options.data).then(function (response) {
+            //Hide all the popups for now.
+            _.forEach(store.state.show.popup, function (value, key) {
+                helpers.hidePopup(key);
+            });
+
             if (options.callback) {
                 options.callback(response.data);
             }
@@ -101,11 +106,6 @@ export default {
             if (options.redirectTo) {
                 that.getRouter().push(options.redirectTo);
             }
-
-            //Hide all the popups for now.
-            _.forEach(store.state.show.popup, function (value, key) {
-                helpers.hidePopup(key);
-            });
 
         }, function (response) {
             helpers.handleResponseError(response);
@@ -152,16 +152,16 @@ export default {
         }
 
         Vue.http.delete(options.url).then(function (response) {
+            //Hide all the popups for now.
+            _.forEach(store.state.show.popup, function (value, key) {
+                helpers.hidePopup(key);
+            });
+            
             if (options.callback) {
                 options.callback(response);
             }
 
             store.hideLoading();
-
-            //Hide all the popups for now.
-            _.forEach(store.state.show.popup, function (value, key) {
-                helpers.hidePopup(key);
-            });
 
             if (options.message) {
                 app.__vue__.$bus.$emit('provide-feedback', options.message, 'success');
