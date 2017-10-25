@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Budget App</title>
-    @include('main.shared.head-links')
+    <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
 
@@ -19,10 +19,17 @@
         <router-view></router-view>
     </div>
 
-    @include('main.shared.footer')
+    <footer>
+        <li><a href="http://jennyswiftcreations.com/privacy-policy">Privacy Policy</a></li>
+
+        <li><a href="http://jennyswiftcreations.com/credits">Credits</a></li>
+    </footer>
 </div>
 
-@include('main.shared.scripts')
+{{--Google Analytics--}}
+@include('templates.analytics-tracking')
+<script type="text/javascript" src="/js/app.js"></script>
+
 </body>
 </html>
 
