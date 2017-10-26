@@ -1,5 +1,5 @@
 <template>
-    <div class="autocomplete-container">
+    <div id="new-transaction-merchant" class="autocomplete-container">
 
         <div class="help-row">
             <label>Enter a merchant (optional)</label>

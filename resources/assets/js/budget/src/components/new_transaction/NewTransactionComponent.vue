@@ -19,8 +19,14 @@
 
             <div>
                 <merchant></merchant>
-                <description></description>
             </div>
+
+           <div>
+               <description></description>
+           </div>
+            <!--<div id="merchant-description-container">-->
+                <!---->
+            <!--</div>-->
 
             <div>
                 <accounts></accounts>

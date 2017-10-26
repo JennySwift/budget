@@ -18,9 +18,9 @@
             width: 200px;
         }
     }
-    .autocomplete-container {
-        @include autocomplete_container;
-    }
+    //.autocomplete-container {
+    //    @include autocomplete_container;
+    //}
     .no-results {
         text-align: center;
         border: 1px solid;

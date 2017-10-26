@@ -1,5 +1,14 @@
 <template>
     <table v-show="options.length > 0" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>description</th>
+                <th>merchant</th>
+                <th>total</th>
+                <th>type</th>
+                <th>account</th>
+            </tr>
+        </thead>
         <tbody
             v-for="(transaction, index) in options"
             v-show="options.length > 0"
@@ -10,36 +19,27 @@
             v-bind:style="{color: shared.me.preferences.colors[transaction.type]}"
         >
 
+            <tr>
+                <td class="description">{{ transaction.description }}</td>
+                <td class="merchant">{{ transaction.merchant }}</td>
+                <td class="total">{{ transaction.total }}</td>
+                <td class="type">{{ transaction.type }}</td>
 
-        <tr>
-            <th>description</th>
-            <th>merchant</th>
-            <th>total</th>
-            <th>type</th>
-            <th>account</th>
-        </tr>
+                <td v-if="transaction.account" class="account">{{ transaction.account.name }}</td>
+                <td v-else class="account"></td>
+            </tr>
 
-        <tr>
-            <td class="description">{{ transaction.description }}</td>
-            <td class="merchant">{{ transaction.merchant }}</td>
-            <td class="total">{{ transaction.total }}</td>
-            <td class="type">{{ transaction.type }}</td>
-
-            <td v-if="transaction.account" class="account">{{ transaction.account.name }}</td>
-            <td v-else class="account"></td>
-        </tr>
-
-        <tr>
-            <td colspan="7">
-                <li
-                    v-for="budget in transaction.budgets"
-                    v-bind:class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex', 'tag-without-budget': budget.type === 'unassigned'}"
-                    class="label label-default">
-                    {{ budget.name }}
-                </li>
-            </td>
-            <!--<td colspan="1" class="budget-tag-info">{{ transaction.allocate }}</td>-->
-        </tr>
+            <tr>
+                <td colspan="7">
+                    <li
+                        v-for="budget in transaction.budgets"
+                        v-bind:class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex', 'tag-without-budget': budget.type === 'unassigned'}"
+                        class="label label-default">
+                        {{ budget.name }}
+                    </li>
+                </td>
+                <!--<td colspan="1" class="budget-tag-info">{{ transaction.allocate }}</td>-->
+            </tr>
 
         </tbody>
     </table>

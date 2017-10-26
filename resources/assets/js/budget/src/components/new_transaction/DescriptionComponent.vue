@@ -1,5 +1,5 @@
 <template>
-    <div class="autocomplete-container">
+    <div id="new-transaction-description" class="autocomplete-container">
 
         <div class="help-row">
             <label>Enter a description (optional)</label>

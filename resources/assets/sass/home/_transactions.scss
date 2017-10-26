@@ -1,3 +1,39 @@
+//#merchant-description-container {
+//    position: relative;
+//    #new-transaction-merchant-autocomplete, #new-transaction-description-autocomplete {
+//        max-height: 200px;
+//        overflow: scroll;
+//        z-index: 9;
+//        background: white;
+//        width: 508px;
+//        position: absolute;
+//        &#new-transaction-merchant-autocomplete {
+//            left: 0;
+//        }
+//        &#new-transaction-description-autocomplete {
+//            right: 0;
+//        }
+//        table {
+//            border-radius: 0;
+//            td, th {
+//                max-width: 57px;
+//                font-size: 13px;
+//                padding: 0;
+//                //overflow: scroll;
+//                border-radius: 0;
+//            }
+//            .selected {
+//                //            background-color: lightblue;
+//                color: #ffffff;
+//            }
+//        }
+//    }
+//}
+
+
+
+
+
 #totals-transactions-filter-container {
     display: flex;
     > * {

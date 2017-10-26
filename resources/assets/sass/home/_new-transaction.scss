@@ -28,6 +28,16 @@
         #new-transaction-favourites {
             width: 100%;
         }
+
+
+        #new-transaction-merchant, #new-transaction-description {
+            width: 100%;
+            #new-transaction-merchant-autocomplete, #new-transaction-description-autocomplete {
+                .autocomplete-option {
+                    display: table-row-group;
+                }
+            }
+        }
     }
 }
 

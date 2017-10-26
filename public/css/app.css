@@ -16046,80 +16046,6 @@ caption {
   background: white;
 }
 
-#tags {
-  margin-bottom: 20px;
-}
-
-#tags .create-new-tag {
-  -webkit-box-shadow: 3px 3px 5px #777;
-          box-shadow: 3px 3px 5px #777;
-  margin-bottom: 30px;
-  border-radius: 4px;
-  padding: 14px;
-  width: 293px;
-}
-
-#tags .create-new-tag .flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-}
-
-#tags .create-new-tag .flex .form-group {
-  margin-bottom: 0;
-}
-
-#tags table {
-  padding: 20px 0 20px 20px;
-}
-
-#tags table tr td {
-  text-align: left;
-  height: 50px;
-}
-
-#tags table tr td .label {
-  font-size: 18px;
-}
-
-#tags table tr .btn-danger {
-  visibility: hidden;
-}
-
-#tags table tr:hover .btn-danger {
-  visibility: visible;
-}
-
-.tag-with-budget {
-  background: green;
-}
-
-.tag-with-fixed-budget {
-  background: #337ab7;
-}
-
-.tag-with-fixed-budget .type {
-  font-size: 6px;
-}
-
-.tag-with-flex-budget {
-  background: #fca700;
-}
-
-.tag-with-flex-budget .type {
-  font-size: 6px;
-}
-
-.tag-without-budget .type {
-  font-size: 6px;
-}
-
 #feedback {
   position: fixed;
   right: 11px;
@@ -17273,47 +17199,6 @@ caption {
   width: 200px;
 }
 
-#new-transaction-container #new-transaction .autocomplete-container {
-  position: relative;
-}
-
-#new-transaction-container #new-transaction .autocomplete-container > input {
-  width: 100%;
-}
-
-#new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete {
-  max-height: 200px;
-  overflow: scroll;
-  z-index: 9;
-  background: white;
-  width: 508px;
-  position: absolute;
-}
-
-#new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete#merchant-autocomplete {
-  left: 0;
-}
-
-#new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete#description-autocomplete {
-  right: 0;
-}
-
-#new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete table {
-  border-radius: 0;
-}
-
-#new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete table td,
-#new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete table th {
-  max-width: 57px;
-  font-size: 13px;
-  padding: 0;
-  border-radius: 0;
-}
-
-#new-transaction-container #new-transaction .autocomplete-container .transactions-autocomplete table .selected {
-  color: #ffffff;
-}
-
 #new-transaction-container #new-transaction .no-results {
   text-align: center;
   border: 1px solid;
@@ -17358,6 +17243,18 @@ caption {
 
 #new-transaction-container #new-transaction #new-transaction-favourites {
   width: 100%;
+}
+
+#new-transaction-container #new-transaction #new-transaction-merchant,
+#new-transaction-container #new-transaction #new-transaction-description {
+  width: 100%;
+}
+
+#new-transaction-container #new-transaction #new-transaction-merchant #new-transaction-merchant-autocomplete .autocomplete-option,
+#new-transaction-container #new-transaction #new-transaction-merchant #new-transaction-description-autocomplete .autocomplete-option,
+#new-transaction-container #new-transaction #new-transaction-description #new-transaction-merchant-autocomplete .autocomplete-option,
+#new-transaction-container #new-transaction #new-transaction-description #new-transaction-description-autocomplete .autocomplete-option {
+  display: table-row-group;
 }
 
 #totals-transactions-filter-container {
