@@ -64,11 +64,15 @@
 
 <script>
     import NewTransactionRepository from '../../repositories/NewTransactionRepository'
+    import TransactionAutocompleteResults from './TransactionAutocompleteResults.vue'
     export default {
         data: function () {
             return {
                 shared: store.state,
             };
+        },
+        components: {
+            'transaction-autocomplete-results': TransactionAutocompleteResults
         },
         methods: {
             insertTransaction () {

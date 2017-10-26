@@ -30,45 +30,47 @@
             :transition="dropdownTransition"
             class="autocomplete-dropdown scrollbar-container"
         >
-            <div
-                v-for="(option, index) in options"
-                v-show="options.length > 0"
-                v-bind:class="{'selected': currentIndex === index}"
-                v-on:mouseover="hoverItem(index)"
-                v-on:mousedown="selectOption(index)"
-                class="autocomplete-option"
-            >
-                <div v-if="prop">{{ option[prop] }}</div>
-                <div v-if="!prop">{{ option }}</div>
-
-                <!--No longer works with Vue-->
-                <!--<partial :name="optionPartial"></partial>-->
-
-                <!--For budget autocomplete-->
-                <!--<div v-html="budget.html"></div>-->
-                <!--<div v-if="multiple-selections">-->
-
-                <!--</div>-->
-                <div>
-                    <span :class="'label label-default ' + option.type + '-label'">{{ option.type }}</span>
-                </div>
-
-                <!--Delete button-->
-                <button
-                    v-if="deleteFunction"
-                    v-on:mousedown="deleteOption(option)"
-                    class="btn btn-xs btn-danger"
+            <slot name="options" :options="options" :current-index="currentIndex">
+                <div
+                    v-for="(option, index) in options"
+                    v-show="options.length > 0"
+                    v-bind:class="{'selected': currentIndex === index}"
+                    v-on:mouseover="hoverItem(index)"
+                    v-on:mousedown="selectOption(index)"
+                    class="autocomplete-option"
                 >
-                    Delete
-                </button>
+                    <div v-if="prop">{{ option[prop] }}</div>
+                    <div v-if="!prop">{{ option }}</div>
 
-                <!--Labels for option-->
-                <span v-if="option.assignedAlready && labelForOption" class="label label-default">
+                    <!--No longer works with Vue-->
+                    <!--<partial :name="optionPartial"></partial>-->
+
+                    <!--For budget autocomplete-->
+                    <!--<div v-html="budget.html"></div>-->
+                    <!--<div v-if="multiple-selections">-->
+
+                    <!--</div>-->
+                    <div>
+                        <span :class="'label label-default ' + option.type + '-label'">{{ option.type }}</span>
+                    </div>
+
+                    <!--Delete button-->
+                    <button
+                        v-if="deleteFunction"
+                        v-on:mousedown="deleteOption(option)"
+                        class="btn btn-xs btn-danger"
+                    >
+                        Delete
+                    </button>
+
+                    <!--Labels for option-->
+                    <span v-if="option.assignedAlready && labelForOption" class="label label-default">
                         Assigned
                 </span>
-                <span v-if="!option.assignedAlready && labelForOption" class="label label-danger">Unassigned</span>
-            </div>
-            <div v-if="options.length === 0" class="no-results">No results</div>
+                    <span v-if="!option.assignedAlready && labelForOption" class="label label-danger">Unassigned</span>
+                </div>
+                <div v-if="options.length === 0" class="no-results">No results</div>
+            </slot>
         </div>
 
         <div v-if="multipleSelections" class="chosen-options">
@@ -536,7 +538,9 @@
             //For if there is a button to delete one of the options
             'deleteFunction': {},
             //For searching the database
-            fieldToFilterBy: ''
+            fieldToFilterBy: '',
+            //For a custom template for displaying the options
+            optionsTemplate: {}
         },
         ready: function () {
             var that = this;

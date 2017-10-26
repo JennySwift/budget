@@ -57,6 +57,17 @@
             url="/api/transactions"
             field-to-filter-by="merchant"
         >
+
+            <template scope="props" slot="options">
+                <transaction-autocomplete-results
+                    :options="props.options"
+                    :current-index="props.currentIndex"
+                >
+                </transaction-autocomplete-results>
+
+            </template>
+
+
         </autocomplete>
 
     </div>
@@ -64,11 +75,15 @@
 
 <script>
     import NewTransactionRepository from '../../repositories/NewTransactionRepository'
+    import TransactionAutocompleteResults from './TransactionAutocompleteResults.vue'
     export default {
         data: function () {
             return {
                 shared: store.state,
             };
+        },
+        components: {
+            'transaction-autocomplete-results': TransactionAutocompleteResults
         },
         methods: {
             insertTransaction () {
