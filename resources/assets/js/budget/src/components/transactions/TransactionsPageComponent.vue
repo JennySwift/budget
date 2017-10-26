@@ -15,6 +15,10 @@
 
 <script>
     import TotalsRepository from '../../repositories/TotalsRepository'
+    import TransactionsComponent from './TransactionsComponent.vue'
+    import NewTransactionComponent from '../../components/new_transaction/NewTransactionComponent.vue'
+    import TotalsComponent from '../../components/TotalsComponent.vue'
+    import FilterComponent from '../../components/filter/FilterComponent.vue'
 
     export default {
         data: function () {
@@ -25,7 +29,12 @@
                 hoveringTotalsButton: false
             };
         },
-        components: {},
+        components: {
+            'transactions': TransactionsComponent,
+            'new-transaction': NewTransactionComponent,
+            'totals': TotalsComponent,
+            'transactions-filter': FilterComponent
+        },
         computed: {
             // tab: function () {
             //     return this.homePageRepository.tab;

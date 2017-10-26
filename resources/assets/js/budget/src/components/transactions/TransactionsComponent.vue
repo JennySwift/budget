@@ -52,6 +52,10 @@
 
 <script>
     import TransactionPopupComponent from './TransactionPopupComponent.vue'
+    import TransactionComponent from './TransactionComponent.vue'
+    import MassTransactionUpdatePopupComponent from '../../components/filter/MassTransactionUpdatePopupComponent.vue'
+    import AllocationPopupComponent from '../../components/budgets/AllocationPopupComponent.vue'
+
 
     export default {
         data: function () {
@@ -60,7 +64,10 @@
             };
         },
         components: {
-            'transaction-popup': TransactionPopupComponent
+            'transaction-popup': TransactionPopupComponent,
+            'transaction': TransactionComponent,
+            'mass-transaction-update-popup': MassTransactionUpdatePopupComponent,
+            'allocation-popup': AllocationPopupComponent
         },
         methods: {
 

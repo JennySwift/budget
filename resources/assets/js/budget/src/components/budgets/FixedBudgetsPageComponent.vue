@@ -27,13 +27,27 @@
 
 <script>
     import helpers from '../../repositories/Helpers'
+    import FixedBudgetsTableComponent from './FixedBudgetsTable.vue'
+    import TotalsComponent from '../../components/TotalsComponent.vue'
+    import NewBudgetComponent from '../../components/budgets/NewBudgetComponent.vue'
+    import BudgetsToolbarComponent from '../../components/shared/BudgetsToolbarComponent.vue'
+    import BudgetPopupComponent from '../../components/budgets/BudgetPopupComponent.vue'
+
+
     export default {
         data: function () {
             return {
                 shared: store.state,
             };
         },
-        components: {},
+        components: {
+            'fixed-budgets-table': FixedBudgetsTableComponent,
+            'totals': TotalsComponent,
+            'new-budget': NewBudgetComponent,
+            'budgets-toolbar': BudgetsToolbarComponent,
+            'budget-popup': BudgetPopupComponent
+
+        },
         filters: {
 
         },

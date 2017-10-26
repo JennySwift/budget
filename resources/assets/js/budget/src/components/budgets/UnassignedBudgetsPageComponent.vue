@@ -43,13 +43,24 @@
 <script>
     import TotalsRepository from '../../repositories/TotalsRepository'
     import helpers from '../../repositories/Helpers'
+    import TotalsComponent from '../../components/TotalsComponent.vue'
+    import NewBudgetComponent from '../../components/budgets/NewBudgetComponent.vue'
+    import BudgetsToolbarComponent from '../../components/shared/BudgetsToolbarComponent.vue'
+    import BudgetPopupComponent from '../../components/budgets/BudgetPopupComponent.vue'
+
+
     export default {
         data: function () {
             return {
                 shared: store.state
             };
         },
-        components: {},
+        components: {
+            'totals': TotalsComponent,
+            'new-budget': NewBudgetComponent,
+            'budgets-toolbar': BudgetsToolbarComponent,
+            'budget-popup': BudgetPopupComponent
+        },
         computed: {
             orderedUnassignedBudgets: function () {
                 return _.orderBy(this.shared.unassignedBudgets, 'name');

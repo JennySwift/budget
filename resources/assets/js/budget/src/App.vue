@@ -1,23 +1,33 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <!--<navbar></navbar>-->
+
+    <feedback></feedback>
+    <loading></loading>
+
+    <div class="main">
+        <router-view/>
+    </div>
+
+    <footer>
+      <li><a href="http://jennyswiftcreations.com/privacy-policy">Privacy Policy</a></li>
+
+      <li><a href="http://jennyswiftcreations.com/credits">Credits</a></li>
+    </footer>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
+    // import NavbarComponent from './components/shared/NavbarComponent.vue'
+    import LoadingComponent from './components/shared/LoadingComponent.vue'
+    import FeedbackComponent from './components/shared/FeedbackComponent.vue'
+
+    export default {
+    name: 'app',
+    components: {
+        // 'navbar': NavbarComponent,
+        'feedback': FeedbackComponent,
+        'loading': LoadingComponent,
+    }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

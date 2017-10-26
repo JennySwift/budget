@@ -151,6 +151,11 @@
 <script>
     import TotalsRepository from '../../repositories/TotalsRepository'
     import helpers from '../../repositories/Helpers.js'
+    import TotalsComponent from '../../components/TotalsComponent.vue'
+    import NewBudgetComponent from '../../components/budgets/NewBudgetComponent.vue'
+    import BudgetsToolbarComponent from '../../components/shared/BudgetsToolbarComponent.vue'
+    import BudgetPopupComponent from '../../components/budgets/BudgetPopupComponent.vue'
+
     export default {
         data: function () {
             return {
@@ -164,7 +169,12 @@
                 reverseOrder: false
             };
         },
-        components: {},
+        components: {
+            'totals': TotalsComponent,
+            'new-budget': NewBudgetComponent,
+            'budgets-toolbar': BudgetsToolbarComponent,
+            'budget-popup': BudgetPopupComponent
+        },
         computed: {
             orderedFlexBudgets: function () {
                 return store.orderBudgetsFilter(this.shared.flexBudgets, this);

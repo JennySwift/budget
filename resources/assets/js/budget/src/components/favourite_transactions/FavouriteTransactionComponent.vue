@@ -127,11 +127,16 @@
                 </select>
             </div>
 
-            <budget-autocomplete
-                :chosen-budgets.sync="shared.selectedFavouriteTransaction.budgets"
-                multiple-budgets="true"
+            <autocomplete
+                autocomplete-id="favourite-transaction-budgets-autocomplete"
+                input-id="favourite-transaction-input"
+                :unfiltered-options="shared.budgets"
+                prop="name"
+                multiple-selections="true"
+                :chosen-options="shared.selectedFavouriteTransaction.budgets"
+                :function-on-enter="updateFavouriteTransaction"
             >
-            </budget-autocomplete>
+            </autocomplete>
 
         </div>
 

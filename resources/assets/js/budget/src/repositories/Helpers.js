@@ -104,6 +104,10 @@ export default {
         }
     },
 
+    isLocalEnvironment: function () {
+        return process.env.NODE_ENV === "development";
+    },
+
     /**
      *
      * @param object

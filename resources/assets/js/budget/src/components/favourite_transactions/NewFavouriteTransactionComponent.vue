@@ -132,12 +132,16 @@
         <div v-show="showFields" class="form-group">
             <label>Budgets</label>
 
-            <budget-autocomplete
-                :chosen-budgets.sync="shared.newFavouriteTransaction.budgets"
-                multiple-budgets="true"
+            <autocomplete
+                autocomplete-id="new-favourite-transaction-budgets-autocomplete"
+                input-id="new-favourite-transaction-input"
+                :unfiltered-options="shared.budgets"
+                prop="name"
+                multiple-selections="true"
+                :chosen-options="shared.newFavouriteTransaction.budgets"
                 :function-on-enter="insertFavouriteTransaction"
             >
-            </budget-autocomplete>
+            </autocomplete>
         </div>
 
         <div v-show="showFields" class="form-group">

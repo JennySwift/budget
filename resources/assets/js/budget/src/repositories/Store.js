@@ -208,10 +208,6 @@ export default {
         // });
     },
 
-    isLocalEnvironment: function () {
-        return location.hostname === "budget.dev";
-    },
-
     /**
      *
      */
@@ -400,7 +396,7 @@ export default {
      *
      */
     setNewTransactionDefaults: function () {
-        if (this.isLocalEnvironment()) {
+        if (helpers.isLocalEnvironment()) {
             this.state.newTransaction.total = 10;
             this.state.newTransaction.merchant = 'some merchant';
             this.state.newTransaction.description = 'some description';

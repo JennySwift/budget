@@ -33,11 +33,16 @@
 
             Add budgets to transactions
 
-            <budget-autocomplete
-                :chosen-budgets.sync="budgetsToAdd"
-                multiple-budgets="true"
+            <autocomplete
+                autocomplete-id="mass-transaction-update-budgets-autocomplete"
+                input-id="mass-transaction-update-budgets-input"
+                :unfiltered-options="shared.budgets"
+                prop="name"
+                multiple-selections="true"
+                :chosen-options="budgetsToAdd"
             >
-            </budget-autocomplete>
+            </autocomplete>
+
 
             <div class="buttons">
                 <button v-on:click="showPopup = false" class="btn btn-default">Close</button>
