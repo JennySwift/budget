@@ -57,6 +57,14 @@
             url="/api/transactions"
             field-to-filter-by="description"
         >
+            <template scope="props" slot="options">
+                <transaction-autocomplete-results
+                    :options="props.options"
+                    :current-index="props.currentIndex"
+                >
+                </transaction-autocomplete-results>
+
+            </template>
         </autocomplete>
 
     </div>
