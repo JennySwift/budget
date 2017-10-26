@@ -12,9 +12,8 @@ let mix = require('laravel-mix');
  */
 
 mix
-    .setPublicPath('resources/assets/js/budget/src/assets')
-    // .js('resources/assets/js/app.js', 'public/js')
+    // .setPublicPath('resources/assets/js/budget/src/assets')
+    .js('resources/assets/js/budget/src/main.js', 'public/js/app.js');
     // .sourceMaps()
     // .browserSync('budget.dev:8000')
-   .sass('resources/assets/sass/app.scss', 'public/css');
-   // .sass('resources/assets/sass/app.scss', 'resources/assets/js/budget/src/assets/css');
+   // .sass('resources/assets/sass/app.scss', 'public/css');

@@ -32,6 +32,7 @@ Vue.directive('slide', SlideDirective);
 
 //Components
 Vue.component('autocomplete', AutocompleteComponent);
+Vue.component('transaction-autocomplete', TransactionAutocompleteComponent);
 Vue.component('dropdown', DropdownComponent);
 Vue.component('dropdown-arrow', DropdownArrowComponent);
 Vue.component('popup', PopupComponent);

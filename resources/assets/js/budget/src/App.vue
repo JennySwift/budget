@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!--<navbar></navbar>-->
+    <navbar></navbar>
 
     <feedback></feedback>
     <loading></loading>
@@ -18,14 +18,14 @@
 </template>
 
 <script>
-    // import NavbarComponent from './components/shared/NavbarComponent.vue'
+     import NavbarComponent from './components/shared/NavbarComponent.vue'
     import LoadingComponent from './components/shared/LoadingComponent.vue'
     import FeedbackComponent from './components/shared/FeedbackComponent.vue'
 
     export default {
     name: 'app',
     components: {
-        // 'navbar': NavbarComponent,
+         'navbar': NavbarComponent,
         'feedback': FeedbackComponent,
         'loading': LoadingComponent,
     }

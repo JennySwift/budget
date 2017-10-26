@@ -319,6 +319,7 @@
 </template>
 
 <script>
+    global.jQuery = require('jquery');
     require('bootstrap');
     export default {
         data: function () {
