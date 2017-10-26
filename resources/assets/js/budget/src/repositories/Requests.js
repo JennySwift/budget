@@ -19,10 +19,10 @@ export default {
     get: function (options) {
         store.showLoading();
 
-        if (helpers.isLocalEnvironment()) {
-            options.url = 'http://budget.dev:8000' + options.url;
-        }
-        console.log(options.url);
+        // if (helpers.isLocalEnvironment()) {
+        //     options.url = 'http://budget.dev:8000' + options.url;
+        // }
+        // console.log(options.url);
 
         Vue.http.get(options.url, {params: options.data}).then(function (response) {
             if (options.storeProperty) {

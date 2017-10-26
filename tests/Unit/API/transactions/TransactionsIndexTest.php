@@ -35,7 +35,7 @@ class TransactionsIndexTest extends TestCase
     public function it_autocompletes_the_transactions_by_description()
     {
         $this->logInUser();
-        $response = $this->call('GET', '/api/transactions?column=description&typing=e');
+        $response = $this->call('GET', '/api/transactions?field=description&filter=e');
         $content = json_decode($response->getContent(), true);
 //      dd($content);
 
@@ -55,7 +55,7 @@ class TransactionsIndexTest extends TestCase
     public function it_does_not_include_transfers_when_autocompleting_the_transactions_by_description()
     {
         $this->logInUser();
-        $response = $this->call('GET', '/api/transactions?column=description&typing=');
+        $response = $this->call('GET', '/api/transactions?field=description&filter=');
         $content = json_decode($response->getContent(), true);
 //      dd($content);
 
@@ -74,7 +74,7 @@ class TransactionsIndexTest extends TestCase
     public function it_does_not_include_transfers_when_autocompleting_the_transactions_by_merchant()
     {
         $this->logInUser();
-        $response = $this->call('GET', '/api/transactions?column=merchant&typing=');
+        $response = $this->call('GET', '/api/transactions?field=merchant&filter=');
         $content = json_decode($response->getContent(), true);
 //      dd($content);
 
@@ -94,7 +94,7 @@ class TransactionsIndexTest extends TestCase
     public function it_autocompletes_the_transactions_by_merchant()
     {
         $this->logInUser();
-        $response = $this->call('GET', '/api/transactions?column=merchant&typing=e');
+        $response = $this->call('GET', '/api/transactions?filter=e&field=merchant');
         $content = json_decode($response->getContent(), true);
 //      dd($content);
 

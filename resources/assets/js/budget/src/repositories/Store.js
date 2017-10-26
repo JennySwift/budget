@@ -159,7 +159,7 @@ export default {
                 'budget': false,
                 'favourite-transaction': false
             },
-            newTransaction: false,
+            newTransaction: true,
             totals: true,
             // basicTotals: false,
             // budgetTotals: false,

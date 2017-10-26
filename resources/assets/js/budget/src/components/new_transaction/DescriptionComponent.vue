@@ -48,14 +48,16 @@
             type='text'
         >
 
-        <transaction-autocomplete
+        <autocomplete
             v-if="shared.me.preferences.autocompleteDescription"
-            placeholder="description"
-            id="new-transaction-description"
-            :typing.sync="shared.newTransaction.description"
+            autocomplete-id="new-transaction-description-autocomplete"
+            input-id="new-transaction-description-input"
+            prop="description"
             :function-on-enter="insertTransaction"
+            url="/api/transactions"
+            field-to-filter-by="description"
         >
-        </transaction-autocomplete>
+        </autocomplete>
 
     </div>
 </template>

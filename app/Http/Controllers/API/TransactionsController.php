@@ -53,8 +53,8 @@ class TransactionsController extends Controller
             ->with('account')
             ->with('budgets');
 
-        if ($request->exists('typing')) {
-            $transactions = $transactions->where($request->get('column'), 'LIKE', '%' . $request->get('typing') . '%')
+        if ($request->exists('filter')) {
+            $transactions = $transactions->where($request->get('field'), 'LIKE', '%' . $request->get('filter') . '%')
                 ->where('type', '!=', 'transfer');
         }
 
