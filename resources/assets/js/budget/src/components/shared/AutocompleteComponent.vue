@@ -557,7 +557,7 @@
 
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" type="text/scss">
     @import '../../../../../sass/variables';
     $zIndex1: 9;
     $zIndex2: 99;

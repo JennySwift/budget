@@ -98,3 +98,39 @@
         }
     }
 </script>
+
+<style lang="scss" type="text/scss">
+    @import '../../../../../sass/mixins/_mixins.scss';
+    #accounts {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        > * {
+            max-width: 500px;
+        }
+        .create-new-account {
+            @include createNew;
+        }
+        tr {
+            .btn-danger {
+                visibility: hidden;
+            }
+            &:hover {
+                .btn-danger {
+                    visibility: visible;
+                }
+            }
+            td, th {
+                text-align: left;
+            }
+            td {
+                font-size: 17px;
+                height: 32px;
+            }
+            .balance {
+                text-align: right;
+            }
+        }
+    }
+</style>

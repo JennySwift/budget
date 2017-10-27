@@ -17,17 +17,9 @@
     }
 }
 
-//@mixin autocomplete_container {
-//    position: relative;
-//    > input {
-//        width: 100%;
-//    }
-//}
-
 @mixin totals {
 	background: #777;
 	color: white;
-//	font-weight: bold;
 }
 
 @mixin createNew {

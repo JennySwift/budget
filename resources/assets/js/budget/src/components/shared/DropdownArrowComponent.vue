@@ -19,7 +19,7 @@
     }
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" type="text/scss">
     .fa-caret-down {
         /*position: absolute;*/
         /*right: 13px;*/
