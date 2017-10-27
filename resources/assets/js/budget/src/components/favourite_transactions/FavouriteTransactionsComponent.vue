@@ -104,3 +104,34 @@
         }
     }
 </script>
+
+<style lang="scss" type="text/scss">
+    #favourite-transactions-page {
+        margin: 50px 50px;
+        > * {
+            margin: 50px 50px;
+        }
+
+        #new-favourite {
+            width: 500px;
+            margin: auto;
+            h2 {
+                margin-bottom: 31px;
+            }
+            //> div {
+            //    display: flex;
+            //    justify-content: space-between;
+            //}
+            //select {
+            //    max-width: 300px;
+            //}
+        }
+        #favourite-transactions {
+            //        width: 500px;
+            margin: auto;
+            .budgets {
+                text-align: left;
+            }
+        }
+    }
+</style>

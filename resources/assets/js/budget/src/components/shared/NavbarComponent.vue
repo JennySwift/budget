@@ -396,3 +396,66 @@
         }
     }
 </script>
+
+<style lang="scss" type="text/scss">
+    @import '../../../../../sass/variables';
+    #navbar {
+        //display: none;
+        display:flex;
+        justify-content: space-around;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        color: #888;
+        background: black;
+        padding: 0;
+        margin: 0;
+        > li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            height: $navHeight;
+            min-width: 70px;
+        }
+        a {
+            color: #337ab7;
+        }
+        .gravatar-li {
+            //min-width: 160px;
+            .gravatar-container {
+                margin-left: 5px;
+                display: flex;
+                align-items: center;
+                .gravatar {
+                    border-radius: 8px;
+                    height: 32px;
+                }
+            }
+        }
+        .show-dropdown {
+            a {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                span:first-child {
+                    margin-right: 17px;
+                }
+                .fa-check {
+                    font-size: 17px;
+                }
+            }
+            a[disabled=true] {
+                cursor: not-allowed;
+            }
+            .disabled {
+                color: #777;
+                font-weight: bold;
+                text-align: center;
+                &:hover {
+                    background: white;
+                }
+            }
+        }
+    }
+</style>

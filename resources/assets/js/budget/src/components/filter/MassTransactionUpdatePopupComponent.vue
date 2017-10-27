@@ -148,3 +148,17 @@
         }
     }
 </script>
+
+<style lang="scss" type="text/scss">
+    #mass-transaction-update-popup {
+        .messages {
+            width: 360px;
+            margin-bottom: 20px;
+            div {
+                font-size: 12px;
+                font-weight: bold;
+                margin-bottom: 13px;
+            }
+        }
+    }
+</style>

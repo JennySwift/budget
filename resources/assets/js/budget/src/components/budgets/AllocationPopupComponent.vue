@@ -124,3 +124,53 @@
         },
     }
 </script>
+
+<style lang="scss" type="text/scss">
+    @import '../../../../../sass/variables';
+    @import '../../../../../sass/mixins';
+    #allocation-popup {
+        max-width: 500px;
+
+        .warning {
+            display: flex;
+            align-items: center;
+            .fa-exclamation-circle {
+                margin-right: 5px;
+            }
+            color: $danger;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        table {
+            td {
+                height: 20px;
+                div {
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    text-align: right;
+                    position: relative;
+                    &.editable {
+                        justify-content: space-between;
+                    }
+                }
+            }
+            .totals {
+                @include totals;
+            }
+        }
+
+        p {
+            font-size: 11px;
+            @media (min-width: 400px) {
+                font-size: 12px;
+            }
+        }
+        .center-contents {
+            display: flex;
+            justify-content: center;
+        }
+    }
+</style>

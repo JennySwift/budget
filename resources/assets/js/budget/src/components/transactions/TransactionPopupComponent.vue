@@ -249,3 +249,16 @@
         }
     }
 </script>
+
+<style lang="scss" type="text/scss">
+    #transaction-popup {
+        .reconciled {
+            display: flex;
+            align-items: center;
+            label {
+                margin-bottom: 0;
+                margin-right: 2px;
+            }
+        }
+    }
+</style>

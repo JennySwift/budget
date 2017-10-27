@@ -137,3 +137,38 @@
         }
     }
 </script>
+
+<style lang="scss" type="text/scss">
+    @import '../../../../../sass/variables';
+    .new-budget {
+        max-width: 433px;
+        margin: auto;
+        border-radius: 4px;
+        box-shadow: 3px 3px 5px #777;
+        margin-bottom: 34px;
+        margin-top: 20px;
+        padding: 10px 15px;
+        border: 1px solid #777;
+        position: relative;
+        .close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 20px;
+            color: $danger;
+            cursor: pointer;
+        }
+        label {
+            display: block;
+        }
+        input, select {
+            margin-bottom: 10px;
+        }
+        .flex {
+            display: flex;
+            div:first-child {
+                margin-right: 20px;
+            }
+        }
+    }
+</style>

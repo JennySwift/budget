@@ -198,3 +198,62 @@
         }
     }
 </script>
+
+<style lang="scss" type="text/scss">
+    @import '../../../../sass/variables';
+    $totalsWidth: 354px;
+
+    #totals-wrapper {
+        width: $totalsWidth;
+        &.totals-wrapper-enter-active {
+            transition: all .5s ease-out;
+        }
+        &.totals-wrapper-leave-active {
+            transition: all .4s ease-in;
+        }
+        &.totals-wrapper-enter, &.totals-wrapper-leave-to {
+            width: 0;
+        }
+
+        #totals {
+            width: $totalsWidth;
+            z-index: $zIndex1;
+            background: white;
+
+            //animation
+            animation: slideInLeft .5s;
+            &.totals-leave-active {
+                animation: slideOutLeft .3s;
+            }
+
+            .fa-pulse {
+                position: absolute;
+                top: 5px;
+                left: 10px;
+                font-size: 15px;
+                color: $info;
+            }
+
+            .totals-table {
+                //z-index: $zIndex1;
+                //box-shadow: 3px 3px 10px #777;
+                //margin-bottom: 20px;
+                //padding-bottom: 10px;
+                td {
+                    text-align: right;
+                    &:first-child {
+                        max-width: 200px;
+                    }
+                    padding: 3px 5px;
+
+                }
+                //tr:not(:last-child) {
+                //    td {
+                //        border-bottom: 1px solid #777;
+                //    }
+                //}
+            }
+        }
+
+    }
+</style>

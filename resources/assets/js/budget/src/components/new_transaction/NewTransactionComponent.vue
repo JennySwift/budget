@@ -113,3 +113,76 @@
     }
 </script>
 
+<style lang="scss" type="text/scss">
+
+    #new-transaction-container {
+        display: flex;
+        justify-content: center;
+        #new-transaction {
+            animation: slideInDown .5s;
+            margin-bottom: 20px;
+            width: 600px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            padding: 15px 25px;
+            //box-shadow: 3px 3px 5px #777;
+            border: 1px solid #777;
+            > div {
+                display: flex;
+                justify-content: space-between;
+                margin: 12px 0;
+                &.type {
+                    justify-content: center;
+                }
+                > div {
+                    margin: 0px 20px;
+                    width: 200px;
+                }
+            }
+            .no-results {
+                text-align: center;
+                border: 1px solid;
+                padding: 3px 0;
+                border-radius: 3px;
+                //box-shadow: 2px 2px 5px #777;
+                margin: 8px 5px;
+            }
+            .btn-wrapper {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+            .help-row {
+                display: flex;
+                justify-content: space-between;
+                .help {
+                    > div {
+                        margin: 15px 0;
+                    }
+                }
+            }
+            label {
+                max-width: 210px;
+            }
+            input {
+                margin-bottom: 4px;
+                flex-grow: 1;
+            }
+            #new-transaction-favourites {
+                width: 100%;
+            }
+
+
+            #new-transaction-merchant, #new-transaction-description {
+                width: 100%;
+                #new-transaction-merchant-autocomplete, #new-transaction-description-autocomplete {
+                    .autocomplete-option {
+                        display: table-row-group;
+                    }
+                }
+            }
+        }
+    }
+</style>
+

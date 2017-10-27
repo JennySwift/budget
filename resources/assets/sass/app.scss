@@ -7,21 +7,12 @@
 
 
 @import "variables";
-@import "helpers/index";
 @import "base";
-@import "mixins/index";
+@import "mixins";
 @import "modules/index";
 @import 'helper-classes';
-@import 'home/index';
-@import 'favouriteTransactions/index';
-@import 'budgets/index';
-@import 'charts/index';
-@import 'help/index';
+@import 'budgets';
 @import 'auth/index';
-@import 'tags/index';
-@import 'accounts/index';
-@import 'preferences';
-
 
 
 

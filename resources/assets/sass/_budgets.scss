@@ -47,12 +47,6 @@
             color: $danger;
             font-weight: bold;
         }
-        input, select {
-            //width: 100%;
-        }
-        .CSD {
-//            width: 140px;
-        }
         table {
             .totals {
                 @include totals;

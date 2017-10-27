@@ -57,3 +57,53 @@
         }
     }
 </script>
+
+<style lang="scss" type="text/scss">
+    @import '../../../../../sass/variables';
+    #graphs-component {
+        flex-grow: 1;
+        max-width: calc(100% - 40px);
+        padding: 40px;
+        border: 1px solid #777;
+        border-radius: 4px;
+        .chart-container, .chart-container {
+            height: 335px;
+            max-width: 100%;
+        }
+    }
+
+    #graphs {
+        display: flex;
+        //    flex-wrap: wrap;
+        overflow: scroll;
+        max-width: 800px;
+        .month-container {
+            margin: 0px 10px;
+            #months {
+                display: flex;
+                align-items: flex-end;
+                border: 1px solid #777;
+                height: 500px;
+                #credit {
+                    background: $success;
+                }
+                #debit {
+                    background: $danger;
+                }
+                #credit, #debit {
+                    width: 30px;
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    .span-container {
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+        }
+
+
+    }
+
+</style>

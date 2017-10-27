@@ -27,3 +27,37 @@
     }
 </script>
 
+<style lang="scss" type="text/scss">
+    @import '../../../../../sass/variables';
+    #loading {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        color: $info;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 60px;
+        z-index: $zIndex4;
+        i {
+            font-size: 40px;
+        }
+    }
+
+    #page-loading {
+        background: white;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 99;
+        font-size: 40px;
+        color: #5bc0de;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+

@@ -280,3 +280,66 @@
         }
     }
 </script>
+
+<style lang="scss" type="text/scss">
+    #help {
+        display: flex;
+        justify-content: center;
+        color: #777;
+        line-height: 1.5em;
+        margin-top: 60px;
+        margin-bottom: 60px;
+        #help-content {
+            border: 1px solid #777;
+            box-shadow: 3px 3px 5px #777;
+            border-radius: 4px;
+            padding: 20px 33px;
+            //        margin-right: 170px;
+            p, li {
+                font-size: 18px;
+                width: 780px;
+                text-align: left;
+            }
+        }
+        h2:before, h4:before {
+            display: block;
+            content: " ";
+            margin-top: -60px;
+            height: 60px;
+            visibility: hidden;
+        }
+
+    }
+
+    #help-navigation-container {
+        //    margin-top: 20px;
+        position: fixed;
+        .dropdown-content{
+            width: 215px;
+            #help-navigation {
+                > ul {
+                    padding-left: 5px;
+                    li {
+                        list-style: none;
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    .scroll-btn {
+        position: fixed;
+        top: 100px;
+        left: 50px;
+    }
+
+    .help-page {
+        padding-top: 100px;
+        .help-container {
+            height: 200px;
+            overflow:scroll;
+        }
+    }
+</style>

@@ -100,7 +100,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../../../../sass/mixins/_mixins.scss';
+    @import '../../../../../sass/mixins';
     #accounts {
         display: flex;
         flex-direction: column;
@@ -110,7 +110,19 @@
             max-width: 500px;
         }
         .create-new-account {
-            @include createNew;
+            box-shadow: 3px 3px 5px #777;
+            margin-bottom: 30px;
+            border-radius: 4px;
+            padding: 14px;
+            width: 293px;
+            .flex {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                .form-group {
+                    margin-bottom: 0;
+                }
+            }
         }
         tr {
             .btn-danger {
