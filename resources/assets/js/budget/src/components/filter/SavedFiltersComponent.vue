@@ -16,6 +16,7 @@
 
 <script>
     import FilterRepository from '../../repositories/FilterRepository'
+    import helpers from '../../repositories/Helpers'
     export default {
         data: function () {
             return {
