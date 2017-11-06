@@ -45,11 +45,6 @@
                     <!--No longer works with Vue-->
                     <!--<partial :name="optionPartial"></partial>-->
 
-                    <!--For budget autocomplete-->
-                    <!--<div v-html="budget.html"></div>-->
-                    <!--<div v-if="multiple-selections">-->
-
-                    <!--</div>-->
                     <div>
                         <span :class="'label label-default ' + option.type + '-label'">{{ option.type }}</span>
                     </div>
