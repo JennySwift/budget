@@ -22,46 +22,46 @@ export default new Router({
         //     name: 'Hello',
         //     component: HelloWorld
         // },
-        {
-            path: '/',
-            component: TransactionsPageComponent
-        },
-        {
-            path: '/accounts',
-            component: AccountsPageComponent
-        },
-        {
-            path: '/fixed-budgets',
-            component: FixedBudgetsPageComponent
-        },
-        {
-            path: '/flex-budgets',
-            component: FlexBudgetsPageComponent
-        },
-        {
-            path: '/unassigned-budgets',
-            component: UnassignedBudgetsPageComponent
-        },
-        {
-            path: '/graphs',
-            component: GraphsPageComponent
-        },
-        {
-            path: '/favourite-transactions',
-            component: FavouriteTransactionsPageComponent
-        },
-        {
-            path: '/help',
-            component: HelpPageComponent
-        },
-        {
-            path: '/preferences',
-            component: PreferencesPageComponent
-        },
-        {
-            path: '/feedback',
-            component: FeedbackPageComponent
-        },
+        // {
+        //     path: '/',
+        //     component: TransactionsPageComponent
+        // },
+        // {
+        //     path: '/accounts',
+        //     component: AccountsPageComponent
+        // },
+        // {
+        //     path: '/fixed-budgets',
+        //     component: FixedBudgetsPageComponent
+        // },
+        // {
+        //     path: '/flex-budgets',
+        //     component: FlexBudgetsPageComponent
+        // },
+        // {
+        //     path: '/unassigned-budgets',
+        //     component: UnassignedBudgetsPageComponent
+        // },
+        // {
+        //     path: '/graphs',
+        //     component: GraphsPageComponent
+        // },
+        // {
+        //     path: '/favourite-transactions',
+        //     component: FavouriteTransactionsPageComponent
+        // },
+        // {
+        //     path: '/help',
+        //     component: HelpPageComponent
+        // },
+        // {
+        //     path: '/preferences',
+        //     component: PreferencesPageComponent
+        // },
+        // {
+        //     path: '/feedback',
+        //     component: FeedbackPageComponent
+        // },
     ]
 })
 

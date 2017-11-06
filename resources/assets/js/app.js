@@ -1,17 +1,9 @@
-// require('./config');
-//These lines from the Laravel install
-// require('./bootstrap');
-// window.Vue = require('vue');
-
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-Vue.use(VueRouter);
+import router from './router'
 
 global.$ = require('jquery');
 global.jQuery = require('jquery');
 
-// import jQuery from 'jquery'
-// global._ = require('underscore');
 global._ = require('lodash');
 import store from './budget/src/repositories/Store'
 import TotalsRepository from './budget/src/repositories/TotalsRepository'
@@ -37,13 +29,6 @@ Vue.component('popup', PopupComponent);
 Vue.component('navbar', NavbarComponent);
 Vue.component('feedback', FeedbackComponent);
 Vue.component('loading', LoadingComponent);
-
-
-import routes from './routes'
-
-const router = new VueRouter({
-    routes // short for `routes: routes`
-})
 
 const bus = new Vue()
 Vue.prototype.$bus = bus

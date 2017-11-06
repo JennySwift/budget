@@ -12,7 +12,7 @@ global._ = require('lodash');
 var vm = new Vue(NewTransactionComponent);
 var newTransaction = vm.shared.newTransaction;
 
-describe.only('favourite-transaction-autocomplete', function () {
+describe('favourite-transaction-autocomplete', function () {
     it('has the correct default data for a new transaction', function () {
         console.log(newTransaction);
         //Check the initial data
