@@ -58,8 +58,25 @@ export default {
     },
 
     hidePopup: function () {
-        app.f7.popup.close();
+        // app.f7.popup.close();
+        store.set(false, 'show.popup.' + popupName);
     },
+
+    showPopup: function (popupName) {
+        store.set(true, 'show.popup.' + popupName);
+    },
+
+    /**
+     *
+     */
+    closePopup: function ($event, that, routeToGoTo) {
+        if ($($event.target).hasClass('popup-outer')) {
+            // that.$emit('update:showPopup', false);
+            // that.$router.push(routeToGoTo);
+            store.set(false, 'show.popup.' + that.popupName);
+        }
+    },
+
 
     isLocalEnvironment: function () {
         return process.env.NODE_ENV === "development";
@@ -115,6 +132,67 @@ export default {
         //
         //    return Math.round(number * multiplyAndDivideBy) / multiplyAndDivideBy;
         //}
-    }
+    },
+
+    /**
+     *
+     * @param number
+     * @returns {*}
+     */
+    addZeros: function (number) {
+        if (number < 10) {
+            return '0' + number;
+        }
+
+        return number;
+    },
+
+    /**
+     *
+     * @param number
+     * @param howManyDecimals
+     * @returns {number}
+     */
+    roundNumber: function (number, howManyDecimals) {
+        if (!howManyDecimals) {
+            return Math.round(number);
+        }
+
+        var multiplyAndDivideBy = Math.pow(10, howManyDecimals);
+        return Math.round(number * multiplyAndDivideBy) / multiplyAndDivideBy;
+    },
+
+    /**
+     * commenting out for now because it was erroring saying .tooltipster is not a function
+     */
+    tooltips: function () {
+        var width = $(window).width();
+        // Trigger on click rather than hover for small screens
+        var trigger = width < 800 ? 'click' : 'hover';
+
+        $('.tooltipster').tooltipster({
+            theme: 'tooltipster-punk',
+            //Animation duration for in and out
+            animationDuration: [1000, 500],
+            trigger: trigger,
+            side: 'right',
+            functionInit: function(instance, helper){
+
+                var $origin = $(helper.origin),
+                    dataOptions = $origin.attr('data-tooltipster');
+
+                if(dataOptions){
+
+                    dataOptions = JSON.parse(dataOptions);
+
+                    $.each(dataOptions, function(name, option){
+                        instance.option(name, option);
+                    });
+                }
+            }
+        });
+    },
+
+
 
 }
