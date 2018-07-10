@@ -16,20 +16,7 @@
             >
                 <label for="filter-single-date-in">Filter in by date</label>
 
-                <div
-                    class="input-group"
-                >
-                    <filter-input-field id="filter-single-date-in" :model="shared.filter.singleDate.in" path="filter.singleDate.in"></filter-input-field>
-
-                    <span class="input-group-btn">
-                         <button
-                             v-on:click="clearFilterField('singleDate', 'in')"
-                             class="clear-search-button btn btn-default">
-                             clear
-                         </button>
-                    </span>
-                </div>
-
+                <filter-input-field field="singleDate" type="in" id="filter-single-date-in" :model="shared.filter.singleDate.in" path="filter.singleDate.in"></filter-input-field>
             </div>
 
             <!--Single date out-->
@@ -40,20 +27,7 @@
             >
                 <label for="filter-single-date-out">Filter out by date</label>
 
-                <div
-                    class="input-group"
-                >
-                    <filter-input-field id="filter-single-date-out" :model="shared.filter.singleDate.out" path="filter.singleDate.out"></filter-input-field>
-
-                    <span class="input-group-btn">
-                        <button
-                            v-on:click="clearFilterField('singleDate', 'out')"
-                            class="clear-search-button btn btn-default">
-                            clear
-                        </button>
-                    </span>
-                </div>
-
+                <filter-input-field field="singleDate" type="out" id="filter-single-date-out" :model="shared.filter.singleDate.out" path="filter.singleDate.out"></filter-input-field>
             </div>
 
             <!--From date in-->
@@ -64,20 +38,7 @@
             >
                 <label for="filter-from-date-in">Filter in by date on or after...</label>
 
-                <div
-                    class="input-group"
-                >
-                    <filter-input-field id="filter-from-date-in" :model="shared.filter.fromDate.in" path="filter.fromDate.in"></filter-input-field>
-
-                    <span class="input-group-btn">
-                        <button
-                            v-on:click="clearFilterField('fromDate', 'in')"
-                            class="clear-search-button btn btn-default">
-                            clear
-                        </button>
-                    </span>
-                </div>
-
+                <filter-input-field field="fromDate" type="in" id="filter-from-date-in" :model="shared.filter.fromDate.in" path="filter.fromDate.in"></filter-input-field>
             </div>
 
             <!--To date in-->
@@ -88,20 +49,7 @@
             >
                 <label for="filter-to-date-in">Filter in by date on or before...</label>
 
-                <div
-                    class="input-group"
-                >
-                    <filter-input-field id="filter-to-date-in" :model="shared.filter.toDate.in" path="filter.toDate.in"></filter-input-field>
-
-                    <span class="input-group-btn">
-                        <button
-                            v-on:click="clearFilterField('toDate', 'in')"
-                            class="clear-search-button btn btn-default">
-                            clear
-                        </button>
-                    </span>
-                </div>
-
+                <filter-input-field field="toDate" type="in" id="filter-to-date-in" :model="shared.filter.toDate.in" path="filter.toDate.in"></filter-input-field>
             </div>
 
         </div>
@@ -124,7 +72,6 @@
         },
         props: [
             'filterTab',
-            'clearFilterField'
         ],
         mounted: function () {
 

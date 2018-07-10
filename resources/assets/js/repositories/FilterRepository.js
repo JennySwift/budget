@@ -132,8 +132,11 @@ export default {
      * @param type
      */
     clearFilterField: function (field, type) {
-        //Todo: don't edit store state like this
-        this.state.filter[field][type] = "";
+        var path = 'filter.' + field;
+        if (type) {
+            path += '.' + type;
+        }
+        store.set("", path);
         this.runFilter();
     },
 

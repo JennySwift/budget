@@ -48,13 +48,11 @@
 
                             <descriptions-filter
                                 :filter-tab="filterTab"
-                                :clear-filter-field="clearFilterField"
                             >
                             </descriptions-filter>
 
                             <merchants-filter
                                 :filter-tab="filterTab"
-                                :clear-filter-field="clearFilterField"
                             >
                             </merchants-filter>
 
@@ -65,13 +63,11 @@
 
                             <dates-filter
                                 :filter-tab="filterTab"
-                                :clear-filter-field="clearFilterField"
                             >
                             </dates-filter>
 
                             <totals-filter
                                 :filter-tab="filterTab"
-                                :clear-filter-field="clearFilterField"
                             >
                             </totals-filter>
 
@@ -152,14 +148,6 @@
                 FilterRepository.runFilter();
             },
 
-            /**
-             *
-             * @param field
-             * @param type - either 'in' or 'out'
-             */
-            clearFilterField: function (field, type) {
-                FilterRepository.clearFilterField(this, field, type);
-            },
             optionChosen: function (option, inputId) {
                 switch(inputId) {
                     case 'filter-budgets-in-and-input':
