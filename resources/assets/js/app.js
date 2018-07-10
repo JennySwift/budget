@@ -1,25 +1,42 @@
+require('./bootstrap');
+
+window.Vue = require('vue');
+
 import Vue from 'vue'
-import router from './router'
-
-global.$ = require('jquery');
-global.jQuery = require('jquery');
-
-global._ = require('lodash');
+import VueRouter from 'vue-router'
+Vue.use(VueRouter);
 
 import store from './repositories/Store'
-window.store = store;
+import helpers from './repositories/Helpers'
 
+window.store = store;
+window.helpers = helpers;
+
+require('./config.js');
 require('./components');
 require('./directives');
 require('./method-calls');
+import routes from './routes'
 
 window.Event = new Vue();
-const bus = new Vue()
-Vue.prototype.$bus = bus
+const bus = new Vue();
+Vue.prototype.$bus = bus;
+
+const router = new VueRouter({
+    routes
+})
 
 const app = new Vue({
-    router
+    el: '#app',
+    router: router,
+    mounted: function () {
+
+    },
 }).$mount('#app')
+
+
+
+
 
 
 

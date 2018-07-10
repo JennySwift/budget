@@ -1,10 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Budget App</title>
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    @include('templates.head')
 </head>
 <body>
 
