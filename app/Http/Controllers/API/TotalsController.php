@@ -35,9 +35,7 @@ class TotalsController extends Controller
     {
         $remainingBalance = app('remaining-balance')->calculate();
 
-        $resource = $this->createItem($remainingBalance, new SidebarTotalTransformer);
-
-        return $this->responseWithTransformer($resource, Response::HTTP_OK);
+        return $this->respondShow($remainingBalance, new SidebarTotalTransformer);
     }
 
     /**

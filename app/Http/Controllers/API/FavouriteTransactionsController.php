@@ -16,63 +16,52 @@ class FavouriteTransactionsController extends Controller
 {
 
     /**
-     * GET /api/favouriteTransactions
-     * @return Response
+     * @var array
      */
-    public function index()
-    {
-        $favourites = FavouriteTransaction::forCurrentUser()->orderBy('name', 'asc')->get();
-        $favourites = $this->transform($this->createCollection($favourites, new FavouriteTransactionTransformer))['data'];
-        return response($favourites, Response::HTTP_OK);
-    }
+    private $fields = ['name', 'type', 'description', 'merchant', 'total'];
+
 
     /**
-     * POST /api/favouriteTransactions
+     *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function index(Request $request)
+    {
+        $favouriteTransactions = FavouriteTransaction::forCurrentUser()->orderBy('name', 'asc')->get();
+
+        return $this->respondIndex($favouriteTransactions, new FavouriteTransactionTransformer);
+    }
+    
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function store(Request $request)
     {
-        $favourite = new FavouriteTransaction($request->only([
-            'name',
-            'type',
-            'description',
-            'merchant',
-            'total'
-        ]));
-
+        $favourite = new FavouriteTransaction($request->only($this->fields));
         $favourite->user()->associate(Auth::user());
-        $favourite->account()->associate(Account::find($request->get('account_id')));
-        $favourite->fromAccount()->associate(Account::find($request->get('from_account_id')));
-        $favourite->toAccount()->associate(Account::find($request->get('to_account_id')));
-
+        $favourite->account()->associate(Account::findOrFail($request->get('account_id')));
+        $favourite->fromAccount()->associate(Account::findOrFail($request->get('from_account_id')));
+        $favourite->toAccount()->associate(Account::findOrFail($request->get('to_account_id')));
         $favourite->save();
 
         foreach ($request->get('budget_ids') as $id) {
             $favourite->budgets()->attach($id);
         }
-
-        $favourite = $this->transform($this->createItem($favourite, new FavouriteTransactionTransformer))['data'];
-        return response($favourite, Response::HTTP_CREATED);
+        
+        return $this->respondStore($favourite, new FavouriteTransactionTransformer);
     }
-
+    
     /**
-    * UPDATE /api/favouritesTransactions/{favouriteTransactions}
     * @param Request $request
     * @param FavouriteTransaction $favourite
-    * @return Response
+    * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
     */
     public function update(Request $request, FavouriteTransaction $favourite)
     {
-        // Create an array with the new fields merged
-        $data = array_compare($favourite->toArray(), $request->only([
-            'name',
-            'type',
-            'description',
-            'merchant',
-            'total'
-        ]));
-
+        $data = $this->getData($favourite, $request->only($this->fields));
+    
         $favourite->update($data);
 
         if ($request->has('account_id')) {
@@ -98,35 +87,20 @@ class FavouriteTransactionsController extends Controller
         if ($request->has('budget_ids')) {
             $favourite->budgets()->sync($request->get('budget_ids'));
         }
-
-        $favourite = $this->transform($this->createItem($favourite, new FavouriteTransactionTransformer))['data'];
-        return response($favourite, Response::HTTP_OK);
+        
+        return $this->respondUpdate($favourite, new FavouriteTransactionTransformer);
     }
 
     /**
-     * DELETE /api/favouriteTransactions/{favouriteTransactions}
-     * @param FavouriteTransaction $favourite=
-     * @return Response
+     * 
+     * @param Request $request
+     * @param FavouriteTransaction $favouriteTransaction
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @throws \ReflectionException
      */
-    public function destroy(FavouriteTransaction $favourite)
+    public function destroy(Request $request, FavouriteTransaction $favouriteTransaction)
     {
-        try {
-            $favourite->delete();
-            return response([], Response::HTTP_NO_CONTENT);
-        }
-        catch (\Exception $e) {
-            //Integrity constraint violation
-            if ($e->getCode() === '23000') {
-                $message = 'FavouriteTransaction could not be deleted. It is in use.';
-            }
-            else {
-                $message = 'There was an error';
-            }
-            return response([
-                'error' => $message,
-                'status' => Response::HTTP_BAD_REQUEST
-            ], Response::HTTP_BAD_REQUEST);
-        }
+        return $this->destroyModel($favouriteTransaction);
     }
 
 }

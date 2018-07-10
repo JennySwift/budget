@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Http\Response;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -42,6 +43,34 @@ abstract class TestCase extends BaseTestCase
         $user = User::find($id);
         $this->be($user);
         $this->user = $user;
+        $this->actingAs($user, 'api');
+    }
+
+    /**
+     *
+     * @param $response
+     */
+    protected function assertResponseOk($response)
+    {
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
+     *
+     * @param $response
+     */
+    protected function assertResponseInvalid($response)
+    {
+        $this->assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+    }
+
+    /**
+     *
+     * @param $response
+     */
+    protected function assertResponseError($response)
+    {
+        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 
     /**
@@ -52,6 +81,20 @@ abstract class TestCase extends BaseTestCase
     protected function getContent($response)
     {
         return json_decode($response->getContent(), true);
+    }
+
+    /**
+     *
+     * @param $content
+     * @param $requiredFields
+     */
+    protected function checkValidationResponse($content, $requiredFields)
+    {
+        $this->assertEquals($this->validationErrorMessage, $content['message']);
+
+        foreach($requiredFields as $field) {
+            $this->assertArrayHasKey($field, $content['errors']);
+        }
     }
 
     /**

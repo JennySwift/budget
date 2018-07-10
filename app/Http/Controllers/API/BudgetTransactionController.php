@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Transformers\TransactionTransformer;
 use App\Models\Budget;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
-
 class BudgetTransactionController extends Controller
 {
-
     /**
-     * For one transaction, change the amount that is allocated for one budget
      * PUT /api/budgets/{budgets}/transactions/{transactions}
+     * For one transaction, change the amount that is allocated for one budget
      * @param Request $request
      * @param Budget $budget
      * @param Transaction $transaction
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function update(Request $request, Budget $budget, Transaction $transaction)
     {
@@ -29,14 +25,10 @@ class BudgetTransactionController extends Controller
 
         if ($type === 'percent') {
             $transaction->updateAllocatedPercent($value, $budget);
-        }
-
-        elseif ($type === 'fixed') {
+        } elseif ($type === 'fixed') {
             $transaction->updateAllocatedFixed($value, $budget);
         }
 
-        $transaction = $this->transform($this->createItem($transaction, new TransactionTransformer))['data'];
-
-        return response($transaction, Response::HTTP_OK);
+        return $this->respondUpdate($transaction, new TransactionTransformer);
     }
 }

@@ -31,6 +31,11 @@ class TransactionsController extends Controller
     private $budgetTransactionRepository;
 
     /**
+     * @var array
+     */
+    private $fields = ['date', 'description', 'merchant', 'total', 'type', 'reconciled', 'minutes'];
+
+    /**
      * @param SavingsRepository $savingsRepository
      * @param BudgetTransactionRepository $budgetTransactionRepository
      */
@@ -42,7 +47,7 @@ class TransactionsController extends Controller
     /**
      * This is for the transaction autocomplete
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request)
     {
@@ -60,9 +65,7 @@ class TransactionsController extends Controller
 
         $transactions = $transactions->get();
 
-        $transactions = $this->transform($this->createCollection($transactions, new TransactionTransformer))['data'];
-
-        return response($transactions, Response::HTTP_OK);
+        return $this->respondIndex($transactions, new TransactionTransformer);
     }
 
     /**
@@ -83,21 +86,12 @@ class TransactionsController extends Controller
 
     /**
      * Todo: Do validations
-     * POST /api/transactions
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function store(Request $request)
     {
-        $transaction = new Transaction($request->only([
-            'date',
-            'description',
-            'merchant',
-            'total',
-            'type',
-            'reconciled',
-            'minutes'
-        ]));
+        $transaction = new Transaction($request->only($this->fields));
 
         //Make sure total is negative for expense, negative for transfers from, and positive for income
         if ($transaction->type === 'expense' && $transaction->total > 0) {
@@ -114,8 +108,8 @@ class TransactionsController extends Controller
             }
         }
 
-        $transaction->account()->associate(Account::find($request->get('account_id')));
         $transaction->user()->associate(Auth::user());
+        $transaction->account()->associate(Account::findOrFail($request->get('account_id')));
         $transaction->save();
 
         if ($transaction->type !== 'transfer') {
@@ -125,16 +119,14 @@ class TransactionsController extends Controller
         //Fire event
         event(new TransactionWasCreated($transaction));
 
-        $transaction = $this->transform($this->createItem($transaction, new TransactionTransformer))['data'];
-
-        return response($transaction, Response::HTTP_CREATED);
+        return $this->respondStore($transaction, new TransactionTransformer);
     }
 
     /**
-     * PUT /api/transactions/{transactions}
+     *
      * @param Request $request
      * @param Transaction $transaction
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function update(Request $request, Transaction $transaction)
     {
@@ -216,15 +208,13 @@ class TransactionsController extends Controller
             }
         }
 
-        $transaction = $this->transform($this->createItem($transaction, new TransactionTransformer))['data'];
-
-        return response($transaction, Response::HTTP_OK);
+        return $this->respondShow($transaction, new TransactionTransformer);
     }
 
     /**
-     * Delete a transaction, only if it belongs to the user
+     *
      * @param Transaction $transaction
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
     public function destroy(Transaction $transaction)
@@ -237,6 +227,6 @@ class TransactionsController extends Controller
             $savings->decrease($this->savingsRepository->calculateAmountToSubtract($transaction));
         }
 
-        return $this->responseNoContent();
+        return $this->respondDestroy();
     }
 }

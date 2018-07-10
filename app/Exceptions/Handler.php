@@ -50,6 +50,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+//        dd($exception);
         if ($exception instanceof NotLoggedInException) {
             return response([
                 'error' => "Not logged in.",
@@ -64,13 +65,13 @@ class Handler extends ExceptionHandler
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        if ($exception instanceof \InvalidArgumentException) {
-            return response([
-                'error' => $exception->getMessage(),
-                'status' => Response::HTTP_BAD_REQUEST,
-                'request' => $this->getRequestData($request)
-            ], Response::HTTP_BAD_REQUEST);
-        }
+//        if ($exception instanceof \InvalidArgumentException) {
+//            return response([
+//                'error' => $exception->getMessage(),
+//                'status' => Response::HTTP_BAD_REQUEST,
+//                'request' => $this->getRequestData($request)
+//            ], Response::HTTP_BAD_REQUEST);
+//        }
 
         // Model not found exception handler (app-wide)
         if ($exception instanceof ModelNotFoundException) {
@@ -95,13 +96,12 @@ class Handler extends ExceptionHandler
             return parent::render($request, $exception);
         }
 
-        else if ($exception->getMessage()) {
-            return response([
-                'error' => $exception->getMessage(),
-                'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
-                'request' => $this->getRequestData($request)
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+//        else if ($exception->getMessage()) {
+//            return response([
+//                'error' => $exception->getMessage(),
+//                'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
+//            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+//        }
 
         return parent::render($request, $exception);
     }

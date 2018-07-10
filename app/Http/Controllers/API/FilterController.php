@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Http\Transformers\TransactionTransformer;
 use App\Repositories\Filters\FilterQueryRepository;
 use App\Repositories\Filters\FilterTotalsRepository;
 use App\Repositories\Filters\GraphsRepository;
-use Debugbar;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Config;
 use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class FilterController
@@ -40,20 +37,21 @@ class FilterController extends Controller
      * @param FilterTotalsRepository $filterTotalsRepository
      * @param GraphsRepository $graphsRepository
      */
-    public function __construct(FilterQueryRepository $filterQueryRepository, FilterTotalsRepository $filterTotalsRepository, GraphsRepository $graphsRepository)
-    {
+    public function __construct(
+        FilterQueryRepository $filterQueryRepository,
+        FilterTotalsRepository $filterTotalsRepository,
+        GraphsRepository $graphsRepository
+    ) {
         $this->filterQueryRepository = $filterQueryRepository;
         $this->filterTotalsRepository = $filterTotalsRepository;
         $this->graphsRepository = $graphsRepository;
     }
 
-
     /**
-     * Filter transactions
+     *  Filter transactions
      * GET api/transactions?limit=40&page=2&account_id=3&type=income
-     * POST api/filter/transactions
      * @param Request $request
-     * @return array
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function transactions(Request $request)
     {
@@ -75,9 +73,7 @@ class FilterController extends Controller
             });
         }
 
-        $transactions = $this->transform($this->createCollection($transactions, new TransactionTransformer))['data'];
-
-        return response($transactions, Response::HTTP_OK);
+        return $this->respondIndex($transactions, new TransactionTransformer);
     }
 
     /**
@@ -90,7 +86,7 @@ class FilterController extends Controller
         $filter = array_merge(Config::get('filters.defaults'), $request->get('filter'));
         $query = $this->filterQueryRepository->buildQuery($filter);
         $queryForCalculatingBalance = $this->filterQueryRepository->buildQueryForCalculatingBalance($filter);
-        
+
         return $this->filterTotalsRepository->getFilterTotals($query, $queryForCalculatingBalance)->toArray();
     }
 

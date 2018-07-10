@@ -15,54 +15,43 @@ class SavedFiltersController extends Controller
 {
 
     /**
-     * GET /api/savedFilters
-     * @return Response
+     * @var array
      */
-    public function index()
+    private $fields = ['name', 'filter'];
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function index(Request $request)
     {
         $savedFilters = SavedFilter::forCurrentUser()->get();
-        $savedFilters = $this->transform($this->createCollection($savedFilters, new SavedFilterTransformer))['data'];
-        return response($savedFilters, Response::HTTP_OK);
+
+        return $this->respondIndex($savedFilters, new SavedFilterTransformer);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function store(Request $request)
+    {
+        $savedFilter = new SavedFilter($request->only($this->fields));
+        $savedFilter->user()->associate(Auth::user());
+        $savedFilter->save();
+
+        return $this->respondStore($savedFilter, new SavedFilterTransformer);
     }
 
     /**
      *
      * @param Request $request
-     * @return mixed
-     */
-    public function store(Request $request)
-    {
-        $filter = new SavedFilter($request->only(['name', 'filter']));
-        $filter->user()->associate(Auth::user());
-        $filter->save();
-
-        return $this->responseCreatedWithTransformer($filter, new SavedFilterTransformer);
-    }
-
-    /**
-     * DELETE /api/savedFilters/{savedFilters}
-     * @param Request $request
      * @param SavedFilter $savedFilter
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @throws \ReflectionException
      */
     public function destroy(Request $request, SavedFilter $savedFilter)
     {
-        try {
-            $savedFilter->delete();
-            return response([], Response::HTTP_NO_CONTENT);
-        }
-        catch (\Exception $e) {
-            //Integrity constraint violation
-            if ($e->getCode() === '23000') {
-                $message = 'SavedFilter could not be deleted. It is in use.';
-            }
-            else {
-                $message = 'There was an error';
-            }
-            return response([
-                'error' => $message,
-                'status' => Response::HTTP_BAD_REQUEST
-            ], Response::HTTP_BAD_REQUEST);
-        }
+        return $this->destroyModel($savedFilter);
     }
 }

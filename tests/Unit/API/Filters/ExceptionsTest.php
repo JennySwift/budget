@@ -26,19 +26,12 @@ class ExceptionsTest extends FiltersTest
 
 
         $content = $this->getContent($this->response);
-//        dd($content['request']);
-        $this->assertEquals("Undefined index: invalidAllocation", $content['error']);
-        $this->assertEquals('filter%5Binvalidfield%5D=', $content['request']['queryString']);
-        $this->assertEquals('/api/filter/transactions?filter%5Binvalidfield%5D=', $content['request']['requestUri']);
+//        dd($content);
+        $this->assertEquals("Undefined index: invalidAllocation", $content['message']);
+//        $this->assertEquals('filter%5Binvalidfield%5D=', $content['request']['queryString']);
+//        $this->assertEquals('/api/filter/transactions?filter%5Binvalidfield%5D=', $content['request']['requestUri']);
 
-        $expected = [
-            "filter" => [
-                "invalidfield" => ""
-            ]
-        ];
-        $this->assertEquals($expected, $content['request']['toArray']);
-
-//        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+        $this->assertResponseError($this->response);
     }
 
     /**
