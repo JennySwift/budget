@@ -15,137 +15,58 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr
-                            v-if="shared.me.preferences.show.totals.credit"
-                            class="tooltipster"
-                            title="credit"
-                        >
-                            <td>Credit:</td>
-                            <td><span class="badge badge-success">{{ shared.sideBarTotals.credit | numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.credit">{{ shared.totalChanges.credit | numberFilter(2) }}</span></td>
-                        </tr>
+                            <totals-row field="credit" label="credit">
+                                <template>Credit</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.remainingFixedBudget"
-                            class="tooltipster"
-                            title="remaining fixed budget (total of fixed budget info column R)"
-                        >
-                            <td>Remaining fixed budget:</td>
-                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.remainingFixedBudget | numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.remainingFixedBudget">{{ shared.totalChanges.remainingFixedBudget | numberFilter(2) }}</span></td>
-                        </tr>
+                            <totals-row field="remainingFixedBudget" title="total of fixed budget info column R">
+                                <template>Remaining fixed budget</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.expensesWithoutBudget"
-                            class="tooltipster"
-                            title="total of expense transactions that have no budget"
-                        >
-                            <td>Expenses with no fixed or flex budgets:</td>
-                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.expensesWithoutBudget | numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.expensesWithoutBudget">{{ shared.totalChanges.expensesWithoutBudget | numberFilter(2) }}</span></td>
-                        </tr>
+                            <totals-row field="expensesWithoutBudget" color="red" title="Expenses with no fixed or flex budgets">
+                                <template>Expenses with no fixed or flex budgets</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.expensesWithFixedBudgetBeforeStartingDate"
-                            class="tooltipster"
-                            title="total of allocation of tags of expense transactions that have a fixed budget before its starting date"
-                        >
-                            <td>Expenses with <b>fixed</b> budget <b>before</b> starting date:</td>
-                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.expensesWithFixedBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.expensesWithFixedBudgetBeforeStartingDate">{{ shared.totalChanges.expensesWithFixedBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
-                        </tr>
+                            <totals-row field="expensesWithFixedBudgetBeforeStartingDate" color="red" title="total of allocation of tags of expense transactions that have a fixed budget before its starting date">
+                                <template>Expenses with <b>fixed</b> budget <b>before</b> starting date</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.expensesWithFixedBudgetAfterStartingDate"
-                            class="tooltipster"
-                            title="total of allocation of tags of expense transactions that have a fixed budget after its starting date"
-                        >
-                            <td>Expenses with <b>fixed</b> budget <b>after</b> starting date:</td>
-                            <td><span id="total_income_span" class="badge badge-danger">{{ shared.sideBarTotals.expensesWithFixedBudgetAfterStartingDate | numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.expensesWithFixedBudgetAfterStartingDate">{{ shared.totalChanges.expensesWithFixedBudgetAfterStartingDate | numberFilter(2) }}</span></td>
-                        </tr>
+                            <totals-row field="expensesWithFixedBudgetAfterStartingDate" color="red" title="total of allocation of tags of expense transactions that have a fixed budget after its starting date">
+                                <template>Expenses with <b>fixed</b> budget <b>after</b> starting date</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.expensesWithFlexBudgetBeforeStartingDate"
-                            class="tooltipster"
-                            title="total of allocation of tags of expense transactions that have a flex budget before its starting date"
-                        >
-                            <td>Expenses with <b>flex</b> budget <b>before</b> starting date:</td>
-                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.expensesWithFlexBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.expensesWithFlexBudgetBeforeStartingDate">{{ shared.totalChanges.expensesWithFlexBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
-                        </tr>
+                            <totals-row field="expensesWithFlexBudgetBeforeStartingDate" color="red" title="total of allocation of tags of expense transactions that have a flex budget before its starting date">
+                                <template>Expenses with <b>flex</b> budget <b>before</b> starting date</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.savings"
-                            class="tooltipster"
-                            title="savings"
-                        >
-                            <td>Savings:</td>
-                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.savings | numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.savings">{{ shared.totalChanges.savings | numberFilter(2) }}</span></td>
-                        </tr>
+                            <totals-row field="savings">
+                                <template>Savings</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.remainingBalance"
-                            class="tooltipster"
-                            title="remaining balance without EFLB"
-                        >
-                            <td>Remaining balance:</td>
-                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.remainingBalance | numberFilter(2) }}</span></td>
-                            <td>
-                                <span v-if="shared.totalChanges.remainingBalance">{{ shared.totalChanges.remainingBalance | numberFilter(2) }}</span>
-                            </td>
-                        </tr>
+                            <totals-row field="remainingBalance" title="remaining balance without EFLB">
+                                <template>Remaining balance</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.debit"
-                            class="tooltipster"
-                            title="debit"
-                        >
-                            <td>Debit:</td>
-                            <td><span id="total_income_span" class="badge badge-danger">{{ shared.sideBarTotals.debit |  numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.debit">{{ shared.totalChanges.debit |  numberFilter(2) }}</span></td>
-                        </tr>
+                            <totals-row field="debit" color="red">
+                                <template>Debit</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.balance"
-                            class="tooltipster"
-                            title="balance (C - D)"
-                        >
-                            <td>Balance:</td>
-                            <td><span id="total_income_span" class="badge badge-warning">{{ shared.sideBarTotals.balance |  numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.balance">{{ shared.totalChanges.balance |  numberFilter(2) }}</span></td>
-                        </tr>
+                            <totals-row field="balance" title="balance (C - D)">
+                                <template>Balance</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.reconciled"
-                            class="tooltipster"
-                            title="reconciled"
-                        >
-                            <td>Reconciled:</td>
-                            <td><span id="total_income_span" class="badge badge-info">{{ shared.sideBarTotals.reconciledSum |  numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.reconciledSum">{{ shared.totalChanges.reconciledSum |  numberFilter(2) }}</span></td>
-                        </tr>
+                            <!--Todo: This field needs to be "reconciledSum" not "reconciled"-->
+                            <totals-row field="reconciled">
+                                <template>Reconciled</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.cumulativeFixedBudget"
-                            class="tooltipster"
-                            title="fixed budget (total of fixed budget info column C)"
-                        >
-                            <td>Cumulative fixed budget:</td>
-                            <td><span id="total_income_span" class="badge badge-danger">{{ shared.sideBarTotals.cumulativeFixedBudget |  numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.cumulativeFixedBudget">{{ shared.totalChanges.cumulativeFixedBudget |  numberFilter(2) }}</span></td>
-                        </tr>
+                            <totals-row field="cumulativeFixedBudget" title="fixed budget (total of fixed budget info column C)">
+                                <template>Cumulative fixed budget</template>
+                            </totals-row>
 
-                        <tr
-                            v-if="shared.me.preferences.show.totals.expensesWithFlexBudgetAfterStartingDate"
-                            class="tooltipster"
-                            title="total of allocation of tags of expense transactions that have a flex budget"
-                        >
-                            <td>Expenses with <b>flex</b> budget <b>after</b> starting date:</td>
-                            <td><span id="total_income_span" class="badge badge-danger">{{ shared.sideBarTotals.expensesWithFlexBudgetAfterStartingDate |  numberFilter(2) }}</span></td>
-                            <td><span v-if="shared.totalChanges.expensesWithFlexBudgetAfterStartingDate">{{ shared.totalChanges.expensesWithFlexBudgetAfterStartingDate |  numberFilter(2) }}</span></td>
-                        </tr>
+                            <totals-row field="expensesWithFlexBudgetAfterStartingDate" color="red" title="total of allocation of tags of expense transactions that have a flex budget">
+                                <template>Expenses with <b>flex</b> budget <b>after</b> starting date</template>
+                            </totals-row>
                         </tbody>
                     </table>
 
@@ -159,6 +80,7 @@
 <script>
     import TotalsRepository from '../repositories/TotalsRepository'
     import helpers from '../repositories/Helpers'
+    import TotalsRow from './shared/TotalsRowComponent'
 
     export default {
         data: function () {
@@ -168,7 +90,9 @@
                 shared: store.state
             };
         },
-        components: {},
+        components: {
+            'totals-row': TotalsRow
+        },
         filters: {
             /**
              *
