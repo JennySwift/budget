@@ -416,7 +416,7 @@ class TransactionsUpdateTest extends TestCase
         $this->assertEquals(1, $content['budgets'][0]['id']);
         $this->assertNull($content['budgets'][0]['pivot']['allocated_fixed']);
         $this->assertNull($content['budgets'][0]['pivot']['allocated_percent']);
-        $this->assertEquals('0', $content['budgets'][0]['pivot']['calculated_allocation']);
+        $this->assertEquals('0.00', $content['budgets'][0]['pivot']['calculated_allocation']);
 
         $this->assertEquals(2, $content['budgets'][1]['id']);
         $this->assertNull($content['budgets'][1]['pivot']['allocated_fixed']);
@@ -425,8 +425,8 @@ class TransactionsUpdateTest extends TestCase
 
         $this->assertEquals(3, $content['budgets'][2]['id']);
         $this->assertNull($content['budgets'][2]['pivot']['allocated_fixed']);
-        $this->assertEquals('0', $content['budgets'][2]['pivot']['allocated_percent']);
-        $this->assertEquals('0', $content['budgets'][2]['pivot']['calculated_allocation']);
+        $this->assertEquals('0.00', $content['budgets'][2]['pivot']['allocated_percent']);
+        $this->assertEquals('0.00', $content['budgets'][2]['pivot']['calculated_allocation']);
 
         //Check the status code
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
@@ -476,8 +476,8 @@ class TransactionsUpdateTest extends TestCase
 
         $this->assertEquals(3, $content['budgets'][1]['id']);
         $this->assertNull($content['budgets'][1]['pivot']['allocated_fixed']);
-        $this->assertEquals('0', $content['budgets'][1]['pivot']['allocated_percent']);
-        $this->assertEquals('0', $content['budgets'][1]['pivot']['calculated_allocation']);
+        $this->assertEquals('0.00', $content['budgets'][1]['pivot']['allocated_percent']);
+        $this->assertEquals('0.00', $content['budgets'][1]['pivot']['calculated_allocation']);
 
         //Check the status code
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
