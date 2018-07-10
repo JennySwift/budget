@@ -41,7 +41,7 @@ function getRequestData(Request $request, $model)
  */
 function array_compare(array $base, array $newItems)
 {
-    return array_merge($base, array_filter($newItems));
+    return array_merge($base, array_filter($newItems, 'removeFalseKeepZeroAndEmptyStrings'));
 }
 
 /**

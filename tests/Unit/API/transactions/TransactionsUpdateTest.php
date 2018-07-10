@@ -400,8 +400,8 @@ class TransactionsUpdateTest extends TestCase
 
         $this->assertEquals(3, $transaction->budgets[1]->id);
         $this->assertNull($transaction->budgets[1]->pivot->allocated_fixed);
-        $this->assertEquals('0', $transaction->budgets[1]->pivot->allocated_percent);
-        $this->assertEquals('0', $transaction->budgets[1]->pivot->calculated_allocation);
+        $this->assertEquals('0.00', $transaction->budgets[1]->pivot->allocated_percent);
+        $this->assertEquals('0.00', $transaction->budgets[1]->pivot->calculated_allocation);
 
         $data = [
             'budget_ids' => [1,2,3]
@@ -456,8 +456,8 @@ class TransactionsUpdateTest extends TestCase
 
         $this->assertEquals(3, $transaction->budgets[1]->id);
         $this->assertNull($transaction->budgets[1]->pivot->allocated_fixed);
-        $this->assertEquals('0', $transaction->budgets[1]->pivot->allocated_percent);
-        $this->assertEquals('0', $transaction->budgets[1]->pivot->calculated_allocation);
+        $this->assertEquals('0.00', $transaction->budgets[1]->pivot->allocated_percent);
+        $this->assertEquals('0.00', $transaction->budgets[1]->pivot->calculated_allocation);
 
         $data = [
             'total' => 20
