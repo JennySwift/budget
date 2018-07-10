@@ -48,13 +48,36 @@
 
                             <descriptions-filter
                                 :filter-tab="filterTab"
+                                label="Description"
                             >
+                                <template slot="filterIn">
+                                    <label for="filter-description-in">Filter description in</label>
+                                    <filter-input-field field="description" type="in" id="filter-description-in" :model="shared.filter.description.in" path="filter.description.in"></filter-input-field>
+                                </template>
+                                <template slot="filterOut">
+                                    <label for="filter-description-in">Filter description out</label>
+                                    <filter-input-field field="description" type="out" id="filter-description-out" :model="shared.filter.description.out" path="filter.description.out"></filter-input-field>
+                                </template>
                             </descriptions-filter>
 
-                            <merchants-filter
+                            <descriptions-filter
                                 :filter-tab="filterTab"
+                                label="Merchant"
                             >
-                            </merchants-filter>
+                                <template slot="filterIn">
+                                    <label for="filter-merchant-in">Filter merchant in</label>
+                                    <filter-input-field field="merchant" type="in" id="filter-merchant-in" :model="shared.filter.merchant.in" path="filter.merchant.in"></filter-input-field>
+                                </template>
+                                <template slot="filterOut">
+                                    <label for="filter-merchant-in">Filter merchant out</label>
+                                    <filter-input-field field="merchant" type="out" id="filter-merchant-out" :model="shared.filter.merchant.out" path="filter.merchant.out"></filter-input-field>
+                                </template>
+                            </descriptions-filter>
+
+                            <!--<merchants-filter-->
+                                <!--:filter-tab="filterTab"-->
+                            <!--&gt;-->
+                            <!--</merchants-filter>-->
 
                             <budgets-filter
                                 :filter-tab="filterTab"
@@ -104,7 +127,7 @@
     import AccountsFilterComponent from '../../components/filter/AccountsFilterComponent.vue'
     import TypesFilterComponent from '../../components/filter/TypesFilterComponent.vue'
     import DescriptionsFilterComponent from '../../components/filter/DescriptionsFilterComponent.vue'
-    import MerchantsFilterComponent from '../../components/filter/MerchantsFilterComponent.vue'
+    // import MerchantsFilterComponent from '../../components/filter/MerchantsFilterComponent.vue'
     import BudgetsFilterComponent from '../../components/filter/BudgetsFilterComponent.vue'
     import DatesFilterComponent from '../../components/filter/DatesFilterComponent.vue'
     import TotalsFilterComponent from '../../components/filter/TotalsFilterComponent.vue'
@@ -126,7 +149,7 @@
             'accounts-filter': AccountsFilterComponent,
             'types-filter': TypesFilterComponent,
             'descriptions-filter': DescriptionsFilterComponent,
-            'merchants-filter': MerchantsFilterComponent,
+            // 'merchants-filter': MerchantsFilterComponent,
             'budgets-filter': BudgetsFilterComponent,
             'dates-filter': DatesFilterComponent,
             'totals-filter': TotalsFilterComponent,
