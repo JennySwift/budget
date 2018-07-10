@@ -23,7 +23,7 @@ export default {
         // }
 
         store.showLoading();
-        axios.get(options.url)
+        axios.get(options.url, {params: options.data})
             .then(function (response) {
                 if (options.storeProperty) {
                     if (options.updatingArray) {

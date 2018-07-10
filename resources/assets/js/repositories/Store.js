@@ -4,6 +4,8 @@ require('sugar');
 Date.setLocale('en-AU');
 import Vue from 'vue'
 import GraphsRepository from './GraphsRepository'
+import filterDefaults from '../filterDefaults'
+import FilterRepository from "./FilterRepository";
 // import NewTransactionRepository from './NewTransactionRepository'
 
 
@@ -22,57 +24,7 @@ export default {
         //For home page tabs
         tab: '',
         loading: false,
-        filter: {
-            total: {
-                in: "",
-                out: ""
-            },
-            types: {
-                in: [],
-                out: []
-            },
-            accounts: {
-                in: [],
-                out: []
-            },
-            singleDate: {
-                in: '',
-                out: ''
-            },
-            fromDate: {
-                in: '',
-                out: ''
-            },
-            toDate: {
-                in: '',
-                out: ''
-            },
-            description: {
-                in: "",
-                out: ""
-            },
-            merchant: {
-                in: "",
-                out: ""
-            },
-            budgets: {
-                in: {
-                    and: [],
-                    or: []
-                },
-                out: []
-            },
-            numBudgets: {
-                in: "all",
-                out: ""
-            },
-            reconciled: "any",
-            invalidAllocation: false,
-            offset: 0,
-            numToFetch: 30,
-            displayFrom: 1,
-            displayTo: 30
-        },
+        filter: filterDefaults,
         filterTotals: {},
         allocationTotals: {},
         accounts: [],
@@ -195,6 +147,21 @@ export default {
         helpers.get({
             url: '/api/users/current',
             storeProperty: 'me',
+        });
+    },
+
+    /**
+     *
+     */
+    filterTransactions: function () {
+        var data = {
+            filter: FilterRepository.formatDates()
+        };
+
+        helpers.get({
+            url: '/api/filter/transactions',
+            data: data,
+            storeProperty: 'transactions'
         });
     },
 

@@ -8,6 +8,7 @@ use App\Repositories\Filters\FilterQueryRepository;
 use App\Repositories\Filters\FilterTotalsRepository;
 use App\Repositories\Filters\GraphsRepository;
 use Auth;
+use Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 
@@ -55,7 +56,15 @@ class FilterController extends Controller
      */
     public function transactions(Request $request)
     {
-        $filter = array_merge(Config::get('filters.defaults'), $request->get('filter'));
+//        Debugbar::info($request);
+        if (gettype($request->get('filter')) === 'string') {
+            $filter = json_decode($request->get('filter'), true);
+        }
+        else {
+            $filter = $request->get('filter');
+        }
+
+        $filter = array_merge(Config::get('filters.defaults'), $filter);
         $query = $this->filterQueryRepository->buildQuery($filter);
 
         $transactions = $query->orderBy('date', 'desc')
@@ -67,7 +76,7 @@ class FilterController extends Controller
             ->with('account')
             ->get();
 
-        if ($request->get('filter')['invalidAllocation'] === 'true') {
+        if ($filter['invalidAllocation'] === 'true') {
             $transactions = $transactions->filter(function ($transaction) {
                 return $transaction->validAllocation === false;
             });

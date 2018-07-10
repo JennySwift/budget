@@ -3,71 +3,6 @@ import FilterRepository from './FilterRepository'
 import helpers from './Helpers.js'
 import Vue from 'vue'
 export default {
-
-    state: {
-
-    },
-
-    /**
-     *
-     * @returns {FilterRepository.state.filter|{}}
-     */
-    resetFilter: function () {
-        var filter = {
-
-            total: {
-                in: "",
-                out: ""
-            },
-            types: {
-                in: [],
-                out: []
-            },
-            accounts: {
-                in: [],
-                out: []
-            },
-            singleDate: {
-                in: '',
-                out: ''
-            },
-            fromDate: {
-                in: '',
-                out: ''
-            },
-            toDate: {
-                in: '',
-                out: ''
-            },
-            description: {
-                in: "",
-                out: ""
-            },
-            merchant: {
-                in: "",
-                out: ""
-            },
-            budgets: {
-                in: {
-                    and: [],
-                    or: []
-                },
-                out: []
-            },
-            numBudgets: {
-                in: "all",
-                out: ""
-            },
-            reconciled: "any",
-            invalidAllocation: false,
-            offset: 0,
-            numToFetch: 30,
-            displayFrom: 1,
-            displayTo: 30
-        };
-        store.set(filter, 'filter');
-    },
-
     /**
      * For setting the filter when a saved filter is chosen
      * @param savedFilter
@@ -75,22 +10,6 @@ export default {
      */
     setFields: function (savedFilter) {
         store.set(savedFilter, 'filter');
-
-        // this.state.filter.types = savedFilter.types;
-        // this.state.filter.accounts = savedFilter.accounts;
-        // this.state.filter.singleDate = savedFilter.singleDate;
-        // this.state.filter.fromDate = savedFilter.fromDate;
-        // this.state.filter.toDate = savedFilter.toDate;
-        // this.state.filter.description = savedFilter.description;
-        // this.state.filter.merchant = savedFilter.merchant;
-        // this.state.filter.budgets = savedFilter.budgets;
-        // this.state.filter.numBudgets = savedFilter.numBudgets;
-        // this.state.filter.reconciled = savedFilter.reconciled;
-        // this.state.filter.invalidAllocation = savedFilter.invalidAllocation;
-        // this.state.filter.offset = savedFilter.offset;
-        // this.state.filter.numToFetch = savedFilter.numToFetch;
-        // this.state.filter.displayFrom = savedFilter.displayFrom;
-        // this.state.filter.displayTo = savedFilter.displayTo;
     },
 
     /**
@@ -253,7 +172,7 @@ export default {
         this.getBasicFilterTotals();
 
         if (helpers.getRoutePath()) {
-            TransactionsRepository.filterTransactions();
+            store.filterTransactions();
         }
         else {
             store.getAllGraphData();

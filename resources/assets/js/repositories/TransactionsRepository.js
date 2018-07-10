@@ -5,26 +5,6 @@ export default {
 
     /**
      *
-     */
-    filterTransactions: function () {
-        var data = {
-            filter: FilterRepository.formatDates()
-        };
-
-        helpers.get({
-            url: '/api/filter/transactions',
-            data: data,
-            storeProperty: 'transactions'
-        });
-    },
-
-    state: {
-
-    },
-
-
-    /**
-     *
      * @param transaction
      * @param direction
      * @returns {{date: *, account_id: number, type: *, description: *, merchant: (*|string|filter.merchant|{in, out}|boolean|state.filter.merchant), total: *, reconciled, allocated: (*|boolean), minutes: *, budget_ids: Array}}

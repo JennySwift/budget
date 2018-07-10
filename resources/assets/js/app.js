@@ -1,3 +1,5 @@
+import TotalsRepository from "./repositories/TotalsRepository";
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -15,8 +17,8 @@ window.helpers = helpers;
 require('./config.js');
 require('./components');
 require('./directives');
-require('./method-calls');
 import routes from './routes'
+import FilterRepository from "./repositories/FilterRepository";
 
 window.Event = new Vue();
 const bus = new Vue();
@@ -30,9 +32,31 @@ const app = new Vue({
     el: '#app',
     router: router,
     mounted: function () {
-
+        store.getUser();
+        store.getEnvironment();
+        store.getAccounts();
+        store.setHeights();
+        store.getBudgets();
+        store.getUnassignedBudgets();
+        store.getFavouriteTransactions();
+        store.setDefaultTab();
+        TotalsRepository.getSideBarTotals();
+        store.getSavedFilters();
+        store.setDefaultTransactionPropertiesToShow();
+        setTimeout(function () {
+            FilterRepository.runFilter();
+        }, 100);
     },
 }).$mount('#app')
+
+
+$(window).on('load', function () {
+    // $(".main").css('display', 'block');
+    // $("footer, #navbar").css('display', 'flex');
+    // $("#page-loading").hide();
+    //Uncomment after refactor
+    // smoothScroll.init();
+});
 
 
 
