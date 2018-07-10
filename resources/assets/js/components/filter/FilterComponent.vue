@@ -47,7 +47,7 @@
                             </types-filter>
 
                             <!--Description-->
-                            <descriptions-filter
+                            <filter-section
                                 :filter-tab="filterTab"
                                 label="Description"
                             >
@@ -59,10 +59,10 @@
                                     <label for="filter-description-out">Filter description out</label>
                                     <filter-input-field field="description" type="out" id="filter-description-out" :model="shared.filter.description.out" path="filter.description.out"></filter-input-field>
                                 </template>
-                            </descriptions-filter>
+                            </filter-section>
 
                             <!--Merchant-->
-                            <descriptions-filter
+                            <filter-section
                                 :filter-tab="filterTab"
                                 label="Merchant"
                             >
@@ -74,10 +74,10 @@
                                     <label for="filter-merchant-out">Filter merchant out</label>
                                     <filter-input-field field="merchant" type="out" id="filter-merchant-out" :model="shared.filter.merchant.out" path="filter.merchant.out"></filter-input-field>
                                 </template>
-                            </descriptions-filter>
+                            </filter-section>
 
                             <!--Total-->
-                            <descriptions-filter
+                            <filter-section
                                 :filter-tab="filterTab"
                                 label="Total"
                             >
@@ -89,7 +89,7 @@
                                     <label for="filter-total-out">Filter out by total (negative sign required for expenses)</label>
                                     <filter-input-field field="total" type="out" id="filter-total-out" :model="shared.filter.total.out" path="filter.total.out"></filter-input-field>
                                 </template>
-                            </descriptions-filter>
+                            </filter-section>
 
 
 
@@ -145,11 +145,9 @@
     import TotalsForFilterComponent from '../../components/filter/TotalsForFilterComponent.vue'
     import AccountsFilterComponent from '../../components/filter/AccountsFilterComponent.vue'
     import TypesFilterComponent from '../../components/filter/TypesFilterComponent.vue'
-    import DescriptionsFilterComponent from '../../components/filter/DescriptionsFilterComponent.vue'
-    // import MerchantsFilterComponent from '../../components/filter/MerchantsFilterComponent.vue'
+    import FilterSectionComponent from '../../components/filter/FilterSectionComponent.vue'
     import BudgetsFilterComponent from '../../components/filter/BudgetsFilterComponent.vue'
     import DatesFilterComponent from '../../components/filter/DatesFilterComponent.vue'
-    // import TotalsFilterComponent from '../../components/filter/TotalsFilterComponent.vue'
     import ReconciledFilterComponent from '../../components/filter/ReconciledFilterComponent.vue'
     import InvalidAllocationFilterComponent from '../../components/filter/InvalidAllocationFilterComponent.vue'
     import NumBudgetsFilterComponent from '../../components/filter/NumBudgetsFilterComponent.vue'
@@ -167,11 +165,9 @@
             'totals-for-filter': TotalsForFilterComponent,
             'accounts-filter': AccountsFilterComponent,
             'types-filter': TypesFilterComponent,
-            'descriptions-filter': DescriptionsFilterComponent,
-            // 'merchants-filter': MerchantsFilterComponent,
+            'filter-section': FilterSectionComponent,
             'budgets-filter': BudgetsFilterComponent,
             'dates-filter': DatesFilterComponent,
-            // 'totals-filter': TotalsFilterComponent,
             'reconciled-filter': ReconciledFilterComponent,
             'invalid-allocation-filter': InvalidAllocationFilterComponent,
             'num-budgets-filter': NumBudgetsFilterComponent,
