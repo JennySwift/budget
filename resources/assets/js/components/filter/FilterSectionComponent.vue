@@ -3,6 +3,7 @@
         <h4 v-on:click="showContent = !showContent">{{label}}<dropdown-arrow :content-visible="showContent"></dropdown-arrow></h4>
 
         <div class="content">
+            <slot name="content"></slot>
             <div
                 v-show="filterTab === 'show'"
                 class="form-group"
