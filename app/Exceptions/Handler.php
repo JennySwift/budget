@@ -50,7 +50,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        dd($exception);
+//        dd($exception);
         if ($exception instanceof NotLoggedInException) {
             return response([
                 'error' => "Not logged in.",

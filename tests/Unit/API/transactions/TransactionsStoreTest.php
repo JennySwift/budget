@@ -141,12 +141,12 @@ class TransactionsStoreTest extends TestCase
 
         //Check the allocation was done correctly (100% of the transaction to the first budget)
         $this->assertNull($content['budgets'][0]['pivot']['allocated_fixed']);
-        $this->assertEquals('100', $content['budgets'][0]['pivot']['allocated_percent']);
-        $this->assertEquals('5', $content['budgets'][0]['pivot']['calculated_allocation']);
+        $this->assertEquals('100.00', $content['budgets'][0]['pivot']['allocated_percent']);
+        $this->assertEquals('5.00', $content['budgets'][0]['pivot']['calculated_allocation']);
 
         $this->assertNull($content['budgets'][1]['pivot']['allocated_fixed']);
-        $this->assertEquals('0', $content['budgets'][1]['pivot']['allocated_percent']);
-        $this->assertEquals('0', $content['budgets'][1]['pivot']['calculated_allocation']);
+        $this->assertEquals('0.00', $content['budgets'][1]['pivot']['allocated_percent']);
+        $this->assertEquals('0.00', $content['budgets'][1]['pivot']['calculated_allocation']);
 
         $this->assertEquals('2015-01-01', $content['date']);
         $this->assertEquals('1', $content['account_id']);
