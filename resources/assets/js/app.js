@@ -6,7 +6,7 @@ global.jQuery = require('jquery');
 
 global._ = require('lodash');
 
-import store from './budget/src/repositories/Store'
+import store from './repositories/Store'
 window.store = store;
 
 require('./components');

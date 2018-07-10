@@ -28,10 +28,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
-        parent::boot();
-
         Route::bind('account', function($id)
         {
             return Account::forCurrentUser()->findOrFail($id);
@@ -56,6 +52,8 @@ class RouteServiceProvider extends ServiceProvider
         {
             return SavedFilter::forCurrentUser()->findOrFail($id);
         });
+
+        parent::boot();
     }
 
     /**

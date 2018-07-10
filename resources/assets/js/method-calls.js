@@ -1,5 +1,5 @@
-import TotalsRepository from './budget/src/repositories/TotalsRepository'
-import FilterRepository from './budget/src/repositories/FilterRepository'
+import TotalsRepository from './repositories/TotalsRepository'
+import FilterRepository from './repositories/FilterRepository'
 
 store.getUser();
 store.getEnvironment();

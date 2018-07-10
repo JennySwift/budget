@@ -2,16 +2,16 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
-import TransactionsPageComponent from './budget/src/components/transactions/TransactionsPageComponent.vue'
-import AccountsPageComponent from './budget/src/components/accounts/AccountsPageComponent.vue'
-import FixedBudgetsPageComponent from './budget/src/components/budgets/FixedBudgetsPageComponent.vue'
-import FlexBudgetsPageComponent from './budget/src/components/budgets/FlexBudgetsPageComponent.vue'
-import UnassignedBudgetsPageComponent from './budget/src/components/budgets/UnassignedBudgetsPageComponent.vue'
-import GraphsPageComponent from './budget/src/components/filter/GraphsPageComponent.vue'
-import FavouriteTransactionsPageComponent from './budget/src/components/favourite_transactions/FavouriteTransactionsComponent.vue'
-import HelpPageComponent from './budget/src/components/HelpPageComponent.vue'
-import PreferencesPageComponent from './budget/src/components/PreferencesComponent.vue'
-import FeedbackPageComponent from './budget/src/components/FeedbackPageComponent.vue'
+import TransactionsPageComponent from './components/transactions/TransactionsPageComponent.vue'
+import AccountsPageComponent from './components/accounts/AccountsPageComponent.vue'
+import FixedBudgetsPageComponent from './components/budgets/FixedBudgetsPageComponent.vue'
+import FlexBudgetsPageComponent from './components/budgets/FlexBudgetsPageComponent.vue'
+import UnassignedBudgetsPageComponent from './components/budgets/UnassignedBudgetsPageComponent.vue'
+import GraphsPageComponent from './components/filter/GraphsPageComponent.vue'
+import FavouriteTransactionsPageComponent from './components/favourite_transactions/FavouriteTransactionsComponent.vue'
+import HelpPageComponent from './components/HelpPageComponent.vue'
+import PreferencesPageComponent from './components/PreferencesComponent.vue'
+import FeedbackPageComponent from './components/FeedbackPageComponent.vue'
 
 export default new VueRouter({
     routes: [

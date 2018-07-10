@@ -7,16 +7,6 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use League\Fractal\Manager;
-use League\Fractal\Resource\Collection;
-use League\Fractal\Resource\Item;
-use League\Fractal\Serializer\DataArraySerializer;
-use League\Fractal\TransformerAbstract;
-
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -189,5 +179,4 @@ class Controller extends BaseController
     {
         return new Item($model, $transformer, $key);
     }
-
 }

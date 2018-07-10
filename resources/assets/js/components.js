@@ -1,12 +1,12 @@
 import Vue from 'vue'
 
-import PopupComponent from './budget/src/components/shared/PopupComponent.vue'
-import DropdownComponent from './budget/src/components/shared/DropdownComponent.vue'
-import AutocompleteComponent from './budget/src/components/shared/AutocompleteComponent.vue'
-import DropdownArrowComponent from './budget/src/components/shared/DropdownArrowComponent.vue'
-import NavbarComponent from './budget/src/components/shared/NavbarComponent.vue'
-import LoadingComponent from './budget/src/components/shared/LoadingComponent.vue'
-import FeedbackComponent from './budget/src/components/shared/FeedbackComponent.vue'
+import PopupComponent from './components/shared/PopupComponent.vue'
+import DropdownComponent from './components/shared/DropdownComponent.vue'
+import AutocompleteComponent from './components/shared/AutocompleteComponent.vue'
+import DropdownArrowComponent from './components/shared/DropdownArrowComponent.vue'
+import NavbarComponent from './components/shared/NavbarComponent.vue'
+import LoadingComponent from './components/shared/LoadingComponent.vue'
+import FeedbackComponent from './components/shared/FeedbackComponent.vue'
 
 Vue.component('autocomplete', AutocompleteComponent);
 Vue.component('dropdown', DropdownComponent);

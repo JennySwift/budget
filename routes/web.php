@@ -1,7 +1,5 @@
 <?php
 
-//use JavaScript;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,8 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-use Illuminate\Http\Response;
 
 Auth::routes();
 

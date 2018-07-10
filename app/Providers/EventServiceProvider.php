@@ -16,12 +16,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
-        'App\Events\TransactionWasCreated' => [
-            'App\Listeners\UpdateSavingsListener',
-        ],
-        'App\Events\TransactionWasUpdated' => [
-            'App\Listeners\UpdateSavingsListener',
-        ],
     ];
 
     /**

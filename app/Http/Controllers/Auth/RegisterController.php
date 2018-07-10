@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Savings;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -66,17 +66,14 @@ class RegisterController extends Controller
         $user = new User([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
             'preferences' => Config::get('user-preferences.defaults')
         ]);
-
         $user->save();
-
         $savings = new Savings(['amount' => 0]);
         $savings->user()->associate($user);
         $savings->save();
 
         return $user;
     }
-
 }

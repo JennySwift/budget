@@ -1,25 +1,25 @@
 <?php
 
+use App\User;
 use App\Models\Account;
 use App\Models\Budget;
 use App\Models\FavouriteTransaction;
 use App\Models\SavedFilter;
 use App\Models\Savings;
 use App\Models\Transaction;
-use App\User;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Seed the application's database.
      *
      * @return void
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
         Model::unguard();
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         $this->truncate();
@@ -34,6 +34,9 @@ class DatabaseSeeder extends Seeder
         Model::reguard();
     }
 
+    /**
+     *
+     */
     private function truncate()
     {
         User::truncate();
