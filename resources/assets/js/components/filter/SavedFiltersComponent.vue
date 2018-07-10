@@ -32,7 +32,7 @@
              */
             chooseSavedFilter: function () {
                 FilterRepository.setFields(this.selectedSavedFilter.filter);
-                this.runFilter();
+                store.runFilter();
             },
 
             /**
@@ -51,9 +51,6 @@
                 });
             }
         },
-        props: [
-            'runFilter'
-        ],
         mounted: function () {
 
         }

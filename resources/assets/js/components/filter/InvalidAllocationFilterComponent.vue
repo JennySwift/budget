@@ -9,7 +9,7 @@
                 <label>
                     <input
                         v-model="shared.filter.invalidAllocation"
-                        v-on:change="runFilter()"
+                        v-on:change="store.runFilter()"
                         type="radio"
                         name="invalid-allocation"
                         value="false"
@@ -22,7 +22,7 @@
                 <label>
                     <input
                         v-model="shared.filter.invalidAllocation"
-                        v-on:change="runFilter()"
+                        v-on:change="store.runFilter()"
                         type="radio"
                         name="invalid-allocation"
                         value="true"
@@ -41,7 +41,8 @@
         data: function () {
             return {
                 showContent: false,
-                shared: store.state
+                shared: store.state,
+                store: store
             };
         },
         components: {},
@@ -50,7 +51,6 @@
         },
         props: [
             'filterTab',
-            'runFilter'
         ],
         mounted: function () {
 

@@ -88,7 +88,7 @@
              */
             resetFilter: function () {
                 FilterRepository.resetFilter();
-                this.runFilter();
+                store.runFilter();
             },
 
             /**
@@ -96,7 +96,7 @@
              */
             changeNumToFetch: function () {
                 FilterRepository.updateRange(store.state.filter.numToFetch);
-                this.runFilter();
+                store.runFilter();
             },
 
             /**
@@ -114,10 +114,6 @@
                 FilterRepository.nextResults();
             },
         },
-        props: [
-            'filterTotals',
-            'runFilter'
-        ],
         mounted: function () {
 
         }

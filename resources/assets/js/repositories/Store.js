@@ -15,10 +15,41 @@ export default {
             gravatar: '',
             preferences: {
                 show: {
-                    totals: ''
+                    totals: []
                 },
                 colors: {}
             },
+        },
+        totalsLoading: false,
+        sideBarTotals: {
+            remainingBalance: '',
+            remainingFixedBudget: '',
+            cumulativeFixedBudget: '',
+            credit: '',
+            debit: '',
+            balance: '',
+            reconciledSum: '',
+            expensesWithoutBudget: '',
+            savings: '',
+            expensesWithFixedBudgetBeforeStartingDate: '',
+            expensesWithFixedBudgetAfterStartingDate: '',
+            expensesWithFlexBudgetBeforeStartingDate: '',
+            expensesWithFlexBudgetAfterStartingDate: ''
+        },
+        totalChanges: {
+            remainingBalance: 0,
+            remainingFixedBudget: 0,
+            cumulativeFixedBudget: 0,
+            credit: 0,
+            debit: 0,
+            balance: 0,
+            reconciledSum: 0,
+            expensesWithoutBudget: 0,
+            savings: 0,
+            expensesWithFixedBudgetBeforeStartingDate: 0,
+            expensesWithFixedBudgetAfterStartingDate: 0,
+            expensesWithFlexBudgetBeforeStartingDate: 0,
+            expensesWithFlexBudgetAfterStartingDate: 0,
         },
         env: '',
         //For home page tabs
@@ -138,6 +169,25 @@ export default {
             budgets: true,
             delete: true,
         }
+    },
+
+    /**
+     *
+     */
+    getSideBarTotals: function () {
+        this.state.totalsLoading = true;
+        var oldSideBarTotals = this.state.sideBarTotals;
+
+        helpers.get({
+            url: '/api/totals/sidebar',
+            storeProperty: 'sideBarTotals',
+            // loadedProperty: 'itemsLoaded',
+            callback: function (response) {
+                //Uncomment after refactor
+                // this.setTotalChanges(oldSideBarTotals);
+                store.state.totalsLoading = false;
+            }.bind(this)
+        });
     },
 
     /**

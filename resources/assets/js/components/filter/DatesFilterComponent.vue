@@ -21,7 +21,7 @@
                 >
                     <input
                         v-model="shared.filter.singleDate.in"
-                        v-on:keyup.13="runFilter()"
+                        v-on:keyup.13="store.runFilter()"
                         type="text"
                         id="filter-single-date-in"
                         name="filter-single-date-in"
@@ -53,7 +53,7 @@
                 >
                     <input
                         v-model="shared.filter.singleDate.out"
-                        v-on:keyup.13="runFilter()"
+                        v-on:keyup.13="store.runFilter()"
                         type="text"
                         id="filter-single-date-out"
                         name="filter-single-date-out"
@@ -85,7 +85,7 @@
                 >
                     <input
                         v-model="shared.filter.fromDate.in"
-                        v-on:keyup.13="runFilter()"
+                        v-on:keyup.13="store.runFilter()"
                         type="text"
                         id="filter-from-date-in"
                         name="filter-from-date-in"
@@ -117,7 +117,7 @@
                 >
                     <input
                         v-model="shared.filter.toDate.in"
-                        v-on:keyup.13="runFilter()"
+                        v-on:keyup.13="store.runFilter()"
                         type="text"
                         id="filter-to-date-in"
                         name="filter-to-date-in"
@@ -146,7 +146,8 @@
         data: function () {
             return {
                 showContent: false,
-                shared: store.state
+                shared: store.state,
+                store: store
             };
         },
         components: {},
@@ -155,7 +156,6 @@
         },
         props: [
             'filterTab',
-            'runFilter',
             'clearFilterField'
         ],
         mounted: function () {

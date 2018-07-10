@@ -57,7 +57,7 @@
                         :value="account.id"
                         :disabled="shared.filter.accounts.in.indexOf(account.id) !== -1"
                         v-model="shared.filter.accounts.out"
-                        v-on:change="runFilter()"
+                        v-on:change="store.runFilter()"
                     >
                     <label
                         :for="account.name"
@@ -80,7 +80,8 @@
         data: function () {
             return {
                 showContent: false,
-                shared: store.state
+                shared: store.state,
+                store: store
             };
         },
         components: {},
@@ -91,7 +92,6 @@
         },
         props: [
             'filterTab',
-            'runFilter',
         ],
         mounted: function () {
 

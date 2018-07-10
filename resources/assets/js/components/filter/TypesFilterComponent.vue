@@ -24,7 +24,7 @@
 
                 <input
                     v-model="shared.filter.types.in"
-                    v-on:change="runFilter()"
+                    v-on:change="store.runFilter()"
                     :id="type"
                     :value="type"
                     :disabled="shared.filter.types.out.indexOf(type) !== -1"
@@ -47,7 +47,7 @@
             >
                 <input
                     v-model="shared.filter.types.out"
-                    v-on:change="runFilter()"
+                    v-on:change="store.runFilter()"
                     :id="type + '-out'"
                     :value="type"
                     :disabled="shared.filter.types.in.indexOf(type) !== -1"
@@ -82,8 +82,7 @@
 
         },
         props: [
-            'filterTab',
-            'runFilter'
+            'filterTab'
         ],
         mounted: function () {
 

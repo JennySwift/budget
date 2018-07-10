@@ -21,8 +21,8 @@
                             title="credit"
                         >
                             <td>Credit:</td>
-                            <td><span class="badge badge-success">{{ sideBarTotals.credit | numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.credit">{{ totalChanges.credit | numberFilter(2) }}</span></td>
+                            <td><span class="badge badge-success">{{ shared.sideBarTotals.credit | numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.credit">{{ shared.totalChanges.credit | numberFilter(2) }}</span></td>
                         </tr>
 
                         <tr
@@ -31,8 +31,8 @@
                             title="remaining fixed budget (total of fixed budget info column R)"
                         >
                             <td>Remaining fixed budget:</td>
-                            <td><span class="badge badge-danger">{{ sideBarTotals.remainingFixedBudget | numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.remainingFixedBudget">{{ totalChanges.remainingFixedBudget | numberFilter(2) }}</span></td>
+                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.remainingFixedBudget | numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.remainingFixedBudget">{{ shared.totalChanges.remainingFixedBudget | numberFilter(2) }}</span></td>
                         </tr>
 
                         <tr
@@ -41,8 +41,8 @@
                             title="total of expense transactions that have no budget"
                         >
                             <td>Expenses with no fixed or flex budgets:</td>
-                            <td><span class="badge badge-danger">{{ sideBarTotals.expensesWithoutBudget | numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.expensesWithoutBudget">{{ totalChanges.expensesWithoutBudget | numberFilter(2) }}</span></td>
+                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.expensesWithoutBudget | numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.expensesWithoutBudget">{{ shared.totalChanges.expensesWithoutBudget | numberFilter(2) }}</span></td>
                         </tr>
 
                         <tr
@@ -51,8 +51,8 @@
                             title="total of allocation of tags of expense transactions that have a fixed budget before its starting date"
                         >
                             <td>Expenses with <b>fixed</b> budget <b>before</b> starting date:</td>
-                            <td><span class="badge badge-danger">{{ sideBarTotals.expensesWithFixedBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.expensesWithFixedBudgetBeforeStartingDate">{{ totalChanges.expensesWithFixedBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
+                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.expensesWithFixedBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.expensesWithFixedBudgetBeforeStartingDate">{{ shared.totalChanges.expensesWithFixedBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
                         </tr>
 
                         <tr
@@ -61,8 +61,8 @@
                             title="total of allocation of tags of expense transactions that have a fixed budget after its starting date"
                         >
                             <td>Expenses with <b>fixed</b> budget <b>after</b> starting date:</td>
-                            <td><span id="total_income_span" class="badge badge-danger">{{ sideBarTotals.expensesWithFixedBudgetAfterStartingDate | numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.expensesWithFixedBudgetAfterStartingDate">{{ totalChanges.expensesWithFixedBudgetAfterStartingDate | numberFilter(2) }}</span></td>
+                            <td><span id="total_income_span" class="badge badge-danger">{{ shared.sideBarTotals.expensesWithFixedBudgetAfterStartingDate | numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.expensesWithFixedBudgetAfterStartingDate">{{ shared.totalChanges.expensesWithFixedBudgetAfterStartingDate | numberFilter(2) }}</span></td>
                         </tr>
 
                         <tr
@@ -71,8 +71,8 @@
                             title="total of allocation of tags of expense transactions that have a flex budget before its starting date"
                         >
                             <td>Expenses with <b>flex</b> budget <b>before</b> starting date:</td>
-                            <td><span class="badge badge-danger">{{ sideBarTotals.expensesWithFlexBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.expensesWithFlexBudgetBeforeStartingDate">{{ totalChanges.expensesWithFlexBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
+                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.expensesWithFlexBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.expensesWithFlexBudgetBeforeStartingDate">{{ shared.totalChanges.expensesWithFlexBudgetBeforeStartingDate | numberFilter(2) }}</span></td>
                         </tr>
 
                         <tr
@@ -81,8 +81,8 @@
                             title="savings"
                         >
                             <td>Savings:</td>
-                            <td><span class="badge badge-danger">{{ sideBarTotals.savings | numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.savings">{{ totalChanges.savings | numberFilter(2) }}</span></td>
+                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.savings | numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.savings">{{ shared.totalChanges.savings | numberFilter(2) }}</span></td>
                         </tr>
 
                         <tr
@@ -91,9 +91,9 @@
                             title="remaining balance without EFLB"
                         >
                             <td>Remaining balance:</td>
-                            <td><span class="badge badge-danger">{{ sideBarTotals.remainingBalance | numberFilter(2) }}</span></td>
+                            <td><span class="badge badge-danger">{{ shared.sideBarTotals.remainingBalance | numberFilter(2) }}</span></td>
                             <td>
-                                <span v-if="totalChanges.remainingBalance">{{ totalChanges.remainingBalance | numberFilter(2) }}</span>
+                                <span v-if="shared.totalChanges.remainingBalance">{{ shared.totalChanges.remainingBalance | numberFilter(2) }}</span>
                             </td>
                         </tr>
 
@@ -103,8 +103,8 @@
                             title="debit"
                         >
                             <td>Debit:</td>
-                            <td><span id="total_income_span" class="badge badge-danger">{{ sideBarTotals.debit |  numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.debit">{{ totalChanges.debit |  numberFilter(2) }}</span></td>
+                            <td><span id="total_income_span" class="badge badge-danger">{{ shared.sideBarTotals.debit |  numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.debit">{{ shared.totalChanges.debit |  numberFilter(2) }}</span></td>
                         </tr>
 
                         <tr
@@ -113,8 +113,8 @@
                             title="balance (C - D)"
                         >
                             <td>Balance:</td>
-                            <td><span id="total_income_span" class="badge badge-warning">{{ sideBarTotals.balance |  numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.balance">{{ totalChanges.balance |  numberFilter(2) }}</span></td>
+                            <td><span id="total_income_span" class="badge badge-warning">{{ shared.sideBarTotals.balance |  numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.balance">{{ shared.totalChanges.balance |  numberFilter(2) }}</span></td>
                         </tr>
 
                         <tr
@@ -123,8 +123,8 @@
                             title="reconciled"
                         >
                             <td>Reconciled:</td>
-                            <td><span id="total_income_span" class="badge badge-info">{{ sideBarTotals.reconciledSum |  numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.reconciledSum">{{ totalChanges.reconciledSum |  numberFilter(2) }}</span></td>
+                            <td><span id="total_income_span" class="badge badge-info">{{ shared.sideBarTotals.reconciledSum |  numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.reconciledSum">{{ shared.totalChanges.reconciledSum |  numberFilter(2) }}</span></td>
                         </tr>
 
                         <tr
@@ -133,8 +133,8 @@
                             title="fixed budget (total of fixed budget info column C)"
                         >
                             <td>Cumulative fixed budget:</td>
-                            <td><span id="total_income_span" class="badge badge-danger">{{ sideBarTotals.cumulativeFixedBudget |  numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.cumulativeFixedBudget">{{ totalChanges.cumulativeFixedBudget |  numberFilter(2) }}</span></td>
+                            <td><span id="total_income_span" class="badge badge-danger">{{ shared.sideBarTotals.cumulativeFixedBudget |  numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.cumulativeFixedBudget">{{ shared.totalChanges.cumulativeFixedBudget |  numberFilter(2) }}</span></td>
                         </tr>
 
                         <tr
@@ -143,8 +143,8 @@
                             title="total of allocation of tags of expense transactions that have a flex budget"
                         >
                             <td>Expenses with <b>flex</b> budget <b>after</b> starting date:</td>
-                            <td><span id="total_income_span" class="badge badge-danger">{{ sideBarTotals.expensesWithFlexBudgetAfterStartingDate |  numberFilter(2) }}</span></td>
-                            <td><span v-if="totalChanges.expensesWithFlexBudgetAfterStartingDate">{{ totalChanges.expensesWithFlexBudgetAfterStartingDate |  numberFilter(2) }}</span></td>
+                            <td><span id="total_income_span" class="badge badge-danger">{{ shared.sideBarTotals.expensesWithFlexBudgetAfterStartingDate |  numberFilter(2) }}</span></td>
+                            <td><span v-if="shared.totalChanges.expensesWithFlexBudgetAfterStartingDate">{{ shared.totalChanges.expensesWithFlexBudgetAfterStartingDate |  numberFilter(2) }}</span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -169,14 +169,6 @@
             };
         },
         components: {},
-        computed: {
-            sideBarTotals: function () {
-                return this.totalsRepository.sideBarTotals;
-            },
-            totalChanges: function () {
-                return this.totalsRepository.totalChanges;
-            }
-        },
         filters: {
             /**
              *

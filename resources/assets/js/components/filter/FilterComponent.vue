@@ -31,82 +31,62 @@
                         </li>
                     </ul>
 
-                    <saved-filters
-                        :run-filter="runFilter"
-                    >
-                    </saved-filters>
+                    <saved-filters></saved-filters>
 
-                    <toolbar-for-filter
-                        :filter-totals="filterTotals"
-                        :run-filter="runFilter"
-                    >
-                    </toolbar-for-filter>
+                    <toolbar-for-filter></toolbar-for-filter>
 
                     <div>
                         <totals-for-filter></totals-for-filter>
 
                         <div>
-                            <accounts-filter
-                                :filter-tab="filterTab"
-                                :run-filter="runFilter"
-                            >
+                            <accounts-filter :filter-tab="filterTab">
                             </accounts-filter>
 
                             <types-filter
-                                :filter-tab="filterTab"
-                                :run-filter="runFilter"
-                            >
+                                :filter-tab="filterTab">
                             </types-filter>
 
                             <descriptions-filter
                                 :filter-tab="filterTab"
-                                :run-filter="runFilter"
                                 :clear-filter-field="clearFilterField"
                             >
                             </descriptions-filter>
 
                             <merchants-filter
                                 :filter-tab="filterTab"
-                                :run-filter="runFilter"
                                 :clear-filter-field="clearFilterField"
                             >
                             </merchants-filter>
 
                             <budgets-filter
                                 :filter-tab="filterTab"
-                                :run-filter="runFilter"
                             >
                             </budgets-filter>
 
                             <dates-filter
                                 :filter-tab="filterTab"
-                                :run-filter="runFilter"
                                 :clear-filter-field="clearFilterField"
                             >
                             </dates-filter>
 
                             <totals-filter
                                 :filter-tab="filterTab"
-                                :run-filter="runFilter"
                                 :clear-filter-field="clearFilterField"
                             >
                             </totals-filter>
 
                             <reconciled-filter
                                 :filter-tab="filterTab"
-                                :run-filter="runFilter"
                             >
                             </reconciled-filter>
 
                             <invalid-allocation-filter
                                 :filter-tab="filterTab"
-                                :run-filter="runFilter"
                             >
                             </invalid-allocation-filter>
 
                             <num-budgets-filter
                                 :filter-tab="filterTab"
-                                :run-filter="runFilter"
                             >
                             </num-budgets-filter>
 
@@ -161,9 +141,6 @@
         computed: {
             filter: function () {
                 return this.filterRepository.filter;
-            },
-            filterTotals: function () {
-                return this.filterRepository.filterTotals;
             }
         },
         methods: {

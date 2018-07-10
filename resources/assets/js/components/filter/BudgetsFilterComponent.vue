@@ -113,17 +113,16 @@
         },
         props: [
             'filterTab',
-            'runFilter'
         ],
         mounted: function () {
 
         },
         events: {
             'budget-chosen': function () {
-                this.runFilter();
+                store.runFilter();
             },
             'budget-removed': function () {
-                this.runFilter();
+                store.runFilter();
             }
         }
     }

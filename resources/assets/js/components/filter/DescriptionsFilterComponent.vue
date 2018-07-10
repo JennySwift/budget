@@ -76,7 +76,8 @@
         data: function () {
             return {
                 showContent: false,
-                shared: store.state
+                shared: store.state,
+                store: store
             };
         },
         components: {},
@@ -87,13 +88,12 @@
              */
             filterDescriptionOrMerchant: function () {
                 FilterRepository.resetOffset();
-                this.runFilter();
+                store.runFilter();
             },
 
         },
         props: [
             'filterTab',
-            'runFilter',
             'clearFilterField'
         ],
         mounted: function () {

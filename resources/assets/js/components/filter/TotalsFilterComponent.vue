@@ -18,7 +18,7 @@
                 >
                     <input
                         v-model="shared.filter.total.in"
-                        v-on:keyup.13="runFilter()"
+                        v-on:keyup.13="store.runFilter()"
                         type="text"
                         id="filter-total-in"
                         name="filter-total-in"
@@ -49,7 +49,7 @@
                 >
                     <input
                         v-model="shared.filter.total.out"
-                        v-on:keyup.13="runFilter()"
+                        v-on:keyup.13="store.runFilter()"
                         type="text"
                         id="filter-total-out"
                         name="filter-total-out"
@@ -88,7 +88,6 @@
         },
         props: [
             'filterTab',
-            'runFilter',
             'clearFilterField'
         ],
         mounted: function () {

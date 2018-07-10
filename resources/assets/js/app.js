@@ -40,7 +40,7 @@ const app = new Vue({
         store.getUnassignedBudgets();
         store.getFavouriteTransactions();
         store.setDefaultTab();
-        TotalsRepository.getSideBarTotals();
+        store.getSideBarTotals();
         store.getSavedFilters();
         store.setDefaultTransactionPropertiesToShow();
         setTimeout(function () {
