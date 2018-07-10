@@ -41,9 +41,18 @@ class FavouriteTransactionsController extends Controller
     {
         $favourite = new FavouriteTransaction($request->only($this->fields));
         $favourite->user()->associate(Auth::user());
-        $favourite->account()->associate(Account::findOrFail($request->get('account_id')));
-        $favourite->fromAccount()->associate(Account::findOrFail($request->get('from_account_id')));
-        $favourite->toAccount()->associate(Account::findOrFail($request->get('to_account_id')));
+
+        if ($request->get('account_id')) {
+            $favourite->account()->associate(Account::findOrFail($request->get('account_id')));
+        }
+
+        if ($request->get('from_account_id')) {
+            $favourite->fromAccount()->associate(Account::findOrFail($request->get('from_account_id')));
+        }
+        if ($request->get('to_account_id')) {
+            $favourite->toAccount()->associate(Account::findOrFail($request->get('to_account_id')));
+        }
+
         $favourite->save();
 
         foreach ($request->get('budget_ids') as $id) {

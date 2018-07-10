@@ -32,8 +32,8 @@ class FavouriteTransactionsStoreTest extends TestCase
         ];
 
         $response = $this->call('POST', '/api/favouriteTransactions', $favourite);
-        $content = json_decode($response->getContent(), true);
-        // dd($content);
+        $content = $this->getContent($response);
+//         dd($content);
 
         $this->checkFavouriteTransactionKeysExist($content);
 
@@ -72,7 +72,7 @@ class FavouriteTransactionsStoreTest extends TestCase
         ];
 
         $response = $this->call('POST', '/api/favouriteTransactions', $favourite);
-        $content = json_decode($response->getContent(), true);
+        $content = $this->getContent($response);
         // dd($content);
 
         $this->checkFavouriteTransactionKeysExist($content);

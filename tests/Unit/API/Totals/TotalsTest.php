@@ -26,7 +26,7 @@ class TotalsTest extends TestCase {
         $this->logInUser();
 
         $response = $this->apiCall('GET', 'api/totals/sidebar');
-        $content = json_decode($response->getContent(), false)->data;
+        $content = json_decode($response->getContent(), false);
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 

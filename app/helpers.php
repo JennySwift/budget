@@ -144,16 +144,16 @@ function removeFalseKeepZeroAndEmptyStrings($value)
  *
  * @param $resource
  */
-//function transform($resource)
-//{
-//    $manager = new Manager();
-//    $manager->setSerializer(new DataArraySerializer);
-//
-//    $manager->parseIncludes(request()->get('includes', []));
-//
-////    return $manager->createData($resource);
-//    return $manager->createData($resource)->toArray();
-//}
+function transformFromHelpers($resource)
+{
+    $manager = new Manager();
+    $manager->setSerializer(new DataArraySerializer);
+
+    $manager->parseIncludes(request()->get('includes', []));
+
+//    return $manager->createData($resource);
+    return $manager->createData($resource)->toArray();
+}
 
 /**
  *

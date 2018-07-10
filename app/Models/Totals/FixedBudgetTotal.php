@@ -36,7 +36,7 @@ class FixedBudgetTotal implements Arrayable, BudgetTotal {
 
         //Transform budgets
         $resource = createCollection($this->budgets, new BudgetTransformer);
-        $this->budgets = transform($resource);
+        $this->budgets = transformFromHelpers($resource);
     }
 
     /**

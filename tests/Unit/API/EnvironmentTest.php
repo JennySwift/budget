@@ -22,7 +22,7 @@ class EnvironmentTest extends TestCase
         $response = $this->call('GET', '/api/environment/');
         $content = $response->getContent();
 
-        $this->assertEquals('local', $content);
+        $this->assertEquals('testing', $content);
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }

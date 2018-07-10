@@ -58,12 +58,13 @@ class BudgetsStoreTest extends TestCase
         ];
 
         $response = $this->apiCall('POST', '/api/budgets', $budget);
-        $content = json_decode($response->getContent(), true);
+        $content = $this->getContent($response);
+//        dd($content);
 
 
-        $this->assertArrayHasKey('name', $content);
+        $this->checkValidationResponse($content, ['name']);
 
-        $this->assertEquals('The name has already been taken.', $content['name'][0]);
+        $this->assertEquals('The name has already been taken.', $content['errors']['name'][0]);
         $this->assertEquals(422, $response->getStatusCode());
 
         DB::rollBack();

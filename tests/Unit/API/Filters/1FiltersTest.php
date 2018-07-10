@@ -110,33 +110,4 @@ class FiltersTest extends TestCase {
 
         return $response;
     }
-
-    /**
-     * @test
-     * @return void
-     */
-    public function it_checks_the_bug_fix_method_works()
-    {
-//        $this->setFilterDefaults();
-//        $this->logInUser();
-//
-//        $filter = [
-//            'bugFix' => 'true'
-//        ];
-//
-//        $this->filter = array_merge($this->defaults, $filter);
-//
-//        $data = [
-//            'filter' => $this->filter
-//        ];
-//        $this->setTransactions($data);
-//
-//
-////        foreach ($this->transactions as $transaction) {
-////            $transaction = Transaction::find($transaction['id']);
-////            dd($transaction);
-////        }
-//
-//        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
-    }
 }
