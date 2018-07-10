@@ -145,7 +145,7 @@
 </template>
 
 <script>
-    import helpers from '../../repositories/Helpers'
+    import helpers from '../../repositories/helpers/Helpers'
     export default {
         data: function () {
             return {

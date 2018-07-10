@@ -1,4 +1,4 @@
-import helpers from './Helpers'
+import helpers from './helpers/Helpers'
 var object = require('lodash/object');
 require('sugar');
 Date.setLocale('en-AU');

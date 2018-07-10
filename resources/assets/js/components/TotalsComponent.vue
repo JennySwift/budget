@@ -79,7 +79,7 @@
 
 <script>
     import TotalsRepository from '../repositories/TotalsRepository'
-    import helpers from '../repositories/Helpers'
+    import helpers from '../repositories/helpers/Helpers'
     import TotalsRow from './shared/TotalsRowComponent'
 
     export default {

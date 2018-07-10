@@ -114,7 +114,7 @@
 </template>
 
 <script>
-    import helpers from '../../repositories/Helpers'
+    import helpers from '../../repositories/helpers/Helpers'
 //    import store from '../../repositories/Store'
     export default {
         data: function () {

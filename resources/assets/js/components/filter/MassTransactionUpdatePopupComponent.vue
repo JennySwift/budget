@@ -54,7 +54,7 @@
 </template>
 
 <script>
-    import Helpers from '../../repositories/Helpers'
+    import Helpers from '../../repositories/helpers/Helpers'
     import $ from 'jquery'
     export default {
         data: function () {

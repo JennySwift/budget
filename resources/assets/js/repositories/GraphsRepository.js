@@ -1,4 +1,4 @@
-import helpers from './Helpers'
+import helpers from './helpers/Helpers'
 import FilterRepository from './FilterRepository'
 require('../../../../node_modules/chart.js/src/chart');
 export default {

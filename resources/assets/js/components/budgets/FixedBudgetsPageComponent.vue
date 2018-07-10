@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import helpers from '../../repositories/Helpers'
+    import helpers from '../../repositories/helpers/Helpers'
     import FixedBudgetsTableComponent from './FixedBudgetsTable.vue'
     import TotalsComponent from '../../components/TotalsComponent.vue'
     import NewBudgetComponent from '../../components/budgets/NewBudgetComponent.vue'

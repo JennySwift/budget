@@ -42,7 +42,7 @@
 
 <script>
     import TotalsRepository from '../../repositories/TotalsRepository'
-    import helpers from '../../repositories/Helpers'
+    import helpers from '../../repositories/helpers/Helpers'
     import TotalsComponent from '../../components/TotalsComponent.vue'
     import NewBudgetComponent from '../../components/budgets/NewBudgetComponent.vue'
     import BudgetsToolbarComponent from '../../components/shared/BudgetsToolbarComponent.vue'

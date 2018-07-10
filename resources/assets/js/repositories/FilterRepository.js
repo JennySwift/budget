@@ -1,6 +1,6 @@
 import TransactionsRepository from './TransactionsRepository'
 import FilterRepository from './FilterRepository'
-import helpers from './Helpers.js'
+import helpers from './helpers/Helpers.js'
 import Vue from 'vue'
 export default {
     /**

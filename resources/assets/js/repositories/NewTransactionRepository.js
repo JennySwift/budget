@@ -1,6 +1,6 @@
 import TotalsRepository from './TotalsRepository'
 import TransactionsRepository from './TransactionsRepository'
-import helpers from './Helpers'
+import helpers from './helpers/Helpers'
 import FilterRepository from './FilterRepository'
 
 export default {

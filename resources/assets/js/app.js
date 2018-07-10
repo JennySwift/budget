@@ -9,7 +9,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
 import store from './repositories/Store'
-import helpers from './repositories/Helpers'
+import helpers from './repositories/helpers/Helpers'
 
 window.store = store;
 window.helpers = helpers;

@@ -120,7 +120,7 @@
 </template>
 
 <script>
-    import helpers from '../../repositories/Helpers'
+    import helpers from '../../repositories/helpers/Helpers'
     import TotalsRepository from '../../repositories/TotalsRepository'
     import TransactionsRepository from '../../repositories/TransactionsRepository'
     export default {

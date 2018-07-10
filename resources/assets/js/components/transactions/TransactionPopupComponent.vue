@@ -160,7 +160,7 @@
     import TransactionsRepository from '../../repositories/TransactionsRepository'
     import FilterRepository from '../../repositories/FilterRepository'
     import TotalsRepository from '../../repositories/TotalsRepository'
-    import helpers from '../../repositories/Helpers'
+    import helpers from '../../repositories/helpers/Helpers'
     import $ from 'jquery'
     export default {
         data: function () {

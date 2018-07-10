@@ -2,7 +2,7 @@ require('sugar');
 import requests from './Requests'
 import arrays from './Arrays'
 import routes from './Routes'
-import dateandtime from './DateTimeRepository'
+import dateandtime from '../DateTimeRepository'
 import accounting from 'accounting'
 
 export default {

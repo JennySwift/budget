@@ -21,7 +21,7 @@
 <script>
     import FilterRepository from '../../repositories/FilterRepository'
     import GraphsRepository from '../../repositories/GraphsRepository'
-    import Helpers from '../../repositories/Helpers'
+    import Helpers from '../../repositories/helpers/Helpers'
     export default {
         data: function () {
             return {

@@ -1,5 +1,5 @@
 import FilterRepository from './FilterRepository.js'
-import helpers from './Helpers'
+import helpers from './helpers/Helpers'
 export default {
     totals: {},
 

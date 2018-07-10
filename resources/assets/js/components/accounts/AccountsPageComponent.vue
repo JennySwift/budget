@@ -33,7 +33,7 @@
 </template>
 
 <script>
-    import helpers from '../../repositories/Helpers'
+    import helpers from '../../repositories/helpers/Helpers'
     import FilterRepository from '../../repositories/FilterRepository'
     import NewAccountComponent from './NewAccountComponent.vue'
     import AccountPopupComponent from './AccountPopupComponent.vue'

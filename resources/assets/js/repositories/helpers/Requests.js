@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 import swal from 'sweetalert2'
 // var store = require('./Store');
-import store from './Store'
+import store from '../Store'
 import helpers from './Helpers'
 
 

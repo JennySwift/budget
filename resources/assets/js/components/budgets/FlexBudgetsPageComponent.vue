@@ -150,7 +150,7 @@
 
 <script>
     import TotalsRepository from '../../repositories/TotalsRepository'
-    import helpers from '../../repositories/Helpers.js'
+    import helpers from '../../repositories/helpers/Helpers.js'
     import TotalsComponent from '../../components/TotalsComponent.vue'
     import NewBudgetComponent from '../../components/budgets/NewBudgetComponent.vue'
     import BudgetsToolbarComponent from '../../components/shared/BudgetsToolbarComponent.vue'

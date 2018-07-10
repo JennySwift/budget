@@ -67,7 +67,7 @@
 <script>
     import NewFavouriteTransactionComponent from './NewFavouriteTransactionComponent.vue'
     import FavouriteTransactionComponent from './FavouriteTransactionComponent.vue'
-    import helpers from '../../repositories/Helpers'
+    import helpers from '../../repositories/helpers/Helpers'
     export default {
         data: function () {
             return {

@@ -103,7 +103,7 @@
 </template>
 
 <script>
-    import helpers from '../../repositories/Helpers'
+    import helpers from '../../repositories/helpers/Helpers'
     import FilterRepository from '../../repositories/FilterRepository'
     export default {
         data: function () {
