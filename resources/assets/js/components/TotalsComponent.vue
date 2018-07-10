@@ -93,25 +93,10 @@
         components: {
             'totals-row': TotalsRow
         },
-        filters: {
-            /**
-             *
-             * @param number
-             * @param howManyDecimals
-             * @returns {Number}
-             */
-            numberFilter: function (number, howManyDecimals) {
-                return helpers.numberFilter(number, howManyDecimals);
-            }
-        },
         methods: {
 
 
         },
-        props: [],
-        mounted: function () {
-
-        }
     }
 </script>
 

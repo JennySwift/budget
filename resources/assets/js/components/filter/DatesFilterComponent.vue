@@ -19,16 +19,8 @@
                 <div
                     class="input-group"
                 >
-                    <input
-                        v-model="shared.filter.singleDate.in"
-                        v-on:keyup.13="store.runFilter()"
-                        type="text"
-                        id="filter-single-date-in"
-                        name="filter-single-date-in"
-                        placeholder="date"
-                        class="form-control"
-                        formatted-date
-                    >
+                    <filter-input-field id="filter-single-date-in" :model="shared.filter.singleDate.in" path="filter.singleDate.in"></filter-input-field>
+
                     <span class="input-group-btn">
                          <button
                              v-on:click="clearFilterField('singleDate', 'in')"
@@ -51,16 +43,8 @@
                 <div
                     class="input-group"
                 >
-                    <input
-                        v-model="shared.filter.singleDate.out"
-                        v-on:keyup.13="store.runFilter()"
-                        type="text"
-                        id="filter-single-date-out"
-                        name="filter-single-date-out"
-                        placeholder="date"
-                        class="form-control"
-                        formatted-date
-                    >
+                    <filter-input-field id="filter-single-date-out" :model="shared.filter.singleDate.out" path="filter.singleDate.out"></filter-input-field>
+
                     <span class="input-group-btn">
                         <button
                             v-on:click="clearFilterField('singleDate', 'out')"
@@ -83,16 +67,8 @@
                 <div
                     class="input-group"
                 >
-                    <input
-                        v-model="shared.filter.fromDate.in"
-                        v-on:keyup.13="store.runFilter()"
-                        type="text"
-                        id="filter-from-date-in"
-                        name="filter-from-date-in"
-                        placeholder="date"
-                        class="form-control"
-                        formatted-date
-                    >
+                    <filter-input-field id="filter-from-date-in" :model="shared.filter.fromDate.in" path="filter.fromDate.in"></filter-input-field>
+
                     <span class="input-group-btn">
                         <button
                             v-on:click="clearFilterField('fromDate', 'in')"
@@ -115,16 +91,8 @@
                 <div
                     class="input-group"
                 >
-                    <input
-                        v-model="shared.filter.toDate.in"
-                        v-on:keyup.13="store.runFilter()"
-                        type="text"
-                        id="filter-to-date-in"
-                        name="filter-to-date-in"
-                        placeholder="date"
-                        class="form-control"
-                        formatted-date
-                    >
+                    <filter-input-field id="filter-to-date-in" :model="shared.filter.toDate.in" path="filter.toDate.in"></filter-input-field>
+
                     <span class="input-group-btn">
                         <button
                             v-on:click="clearFilterField('toDate', 'in')"

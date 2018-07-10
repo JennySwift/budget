@@ -17,6 +17,17 @@
                 shared: store.state
             }
         },
+        filters: {
+            /**
+             *
+             * @param number
+             * @param howManyDecimals
+             * @returns {Number}
+             */
+            numberFilter: function (number, howManyDecimals) {
+                return helpers.numberFilter(number, howManyDecimals);
+            }
+        },
         props: [
             'field',
             'title',

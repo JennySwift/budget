@@ -149,7 +149,7 @@
              *
              */
             runFilter: function () {
-                FilterRepository.runFilter(this);
+                FilterRepository.runFilter();
             },
 
             /**
