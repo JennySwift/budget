@@ -114,7 +114,7 @@ abstract class TestCase extends BaseTestCase
         if ($extra) {
             $this->assertArrayHasKey('amount', $budget);
             $this->assertArrayHasKey('calculatedAmount', $budget);
-            $this->assertArrayHasKey('formattedStartingDate', $budget);
+//            $this->assertArrayHasKey('formattedStartingDate', $budget);
             $this->assertArrayHasKey('spent', $budget);
             $this->assertArrayHasKey('received', $budget);
             $this->assertArrayHasKey('spentOnOrAfterStartingDate', $budget);

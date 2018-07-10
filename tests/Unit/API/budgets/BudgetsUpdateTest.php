@@ -35,7 +35,7 @@ class BudgetsUpdateTest extends TestCase
             'starting_date' => $startingDate->copy()->format('Y-m-d')
         ]);
 
-        $content = json_decode($response->getContent(), true);
+        $content = $this->getContent($response);
 //        dd($content);
 
         $this->checkBudgetKeysExist($content, true);
@@ -81,7 +81,7 @@ class BudgetsUpdateTest extends TestCase
 //            'starting_date' => '2015-10-01'
         ]);
 
-        $content = json_decode($response->getContent(), true);
+        $content = $this->getContent($response);
 //        dd($content);
 
         $this->checkBudgetKeysExist($content, true);

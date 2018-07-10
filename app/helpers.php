@@ -84,7 +84,7 @@ function convertToBoolean($variable)
  * @param $for
  * @return string
  */
-function convertDate( Carbon $date, $for = NULL)
+function convertDate(Carbon $date, $for = NULL)
 {
     switch($for) {
         case "sql":

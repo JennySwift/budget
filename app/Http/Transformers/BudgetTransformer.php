@@ -35,7 +35,7 @@ class BudgetTransformer extends TransformerAbstract
         if (array_key_exists('includeExtra', $this->params) && $this->params['includeExtra']) {
             $data['amount'] = $budget->amount;
             $data['calculatedAmount'] = $budget->calculatedAmount;
-            $data['formattedStartingDate'] = $budget->formattedStartingDate;
+//            $data['formattedStartingDate'] = $budget->formattedStartingDate;
             $data['spent'] = $budget->spent;
             $data['received'] = $budget->received;
             $data['spentOnOrAfterStartingDate'] = $budget->spentOnOrAfterStartingDate;

@@ -39,6 +39,19 @@ class Budget extends Model
         'path'
     ];
 
+    /**
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'starting_date'
+    ];
+
+    protected $casts = [
+        'starting_date' => 'datetime:Y-m-d',
+    ];
+
     //Commenting this out for now because there's so much data I don't need
     //being attached to the budgets for the budget autocomplete in the new transaction
 //    protected $with = ['transactions', 'expenses', 'incomes'];
@@ -113,27 +126,29 @@ class Budget extends Model
      *
      * @return string
      */
-    public function getStartingDateAttribute()
-    {
-        if (!$this->isUnassigned()) {
-            return Carbon::createFromFormat('Y-m-d', $this->attributes['starting_date']);
-        }
-
-        return null;
-    }
+//    public function getStartingDateAttribute()
+//    {
+//        if (!$this->isUnassigned()) {
+//            dd(Carbon::createFromFormat('Y-m-d', $this->attributes['starting_date']));
+//            $date = Carbon::createFromFormat('Y-m-d', $this->attributes['starting_date']);
+//            return $date;
+//        }
+//
+//        return null;
+//    }
 
     /**
      *
      * @return string
      */
-    public function getFormattedStartingDateAttribute()
-    {
-        if (!$this->isUnassigned()) {
-            return convertDate($this->starting_date);
-        }
-
-        return null;
-    }
+//    public function getFormattedStartingDateAttribute()
+//    {
+//        if (!$this->isUnassigned()) {
+//            return convertDate($this->attributes['starting_date']);
+//        }
+//
+//        return null;
+//    }
 
     /**
      * Get total spent on a given budget, regardless of the date
@@ -162,7 +177,7 @@ class Budget extends Model
     public function getSpentBeforeStartingDateAttribute()
     {
         if (!$this->isUnassigned()) {
-            return (float)$this->expenses()->where('date', '<', $this->starting_date->format('Y-m-d'))
+            return (float)$this->expenses()->where('date', '<', $this->attributes['starting_date'])
                 ->sum('calculated_allocation');
         }
 
@@ -176,7 +191,7 @@ class Budget extends Model
     public function getSpentOnOrAfterStartingDateAttribute()
     {
         if (!$this->isUnassigned()) {
-            $totalSpentOnOrAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date->format('Y-m-d'))
+            $totalSpentOnOrAfterStartingDate = $this->transactions()->where('date', '>=', $this->attributes['starting_date'])
                 ->where('type', 'expense')
                 ->sum('calculated_allocation');
 
@@ -235,7 +250,7 @@ class Budget extends Model
     public function getReceivedOnOrAfterStartingDateAttribute()
     {
         if (!$this->isUnassigned()) {
-            $totalReceivedOnOrAfterStartingDate = $this->transactions()->where('date', '>=', $this->starting_date->format('Y-m-d'))
+            $totalReceivedOnOrAfterStartingDate = $this->transactions()->where('date', '>=', $this->attributes['starting_date'])
                 ->where('type', 'income')
                 ->sum('calculated_allocation');
 
