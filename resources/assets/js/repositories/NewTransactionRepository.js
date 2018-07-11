@@ -7,6 +7,8 @@ export default {
 
     /**
      * For the new transaction autocomplete
+     * Not using this method any more because filling fields is taken care of by autocomplete.
+     * May need to customise it though, like the clearFields thing.
      * @param transaction
      */
     fillFields: function (transaction) {

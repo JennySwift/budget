@@ -49,7 +49,7 @@
         >
 
         <multiselect
-            :value="shared.newTransaction.description"
+            v-model="shared.newTransaction"
             :options="autocompleteSearchResults"
             track-by="id"
             label="description"
@@ -118,7 +118,7 @@
             },
 
             fillFields: function (transaction) {
-                NewTransactionRepository.fillFields(transaction);
+                // NewTransactionRepository.fillFields(transaction);
             },
 
             insertTransaction () {
