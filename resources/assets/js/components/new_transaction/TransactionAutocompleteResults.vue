@@ -6,7 +6,7 @@
             <th>merchant</th>
             <th>total</th>
             <th>type</th>
-            <!--<th>account</th>-->
+            <th>account</th>
             </tr>
         </thead>
         <tbody>
@@ -16,21 +16,23 @@
                 <td class="total">{{ props.option.total }}</td>
                 <td class="type">{{ props.option.type }}</td>
 
-                <!--<td v-if="transaction.account" class="account">{{ transaction.account.name }}</td>-->
-                <!--<td v-else class="account"></td>-->
+                <td v-if="props.option.account" class="account">{{ props.option.account.name }}</td>
+                <td v-if="!props.option.account" class="account"></td>
             </tr>
 
-            <!--<tr>-->
-                <!--<td colspan="7">-->
-                <!--<li-->
-                <!--v-for="budget in transaction.budgets"-->
-                <!--v-bind:class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex', 'tag-without-budget': budget.type === 'unassigned'}"-->
-                <!--class="label label-default">-->
-                <!--{{ budget.name }}-->
-                <!--</li>-->
-                <!--</td>-->
-            <!--&lt;!&ndash;<td colspan="1" class="budget-tag-info">{{ transaction.allocate }}</td>&ndash;&gt;-->
-            <!--</tr>-->
+            <tr>
+                <td colspan="7">
+                    <ul>
+                        <li
+                            v-for="budget in props.option.budgets"
+                            v-bind:class="{'tag-with-fixed-budget': budget.type === 'fixed', 'tag-with-flex-budget': budget.type === 'flex', 'tag-without-budget': budget.type === 'unassigned'}"
+                            class="label label-default">
+                            {{ budget.name }}
+                        </li>
+                    </ul>
+                </td>
+            <!--<td colspan="1" class="budget-tag-info">{{ transaction.allocate }}</td>-->
+            </tr>
         </tbody>
 
     </table>
