@@ -1,5 +1,5 @@
 <template>
-    <table v-show="options.length > 0" class="table table-bordered">
+    <table v-show="options.length > 0" class="table table-bordered transaction-autocomplete-results">
         <thead>
             <tr>
                 <th>description</th>
@@ -12,9 +12,7 @@
         <tbody
             v-for="(transaction, index) in options"
             v-show="options.length > 0"
-            v-bind:class="{'selected': currentIndex === index}"
-            v-on:mouseover="hoverItem(index)"
-            v-on:mousedown="selectOption(index)"
+            v-on:mousedown="fillFields(transaction)"
             class="dropdown-item pointer autocomplete-option"
             v-bind:style="{color: shared.me.preferences.colors[transaction.type]}"
         >
@@ -57,7 +55,8 @@
             /**
              *
              */
-//            fillFields: function () {
+           fillFields: function (transaction) {
+               store.set(transaction.description, 'newTransaction.description');
 //                if (this.placeholder === 'description') {
 //                    this.typing = this.selectedItem.description;
 //                    this.newTransaction.merchant = this.selectedItem.merchant;
@@ -88,7 +87,7 @@
 //                // }
 //
 //                this.newTransaction.budgets = this.selectedItem.budgets;
-//            },
+           },
         },
         props: [
             'options',
@@ -96,3 +95,12 @@
         ]
     }
 </script>
+
+<style lang="scss" type="text/scss">
+    @import '../../../sass/variables';
+    .transaction-autocomplete-results {
+        tbody:hover {
+            background: $success;
+        }
+    }
+</style>

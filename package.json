@@ -30,6 +30,7 @@
         "sugar": "^1.4.1",
         "sweetalert2": "^6.6.8",
         "underscore": "^1.8.3",
+        "vue-multiselect": "^2.1.0",
         "vue-router": "^2.7.0",
         "vue-tippy": "^0.2.2"
     }

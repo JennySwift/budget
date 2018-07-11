@@ -537,7 +537,7 @@
             //For a custom template for displaying the options
             optionsTemplate: {}
         },
-        ready: function () {
+        mounted: function () {
             var that = this;
             setTimeout(function () {
                 that.setInputValue();

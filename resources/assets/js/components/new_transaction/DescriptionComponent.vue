@@ -48,24 +48,43 @@
             type='text'
         >
 
-        <autocomplete
-            v-if="shared.me.preferences.autocompleteDescription"
-            autocomplete-id="new-transaction-description-autocomplete"
-            input-id="new-transaction-description-input"
-            prop="description"
-            :function-on-enter="insertTransaction"
-            url="/api/transactions"
-            field-to-filter-by="description"
+        <multiselect
+            v-model="shared.newTransaction.description"
+            :options="autocompleteSearchResults"
+            track-by="id"
+            label="description"
+            @search-change="autocompleteSearch"
+            :loading="autocompleteLoading"
+            :show-no-results="false"
+            :internal-search="false"
+            @select="fillFields"
+            :close-on-select="true"
+            :hide-selected="true"
         >
-            <template slot-scope="props" slot="options">
-                <transaction-autocomplete-results
-                    :options="props.options"
-                    :current-index="props.currentIndex"
-                >
-                </transaction-autocomplete-results>
-
+            <template slot="option" slot-scope="props">
+                <div>{{props.option.description}}</div>
             </template>
-        </autocomplete>
+        </multiselect>
+
+        <!--<autocomplete-->
+            <!--v-if="shared.me.preferences.autocompleteDescription"-->
+            <!--autocomplete-id="new-transaction-description-autocomplete"-->
+            <!--input-id="new-transaction-description-input"-->
+            <!--prop="description"-->
+            <!--:function-on-enter="insertTransaction"-->
+            <!--url="/api/transactions"-->
+            <!--field-to-filter-by="description"-->
+            <!--selected="a lovely description"-->
+        <!--&gt;-->
+            <!--<template slot-scope="props" slot="options">-->
+                <!--<transaction-autocomplete-results-->
+                    <!--:options="props.options"-->
+                    <!--:current-index="props.currentIndex"-->
+                <!--&gt;-->
+                <!--</transaction-autocomplete-results>-->
+
+            <!--</template>-->
+        <!--</autocomplete>-->
 
     </div>
 </template>
@@ -77,15 +96,36 @@
         data: function () {
             return {
                 shared: store.state,
+                autocompleteSearchResults: [],
+                autocompleteLoading: false
             };
         },
         components: {
             'transaction-autocomplete-results': TransactionAutocompleteResults
         },
         methods: {
+            autocompleteSearch: function (query) {
+                var url = '/api/transactions?filter=' + query + '&field=description';
+                this.autocompleteLoading = true;
+                helpers.get({
+                    url:  url,
+                    callback: function (response) {
+                        this.autocompleteSearchResults = response;
+                        this.autocompleteLoading = false;
+                    }.bind(this)
+                });
+            },
+
+            fillFields: function (transaction) {
+                store.set(transaction.merchant, 'newTransaction.merchant');
+                store.set(transaction.total, 'newTransaction.total');
+            },
+
             insertTransaction () {
                 NewTransactionRepository.insertTransactionSetup();
             }
         }
     }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
