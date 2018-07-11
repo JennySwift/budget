@@ -193,9 +193,9 @@
                     redirectTo: this.redirectTo,
                     callback: function (response) {
                         store.update(response, 'transactions');
-                        TotalsRepository.getSideBarTotals(this);
-                        FilterRepository.getBasicFilterTotals(this);
-                        FilterRepository.runFilter(this);
+                        store.getSideBarTotals();
+                        FilterRepository.getBasicFilterTotals();
+                        FilterRepository.runFilter();
 
                         if (response.multipleBudgets && !response.validAllocation) {
                             store.showAllocationPopup(this.shared.selectedTransaction);
@@ -217,9 +217,9 @@
                     redirectTo: this.redirectTo,
                     callback: function () {
                         TransactionsRepository.deleteTransaction(this.shared.selectedTransaction);
-                        $.event.trigger('clear-total-changes');
-                        TotalsRepository.getSideBarTotals(this);
-                        FilterRepository.getBasicFilterTotals(this);
+                        // $.event.trigger('clear-total-changes');
+                        store.getSideBarTotals();
+                        FilterRepository.getBasicFilterTotals();
                     }
                 });
             },

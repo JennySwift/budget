@@ -768,9 +768,9 @@
                 h4 {
                     margin: 0;
                     padding: 10px 0;
-                    background: black;
+                    /*background: black;*/
                     /*color: #CFCFCF;*/
-                    /*cursor: pointer;*/
+                    cursor: pointer;
                     text-align: left;
                 }
                 .content {
