@@ -6,6 +6,41 @@ export default {
     /**
      *
      * @param transaction
+     */
+    showAllocationPopup: function (transaction) {
+        store.set(transaction, 'selectedTransactionForAllocation');
+        store.getAllocationTotals();
+        helpers.showPopup('allocation');
+    },
+
+    setFavouriteTransactionFields: function () {
+        var data = {
+            name: store.state.newFavouriteTransaction.name,
+            type: store.state.newFavouriteTransaction.type,
+            description: store.state.newFavouriteTransaction.description,
+            merchant: store.state.newFavouriteTransaction.merchant,
+            total: store.state.newFavouriteTransaction.total,
+            budget_ids: _.map(store.state.newFavouriteTransaction.budgets, 'id')
+        };
+
+        if (store.state.newFavouriteTransaction.account && store.state.newFavouriteTransaction.type !== 'transfer') {
+            data.account_id = store.state.newFavouriteTransaction.account.id;
+        }
+
+        if (store.state.newFavouriteTransaction.fromAccount && store.state.newFavouriteTransaction.type === 'transfer') {
+            data.from_account_id = store.state.newFavouriteTransaction.fromAccount.id;
+        }
+
+        if (store.state.newFavouriteTransaction.toAccount && store.state.newFavouriteTransaction.type === 'transfer') {
+            data.to_account_id = this.state.newFavouriteTransaction.toAccount.id;
+        }
+
+        return data;
+    },
+
+    /**
+     *
+     * @param transaction
      * @param direction
      * @returns {{date: *, account_id: number, type: *, description: *, merchant: (*|string|filter.merchant|{in, out}|boolean|state.filter.merchant), total: *, reconciled, allocated: (*|boolean), minutes: *, budget_ids: Array}}
      */

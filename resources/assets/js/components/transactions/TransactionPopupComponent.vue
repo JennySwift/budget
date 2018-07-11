@@ -198,7 +198,7 @@
                         FilterRepository.runFilter();
 
                         if (response.multipleBudgets && !response.validAllocation) {
-                            store.showAllocationPopup(this.shared.selectedTransaction);
+                            TransactionsRepository.showAllocationPopup(this.shared.selectedTransaction);
                         }
                         //Todo: Remove the transaction from the JS transactions depending on the filter
                     }.bind(this)

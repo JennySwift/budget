@@ -1,6 +1,7 @@
 import helpers from "./helpers/Helpers";
 import TotalsRepository from "./TotalsRepository";
 import FilterRepository from "./FilterRepository";
+import NewTransactionRepository from "./NewTransactionRepository";
 
 export default {
     /**
@@ -29,6 +30,16 @@ export default {
             url: '/api/users/current',
             storeProperty: 'me',
         });
+    },
+
+    /**
+     *
+     */
+    getEnvironment: function () {
+        // helpers.get({
+        //     url: '/api/environment',
+        //     storeProperty: 'env',
+        // });
     },
 
     /**
@@ -135,7 +146,7 @@ export default {
             storeProperty: 'accountsWithBalances',
             callback: function () {
                 // store.setNewTransactionDefaults();
-                // store.setNewFavouriteTransactionAccount();
+                // NewTransactionRepository.setNewFavouriteTransactionAccount();
             }
         });
     },
@@ -148,8 +159,8 @@ export default {
             url: '/api/accounts',
             storeProperty: 'accounts',
             callback: function () {
-                store.setNewTransactionDefaults();
-                store.setNewFavouriteTransactionAccount();
+                NewTransactionRepository.setNewTransactionDefaults();
+                NewTransactionRepository.setNewFavouriteTransactionAccount();
             }
         });
     },

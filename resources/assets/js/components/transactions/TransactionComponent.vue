@@ -190,7 +190,7 @@
              * @param transaction
              */
             showAllocationPopup: function (transaction) {
-                store.showAllocationPopup(transaction);
+                TransactionsRepository.showAllocationPopup(transaction);
             },
 
             /**

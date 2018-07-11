@@ -42,7 +42,6 @@ const app = new Vue({
         store.setDefaultTab();
         store.getSideBarTotals();
         store.getSavedFilters();
-        store.setDefaultTransactionPropertiesToShow();
     },
 }).$mount('#app')
 

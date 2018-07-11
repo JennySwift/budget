@@ -146,6 +146,7 @@
 
 <script>
     import helpers from '../../repositories/helpers/Helpers'
+    import TransactionsRepository from "../../repositories/TransactionsRepository";
     export default {
         data: function () {
             return {
@@ -161,7 +162,7 @@
              *
              */
             updateFavouriteTransaction: function () {
-                var data = store.setFavouriteTransactionFields(this.shared.selectedFavouriteTransaction);
+                var data = TransactionsRepository.setFavouriteTransactionFields(this.shared.selectedFavouriteTransaction);
 
                 helpers.put({
                     url: '/api/favouriteTransactions/' + this.shared.selectedFavouriteTransaction.id,
@@ -182,7 +183,7 @@
                 helpers.delete({
                     url: '/api/favouriteTransactions/' + this.shared.selectedFavouriteTransaction.id,
                     array: 'favouriteTransactions',
-                    itemToDelete: this.favouriteTransaction,
+                    itemToDelete: this.shared.selectedFavouriteTransaction,
                     message: 'FavouriteTransaction deleted',
                     redirectTo: this.redirectTo,
                     callback: function () {

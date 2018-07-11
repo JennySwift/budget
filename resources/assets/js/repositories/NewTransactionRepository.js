@@ -5,7 +5,39 @@ import FilterRepository from './FilterRepository'
 
 export default {
 
+    setNewFavouriteTransactionAccount: function () {
+        store.set(store.state.accounts[0], 'newFavouriteTransaction.account');
+    },
 
+    /**
+     *
+     */
+    setNewTransactionDefaults: function () {
+        if (helpers.isLocalEnvironment()) {
+            store.set(10, 'newTransaction.total');
+            store.set('some merchant', 'newTransaction.merchant');
+            store.set('some description', 'newTransaction.description');
+            store.set([
+                {
+                    id: '2',
+                    name: 'business',
+                    type: 'fixed'
+                },
+                //{
+                //    id: '4',
+                //    name: 'busking',
+                //    type: 'flex'
+                //}
+            ], 'newTransaction.budgets');
+        }
+
+        if (store.state.accounts && store.state.accounts.length > 0) {
+            store.set(store.state.accounts[0], 'newTransaction.account');
+            store.set(store.state.accounts[0], 'newTransaction.toAccount');
+            store.set(store.state.accounts[0], 'newTransaction.fromAccount');
+        }
+    },
+    
     /**
      *
      */
@@ -43,7 +75,7 @@ export default {
                 this.clearNewTransactionFields();
 
                 if (response.multipleBudgets) {
-                    store.showAllocationPopup(response);
+                    TransactionsRepository.showAllocationPopup(response);
                 }
                 else {
                     FilterRepository.runFilter(this);

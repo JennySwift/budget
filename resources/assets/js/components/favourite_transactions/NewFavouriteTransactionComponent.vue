@@ -165,6 +165,7 @@
 
 <script>
     import helpers from '../../repositories/helpers/Helpers'
+    import TransactionsRepository from "../../repositories/TransactionsRepository";
     export default {
         data: function () {
             return {
@@ -190,7 +191,7 @@
              *
              */
             insertFavouriteTransaction: function () {
-                var data = store.setFavouriteTransactionFields();
+                var data = TransactionsRepository.setFavouriteTransactionFields();
 
                 helpers.post({
                     url: '/api/favouriteTransactions',
