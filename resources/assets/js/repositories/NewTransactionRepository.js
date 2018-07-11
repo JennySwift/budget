@@ -12,6 +12,23 @@ export default {
     fillFields: function (transaction) {
         store.set(transaction.merchant, 'newTransaction.merchant');
         store.set(transaction.total, 'newTransaction.total');
+        store.set(transaction.budgets, 'newTransaction.budgets');
+        store.set(transaction.type, 'newTransaction.type');
+        store.set(transaction.account, 'newTransaction.account');
+
+       // If the user has the clearFields setting on,
+       // only fill in the total if they haven't entered a total yet
+       if (store.state.me.preferences.clearFields && store.state.newTransaction.total === '') {
+           store.set(transaction.total, 'newTransaction.total');
+       }
+       else if (!store.state.me.preferences.clearFields) {
+           store.set(transaction.budgets, 'newTransaction.budgets');
+       }
+
+       // if (this.selectedItem.fromAccount && this.selectedItem.toAccount) {
+       //     this.newTransaction.fromAccount = this.selectedItem.fromAccount;
+       //     this.newTransaction.toAccount = this.selectedItem.toAccount;
+       // }
     },
 
     setNewFavouriteTransactionAccount: function () {
