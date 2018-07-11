@@ -5,6 +5,15 @@ import FilterRepository from './FilterRepository'
 
 export default {
 
+    /**
+     * For the new transaction autocomplete
+     * @param transaction
+     */
+    fillFields: function (transaction) {
+        store.set(transaction.merchant, 'newTransaction.merchant');
+        store.set(transaction.total, 'newTransaction.total');
+    },
+
     setNewFavouriteTransactionAccount: function () {
         store.set(store.state.accounts[0], 'newFavouriteTransaction.account');
     },

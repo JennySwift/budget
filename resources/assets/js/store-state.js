@@ -11,6 +11,7 @@ export default {
         },
     },
     totalsLoading: false,
+    autocompleteLoading: false,
     notifications: [
         // {message: 'Hello', type: 'success'}
     ],

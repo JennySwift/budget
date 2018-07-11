@@ -54,7 +54,7 @@
             track-by="id"
             label="description"
             @search-change="autocompleteSearch"
-            :loading="autocompleteLoading"
+            :loading="shared.autocompleteLoading"
             :show-no-results="false"
             :internal-search="false"
             @select="fillFields"
@@ -97,7 +97,6 @@
             return {
                 shared: store.state,
                 autocompleteSearchResults: [],
-                autocompleteLoading: false
             };
         },
         components: {
@@ -106,19 +105,18 @@
         methods: {
             autocompleteSearch: function (query) {
                 var url = '/api/transactions?filter=' + query + '&field=description';
-                this.autocompleteLoading = true;
+                store.set(true, 'autocompleteLoading');
                 helpers.get({
                     url:  url,
                     callback: function (response) {
                         this.autocompleteSearchResults = response;
-                        this.autocompleteLoading = false;
+                        store.set(false, 'autocompleteLoading');
                     }.bind(this)
                 });
             },
 
             fillFields: function (transaction) {
-                store.set(transaction.merchant, 'newTransaction.merchant');
-                store.set(transaction.total, 'newTransaction.total');
+                NewTransactionRepository.fillFields(transaction);
             },
 
             insertTransaction () {
