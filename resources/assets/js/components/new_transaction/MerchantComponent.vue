@@ -48,27 +48,45 @@
             type='text'
         >
 
-        <autocomplete
-            v-if="shared.me.preferences.autocompleteMerchant"
-            autocomplete-id="new-transaction-merchant-autocomplete"
-            input-id="new-transaction-merchant-input"
-            prop="merchant"
-            :function-on-enter="insertTransaction"
-            url="/api/transactions"
-            field-to-filter-by="merchant"
+        <multiselect
+            v-model="shared.newTransaction.merchant"
+            :options="autocompleteSearchResults"
+            track-by="id"
+            label="merchant"
+            @search-change="autocompleteSearch"
+            :loading="shared.autocompleteLoading"
+            :show-no-results="false"
+            :internal-search="false"
+            @select="fillFields"
+            :close-on-select="true"
+            :hide-selected="true"
         >
-
-            <template slot-scope="props" slot="options">
-                <transaction-autocomplete-results
-                    :options="props.options"
-                    :current-index="props.currentIndex"
-                >
-                </transaction-autocomplete-results>
-
+            <template slot="option" slot-scope="props">
+                <div>{{props.option.merchant}}</div>
             </template>
+        </multiselect>
+
+        <!--<autocomplete-->
+            <!--v-if="shared.me.preferences.autocompleteMerchant"-->
+            <!--autocomplete-id="new-transaction-merchant-autocomplete"-->
+            <!--input-id="new-transaction-merchant-input"-->
+            <!--prop="merchant"-->
+            <!--:function-on-enter="insertTransaction"-->
+            <!--url="/api/transactions"-->
+            <!--field-to-filter-by="merchant"-->
+        <!--&gt;-->
+
+            <!--<template slot-scope="props" slot="options">-->
+                <!--<transaction-autocomplete-results-->
+                    <!--:options="props.options"-->
+                    <!--:current-index="props.currentIndex"-->
+                <!--&gt;-->
+                <!--</transaction-autocomplete-results>-->
+
+            <!--</template>-->
 
 
-        </autocomplete>
+        <!--</autocomplete>-->
 
     </div>
 </template>
@@ -80,15 +98,34 @@
         data: function () {
             return {
                 shared: store.state,
+                autocompleteSearchResults: [],
             };
         },
         components: {
             'transaction-autocomplete-results': TransactionAutocompleteResults
         },
         methods: {
+            autocompleteSearch: function (query) {
+                var url = '/api/transactions?filter=' + query + '&field=merchant';
+                store.set(true, 'autocompleteLoading');
+                helpers.get({
+                    url:  url,
+                    callback: function (response) {
+                        this.autocompleteSearchResults = response;
+                        store.set(false, 'autocompleteLoading');
+                    }.bind(this)
+                });
+            },
+
+            fillFields: function (transaction) {
+                NewTransactionRepository.fillFields(transaction);
+            },
+
             insertTransaction () {
                 NewTransactionRepository.insertTransactionSetup();
             }
         }
     }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
