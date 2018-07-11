@@ -100,7 +100,7 @@ export default {
             message: 'Transaction created',
             clearFields: this.clearFields,
             callback: function (response) {
-                TotalsRepository.getSideBarTotals(this);
+                store.getSideBarTotals();
                 this.clearNewTransactionFields();
 
                 if (response.multipleBudgets) {
