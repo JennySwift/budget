@@ -92,7 +92,7 @@ export default {
         store.add(notification, 'notifications');
         setTimeout(function () {
             store.without(notification, 'notifications');
-        }, 3000);
+        }, 2000);
         // var toast = app.f7.toast.create({
         //     text: message,
         //     position: 'top',
