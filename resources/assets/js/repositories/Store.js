@@ -311,6 +311,16 @@ export default {
     /**
      *
      */
+    getFlexBudgetTotals: function () {
+        helpers.get({
+            url: '/api/totals/flexBudget',
+            storeProperty: 'flexBudgetTotals',
+        });
+    },
+
+    /**
+     *
+     */
     getAccountsWithBalances: function () {
         helpers.get({
             url: '/api/accounts?includeBalance=true',

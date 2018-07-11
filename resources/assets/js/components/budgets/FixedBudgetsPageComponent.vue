@@ -52,16 +52,6 @@
 
         },
         methods: {
-
-            /**
-             *
-             */
-            listen: function () {
-                var that = this;
-                $(document).on('update-fixed-budget-table-totals', function (event, budget) {
-                    store.getFixedBudgetTotals();
-                });
-            },
         },
         props: [
             //data to be received from parent
@@ -69,7 +59,6 @@
         mounted: function () {
             store.getFixedBudgets();
             store.getFixedBudgetTotals();
-            this.listen();
         }
     }
 </script>

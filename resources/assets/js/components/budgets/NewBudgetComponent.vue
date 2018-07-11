@@ -110,7 +110,7 @@
                     clearFields: this.clearFields,
                     redirectTo: this.redirectTo,
                     callback: function (response) {
-                        // store.addBudgetToSpecificArray(response, this);
+                        store.add(response, this.page);
                         store.getSideBarTotals();
                         this.updateBudgetTableTotals();
                     }.bind(this)
@@ -122,10 +122,10 @@
              */
             updateBudgetTableTotals: function () {
                 if (this.page == 'fixedBudgets') {
-                    $.event.trigger('update-fixed-budget-table-totals');
+                    store.getFixedBudgetTotals();
                 }
                 else if (this.page == 'flexBudgets') {
-                    $.event.trigger('update-flex-budget-table-totals');
+                    store.getFlexBudgetTotals();
                 }
             }
         },

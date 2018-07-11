@@ -43,9 +43,6 @@ const app = new Vue({
         store.getSideBarTotals();
         store.getSavedFilters();
         store.setDefaultTransactionPropertiesToShow();
-        setTimeout(function () {
-            FilterRepository.runFilter();
-        }, 100);
     },
 }).$mount('#app')
 

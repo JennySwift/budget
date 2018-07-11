@@ -192,20 +192,6 @@
             }
         },
         methods: {
-
-            /**
-            *
-            */
-            getFlexBudgetTotals: function () {
-                helpers.get({
-                    url: '/api/totals/flexBudget',
-//                    storeProperty: 'flexBudgetTotals',
-                    callback: function (response) {
-                        this.flexBudgetTotals = response;
-                    }.bind(this)
-                });
-            },
-
             /**
              *
              * @param budget
@@ -214,24 +200,10 @@
                 store.set(budget, 'selectedBudget');
                 helpers.showPopup('budget');
             },
-
-            /**
-             *
-             */
-            listen: function () {
-                var that = this;
-                $(document).on('update-flex-budget-table-totals', function (event) {
-                    that.getFlexBudgetTotals();
-                });
-            },
         },
-        props: [
-            //data to be received from parent
-        ],
         mounted: function () {
             store.getFlexBudgets(this);
-            this.getFlexBudgetTotals();
-            this.listen();
+            store.getFlexBudgetTotals();
         }
     }
 </script>

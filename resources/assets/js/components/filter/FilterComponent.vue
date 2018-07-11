@@ -655,6 +655,11 @@
             this.$bus.$on('autocomplete-option-chosen', this.optionChosen);
             this.$bus.$on('autocomplete-chosen-option-removed', this.chosenOptionRemoved);
         },
+        mounted: function () {
+            setTimeout(function () {
+                FilterRepository.runFilter();
+            }, 100);
+        },
         events: {
             'budget-chosen': function () {
                 store.runFilter();
