@@ -35,5 +35,6 @@
     .dropdown-arrow {
         position: relative;
         top: 1px;
+        margin-left: 4px;
     }
 </style>
