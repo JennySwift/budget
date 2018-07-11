@@ -6,6 +6,7 @@ import Vue from 'vue'
 import GraphsRepository from './GraphsRepository'
 import filterDefaults from '../filterDefaults'
 import FilterRepository from "./FilterRepository";
+import TotalsRepository from "./TotalsRepository";
 // import NewTransactionRepository from './NewTransactionRepository'
 
 
@@ -183,8 +184,7 @@ export default {
             storeProperty: 'sideBarTotals',
             // loadedProperty: 'itemsLoaded',
             callback: function (response) {
-                //Uncomment after refactor
-                // this.setTotalChanges(oldSideBarTotals);
+                TotalsRepository.setTotalChanges(oldSideBarTotals);
                 store.state.totalsLoading = false;
             }.bind(this)
         });
