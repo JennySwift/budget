@@ -2,17 +2,30 @@
     <div id="feedback">
 
         <div
-            v-for="(feedback, index) in feedbackMessages" v-bind:key="index"
-            :class="feedback.type"
+            v-for="(notification, index) in shared.notifications" v-bind:key="index"
+            :class="notification.type"
             class="feedback-message"
         >
-
-            <ul>
-                <li v-for="message in feedback.messages">
-                    {{ message }}
-                </li>
-            </ul>
+            <div>{{notification.message}}</div>
+            <!--<ul>-->
+                <!--<li v-for="message in feedback.messages">-->
+                    <!--{{ message }}-->
+                <!--</li>-->
+            <!--</ul>-->
         </div>
+
+        <!--<div-->
+            <!--v-for="(feedback, index) in shared.feedbackMessages" v-bind:key="index"-->
+            <!--:class="feedback.type"-->
+            <!--class="feedback-message"-->
+        <!--&gt;-->
+            <!---->
+            <!--<ul>-->
+                <!--<li v-for="message in feedback.messages">-->
+                    <!--{{ message }}-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
     </div>
 </template>
 
@@ -20,10 +33,9 @@
     var _ = require('underscore');
 
     export default {
-        template: "#feedback-template",
         data: function () {
             return {
-                feedbackMessages: []
+                shared: store.state
             };
         },
         methods: {
@@ -124,19 +136,16 @@
     @import '../../../sass/variables';
     #feedback {
         position: fixed;
-        right: 11px;
-        top: 44px;
+        top: 0;
         z-index: 9999;
+        width: 100%;
         .feedback-message {
             background: white;
             color: #777;
             line-height:40px;
-            margin-bottom: 20px;
-            padding: 0px 10px;
-            border-radius: 4px;
+            padding: 2px 10px;
+            text-align: center;
             position: relative;
-            border: 1px solid #777;
-            box-shadow: 3px 3px 5px #777, inset 0 0 5px #777;
             &.error {
                 background: #d9534f;
                 color: white;

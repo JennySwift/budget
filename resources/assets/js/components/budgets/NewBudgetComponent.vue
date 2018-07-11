@@ -110,8 +110,8 @@
                     clearFields: this.clearFields,
                     redirectTo: this.redirectTo,
                     callback: function (response) {
-                        store.addBudgetToSpecificArray(response, this);
-                        TotalsRepository.getSideBarTotals(this);
+                        // store.addBudgetToSpecificArray(response, this);
+                        store.getSideBarTotals();
                         this.updateBudgetTableTotals();
                     }.bind(this)
                 });

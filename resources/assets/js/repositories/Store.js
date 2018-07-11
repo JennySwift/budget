@@ -22,6 +22,9 @@ export default {
             },
         },
         totalsLoading: false,
+        notifications: [
+            // {message: 'Hello', type: 'success'}
+        ],
         sideBarTotals: {
             remainingBalance: '',
             remainingFixedBudget: '',
@@ -612,5 +615,14 @@ export default {
         // console.log('\n\n get: ' + JSON.stringify(object.get(this.state, path), null, 4) + '\n\n');
         // console.log('\n\n item to delete: ' + JSON.stringify(itemToDelete, null, 4) + '\n\n');
         object.set(this.state, path, helpers.deleteById(object.get(this.state, path), itemToDelete.id));
+    },
+
+    /**
+     * For deleting an item that doesn't have an id
+     * @param itemToDelete
+     * @param path
+     */
+    without: function (itemToDelete, path) {
+        object.set(this.state, path, helpers.deleteByItem(object.get(this.state, path), itemToDelete));
     }
 }

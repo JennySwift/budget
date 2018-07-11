@@ -17,7 +17,9 @@ export default {
     //Array methods
     findById: arrays.findById,
     findIndexById: arrays.findIndexById,
+    findIndexByItem: arrays.findIndexByItem,
     deleteById: arrays.deleteById,
+    deleteByItem: arrays.deleteByItem,
     deleteFromArray: arrays.deleteFromArray,
     updateItemInArray: arrays.updateItemInArray,
 
@@ -83,6 +85,14 @@ export default {
     },
 
     toast: function (message, type) {
+        if (!type) {
+            type = 'success';
+        }
+        var notification = {message: message, type: type};
+        store.add(notification, 'notifications');
+        setTimeout(function () {
+            store.without(notification, 'notifications');
+        }, 4000);
         // var toast = app.f7.toast.create({
         //     text: message,
         //     position: 'top',

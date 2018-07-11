@@ -26,6 +26,12 @@ export default {
         }));
     },
 
+    findIndexByItem: function (array, item) {
+        return _.indexOf(array, _.find(array, function (item) {
+            return item == item;
+        }));
+    },
+
     /**
      *
      * @param array
@@ -33,6 +39,18 @@ export default {
      */
     deleteById: function (array, id) {
         var index = helpers.findIndexById(array, id);
+        array = _.without(array, array[index]);
+
+        return array;
+    },
+
+    /**
+     *
+     * @param array
+     * @param id
+     */
+    deleteByItem: function (array, item) {
+        var index = helpers.findIndexByItem(array, item);
         array = _.without(array, array[index]);
 
         return array;
