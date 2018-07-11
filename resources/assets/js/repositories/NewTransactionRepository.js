@@ -11,6 +11,7 @@ export default {
      */
     fillFields: function (transaction) {
         store.set(transaction.merchant, 'newTransaction.merchant');
+        store.set(transaction.description, 'newTransaction.description');
         store.set(transaction.total, 'newTransaction.total');
         store.set(transaction.budgets, 'newTransaction.budgets');
         store.set(transaction.type, 'newTransaction.type');

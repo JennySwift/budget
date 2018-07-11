@@ -49,7 +49,7 @@
         >
 
         <multiselect
-            v-model="shared.newTransaction.merchant"
+            :value="shared.newTransaction.merchant"
             :options="autocompleteSearchResults"
             track-by="id"
             label="merchant"

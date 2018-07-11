@@ -49,7 +49,7 @@
         >
 
         <multiselect
-            v-model="shared.newTransaction.description"
+            :value="shared.newTransaction.description"
             :options="autocompleteSearchResults"
             track-by="id"
             label="description"
@@ -61,6 +61,7 @@
             :close-on-select="true"
             :hide-selected="true"
             open-direction="bottom"
+            placeholder="Enter a description"
         >
             <template slot="option" slot-scope="props">
                 <transaction-autocomplete-results :props="props"></transaction-autocomplete-results>
