@@ -60,9 +60,10 @@
             @select="fillFields"
             :close-on-select="true"
             :hide-selected="true"
+            open-direction="bottom"
         >
             <template slot="option" slot-scope="props">
-                <div>{{props.option.description}}</div>
+                <transaction-autocomplete-results :props="props"></transaction-autocomplete-results>
             </template>
         </multiselect>
 
