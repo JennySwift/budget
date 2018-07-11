@@ -1,222 +1,42 @@
 import helpers from './helpers/Helpers'
-var object = require('lodash/object');
-require('sugar');
-Date.setLocale('en-AU');
 import Vue from 'vue'
 import GraphsRepository from './GraphsRepository'
-import filterDefaults from '../filterDefaults'
 import FilterRepository from "./FilterRepository";
 import TotalsRepository from "./TotalsRepository";
-// import NewTransactionRepository from './NewTransactionRepository'
+import state from '../store-state'
+import getRequests from './GetRequests'
+import storeHelpers from './store-helpers'
 
+require('sugar');
+Date.setLocale('en-AU');
 
 export default {
-    state: {
-        me: {
-            gravatar: '',
-            preferences: {
-                show: {
-                    totals: []
-                },
-                colors: {}
-            },
-        },
-        totalsLoading: false,
-        notifications: [
-            // {message: 'Hello', type: 'success'}
-        ],
-        sideBarTotals: {
-            remainingBalance: '',
-            remainingFixedBudget: '',
-            cumulativeFixedBudget: '',
-            credit: '',
-            debit: '',
-            balance: '',
-            reconciledSum: '',
-            expensesWithoutBudget: '',
-            savings: '',
-            expensesWithFixedBudgetBeforeStartingDate: '',
-            expensesWithFixedBudgetAfterStartingDate: '',
-            expensesWithFlexBudgetBeforeStartingDate: '',
-            expensesWithFlexBudgetAfterStartingDate: ''
-        },
-        totalChanges: {
-            remainingBalance: 0,
-            remainingFixedBudget: 0,
-            cumulativeFixedBudget: 0,
-            credit: 0,
-            debit: 0,
-            balance: 0,
-            reconciledSum: 0,
-            expensesWithoutBudget: 0,
-            savings: 0,
-            expensesWithFixedBudgetBeforeStartingDate: 0,
-            expensesWithFixedBudgetAfterStartingDate: 0,
-            expensesWithFlexBudgetBeforeStartingDate: 0,
-            expensesWithFlexBudgetAfterStartingDate: 0,
-        },
-        env: '',
-        //For home page tabs
-        tab: '',
-        loading: false,
-        filter: filterDefaults,
-        filterTotals: {},
-        allocationTotals: {},
-        accounts: [],
-        accountsWithBalances: [],
-        budgets: [],
-        transaction: {
-            account: {},
-            budgets: [
-                {name: ''}
-            ]
-        },
-        selectedTransaction: {},
-        selectedTransactionForAllocation: {},
-        selectedBudget: {},
-        selectedAccount: {},
-        fixedBudgetTotals: {},
-        flexBudgetTotals: {},
-        transactions: [
-            {
-                account: {},
-                budgets: [
-                    {name: ''}
-                ]
-            }
-        ],
-        fixedBudgets: [],
-        flexBudgets: [],
-        unassignedBudgets: [],
-        favouriteTransactions: [],
-        newFavouriteTransaction: {
-            account: {},
-            fromAccount: {},
-            toAccount: {},
-            budgets: [],
-            type: 'expense'
-        },
-        selectedFavouriteTransaction: {},
-        newTransaction: {
-            userDate: 'today',
-            type: 'expense',
-            account: {},
-            fromAccount: {},
-            toAccount: {},
-            duration: '',
-            total: '',
-            merchant: '',
-            description: '',
-            reconciled: false,
-            multipleBudgets: false,
-            budgets: []
-        },
-        // newTransactionDefaults: {
-        //     userDate: 'today',
-        //     type: 'expense',
-        //     account: {},
-        //     fromAccount: {},
-        //     toAccount: {},
-        //     duration: '',
-        //     total: '',
-        //     merchant: '',
-        //     description: '',
-        //     reconciled: false,
-        //     multipleBudgets: false,
-        //     budgets: []
-        // },
-        filters: {
+    state: state,
 
-        },
-        savedFilters: [],
-        //For editing fields in item popup before the item is saved
-        selectedItemClone: {
+    //Get Requests
+    getSideBarTotals: getRequests.getSideBarTotals,
+    getUser: getRequests.getUser,
+    filterTransactions: getRequests.filterTransactions,
+    getFavouriteTransactions: getRequests.getFavouriteTransactions,
+    getAllocationTotals: getRequests.getAllocationTotals,
+    getBudgets: getRequests.getBudgets,
+    getFixedBudgets: getRequests.getFixedBudgets,
+    getFlexBudgets: getRequests.getFlexBudgets,
+    getUnassignedBudgets: getRequests.getUnassignedBudgets,
+    getFixedBudgetTotals: getRequests.getFixedBudgetTotals,
+    getFlexBudgetTotals: getRequests.getFlexBudgetTotals,
+    getAccountsWithBalances: getRequests.getAccountsWithBalances,
+    getAccounts: getRequests.getAccounts,
+    getSavedFilters: getRequests.getSavedFilters,
 
-        },
-        selectedItem: {
+    //Helpers
+    add: storeHelpers.add,
+    update: storeHelpers.update,
+    set: storeHelpers.set,
+    toggle: storeHelpers.toggle,
+    delete: storeHelpers.delete,
+    without: storeHelpers.without,
 
-        },
-        newItem: {},
-        showFilter: true,
-        show: {
-            popup: {
-                'transaction': false,
-                'allocation': false,
-                'account': false,
-                'budget': false,
-                'favourite-transaction': false
-            },
-            newTransaction: true,
-            totals: true,
-            // basicTotals: false,
-            // budgetTotals: false,
-            filterTotals: true,
-            budget: false,
-            filter: true,
-            savingsTotal: {
-                input: false,
-                edit_btn: true
-            },
-            newBudget: false
-        },
-        transactionPropertiesToShow: {
-            status: false,
-            date: true,
-            description: true,
-            merchant: true,
-            total: true,
-            type: true,
-            account: true,
-            duration: true,
-            reconciled: true,
-            allocated: true,
-            budgets: true,
-            delete: true,
-        }
-    },
-
-    /**
-     *
-     */
-    getSideBarTotals: function () {
-        this.state.totalsLoading = true;
-        var oldSideBarTotals = this.state.sideBarTotals;
-
-        helpers.get({
-            url: '/api/totals/sidebar',
-            storeProperty: 'sideBarTotals',
-            // loadedProperty: 'itemsLoaded',
-            callback: function (response) {
-                TotalsRepository.setTotalChanges(oldSideBarTotals);
-                store.state.totalsLoading = false;
-            }.bind(this)
-        });
-    },
-
-    /**
-     *
-     */
-    getUser: function () {
-        helpers.get({
-            url: '/api/users/current',
-            storeProperty: 'me',
-        });
-    },
-
-    /**
-     *
-     */
-    filterTransactions: function () {
-        var data = {
-            filter: FilterRepository.formatDates()
-        };
-
-        helpers.get({
-            url: '/api/filter/transactions',
-            data: data,
-            storeProperty: 'transactions'
-        });
-    },
 
     /**
      *
@@ -227,17 +47,7 @@ export default {
         //     storeProperty: 'env',
         // });
     },
-
-    /**
-     *
-     */
-    getFavouriteTransactions: function () {
-        helpers.get({
-            url: '/api/favouriteTransactions',
-            storeProperty: 'favouriteTransactions'
-        });
-    },
-
+    
     /**
      *
      * @param transaction
@@ -248,126 +58,8 @@ export default {
         helpers.showPopup('allocation');
     },
 
-    /**
-     *
-     */
-    getAllocationTotals: function () {
-        helpers.get({
-            url: '/api/transactions/' + this.state.selectedTransactionForAllocation.id,
-            storeProperty: 'allocationTotals'
-        });
-    },
-
-    /**
-     *
-     */
-    getBudgets: function () {
-        helpers.get({
-            url: '/api/budgets',
-            storeProperty: 'budgets'
-        });
-    },
-
-    /**
-     *
-     */
-    getFixedBudgets: function () {
-        helpers.get({
-            url: '/api/budgets?fixed=true',
-            storeProperty: 'fixedBudgets'
-        });
-    },
-
-    /**
-     *
-     */
-    getFlexBudgets: function () {
-        helpers.get({
-            url: '/api/budgets?flex=true',
-            storeProperty: 'flexBudgets'
-        });
-    },
-
-    /**
-     *
-     */
-    getUnassignedBudgets: function () {
-        helpers.get({
-            url: '/api/budgets?unassigned=true',
-            storeProperty: 'unassignedBudgets'
-        });
-    },
-
-    /**
-     *
-     */
-    getFixedBudgetTotals: function () {
-        helpers.get({
-            url: '/api/totals/fixedBudget',
-            storeProperty: 'fixedBudgetTotals',
-        });
-    },
-
-    /**
-     *
-     */
-    getFlexBudgetTotals: function () {
-        helpers.get({
-            url: '/api/totals/flexBudget',
-            storeProperty: 'flexBudgetTotals',
-        });
-    },
-
-    /**
-     *
-     */
-    getAccountsWithBalances: function () {
-        helpers.get({
-            url: '/api/accounts?includeBalance=true',
-            storeProperty: 'accountsWithBalances',
-            callback: function () {
-                // store.setNewTransactionDefaults();
-                // store.setNewFavouriteTransactionAccount();
-            }
-        });
-    },
-
-    /**
-     * Do not get the account balances
-     */
-    getAccounts: function () {
-        helpers.get({
-            url: '/api/accounts',
-            storeProperty: 'accounts',
-            callback: function () {
-                store.setNewTransactionDefaults();
-                store.setNewFavouriteTransactionAccount();
-            }
-        });
-    },
-
     setNewFavouriteTransactionAccount: function () {
         store.set(this.state.accounts[0], 'newFavouriteTransaction.account');
-    },
-
-    /**
-     *
-     */
-    getSavedFilters: function () {
-        helpers.get({
-            url: '/api/savedFilters',
-            storeProperty: 'savedFilters'
-        });
-    },
-
-    /**
-     *
-     */
-    getFavouriteTransactions: function () {
-        helpers.get({
-            url: '/api/favouriteTransactions',
-            storeProperty: 'favouriteTransactions'
-        });
     },
 
     /**
@@ -452,7 +144,6 @@ export default {
     },
 
 
-
     /**
      *
      * @param favouriteTransaction
@@ -484,25 +175,6 @@ export default {
     },
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      *
      * @param budgets
@@ -510,7 +182,7 @@ export default {
      * @returns {*}
      */
     orderBudgetsFilter: function (budgets, that) {
-        switch(that.orderBy) {
+        switch (that.orderBy) {
             case 'name':
                 budgets = _.sortBy(budgets, 'name');
                 break;
@@ -535,33 +207,6 @@ export default {
     },
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      *
      */
@@ -575,64 +220,4 @@ export default {
     hideLoading: function () {
         this.state.loading = false;
     },
-
-
-    /**
-     * Add an item to an array
-     * @param item
-     * @param path
-     */
-    add: function (item, path) {
-        object.get(this.state, path).push(item);
-    },
-
-    /**
-     * Update an item that is in an array that is in the store
-     * @param item
-     * @param path
-     */
-    update: function (item, path) {
-        var index = helpers.findIndexById(object.get(this.state, path), item.id);
-
-        Vue.set(object.get(this.state, path), index, item);
-    },
-
-    /**
-     * Set a property that is in the store (can be nested)
-     * @param data
-     * @param path
-     */
-    set: function (data, path) {
-        object.set(this.state, path, data);
-    },
-
-    /**
-     * Toggle a property that is in the store (can be nested)
-     * @param path
-     */
-    toggle: function (path) {
-        object.set(this.state, path, !object.get(this.state, path));
-    },
-
-    /**
-     * Delete an item from an array in the store
-     * To delete a nested property of store.state, for example a class in store.state.classes.data:
-     * store.delete(itemToDelete, 'student.classes.data');
-     * @param itemToDelete
-     * @param path
-     */
-    delete: function (itemToDelete, path) {
-        // console.log('\n\n get: ' + JSON.stringify(object.get(this.state, path), null, 4) + '\n\n');
-        // console.log('\n\n item to delete: ' + JSON.stringify(itemToDelete, null, 4) + '\n\n');
-        object.set(this.state, path, helpers.deleteById(object.get(this.state, path), itemToDelete.id));
-    },
-
-    /**
-     * For deleting an item that doesn't have an id
-     * @param itemToDelete
-     * @param path
-     */
-    without: function (itemToDelete, path) {
-        object.set(this.state, path, helpers.deleteByItem(object.get(this.state, path), itemToDelete));
-    }
 }
