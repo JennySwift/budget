@@ -330,12 +330,9 @@
                 helpers.put({
                     url: '/api/users/' + this.shared.me.id,
                     data: data,
-                    property: 'preferences',
+                    property: 'me',
                     message: 'Preferences updated',
                     redirectTo: this.redirectTo,
-                    callback: function (response) {
-                        this.shared.me.preferences = response.preferences;
-                    }.bind(this)
                 });
             },
 
