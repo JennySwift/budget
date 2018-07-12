@@ -103,6 +103,12 @@ export default {
     },
 
     notify: function (error) {
+        var message = error.response.data.message;
+        var notification = {message: message, type: 'error'};
+        store.add(notification, 'notifications');
+        setTimeout(function () {
+            store.without(notification, 'notifications');
+        }, 2000);
         // store.hideLoading();
         // var message = error.response.data.error;
         // var notification = app.f7.notification.create({
