@@ -81,6 +81,31 @@ class TransactionSeeder extends Seeder {
             //Create transactions with budgets
             $this->createExpenseTransactionsWithBudgets($user, $num);
             $this->createIncomeTransactionsWithBudgets($user, $num);
+
+            $this->createDuplicateTransactions($user);
+        }
+	}
+
+    /**
+     *
+     * @param $user
+     */
+    private function createDuplicateTransactions($user)
+    {
+        foreach (range(1,5) as $index) {
+            $transaction = new Transaction([
+                'type' => 'expense',
+                'date' => Carbon::today()->subDays($index)->format('Y-m-d'),
+                'account_id' => $user->accounts[0]->id,
+                'description' => 'a duplicate description',
+                'merchant' => 'a duplicate merchant',
+                'total' => -55,
+                'reconciled' => false,
+                'allocated' => 0,
+            ]);
+
+            $transaction->user()->associate($user);
+            $transaction->save();
         }
 	}
 
