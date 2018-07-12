@@ -47,7 +47,7 @@ export default {
      *
      */
     setNewTransactionDefaults: function () {
-        if (helpers.isLocalEnvironment()) {
+        if (store.state.env === 'local') {
             store.set(10, 'newTransaction.total');
             store.set('some merchant', 'newTransaction.merchant');
             store.set('some description', 'newTransaction.description');

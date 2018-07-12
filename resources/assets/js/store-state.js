@@ -45,7 +45,8 @@ export default {
         expensesWithFlexBudgetBeforeStartingDate: 0,
         expensesWithFlexBudgetAfterStartingDate: 0,
     },
-    env: '',
+    //Sent from PHP-Vars-To-Js-Transformer package
+    env: env,
     //For home page tabs
     tab: '',
     loading: false,
@@ -103,20 +104,6 @@ export default {
         multipleBudgets: false,
         budgets: []
     },
-    // newTransactionDefaults: {
-    //     userDate: 'today',
-    //     type: 'expense',
-    //     account: {},
-    //     fromAccount: {},
-    //     toAccount: {},
-    //     duration: '',
-    //     total: '',
-    //     merchant: '',
-    //     description: '',
-    //     reconciled: false,
-    //     multipleBudgets: false,
-    //     budgets: []
-    // },
     filters: {
 
     },

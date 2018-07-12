@@ -1,5 +1,7 @@
 <?php
 
+use JavaScript;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,12 +21,10 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/', ['middleware' => 'auth', function () {
-    //This caused an vue warning after upgrading
-//    JavaScript::put([
-//        'env' => app()->env,
-//        'me' => Auth::user(),
-//        'page' => 'home',
-//    ]);
+    JavaScript::put([
+        'env' => app()->env,
+        'me' => Auth::user(),
+    ]);
 
     return view('main.home');
 }]);

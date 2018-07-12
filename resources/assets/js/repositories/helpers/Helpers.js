@@ -79,11 +79,6 @@ export default {
         }
     },
 
-
-    isLocalEnvironment: function () {
-        return process.env.NODE_ENV === "development";
-    },
-
     toast: function (message, type) {
         if (!type) {
             type = 'success';
