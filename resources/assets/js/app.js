@@ -11,8 +11,8 @@ Vue.use(VueRouter);
 import store from './repositories/Store'
 import helpers from './repositories/helpers/Helpers'
 
-window.store = store;
 window.helpers = helpers;
+window.store = store;
 
 require('./config.js');
 require('./components');

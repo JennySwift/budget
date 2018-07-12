@@ -10,7 +10,7 @@
                 <new-account></new-account>
 
             </div>
-            
+
             <table class="">
                 <tr>
                     <th>Name</th>
@@ -79,14 +79,13 @@
              * @param account
              */
             viewTransactionsForAccount: function (account) {
-                var currentNumToFetch = FilterRepository.state.filter.numToFetch;
-                var filter = FilterRepository.resetFilter();
-                filter.accounts.in.push(account.id);
+                var currentNumToFetch = store.state.filter.numToFetch;
+                FilterRepository.resetFilter();
+                store.add(account.id, 'filter.accounts.in');
                 //Show the same number of transactions as the filter was previously set to
-                filter.numToFetch = currentNumToFetch;
-                filter.displayTo = currentNumToFetch;
-                FilterRepository.setFilter(filter);
-                router.go('/');
+                store.set(currentNumToFetch, 'filter.numToFetch');
+                store.set(currentNumToFetch, 'filter.displayTo');
+                helpers.goToRoute('/');
             }
         },
         props: [

@@ -49,7 +49,7 @@ export default {
     //For home page tabs
     tab: '',
     loading: false,
-    filter: filterDefaults,
+    filter: JSON.parse(JSON.stringify(filterDefaults)),
     filterTotals: {},
     allocationTotals: {},
     accounts: [],

@@ -1,6 +1,7 @@
 import TransactionsRepository from './TransactionsRepository'
 import FilterRepository from './FilterRepository'
 import helpers from './helpers/Helpers.js'
+import filterDefaults from "../filterDefaults";
 import Vue from 'vue'
 export default {
     /**
@@ -12,13 +13,8 @@ export default {
         store.set(savedFilter, 'filter');
     },
 
-    /**
-     * Used for switching to transactions page from accounts page,
-     * for viewing the transactions for the chosen account
-     * @param filter
-     */
-    setFilter: function (filter) {
-        store.set(filter, 'filter');
+    resetFilter: function () {
+        store.set(helpers.clone(filterDefaults), 'filter');
     },
 
     /**
