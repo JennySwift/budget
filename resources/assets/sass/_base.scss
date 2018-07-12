@@ -24,7 +24,10 @@ body {
         display: flex;
         justify-content: space-around;
         padding: 11px;
-        background: #000000;
+        @include navBackground;
+        a {
+            color: $navLinkColour;
+        }
         height: 27px;
         position: relative;
         margin-top: -27px;

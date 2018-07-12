@@ -15966,10 +15966,19 @@ body footer {
   -ms-flex-pack: distribute;
       justify-content: space-around;
   padding: 11px;
-  background: #000000;
+  background: #FF5F6D;
+  /* fallback for old browsers */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-gradient(linear, right top, left top, from(#2c5364), color-stop(#203a43), to(#0f2027));
+  background: linear-gradient(to left, #2c5364, #203a43, #0f2027);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   height: 27px;
   position: relative;
   margin-top: -27px;
+}
+
+body footer a {
+  color: #cccccc;
 }
 
 body footer li {
