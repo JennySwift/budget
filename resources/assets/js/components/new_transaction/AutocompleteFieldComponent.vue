@@ -1,8 +1,8 @@
 <template>
-    <div id="new-transaction-description" class="autocomplete-container">
+    <div :id="'new-transaction-' + field" class="autocomplete-container">
 
         <div class="help-row">
-            <label>Enter a description (optional)</label>
+            <label>Enter a {{field}} (optional)</label>
 
             <dropdown
                 inline-template
@@ -24,7 +24,7 @@
 
                     <div class="dropdown-content animated">
                         <div class="help">
-                            <div>As you type a description, previous transactions with a matching description will show up.</div>
+                            <div>As you type a {{field}}, previous transactions with a matching {{field}} will show up.</div>
                             <div>To fill in the fields with those of a previous transaction, either:</div>
                             <ol>
                                 <li>Use the up and down arrow keys to select a previous transaction, then press enter.</li>
@@ -39,20 +39,20 @@
             </dropdown>
         </div>
 
-        <input
-            v-if="!shared.me.preferences.autocompleteDescription"
-            v-model="shared.newTransaction.description"
-            v-on:keyup.13="insertTransaction()"
-            class="form-control"
-            placeholder="description"
-            type='text'
-        >
+        <!--<input-->
+            <!--v-if="!shared.me.preferences.autocompleteDescription"-->
+            <!--v-model="shared.newTransaction.description"-->
+            <!--v-on:keyup.13="insertTransaction()"-->
+            <!--class="form-control"-->
+            <!--placeholder="description"-->
+            <!--type='text'-->
+        <!--&gt;-->
 
         <multiselect
             v-model="shared.newTransaction"
             :options="autocompleteSearchResults"
             track-by="id"
-            label="description"
+            :label="field"
             @search-change="autocompleteSearch"
             :loading="shared.autocompleteLoading"
             :show-no-results="false"
@@ -61,7 +61,7 @@
             :close-on-select="true"
             :hide-selected="true"
             open-direction="bottom"
-            placeholder="Enter a description"
+            :placeholder="'Enter a ' + field"
         >
             <template slot="option" slot-scope="props">
                 <transaction-autocomplete-results :props="props"></transaction-autocomplete-results>
@@ -106,7 +106,7 @@
         },
         methods: {
             autocompleteSearch: function (query) {
-                var url = '/api/transactions?filter=' + query + '&field=description';
+                var url = '/api/transactions?filter=' + query + '&field=' + this.field;
                 store.set(true, 'autocompleteLoading');
                 helpers.get({
                     url:  url,
@@ -124,7 +124,11 @@
             insertTransaction () {
                 NewTransactionRepository.insertTransactionSetup();
             }
-        }
+        },
+        props: [
+            //Description or merchant
+            'field'
+        ]
     }
 </script>
 

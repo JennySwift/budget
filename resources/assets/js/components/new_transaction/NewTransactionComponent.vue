@@ -18,15 +18,12 @@
             </div>
 
             <div>
-                <merchant></merchant>
+                <autocomplete-field-component field="merchant"></autocomplete-field-component>
             </div>
 
            <div>
-               <description></description>
+               <autocomplete-field-component field="description"></autocomplete-field-component>
            </div>
-            <!--<div id="merchant-description-container">-->
-                <!---->
-            <!--</div>-->
 
             <div>
                 <accounts></accounts>
@@ -53,14 +50,13 @@
     import TypeComponent from './TypeComponent.vue'
     import DateComponent from './DateComponent.vue'
     import TotalComponent from './TotalComponent.vue'
-    import MerchantComponent from './MerchantComponent.vue'
-    import DescriptionComponent from './DescriptionComponent.vue'
     import DurationComponent from './DurationComponent.vue'
     import EnterComponent from './EnterComponent.vue'
     import ReconcileComponent from './ReconcileComponent.vue'
     import BudgetsComponent from './BudgetsComponent.vue'
     import AccountsComponent from './AccountsComponent.vue'
     import FavouritesComponent from './FavouritesComponent.vue'
+    import AutocompleteFieldComponent from "./AutocompleteFieldComponent";
 
     export default {
         data: function () {
@@ -73,11 +69,10 @@
             };
         },
         components: {
+            AutocompleteFieldComponent,
             'type': TypeComponent,
             'date': DateComponent,
             'total': TotalComponent,
-            'merchant': MerchantComponent,
-            'description': DescriptionComponent,
             'duration': DurationComponent,
             'enter': EnterComponent,
             'reconcile': ReconcileComponent,
