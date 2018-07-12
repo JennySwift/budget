@@ -10,13 +10,13 @@
                 <new-account></new-account>
 
             </div>
-
+            
             <table class="">
                 <tr>
                     <th>Name</th>
                     <th class="balance">Balance</th>
                 </tr>
-                <tr v-for="account in shared.accounts">
+                <tr v-for="account in shared.accountsWithBalances">
                     <td
                         v-on:click="showAccountPopup(account)"
                         class="pointer">

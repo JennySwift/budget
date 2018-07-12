@@ -35,6 +35,7 @@ const app = new Vue({
         store.getUser();
         store.getEnvironment();
         store.getAccounts();
+        store.getAccountsWithBalances();
         store.setHeights();
         store.getBudgets();
         store.getUnassignedBudgets();
