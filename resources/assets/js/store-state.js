@@ -87,6 +87,8 @@ export default {
         type: 'expense'
     },
     selectedFavouriteTransaction: {},
+    //For keeping the date unchanged when the new transaction fields are autocompleted
+    newTransactionOldData: {},
     newTransaction: {
         userDate: 'today',
         type: 'expense',

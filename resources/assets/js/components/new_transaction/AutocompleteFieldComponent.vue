@@ -58,6 +58,7 @@
             :show-no-results="false"
             :internal-search="false"
             @select="fillFields"
+            @open="onOpen"
             :close-on-select="true"
             :hide-selected="true"
             open-direction="bottom"
@@ -105,6 +106,10 @@
             'transaction-autocomplete-results': TransactionAutocompleteResults
         },
         methods: {
+            onOpen: function () {
+                //For keeping the date the same as it was before the autocomplete is used
+                store.set(this.shared.newTransaction, 'newTransactionOldData');
+            },
             autocompleteSearch: function (query) {
                 var url = '/api/transactions?filter=' + query + '&field=' + this.field;
                 store.set(true, 'autocompleteLoading');
@@ -118,7 +123,7 @@
             },
 
             fillFields: function (transaction) {
-                // NewTransactionRepository.fillFields(transaction);
+                NewTransactionRepository.fillFields(transaction);
             },
 
             insertTransaction () {
