@@ -149,7 +149,8 @@ export default {
         }
 
         if (errorMessages.length > 0) {
-            helpers.provideFeedback(errorMessages, 'error');
+            // helpers.provideFeedback(errorMessages, 'error');
+            helpers.toast('Invalid data', 'error');
 
             return errorMessages;
         }
