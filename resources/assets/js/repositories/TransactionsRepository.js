@@ -13,25 +13,25 @@ export default {
         helpers.showPopup('allocation');
     },
 
-    setFavouriteTransactionFields: function () {
+    setFavouriteTransactionFields: function (transaction) {
         var data = {
-            name: store.state.newFavouriteTransaction.name,
-            type: store.state.newFavouriteTransaction.type,
-            description: store.state.newFavouriteTransaction.description,
-            merchant: store.state.newFavouriteTransaction.merchant,
-            total: store.state.newFavouriteTransaction.total,
-            budget_ids: _.map(store.state.newFavouriteTransaction.budgets, 'id')
+            name: transaction.name,
+            type: transaction.type,
+            description: transaction.description,
+            merchant: transaction.merchant,
+            total: transaction.total,
+            budget_ids: _.map(transaction.budgets, 'id')
         };
 
-        if (store.state.newFavouriteTransaction.account && store.state.newFavouriteTransaction.type !== 'transfer') {
-            data.account_id = store.state.newFavouriteTransaction.account.id;
+        if (transaction.account && transaction.type !== 'transfer') {
+            data.account_id = transaction.account.id;
         }
 
-        if (store.state.newFavouriteTransaction.fromAccount && store.state.newFavouriteTransaction.type === 'transfer') {
-            data.from_account_id = store.state.newFavouriteTransaction.fromAccount.id;
+        if (transaction.fromAccount && transaction.type === 'transfer') {
+            data.from_account_id = transaction.fromAccount.id;
         }
 
-        if (store.state.newFavouriteTransaction.toAccount && store.state.newFavouriteTransaction.type === 'transfer') {
+        if (transaction.toAccount && transaction.type === 'transfer') {
             data.to_account_id = this.state.newFavouriteTransaction.toAccount.id;
         }
 

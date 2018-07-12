@@ -87,7 +87,15 @@ export default {
         budgets: [],
         type: 'expense'
     },
-    selectedFavouriteTransaction: {},
+    selectedFavouriteTransaction: {
+        description: '',
+        merchant: '',
+        name: '',
+        total: '',
+        type: '',
+        account_id: '',
+        budget_ids: []
+    },
     //For keeping the date unchanged when the new transaction fields are autocompleted
     newTransactionOldData: {},
     newTransaction: {

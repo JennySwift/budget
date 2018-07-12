@@ -191,7 +191,7 @@
              *
              */
             insertFavouriteTransaction: function () {
-                var data = TransactionsRepository.setFavouriteTransactionFields();
+                var data = TransactionsRepository.setFavouriteTransactionFields(this.shared.newFavouriteTransaction);
 
                 helpers.post({
                     url: '/api/favouriteTransactions',

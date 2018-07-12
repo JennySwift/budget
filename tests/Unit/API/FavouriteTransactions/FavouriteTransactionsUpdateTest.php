@@ -54,6 +54,30 @@ class FavouriteTransactionsUpdateTest extends TestCase
     }
 
     /**
+     * @test
+     * @return void
+     */
+    public function it_can_remove_a_transaction_description()
+    {
+        $this->logInUser();
+
+        $transaction = FavouriteTransaction::forCurrentUser()->first();
+
+        $data = [
+            'description' => ''
+        ];
+
+        $response = $this->apiCall('PUT', '/api/favouriteTransactions/'.$transaction->id, $data);
+        $content = $this->getContent($response);
+
+        $this->checkFavouriteTransactionKeysExist($content);
+        $this->assertEquals('', $content['description']);
+
+        //Check the status code
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
      * Todo: I could also test switching from type transfer to another type, that the fromAccount and toAccount keys are removed.
      * @test
      * @return void

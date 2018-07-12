@@ -1,6 +1,7 @@
 <?php
 
-use JavaScript;
+//This line made test error
+//use JavaScript;
 
 /*
 |--------------------------------------------------------------------------

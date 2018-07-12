@@ -167,12 +167,9 @@
                 helpers.put({
                     url: '/api/favouriteTransactions/' + this.shared.selectedFavouriteTransaction.id,
                     data: data,
-                    property: 'favouriteTransactions',
+                    property: 'selectedFavouriteTransaction',
                     message: 'FavouriteTransaction updated',
-                    redirectTo: this.redirectTo,
-                    callback: function (response) {
-                        store.updateFavouriteTransaction(response);
-                    }.bind(this)
+                    redirectTo: this.redirectTo
                 });
             },
 
@@ -185,16 +182,9 @@
                     array: 'favouriteTransactions',
                     itemToDelete: this.shared.selectedFavouriteTransaction,
                     message: 'FavouriteTransaction deleted',
-                    redirectTo: this.redirectTo,
-                    callback: function () {
-                        store.deleteFavouriteTransaction(this.shared.selectedFavouriteTransaction);
-                    }.bind(this)
+                    redirectTo: this.redirectTo
                 });
             }
-        },
-        props: [],
-        mounted: function () {
-
         }
     }
 </script>
