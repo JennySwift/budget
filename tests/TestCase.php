@@ -163,6 +163,7 @@ abstract class TestCase extends BaseTestCase
         $this->assertArrayHasKey('merchant', $transaction);
         $this->assertArrayHasKey('total', $transaction);
         $this->assertArrayHasKey('budgets', $transaction);
+        $this->assertArrayHasKey('userDate', $transaction);
 
         if ($transaction['type'] === 'transfer') {
             $this->assertArrayHasKey('fromAccount', $transaction);

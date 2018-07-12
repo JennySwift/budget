@@ -6,6 +6,13 @@ import FilterRepository from './FilterRepository'
 export default {
 
     /**
+     * For keeping the date the same as it was before the autocomplete is used
+     */
+    onOpen: function () {
+        store.set(store.state.newTransaction, 'newTransactionOldData');
+    },
+
+    /**
      * For the new transaction autocomplete
      * Not using this method any more because filling fields is taken care of by autocomplete.
      * May need to customise it though, like the clearFields thing.

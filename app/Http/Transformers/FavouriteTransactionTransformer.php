@@ -37,7 +37,9 @@ class FavouriteTransactionTransformer extends TransformerAbstract
             'description' => $favourite->description,
             'merchant' => $favourite->merchant,
             'total' => $favourite->total,
-            'budgets' => $favourite->budgets
+            'budgets' => $favourite->budgets,
+            //So that date field doesn't go blank when favourite transaction is selected for a new transaction
+            'userDate' => ''
         ];
 
         if ($favourite->account) {

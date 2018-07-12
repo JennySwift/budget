@@ -106,10 +106,11 @@
             'transaction-autocomplete-results': TransactionAutocompleteResults
         },
         methods: {
-            onOpen: function () {
-                //For keeping the date the same as it was before the autocomplete is used
-                store.set(this.shared.newTransaction, 'newTransactionOldData');
+            onOpen: NewTransactionRepository.onOpen,
+            fillFields: function (transaction) {
+                NewTransactionRepository.fillFields(transaction);
             },
+
             autocompleteSearch: function (query) {
                 var url = '/api/transactions?filter=' + query + '&field=' + this.field;
                 store.set(true, 'autocompleteLoading');
@@ -120,10 +121,6 @@
                         store.set(false, 'autocompleteLoading');
                     }.bind(this)
                 });
-            },
-
-            fillFields: function (transaction) {
-                NewTransactionRepository.fillFields(transaction);
             },
 
             insertTransaction () {
