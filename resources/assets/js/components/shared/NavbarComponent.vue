@@ -1,8 +1,6 @@
 <template>
     <ul id="navbar" style="z-index:1000">
 
-        <li><a href="http://jennyswiftcreations.com">jennyswiftcreations</a></li>
-
         <!--Todo: this part only if not logged in-->
         <!--<li>-->
             <!--<a href="/login">Login</a>-->
@@ -13,10 +11,6 @@
 
         <li>
             <router-link to="/" class="fa fa-home"></router-link>
-        </li>
-
-        <li>
-            <router-link to="/graphs">Graphs</router-link>
         </li>
 
         <li id="menu-dropdown" class="dropdown">
@@ -35,6 +29,9 @@
 
                 <li>
                     <router-link to="/favourite-transactions">Favourite transactions</router-link>
+                </li>
+                <li>
+                    <router-link to="/graphs">Graphs</router-link>
                 </li>
 
             </ul>
