@@ -59,7 +59,7 @@ export default {
         return false;
     },
 
-    hidePopup: function () {
+    hidePopup: function (popupName) {
         // app.f7.popup.close();
         store.set(false, 'show.popup.' + popupName);
     },

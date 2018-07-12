@@ -178,8 +178,8 @@
                     redirectTo: this.redirectTo,
                     callback: function (response) {
                         TransactionsRepository.updateTransaction(this.transaction);
-                        TotalsRepository.getSideBarTotals(this);
-                        FilterRepository.getBasicFilterTotals(this);
+                        store.getSideBarTotals(this);
+                        store.getBasicFilterTotals();
                         //Todo: Remove the transaction from the JS transactions depending on the filter
                     }.bind(this)
                 });

@@ -26,6 +26,7 @@ export default {
     getAccounts: getRequests.getAccounts,
     getSavedFilters: getRequests.getSavedFilters,
     getEnvironment: getRequests.getEnvironment,
+    getBasicFilterTotals: getRequests.getBasicFilterTotals,
 
     //Helpers
     add: storeHelpers.add,

@@ -166,7 +166,7 @@ export default {
                 showCloseButton: true,
                 animation: false
             }).then(function(result) {
-                if (result.value) {
+                if (result) {
                     that.requests.proceedWithDelete(options);
                 }
             });

@@ -194,7 +194,7 @@
                     callback: function (response) {
                         store.update(response, 'transactions');
                         store.getSideBarTotals();
-                        FilterRepository.getBasicFilterTotals();
+                        store.getBasicFilterTotals();
                         FilterRepository.runFilter();
 
                         if (response.multipleBudgets && !response.validAllocation) {
@@ -212,14 +212,14 @@
                 helpers.delete({
                     url: '/api/transactions/' + this.shared.selectedTransaction.id,
                     array: 'transactions',
-                    itemToDelete: this.transaction,
+                    itemToDelete: this.shared.selectedTransaction,
                     message: 'Transaction deleted',
                     redirectTo: this.redirectTo,
                     callback: function () {
-                        TransactionsRepository.deleteTransaction(this.shared.selectedTransaction);
                         // $.event.trigger('clear-total-changes');
                         store.getSideBarTotals();
-                        FilterRepository.getBasicFilterTotals();
+                        store.getBasicFilterTotals();
+                        helpers.hidePopup('transaction');
                     }
                 });
             },

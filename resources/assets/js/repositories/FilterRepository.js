@@ -144,31 +144,11 @@ export default {
     },
 
     /**
-     * Todo: The ToolbarForFilterComponent also needs the totals
-     * Todo: should be GET not POST
-     */
-    getBasicFilterTotals: function () {
-        var filter = this.formatDates();
-
-        var data = {
-            filter: filter
-        };
-
-        helpers.post({
-            url: '/api/filter/basicTotals',
-            data: data,
-            callback: function (response) {
-                store.set(response, 'filterTotals');
-            }.bind(this)
-        });
-    },
-
-    /**
      *
      */
     runFilter: function () {
         // console.log('running filter...route path is: ' + helpers.getRoutePath());
-        this.getBasicFilterTotals();
+        store.getBasicFilterTotals();
 
         if (helpers.getRoutePath()) {
             store.filterTransactions();

@@ -23,6 +23,24 @@ export default {
     },
 
     /**
+     * Todo: The ToolbarForFilterComponent also needs the totals
+     * Todo: should be GET not POST
+     */
+    getBasicFilterTotals: function () {
+        var data = {
+            filter: FilterRepository.formatDates()
+        };
+
+        helpers.post({
+            url: '/api/filter/basicTotals',
+            data: data,
+            callback: function (response) {
+                store.set(response, 'filterTotals');
+            }.bind(this)
+        });
+    },
+
+    /**
      *
      */
     getUser: function () {

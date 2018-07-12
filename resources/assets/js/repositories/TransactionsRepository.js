@@ -122,15 +122,6 @@ export default {
         });
     },
 
-    /**
-    *
-    * @param transaction
-    */
-    deleteTransaction: function (transaction) {
-        var index = helpers.findIndexById(this.state.transactions, transaction.id);
-        this.state.transactions = _.without(this.state.transactions, this.state.transactions[index]);
-    },
-
     massDelete: function () {
         $(".checked").each(function () {
             deleteTransaction($(this));
