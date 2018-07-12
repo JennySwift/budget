@@ -22,9 +22,10 @@ export default {
         }
         var newSideBarTotals = store.state.sideBarTotals;
 
+        var that = this;
         $.each(newSideBarTotals, function (key, value) {
             if (newSideBarTotals[key] !== oldSideBarTotals[key]) {
-                var diff = this.calculateDifference(newSideBarTotals[key], oldSideBarTotals[key]);
+                var diff = that.calculateDifference(newSideBarTotals[key], oldSideBarTotals[key]);
                 store.set(diff, 'totalChanges.' + key);
             }
         });
