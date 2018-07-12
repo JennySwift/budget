@@ -1,5 +1,5 @@
 //Commenting out for now while refactoring.
-// var AutocompleteRepository = {
+export default {
 //
 // 	duplicateCheck: function ($this, $transactions_without_duplicates) {
 // 		var $duplicate_counter = 0;
@@ -20,52 +20,52 @@
 // 			$transactions_without_duplicates.push($this);
 // 		}
 // 	},
-//
-// 	/**
-// 	 * For the transaction autocomplete
-// 	 * @param transactions
-// 	 * @returns {*}
-//      */
-// 	removeDuplicates: function (transactions) {
-// 		for (var i = 0; i < transactions.length; i++) {
-// 			var transaction = transactions[i];
-//
-// 			var object1 = {
-// 				description: transaction.description,
-// 				merchant: transaction.merchant,
-// 				total: transaction.total,
-// 				type: transaction.type,
-// 				account: transaction.account
-// 			};
-//
-// 			// We have the properties that we don't want to be duplicates in an object.
-// 			// Now we loop through the array again to make another object, then we can compare if the two objects are equal.
-// 			for (var j = 0; j < transactions.length; j++) {
-// 				var t = transactions[j];
-// 				var index = transactions.indexOf(t);
-//
-// 				var object2 = {};
-//
-// 				if (t.id !== transaction.id && t.type === transaction.type) {
-// 					//they are the same type, and not the same transaction
-// 					object2 = {
-// 						description: t.description,
-// 						merchant: t.merchant,
-// 						total: t.total,
-// 						type: t.type,
-// 						account: t.account
-// 					};
-// 				}
-//
-// 				if (_.isEqual(object1, object2)) {
-// 					transactions.splice(index, 1);
-// 				}
-// 			}
-// 		}
-//
-// 		return transactions;
-// 	},
-//
+
+	/**
+	 * For the transaction autocomplete
+	 * @param transactions
+	 * @returns {*}
+     */
+	removeDuplicates: function (transactions) {
+		for (var i = 0; i < transactions.length; i++) {
+			var transaction = transactions[i];
+
+			var object1 = {
+				description: transaction.description,
+				merchant: transaction.merchant,
+				total: transaction.total,
+				type: transaction.type,
+				account: transaction.account
+			};
+
+			// We have the properties that we don't want to be duplicates in an object.
+			// Now we loop through the array again to make another object, then we can compare if the two objects are equal.
+			for (var j = 0; j < transactions.length; j++) {
+				var t = transactions[j];
+				var index = transactions.indexOf(t);
+
+				var object2 = {};
+
+				if (t.id !== transaction.id && t.type === transaction.type) {
+					//they are the same type, and not the same transaction
+					object2 = {
+						description: t.description,
+						merchant: t.merchant,
+						total: t.total,
+						type: t.type,
+						account: t.account
+					};
+				}
+
+				if (_.isEqual(object1, object2)) {
+					transactions.splice(index, 1);
+				}
+			}
+		}
+
+		return transactions;
+	},
+
 // 	// transferTransactions: function ($transactions) {
 // 	// 	var $counter = 0;
 // 	// 	var $from_account;
@@ -101,4 +101,4 @@
 // 	// 	});
 // 	// 	return $transactions;
 // 	// }
-// };
+};

@@ -95,6 +95,7 @@
 <script>
     import NewTransactionRepository from '../../repositories/NewTransactionRepository'
     import TransactionAutocompleteResults from './TransactionAutocompleteResults.vue'
+    import AutocompleteRepository from "../../repositories/AutocompleteRepository";
     export default {
         data: function () {
             return {
@@ -117,7 +118,7 @@
                 helpers.get({
                     url:  url,
                     callback: function (response) {
-                        this.autocompleteSearchResults = response;
+                        this.autocompleteSearchResults = AutocompleteRepository.removeDuplicates(response);
                         store.set(false, 'autocompleteLoading');
                     }.bind(this)
                 });
