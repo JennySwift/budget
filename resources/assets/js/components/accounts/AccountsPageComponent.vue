@@ -99,7 +99,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../../sass/mixins';
+    @import '../../../sass/shared/mixins';
     #accounts {
         display: flex;
         flex-direction: column;

@@ -126,8 +126,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../../sass/variables';
-    @import '../../../sass/mixins';
+    @import '../../../sass/shared/index';
     #allocation-popup {
         max-width: 500px;
 

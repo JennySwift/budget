@@ -101,7 +101,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../sass/variables';
+    @import '../../sass/shared/index';
     $totalsWidth: 354px;
 
     #totals-wrapper {

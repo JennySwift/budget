@@ -80,7 +80,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../../sass/variables';
+    @import '../../../sass/shared/index';
     //#merchant-description-container {
     //    position: relative;
     //    #new-transaction-merchant-autocomplete, #new-transaction-description-autocomplete {

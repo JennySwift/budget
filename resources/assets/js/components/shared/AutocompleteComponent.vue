@@ -553,7 +553,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../../sass/variables';
+    @import '../../../sass/shared/index';
     $zIndex1: 9;
     $zIndex2: 99;
     $selected: #5cb85c;

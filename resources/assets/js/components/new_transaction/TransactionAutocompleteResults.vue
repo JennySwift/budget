@@ -100,7 +100,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../../sass/variables';
+    @import '../../../sass/shared/index';
     .transaction-autocomplete-results {
         tbody:hover {
             background: $success;

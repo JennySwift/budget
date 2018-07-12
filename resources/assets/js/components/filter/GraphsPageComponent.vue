@@ -59,7 +59,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../../sass/variables';
+    @import '../../../sass/shared/index';
     #graphs-component {
         flex-grow: 1;
         max-width: calc(100% - 40px);

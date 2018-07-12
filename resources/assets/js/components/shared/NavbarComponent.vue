@@ -10,25 +10,35 @@
         <!--</li>-->
 
         <li>
-            <router-link to="/" class="fa fa-home"></router-link>
+            <router-link to="/">Home</router-link>
         </li>
 
         <li id="menu-dropdown" class="dropdown">
-            <a href="#" class="dropdown-toggle fa fa-bars" data-toggle="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Menu
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
+                <li>
+                    <router-link to="/fixed-budgets">Fixed Budgets</router-link>
+                </li>
 
+                <li>
+                    <router-link to="flex-budgets">Flex Budgets</router-link>
+                </li>
+
+                <li>
+                    <router-link to="/unassigned-budgets">Unassigned Budgets</router-link>
+                </li>
                 <li>
                     <router-link to="/accounts">Accounts</router-link>
                 </li>
 
                 <li>
-                    <router-link to="/preferences">Preferences</router-link>
-                </li>
-
-                <li>
                     <router-link to="/favourite-transactions">Favourite transactions</router-link>
+                </li>
+                <li>
+                    <router-link to="/preferences">Preferences</router-link>
                 </li>
                 <li>
                     <router-link to="/graphs">Graphs</router-link>
@@ -258,36 +268,13 @@
                 {{shared.me.name}}
             </a>
             <a href="#" data-toggle="dropdown" class="gravatar-container">
-                <img v-bind:src="shared.me.gravatar" class="gravatar"/>
+                <!--<img v-bind:src="shared.me.gravatar" class="gravatar"/>-->
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
                 <!-- if they are a guest they shouldn't see this page anyway, but so that my code will work... -->
                 <li><a href="/logout">Logout</a></li>
                 <li><a v-on:click="deleteUser()" href="#">Delete account</a></li>
-            </ul>
-        </li>
-
-        <!--Budgets-->
-        <li id="menu-dropdown" class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Budgets
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-
-                <li>
-                    <router-link to="/fixed-budgets">Fixed</router-link>
-                </li>
-
-                <li>
-                    <router-link to="flex-budgets">Flex</router-link>
-                </li>
-
-                <li>
-                    <router-link to="/unassigned-budgets">Unassigned</router-link>
-                </li>
-
             </ul>
         </li>
 
@@ -308,8 +295,9 @@
             </ul>
         </li>
 
-        <li>
-            <a v-on:click="toggleFilter()" class="fa fa-search"></a>
+        <li v-on:click="toggleFilter()" class="pointer">
+            <a>Filter</a>
+            <!--<a v-on:click="toggleFilter()" class="fa fa-search"></a>-->
         </li>
 
     </ul>
@@ -395,7 +383,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../../sass/variables';
+    @import '../../../sass/shared/index';
     #navbar {
         //display: none;
         display:flex;
@@ -403,8 +391,8 @@
         position: fixed;
         top: 0;
         width: 100%;
-        color: #888;
-        background: black;
+        color: white;
+        @include navBackground;
         padding: 0;
         margin: 0;
         > li {
@@ -414,9 +402,14 @@
             position: relative;
             height: $navHeight;
             min-width: 70px;
+            > a {
+                color: $navLinkColour;
+            }
         }
-        a {
-            color: #337ab7;
+        .dropdown {
+            > a {
+                color: $navLinkColour;
+            }
         }
         .gravatar-li {
             //min-width: 160px;

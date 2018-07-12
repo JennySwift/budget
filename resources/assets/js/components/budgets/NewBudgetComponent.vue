@@ -139,7 +139,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../../sass/variables';
+    @import '../../../sass/shared/index';
     .new-budget {
         max-width: 433px;
         margin: auto;

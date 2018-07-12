@@ -28,7 +28,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../../sass/variables';
+    @import '../../../sass/shared/index';
     #loading {
         position: fixed;
         top: 0;

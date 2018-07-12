@@ -6,9 +6,8 @@
 @import "node_modules/animate.css/animate.min";
 
 
-@import "variables";
+@import "shared/index";
 @import "base";
-@import "mixins";
 @import "modules/index";
 @import 'helper-classes';
 @import 'budgets';

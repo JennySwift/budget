@@ -382,7 +382,7 @@
 </script>
 
 <style lang="scss" type="text/scss">
-    @import '../../sass/variables';
+    @import '../../sass/shared/variables';
     #preferences-page {
         margin: 20px;
         .clear-fields-container {
