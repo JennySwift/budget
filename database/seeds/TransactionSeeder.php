@@ -64,8 +64,8 @@ class TransactionSeeder extends Seeder {
             $this->accounts = Account::where('user_id', $user->id)->get();
 
             // Get budget ids for user
-            $this->fixedBudgetIds = $user->fixedBudgets()->lists('id')->all();
-            $this->flexBudgetIds = $user->flexBudgets()->lists('id')->all();
+            $this->fixedBudgetIds = $user->fixedBudgets()->pluck('id')->all();
+            $this->flexBudgetIds = $user->flexBudgets()->pluck('id')->all();
             $this->mixedBudgetIds = [$this->fixedBudgetIds[0], $this->flexBudgetIds[0]];
 
             $num = 1;
@@ -93,7 +93,7 @@ class TransactionSeeder extends Seeder {
     {
         $dateBeforeStartingDate = Config::get('budgets.dateBeforeStartingDateForExpenseTransactions');
         $dateAfterStartingDate = Config::get('budgets.dateAfterStartingDateForExpenseTransactions');
-        $bankFeesId = Budget::where('user_id', $user->id)->whereName('bank fees')->pluck('id');
+        $bankFeesId = Budget::where('user_id', $user->id)->whereName('bank fees')->value('id');
 
         foreach (range(1, $num) as $index) {
             //Create fixed budget expenses before starting date
@@ -136,9 +136,9 @@ class TransactionSeeder extends Seeder {
         $dateBeforeStartingDate = Config::get('budgets.dateBeforeStartingDateForIncomeTransactions');
         $dateAfterStartingDate = Config::get('budgets.dateAfterStartingDateForIncomeTransactions');
 
-        $businessId = Budget::where('user_id', $user->id)->whereName('business')->pluck('id');
-        $buskingId = Budget::where('user_id', $user->id)->whereName('busking')->pluck('id');
-        $somethingId = Budget::where('user_id', $user->id)->whereName('something')->pluck('id');
+        $businessId = Budget::where('user_id', $user->id)->whereName('business')->value('id');
+        $buskingId = Budget::where('user_id', $user->id)->whereName('busking')->value('id');
+        $somethingId = Budget::where('user_id', $user->id)->whereName('something')->value('id');
 
         foreach (range(1, $num) as $index) {
             //Create fixed budget income before starting date for 'business' budget
@@ -201,13 +201,13 @@ class TransactionSeeder extends Seeder {
     {
         $fixedBudgetIds = Budget::where('user_id', $user->id)
             ->where('type', 'fixed')
-            ->lists('id')->all();
+            ->pluck('id')->all();
 
         $fixedBudgetIds = $this->faker->randomElements($fixedBudgetIds, $this->faker->numberBetween(1,2));
 
         $flexBudgetIds = Budget::where('user_id', $user->id)
             ->where('type', 'flex')
-            ->lists('id')->all();
+            ->pluck('id')->all();
 
         $flexBudgetIds = $this->faker->randomElements($flexBudgetIds, $this->faker->numberBetween(1,2));
 
@@ -225,7 +225,7 @@ class TransactionSeeder extends Seeder {
     {
         $budgetIds = Budget::where('user_id', $user->id)
             ->whereType('fixed')
-            ->lists('id')->all();
+            ->pluck('id')->all();
 
         return $this->faker->randomElements($budgetIds, $this->faker->numberBetween(1,3));
     }
@@ -239,7 +239,7 @@ class TransactionSeeder extends Seeder {
     {
         $budgetIds = Budget::where('user_id', $user->id)
             ->whereType('flex')
-            ->lists('id')->all();
+            ->pluck('id')->all();
 
         return $this->faker->randomElements($budgetIds, $this->faker->numberBetween(1,3));
     }
@@ -253,7 +253,7 @@ class TransactionSeeder extends Seeder {
     {
         $budgetIds = Budget::where('user_id', $user->id)
             ->whereType('unassigned')
-            ->lists('id')->all();
+            ->pluck('id')->all();
 
         return $this->faker->randomElements($budgetIds, $this->faker->numberBetween(1,3));
     }

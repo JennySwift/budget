@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Http\Requests\Savings\UpdateSavingsTotalRequest;
 use App\Models\Savings;
 use Auth;
-use DB;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**

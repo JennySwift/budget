@@ -1,53 +1,79 @@
-var TransactionsRepository = {
+import FilterRepository from './FilterRepository.js'
+import helpers from './helpers/Helpers'
+export default {
     totals: {},
-
-    state: {
-        transactions: []
-    },
-
-    /**
-     *
-     */
-    filterTransactions: function (that) {
-        $.event.trigger('show-loading');
-
-        var data = {
-            filter: FilterRepository.formatDates()
-        };
-
-        that.$http.post('/api/filter/transactions', data, function (response) {
-            TransactionsRepository.state.transactions = response;
-            $.event.trigger('hide-loading');
-        })
-            .error(function (response) {
-                HelpersRepository.handleResponseError(response);
-            });
-    },
-
 
     /**
      *
      * @param transaction
-     * @returns {{date: (*|newTransaction.date|{}|NewTransactionRepository.defaults.date|{entered}|string), account_id: (*|number), description: *, merchant: *, total: *, reconciled: (*|number|string|boolean), allocated: *, minutes: *, budgets: *}}
      */
-    setFields: function (transaction) {
+    showAllocationPopup: function (transaction) {
+        store.set(transaction, 'selectedTransactionForAllocation');
+        store.getAllocationTotals();
+        helpers.showPopup('allocation');
+    },
+
+    setFavouriteTransactionFields: function () {
         var data = {
-            date: HelpersRepository.formatDate(transaction.userDate),
+            name: store.state.newFavouriteTransaction.name,
+            type: store.state.newFavouriteTransaction.type,
+            description: store.state.newFavouriteTransaction.description,
+            merchant: store.state.newFavouriteTransaction.merchant,
+            total: store.state.newFavouriteTransaction.total,
+            budget_ids: _.map(store.state.newFavouriteTransaction.budgets, 'id')
+        };
+
+        if (store.state.newFavouriteTransaction.account && store.state.newFavouriteTransaction.type !== 'transfer') {
+            data.account_id = store.state.newFavouriteTransaction.account.id;
+        }
+
+        if (store.state.newFavouriteTransaction.fromAccount && store.state.newFavouriteTransaction.type === 'transfer') {
+            data.from_account_id = store.state.newFavouriteTransaction.fromAccount.id;
+        }
+
+        if (store.state.newFavouriteTransaction.toAccount && store.state.newFavouriteTransaction.type === 'transfer') {
+            data.to_account_id = this.state.newFavouriteTransaction.toAccount.id;
+        }
+
+        return data;
+    },
+
+    /**
+     *
+     * @param transaction
+     * @param direction
+     * @returns {{date: *, account_id: number, type: *, description: *, merchant: (*|string|filter.merchant|{in, out}|boolean|state.filter.merchant), total: *, reconciled, allocated: (*|boolean), minutes: *, budget_ids: Array}}
+     */
+    setFields: function (transaction, direction) {
+        var data = {
+            date: helpers.convertToMySqlDate(transaction.userDate),
             account_id: transaction.account.id,
             type: transaction.type,
             description: transaction.description,
             merchant: transaction.merchant,
             total: transaction.total,
-            reconciled: HelpersRepository.convertBooleanToInteger(transaction.reconciled),
+            reconciled: helpers.convertBooleanToInteger(transaction.reconciled),
             allocated: transaction.allocated,
             //Convert duration from HH:MM format to minutes
-            minutes: HelpersRepository.formatDurationToMinutes(transaction.duration),
-            budget_ids: _.pluck(transaction.budgets, 'id')
+            minutes: helpers.formatDurationToMinutes(transaction.duration),
+            budget_ids: _.map(transaction.budgets, 'id')
         };
 
         if (transaction.type === 'expense' && transaction.total > 0) {
             //transaction is an expense without the negative sign
             data.total*= -1;
+        }
+
+        if (direction) {
+            //It is a transfer transaction
+            data.direction = direction;
+
+            if (direction === 'from') {
+                data.account_id = store.state.newTransaction.fromAccount.id;
+            }
+            else if (direction === 'to') {
+                data.account_id = store.state.newTransaction.toAccount.id;
+            }
         }
 
         return data;
@@ -100,17 +126,8 @@ var TransactionsRepository = {
     *
     * @param transaction
     */
-    updateTransaction: function (transaction) {
-        var index = HelpersRepository.findIndexById(this.state.transactions, transaction.id);
-        this.state.transactions.$set(index, transaction);
-    },
-
-    /**
-    *
-    * @param transaction
-    */
     deleteTransaction: function (transaction) {
-        var index = HelpersRepository.findIndexById(this.state.transactions, transaction.id);
+        var index = helpers.findIndexById(this.state.transactions, transaction.id);
         this.state.transactions = _.without(this.state.transactions, this.state.transactions[index]);
     },
 

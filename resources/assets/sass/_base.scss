@@ -1,10 +1,7 @@
-/*==============================global==============================*/
-
 html, body {
     max-width: 100%;
     background: #fff;
     margin: 0;
-    //for flexbox sticky footer
     height: 100%;
 }
 
@@ -19,12 +16,12 @@ body {
     .main {
         padding-bottom: 27px;
         min-height: 100%;
-        display: none;
+        //display: none;
         margin: 20px;
     }
     footer {
-        display: none;
-//        display: flex;
+        //display: none;
+        display: flex;
         justify-content: space-around;
         padding: 11px;
         background: #000000;
@@ -51,10 +48,6 @@ button {
         &:active {
             box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
             border: 1px solid black;
-        }
-        &:focus {
-//            outline: thin dotted;
-//            outline-offset: -2px;
         }
         &:hover, &:focus, &:active {
             background-color: #e6e6e6;
@@ -99,8 +92,6 @@ input[type="text"] {
 }
 
 input[type="checkbox"] {
-	//height: 34px;
-	//width: 34px;
 	margin: 0;
 }
 
@@ -108,7 +99,6 @@ table {
     border-collapse: separate;
     text-align: center;
     th {
-        //border-radius: 18px;
         padding: 10px 10px;
         text-align: center;
     }

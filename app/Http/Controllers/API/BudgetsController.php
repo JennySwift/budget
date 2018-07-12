@@ -6,12 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Budgets\CreateBudgetRequest;
 use App\Http\Transformers\BudgetTransformer;
 use App\Models\Budget;
-use App\Repositories\Budgets\BudgetsRepository;
 use Auth;
-use DB;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use JavaScript;
 
 /**
  * Class BudgetsController
@@ -20,10 +16,15 @@ use JavaScript;
 class BudgetsController extends Controller
 {
 
+    /*
+     *
+     */
+    private $fields = ['type', 'name', 'amount', 'starting_date'];
+
     /**
      * This method is only for the test at the moment
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request)
     {
@@ -32,42 +33,37 @@ class BudgetsController extends Controller
                 ->whereType('fixed')
                 ->orderBy('name', 'asc')
                 ->get();
-        }
-        else if ($request->has('unassigned')) {
-            $budgets = Budget::forCurrentUser()
-                ->whereType('unassigned')
-                ->orderBy('name', 'asc')
-                ->get();
-        }
-        else if ($request->has('flex')) {
+        } else {
+            if ($request->has('unassigned')) {
+                $budgets = Budget::forCurrentUser()
+                    ->whereType('unassigned')
+                    ->orderBy('name', 'asc')
+                    ->get();
+            } else {
+                if ($request->has('flex')) {
 //            $budgets = Budget::forCurrentUser()->whereType('flex')->get();
-            $remainingBalance = app('remaining-balance')->calculate();
+                    $remainingBalance = app('remaining-balance')->calculate();
 //            return $remainingBalance->flexBudgetTotals->budgets['data'];
-            $budgets = $remainingBalance->flexBudgetTotals->budgets;
-        }
-        else {
-            $budgets = Budget::forCurrentUser()
-                ->orderBy('name', 'asc')
-                ->get();
+                    $budgets = $remainingBalance->flexBudgetTotals->budgets;
+                } else {
+                    $budgets = Budget::forCurrentUser()
+                        ->orderBy('name', 'asc')
+                        ->get();
+                }
+            }
         }
 
-        $budgets = $this->transform($this->createCollection($budgets, new BudgetTransformer(['includeExtra' => true])))['data'];
-        return response($budgets, Response::HTTP_OK);
+        return $this->respondIndex($budgets, new BudgetTransformer(['includeExtra' => true]));
     }
 
     /**
-     * POST /api/budgets
+     *
      * @param CreateBudgetRequest $request
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function store(CreateBudgetRequest $request)
     {
-        $budget = new Budget($request->only([
-            'type',
-            'name',
-            'amount',
-            'starting_date'
-        ]));
+        $budget = new budget($request->only($this->fields));
         $budget->user()->associate(Auth::user());
         $budget->save();
 
@@ -76,39 +72,29 @@ class BudgetsController extends Controller
             $budget->getCalculatedAmount($remainingBalance);
         }
 
-        $budget = $this->transform($this->createItem($budget, new BudgetTransformer(['includeExtra' => true])))['data'];
-        return response($budget, Response::HTTP_CREATED);
+        return $this->respondStore($budget, new BudgetTransformer(['includeExtra' => true]));
     }
 
     /**
-     * GET /api/budgets/{budgets}
-     * @param Budget $budget
-     * @return Response
-     */
-    public function show(Budget $budget)
-    {
-        $budget = $this->transform($this->createItem($budget, new BudgetTransformer))['data'];
-        return response($budget, Response::HTTP_OK);
-    }
-
-    /**
-     * PUT /api/budgets/{budgets}
+     *
      * @param Request $request
-     * @param budget $budget
-     * @return array
+     * @param Budget $budget
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function show(Request $request, Budget $budget)
+    {
+        return $this->respondShow($budget, new BudgetTransformer);
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @param Budget $budget
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function update(Request $request, Budget $budget)
     {
-        $data = array_filter(array_diff_assoc($request->only([
-            'name',
-            'type',
-            'amount',
-            'starting_date'
-        ]), $budget->toArray()));
-
-        if(empty($data)) {
-            return response($this->transform($this->createItem($budget, new BudgetTransformer(['includeExtra' => true]))), Response::HTTP_NOT_MODIFIED);
-        }
+        $data = $this->getData($budget, $request->only($this->fields));
 
         $budget->update($data);
 
@@ -117,22 +103,18 @@ class BudgetsController extends Controller
 
         $budget->getCalculatedAmount($remainingBalance);
 
-        $budget = $this->transform($this->createItem($budget, new BudgetTransformer(['includeExtra' => true])))['data'];
-
-        return response($budget, Response::HTTP_OK);
+        return $this->respondUpdate($budget, new BudgetTransformer(['includeExtra' => true]));
     }
 
     /**
-     * Delete a budget
-     * DELETE api/budgets/{budgets}
+     *
+     * @param Request $request
      * @param Budget $budget
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function destroy(Budget $budget)
+    public function destroy(Request $request, budget $budget)
     {
-        $budget->delete();
-
-        return response([], 204);
+        return $this->destroyModel($budget);
     }
 }

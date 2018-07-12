@@ -1,88 +1,63 @@
+import TotalsRepository from "./repositories/TotalsRepository";
 
-var App = Vue.component('app', {
-    data: function () {
-        return {
-            show: ShowRepository.defaults,
-            transactionPropertiesToShow: ShowRepository.setTransactionDefaults()
-        };
-    },
-    methods: {
+require('./bootstrap');
 
-        /**
-         *
-         */
-        setHeights: function () {
-            var height = $(window).height();
-            $('body,html').height(height);
-        }
+window.Vue = require('vue');
+
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+Vue.use(VueRouter);
+
+import store from './repositories/Store'
+import helpers from './repositories/helpers/Helpers'
+
+window.helpers = helpers;
+window.store = store;
+
+require('./config.js');
+require('./components');
+require('./directives');
+import routes from './routes'
+import FilterRepository from "./repositories/FilterRepository";
+
+window.Event = new Vue();
+const bus = new Vue();
+Vue.prototype.$bus = bus;
+
+const router = new VueRouter({
+    routes
+})
+
+const app = new Vue({
+    el: '#app',
+    router: router,
+    mounted: function () {
+        store.getUser();
+        store.getEnvironment();
+        store.getAccounts();
+        store.getAccountsWithBalances();
+        store.setHeights();
+        store.getBudgets();
+        store.getUnassignedBudgets();
+        store.getFavouriteTransactions();
+        store.setDefaultTab();
+        store.getSideBarTotals();
+        store.getSavedFilters();
     },
-    ready: function () {
-        this.setHeights();
-        AccountsRepository.getAccounts(this);
-        BudgetsRepository.getBudgets(this);
-        BudgetsRepository.getUnassignedBudgets(this);
-        FavouriteTransactionsRepository.getFavouriteTransactions(this);
-        HomePageRepository.setDefaultTab();
-        TotalsRepository.getSideBarTotals(this);
-        SavedFiltersRepository.getSavedFilters(this);
-    }
+}).$mount('#app')
+
+
+$(window).on('load', function () {
+    // $(".main").css('display', 'block');
+    // $("footer, #navbar").css('display', 'flex');
+    // $("#page-loading").hide();
+    //Uncomment after refactor
+    // smoothScroll.init();
 });
 
-var router = new VueRouter({
-    hashbang: false
-});
 
-router.map({
-    '/': {
-        component: TransactionsPage,
-        //subRoutes: {
-        //    //default for if no id is specified
-        //    '/': {
-        //        component: Item
-        //    },
-        //    '/:id': {
-        //        component: Item
-        //    }
-        //}
-    },
-    '/help': {
-        component: HelpPage
-    },
-    '/feedback': {
-        component: FeedbackPage
-    },
-    '/accounts': {
-        component: AccountsPage
-    },
-    '/preferences': {
-        component: PreferencesPage
-    },
-    '/fixed-budgets': {
-        component: FixedBudgetsPage
-    },
-    '/flex-budgets': {
-        component: FlexBudgetsPage
-    },
-    '/unassigned-budgets': {
-        component: UnassignedBudgetsPage
-    },
-    '/graphs': {
-        component: GraphsPage
-    },
-    '/favourite-transactions': {
-        component: FavouriteTransactionsPage
-    }
-});
 
-router.start(App, 'body');
 
-$(window).load(function () {
-    $(".main").css('display', 'block');
-    $("footer, #navbar").css('display', 'flex');
-    $("#page-loading").hide();
-    //$rootScope.$emit('getSideBarTotals');
 
-    smoothScroll.init();
-});
 
 

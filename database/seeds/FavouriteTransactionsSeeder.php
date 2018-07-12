@@ -21,7 +21,7 @@ class FavouriteTransactionsSeeder extends Seeder {
         [
             'name' => 'foreign currency fee',
             'type' => 'expense',
-            'total' => '',
+            'total' => '00.00',
             'account' => 'bank account',
             'merchant' => 'bank',
             'description' => 'fee',
@@ -30,7 +30,7 @@ class FavouriteTransactionsSeeder extends Seeder {
         [
             'name' => 'private coaching',
             'type' => 'expense',
-            'total' => 50,
+            'total' => 50.00,
             'account' => 'bank account',
             'merchant' => 'coach',
             'description' => 'coaching',
@@ -39,7 +39,7 @@ class FavouriteTransactionsSeeder extends Seeder {
         [
             'name' => 'groceries',
             'type' => 'expense',
-            'total' => '',
+            'total' => '00.00',
             'account' => 'cash',
             'merchant' => 'grocery store',
             'description' => 'food',
@@ -49,7 +49,7 @@ class FavouriteTransactionsSeeder extends Seeder {
         [
             'name' => 'transfer',
             'type' => 'transfer',
-            'total' => '100',
+            'total' => '100.00',
             'fromAccount' => 'cash',
             'toAccount' => 'bank account',
             'merchant' => '',
@@ -89,7 +89,8 @@ class FavouriteTransactionsSeeder extends Seeder {
 
                 $budgetIds = [];
                 foreach($favourite['budgets'] as $budgetName) {
-                    $budgetIds[] = Budget::where('user_id', $user->id)->where('name', $budgetName)->pluck('id');
+                    $budgetId = Budget::where('user_id', $user->id)->where('name', $budgetName)->value('id');
+                    $budgetIds[] = $budgetId;
                 }
 
                 $newFavourite->budgets()->attach($budgetIds);

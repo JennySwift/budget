@@ -1,4 +1,4 @@
-var SavingsRepository = {
+export default {
 
 	updateSavingsTotal: function () {
 		var $amount = $("#edited-savings-total").val().replace(',', '');
@@ -31,4 +31,4 @@ var SavingsRepository = {
 
 		return $http.put($url, $data);
 	}
-};
+}

@@ -1,10 +1,37 @@
 {
-  "devDependencies": {
-    "gulp": "^3.8.8",
-    "jasmine-core": "^2.3.4",
-    "karma": "^0.13.10",
-    "karma-chrome-launcher": "^0.2.0",
-    "karma-jasmine": "^0.3.6",
-    "laravel-elixir": "*"
-  }
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "axios": "^0.18",
+        "bootstrap": "^4.0.0",
+        "popper.js": "^1.12",
+        "cross-env": "^5.1",
+        "jquery": "^3.2",
+        "laravel-mix": "^2.0",
+        "lodash": "^4.17.4",
+        "vue": "^2.5.7",
+        "font-awesome": "^4.7.0"
+    },
+    "dependencies": {
+        "accounting": "^0.4.1",
+        "animate.css": "^3.5.2",
+        "bootstrap": "^3.3.7",
+        "bootstrap-sass": "^3.3.7",
+        "chart.js": "^2.7.0",
+        "moment": "^2.13.0",
+        "sugar": "^1.4.1",
+        "sweetalert2": "^6.6.8",
+        "underscore": "^1.8.3",
+        "vue-multiselect": "^2.1.0",
+        "vue-router": "^2.7.0",
+        "vue-tippy": "^0.2.2"
+    }
 }

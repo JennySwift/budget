@@ -1,3 +1,51 @@
+.tag-with-budget {
+	background: green;
+}
+
+.tag-with-fixed-budget {
+	background: $primary;
+	.type {
+		font-size: 6px;
+	}
+}
+
+.tag-with-flex-budget {
+	background: $warning;
+	.type {
+		font-size: 6px;
+	}
+}
+
+.tag-without-budget {
+	.type {
+		font-size: 6px;
+	}
+}
+
+#my_results .my-dropdown-container, #new-transaction-wrapper .my-dropdown-container {
+	padding: 0px !important;
+}
+
+.label {
+	margin-right: 3px;
+}
+
+.no_match {
+	display: none;
+}
+
+.hidden_tag {
+	display: none;
+}
+
+#tag_exists {
+	display:none;
+}
+
+.select, #description_autocomplete tbody.select {
+	background: $select_blue;
+}
+
 .pointer {
 	cursor: pointer;
 }
@@ -225,25 +273,6 @@
 	width: 100%;
 }
 
-// =================================height=================================
-
-.height-100 {
-	height: 100%;
-}
-
-// =================================positioning=================================
-
-.relative {
-	position: relative;
-}
-
-.absolute-right {
-	position: absolute;
-	right: 0;
-}
-
-
-
 // =================================input group=================================
 
 .my-input-group {
@@ -253,8 +282,6 @@
 	}
 }
 
-// =================================button group=================================
-
 .my-btn-group {
 	display: flex;
 	display: -webkit-flex;
@@ -263,62 +290,3 @@
 		width: 100%;
 	}
 }
-
-//=====================flex-parent properties:=====================
-//display: flex | inline-flex
-//flex-direction: row | row-reverse | column | column-reverse
-//justify-content //defines alignment on the main axis: flex-start | flex-end | center | space-between //1st and last items on end of lines | space-around
-//align-items //the justify-content version for the cross-axis: flex-start | flex-end | center | baseline //items are aligned such as their baselines align | stretch //default
-//align-content: 
-//flex-wrap: nowrap | wrap | wrap-reverse
-//flex-flow: flex-direction flex-wrap //shorthand, didn't work with Firefox
-//=====================flex-child properties:=====================
-//order
-//flex-grow
-//flex-shrink
-//flex-basis
-// flex: grow, shrink, basis //shorthand
-//align-self //overide the alignment for individual flex items
-//=======================end flex properties:=======================
-
-// .row {
-// 	display: flex;
-// 	flex-wrap: wrap;
-// 	margin: 15px 15px;
-// 	> * {
-// 		margin: 15px 15px;
-// 	}
-// }
-
-// .col-sm-2 {
-// 	flex-basis: 182px;
-// }
-
-
-
-// =================================flex=================================
-
-// .flex-parent {
-// 	display: flex;
-// 	display: -webkit-flex;
-// }
-// .flex-grow-1 {
-// 	flex-grow: 1;
-// 	-webkit-flex-grow: 1;
-// }
-// .flex-grow-2 {
-// 	flex-grow: 2;
-// 	-webkit-flex-grow: 2;
-// }
-// .flex-basis-xs {
-// 	flex-basis: 20px;
-// 	-webkit-flex-basis: 20px;
-// }
-// .flex-basis-sm {
-// 	flex-basis: 40px;
-// 	-webkit-flex-basis: 40px;
-// }
-// .flex-basis-md {
-// 	flex-basis: 80px;
-// 	-webkit-flex-basis: 80px;
-// }

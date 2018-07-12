@@ -2,6 +2,7 @@
 use App\Exceptions\ModelAlreadyExistsException;
 use App\Exceptions\NotLoggedInException;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
@@ -19,6 +20,20 @@ use League\Fractal\TransformerAbstract;
 //}
 
 /**
+ *
+ * @param Request $request
+ * @param $model
+ * @return array
+ */
+function getRequestData(Request $request, $model)
+{
+    $diff = array_diff_assoc($request->only($model->getEditableFields()), $model->toArray());
+    $data = array_filter($diff, 'removeFalseKeepZeroAndEmptyStrings');
+
+    return $data;
+}
+
+/**
  * Merge two array together, passing the second array through array filter to remove null values
  * @param array $base
  * @param array $newItems
@@ -26,7 +41,7 @@ use League\Fractal\TransformerAbstract;
  */
 function array_compare(array $base, array $newItems)
 {
-    return array_merge($base, array_filter($newItems));
+    return array_merge($base, array_filter($newItems, 'removeFalseKeepZeroAndEmptyStrings'));
 }
 
 /**
@@ -69,7 +84,7 @@ function convertToBoolean($variable)
  * @param $for
  * @return string
  */
-function convertDate( Carbon $date, $for = NULL)
+function convertDate(Carbon $date, $for = NULL)
 {
     switch($for) {
         case "sql":
@@ -129,7 +144,7 @@ function removeFalseKeepZeroAndEmptyStrings($value)
  *
  * @param $resource
  */
-function transform($resource)
+function transformFromHelpers($resource)
 {
     $manager = new Manager();
     $manager->setSerializer(new DataArraySerializer);

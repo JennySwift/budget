@@ -4,11 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Exceptions\NotLoggedInException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
+use App\Http\Transformers\UserTransformer;
 use App\Models\Preference;
 use App\User;
 use Auth;
-use Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -18,6 +17,25 @@ use Illuminate\Http\Response;
  */
 class UsersController extends Controller
 {
+
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function show(Request $request, User $user)
+    {
+        return $this->respondShow($user, new UserTransformer);
+    }
+
+    /**
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function showCurrentUser()
+    {
+        return $this->respondShow(Auth::user(), new UserTransformer);
+    }
 
     /**
      *
@@ -48,7 +66,7 @@ class UsersController extends Controller
     {
         return Preference::forCurrentUser()
             ->where('type', 'date_format')
-            ->pluck('value');
+            ->value('value');
     }
 
     /**
@@ -80,8 +98,7 @@ class UsersController extends Controller
             $user = User::findOrFail($id);
             $user->delete();
             Auth::logout();
-        }
-        else {
+        } else {
             //They could actually be logged in, but trying to delete another account mischievously
             throw new NotLoggedInException;
         }

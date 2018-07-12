@@ -1,4 +1,5 @@
-/*==============================variables==============================*/
+@import "colors";
+
 $budget_width: 50%;
 $border: none;
 $results_border: 3px solid $lightgrey;
@@ -9,3 +10,8 @@ $border-radius: 5px;
 $results_tag_location_container_height: 23px;
 $preferencesWidth: 357px;
 $navHeight: 44px;
+
+$zIndex1: 9;
+$zIndex2: 99;
+$zIndex3: 999;
+$zIndex4: 9999;

@@ -27,7 +27,7 @@ class UpdateAccountRequest extends Request
      */
     public function rules()
     {
-        $account = $this->route()->parameter('accounts');
+        $account = $this->route()->parameter('account');
         $user_id = Auth::id();
 
         return  [

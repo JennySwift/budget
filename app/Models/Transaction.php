@@ -46,6 +46,24 @@ class Transaction extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'user_id'];
 
     /**
+     * For knowing which fields are editable from the controller
+     * @return array
+     */
+    public function getEditableFields()
+    {
+        return [
+            'date',
+            'description',
+            'merchant',
+            'total',
+            'type',
+            'reconciled',
+            'allocated',
+            'minutes'
+        ];
+    }
+
+    /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -158,7 +176,7 @@ class Transaction extends Model
      */
     public function getPathAttribute()
     {
-        return route('api.transactions.show', $this->id);
+        return route('transactions.show', $this->id);
     }
 
     /**
@@ -260,7 +278,7 @@ class Transaction extends Model
         //Get the other tags for the transaction (not the edited tag)
         $budgetIds = $this->budgets()
             ->where('budgets_transactions.budget_id', '!=', $editedBudget->id)
-            ->lists('budgets_transactions.budget_id');
+            ->pluck('budgets_transactions.budget_id')->all();
 
         if ($percent == 100) {
             foreach ($budgetIds as $budgetId) {

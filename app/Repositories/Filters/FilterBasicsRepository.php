@@ -17,10 +17,10 @@ class FilterBasicsRepository {
      */
     public function filterAccounts($query, $accounts)
     {
-        if ($accounts['in']) {
+        if (isset($accounts['in']) && $accounts['in']) {
             $query = $query->whereIn('account_id', $accounts['in']);
         }
-        if ($accounts['out']) {
+        if (isset($accounts['out']) && $accounts['out']) {
             $query = $query->whereNotIn('account_id', $accounts['out']);
         }
         return $query;
@@ -34,10 +34,10 @@ class FilterBasicsRepository {
      */
     public function filterTypes($query, $types)
     {
-        if ($types['in']) {
+        if (isset($types['in']) && $types['in']) {
             $query = $query->whereIn('type', $types['in']);
         }
-        if ($types['out']) {
+        if (isset($types['out']) && $types['out']) {
             $query = $query->whereNotIn('type', $types['out']);
         }
         return $query;
@@ -51,10 +51,10 @@ class FilterBasicsRepository {
      */
     public function filterTotal($query, $total)
     {
-        if ($total['in']) {
+        if (isset($total['in']) && $total['in']) {
             $query = $query->where('total', $total['in']);
         }
-        if ($total['out']) {
+        if (isset($total['out']) && $total['out']) {
             $query = $query->where('total', '!=', $total['out']);
         }
         return $query;
@@ -84,10 +84,10 @@ class FilterBasicsRepository {
      */
     public function filterDescriptionOrMerchant($query, $type, $value)
     {
-        if ($value['in']) {
+        if (isset($value['in']) && $value['in']) {
             $query = $query->where($type, 'LIKE', '%' . $value['in'] . '%');
         }
-        if ($value['out']) {
+        if (isset($value['out']) && $value['out']) {
             $query = $query->where(function($q) use ($type, $value)
             {
                 $q->where($type, 'NOT LIKE', '%' . $value['out'] . '%')
@@ -109,22 +109,22 @@ class FilterBasicsRepository {
     public function filterDates($query, $type, $value, $calculatingBalance)
     {
         if ($type === "singleDate" && !$calculatingBalance) {
-            if ($value['inSql']) {
+            if (isset($value['inSql']) && $value['inSql']) {
                 $query = $query->where('date', $value['inSql']);
             }
-            if ($value['outSql']) {
+            if (isset($value['outSql']) && $value['outSql']) {
                 $query = $query->where('date', '!=', $value['outSql']);
             }
         }
 
         elseif ($type === "fromDate" && !$calculatingBalance) {
-            if ($value['inSql']) {
+            if (isset($value['inSql']) && $value['inSql']) {
                 $query = $query->where('date', '>=', $value['inSql']);
             }
         }
 
         elseif ($type === "toDate") {
-            if ($value['inSql']) {
+            if (isset($value['inSql']) && $value['inSql']) {
                 $query = $query->where('date', '<=', $value['inSql']);
             }
         }

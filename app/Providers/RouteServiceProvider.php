@@ -1,79 +1,101 @@
-<?php namespace App\Providers;
+<?php
+
+namespace App\Providers;
 
 use App\Models\Account;
 use App\Models\Budget;
 use App\Models\FavouriteTransaction;
 use App\Models\SavedFilter;
-use App\Models\Tag;
 use App\Models\Transaction;
-use App\Traits\ForCurrentUserTrait;
-use Illuminate\Routing\Router;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-class RouteServiceProvider extends ServiceProvider {
+class RouteServiceProvider extends ServiceProvider
+{
+    /**
+     * This namespace is applied to your controller routes.
+     *
+     * In addition, it is set as the URL generator's root namespace.
+     *
+     * @var string
+     */
+    protected $namespace = 'App\Http\Controllers';
 
-    use ForCurrentUserTrait;
+    /**
+     * Define your route model bindings, pattern filters, etc.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Route::bind('account', function($id)
+        {
+            return Account::forCurrentUser()->findOrFail($id);
+        });
 
-	/**
-	 * This namespace is applied to the controller routes in your routes file.
-	 *
-	 * In addition, it is set as the URL generator's root namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'App\Http\Controllers';
-
-	/**
-	 * Define your route model bindings, pattern filters, etc.
-	 *
-	 * @param  \Illuminate\Routing\Router  $router
-	 * @return void
-	 */
-	public function boot(Router $router)
-	{
-		parent::boot($router);
-
-//		$router->model('accounts', Account::class);
-
-		Route::bind('accounts', function($id)
-		{
-			return Account::forCurrentUser()->findOrFail($id);
-		});
-
-        Route::bind('budgets', function($id)
+        Route::bind('budget', function($id)
         {
             return Budget::forCurrentUser()->findOrFail($id);
         });
 
-        Route::bind('transactions', function($id)
+        Route::bind('transaction', function($id)
         {
             return Transaction::forCurrentUser()->findOrFail($id);
         });
 
-        Route::bind('favouriteTransactions', function($id)
+        Route::bind('favouriteTransaction', function($id)
         {
             return FavouriteTransaction::forCurrentUser()->findOrFail($id);
         });
 
-		Route::bind('savedFilters', function($id)
-		{
-			return SavedFilter::forCurrentUser()->findOrFail($id);
-		});
-	}
+        Route::bind('savedFilter', function($id)
+        {
+            return SavedFilter::forCurrentUser()->findOrFail($id);
+        });
 
-	/**
-	 * Define the routes for the application.
-	 *
-	 * @param  \Illuminate\Routing\Router  $router
-	 * @return void
-	 */
-	public function map(Router $router)
-	{
-		$router->group(['namespace' => $this->namespace], function($router)
-		{
-			require app_path('Http/routes.php');
-		});
-	}
+        parent::boot();
+    }
 
+    /**
+     * Define the routes for the application.
+     *
+     * @return void
+     */
+    public function map()
+    {
+        $this->mapApiRoutes();
+
+        $this->mapWebRoutes();
+
+        //
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/web.php'));
+    }
+
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        Route::prefix('api')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/api.php'));
+    }
 }

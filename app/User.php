@@ -1,34 +1,33 @@
-<?php namespace App;
+<?php
+
+namespace App;
 
 use App\Models\Preference;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
-/**
- * Class User
- * @package App
- */
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends Authenticatable
 {
-
-    use Authenticatable, CanResetPassword;
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'users';
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'preferences'];
+    protected $fillable = [
+        'name', 'email', 'password', 'preferences',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     /**
      * @var array
@@ -39,13 +38,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $casts = ['preferences' => 'json'];
-
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = ['password', 'remember_token'];
 
     /**
      *
@@ -136,7 +128,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function getPathAttribute()
     {
-        return route('api.users.show', $this->id);
+        return route('users.show', $this->id);
     }
 
     /**
@@ -155,5 +147,4 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         //todo
     }
-
 }

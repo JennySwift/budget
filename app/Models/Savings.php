@@ -66,7 +66,7 @@ class Savings extends Model
      */
     public static function getSavingsTotal()
     {
-        $savings = self::forCurrentUser()->pluck('amount');
+        $savings = self::forCurrentUser()->value('amount');
 
         return (float) $savings;
     }

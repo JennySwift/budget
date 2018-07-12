@@ -1,142 +1,220 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Foundation\Bus\DispatchesCommands;
-use Illuminate\Http\Request;
+namespace App\Http\Controllers;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\Serializer\DataArraySerializer;
 use League\Fractal\TransformerAbstract;
 
-abstract class Controller extends BaseController {
-
-	use DispatchesCommands, ValidatesRequests;
+class Controller extends BaseController
+{
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * Create a 201 - Created response
-     * @param Arrayable $data => Arrayable allows the method to accept any object with a toArray() method.
-     * @return Response
+     *
+     * @param $array
+     * @return array
      */
-    public function responseCreated(Arrayable $data)
+    public function getPaginationProperties($array)
     {
-        return response($data->toArray(), Response::HTTP_CREATED);
+        return [
+            'total' => $array->total(),
+            'per_page' => $array->perPage(),
+            'current_page' => $array->currentPage(),
+            'last_page' => $array->lastPage(),
+            'next_page_url' => $array->nextPageUrl(),
+            'prev_page_url' => $array->previousPageUrl(),
+            'from' => $array->firstItem(),
+            'to' => $array->lastItem(),
+        ];
     }
 
     /**
-     * Create a 200 - OK response
-     * @param Arrayable $data
-     * @return Response
+     *
+     * @param Model $model
+     * @param array $fields
+     * @return array
      */
-    public function responseOk(Arrayable $data)
+    public function getData(Model $model, array $fields)
     {
-        return response($data->toArray(), Response::HTTP_OK);
+        return array_compare($model->toArray(), $fields);
     }
 
     /**
-     * @param $resource
-     * @return mixed
+     *
+     * @param Model $model
+     * @param null $name
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @throws \ReflectionException
      */
-    public function responseWithTransformer($resource, $code)
+    protected function destroyModel(Model $model, $name = null)
     {
-        $manager = new Manager();
-        $manager->setSerializer(new DataArraySerializer);
+        try {
+            $model->delete();
 
-        $manager->parseIncludes(request()->get('includes', []));
+            return $this->respondDestroy();
+        } catch (Exception $e) {
 
-        return response()->json(
-            $manager->createData($resource)->toArray(),
-            $code
-        );
+            //Integrity constraint violation
+            if ($e->getCode() === '23000') {
+                $name = (new \ReflectionClass($model))->getShortName();
+                $message = $name . ' could not be deleted. It is in use.';
+            } else {
+                $message = 'There was an error';
+            }
+
+            return response([
+                'error' => $message,
+                'status' => Response::HTTP_BAD_REQUEST
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
-     * Return response ok code with transformed resource
-     * @param $resource
-     * @return mixed
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function responseOkWithTransformer($resource, $transformer)
-    {
-        //Transform
-        $resource = createItem($resource, $transformer);
-
-        return response(transform($resource), Response::HTTP_OK);
-    }
-
-    /**
-     * Return response created code with transformed resource
-     * @param $resource
-     * @return mixed
-     */
-    public function responseCreatedWithTransformer($resource, $transformer)
-    {
-        //Transform
-        $resource = createItem($resource, $transformer);
-
-        return response(transform($resource), Response::HTTP_CREATED);
-
-        /**
-         * @VP:
-         * Why do all this stuff when I could just do this:
-         * return response(transform($resource), Response::HTTP_CREATED);
-         */
-
-//        $manager = new Manager();
-//        $manager->setSerializer(new DataArraySerializer);
-//
-//        $manager->parseIncludes(request()->get('includes', []));
-//
-//        return response()->json(
-//            $manager->createData($resource)->toArray(),
-//            Response::HTTP_CREATED
-//        );
-    }
-
-
-
-    /**
-     * Create a 204 - No content response
-     * @return Response
-     */
-    public function responseNoContent()
+    protected function respondDestroy()
     {
         return response([], Response::HTTP_NO_CONTENT);
     }
 
     /**
-     * Create a 304 - No content response
-     * @return Response
+     *
+     * @param $model
+     * @param $transformer
+     * @param array $includes
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function responseNotModified()
+    protected function respondShow($model, $transformer, array $includes = null)
     {
-        return response([], Response::HTTP_NOT_MODIFIED);
+        $model = $this->transformItem($model, $transformer, $includes);
+
+        return response($model, Response::HTTP_OK);
     }
+
+    /**
+     *
+     * @param $collection
+     * @param $transformer
+     * @param array $includes
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    protected function respondShowWithPagination($collection, $transformer, array $includes)
+    {
+        return response(
+            [
+                'data' => $this->transform($this->createCollection($collection, $transformer),
+                    $includes)['data'],
+                'pagination' => $this->getPaginationProperties($collection)
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     *
+     * @param $collection
+     * @param $transformer
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    protected function respondIndexWithPagination($collection, $transformer)
+    {
+        return response(
+            [
+                'data' => $this->transform($this->createCollection($collection, $transformer))['data'],
+                'pagination' => $this->getPaginationProperties($collection)
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     *
+     * @param $model
+     * @param $transformer
+     * @param array $includes
+     * @return mixed
+     */
+    private function transformItem($model, $transformer, array $includes = null)
+    {
+        return $this->transform($this->createItem($model, $transformer), $includes)['data'];
+    }
+
+    /**
+     *
+     * @param $model
+     * @param $transformer
+     * @param array|null $includes
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    protected function respondUpdate($model, $transformer, array $includes = null)
+    {
+        $model = $this->transformItem($model, $transformer, $includes);
+
+        return response($model, Response::HTTP_OK);
+    }
+
+    /**
+     *
+     * @param $model
+     * @param $transformer
+     * @param array|null $includes
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    protected function respondStore($model, $transformer, array $includes = null)
+    {
+        $model = $this->transformItem($model, $transformer, $includes);
+
+        return response($model, Response::HTTP_CREATED);
+    }
+
+    /**
+     *
+     * @param $collection
+     * @param $transformer
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    protected function respondIndex($collection, $transformer)
+    {
+        $collection = $this->transformCollection($collection, $transformer);
+
+        return response($collection, Response::HTTP_OK);
+    }
+
+    /**
+     *
+     * @param $collection
+     * @param $transformer
+     * @return mixed
+     */
+    private function transformCollection($collection, $transformer)
+    {
+        return $this->transform($this->createCollection($collection, $transformer))['data'];
+    }
+
 
     /**
      * For Fractal transformer
      * @param $resource
      * @param null $includes
-     * @param Request $request
      * @return array
      */
-    public function transform($resource, $includes = null, Request $request = null)
+    public function transform($resource, $includes = null)
     {
         $manager = new Manager();
         $manager->setSerializer(new DataArraySerializer);
 
-        //Includes passed to this method as a parameter
         if ($includes) {
             $manager->parseIncludes($includes);
-        }
-
-        //Includes in url
-        if ($request && $request->has('include')) {
-            $manager->parseIncludes($request->get('include'));
         }
 
         return $manager->createData($resource)->toArray();
@@ -144,14 +222,14 @@ abstract class Controller extends BaseController {
 
     /**
      * For Fractal transformer
-     * @param EloquentCollection $collection
+     * @param $model
      * @param TransformerAbstract $transformer
      * @param null $key
      * @return Collection
      */
-    public function createCollection(EloquentCollection $collection, TransformerAbstract $transformer, $key = null)
+    public function createCollection($model, TransformerAbstract $transformer, $key = null)
     {
-        return new Collection($collection, $transformer, $key);
+        return new Collection($model, $transformer, $key);
     }
 
     /**
@@ -165,5 +243,4 @@ abstract class Controller extends BaseController {
     {
         return new Item($model, $transformer, $key);
     }
-
 }

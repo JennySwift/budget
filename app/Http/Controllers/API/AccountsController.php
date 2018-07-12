@@ -3,18 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
-use App\Http\Requests\Accounts\DeleteAccountRequest;
 use App\Http\Requests\Accounts\InsertAccountRequest;
 use App\Http\Requests\Accounts\UpdateAccountRequest;
 use App\Http\Transformers\AccountTransformer;
 use App\Models\Account;
 use Auth;
-use DB;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use JavaScript;
-use Pusher;
 
 /**
  * Class AccountsController
@@ -22,96 +16,73 @@ use Pusher;
  */
 class AccountsController extends Controller
 {
+    /**
+     * @var array
+     */
+    private $fields = ['name'];
 
     /**
      *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request)
     {
         $accounts = Account::forCurrentUser()->orderBy('name', 'asc')->get();
 
-        $accounts = $this->transform($this->createCollection($accounts, new AccountTransformer(['includeBalance' => $request->get('includeBalance')])))['data'];
-        return response($accounts, Response::HTTP_OK);
+        return $this->respondIndex($accounts,
+            new AccountTransformer(['includeBalance' => $request->get('includeBalance')]));
     }
 
     /**
-     * POST /api/accounts/{accounts}
+     *
      * @param InsertAccountRequest $request
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function store(InsertAccountRequest $request)
     {
-        $account = new Account($request->only(['name']));
+        $account = new account($request->only($this->fields));
         $account->user()->associate(Auth::user());
         $account->save();
 
-        $account = $this->transform($this->createItem($account, new AccountTransformer))['data'];
-
-        $pusher = new Pusher(env('PUSHER_PUBLIC_KEY'), env('PUSHER_SECRET_KEY'), env('PUSHER_APP_ID'));
-
-        $data = 'account created!';
-
-        $pusher->trigger('myChannel', 'accountCreated', $data);
-
-        return response($account, Response::HTTP_CREATED);
+        return $this->respondStore($account, new accountTransformer);
     }
 
     /**
-     * GET /api/accounts/{accounts}
+     *
+     * @param Request $request
      * @param Account $account
-     * @return Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function show(Account $account)
+    public function show(Request $request, Account $account)
     {
-        $account = $this->transform($this->createItem($account, new AccountTransformer))['data'];
-        return response($account, Response::HTTP_OK);
+        return $this->respondShow($account, new AccountTransformer);
     }
-    
+
     /**
-    * UPDATE /api/accounts/{accounts}
-    * @param UpdateAccountRequest $request
-    * @param Account $account
-    * @return Response
-    */
+     *
+     * @param UpdateAccountRequest $request
+     * @param Account $account
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function update(UpdateAccountRequest $request, Account $account)
     {
-        // Create an array with the new fields merged
-        $data = array_compare($account->toArray(), $request->only([
-            'name'
-        ]));
+        $data = $this->getData($account, $request->only($this->fields));
 
         $account->update($data);
 
-        $account = $this->transform($this->createItem($account, new AccountTransformer))['data'];
-        return response($account, Response::HTTP_OK);
+        return $this->respondUpdate($account, new AccountTransformer);
     }
 
     /**
-     * DELETE /api/accounts/{accounts}
-     * @param DeleteAccountRequest $deleteAccountRequest
-     * @param Account $account
-     * @return Response
+     *
+     * @param Request $request
+     * @param account $account
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @throws \ReflectionException
      */
-    public function destroy(DeleteAccountRequest $deleteAccountRequest, Account $account)
+    public function destroy(Request $request, account $account)
     {
-        try {
-            $account->delete();
-            return response([], Response::HTTP_NO_CONTENT);
-        }
-        catch (\Exception $e) {
-            //Integrity constraint violation
-            if ($e->getCode() === '23000') {
-                $message = 'Account could not be deleted. It is in use.';
-            }
-            else {
-                $message = 'There was an error';
-            }
-            return response([
-                'error' => $message,
-                'status' => Response::HTTP_BAD_REQUEST
-            ], Response::HTTP_BAD_REQUEST);
-        }
+        return $this->destroyModel($account);
     }
 }

@@ -27,7 +27,7 @@ class FilterBudgetsRepository {
      */
     private function filterInBudgets($query, $budgets)
     {
-        if ($budgets['in']['and']) {
+        if (isset($budgets['in']['and']) && $budgets['in']['and']) {
             //Make an array of the budget ids searched for
             $budget_ids = array();
             foreach ($budgets['in']['and'] as $budget) {
@@ -42,7 +42,7 @@ class FilterBudgetsRepository {
             }
         }
 
-        if ($budgets['in']['or']) {
+        if (isset($budgets['in']['or']) && $budgets['in']['or']) {
             //Make an array of the budget ids searched for
             $budget_ids = array();
             foreach ($budgets['in']['or'] as $budget) {
@@ -66,7 +66,7 @@ class FilterBudgetsRepository {
      */
     private function filterOutBudgets($query, $budgets)
     {
-        if ($budgets['out']) {
+        if (isset($budgets['out']) && $budgets['out']) {
             //Make an array of the budget ids searched for
             $budget_ids = array();
             foreach ($budgets['out'] as $budget) {

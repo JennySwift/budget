@@ -23,7 +23,7 @@
         @show
     </div>
 
-    @include('main.shared.real-footer')
+    @include('main.shared.footer')
 
 </body>
 

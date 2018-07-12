@@ -1,100 +1,108 @@
-<?php namespace App\Exceptions;
+<?php
 
-use Exception, Redirect;
+namespace App\Exceptions;
+
+use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Http\Response;
-use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
-use Debugbar;
+use Illuminate\Validation\ValidationException;
 
-class Handler extends ExceptionHandler {
+class Handler extends ExceptionHandler
+{
+    /**
+     * A list of the exception types that are not reported.
+     *
+     * @var array
+     */
+    protected $dontReport = [
+        //
+    ];
 
-	/**
-	 * A list of the exception types that should not be reported.
-	 *
-	 * @var array
-	 */
-	protected $dontReport = [
-		'Symfony\Component\HttpKernel\Exception\HttpException'
-	];
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
+    ];
 
-	/**
-	 * Report or log an exception.
-	 *
-	 * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-	 *
-	 * @param  \Exception  $e
-	 * @return void
-	 */
-	public function report(Exception $e)
-	{
-		return parent::report($e);
-	}
+    /**
+     * Report or log an exception.
+     *
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function report(Exception $exception)
+    {
+        parent::report($exception);
+    }
 
-	/**
-	 * Render an exception into an HTTP response.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Exception  $e
-	 * @return \Illuminate\Http\Response
-	 */
-
-	//this was the default, before adding throttle functionality
-	// public function render($request, Exception $e)
-	// {
-	// 	return parent::render($request, $e);
-	// }
-
-	public function render($request, Exception $e)
-	{
-		if ($e instanceof TooManyRequestsHttpException)
-		   {
-		       return Redirect::back()
-		       		->withInput($request->only('email', 'remember'))
-		       		->withErrors([
-					'email' => 'Too many failed login attempts!',
-				]);
-		   }
-
-        if ($e instanceof NotLoggedInException) {
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $exception
+     * @return \Illuminate\Http\Response
+     */
+    public function render($request, Exception $exception)
+    {
+//        dd($exception);
+        if ($exception instanceof NotLoggedInException) {
             return response([
                 'error' => "Not logged in.",
                 'status' => Response::HTTP_UNAUTHORIZED
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        if ($e instanceof ModelAlreadyExistsException) {
+        if ($exception instanceof ModelAlreadyExistsException) {
             return response([
-                'error' => "{$e->model} already exists.",
+                'error' => "{$exception->model} already exists.",
                 'status' => Response::HTTP_BAD_REQUEST
             ], Response::HTTP_BAD_REQUEST);
         }
 
-		if ($e instanceof \InvalidArgumentException) {
-			return response([
-				'error' => $e->getMessage(),
-				'status' => Response::HTTP_BAD_REQUEST
-			], Response::HTTP_BAD_REQUEST);
-		}
+//        if ($exception instanceof \InvalidArgumentException) {
+//            return response([
+//                'error' => $exception->getMessage(),
+//                'status' => Response::HTTP_BAD_REQUEST,
+//                'request' => $this->getRequestData($request)
+//            ], Response::HTTP_BAD_REQUEST);
+//        }
 
-		// Model not found exception handler (app-wide)
-		if ($e instanceof ModelNotFoundException) {
+        // Model not found exception handler (app-wide)
+        if ($exception instanceof ModelNotFoundException) {
 
-			// Build a "fake" instance of the model which was not found
-			// and fetch the shortname of the class
-			// Ex.: If we have a App\Models\Projects\Project model
-			// Then we would return Project
-			$model = (new \ReflectionClass($e->getModel()))->getShortName();
+            // Build a "fake" instance of the model which was not found
+            // and fetch the shortname of the class
+            // Ex.: If we have a App\Models\Projects\Project model
+            // Then we would return Project
+            $model = (new \ReflectionClass($exception->getModel()))->getShortName();
 
-			return response([
-				'error' => "{$model} not found.",
-				'status' => Response::HTTP_NOT_FOUND
-			], Response::HTTP_NOT_FOUND);
-		}
+            return response([
+                'error' => "{$model} not found.",
+                'status' => Response::HTTP_NOT_FOUND
+            ], Response::HTTP_NOT_FOUND);
+        }
 
+        else if ($exception instanceof ValidationException) {
+            return parent::render($request, $exception);
+        }
 
-		return parent::render($request, $e);
-	}
+        else if ($exception instanceof AuthenticationException) {
+            return parent::render($request, $exception);
+        }
 
+//        else if ($exception->getMessage()) {
+//            return response([
+//                'error' => $exception->getMessage(),
+//                'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
+//            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+//        }
+
+        return parent::render($request, $exception);
+    }
 }
