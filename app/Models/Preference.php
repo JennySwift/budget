@@ -20,8 +20,7 @@ class Preference extends Model
         'colors',
         'clearFields',
         'dateFormat',
-        'autocompleteDescription',
-        'autocompleteMerchant',
+        'autocomplete',
         'show'
     ];
 

@@ -18,6 +18,13 @@
             </div>
 
             <div>
+                <div>
+                    <button @click="toggleAutocomplete" :class="{'btn-success': shared.me.preferences.autocomplete.description}" class="btn">Autocomplete</button>
+                </div>
+
+            </div>
+
+            <div>
                 <autocomplete-field-component field="merchant"></autocomplete-field-component>
             </div>
 
@@ -96,7 +103,10 @@
             }
         },
         methods: {
-
+            toggleAutocomplete: function () {
+                store.toggle('me.preferences.autocomplete.description');
+                store.toggle('me.preferences.autocomplete.merchant');
+            }
 
         },
         props: [

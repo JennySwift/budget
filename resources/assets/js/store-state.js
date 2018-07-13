@@ -7,7 +7,10 @@ export default {
             show: {
                 totals: []
             },
-            colors: {}
+            colors: {},
+            autocomplete: {
+
+            }
         },
     },
     totalsLoading: false,

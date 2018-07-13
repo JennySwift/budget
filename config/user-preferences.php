@@ -9,9 +9,10 @@ return [
         ],
         "clearFields" => false,
         "dateFormat" => "DD/MM/YY",
-        'autocompleteDescription' => true,
-        'autocompleteMerchant' => true,
-
+        "autocomplete" => [
+            "description" => true,
+            "merchant" => true
+        ],
         'show' => [
             'totals' => [
                 'credit' => true,

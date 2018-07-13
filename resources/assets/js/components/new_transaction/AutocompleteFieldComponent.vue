@@ -39,16 +39,17 @@
             </dropdown>
         </div>
 
-        <!--<input-->
-            <!--v-if="!shared.me.preferences.autocompleteDescription"-->
-            <!--v-model="shared.newTransaction.description"-->
-            <!--v-on:keyup.13="insertTransaction()"-->
-            <!--class="form-control"-->
-            <!--placeholder="description"-->
-            <!--type='text'-->
-        <!--&gt;-->
+        <input
+            v-if="!shared.me.preferences.autocomplete[field]"
+            v-model="shared.newTransaction[field]"
+            v-on:keyup.13="insertTransaction()"
+            class="form-control"
+            :placeholder="field"
+            type='text'
+        >
 
         <multiselect
+            v-if="shared.me.preferences.autocomplete[field]"
             v-model="shared.newTransaction"
             :options="autocompleteSearchResults"
             track-by="id"

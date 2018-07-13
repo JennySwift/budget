@@ -298,6 +298,9 @@ abstract class TestCase extends BaseTestCase
         $this->assertArrayHasKey('clearFields', $preferences);
         $this->assertArrayHasKey('colors', $preferences);
         $this->assertArrayHasKey('dateFormat', $preferences);
+        $this->assertArrayHasKey('autocomplete', $preferences);
+        $this->assertArrayHasKey('description', $preferences['autocomplete']);
+        $this->assertArrayHasKey('merchant', $preferences['autocomplete']);
     }
 
     /**

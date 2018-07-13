@@ -112,7 +112,7 @@
 
             <div class="checkbox-container">
                 <input
-                    v-model="shared.me.preferences.autocompleteDescription"
+                    v-model="shared.me.preferences.autocomplete.description"
                     id="preferences-autocomplete-description"
                     type="checkbox"
                 >
@@ -121,7 +121,7 @@
 
             <div class="checkbox-container">
                 <input
-                    v-model="shared.me.preferences.autocompleteMerchant"
+                    v-model="shared.me.preferences.autocomplete.merchant"
                     id="preferences-autocomplete-merchant"
                     type="checkbox"
                 >
@@ -304,9 +304,10 @@
                             transfer: this.shared.me.preferences.colors.transfer
                         },
                         dateFormat: this.shared.me.preferences.dateFormat,
-                        autocompleteDescription: this.shared.me.preferences.autocompleteDescription,
-                        autocompleteMerchant: this.shared.me.preferences.autocompleteMerchant,
-
+                        autocomplete: {
+                            description: this.shared.me.preferences.autocomplete.description,
+                            merchant: this.shared.me.preferences.autocomplete.merchant,
+                        },
                         show: {
                             totals: {
                                 credit: this.shared.me.preferences.show.totals.credit,
