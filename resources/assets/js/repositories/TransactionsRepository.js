@@ -47,7 +47,6 @@ export default {
     setFields: function (transaction, direction) {
         var data = {
             date: helpers.convertToMySqlDate(transaction.userDate),
-            account_id: transaction.account.id,
             type: transaction.type,
             description: transaction.description,
             merchant: transaction.merchant,
@@ -74,6 +73,9 @@ export default {
             else if (direction === 'to') {
                 data.account_id = store.state.newTransaction.toAccount.id;
             }
+        }
+        else {
+            data.account_id = transaction.account.id;
         }
 
         return data;
