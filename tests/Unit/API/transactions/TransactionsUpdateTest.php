@@ -24,9 +24,11 @@ class TransactionsUpdateTest extends TestCase
 
         $transaction = Transaction::forCurrentUser()->first();
 
+        $this->assertEquals(1, $transaction->account->id);
+
         $data = [
             'date' => '2015-10-01',
-            'account_id' => 1,
+            'account_id' => 2,
             'description' => 'numbat',
             'merchant' => 'frog',
             'total' => 10.2,
@@ -38,7 +40,8 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true);
+        $content = $this->getContent($response);
+//        dd($content);
 
         $this->checkTransactionKeysExist($content);
 
@@ -53,11 +56,11 @@ class TransactionsUpdateTest extends TestCase
         $this->assertEquals(10.2, $content['total']);
         $this->assertEquals(0, $content['reconciled']);
         $this->assertEquals(0, $content['allocated']);
-        $this->assertEquals(1, $content['account_id']);
+        $this->assertEquals(2, $content['account_id']);
 
         $this->assertEquals([
-            'id' => 1,
-            'name' => 'bank account'
+            'id' => 2,
+            'name' => 'cash'
         ], $content['account']);
 
         $this->assertEquals([], $content['budgets']);

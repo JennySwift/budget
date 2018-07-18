@@ -33,7 +33,7 @@ class TransactionsController extends Controller
     /**
      * @var array
      */
-    private $fields = ['date', 'description', 'merchant', 'total', 'type', 'reconciled', 'minutes'];
+    private $fields = ['date', 'description', 'merchant', 'total', 'type', 'reconciled', 'minutes', 'account_id'];
 
     /**
      * @param SavingsRepository $savingsRepository
@@ -182,11 +182,9 @@ class TransactionsController extends Controller
 //        if(empty($data)) {
 //            return $this->responseNotModified();
 //        }
-
             //Fire event
             //Todo: update the savings when event is fired
             event(new TransactionWasUpdated($transaction, $data));
-
             $transaction->update($data);
             $transaction->save();
 
