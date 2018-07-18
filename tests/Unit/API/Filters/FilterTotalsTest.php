@@ -29,13 +29,13 @@ class FilterTotalsTest extends FiltersTest
         $this->checkBasicTotalKeysExist($this->basicTotals);
 
         $this->assertEquals(2350, $this->basicTotals['credit']);
-        $this->assertEquals(-160, $this->basicTotals['debit']);
+        $this->assertEquals(-435, $this->basicTotals['debit']);
         $this->assertEquals(2450, $this->basicTotals['creditIncludingTransfers']);
-        $this->assertEquals(-260, $this->basicTotals['debitIncludingTransfers']);
-        $this->assertEquals(2190, $this->basicTotals['balance']);
-        $this->assertEquals(2190, $this->basicTotals['balanceFromBeginning']);
+        $this->assertEquals(-535, $this->basicTotals['debitIncludingTransfers']);
+        $this->assertEquals(1915, $this->basicTotals['balance']);
+        $this->assertEquals(1915, $this->basicTotals['balanceFromBeginning']);
         $this->assertEquals(1050, $this->basicTotals['reconciled']);
-        $this->assertEquals(16, $this->basicTotals['numTransactions']);
+        $this->assertEquals(21, $this->basicTotals['numTransactions']);
 
         $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
     }

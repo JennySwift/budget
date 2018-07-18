@@ -28,7 +28,7 @@ class AccountsIndexTest extends TestCase {
         $this->checkAccountKeysExist($content[0]);
 
         $this->assertEquals('bank account', $content[0]['name']);
-        $this->assertEquals('1100', $content[0]['balance']);
+        $this->assertEquals('825', $content[0]['balance']);
 
         $this->assertEquals('cash', $content[1]['name']);
         $this->assertEquals('1090', $content[1]['balance']);

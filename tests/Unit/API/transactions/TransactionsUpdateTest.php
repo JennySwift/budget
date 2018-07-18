@@ -321,7 +321,7 @@ class TransactionsUpdateTest extends TestCase
         ];
 
         $response = $this->apiCall('PUT', '/api/transactions/'.$transaction->id, $data);
-        $content = json_decode($response->getContent(), true);
+        $content = $this->getContent($response);
 
         $this->checkTransactionKeysExist($content);
 
