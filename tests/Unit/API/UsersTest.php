@@ -77,8 +77,10 @@ class UsersTest extends TestCase
                     'transfer' => 'purple'
                 ],
                 'dateFormat' => 'dd/mm/yyyy',
-                'autocompleteDescription' => false,
-                'autocompleteMerchant' => false,
+                'autocomplete' => [
+                    'description' => false,
+                    'merchant' => false
+                ],
 
                 'show' => [
                     'totals' => [
