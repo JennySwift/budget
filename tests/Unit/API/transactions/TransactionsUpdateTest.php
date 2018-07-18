@@ -93,8 +93,8 @@ class TransactionsUpdateTest extends TestCase
 
         $this->checkTransactionKeysExist($content);
 
-        //Check savings increased
-        $this->assertEquals('55.00', Savings::forCurrentUser()->first()->amount);
+        //Check savings increased. Commenting out after upgrade. Feature not needed anymore.
+//        $this->assertEquals('55.00', Savings::forCurrentUser()->first()->amount);
         //Check the total is positive
         $this->assertEquals('50', $content['total']);
 
@@ -127,8 +127,8 @@ class TransactionsUpdateTest extends TestCase
 
         $this->checkTransactionKeysExist($content);
 
-        //Check savings increased
-        $this->assertEquals('100.00', Savings::forCurrentUser()->first()->amount);
+        //Check savings increased. Commenting out after upgrade. Feature not needed anymore.
+//        $this->assertEquals('100.00', Savings::forCurrentUser()->first()->amount);
         //Check the total is positive
         $this->assertEquals('500', $content['total']);
 
@@ -163,8 +163,8 @@ class TransactionsUpdateTest extends TestCase
 
         $this->checkTransactionKeysExist($content);
 
-        //Check savings decreased
-        $this->assertEquals('20.00', Savings::forCurrentUser()->first()->amount);
+        //Check savings decreased. Commenting out after upgrade. Feature not needed anymore.
+//        $this->assertEquals('20.00', Savings::forCurrentUser()->first()->amount);
         //Check the total is positive
         $this->assertEquals('-300', $content['total']);
 
@@ -178,6 +178,7 @@ class TransactionsUpdateTest extends TestCase
      */
     public function it_decreases_the_savings_if_an_income_transaction_total_is_decreased()
     {
+        $this->markTestSkipped();
         $this->logInUser();
 
         $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);
@@ -209,6 +210,7 @@ class TransactionsUpdateTest extends TestCase
      */
     public function it_increases_the_savings_if_an_income_transaction_total_is_increased()
     {
+        $this->markTestSkipped();
         $this->logInUser();
 
         $this->assertEquals('50.00', Savings::forCurrentUser()->first()->amount);

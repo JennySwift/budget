@@ -65,8 +65,8 @@ class UsersTest extends TestCase
         //Check the values are as expected before the update
         $this->assertFalse($preferences['clearFields']);
         $this->assertEquals('DD/MM/YY', $preferences['dateFormat']);
-        $this->assertTrue($preferences['autocompleteDescription']);
-        $this->assertTrue($preferences['autocompleteMerchant']);
+        $this->assertTrue($preferences['autocomplete']['description']);
+        $this->assertTrue($preferences['autocomplete']['merchant']);
 
         $response = $this->call('PUT', '/api/users/'.$this->user->id, [
             'preferences' => [
@@ -111,8 +111,8 @@ class UsersTest extends TestCase
         $this->assertEquals('blue', $preferences['colors']['expense']);
         $this->assertEquals('purple', $preferences['colors']['transfer']);
         $this->assertEquals('dd/mm/yyyy', $preferences['dateFormat']);
-        $this->assertFalse($preferences['autocompleteDescription']);
-        $this->assertFalse($preferences['autocompleteMerchant']);
+        $this->assertFalse($preferences['autocomplete']['description']);
+        $this->assertFalse($preferences['autocomplete']['merchant']);
 
         $this->assertFalse($preferences['show']['totals']['credit']);
         $this->assertFalse($preferences['show']['totals']['remainingFixedBudget']);
