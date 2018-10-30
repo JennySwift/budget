@@ -401,38 +401,39 @@
                             </template>
                         </filter-section>
 
+                        <!--Todo-->
                         <!--Invalid Allocation-->
-                        <filter-section
-                            :filter-tab="filterTab"
-                            label="Number of Budgets"
-                        >
-                            <template slot="content">
-                                <div class="radio">
-                                    <label>
-                                        <input
-                                            v-model="shared.filter.invalidAllocation"
-                                            v-on:change="runFilter()"
-                                            type="radio"
-                                            name="invalid-allocation"
-                                            value="false"
-                                        >
-                                        Any
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input
-                                            v-model="shared.filter.invalidAllocation"
-                                            v-on:change="runFilter()"
-                                            type="radio"
-                                            name="invalid-allocation"
-                                            value="true"
-                                        >
-                                        Invalid
-                                    </label>
-                                </div>
-                            </template>
-                        </filter-section>
+                        <!--<filter-section-->
+                            <!--:filter-tab="filterTab"-->
+                            <!--label="Allocation"-->
+                        <!--&gt;-->
+                            <!--<template slot="content">-->
+                                <!--<div class="radio">-->
+                                    <!--<label>-->
+                                        <!--<input-->
+                                            <!--v-model="shared.filter.invalidAllocation"-->
+                                            <!--v-on:change="runFilter()"-->
+                                            <!--type="radio"-->
+                                            <!--name="invalid-allocation"-->
+                                            <!--value="false"-->
+                                        <!--&gt;-->
+                                        <!--Any-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                                <!--<div class="radio">-->
+                                    <!--<label>-->
+                                        <!--<input-->
+                                            <!--v-model="shared.filter.invalidAllocation"-->
+                                            <!--v-on:change="runFilter()"-->
+                                            <!--type="radio"-->
+                                            <!--name="invalid-allocation"-->
+                                            <!--value="true"-->
+                                        <!--&gt;-->
+                                        <!--Invalid-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</template>-->
+                        <!--</filter-section>-->
 
                         <!--Number of Budgets-->
                         <filter-section
