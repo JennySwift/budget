@@ -95,7 +95,7 @@ export default {
      * @param that
      */
     nextResults: function () {
-        if (store.state.filter.offset + (store.state.filter.numToFetch * 1) > store.filterTotals.numTransactions) {
+        if (store.state.filter.offset + (store.state.filter.numToFetch * 1) > store.state.filterTotals.numTransactions) {
             //stop it going past the end.
             return;
         }
