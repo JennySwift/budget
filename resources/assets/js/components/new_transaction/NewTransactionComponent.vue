@@ -38,10 +38,11 @@
 
             </div>
 
-            <div>
+
+            <div id="new-transaction-budgets-container">
                 <budgets></budgets>
-                <duration></duration>
             </div>
+
 
             <div>
                 <enter></enter>
@@ -133,6 +134,16 @@
             padding: 15px 25px;
             //box-shadow: 3px 3px 5px #777;
             border: 1px solid #777;
+            #new-transaction-budgets-container {
+                width: 100%;
+                > div {
+                    flex-grow: 1;
+                }
+                .multiselect {
+                    width: 100%;
+                }
+            }
+
             #new-transaction-favourites {
                 .multiselect {
                     width: 100%;
