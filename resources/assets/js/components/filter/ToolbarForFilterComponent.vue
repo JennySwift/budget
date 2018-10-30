@@ -88,7 +88,7 @@
              */
             resetFilter: function () {
                 FilterRepository.resetFilter();
-                store.runFilter();
+                FilterRepository.runFilter();
             },
 
             /**
@@ -96,7 +96,7 @@
              */
             changeNumToFetch: function () {
                 FilterRepository.updateRange(store.state.filter.numToFetch);
-                store.runFilter();
+                FilterRepository.runFilter();
             },
 
             /**
